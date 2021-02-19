@@ -209,7 +209,7 @@ export const analyze = (document: JSONValue): JSONStats => {
     }
   })
 
-  console.log(data)
+  console.log(data.levels)
 
   const values: JSONValue[] = [ 
     ...data.values.boolean, 

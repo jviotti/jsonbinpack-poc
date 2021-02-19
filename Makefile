@@ -1,4 +1,4 @@
-.PHONY: build lint test
+.PHONY: build lint test serve
 .DEFAULT_GOAL = build
 
 build:
@@ -14,3 +14,6 @@ test:
 		--jobs=1 \
 		--no-timeout \
 		'dist/test/**/*.spec.js'
+
+serve:
+	cd docs && bundle exec jekyll serve --watch --incremental
