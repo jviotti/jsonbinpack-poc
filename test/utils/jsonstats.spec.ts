@@ -133,3 +133,111 @@ tap.test('should analyze a true boolean value', (test) => {
 
   test.end()
 })
+
+tap.test('should analyze a false boolean value', (test) => {
+  const value: JSONValue = false
+  const stats: JSONStats = analyze(value)
+
+  test.strictSame(stats, {
+    size: 5,
+    type: JSONType.Boolean,
+    keys: {
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0,
+      byLevel: {
+        larger: 0,
+        smaller: 0,
+        median: 0,
+        average: 0
+      }
+    },
+    values: {
+      count: 1,
+      larger: 5,
+      smaller: 5,
+      median: 5,
+      average: 5,
+      byLevel: {
+        larger: 5,
+        smaller: 5,
+        median: 5,
+        average: 5
+      },
+      breakdown: {
+        integer: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        real: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        boolean: {
+          count: 1,
+          larger: 5,
+          smaller: 5,
+          median: 5,
+          average: 5
+        },
+        string: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        null: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        object: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        array: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        }
+      }
+    },
+    depth: {
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0
+    },
+    redundancy: {
+      count: 0,
+      breakdown: {
+        integer: 0,
+        real: 0,
+        boolean: 0,
+        string: 0,
+        null: 0,
+        object: 0,
+        array: 0
+      }
+    }
+  })
+
+  test.end()
+})

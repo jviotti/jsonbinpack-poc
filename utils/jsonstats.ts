@@ -20,6 +20,10 @@ import {
   getType
 } from '../lib/json'
 
+import {
+  getStringByteLength
+} from '../lib/types/string'
+
 interface Statistics {
   readonly larger: number;
   readonly smaller: number;
@@ -113,31 +117,33 @@ const EMPTY_REDUNDANCY: BasicCountableBreakdownStatistics = {
 }
 
 export const analyze = (value: JSONValue): JSONStats => {
+  const byteLength: number = getStringByteLength(JSON.stringify(value))
+
   return {
-    size: 4,
+    size: byteLength,
     type: getType(value),
     keys: KEYS_EMPTY,
     values: {
       count: 1,
-      larger: 4,
-      smaller: 4,
-      median: 4,
-      average: 4,
+      larger: byteLength,
+      smaller: byteLength,
+      median: byteLength,
+      average: byteLength,
       byLevel: {
-        larger: 4,
-        smaller: 4,
-        median: 4,
-        average: 4
+        larger: byteLength,
+        smaller: byteLength,
+        median: byteLength,
+        average: byteLength
       },
       breakdown: {
         integer: EMPTY_COUNTABLE_STATISTICS,
         real: EMPTY_COUNTABLE_STATISTICS,
         boolean: {
           count: 1,
-          larger: 4,
-          smaller: 4,
-          median: 4,
-          average: 4
+          larger: byteLength,
+          smaller: byteLength,
+          median: byteLength,
+          average: byteLength
         },
         string: EMPTY_COUNTABLE_STATISTICS,
         null: EMPTY_COUNTABLE_STATISTICS,
