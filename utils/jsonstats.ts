@@ -193,6 +193,7 @@ const getStatistics = (
 }
 
 const getDuplicatesCount = (array: JSONValue[]): number => {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   return array.length - _.uniqWith(array, _.isEqual).length
 }
 
@@ -238,6 +239,7 @@ export const analyze = (document: JSONValue): JSONStats => {
     type: getJSONType(document),
     depth: {
       count: depth.length,
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       ...getStatistics(_.uniq(depth), _.identity)
     },
     keys: {
@@ -245,6 +247,7 @@ export const analyze = (document: JSONValue): JSONStats => {
       ...getStatistics(data.keys, getJSONSize),
       byLevel: getStatistics(data.levels.map((level: LevelCollector) => {
         return level.keys.length
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       }), _.identity)
     },
     redundancy: {
@@ -269,6 +272,7 @@ export const analyze = (document: JSONValue): JSONStats => {
 
           return accumulator + 1
         }, 0)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       }), _.identity),
       breakdown: {
         object: {
