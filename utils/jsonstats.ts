@@ -131,12 +131,32 @@ interface CountableBreakdownStatistics extends CountableStatistics {
   readonly breakdown: StatisticalTypeBreakdown;
 }
 
+interface CountableTypeBreakdown {
+  readonly integer: number;
+  readonly real: number;
+  readonly boolean: number;
+  readonly string: number;
+  readonly null: number;
+  readonly object: number;
+  readonly array: number;
+}
+
+interface BasicCountableBreakdownStatistics {
+  readonly count: number;
+  readonly breakdown: CountableTypeBreakdown;
+}
+
+interface RedundancyStatistics {
+  readonly values: BasicCountableBreakdownStatistics;
+}
+
 export interface JSONStats {
   readonly size: number;
   readonly type: JSONType;
   readonly keys: CountableStatistics;
   readonly values: CountableBreakdownStatistics;
   readonly depth: CountableStatistics;
+  readonly redundancy: RedundancyStatistics;
 }
 
 type NumericTransformer = (value: JSONValue) => number
@@ -169,6 +189,10 @@ const getStatistics = (
   }
 }
 
+const getDuplicatesCount = (array: JSONValue[]): number => {
+  return array.length - _.uniqWith(array, _.isEqual).length
+}
+
 export const analyze = (document: JSONValue): JSONStats => {
   const data: Collector = walk(document, 0, {
     keys: [],
@@ -198,6 +222,16 @@ export const analyze = (document: JSONValue): JSONStats => {
     return level.depth
   })
 
+  const valuesRedundancy: CountableTypeBreakdown = {
+    integer: getDuplicatesCount(data.values.integer),
+    real: getDuplicatesCount(data.values.real),
+    boolean: getDuplicatesCount(data.values.boolean),
+    string: getDuplicatesCount(data.values.string),
+    null: getDuplicatesCount(data.values.null),
+    object: getDuplicatesCount(data.values.object),
+    array: getDuplicatesCount(data.values.array)
+  }
+
   return {
     size: getJSONSize(document),
     type: getJSONType(document),
@@ -208,6 +242,15 @@ export const analyze = (document: JSONValue): JSONStats => {
     keys: {
       count: data.keys.length,
       ...getStatistics(data.keys, getJSONSize)
+    },
+    redundancy: {
+      values: {
+        count: Object.values(valuesRedundancy).reduce(
+          (accumulator: number, element: number): number => {
+            return accumulator + element
+          }, 0),
+        breakdown: valuesRedundancy
+      }
     },
     values: {
       count: values.length,
