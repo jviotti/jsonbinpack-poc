@@ -116,40 +116,58 @@ const EMPTY_REDUNDANCY: BasicCountableBreakdownStatistics = {
   }
 }
 
+const getBreakdownType = (value: JSONValue): string => {
+  const type: JSONType = getType(value)
+  if (type === JSONType.Number) {
+    if (Number.isInteger(value)) {
+      return 'integer'
+    }
+
+    return 'real'
+  }
+
+  return type
+}
+
 export const analyze = (value: JSONValue): JSONStats => {
+  const type: JSONType = getType(value)
   const byteLength: number = getStringByteLength(JSON.stringify(value))
+  const breakdown: StatisticalTypeBreakdown = {
+    integer: EMPTY_COUNTABLE_STATISTICS,
+    real: EMPTY_COUNTABLE_STATISTICS,
+    boolean: EMPTY_COUNTABLE_STATISTICS,
+    string: EMPTY_COUNTABLE_STATISTICS,
+    null: EMPTY_COUNTABLE_STATISTICS,
+    object: EMPTY_COUNTABLE_STATISTICS,
+    array: EMPTY_COUNTABLE_STATISTICS
+  }
+
+  const documentStatistics: Statistics = {
+    larger: byteLength,
+    smaller: byteLength,
+    median: byteLength,
+    average: byteLength
+  }
 
   return {
     size: byteLength,
-    type: getType(value),
+    type,
     keys: KEYS_EMPTY,
     values: {
       count: 1,
-      larger: byteLength,
-      smaller: byteLength,
-      median: byteLength,
-      average: byteLength,
+      ...documentStatistics,
       byLevel: {
-        larger: byteLength,
-        smaller: byteLength,
-        median: byteLength,
-        average: byteLength
+        larger: 1,
+        smaller: 1,
+        median: 1,
+        average: 1
       },
-      breakdown: {
-        integer: EMPTY_COUNTABLE_STATISTICS,
-        real: EMPTY_COUNTABLE_STATISTICS,
-        boolean: {
+      breakdown: Object.assign(breakdown, {
+        [getBreakdownType(value)]: {
           count: 1,
-          larger: byteLength,
-          smaller: byteLength,
-          median: byteLength,
-          average: byteLength
-        },
-        string: EMPTY_COUNTABLE_STATISTICS,
-        null: EMPTY_COUNTABLE_STATISTICS,
-        object: EMPTY_COUNTABLE_STATISTICS,
-        array: EMPTY_COUNTABLE_STATISTICS
-      }
+          ...documentStatistics
+        }
+      })
     },
     depth: EMPTY_COUNTABLE_STATISTICS,
     redundancy: EMPTY_REDUNDANCY

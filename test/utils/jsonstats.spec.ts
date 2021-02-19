@@ -53,10 +53,10 @@ tap.test('should analyze a true boolean value', (test) => {
       median: 4,
       average: 4,
       byLevel: {
-        larger: 4,
-        smaller: 4,
-        median: 4,
-        average: 4
+        larger: 1,
+        smaller: 1,
+        median: 1,
+        average: 1
       },
       breakdown: {
         integer: {
@@ -161,10 +161,10 @@ tap.test('should analyze a false boolean value', (test) => {
       median: 5,
       average: 5,
       byLevel: {
-        larger: 5,
-        smaller: 5,
-        median: 5,
-        average: 5
+        larger: 1,
+        smaller: 1,
+        median: 1,
+        average: 1
       },
       breakdown: {
         integer: {
@@ -187,6 +187,114 @@ tap.test('should analyze a false boolean value', (test) => {
           smaller: 5,
           median: 5,
           average: 5
+        },
+        string: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        null: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        object: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        array: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        }
+      }
+    },
+    depth: {
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0
+    },
+    redundancy: {
+      count: 0,
+      breakdown: {
+        integer: 0,
+        real: 0,
+        boolean: 0,
+        string: 0,
+        null: 0,
+        object: 0,
+        array: 0
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should analyze a negative integer value', (test) => {
+  const value: JSONValue = -45
+  const stats: JSONStats = analyze(value)
+
+  test.strictSame(stats, {
+    size: 3,
+    type: JSONType.Number,
+    keys: {
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0,
+      byLevel: {
+        larger: 0,
+        smaller: 0,
+        median: 0,
+        average: 0
+      }
+    },
+    values: {
+      count: 1,
+      larger: 3,
+      smaller: 3,
+      median: 3,
+      average: 3,
+      byLevel: {
+        larger: 1,
+        smaller: 1,
+        median: 1,
+        average: 1
+      },
+      breakdown: {
+        integer: {
+          count: 1,
+          larger: 3,
+          smaller: 3,
+          median: 3,
+          average: 3
+        },
+        real: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        boolean: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
         },
         string: {
           count: 0,
