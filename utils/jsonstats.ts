@@ -16,7 +16,8 @@
 
 import {
   JSONValue,
-  JSONType
+  JSONType,
+  getType
 } from '../lib/json'
 
 interface Statistics {
@@ -77,10 +78,9 @@ export interface JSONStats {
 }
 
 export const analyze = (value: JSONValue): JSONStats => {
-  console.log(value)
   return {
     size: 0,
-    type: JSONType.Boolean,
+    type: getType(value),
     keys: {
       count: 0,
       larger: 0,
