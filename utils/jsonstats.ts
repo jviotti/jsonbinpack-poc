@@ -149,11 +149,15 @@ interface KeysStatistics extends CountableStatistics {
   readonly byLevel: Statistics;
 }
 
+interface ValuesStatistics extends CountableBreakdownStatistics {
+  readonly byLevel: Statistics;
+}
+
 export interface JSONStats {
   readonly size: number;
   readonly type: JSONType;
   readonly keys: KeysStatistics;
-  readonly values: CountableBreakdownStatistics;
+  readonly values: ValuesStatistics;
   readonly depth: CountableStatistics;
   readonly redundancy: RedundancyStatistics;
 }
@@ -207,8 +211,6 @@ export const analyze = (document: JSONValue): JSONStats => {
     }
   })
 
-  console.log(data.levels)
-
   const values: JSONValue[] = [ 
     ...data.values.boolean, 
     ...data.values.integer, 
@@ -258,6 +260,16 @@ export const analyze = (document: JSONValue): JSONStats => {
     values: {
       count: values.length,
       ...getStatistics(values, getJSONSize),
+      byLevel: getStatistics(data.levels.map((level: LevelCollector) => {
+        return level.values.reduce((accumulator: number, value: JSONValue) => {
+          const valueType: JSONType = getJSONType(value)
+          if (valueType === JSONType.Array || valueType === JSONType.Object) {
+            return accumulator
+          }
+
+          return accumulator + 1
+        }, 0)
+      }), _.identity),
       breakdown: {
         object: {
           count: data.values.object.length,
