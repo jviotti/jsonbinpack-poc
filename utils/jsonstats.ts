@@ -96,7 +96,100 @@ export interface JSONStats {
 }
 
 export const analyze = (value: JSONValue): JSONStats => {
+  console.log(value)
   return {
-    minifiedByteSize: (!value) * 2
+    minifiedSize: 0,
+    type: JSONType.Boolean,
+    keys: {
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0
+    },
+    values: {
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0,
+      breakdown: {
+        integer: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        real: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        boolean: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        string: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        null: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        object: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        },
+        array: {
+          count: 0,
+          larger: 0,
+          smaller: 0,
+          median: 0,
+          average: 0
+        }
+      }
+    },
+    nesting: {
+      levels: 0,
+      largerDepth: 0,
+      smallerDepth: 0,
+      medianDepth: 0,
+      averageDepth: 0,
+
+      minimumKeysInLevel: 0,
+      maximumKeysInLevel: 0,
+      medianKeysInLevel: 0,
+      averageKeysInLevel: 0,
+
+      minimumValuesInLevel: 0,
+      maximumValuesInLevel: 0,
+      medianValuesInLevel: 0,
+      averageValuesInLevel: 0
+    },
+    redundancy: {
+      integer: 0,
+      real: 0,
+      boolean: 0,
+      string: 0,
+      null: 0,
+      object: 0,
+      array: 0
+    }
   }
 }
