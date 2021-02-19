@@ -77,105 +77,75 @@ export interface JSONStats {
   readonly redundancy: BasicCountableBreakdownStatistics;
 }
 
+const KEYS_EMPTY: KeysStatistics = {
+  count: 0,
+  larger: 0,
+  smaller: 0,
+  median: 0,
+  average: 0,
+  byLevel: {
+    larger: 0,
+    smaller: 0,
+    median: 0,
+    average: 0
+  }
+}
+
+const EMPTY_COUNTABLE_STATISTICS: CountableStatistics = {
+  count: 0,
+  larger: 0,
+  smaller: 0,
+  median: 0,
+  average: 0
+}
+
+const EMPTY_REDUNDANCY: BasicCountableBreakdownStatistics = {
+  count: 0,
+  breakdown: {
+    integer: 0,
+    real: 0,
+    boolean: 0,
+    string: 0,
+    null: 0,
+    object: 0,
+    array: 0
+  }
+}
+
 export const analyze = (value: JSONValue): JSONStats => {
   return {
-    size: 0,
+    size: 4,
     type: getType(value),
-    keys: {
-      count: 0,
-      larger: 0,
-      smaller: 0,
-      median: 0,
-      average: 0,
-      byLevel: {
-        larger: 0,
-        smaller: 0,
-        median: 0,
-        average: 0
-      }
-    },
+    keys: KEYS_EMPTY,
     values: {
-      count: 0,
-      larger: 0,
-      smaller: 0,
-      median: 0,
-      average: 0,
+      count: 1,
+      larger: 4,
+      smaller: 4,
+      median: 4,
+      average: 4,
       byLevel: {
-        larger: 0,
-        smaller: 0,
-        median: 0,
-        average: 0
+        larger: 4,
+        smaller: 4,
+        median: 4,
+        average: 4
       },
       breakdown: {
-        integer: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
-        },
-        real: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
-        },
+        integer: EMPTY_COUNTABLE_STATISTICS,
+        real: EMPTY_COUNTABLE_STATISTICS,
         boolean: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
+          count: 1,
+          larger: 4,
+          smaller: 4,
+          median: 4,
+          average: 4
         },
-        string: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
-        },
-        null: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
-        },
-        object: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
-        },
-        array: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
-        }
+        string: EMPTY_COUNTABLE_STATISTICS,
+        null: EMPTY_COUNTABLE_STATISTICS,
+        object: EMPTY_COUNTABLE_STATISTICS,
+        array: EMPTY_COUNTABLE_STATISTICS
       }
     },
-    depth: {
-      count: 0,
-      larger: 0,
-      smaller: 0,
-      median: 0,
-      average: 0
-    },
-    redundancy: {
-      count: 0,
-      breakdown: {
-        integer: 0,
-        real: 0,
-        boolean: 0,
-        string: 0,
-        null: 0,
-        object: 0,
-        array: 0
-      }
-    }
+    depth: EMPTY_COUNTABLE_STATISTICS,
+    redundancy: EMPTY_REDUNDANCY
   }
 }
