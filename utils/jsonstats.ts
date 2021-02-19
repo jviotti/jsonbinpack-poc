@@ -71,8 +71,8 @@ const walk = (
   const keys: string[] = []
   const values: JSONValue[] = []
 
-  if (typeof document === 'object' && 
-    !Array.isArray(document) && 
+  if (typeof document === 'object' &&
+    !Array.isArray(document) &&
     document !== null) {
     for (const [ key, value ] of Object.entries(document)) {
       if (typeof value === 'undefined') {
@@ -95,7 +95,7 @@ const walk = (
       values.push(clone(element))
       walk(element, level, metadata)
     }
-  } 
+  }
 
   return metadata
 }
@@ -177,7 +177,7 @@ const getStatistics = (
     }
   }
 
-  const sorted: JSONValue[] = 
+  const sorted: JSONValue[] =
     array.sort((first: JSONValue, second: JSONValue) => {
       return transformer(first) - transformer(second)
     })
@@ -211,12 +211,12 @@ export const analyze = (document: JSONValue): JSONStats => {
     }
   })
 
-  const values: JSONValue[] = [ 
-    ...data.values.boolean, 
-    ...data.values.integer, 
-    ...data.values.real, 
+  const values: JSONValue[] = [
+    ...data.values.boolean,
+    ...data.values.integer,
+    ...data.values.real,
     ...data.values.string,
-    ...data.values.null 
+    ...data.values.null
   ]
 
   const depth: number[] = data.levels.map((level: LevelCollector) => {
