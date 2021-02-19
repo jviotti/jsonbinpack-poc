@@ -33,6 +33,22 @@ export interface JSONObject {
 export type JSONValue =
   JSONObject | JSONValue[] | JSONScalar
 
+export const getType = (value: JSONValue): JSONType => {
+  if (typeof value === 'boolean') {
+    return JSONType.Boolean
+  } else if (typeof value === 'number') {
+    return JSONType.Number
+  } else if (typeof value === 'string') {
+    return JSONType.String
+  } else if (Array.isArray(value)) {
+    return JSONType.Array
+  } else if (value === null) {
+    return JSONType.Null
+  }
+
+  return JSONType.Object
+}
+
 export const getElement =
   (document: JSONObject | JSONValue[],
     key: string | number): JSONValue | undefined => {
