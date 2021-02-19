@@ -23,15 +23,7 @@ type ByteSize = number
 
 // TODO: Refactor and de-duplicate these interface definitions
 
-interface KeyStats {
-  readonly count: number;
-  readonly larger: ByteSize;
-  readonly smaller: ByteSize;
-  readonly median: ByteSize;
-  readonly average: ByteSize;
-}
-
-interface TypeBreakdown {
+interface SizeCountStats {
   readonly count: number;
   readonly larger: ByteSize;
   readonly smaller: ByteSize;
@@ -40,21 +32,16 @@ interface TypeBreakdown {
 }
 
 interface Breakdown {
-  readonly integer: TypeBreakdown;
-  readonly real: TypeBreakdown;
-  readonly boolean: TypeBreakdown;
-  readonly string: TypeBreakdown;
-  readonly null: TypeBreakdown;
-  readonly object: TypeBreakdown;
-  readonly array: TypeBreakdown;
+  readonly integer: SizeCountStats;
+  readonly real: SizeCountStats;
+  readonly boolean: SizeCountStats;
+  readonly string: SizeCountStats;
+  readonly null: SizeCountStats;
+  readonly object: SizeCountStats;
+  readonly array: SizeCountStats;
 }
 
-interface ValueStats {
-  readonly count: number;
-  readonly larger: ByteSize;
-  readonly smaller: ByteSize;
-  readonly median: ByteSize;
-  readonly average: ByteSize;
+interface ValueStats extends SizeCountStats {
   readonly breakdown: Breakdown;
 }
 
@@ -89,7 +76,7 @@ interface RedundancyStats {
 export interface JSONStats {
   readonly minifiedSize: ByteSize;
   readonly type: JSONType;
-  readonly keys: KeyStats;
+  readonly keys: SizeCountStats;
   readonly values: ValueStats;
   readonly nesting: NestingStats;
   readonly redundancy: RedundancyStats;
