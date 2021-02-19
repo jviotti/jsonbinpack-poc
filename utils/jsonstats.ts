@@ -68,11 +68,12 @@ const walk = (
 ): Collector => {
   const type: string = getType(document)
   metadata.values[type].push(clone(document))
+  const keys: string[] = []
+  const values: JSONValue[] = []
+
   if (typeof document === 'object' && 
     !Array.isArray(document) && 
     document !== null) {
-    const keys: string[] = []
-    const values: JSONValue[] = []
     for (const [ key, value ] of Object.entries(document)) {
       if (typeof value === 'undefined') {
         continue
@@ -91,8 +92,15 @@ const walk = (
     })
   } else if (Array.isArray(document)) {
     for (const element of document) {
+      values.push(clone(element))
       walk(element, level, metadata)
     }
+
+    metadata.levels.push({
+      depth: level,
+      keys,
+      values
+    })
   } 
 
   return metadata
