@@ -67,7 +67,6 @@ const walk = (
 ): Collector => {
   const type: string = getType(document)
   metadata.values[type].push(clone(document))
-
   if (typeof document === 'object' && 
     !Array.isArray(document) && 
     document !== null) {
@@ -113,18 +112,20 @@ export interface JSONStats {
   readonly size: number;
   readonly type: JSONType;
   readonly keys: CountableStatistics;
+  readonly values: CountableStatistics;
 }
 
 const getStatistics = (array: JSONValue[]): Statistics => {
-  const sorted: JSONValue[] = array.sort((first: JSONValue, second: JSONValue) => {
-    return getJSONSize(first) - getJSONSize(second)
-  })
+  const sorted: JSONValue[] = 
+    array.sort((first: JSONValue, second: JSONValue) => {
+      return getJSONSize(first) - getJSONSize(second)
+    })
 
   return {
     larger: getJSONSize(sorted[sorted.length - 1]),
     smaller: getJSONSize(sorted[0]),
     median: getJSONSize(sorted[Math.floor(sorted.length / 2)]),
-    average: sorted.reduce((accumulator: number, element) => {
+    average: sorted.reduce((accumulator: number, element: JSONValue) => {
       return accumulator + getJSONSize(element)
     }, 0) / sorted.length
   }
@@ -147,12 +148,24 @@ export const analyze = (document: JSONValue): JSONStats => {
 
   console.log(data)
 
+  const values: JSONValue[] = [ 
+    ...data.values.boolean, 
+    ...data.values.integer, 
+    ...data.values.real, 
+    ...data.values.string,
+    ...data.values.null 
+  ]
+
   return {
     size: getJSONSize(document),
     type: getJSONType(document),
     keys: {
       count: data.keys.length,
       ...getStatistics(data.keys)
+    },
+    values: {
+      count: values.length,
+      ...getStatistics(values)
     }
   }
 }
