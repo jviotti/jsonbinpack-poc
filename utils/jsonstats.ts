@@ -14,15 +14,89 @@
  * limitations under the License.
  */
 
-import {
-  JSONValue,
-  JSONType,
-  getType
-} from '../lib/json'
+import * as clone from 'clone'
 
 import {
-  getStringByteLength
-} from '../lib/types/string'
+  JSONValue,
+  JSONObject,
+  JSONType,
+  getJSONType,
+  getJSONSize
+} from '../lib/json'
+
+const getType = (value: JSONValue): string => {
+  const type: JSONType = getJSONType(value)
+  if (type === JSONType.Number) {
+    if (Number.isInteger(value)) {
+      return 'integer'
+    }
+
+    return 'real'
+  }
+
+  return type
+}
+
+interface ValuesCollector {
+  [key: string]: Array<any>;
+  object: JSONObject[];
+  array: JSONValue[][];
+  boolean: boolean[];
+  integer: number[];
+  real: number[];
+  string: string[];
+  null: JSONValue[];
+}
+
+interface LevelCollector {
+  depth: number;
+  keys: string[];
+  values: JSONValue[];
+}
+
+interface Collector {
+  keys: string[];
+  values: ValuesCollector;
+  levels: LevelCollector[],
+}
+
+const walk = (
+  document: JSONValue,
+  level: number,
+  metadata: Collector
+): Collector => {
+  const type: string = getType(document)
+  metadata.values[type].push(clone(document))
+
+  if (typeof document === 'object' && 
+    !Array.isArray(document) && 
+    document !== null) {
+    const keys: string[] = []
+    const values: JSONValue[] = []
+    for (const [ key, value ] of Object.entries(document)) {
+      if (typeof value === 'undefined') {
+        continue
+      }
+
+      metadata.keys.push(key)
+      keys.push(clone(key))
+      values.push(clone(value))
+      walk(value, level + 1, metadata)
+    }
+
+    metadata.levels.push({
+      depth: level,
+      keys,
+      values
+    })
+  } else if (Array.isArray(document)) {
+    for (const element of document) {
+      walk(element, level, metadata)
+    }
+  } 
+
+  return metadata
+}
 
 interface Statistics {
   readonly larger: number;
@@ -35,141 +109,50 @@ interface CountableStatistics extends Statistics {
   readonly count: number;
 }
 
-interface StatisticalTypeBreakdown {
-  readonly integer: CountableStatistics;
-  readonly real: CountableStatistics;
-  readonly boolean: CountableStatistics;
-  readonly string: CountableStatistics;
-  readonly null: CountableStatistics;
-  readonly object: CountableStatistics;
-  readonly array: CountableStatistics;
-}
-
-interface CountableTypeBreakdown {
-  readonly integer: number;
-  readonly real: number;
-  readonly boolean: number;
-  readonly string: number;
-  readonly null: number;
-  readonly object: number;
-  readonly array: number;
-}
-
-interface CountableBreakdownStatistics extends CountableStatistics {
-  readonly breakdown: StatisticalTypeBreakdown;
-}
-
-interface BasicCountableBreakdownStatistics {
-  readonly count: number;
-  readonly breakdown: CountableTypeBreakdown;
-}
-
-interface KeysStatistics extends CountableStatistics {
-  readonly byLevel: Statistics;
-}
-
-interface ValuesStatistics extends CountableBreakdownStatistics {
-  readonly byLevel: Statistics;
-}
-
 export interface JSONStats {
   readonly size: number;
   readonly type: JSONType;
-  readonly keys: KeysStatistics;
-  readonly values: ValuesStatistics;
-  readonly depth: CountableStatistics;
-  readonly redundancy: BasicCountableBreakdownStatistics;
+  readonly keys: CountableStatistics;
 }
 
-const KEYS_EMPTY: KeysStatistics = {
-  count: 0,
-  larger: 0,
-  smaller: 0,
-  median: 0,
-  average: 0,
-  byLevel: {
-    larger: 0,
-    smaller: 0,
-    median: 0,
-    average: 0
-  }
-}
-
-const EMPTY_COUNTABLE_STATISTICS: CountableStatistics = {
-  count: 0,
-  larger: 0,
-  smaller: 0,
-  median: 0,
-  average: 0
-}
-
-const EMPTY_REDUNDANCY: BasicCountableBreakdownStatistics = {
-  count: 0,
-  breakdown: {
-    integer: 0,
-    real: 0,
-    boolean: 0,
-    string: 0,
-    null: 0,
-    object: 0,
-    array: 0
-  }
-}
-
-const getBreakdownType = (value: JSONValue): string => {
-  const type: JSONType = getType(value)
-  if (type === JSONType.Number) {
-    if (Number.isInteger(value)) {
-      return 'integer'
-    }
-
-    return 'real'
-  }
-
-  return type
-}
-
-export const analyze = (value: JSONValue): JSONStats => {
-  const type: JSONType = getType(value)
-  const byteLength: number = getStringByteLength(JSON.stringify(value))
-  const breakdown: StatisticalTypeBreakdown = {
-    integer: EMPTY_COUNTABLE_STATISTICS,
-    real: EMPTY_COUNTABLE_STATISTICS,
-    boolean: EMPTY_COUNTABLE_STATISTICS,
-    string: EMPTY_COUNTABLE_STATISTICS,
-    null: EMPTY_COUNTABLE_STATISTICS,
-    object: EMPTY_COUNTABLE_STATISTICS,
-    array: EMPTY_COUNTABLE_STATISTICS
-  }
-
-  const documentStatistics: Statistics = {
-    larger: byteLength,
-    smaller: byteLength,
-    median: byteLength,
-    average: byteLength
-  }
+const getStatistics = (array: JSONValue[]): Statistics => {
+  const sorted: JSONValue[] = array.sort((first: JSONValue, second: JSONValue) => {
+    return getJSONSize(first) - getJSONSize(second)
+  })
 
   return {
-    size: byteLength,
-    type,
-    keys: KEYS_EMPTY,
+    larger: getJSONSize(sorted[sorted.length - 1]),
+    smaller: getJSONSize(sorted[0]),
+    median: getJSONSize(sorted[Math.floor(sorted.length / 2)]),
+    average: sorted.reduce((accumulator: number, element) => {
+      return accumulator + getJSONSize(element)
+    }, 0) / sorted.length
+  }
+}
+
+export const analyze = (document: JSONValue): JSONStats => {
+  const data: Collector = walk(document, 0, {
+    keys: [],
+    levels: [],
     values: {
-      count: 1,
-      ...documentStatistics,
-      byLevel: {
-        larger: 1,
-        smaller: 1,
-        median: 1,
-        average: 1
-      },
-      breakdown: Object.assign(breakdown, {
-        [getBreakdownType(value)]: {
-          count: 1,
-          ...documentStatistics
-        }
-      })
-    },
-    depth: EMPTY_COUNTABLE_STATISTICS,
-    redundancy: EMPTY_REDUNDANCY
+      object: [],
+      array: [],
+      boolean: [],
+      integer: [],
+      real: [],
+      string: [],
+      null: []
+    }
+  })
+
+  console.log(data)
+
+  return {
+    size: getJSONSize(document),
+    type: getJSONType(document),
+    keys: {
+      count: data.keys.length,
+      ...getStatistics(data.keys)
+    }
   }
 }

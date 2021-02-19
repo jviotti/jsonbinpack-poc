@@ -33,7 +33,7 @@ export interface JSONObject {
 export type JSONValue =
   JSONObject | JSONValue[] | JSONScalar
 
-export const getType = (value: JSONValue): JSONType => {
+export const getJSONType = (value: JSONValue): JSONType => {
   if (typeof value === 'boolean') {
     return JSONType.Boolean
   } else if (typeof value === 'number') {
@@ -62,3 +62,7 @@ export const getElement =
 
     return document[key]
   }
+
+export const getJSONSize = (document: JSONValue): number => {
+  return Buffer.byteLength(JSON.stringify(document), 'utf8')
+}
