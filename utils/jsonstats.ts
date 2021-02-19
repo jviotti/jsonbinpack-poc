@@ -27,7 +27,7 @@ import {
 
 const getType = (value: JSONValue): string => {
   const type: JSONType = getJSONType(value)
-  if (type === JSONType.Number) {
+  if (type === JSONType.number) {
     if (Number.isInteger(value)) {
       return 'integer'
     }
@@ -39,7 +39,7 @@ const getType = (value: JSONValue): string => {
 }
 
 interface ValuesCollector {
-  [key: string]: Array<any>;
+  [key: string]: JSONValue[];
   object: JSONObject[];
   array: JSONValue[][];
   boolean: boolean[];
@@ -58,7 +58,7 @@ interface LevelCollector {
 interface Collector {
   keys: string[];
   values: ValuesCollector;
-  levels: LevelCollector[],
+  levels: LevelCollector[];
 }
 
 const walk = (
@@ -263,7 +263,7 @@ export const analyze = (document: JSONValue): JSONStats => {
       byLevel: getStatistics(data.levels.map((level: LevelCollector) => {
         return level.values.reduce((accumulator: number, value: JSONValue) => {
           const valueType: JSONType = getJSONType(value)
-          if (valueType === JSONType.Array || valueType === JSONType.Object) {
+          if (valueType === JSONType.array || valueType === JSONType.object) {
             return accumulator
           }
 

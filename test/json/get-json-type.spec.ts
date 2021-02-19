@@ -22,73 +22,73 @@ import {
 } from '../../lib/json'
 
 tap.test('should get the type of a truthy boolean', (test) => {
-  test.is(getJSONType(true), JSONType.Boolean)
+  test.is(getJSONType(true), JSONType.boolean)
   test.end()
 })
 
 tap.test('should get the type of a falsy boolean', (test) => {
-  test.is(getJSONType(false), JSONType.Boolean)
+  test.is(getJSONType(false), JSONType.boolean)
   test.end()
 })
 
 tap.test('should get the type of null', (test) => {
-  test.is(getJSONType(null), JSONType.Null)
+  test.is(getJSONType(null), JSONType.null)
   test.end()
 })
 
 tap.test('should get the type of a positive integer', (test) => {
-  test.is(getJSONType(5), JSONType.Number)
+  test.is(getJSONType(5), JSONType.number)
   test.end()
 })
 
 tap.test('should get the type of a negative integer', (test) => {
-  test.is(getJSONType(-5), JSONType.Number)
+  test.is(getJSONType(-5), JSONType.number)
   test.end()
 })
 
 tap.test('should get the type of a positive float', (test) => {
-  test.is(getJSONType(5.4545), JSONType.Number)
+  test.is(getJSONType(5.4545), JSONType.number)
   test.end()
 })
 
 tap.test('should get the type of a negative float', (test) => {
-  test.is(getJSONType(-5.4545), JSONType.Number)
+  test.is(getJSONType(-5.4545), JSONType.number)
   test.end()
 })
 
 tap.test('should get the type of an empty string', (test) => {
-  test.is(getJSONType(''), JSONType.String)
+  test.is(getJSONType(''), JSONType.string)
   test.end()
 })
 
 tap.test('should get the type of a blank string', (test) => {
-  test.is(getJSONType('    '), JSONType.String)
+  test.is(getJSONType('    '), JSONType.string)
   test.end()
 })
 
 tap.test('should get the type of a non-empty string', (test) => {
-  test.is(getJSONType('foo'), JSONType.String)
+  test.is(getJSONType('foo'), JSONType.string)
   test.end()
 })
 
 tap.test('should get the type of an empty array', (test) => {
-  test.is(getJSONType([]), JSONType.Array)
+  test.is(getJSONType([]), JSONType.array)
   test.end()
 })
 
 tap.test('should get the type of a non-empty array', (test) => {
-  test.is(getJSONType([ 1, 2, 3 ]), JSONType.Array)
+  test.is(getJSONType([ 1, 2, 3 ]), JSONType.array)
   test.end()
 })
 
 tap.test('should get the type of an empty object', (test) => {
-  test.is(getJSONType({}), JSONType.Object)
+  test.is(getJSONType({}), JSONType.object)
   test.end()
 })
 
 tap.test('should get the type of a non-empty object', (test) => {
   test.is(getJSONType({
     foo: 1
-  }), JSONType.Object)
+  }), JSONType.object)
   test.end()
 })

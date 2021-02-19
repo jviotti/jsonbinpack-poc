@@ -18,35 +18,36 @@ type JSONScalar = number | boolean | string | null
 
 // As documented in https://www.json.org
 export enum JSONType {
-  Number = 'number',
-  Boolean = 'boolean',
-  String = 'string',
-  Null = 'null',
-  Object = 'object',
-  Array = 'array'
+  number = 'number',
+  boolean = 'boolean',
+  string = 'string',
+  null = 'null',
+  object = 'object',
+  array = 'array'
 }
+
+export type JSONValue =
+  // eslint-disable-next-line no-use-before-define
+  JSONObject | JSONValue[] | JSONScalar
 
 export interface JSONObject {
   readonly [key: string]: JSONValue | undefined;
 }
 
-export type JSONValue =
-  JSONObject | JSONValue[] | JSONScalar
-
 export const getJSONType = (value: JSONValue): JSONType => {
   if (typeof value === 'boolean') {
-    return JSONType.Boolean
+    return JSONType.boolean
   } else if (typeof value === 'number') {
-    return JSONType.Number
+    return JSONType.number
   } else if (typeof value === 'string') {
-    return JSONType.String
+    return JSONType.string
   } else if (Array.isArray(value)) {
-    return JSONType.Array
+    return JSONType.array
   } else if (value === null) {
-    return JSONType.Null
+    return JSONType.null
   }
 
-  return JSONType.Object
+  return JSONType.object
 }
 
 export const getElement =
