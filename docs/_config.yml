@@ -5,5 +5,5 @@ description: >-
 baseurl: ""
 url: "https://www.jsonbinpack.org" 
 sass:
-  sass_dir:         _sass
-  style:            :compressed
+  style: :compressed
+  sass_dir: _sass
