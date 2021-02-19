@@ -147,6 +147,7 @@ interface BasicCountableBreakdownStatistics {
 }
 
 interface RedundancyStatistics {
+  readonly keys: number;
   readonly values: BasicCountableBreakdownStatistics;
 }
 
@@ -244,6 +245,7 @@ export const analyze = (document: JSONValue): JSONStats => {
       ...getStatistics(data.keys, getJSONSize)
     },
     redundancy: {
+      keys: getDuplicatesCount(data.keys),
       values: {
         count: Object.values(valuesRedundancy).reduce(
           (accumulator: number, element: number): number => {
