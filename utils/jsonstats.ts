@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import * as _ from 'lodash'
 import * as clone from 'clone'
 
 import {
@@ -127,9 +128,15 @@ export interface JSONStats {
   readonly type: JSONType;
   readonly keys: CountableStatistics;
   readonly values: CountableBreakdownStatistics;
+  readonly depth: CountableStatistics;
 }
 
-const getStatistics = (array: JSONValue[]): Statistics => {
+type NumericTransformer = (value: JSONValue) => number
+
+const getStatistics = (
+  array: JSONValue[],
+  transformer: NumericTransformer
+): Statistics => {
   if (array.length === 0) {
     return {
       larger: 0,
@@ -141,15 +148,15 @@ const getStatistics = (array: JSONValue[]): Statistics => {
 
   const sorted: JSONValue[] = 
     array.sort((first: JSONValue, second: JSONValue) => {
-      return getJSONSize(first) - getJSONSize(second)
+      return transformer(first) - transformer(second)
     })
 
   return {
-    larger: getJSONSize(sorted[sorted.length - 1]),
-    smaller: getJSONSize(sorted[0]),
-    median: getJSONSize(sorted[Math.floor(sorted.length / 2)]),
+    larger: transformer(sorted[sorted.length - 1]),
+    smaller: transformer(sorted[0]),
+    median: transformer(sorted[Math.floor(sorted.length / 2)]),
     average: sorted.reduce((accumulator: number, element: JSONValue) => {
-      return accumulator + getJSONSize(element)
+      return accumulator + transformer(element)
     }, 0) / sorted.length
   }
 }
@@ -179,44 +186,52 @@ export const analyze = (document: JSONValue): JSONStats => {
     ...data.values.null 
   ]
 
+  const depth: number[] = data.levels.map((level: LevelCollector) => {
+    return level.depth
+  })
+
   return {
     size: getJSONSize(document),
     type: getJSONType(document),
+    depth: {
+      count: depth.length,
+      ...getStatistics(_.uniq(depth), _.identity)
+    },
     keys: {
       count: data.keys.length,
-      ...getStatistics(data.keys)
+      ...getStatistics(data.keys, getJSONSize)
     },
     values: {
       count: values.length,
-      ...getStatistics(values),
+      ...getStatistics(values, getJSONSize),
       breakdown: {
         object: {
           count: data.values.object.length,
-          ...getStatistics(data.values.object)
+          ...getStatistics(data.values.object, getJSONSize)
         },
         array: {
           count: data.values.array.length,
-          ...getStatistics(data.values.array)
+          ...getStatistics(data.values.array, getJSONSize)
         },
         boolean: {
           count: data.values.boolean.length,
-          ...getStatistics(data.values.boolean)
+          ...getStatistics(data.values.boolean, getJSONSize)
         },
         integer: {
           count: data.values.integer.length,
-          ...getStatistics(data.values.integer)
+          ...getStatistics(data.values.integer, getJSONSize)
         },
         real: {
           count: data.values.real.length,
-          ...getStatistics(data.values.real)
+          ...getStatistics(data.values.real, getJSONSize)
         },
         string: {
           count: data.values.string.length,
-          ...getStatistics(data.values.string)
+          ...getStatistics(data.values.string, getJSONSize)
         },
         null: {
           count: data.values.null.length,
-          ...getStatistics(data.values.null)
+          ...getStatistics(data.values.null, getJSONSize)
         }
       }
     }
