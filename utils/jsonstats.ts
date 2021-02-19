@@ -95,12 +95,6 @@ const walk = (
       values.push(clone(element))
       walk(element, level, metadata)
     }
-
-    metadata.levels.push({
-      depth: level,
-      keys,
-      values
-    })
   } 
 
   return metadata
@@ -151,10 +145,14 @@ interface RedundancyStatistics {
   readonly values: BasicCountableBreakdownStatistics;
 }
 
+interface KeysStatistics extends CountableStatistics {
+  readonly byLevel: Statistics;
+}
+
 export interface JSONStats {
   readonly size: number;
   readonly type: JSONType;
-  readonly keys: CountableStatistics;
+  readonly keys: KeysStatistics;
   readonly values: CountableBreakdownStatistics;
   readonly depth: CountableStatistics;
   readonly redundancy: RedundancyStatistics;
@@ -242,7 +240,10 @@ export const analyze = (document: JSONValue): JSONStats => {
     },
     keys: {
       count: data.keys.length,
-      ...getStatistics(data.keys, getJSONSize)
+      ...getStatistics(data.keys, getJSONSize),
+      byLevel: getStatistics(data.levels.map((level: LevelCollector) => {
+        return level.keys.length
+      }), _.identity)
     },
     redundancy: {
       keys: getDuplicatesCount(data.keys),
