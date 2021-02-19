@@ -16,6 +16,16 @@
 
 type JSONScalar = number | boolean | string | null
 
+// As documented in https://www.json.org
+export enum JSONType {
+  Number = 'number',
+  Boolean = 'boolean',
+  String = 'string',
+  Null = 'null',
+  Object = 'object',
+  Array = 'array'
+}
+
 export interface JSONObject {
   readonly [key: string]: JSONValue | undefined;
 }
