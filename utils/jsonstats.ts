@@ -19,51 +19,28 @@ import {
   JSONType
 } from '../lib/json'
 
-type ByteSize = number
+interface Statistics {
+  readonly larger: number;
+  readonly smaller: number;
+  readonly median: number;
+  readonly average: number;
+}
 
-// TODO: Refactor and de-duplicate these interface definitions
-
-interface SizeCountStats {
+interface CountableStatistics extends Statistics {
   readonly count: number;
-  readonly larger: ByteSize;
-  readonly smaller: ByteSize;
-  readonly median: ByteSize;
-  readonly average: ByteSize;
 }
 
-interface Breakdown {
-  readonly integer: SizeCountStats;
-  readonly real: SizeCountStats;
-  readonly boolean: SizeCountStats;
-  readonly string: SizeCountStats;
-  readonly null: SizeCountStats;
-  readonly object: SizeCountStats;
-  readonly array: SizeCountStats;
+interface StatisticalTypeBreakdown {
+  readonly integer: CountableStatistics;
+  readonly real: CountableStatistics;
+  readonly boolean: CountableStatistics;
+  readonly string: CountableStatistics;
+  readonly null: CountableStatistics;
+  readonly object: CountableStatistics;
+  readonly array: CountableStatistics;
 }
 
-interface ValueStats extends SizeCountStats {
-  readonly breakdown: Breakdown;
-}
-
-interface NestingStats {
-  readonly levels: number;
-  readonly largerDepth: number;
-  readonly smallerDepth: number;
-  readonly medianDepth: number;
-  readonly averageDepth: number;
-
-  readonly minimumKeysInLevel: number;
-  readonly maximumKeysInLevel: number;
-  readonly medianKeysInLevel: number;
-  readonly averageKeysInLevel: number;
-
-  readonly minimumValuesInLevel: number;
-  readonly maximumValuesInLevel: number;
-  readonly medianValuesInLevel: number;
-  readonly averageValuesInLevel: number;
-}
-
-interface RedundancyStats {
+interface CountableTypeBreakdown {
   readonly integer: number;
   readonly real: number;
   readonly boolean: number;
@@ -73,26 +50,48 @@ interface RedundancyStats {
   readonly array: number;
 }
 
+interface CountableBreakdownStatistics extends CountableStatistics {
+  readonly breakdown: StatisticalTypeBreakdown;
+}
+
+interface BasicCountableBreakdownStatistics extends CountableStatistics {
+  readonly breakdown: CountableTypeBreakdown;
+}
+
+interface KeysStatistics extends CountableStatistics {
+  readonly byLevel: Statistics;
+}
+
+interface ValuesStatistics extends CountableBreakdownStatistics {
+  readonly byLevel: Statistics;
+}
+
 export interface JSONStats {
-  readonly minifiedSize: ByteSize;
+  readonly size: number;
   readonly type: JSONType;
-  readonly keys: SizeCountStats;
-  readonly values: ValueStats;
-  readonly nesting: NestingStats;
-  readonly redundancy: RedundancyStats;
+  readonly keys: KeysStatistics;
+  readonly values: ValuesStatistics;
+  readonly depth: CountableStatistics;
+  readonly redundancy: BasicCountableBreakdownStatistics;
 }
 
 export const analyze = (value: JSONValue): JSONStats => {
   console.log(value)
   return {
-    minifiedSize: 0,
+    size: 0,
     type: JSONType.Boolean,
     keys: {
       count: 0,
       larger: 0,
       smaller: 0,
       median: 0,
-      average: 0
+      average: 0,
+      byLevel: {
+        larger: 0,
+        smaller: 0,
+        median: 0,
+        average: 0
+      }
     },
     values: {
       count: 0,
@@ -100,6 +99,12 @@ export const analyze = (value: JSONValue): JSONStats => {
       smaller: 0,
       median: 0,
       average: 0,
+      byLevel: {
+        larger: 0,
+        smaller: 0,
+        median: 0,
+        average: 0
+      },
       breakdown: {
         integer: {
           count: 0,
@@ -152,31 +157,28 @@ export const analyze = (value: JSONValue): JSONStats => {
         }
       }
     },
-    nesting: {
-      levels: 0,
-      largerDepth: 0,
-      smallerDepth: 0,
-      medianDepth: 0,
-      averageDepth: 0,
-
-      minimumKeysInLevel: 0,
-      maximumKeysInLevel: 0,
-      medianKeysInLevel: 0,
-      averageKeysInLevel: 0,
-
-      minimumValuesInLevel: 0,
-      maximumValuesInLevel: 0,
-      medianValuesInLevel: 0,
-      averageValuesInLevel: 0
+    depth: {
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0
     },
     redundancy: {
-      integer: 0,
-      real: 0,
-      boolean: 0,
-      string: 0,
-      null: 0,
-      object: 0,
-      array: 0
+      count: 0,
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0,
+      breakdown: {
+        integer: 0,
+        real: 0,
+        boolean: 0,
+        string: 0,
+        null: 0,
+        object: 0,
+        array: 0
+      }
     }
   }
 }
