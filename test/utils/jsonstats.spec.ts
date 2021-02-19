@@ -14,72 +14,24 @@
  * limitations under the License.
  */
 
+import * as tap from 'tap'
+
+import {
+  analyze,
+  JSONStats
+} from '../../utils/jsonstats'
+
 import {
   JSONValue,
   JSONType
-} from '../lib/json'
+} from '../../lib/json'
 
-interface Statistics {
-  readonly larger: number;
-  readonly smaller: number;
-  readonly median: number;
-  readonly average: number;
-}
+tap.test('should analyze a true boolean value', (test) => {
+  const value: JSONValue = true
+  const stats: JSONStats = analyze(value)
 
-interface CountableStatistics extends Statistics {
-  readonly count: number;
-}
-
-interface StatisticalTypeBreakdown {
-  readonly integer: CountableStatistics;
-  readonly real: CountableStatistics;
-  readonly boolean: CountableStatistics;
-  readonly string: CountableStatistics;
-  readonly null: CountableStatistics;
-  readonly object: CountableStatistics;
-  readonly array: CountableStatistics;
-}
-
-interface CountableTypeBreakdown {
-  readonly integer: number;
-  readonly real: number;
-  readonly boolean: number;
-  readonly string: number;
-  readonly null: number;
-  readonly object: number;
-  readonly array: number;
-}
-
-interface CountableBreakdownStatistics extends CountableStatistics {
-  readonly breakdown: StatisticalTypeBreakdown;
-}
-
-interface BasicCountableBreakdownStatistics {
-  readonly count: number;
-  readonly breakdown: CountableTypeBreakdown;
-}
-
-interface KeysStatistics extends CountableStatistics {
-  readonly byLevel: Statistics;
-}
-
-interface ValuesStatistics extends CountableBreakdownStatistics {
-  readonly byLevel: Statistics;
-}
-
-export interface JSONStats {
-  readonly size: number;
-  readonly type: JSONType;
-  readonly keys: KeysStatistics;
-  readonly values: ValuesStatistics;
-  readonly depth: CountableStatistics;
-  readonly redundancy: BasicCountableBreakdownStatistics;
-}
-
-export const analyze = (value: JSONValue): JSONStats => {
-  console.log(value)
-  return {
-    size: 0,
+  test.strictSame(stats, {
+    size: 4,
     type: JSONType.Boolean,
     keys: {
       count: 0,
@@ -95,16 +47,16 @@ export const analyze = (value: JSONValue): JSONStats => {
       }
     },
     values: {
-      count: 0,
-      larger: 0,
-      smaller: 0,
-      median: 0,
-      average: 0,
+      count: 1,
+      larger: 4,
+      smaller: 4,
+      median: 4,
+      average: 4,
       byLevel: {
-        larger: 0,
-        smaller: 0,
-        median: 0,
-        average: 0
+        larger: 4,
+        smaller: 4,
+        median: 4,
+        average: 4
       },
       breakdown: {
         integer: {
@@ -122,11 +74,11 @@ export const analyze = (value: JSONValue): JSONStats => {
           average: 0
         },
         boolean: {
-          count: 0,
-          larger: 0,
-          smaller: 0,
-          median: 0,
-          average: 0
+          count: 1,
+          larger: 4,
+          smaller: 4,
+          median: 4,
+          average: 4
         },
         string: {
           count: 0,
@@ -177,5 +129,7 @@ export const analyze = (value: JSONValue): JSONStats => {
         array: 0
       }
     }
-  }
-}
+  })
+
+  test.end()
+})
