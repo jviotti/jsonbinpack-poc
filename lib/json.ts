@@ -14,10 +14,25 @@
  * limitations under the License.
  */
 
-import {
-  JSONValue
-} from '../lib/json'
+type JSONScalar = number | boolean | string | null
 
-export default (value: JSONValue) => {
-  return value
+export interface JSONObject {
+  readonly [key: string]: JSONValue | undefined;
 }
+
+export type JSONValue =
+  JSONObject | JSONValue[] | JSONScalar
+
+export const getElement =
+  (document: JSONObject | JSONValue[],
+    key: string | number): JSONValue | undefined => {
+    if (!Array.isArray(document)) {
+      return document[key]
+    }
+
+    if (typeof key === 'string') {
+      return null
+    }
+
+    return document[key]
+  }
