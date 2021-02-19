@@ -1,0 +1,22 @@
+{
+  "name": "jsonbinpack",
+  "version": "1.0.0",
+  "description": "A schema-driven JSON serialization format based on JSON Schema",
+  "main": "lib/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jviotti/jsonbinpack.git"
+  },
+  "author": "Juan Cruz Viotti <jv@jviotti.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jviotti/jsonbinpack/issues"
+  },
+  "homepage": "https://github.com/jviotti/jsonbinpack#readme"
+}
