@@ -45,4 +45,4 @@ const DOCUMENT = {
   "cod": 200
 }
 
-console.log(jsonstats.analyze(DOCUMENT))
+console.log(JSON.stringify(jsonstats.analyze(DOCUMENT), null, 2))

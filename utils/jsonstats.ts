@@ -108,14 +108,37 @@ interface CountableStatistics extends Statistics {
   readonly count: number;
 }
 
+interface StatisticalTypeBreakdown {
+  readonly integer: CountableStatistics;
+  readonly real: CountableStatistics;
+  readonly boolean: CountableStatistics;
+  readonly string: CountableStatistics;
+  readonly null: CountableStatistics;
+  readonly object: CountableStatistics;
+  readonly array: CountableStatistics;
+}
+
+interface CountableBreakdownStatistics extends CountableStatistics {
+  readonly breakdown: StatisticalTypeBreakdown;
+}
+
 export interface JSONStats {
   readonly size: number;
   readonly type: JSONType;
   readonly keys: CountableStatistics;
-  readonly values: CountableStatistics;
+  readonly values: CountableBreakdownStatistics;
 }
 
 const getStatistics = (array: JSONValue[]): Statistics => {
+  if (array.length === 0) {
+    return {
+      larger: 0,
+      smaller: 0,
+      median: 0,
+      average: 0
+    }
+  }
+
   const sorted: JSONValue[] = 
     array.sort((first: JSONValue, second: JSONValue) => {
       return getJSONSize(first) - getJSONSize(second)
@@ -165,7 +188,37 @@ export const analyze = (document: JSONValue): JSONStats => {
     },
     values: {
       count: values.length,
-      ...getStatistics(values)
+      ...getStatistics(values),
+      breakdown: {
+        object: {
+          count: data.values.object.length,
+          ...getStatistics(data.values.object)
+        },
+        array: {
+          count: data.values.array.length,
+          ...getStatistics(data.values.array)
+        },
+        boolean: {
+          count: data.values.boolean.length,
+          ...getStatistics(data.values.boolean)
+        },
+        integer: {
+          count: data.values.integer.length,
+          ...getStatistics(data.values.integer)
+        },
+        real: {
+          count: data.values.real.length,
+          ...getStatistics(data.values.real)
+        },
+        string: {
+          count: data.values.string.length,
+          ...getStatistics(data.values.string)
+        },
+        null: {
+          count: data.values.null.length,
+          ...getStatistics(data.values.null)
+        }
+      }
     }
   }
 }
