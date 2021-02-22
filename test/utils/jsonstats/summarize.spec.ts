@@ -17,7 +17,8 @@
 import * as tap from 'tap'
 
 import {
-  JSONObject
+  JSONObject,
+  JSONValue
 } from '../../../lib/json'
 
 import {
@@ -26,6 +27,24 @@ import {
   summarize,
   analyze
 } from '../../../utils/jsonstats'
+
+tap.test('should summarize a string document', (test) => {
+  const document: JSONValue = 'foo bar'
+
+  const result: JSONStatsSummary = {
+    size: JSONStatsSizeQualifier.tiny,
+    keysRedundancy: 0,
+    valuesRedundancy: 0,
+    nestingWeight: 0,
+    numericWeight: 0,
+    textualWeight: 100,
+    booleanWeight: 0,
+    structuralWeight: 0
+  }
+
+  test.strictSame(summarize(analyze(document)), result)
+  test.end()
+})
 
 tap.test('should summarize the survey test object', (test) => {
   const document: JSONObject = {

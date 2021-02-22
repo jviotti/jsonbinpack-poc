@@ -80,7 +80,7 @@ const DEFAULT_ACCUMULATOR: JSONStats = {
 export const analyze = (
   document: JSONValue,
   level: number = 0,
-  accumulator: JSONStats = DEFAULT_ACCUMULATOR,
+  accumulator: JSONStats = clone(DEFAULT_ACCUMULATOR),
   keys: Set<string> = new Set(),
   values: JSONValue[] = [],
   levels: number[] = []
@@ -141,7 +141,7 @@ export const analyze = (
 }
 
 const percentage = (total: number, local: number): number => {
-  return local * 100 / total
+  return total === 0 ? 0 : local * 100 / total
 }
 
 export enum JSONStatsSizeQualifier {
@@ -251,7 +251,12 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
     qualifiers.push('with no redundant values')
   }
 
+  if (summary.nestingWeight === 0) {
+    qualifiers.push('flat')
+  }
+
   // TODO: Do something with nesting weight
+  // nestingWeight: stats.maxNestingDepth * stats.largestLevel,
 
   return qualifiers
 }
