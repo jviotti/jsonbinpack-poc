@@ -253,10 +253,13 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
 
   if (summary.nestingWeight === 0) {
     qualifiers.push('flat')
-  }
 
-  // TODO: Do something with nesting weight
-  // nestingWeight: stats.maxNestingDepth * stats.largestLevel,
+  // TODO: Back this magic number with research proof
+  } else if (summary.nestingWeight > 10) {
+    qualifiers.push('moderately-nested')
+  } else {
+    qualifiers.push('highly-nested')
+  }
 
   return qualifiers
 }
