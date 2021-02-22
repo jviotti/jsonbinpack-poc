@@ -16,7 +16,10 @@
 
 import {
   JSONValue,
-  getJSONSize
+  JSONTypeCategory,
+  getJSONSize,
+  getJSONType,
+  getJSONTypeCategory
 } from '../lib/json'
 
 interface CountSizeStats {
@@ -65,28 +68,6 @@ const DEFAULT_ACCUMULATOR: JSONStats = {
   }
 }
 
-enum JSONValueCategory {
-  numeric = 'numeric',
-  textual = 'textual',
-  boolean = 'boolean',
-  structural = 'structural'
-}
-
-const getValueCategory = (value: JSONValue): JSONValueCategory => {
-  if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
-    return JSONValueCategory.structural
-  } else if (Array.isArray(value)) {
-    return JSONValueCategory.structural
-  } else if (typeof value === 'string') {
-    return JSONValueCategory.textual
-  // We consider null to be a boolean value as in "three valued logic"
-  } else if (typeof value === 'boolean' || value === null) {
-    return JSONValueCategory.boolean
-  } else {
-    return JSONValueCategory.numeric
-  }
-}
-
 // TODO: Keep track of duplicates as well
 export const analyze = (
   document: JSONValue,
@@ -95,7 +76,7 @@ export const analyze = (
 ): JSONStats => {
   accumulator.byteSize = accumulator.byteSize || getJSONSize(document)
   accumulator.maxNestingDepth = Math.max(accumulator.maxNestingDepth, level)
-  const category: JSONValueCategory = getValueCategory(document)
+  const category: JSONTypeCategory = getJSONTypeCategory(getJSONType(document))
   accumulator.values[category].count += 1
 
   if (typeof document === 'object' && !Array.isArray(document) && document !== null) {

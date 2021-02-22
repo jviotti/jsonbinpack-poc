@@ -34,6 +34,13 @@ export interface JSONObject {
   readonly [key: string]: JSONValue | undefined;
 }
 
+export enum JSONTypeCategory {
+  numeric = 'numeric',
+  textual = 'textual',
+  boolean = 'boolean',
+  structural = 'structural'
+}
+
 export const getJSONType = (value: JSONValue): JSONType => {
   if (typeof value === 'boolean') {
     return JSONType.boolean
@@ -48,6 +55,18 @@ export const getJSONType = (value: JSONValue): JSONType => {
   }
 
   return JSONType.object
+}
+
+export const getJSONTypeCategory = (type: JSONType): JSONTypeCategory => {
+  if (type === JSONType.boolean || type === JSONType.null) {
+    return JSONTypeCategory.boolean
+  } else if (type === JSONType.string) {
+    return JSONTypeCategory.textual
+  } else if (type === JSONType.number) {
+    return JSONTypeCategory.numeric
+  }
+
+  return JSONTypeCategory.structural
 }
 
 export const getElement =
