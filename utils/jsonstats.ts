@@ -213,18 +213,14 @@ export const summarize = (stats: JSONStats): JSONStatsSummary => {
 export const qualify = (summary: JSONStatsSummary): string[] => {
   const qualifiers: string[] = [ summary.size ]
 
-  // Check contents
   if (summary.numericWeight > summary.textualWeight &&
     summary.numericWeight > summary.booleanWeight) {
     qualifiers.push('numeric-heavy')
   } else if (summary.textualWeight > summary.numericWeight &&
     summary.textualWeight > summary.booleanWeight) {
     qualifiers.push('textual-heavy')
-  } else if (summary.booleanWeight > summary.textualWeight &&
-    summary.booleanWeight > summary.numericWeight) {
-    qualifiers.push('boolean-heavy')
   } else {
-    qualifiers.push('balanced')
+    qualifiers.push('boolean-heavy')
   }
 
   if (summary.structuralWeight > summary.numericWeight &&
@@ -235,24 +231,16 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
     qualifiers.push('little-structured')
   }
 
-  if (summary.keysRedundancy >= 50) {
-    qualifiers.push('with highly-redundant keys')
-  } else if (summary.keysRedundancy >= 25) {
-    qualifiers.push('with moderately-redundant keys')
-  } else if (summary.keysRedundancy > 0) {
-    qualifiers.push('with little-redundant keys')
+  if (summary.keysRedundancy >= 30) {
+    qualifiers.push('highly-key-redundant')
   } else {
-    qualifiers.push('with no redundant keys')
+    qualifiers.push('little-key-redundant')
   }
 
-  if (summary.valuesRedundancy >= 50) {
-    qualifiers.push('with highly-redundant values')
-  } else if (summary.valuesRedundancy >= 25) {
-    qualifiers.push('with moderately-redundant values')
-  } else if (summary.valuesRedundancy > 0) {
-    qualifiers.push('with little-redundant values')
+  if (summary.valuesRedundancy >= 30) {
+    qualifiers.push('highly-value-redundant')
   } else {
-    qualifiers.push('with no redundant values')
+    qualifiers.push('little-value-redundant')
   }
 
   if (summary.nestingWeight === 0) {

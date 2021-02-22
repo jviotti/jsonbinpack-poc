@@ -56,8 +56,8 @@ tap.test('should qualify the survey test object', (test) => {
     'small',
     'numeric-heavy',
     'highly-structured',
-    'with moderately-redundant keys',
-    'with little-redundant values',
+    'highly-key-redundant',
+    'little-value-redundant',
     'moderately-nested'
   ]
 
