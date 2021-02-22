@@ -139,3 +139,69 @@ export const analyze = (
 
   return accumulator
 }
+
+const percentage = (total: number, local: number): number => {
+  return local * 100 / total
+}
+
+export enum JSONStatsSizeQualifier {
+  tiny = 'tiny',
+  small = 'small',
+  large = 'large'
+}
+
+export interface JSONStatsSummary {
+  size: JSONStatsSizeQualifier;
+  keysRedundancy: number;
+  valuesRedundancy: number;
+  nestingWeight: number;
+  numericWeight: number;
+  textualWeight: number;
+  booleanWeight: number;
+  structuralWeight: number;
+}
+
+// TODO: Revise this function
+const getSizeQualifier = (byteSize: number): JSONStatsSizeQualifier => {
+  if (byteSize < 100) {
+    return JSONStatsSizeQualifier.tiny
+  } else if (byteSize < 1000) {
+    return JSONStatsSizeQualifier.small
+  }
+
+  return JSONStatsSizeQualifier.large
+}
+
+export const summarize = (stats: JSONStats): JSONStatsSummary => {
+  const valuesCount: number = stats.values.numeric.count +
+    stats.values.textual.count +
+    stats.values.boolean.count +
+    stats.values.structural.count
+
+  const structuralRawWeight: number =
+    percentage(valuesCount, stats.values.structural.count) *
+    percentage(stats.byteSize, stats.values.structural.byteSize)
+
+  const keysRawWeight: number =
+    percentage(valuesCount, stats.keys.count) *
+    percentage(stats.byteSize, stats.keys.byteSize)
+
+  return {
+    size: getSizeQualifier(stats.byteSize),
+    keysRedundancy: percentage(stats.keys.count, stats.duplicatedKeys),
+    valuesRedundancy: percentage(valuesCount, stats.duplicatedValues),
+    nestingWeight: stats.maxNestingDepth * stats.largestLevel,
+
+    numericWeight: percentage(10000,
+      percentage(valuesCount, stats.values.numeric.count) *
+      percentage(stats.byteSize, stats.values.numeric.byteSize)),
+    textualWeight: percentage(10000,
+      percentage(valuesCount, stats.values.textual.count) *
+      percentage(stats.byteSize, stats.values.textual.byteSize)),
+    booleanWeight: percentage(10000,
+      percentage(valuesCount, stats.values.boolean.count) *
+      percentage(stats.byteSize, stats.values.boolean.byteSize)),
+    structuralWeight:
+      percentage(20000, structuralRawWeight + keysRawWeight)
+  }
+}
