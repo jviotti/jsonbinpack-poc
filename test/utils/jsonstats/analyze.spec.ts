@@ -79,5 +79,11 @@ tap.test('should analyze the survey test object', (test) => {
   }
 
   test.strictSame(analyze(document), result)
+  test.is(result.byteSize,
+    result.keys.byteSize +
+    result.values.numeric.byteSize +
+    result.values.textual.byteSize +
+    result.values.boolean.byteSize +
+    result.values.structural.byteSize)
   test.end()
 })
