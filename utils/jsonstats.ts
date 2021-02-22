@@ -74,19 +74,20 @@ export const analyze = (
   level: number = 0,
   accumulator: JSONStats = DEFAULT_ACCUMULATOR
 ): JSONStats => {
-  accumulator.byteSize = accumulator.byteSize || getJSONSize(document)
-  accumulator.maxNestingDepth = Math.max(accumulator.maxNestingDepth, level)
-  const category: JSONTypeCategory = getJSONTypeCategory(getJSONType(document))
+  accumulator.byteSize =
+    accumulator.byteSize || getJSONSize(document)
+  accumulator.maxNestingDepth =
+    Math.max(accumulator.maxNestingDepth, level)
+  const category: JSONTypeCategory =
+    getJSONTypeCategory(getJSONType(document))
   accumulator.values[category].count += 1
 
-  if (typeof document === 'object' && !Array.isArray(document) && document !== null) {
+  if (typeof document === 'object' &&
+    !Array.isArray(document) && document !== null) {
     // The curly braces
-    accumulator.values.structural.byteSize += 2
     const numberOfKeys: number = Object.keys(document).length
-    if (numberOfKeys > 0) {
-      // The colons + the comma
-      accumulator.values.structural.byteSize += (numberOfKeys * 2) - 1
-    }
+    accumulator.values.structural.byteSize +=
+      2 + (numberOfKeys * 2) - Math.min(numberOfKeys, 1)
 
     for (const [ key, value ] of Object.entries(document)) {
       if (value === undefined) {
@@ -98,11 +99,7 @@ export const analyze = (
       analyze(value, level + 1, accumulator)
     }
   } else if (Array.isArray(document)) {
-    // The brackets
-    accumulator.values.structural.byteSize += 2
-    // The commas
-    accumulator.values.structural.byteSize += document.length - 1
-
+    accumulator.values.structural.byteSize += 2 + document.length - 1
     for (const element of document) {
       analyze(element, level + 1, accumulator)
     }
