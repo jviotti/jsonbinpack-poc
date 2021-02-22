@@ -73,7 +73,7 @@ tap.test('should analyze the survey test object', (test) => {
       },
       structural: {
         count: 10,
-        byteSize: 47
+        byteSize: 48
       }
     }
   }

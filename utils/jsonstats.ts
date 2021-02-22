@@ -99,7 +99,9 @@ export const analyze = (
       analyze(value, level + 1, accumulator)
     }
   } else if (Array.isArray(document)) {
-    accumulator.values.structural.byteSize += 2 + document.length - 1
+    accumulator.values.structural.byteSize +=
+      2 + document.length - Math.min(document.length, 1)
+
     for (const element of document) {
       analyze(element, level + 1, accumulator)
     }
