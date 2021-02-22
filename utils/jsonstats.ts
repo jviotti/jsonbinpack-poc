@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import * as clone from 'clone'
 import * as _ from 'lodash'
 
 import {
@@ -75,6 +74,11 @@ const DEFAULT_ACCUMULATOR: JSONStats = {
       byteSize: 0
     }
   }
+}
+
+const clone = <T>(value: T): T => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return JSON.parse(JSON.stringify(value))
 }
 
 export const analyze = (
