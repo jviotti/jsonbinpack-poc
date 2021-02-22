@@ -54,6 +54,8 @@ tap.test('should analyze the survey test object', (test) => {
   const result: JSONStats = {
     byteSize: 184,
     maxNestingDepth: 4,
+    duplicatedKeys: 4,
+    duplicatedValues: 5,
     keys: {
       count: 13,
       byteSize: 81

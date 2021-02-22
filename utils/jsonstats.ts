@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import * as clone from 'clone'
+import * as _ from 'lodash'
+
 import {
   JSONValue,
   JSONTypeCategory,
@@ -39,11 +42,15 @@ export interface JSONStats {
   maxNestingDepth: number;
   keys: CountSizeStats;
   values: ValuesStats;
+  duplicatedKeys: number;
+  duplicatedValues: number;
 }
 
 const DEFAULT_ACCUMULATOR: JSONStats = {
   byteSize: 0,
   maxNestingDepth: 0,
+  duplicatedKeys: 0,
+  duplicatedValues: 0,
   keys: {
     count: 0,
     byteSize: 0
@@ -68,12 +75,14 @@ const DEFAULT_ACCUMULATOR: JSONStats = {
   }
 }
 
-// TODO: Keep track of duplicates as well
 export const analyze = (
   document: JSONValue,
   level: number = 0,
-  accumulator: JSONStats = DEFAULT_ACCUMULATOR
+  accumulator: JSONStats = DEFAULT_ACCUMULATOR,
+  keys: Set<string> = new Set(),
+  values: JSONValue[] = []
 ): JSONStats => {
+  values.push(clone(document))
   accumulator.byteSize =
     accumulator.byteSize || getJSONSize(document)
   accumulator.maxNestingDepth =
@@ -94,20 +103,31 @@ export const analyze = (
         continue
       }
 
+      keys.add(key)
       accumulator.keys.count += 1
       accumulator.keys.byteSize += getJSONSize(key)
-      analyze(value, level + 1, accumulator)
+      analyze(value, level + 1, accumulator, keys, values)
     }
   } else if (Array.isArray(document)) {
     accumulator.values.structural.byteSize +=
       2 + document.length - Math.min(document.length, 1)
 
     for (const element of document) {
-      analyze(element, level + 1, accumulator)
+      analyze(element, level + 1, accumulator, keys, values)
     }
   } else {
     accumulator.values[category].byteSize += getJSONSize(document)
   }
+
+  accumulator.duplicatedKeys = accumulator.keys.count - keys.size
+  accumulator.duplicatedValues =
+    accumulator.values.numeric.count +
+    accumulator.values.textual.count +
+    accumulator.values.boolean.count +
+    accumulator.values.structural.count -
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    _.uniqWith(values, _.isEqual).length
 
   return accumulator
 }
