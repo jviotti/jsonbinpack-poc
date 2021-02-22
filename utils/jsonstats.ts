@@ -65,6 +65,28 @@ const DEFAULT_ACCUMULATOR: JSONStats = {
   }
 }
 
+enum JSONValueCategory {
+  numeric = 'numeric',
+  textual = 'textual',
+  boolean = 'boolean',
+  structural = 'structural'
+}
+
+const getValueCategory = (value: JSONValue): JSONValueCategory => {
+  if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+    return JSONValueCategory.structural
+  } else if (Array.isArray(value)) {
+    return JSONValueCategory.structural
+  } else if (typeof value === 'string') {
+    return JSONValueCategory.textual
+  // We consider null to be a boolean value as in "three valued logic"
+  } else if (typeof value === 'boolean' || value === null) {
+    return JSONValueCategory.boolean
+  } else {
+    return JSONValueCategory.numeric
+  }
+}
+
 // TODO: Keep track of duplicates as well
 export const analyze = (
   document: JSONValue,
@@ -73,10 +95,10 @@ export const analyze = (
 ): JSONStats => {
   accumulator.byteSize = accumulator.byteSize || getJSONSize(document)
   accumulator.maxNestingDepth = Math.max(accumulator.maxNestingDepth, level)
+  const category: JSONValueCategory = getValueCategory(document)
+  accumulator.values[category].count += 1
 
   if (typeof document === 'object' && !Array.isArray(document) && document !== null) {
-    accumulator.values.structural.count += 1
-
     // The curly braces
     accumulator.values.structural.byteSize += 2
     const numberOfKeys: number = Object.keys(document).length
@@ -95,7 +117,6 @@ export const analyze = (
       analyze(value, level + 1, accumulator)
     }
   } else if (Array.isArray(document)) {
-    accumulator.values.structural.count += 1
     // The brackets
     accumulator.values.structural.byteSize += 2
     // The commas
@@ -104,17 +125,8 @@ export const analyze = (
     for (const element of document) {
       analyze(element, level + 1, accumulator)
     }
-  } else if (typeof document === 'string') {
-    accumulator.values.textual.count += 1
-    accumulator.values.textual.byteSize += getJSONSize(document)
-
-  // We consider null to be a boolean value as in "three valued logic"
-  } else if (typeof document === 'boolean' || document === null) {
-    accumulator.values.boolean.count += 1
-    accumulator.values.boolean.byteSize += getJSONSize(document)
-  } else if (typeof document === 'number') {
-    accumulator.values.numeric.count += 1
-    accumulator.values.numeric.byteSize += getJSONSize(document)
+  } else {
+    accumulator.values[category].byteSize += getJSONSize(document)
   }
 
   return accumulator
