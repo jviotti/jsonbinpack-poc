@@ -40,6 +40,7 @@ interface ValuesStats {
 export interface JSONStats {
   byteSize: number;
   maxNestingDepth: number;
+  largestLevel: number;
   keys: CountSizeStats;
   values: ValuesStats;
   duplicatedKeys: number;
@@ -49,6 +50,7 @@ export interface JSONStats {
 const DEFAULT_ACCUMULATOR: JSONStats = {
   byteSize: 0,
   maxNestingDepth: 0,
+  largestLevel: 0,
   duplicatedKeys: 0,
   duplicatedValues: 0,
   keys: {
@@ -80,11 +82,14 @@ export const analyze = (
   level: number = 0,
   accumulator: JSONStats = DEFAULT_ACCUMULATOR,
   keys: Set<string> = new Set(),
-  values: JSONValue[] = []
+  values: JSONValue[] = [],
+  levels: number[] = []
 ): JSONStats => {
   values.push(clone(document))
   accumulator.byteSize =
     accumulator.byteSize || getJSONSize(document)
+  levels[level] = levels[level] || 0
+
   accumulator.maxNestingDepth =
     Math.max(accumulator.maxNestingDepth, level)
   const category: JSONTypeCategory =
@@ -106,19 +111,22 @@ export const analyze = (
       keys.add(key)
       accumulator.keys.count += 1
       accumulator.keys.byteSize += getJSONSize(key)
-      analyze(value, level + 1, accumulator, keys, values)
+      analyze(value, level + 1, accumulator, keys, values, levels)
     }
   } else if (Array.isArray(document)) {
     accumulator.values.structural.byteSize +=
       2 + document.length - Math.min(document.length, 1)
 
     for (const element of document) {
-      analyze(element, level + 1, accumulator, keys, values)
+      analyze(element, level + 1, accumulator, keys, values, levels)
     }
   } else {
-    accumulator.values[category].byteSize += getJSONSize(document)
+    const documentSize: number = getJSONSize(document)
+    accumulator.values[category].byteSize += documentSize
+    levels[level] += documentSize
   }
 
+  accumulator.largestLevel = levels.lastIndexOf(Math.max(...levels))
   accumulator.duplicatedKeys = accumulator.keys.count - keys.size
   accumulator.duplicatedValues =
     accumulator.values.numeric.count +
