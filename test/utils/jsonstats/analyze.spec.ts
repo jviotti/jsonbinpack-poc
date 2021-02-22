@@ -87,5 +87,14 @@ tap.test('should analyze the survey test object', (test) => {
     result.values.textual.byteSize +
     result.values.boolean.byteSize +
     result.values.structural.byteSize)
+
+  const VALUES_COUNT: number =
+    result.values.numeric.count +
+    result.values.textual.count +
+    result.values.boolean.count +
+    result.values.structural.count
+
+  test.ok(VALUES_COUNT >= result.keys.count)
+  test.ok(VALUES_COUNT >= result.duplicatedValues)
   test.end()
 })
