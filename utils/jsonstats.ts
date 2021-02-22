@@ -14,296 +14,108 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash'
-import * as clone from 'clone'
-
 import {
   JSONValue,
-  JSONObject,
-  JSONType,
-  getJSONType,
   getJSONSize
 } from '../lib/json'
 
-const getType = (value: JSONValue): string => {
-  const type: JSONType = getJSONType(value)
-  if (type === JSONType.number) {
-    if (Number.isInteger(value)) {
-      return 'integer'
-    }
-
-    return 'real'
-  }
-
-  return type
+interface CountSizeStats {
+  count: number;
+  byteSize: number;
 }
 
-interface ValuesCollector {
-  [key: string]: JSONValue[];
-  object: JSONObject[];
-  array: JSONValue[][];
-  boolean: boolean[];
-  integer: number[];
-  real: number[];
-  string: string[];
-  null: JSONValue[];
-}
-
-interface LevelCollector {
-  depth: number;
-  keys: string[];
-  values: JSONValue[];
-}
-
-interface Collector {
-  keys: string[];
-  values: ValuesCollector;
-  levels: LevelCollector[];
-}
-
-const walk = (
-  document: JSONValue,
-  level: number,
-  metadata: Collector
-): Collector => {
-  const type: string = getType(document)
-  metadata.values[type].push(clone(document))
-  const keys: string[] = []
-  const values: JSONValue[] = []
-
-  if (typeof document === 'object' &&
-    !Array.isArray(document) &&
-    document !== null) {
-    for (const [ key, value ] of Object.entries(document)) {
-      if (typeof value === 'undefined') {
-        continue
-      }
-
-      metadata.keys.push(key)
-      keys.push(clone(key))
-      values.push(clone(value))
-      walk(value, level + 1, metadata)
-    }
-
-    metadata.levels.push({
-      depth: level,
-      keys,
-      values
-    })
-  } else if (Array.isArray(document)) {
-    for (const element of document) {
-      values.push(clone(element))
-      walk(element, level, metadata)
-    }
-  }
-
-  return metadata
-}
-
-interface Statistics {
-  readonly larger: number;
-  readonly smaller: number;
-  readonly median: number;
-  readonly average: number;
-}
-
-interface CountableStatistics extends Statistics {
-  readonly count: number;
-}
-
-interface StatisticalTypeBreakdown {
-  readonly integer: CountableStatistics;
-  readonly real: CountableStatistics;
-  readonly boolean: CountableStatistics;
-  readonly string: CountableStatistics;
-  readonly null: CountableStatistics;
-  readonly object: CountableStatistics;
-  readonly array: CountableStatistics;
-}
-
-interface CountableBreakdownStatistics extends CountableStatistics {
-  readonly breakdown: StatisticalTypeBreakdown;
-}
-
-interface CountableTypeBreakdown {
-  readonly integer: number;
-  readonly real: number;
-  readonly boolean: number;
-  readonly string: number;
-  readonly null: number;
-  readonly object: number;
-  readonly array: number;
-}
-
-interface BasicCountableBreakdownStatistics {
-  readonly count: number;
-  readonly breakdown: CountableTypeBreakdown;
-}
-
-interface RedundancyStatistics {
-  readonly keys: number;
-  readonly values: BasicCountableBreakdownStatistics;
-}
-
-interface KeysStatistics extends CountableStatistics {
-  readonly byLevel: Statistics;
-}
-
-interface ValuesStatistics extends CountableBreakdownStatistics {
-  readonly byLevel: Statistics;
+interface ValuesStats {
+  numeric: CountSizeStats;
+  textual: CountSizeStats;
+  boolean: CountSizeStats;
+  structural: CountSizeStats;
 }
 
 export interface JSONStats {
-  readonly size: number;
-  readonly type: JSONType;
-  readonly keys: KeysStatistics;
-  readonly values: ValuesStatistics;
-  readonly depth: CountableStatistics;
-  readonly redundancy: RedundancyStatistics;
+  byteSize: number;
+  maxNestingDepth: number;
+  keys: CountSizeStats;
+  values: ValuesStats;
 }
 
-type NumericTransformer = (value: JSONValue) => number
-
-const getStatistics = (
-  array: JSONValue[],
-  transformer: NumericTransformer
-): Statistics => {
-  if (array.length === 0) {
-    return {
-      larger: 0,
-      smaller: 0,
-      median: 0,
-      average: 0
+const DEFAULT_ACCUMULATOR: JSONStats = {
+  byteSize: 0,
+  maxNestingDepth: 0,
+  keys: {
+    count: 0,
+    byteSize: 0
+  },
+  values: {
+    numeric: {
+      count: 0,
+      byteSize: 0
+    },
+    textual: {
+      count: 0,
+      byteSize: 0
+    },
+    boolean: {
+      count: 0,
+      byteSize: 0
+    },
+    structural: {
+      count: 0,
+      byteSize: 0
     }
   }
-
-  const sorted: JSONValue[] =
-    array.sort((first: JSONValue, second: JSONValue) => {
-      return transformer(first) - transformer(second)
-    })
-
-  return {
-    larger: transformer(sorted[sorted.length - 1]),
-    smaller: transformer(sorted[0]),
-    median: transformer(sorted[Math.floor(sorted.length / 2)]),
-    average: sorted.reduce((accumulator: number, element: JSONValue) => {
-      return accumulator + transformer(element)
-    }, 0) / sorted.length
-  }
 }
 
-const getDuplicatesCount = (array: JSONValue[]): number => {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  return array.length - _.uniqWith(array, _.isEqual).length
-}
+// TODO: Keep track of duplicates as well
+export const analyze = (
+  document: JSONValue,
+  level: number = 0,
+  accumulator: JSONStats = DEFAULT_ACCUMULATOR
+): JSONStats => {
+  accumulator.byteSize = accumulator.byteSize || getJSONSize(document)
+  accumulator.maxNestingDepth = Math.max(accumulator.maxNestingDepth, level)
 
-export const analyze = (document: JSONValue): JSONStats => {
-  const data: Collector = walk(document, 0, {
-    keys: [],
-    levels: [],
-    values: {
-      object: [],
-      array: [],
-      boolean: [],
-      integer: [],
-      real: [],
-      string: [],
-      null: []
+  if (typeof document === 'object' && !Array.isArray(document) && document !== null) {
+    accumulator.values.structural.count += 1
+
+    // The curly braces
+    accumulator.values.structural.byteSize += 2
+    const numberOfKeys: number = Object.keys(document).length
+    if (numberOfKeys > 0) {
+      // The colons + the comma
+      accumulator.values.structural.byteSize += (numberOfKeys * 2) - 1
     }
-  })
 
-  const values: JSONValue[] = [
-    ...data.values.boolean,
-    ...data.values.integer,
-    ...data.values.real,
-    ...data.values.string,
-    ...data.values.null
-  ]
-
-  const depth: number[] = data.levels.map((level: LevelCollector) => {
-    return level.depth
-  })
-
-  const valuesRedundancy: CountableTypeBreakdown = {
-    integer: getDuplicatesCount(data.values.integer),
-    real: getDuplicatesCount(data.values.real),
-    boolean: getDuplicatesCount(data.values.boolean),
-    string: getDuplicatesCount(data.values.string),
-    null: getDuplicatesCount(data.values.null),
-    object: getDuplicatesCount(data.values.object),
-    array: getDuplicatesCount(data.values.array)
-  }
-
-  return {
-    size: getJSONSize(document),
-    type: getJSONType(document),
-    depth: {
-      count: depth.length,
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      ...getStatistics(_.uniq(depth), _.identity)
-    },
-    keys: {
-      count: data.keys.length,
-      ...getStatistics(data.keys, getJSONSize),
-      byLevel: getStatistics(data.levels.map((level: LevelCollector) => {
-        return level.keys.length
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      }), _.identity)
-    },
-    redundancy: {
-      keys: getDuplicatesCount(data.keys),
-      values: {
-        count: Object.values(valuesRedundancy).reduce(
-          (accumulator: number, element: number): number => {
-            return accumulator + element
-          }, 0),
-        breakdown: valuesRedundancy
+    for (const [ key, value ] of Object.entries(document)) {
+      if (value === undefined) {
+        continue
       }
-    },
-    values: {
-      count: values.length,
-      ...getStatistics(values, getJSONSize),
-      byLevel: getStatistics(data.levels.map((level: LevelCollector) => {
-        return level.values.reduce((accumulator: number, value: JSONValue) => {
-          const valueType: JSONType = getJSONType(value)
-          if (valueType === JSONType.array || valueType === JSONType.object) {
-            return accumulator
-          }
 
-          return accumulator + 1
-        }, 0)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      }), _.identity),
-      breakdown: {
-        object: {
-          count: data.values.object.length,
-          ...getStatistics(data.values.object, getJSONSize)
-        },
-        array: {
-          count: data.values.array.length,
-          ...getStatistics(data.values.array, getJSONSize)
-        },
-        boolean: {
-          count: data.values.boolean.length,
-          ...getStatistics(data.values.boolean, getJSONSize)
-        },
-        integer: {
-          count: data.values.integer.length,
-          ...getStatistics(data.values.integer, getJSONSize)
-        },
-        real: {
-          count: data.values.real.length,
-          ...getStatistics(data.values.real, getJSONSize)
-        },
-        string: {
-          count: data.values.string.length,
-          ...getStatistics(data.values.string, getJSONSize)
-        },
-        null: {
-          count: data.values.null.length,
-          ...getStatistics(data.values.null, getJSONSize)
-        }
-      }
+      accumulator.keys.count += 1
+      accumulator.keys.byteSize += getJSONSize(key)
+      analyze(value, level + 1, accumulator)
     }
+  } else if (Array.isArray(document)) {
+    accumulator.values.structural.count += 1
+    // The brackets
+    accumulator.values.structural.byteSize += 2
+    // The commas
+    accumulator.values.structural.byteSize += document.length - 1
+
+    for (const element of document) {
+      analyze(element, level + 1, accumulator)
+    }
+  } else if (typeof document === 'string') {
+    accumulator.values.textual.count += 1
+    accumulator.values.textual.byteSize += getJSONSize(document)
+
+  // We consider null to be a boolean value as in "three valued logic"
+  } else if (typeof document === 'boolean' || document === null) {
+    accumulator.values.boolean.count += 1
+    accumulator.values.boolean.byteSize += getJSONSize(document)
+  } else if (typeof document === 'number') {
+    accumulator.values.numeric.count += 1
+    accumulator.values.numeric.byteSize += getJSONSize(document)
   }
+
+  return accumulator
 }
