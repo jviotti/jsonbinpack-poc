@@ -139,3 +139,137 @@ tap.test('should analyze a simple lat/lon object', (test) => {
   test.strictSame(analyze(document), result)
   test.end()
 })
+
+tap.test('should analyze the survey test object', (test) => {
+  const document: JSONObject = {
+    tags: [],
+    tz: -25200,
+    days: [ 1, 1, 2, 1 ],
+    coord: [ -90.0715, 29.9510 ],
+    data: [
+      {
+        name: 'ox03',
+        staff: true
+      },
+      {
+        name: null,
+        staff: false,
+        extra: {
+          info: ''
+        }
+      },
+      {
+        name: 'ox03',
+        staff: true
+      },
+      {}
+    ]
+  }
+
+  const result: JSONStats = {
+    size: 184,
+    type: JSONType.object,
+    depth: {
+      count: 6,
+      larger: 2,
+      smaller: 0,
+      median: 1,
+      average: 1
+    },
+    keys: {
+      count: 13,
+      larger: 7,
+      smaller: 4,
+      median: 6,
+      average: 6.230769230769231,
+      byLevel: {
+        larger: 5,
+        smaller: 0,
+        median: 2,
+        average: 2.1666666666666665,
+      }
+    },
+    redundancy: {
+      keys: 4,
+      values: {
+        count: 5,
+        breakdown: {
+          integer: 2,
+          real: 0,
+          boolean: 1,
+          string: 1,
+          null: 0,
+          object: 1,
+          array: 0
+        }
+      }
+    },
+    values: {
+      count: 14,
+      larger: 8,
+      smaller: 1,
+      median: 4,
+      average: 3.9285714285714284,
+      byLevel: {
+        larger: 2,
+        smaller: 0,
+        median: 2,
+        average: 1.3333333333333333,
+      },
+      breakdown: {
+        integer: {
+          count: 5,
+          larger: 6,
+          smaller: 1,
+          median: 1,
+          average: 2
+        },
+        real: {
+          count: 2,
+          larger: 8,
+          smaller: 6,
+          median: 8,
+          average: 7
+        },
+        boolean: {
+          count: 3,
+          larger: 5,
+          smaller: 4,
+          median: 4,
+          average: 4.333333333333333
+        },
+        string: {
+          larger: 6,
+          count: 3,
+          smaller: 2,
+          median: 6,
+          average: 4.666666666666667
+        },
+        null: {
+          count: 1,
+          larger: 4,
+          smaller: 4,
+          median: 4,
+          average: 4
+        },
+        object: {
+          count: 6,
+          larger: 184,
+          smaller: 2,
+          median: 28,
+          average: 50
+        },
+        array: {
+          count: 4,
+          larger: 110,
+          smaller: 2,
+          median: 17,
+          average: 34.5
+        }
+      }
+    }
+  }
+
+  test.strictSame(analyze(document), result)
+  test.end()
+})
