@@ -73,7 +73,7 @@ permalink: /stats/
 
     <table class="min-w-full divide-y divide-gray-200">
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr>
+        <tr class="bg-gray-50">
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Document Byte-Size
           </th>
@@ -90,20 +90,20 @@ permalink: /stats/
 
         <tr>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">4</div>
+            <div id="summary-size" class="text-sm text-gray-500"></div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">5</div>
+            <div id="summary-keys-redundancy" class="text-sm text-gray-500"></div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">5</div>
+            <div id="summary-values-redundancy" class="text-sm text-gray-500"></div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">5</div>
+            <div id="summary-nesting-weight" class="text-sm text-gray-500"></div>
           </td>
         </tr>
 
-        <tr>
+        <tr class="bg-gray-50">
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Numeric Weight
           </th>
@@ -120,16 +120,16 @@ permalink: /stats/
 
         <tr>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">4</div>
+            <div id="summary-numeric-weight" class="text-sm text-gray-500"></div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">5</div>
+            <div id="summary-textual-weight" class="text-sm text-gray-500"></div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">5</div>
+            <div id="summary-boolean-weight" class="text-sm text-gray-500"></div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <div class="text-sm">5</div>
+            <div id="summary-structural-weight" class="text-sm text-gray-500"></div>
           </td>
         </tr>
       </tbody>

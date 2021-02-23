@@ -86,11 +86,28 @@ if (ANALYZE_VALUES_STRUCTURAL_COUNT === null ||
     ANALYZE_BYTESIZE === null) {
     throw new Error('Not all analyze elements exist');
 }
+var SUMMARY_SIZE = document.getElementById('summary-size');
+var SUMMARY_KEYS_REDUNDANCY = document.getElementById('summary-keys-redundancy');
+var SUMMARY_VALUES_REDUNDANCY = document.getElementById('summary-values-redundancy');
+var SUMMARY_NESTING_WEIGHT = document.getElementById('summary-nesting-weight');
+var SUMMARY_NUMERIC_WEIGHT = document.getElementById('summary-numeric-weight');
+var SUMMARY_TEXTUAL_WEIGHT = document.getElementById('summary-textual-weight');
+var SUMMARY_BOOLEAN_WEIGHT = document.getElementById('summary-boolean-weight');
+var SUMMARY_STRUCTURAL_WEIGHT = document.getElementById('summary-structural-weight');
+if (SUMMARY_SIZE === null ||
+    SUMMARY_KEYS_REDUNDANCY === null ||
+    SUMMARY_VALUES_REDUNDANCY === null ||
+    SUMMARY_NESTING_WEIGHT === null ||
+    SUMMARY_NUMERIC_WEIGHT === null ||
+    SUMMARY_TEXTUAL_WEIGHT === null ||
+    SUMMARY_BOOLEAN_WEIGHT === null ||
+    SUMMARY_STRUCTURAL_WEIGHT === null) {
+    throw new Error('Not all summary elements exist');
+}
 buttonElement.addEventListener('click', function () {
     var contents = code.getValue();
     var json = parseJSON(contents);
     var stats = jsonstats_1.analyze(json);
-    var summary = jsonstats_1.summarize(stats);
     ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize);
     ANALYZE_DUPLICATED_KEYS.innerHTML = String(stats.duplicatedKeys);
     ANALYZE_DUPLICATED_VALUES.innerHTML = String(stats.duplicatedValues);
@@ -106,7 +123,16 @@ buttonElement.addEventListener('click', function () {
     ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML = String(stats.values.textual.byteSize);
     ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML = String(stats.values.structural.count);
     ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML = String(stats.values.structural.byteSize);
-    console.log(stats);
+    var summary = jsonstats_1.summarize(stats);
+    SUMMARY_SIZE.innerHTML = summary.size;
+    SUMMARY_NESTING_WEIGHT.innerHTML = String(summary.nestingWeight);
+    var precision = 4;
+    SUMMARY_KEYS_REDUNDANCY.innerHTML = summary.keysRedundancy.toFixed(precision);
+    SUMMARY_VALUES_REDUNDANCY.innerHTML = summary.valuesRedundancy.toFixed(precision);
+    SUMMARY_NUMERIC_WEIGHT.innerHTML = summary.numericWeight.toFixed(precision);
+    SUMMARY_TEXTUAL_WEIGHT.innerHTML = summary.textualWeight.toFixed(precision);
+    SUMMARY_BOOLEAN_WEIGHT.innerHTML = summary.booleanWeight.toFixed(precision);
+    SUMMARY_STRUCTURAL_WEIGHT.innerHTML = summary.structuralWeight.toFixed(precision);
     console.log(summary);
     console.log(jsonstats_1.qualify(summary));
 });

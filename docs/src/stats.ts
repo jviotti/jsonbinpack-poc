@@ -141,12 +141,39 @@ if (ANALYZE_VALUES_STRUCTURAL_COUNT === null ||
   throw new Error('Not all analyze elements exist')
 }
 
+const SUMMARY_SIZE: HTMLElement | null =
+  document.getElementById('summary-size')
+const SUMMARY_KEYS_REDUNDANCY: HTMLElement | null =
+  document.getElementById('summary-keys-redundancy')
+const SUMMARY_VALUES_REDUNDANCY: HTMLElement | null =
+  document.getElementById('summary-values-redundancy')
+const SUMMARY_NESTING_WEIGHT: HTMLElement | null =
+  document.getElementById('summary-nesting-weight')
+const SUMMARY_NUMERIC_WEIGHT: HTMLElement | null =
+  document.getElementById('summary-numeric-weight')
+const SUMMARY_TEXTUAL_WEIGHT: HTMLElement | null =
+  document.getElementById('summary-textual-weight')
+const SUMMARY_BOOLEAN_WEIGHT: HTMLElement | null =
+  document.getElementById('summary-boolean-weight')
+const SUMMARY_STRUCTURAL_WEIGHT: HTMLElement | null =
+  document.getElementById('summary-structural-weight')
+
+if (SUMMARY_SIZE === null ||
+  SUMMARY_KEYS_REDUNDANCY === null ||
+  SUMMARY_VALUES_REDUNDANCY === null ||
+  SUMMARY_NESTING_WEIGHT === null ||
+  SUMMARY_NUMERIC_WEIGHT === null ||
+  SUMMARY_TEXTUAL_WEIGHT === null ||
+  SUMMARY_BOOLEAN_WEIGHT === null ||
+  SUMMARY_STRUCTURAL_WEIGHT === null) {
+  throw new Error('Not all summary elements exist')
+}
+
 buttonElement.addEventListener('click', () => {
   const contents: string = code.getValue()
   const json: JSONValue = parseJSON(contents)
-  const stats: JSONStats = analyze(json)
-  const summary: JSONStatsSummary = summarize(stats)
 
+  const stats: JSONStats = analyze(json)
   ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize)
   ANALYZE_DUPLICATED_KEYS.innerHTML = String(stats.duplicatedKeys)
   ANALYZE_DUPLICATED_VALUES.innerHTML = String(stats.duplicatedValues)
@@ -154,21 +181,26 @@ buttonElement.addEventListener('click', () => {
   ANALYZE_LARGEST_LEVEL.innerHTML = String(stats.largestLevel)
   ANALYZE_KEYS_COUNT.innerHTML = String(stats.keys.count)
   ANALYZE_KEYS_BYTESIZE.innerHTML = String(stats.keys.byteSize)
-
   ANALYZE_VALUES_NUMERIC_COUNT.innerHTML = String(stats.values.numeric.count)
   ANALYZE_VALUES_NUMERIC_BYTESIZE.innerHTML = String(stats.values.numeric.byteSize)
-
   ANALYZE_VALUES_BOOLEAN_COUNT.innerHTML = String(stats.values.boolean.count)
   ANALYZE_VALUES_BOOLEAN_BYTESIZE.innerHTML = String(stats.values.boolean.byteSize)
-
   ANALYZE_VALUES_TEXTUAL_COUNT.innerHTML = String(stats.values.textual.count)
   ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML = String(stats.values.textual.byteSize)
-
   ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML = String(stats.values.structural.count)
   ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML = String(stats.values.structural.byteSize)
 
-  console.log(stats)
-  console.log(summary)
+  const summary: JSONStatsSummary = summarize(stats)
+  SUMMARY_SIZE.innerHTML = summary.size
+  SUMMARY_NESTING_WEIGHT.innerHTML = String(summary.nestingWeight)
+  const precision: number = 4
+  SUMMARY_KEYS_REDUNDANCY.innerHTML = summary.keysRedundancy.toFixed(precision)
+  SUMMARY_VALUES_REDUNDANCY.innerHTML = summary.valuesRedundancy.toFixed(precision)
+  SUMMARY_NUMERIC_WEIGHT.innerHTML = summary.numericWeight.toFixed(precision)
+  SUMMARY_TEXTUAL_WEIGHT.innerHTML = summary.textualWeight.toFixed(precision)
+  SUMMARY_BOOLEAN_WEIGHT.innerHTML = summary.booleanWeight.toFixed(precision)
+  SUMMARY_STRUCTURAL_WEIGHT.innerHTML = summary.structuralWeight.toFixed(precision)
+
   console.log(qualify(summary))
 })
 
