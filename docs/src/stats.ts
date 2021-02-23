@@ -175,6 +175,10 @@ if (QUALIFIERS_CONTAINER === null) {
   throw new Error('The qualifiers container does not exist')
 }
 
+const capitalize = (text: string) => {
+  return text[0].toUpperCase() + text.slice(1)
+}
+
 const populate = (contents: string): void => {
   const json: JSONValue = parseJSON(contents)
 
@@ -206,16 +210,7 @@ const populate = (contents: string): void => {
   SUMMARY_BOOLEAN_WEIGHT.innerHTML = summary.booleanWeight.toFixed(precision)
   SUMMARY_STRUCTURAL_WEIGHT.innerHTML = summary.structuralWeight.toFixed(precision)
 
-  QUALIFIERS_CONTAINER.innerHTML = ''
-
-  for (const qualifierText of qualify(summary)) {
-    const qualifier: HTMLElement = document.createElement('div')
-    for (const className of [ 'px-4', 'py-5', 'sm:grid', 'sm:grid-cols-3', 'sm:gap-4', 'sm:px-6' ]) {
-      qualifier.classList.add(className)
-    }
-    qualifier.appendChild(document.createTextNode(qualifierText))
-    QUALIFIERS_CONTAINER.appendChild(qualifier)
-  }
+  QUALIFIERS_CONTAINER.innerHTML = qualify(summary).map(capitalize).join(', ')
 }
 
 buttonElement.addEventListener('click', () => {

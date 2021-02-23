@@ -1,16 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var CodeMirror = require("codemirror");
 var jsonstats_1 = require("../../utils/jsonstats");
@@ -119,8 +108,10 @@ var QUALIFIERS_CONTAINER = document.getElementById('qualifiers');
 if (QUALIFIERS_CONTAINER === null) {
     throw new Error('The qualifiers container does not exist');
 }
+var capitalize = function (text) {
+    return text[0].toUpperCase() + text.slice(1);
+};
 var populate = function (contents) {
-    var e_1, _a, e_2, _b;
     var json = parseJSON(contents);
     var stats = jsonstats_1.analyze(json);
     ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize);
@@ -148,35 +139,7 @@ var populate = function (contents) {
     SUMMARY_TEXTUAL_WEIGHT.innerHTML = summary.textualWeight.toFixed(precision);
     SUMMARY_BOOLEAN_WEIGHT.innerHTML = summary.booleanWeight.toFixed(precision);
     SUMMARY_STRUCTURAL_WEIGHT.innerHTML = summary.structuralWeight.toFixed(precision);
-    QUALIFIERS_CONTAINER.innerHTML = '';
-    try {
-        for (var _c = __values(jsonstats_1.qualify(summary)), _d = _c.next(); !_d.done; _d = _c.next()) {
-            var qualifierText = _d.value;
-            var qualifier = document.createElement('div');
-            try {
-                for (var _e = (e_2 = void 0, __values(['px-4', 'py-5', 'sm:grid', 'sm:grid-cols-3', 'sm:gap-4', 'sm:px-6'])), _f = _e.next(); !_f.done; _f = _e.next()) {
-                    var className = _f.value;
-                    qualifier.classList.add(className);
-                }
-            }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-            finally {
-                try {
-                    if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
-                }
-                finally { if (e_2) throw e_2.error; }
-            }
-            qualifier.appendChild(document.createTextNode(qualifierText));
-            QUALIFIERS_CONTAINER.appendChild(qualifier);
-        }
-    }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-    finally {
-        try {
-            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
-        }
-        finally { if (e_1) throw e_1.error; }
-    }
+    QUALIFIERS_CONTAINER.innerHTML = jsonstats_1.qualify(summary).map(capitalize).join(', ');
 };
 buttonElement.addEventListener('click', function () {
     var contents = code.getValue();
