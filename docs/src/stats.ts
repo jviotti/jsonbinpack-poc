@@ -17,7 +17,8 @@
 import * as CodeMirror from 'codemirror'
 
 import {
-  JSONValue
+  JSONValue,
+  JSONObject
 } from '../../lib/json'
 
 import {
@@ -28,6 +29,31 @@ import {
   qualify
 } from '../../utils/jsonstats'
 
+const EXAMPLE_JSON: JSONObject = {
+  tags: [],
+  tz: -25200,
+  days: [ 1, 1, 2, 1 ],
+  coord: [ -90.0715, 29.9510 ],
+  data: [
+    {
+      name: 'ox03',
+      staff: true
+    },
+    {
+      name: null,
+      staff: false,
+      extra: {
+        info: ''
+      }
+    },
+    {
+      name: 'ox03',
+      staff: true
+    },
+    {}
+  ]
+}
+
 const editorElement: HTMLElement | null = document.getElementById('editor')
 if (editorElement === null) {
   throw new Error('Editor element does not exist')
@@ -35,7 +61,7 @@ if (editorElement === null) {
 
 const code: CodeMirror.Editor = CodeMirror(editorElement, {
   lineNumbers: true,
-  value: '{"foo":"bar"}',
+  value: JSON.stringify(EXAMPLE_JSON, null, 2),
   theme: 'idea',
   mode:  'json'
 });
@@ -59,11 +85,88 @@ const parseJSON = (value: string): JSONValue => {
   }
 }
 
+const ANALYZE_VALUES_STRUCTURAL_COUNT: HTMLElement | null =
+  document.getElementById('analyze-values-structural-count')
+const ANALYZE_VALUES_STRUCTURAL_BYTESIZE: HTMLElement | null =
+  document.getElementById('analyze-values-structural-bytesize')
+
+const ANALYZE_VALUES_NUMERIC_COUNT: HTMLElement | null =
+  document.getElementById('analyze-values-numeric-count')
+const ANALYZE_VALUES_NUMERIC_BYTESIZE: HTMLElement | null =
+  document.getElementById('analyze-values-numeric-bytesize')
+
+const ANALYZE_VALUES_BOOLEAN_COUNT: HTMLElement | null =
+  document.getElementById('analyze-values-boolean-count')
+const ANALYZE_VALUES_BOOLEAN_BYTESIZE: HTMLElement | null =
+  document.getElementById('analyze-values-boolean-bytesize')
+
+const ANALYZE_VALUES_TEXTUAL_COUNT: HTMLElement | null =
+  document.getElementById('analyze-values-textual-count')
+const ANALYZE_VALUES_TEXTUAL_BYTESIZE: HTMLElement | null =
+  document.getElementById('analyze-values-textual-bytesize')
+
+const ANALYZE_KEYS_COUNT: HTMLElement | null =
+  document.getElementById('analyze-keys-count')
+const ANALYZE_KEYS_BYTESIZE: HTMLElement | null =
+  document.getElementById('analyze-keys-bytesize')
+
+const ANALYZE_LARGEST_LEVEL: HTMLElement | null =
+  document.getElementById('analyze-largest-level')
+const ANALYZE_MAX_NESTING_DEPTH: HTMLElement | null =
+  document.getElementById('analyze-max-nesting-depth')
+
+const ANALYZE_DUPLICATED_KEYS: HTMLElement | null =
+  document.getElementById('analyze-duplicated-keys')
+const ANALYZE_DUPLICATED_VALUES: HTMLElement | null =
+  document.getElementById('analyze-duplicated-values')
+
+const ANALYZE_BYTESIZE: HTMLElement | null =
+  document.getElementById('analyze-bytesize')
+
+if (ANALYZE_VALUES_STRUCTURAL_COUNT === null ||
+  ANALYZE_VALUES_STRUCTURAL_BYTESIZE === null ||
+  ANALYZE_VALUES_NUMERIC_COUNT === null ||
+  ANALYZE_VALUES_NUMERIC_BYTESIZE === null ||
+  ANALYZE_VALUES_BOOLEAN_COUNT === null ||
+  ANALYZE_VALUES_BOOLEAN_BYTESIZE === null ||
+  ANALYZE_VALUES_TEXTUAL_COUNT === null ||
+  ANALYZE_VALUES_TEXTUAL_BYTESIZE === null ||
+  ANALYZE_KEYS_COUNT === null ||
+  ANALYZE_KEYS_BYTESIZE === null ||
+  ANALYZE_LARGEST_LEVEL === null ||
+  ANALYZE_MAX_NESTING_DEPTH === null ||
+  ANALYZE_DUPLICATED_KEYS === null ||
+  ANALYZE_DUPLICATED_VALUES === null ||
+  ANALYZE_BYTESIZE === null) {
+  throw new Error('Not all analyze elements exist')
+}
+
 buttonElement.addEventListener('click', () => {
   const contents: string = code.getValue()
   const json: JSONValue = parseJSON(contents)
   const stats: JSONStats = analyze(json)
   const summary: JSONStatsSummary = summarize(stats)
+
+  ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize)
+  ANALYZE_DUPLICATED_KEYS.innerHTML = String(stats.duplicatedKeys)
+  ANALYZE_DUPLICATED_VALUES.innerHTML = String(stats.duplicatedValues)
+  ANALYZE_MAX_NESTING_DEPTH.innerHTML = String(stats.maxNestingDepth)
+  ANALYZE_LARGEST_LEVEL.innerHTML = String(stats.largestLevel)
+  ANALYZE_KEYS_COUNT.innerHTML = String(stats.keys.count)
+  ANALYZE_KEYS_BYTESIZE.innerHTML = String(stats.keys.byteSize)
+
+  ANALYZE_VALUES_NUMERIC_COUNT.innerHTML = String(stats.values.numeric.count)
+  ANALYZE_VALUES_NUMERIC_BYTESIZE.innerHTML = String(stats.values.numeric.byteSize)
+
+  ANALYZE_VALUES_BOOLEAN_COUNT.innerHTML = String(stats.values.boolean.count)
+  ANALYZE_VALUES_BOOLEAN_BYTESIZE.innerHTML = String(stats.values.boolean.byteSize)
+
+  ANALYZE_VALUES_TEXTUAL_COUNT.innerHTML = String(stats.values.textual.count)
+  ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML = String(stats.values.textual.byteSize)
+
+  ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML = String(stats.values.structural.count)
+  ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML = String(stats.values.structural.byteSize)
+
   console.log(stats)
   console.log(summary)
   console.log(qualify(summary))

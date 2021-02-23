@@ -3,13 +3,37 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var CodeMirror = require("codemirror");
 var jsonstats_1 = require("../../utils/jsonstats");
+var EXAMPLE_JSON = {
+    tags: [],
+    tz: -25200,
+    days: [1, 1, 2, 1],
+    coord: [-90.0715, 29.9510],
+    data: [
+        {
+            name: 'ox03',
+            staff: true
+        },
+        {
+            name: null,
+            staff: false,
+            extra: {
+                info: ''
+            }
+        },
+        {
+            name: 'ox03',
+            staff: true
+        },
+        {}
+    ]
+};
 var editorElement = document.getElementById('editor');
 if (editorElement === null) {
     throw new Error('Editor element does not exist');
 }
 var code = CodeMirror(editorElement, {
     lineNumbers: true,
-    value: '{"foo":"bar"}',
+    value: JSON.stringify(EXAMPLE_JSON, null, 2),
     theme: 'idea',
     mode: 'json'
 });
@@ -30,11 +54,58 @@ var parseJSON = function (value) {
         throw error;
     }
 };
+var ANALYZE_VALUES_STRUCTURAL_COUNT = document.getElementById('analyze-values-structural-count');
+var ANALYZE_VALUES_STRUCTURAL_BYTESIZE = document.getElementById('analyze-values-structural-bytesize');
+var ANALYZE_VALUES_NUMERIC_COUNT = document.getElementById('analyze-values-numeric-count');
+var ANALYZE_VALUES_NUMERIC_BYTESIZE = document.getElementById('analyze-values-numeric-bytesize');
+var ANALYZE_VALUES_BOOLEAN_COUNT = document.getElementById('analyze-values-boolean-count');
+var ANALYZE_VALUES_BOOLEAN_BYTESIZE = document.getElementById('analyze-values-boolean-bytesize');
+var ANALYZE_VALUES_TEXTUAL_COUNT = document.getElementById('analyze-values-textual-count');
+var ANALYZE_VALUES_TEXTUAL_BYTESIZE = document.getElementById('analyze-values-textual-bytesize');
+var ANALYZE_KEYS_COUNT = document.getElementById('analyze-keys-count');
+var ANALYZE_KEYS_BYTESIZE = document.getElementById('analyze-keys-bytesize');
+var ANALYZE_LARGEST_LEVEL = document.getElementById('analyze-largest-level');
+var ANALYZE_MAX_NESTING_DEPTH = document.getElementById('analyze-max-nesting-depth');
+var ANALYZE_DUPLICATED_KEYS = document.getElementById('analyze-duplicated-keys');
+var ANALYZE_DUPLICATED_VALUES = document.getElementById('analyze-duplicated-values');
+var ANALYZE_BYTESIZE = document.getElementById('analyze-bytesize');
+if (ANALYZE_VALUES_STRUCTURAL_COUNT === null ||
+    ANALYZE_VALUES_STRUCTURAL_BYTESIZE === null ||
+    ANALYZE_VALUES_NUMERIC_COUNT === null ||
+    ANALYZE_VALUES_NUMERIC_BYTESIZE === null ||
+    ANALYZE_VALUES_BOOLEAN_COUNT === null ||
+    ANALYZE_VALUES_BOOLEAN_BYTESIZE === null ||
+    ANALYZE_VALUES_TEXTUAL_COUNT === null ||
+    ANALYZE_VALUES_TEXTUAL_BYTESIZE === null ||
+    ANALYZE_KEYS_COUNT === null ||
+    ANALYZE_KEYS_BYTESIZE === null ||
+    ANALYZE_LARGEST_LEVEL === null ||
+    ANALYZE_MAX_NESTING_DEPTH === null ||
+    ANALYZE_DUPLICATED_KEYS === null ||
+    ANALYZE_DUPLICATED_VALUES === null ||
+    ANALYZE_BYTESIZE === null) {
+    throw new Error('Not all analyze elements exist');
+}
 buttonElement.addEventListener('click', function () {
     var contents = code.getValue();
     var json = parseJSON(contents);
     var stats = jsonstats_1.analyze(json);
     var summary = jsonstats_1.summarize(stats);
+    ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize);
+    ANALYZE_DUPLICATED_KEYS.innerHTML = String(stats.duplicatedKeys);
+    ANALYZE_DUPLICATED_VALUES.innerHTML = String(stats.duplicatedValues);
+    ANALYZE_MAX_NESTING_DEPTH.innerHTML = String(stats.maxNestingDepth);
+    ANALYZE_LARGEST_LEVEL.innerHTML = String(stats.largestLevel);
+    ANALYZE_KEYS_COUNT.innerHTML = String(stats.keys.count);
+    ANALYZE_KEYS_BYTESIZE.innerHTML = String(stats.keys.byteSize);
+    ANALYZE_VALUES_NUMERIC_COUNT.innerHTML = String(stats.values.numeric.count);
+    ANALYZE_VALUES_NUMERIC_BYTESIZE.innerHTML = String(stats.values.numeric.byteSize);
+    ANALYZE_VALUES_BOOLEAN_COUNT.innerHTML = String(stats.values.boolean.count);
+    ANALYZE_VALUES_BOOLEAN_BYTESIZE.innerHTML = String(stats.values.boolean.byteSize);
+    ANALYZE_VALUES_TEXTUAL_COUNT.innerHTML = String(stats.values.textual.count);
+    ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML = String(stats.values.textual.byteSize);
+    ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML = String(stats.values.structural.count);
+    ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML = String(stats.values.structural.byteSize);
     console.log(stats);
     console.log(summary);
     console.log(jsonstats_1.qualify(summary));
