@@ -2,16 +2,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CodeMirror = require("codemirror");
-console.log('JSON Stats');
 var editorElement = document.getElementById('editor');
 if (editorElement === null) {
     throw new Error('Editor element does not exist');
 }
 CodeMirror(editorElement, {
     lineNumbers: true,
-    value: 'function myScript(){return 100;}\n',
+    value: '{"foo":"bar"}',
     theme: 'idea',
-    mode: 'javascript'
+    mode: 'json'
 });
 
 },{"codemirror":2}],2:[function(require,module,exports){

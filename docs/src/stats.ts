@@ -16,8 +16,6 @@
 
 import * as CodeMirror from 'codemirror'
 
-console.log('JSON Stats')
-
 const editorElement: HTMLElement | null = document.getElementById('editor')
 
 if (editorElement === null) {
@@ -26,7 +24,7 @@ if (editorElement === null) {
 
 CodeMirror(editorElement, {
   lineNumbers: true,
-  value: 'function myScript(){return 100;}\n',
+  value: '{"foo":"bar"}',
   theme: 'idea',
-  mode:  'javascript'
+  mode:  'json'
 });

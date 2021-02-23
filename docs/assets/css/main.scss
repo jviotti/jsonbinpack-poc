@@ -6,6 +6,11 @@ sitemap: false
 @import "codemirror";
 @import "codemirror-theme";
 
-p {
-  color: red;
+.CodeMirror {
+  height: 100% !important;
+
+  @media screen and (max-width: 768px) {
+    height: 200px !important;
+  }
 }
+
