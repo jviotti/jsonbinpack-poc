@@ -43,7 +43,8 @@ if (buttonElement === null) {
 }
 var parseJSON = function (value) {
     try {
-        return JSON.parse(value);
+        var result = JSON.parse(value);
+        return result;
     }
     catch (error) {
         if (error instanceof SyntaxError) {
@@ -115,30 +116,51 @@ var populate = function (contents) {
     var json = parseJSON(contents);
     var stats = jsonstats_1.analyze(json);
     ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize);
-    ANALYZE_DUPLICATED_KEYS.innerHTML = String(stats.duplicatedKeys);
-    ANALYZE_DUPLICATED_VALUES.innerHTML = String(stats.duplicatedValues);
-    ANALYZE_MAX_NESTING_DEPTH.innerHTML = String(stats.maxNestingDepth);
-    ANALYZE_LARGEST_LEVEL.innerHTML = String(stats.largestLevel);
-    ANALYZE_KEYS_COUNT.innerHTML = String(stats.keys.count);
-    ANALYZE_KEYS_BYTESIZE.innerHTML = String(stats.keys.byteSize);
-    ANALYZE_VALUES_NUMERIC_COUNT.innerHTML = String(stats.values.numeric.count);
-    ANALYZE_VALUES_NUMERIC_BYTESIZE.innerHTML = String(stats.values.numeric.byteSize);
-    ANALYZE_VALUES_BOOLEAN_COUNT.innerHTML = String(stats.values.boolean.count);
-    ANALYZE_VALUES_BOOLEAN_BYTESIZE.innerHTML = String(stats.values.boolean.byteSize);
-    ANALYZE_VALUES_TEXTUAL_COUNT.innerHTML = String(stats.values.textual.count);
-    ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML = String(stats.values.textual.byteSize);
-    ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML = String(stats.values.structural.count);
-    ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML = String(stats.values.structural.byteSize);
+    ANALYZE_DUPLICATED_KEYS.innerHTML =
+        String(stats.duplicatedKeys);
+    ANALYZE_DUPLICATED_VALUES.innerHTML =
+        String(stats.duplicatedValues);
+    ANALYZE_MAX_NESTING_DEPTH.innerHTML =
+        String(stats.maxNestingDepth);
+    ANALYZE_LARGEST_LEVEL.innerHTML =
+        String(stats.largestLevel);
+    ANALYZE_KEYS_COUNT.innerHTML =
+        String(stats.keys.count);
+    ANALYZE_KEYS_BYTESIZE.innerHTML =
+        String(stats.keys.byteSize);
+    ANALYZE_VALUES_NUMERIC_COUNT.innerHTML =
+        String(stats.values.numeric.count);
+    ANALYZE_VALUES_NUMERIC_BYTESIZE.innerHTML =
+        String(stats.values.numeric.byteSize);
+    ANALYZE_VALUES_BOOLEAN_COUNT.innerHTML =
+        String(stats.values.boolean.count);
+    ANALYZE_VALUES_BOOLEAN_BYTESIZE.innerHTML =
+        String(stats.values.boolean.byteSize);
+    ANALYZE_VALUES_TEXTUAL_COUNT.innerHTML =
+        String(stats.values.textual.count);
+    ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML =
+        String(stats.values.textual.byteSize);
+    ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML =
+        String(stats.values.structural.count);
+    ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML =
+        String(stats.values.structural.byteSize);
     var summary = jsonstats_1.summarize(stats);
     SUMMARY_SIZE.innerHTML = summary.size;
-    SUMMARY_NESTING_WEIGHT.innerHTML = String(summary.nestingWeight);
+    SUMMARY_NESTING_WEIGHT.innerHTML =
+        String(summary.nestingWeight);
     var precision = 4;
-    SUMMARY_KEYS_REDUNDANCY.innerHTML = summary.keysRedundancy.toFixed(precision);
-    SUMMARY_VALUES_REDUNDANCY.innerHTML = summary.valuesRedundancy.toFixed(precision);
-    SUMMARY_NUMERIC_WEIGHT.innerHTML = summary.numericWeight.toFixed(precision);
-    SUMMARY_TEXTUAL_WEIGHT.innerHTML = summary.textualWeight.toFixed(precision);
-    SUMMARY_BOOLEAN_WEIGHT.innerHTML = summary.booleanWeight.toFixed(precision);
-    SUMMARY_STRUCTURAL_WEIGHT.innerHTML = summary.structuralWeight.toFixed(precision);
+    SUMMARY_KEYS_REDUNDANCY.innerHTML =
+        summary.keysRedundancy.toFixed(precision);
+    SUMMARY_VALUES_REDUNDANCY.innerHTML =
+        summary.valuesRedundancy.toFixed(precision);
+    SUMMARY_NUMERIC_WEIGHT.innerHTML =
+        summary.numericWeight.toFixed(precision);
+    SUMMARY_TEXTUAL_WEIGHT.innerHTML =
+        summary.textualWeight.toFixed(precision);
+    SUMMARY_BOOLEAN_WEIGHT.innerHTML =
+        summary.booleanWeight.toFixed(precision);
+    SUMMARY_STRUCTURAL_WEIGHT.innerHTML =
+        summary.structuralWeight.toFixed(precision);
     QUALIFIERS_CONTAINER.innerHTML = jsonstats_1.qualify(summary).map(capitalize).join(', ');
 };
 buttonElement.addEventListener('click', function () {

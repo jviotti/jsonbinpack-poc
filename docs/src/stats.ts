@@ -63,8 +63,8 @@ const code: CodeMirror.Editor = CodeMirror(editorElement, {
   lineNumbers: true,
   value: JSON.stringify(EXAMPLE_JSON, null, 2),
   theme: 'idea',
-  mode:  'json'
-});
+  mode: 'json'
+})
 
 const buttonElement: HTMLElement | null = document.getElementById('analyze')
 if (buttonElement === null) {
@@ -73,7 +73,8 @@ if (buttonElement === null) {
 
 const parseJSON = (value: string): JSONValue => {
   try {
-    return JSON.parse(value)
+    const result: JSONValue = JSON.parse(value)
+    return result
   } catch (error) {
     if (error instanceof SyntaxError) {
       document.querySelectorAll('.error-modal').forEach((element: Element) => {
@@ -175,7 +176,7 @@ if (QUALIFIERS_CONTAINER === null) {
   throw new Error('The qualifiers container does not exist')
 }
 
-const capitalize = (text: string) => {
+const capitalize = (text: string): string => {
   return text[0].toUpperCase() + text.slice(1)
 }
 
@@ -184,31 +185,52 @@ const populate = (contents: string): void => {
 
   const stats: JSONStats = analyze(json)
   ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize)
-  ANALYZE_DUPLICATED_KEYS.innerHTML = String(stats.duplicatedKeys)
-  ANALYZE_DUPLICATED_VALUES.innerHTML = String(stats.duplicatedValues)
-  ANALYZE_MAX_NESTING_DEPTH.innerHTML = String(stats.maxNestingDepth)
-  ANALYZE_LARGEST_LEVEL.innerHTML = String(stats.largestLevel)
-  ANALYZE_KEYS_COUNT.innerHTML = String(stats.keys.count)
-  ANALYZE_KEYS_BYTESIZE.innerHTML = String(stats.keys.byteSize)
-  ANALYZE_VALUES_NUMERIC_COUNT.innerHTML = String(stats.values.numeric.count)
-  ANALYZE_VALUES_NUMERIC_BYTESIZE.innerHTML = String(stats.values.numeric.byteSize)
-  ANALYZE_VALUES_BOOLEAN_COUNT.innerHTML = String(stats.values.boolean.count)
-  ANALYZE_VALUES_BOOLEAN_BYTESIZE.innerHTML = String(stats.values.boolean.byteSize)
-  ANALYZE_VALUES_TEXTUAL_COUNT.innerHTML = String(stats.values.textual.count)
-  ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML = String(stats.values.textual.byteSize)
-  ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML = String(stats.values.structural.count)
-  ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML = String(stats.values.structural.byteSize)
+  ANALYZE_DUPLICATED_KEYS.innerHTML =
+    String(stats.duplicatedKeys)
+  ANALYZE_DUPLICATED_VALUES.innerHTML =
+    String(stats.duplicatedValues)
+  ANALYZE_MAX_NESTING_DEPTH.innerHTML =
+    String(stats.maxNestingDepth)
+  ANALYZE_LARGEST_LEVEL.innerHTML =
+    String(stats.largestLevel)
+  ANALYZE_KEYS_COUNT.innerHTML =
+    String(stats.keys.count)
+  ANALYZE_KEYS_BYTESIZE.innerHTML =
+    String(stats.keys.byteSize)
+  ANALYZE_VALUES_NUMERIC_COUNT.innerHTML =
+    String(stats.values.numeric.count)
+  ANALYZE_VALUES_NUMERIC_BYTESIZE.innerHTML =
+    String(stats.values.numeric.byteSize)
+  ANALYZE_VALUES_BOOLEAN_COUNT.innerHTML =
+    String(stats.values.boolean.count)
+  ANALYZE_VALUES_BOOLEAN_BYTESIZE.innerHTML =
+    String(stats.values.boolean.byteSize)
+  ANALYZE_VALUES_TEXTUAL_COUNT.innerHTML =
+    String(stats.values.textual.count)
+  ANALYZE_VALUES_TEXTUAL_BYTESIZE.innerHTML =
+    String(stats.values.textual.byteSize)
+  ANALYZE_VALUES_STRUCTURAL_COUNT.innerHTML =
+    String(stats.values.structural.count)
+  ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML =
+    String(stats.values.structural.byteSize)
 
   const summary: JSONStatsSummary = summarize(stats)
   SUMMARY_SIZE.innerHTML = summary.size
-  SUMMARY_NESTING_WEIGHT.innerHTML = String(summary.nestingWeight)
+  SUMMARY_NESTING_WEIGHT.innerHTML =
+    String(summary.nestingWeight)
   const precision: number = 4
-  SUMMARY_KEYS_REDUNDANCY.innerHTML = summary.keysRedundancy.toFixed(precision)
-  SUMMARY_VALUES_REDUNDANCY.innerHTML = summary.valuesRedundancy.toFixed(precision)
-  SUMMARY_NUMERIC_WEIGHT.innerHTML = summary.numericWeight.toFixed(precision)
-  SUMMARY_TEXTUAL_WEIGHT.innerHTML = summary.textualWeight.toFixed(precision)
-  SUMMARY_BOOLEAN_WEIGHT.innerHTML = summary.booleanWeight.toFixed(precision)
-  SUMMARY_STRUCTURAL_WEIGHT.innerHTML = summary.structuralWeight.toFixed(precision)
+  SUMMARY_KEYS_REDUNDANCY.innerHTML =
+    summary.keysRedundancy.toFixed(precision)
+  SUMMARY_VALUES_REDUNDANCY.innerHTML =
+    summary.valuesRedundancy.toFixed(precision)
+  SUMMARY_NUMERIC_WEIGHT.innerHTML =
+    summary.numericWeight.toFixed(precision)
+  SUMMARY_TEXTUAL_WEIGHT.innerHTML =
+    summary.textualWeight.toFixed(precision)
+  SUMMARY_BOOLEAN_WEIGHT.innerHTML =
+    summary.booleanWeight.toFixed(precision)
+  SUMMARY_STRUCTURAL_WEIGHT.innerHTML =
+    summary.structuralWeight.toFixed(precision)
 
   QUALIFIERS_CONTAINER.innerHTML = qualify(summary).map(capitalize).join(', ')
 }
@@ -218,7 +240,8 @@ buttonElement.addEventListener('click', () => {
   populate(contents)
 })
 
-const modalButtonElement: HTMLElement | null = document.getElementById('close-modal')
+const modalButtonElement: HTMLElement | null =
+  document.getElementById('close-modal')
 if (modalButtonElement === null) {
   throw new Error('Modal button element does not exist')
 }
