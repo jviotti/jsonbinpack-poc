@@ -169,6 +169,12 @@ if (SUMMARY_SIZE === null ||
   throw new Error('Not all summary elements exist')
 }
 
+const QUALIFIERS_CONTAINER: HTMLElement | null =
+  document.getElementById('qualifiers')
+if (QUALIFIERS_CONTAINER === null) {
+  throw new Error('The qualifiers container does not exist')
+}
+
 buttonElement.addEventListener('click', () => {
   const contents: string = code.getValue()
   const json: JSONValue = parseJSON(contents)
@@ -201,7 +207,16 @@ buttonElement.addEventListener('click', () => {
   SUMMARY_BOOLEAN_WEIGHT.innerHTML = summary.booleanWeight.toFixed(precision)
   SUMMARY_STRUCTURAL_WEIGHT.innerHTML = summary.structuralWeight.toFixed(precision)
 
-  console.log(qualify(summary))
+  QUALIFIERS_CONTAINER.innerHTML = ''
+
+  for (const qualifierText of qualify(summary)) {
+    const qualifier: HTMLElement = document.createElement('div')
+    for (const className of [ 'px-4', 'py-5', 'sm:grid', 'sm:grid-cols-3', 'sm:gap-4', 'sm:px-6' ]) {
+      qualifier.classList.add(className)
+    }
+    qualifier.appendChild(document.createTextNode(qualifierText))
+    QUALIFIERS_CONTAINER.appendChild(qualifier)
+  }
 })
 
 const modalButtonElement: HTMLElement | null = document.getElementById('close-modal')
