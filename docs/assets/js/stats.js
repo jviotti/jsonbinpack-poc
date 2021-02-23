@@ -119,9 +119,8 @@ var QUALIFIERS_CONTAINER = document.getElementById('qualifiers');
 if (QUALIFIERS_CONTAINER === null) {
     throw new Error('The qualifiers container does not exist');
 }
-buttonElement.addEventListener('click', function () {
+var populate = function (contents) {
     var e_1, _a, e_2, _b;
-    var contents = code.getValue();
     var json = parseJSON(contents);
     var stats = jsonstats_1.analyze(json);
     ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize);
@@ -178,6 +177,10 @@ buttonElement.addEventListener('click', function () {
         }
         finally { if (e_1) throw e_1.error; }
     }
+};
+buttonElement.addEventListener('click', function () {
+    var contents = code.getValue();
+    populate(contents);
 });
 var modalButtonElement = document.getElementById('close-modal');
 if (modalButtonElement === null) {
@@ -188,6 +191,7 @@ modalButtonElement.addEventListener('click', function () {
         element.classList.add('hidden');
     });
 });
+populate(code.getValue());
 
 },{"../../utils/jsonstats":3,"codemirror":6}],2:[function(require,module,exports){
 (function (Buffer){(function (){

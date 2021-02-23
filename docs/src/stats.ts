@@ -175,8 +175,7 @@ if (QUALIFIERS_CONTAINER === null) {
   throw new Error('The qualifiers container does not exist')
 }
 
-buttonElement.addEventListener('click', () => {
-  const contents: string = code.getValue()
+const populate = (contents: string): void => {
   const json: JSONValue = parseJSON(contents)
 
   const stats: JSONStats = analyze(json)
@@ -217,6 +216,11 @@ buttonElement.addEventListener('click', () => {
     qualifier.appendChild(document.createTextNode(qualifierText))
     QUALIFIERS_CONTAINER.appendChild(qualifier)
   }
+}
+
+buttonElement.addEventListener('click', () => {
+  const contents: string = code.getValue()
+  populate(contents)
 })
 
 const modalButtonElement: HTMLElement | null = document.getElementById('close-modal')
@@ -229,3 +233,6 @@ modalButtonElement.addEventListener('click', () => {
     element.classList.add('hidden')
   })
 })
+
+// Analyze example
+populate(code.getValue())
