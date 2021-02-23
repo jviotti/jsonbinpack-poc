@@ -3,6 +3,8 @@ sitemap: false
 ---
 
 @import "tailwindcss";
+@import "codemirror";
+@import "codemirror-theme";
 
 p {
   color: red;

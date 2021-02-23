@@ -19,13 +19,14 @@
     "downlevelIteration": true,
     "moduleResolution": "node",
     "allowJs": false,
-    "lib": [ "es2017" ],
+    "lib": [ "es2017", "dom" ],
     "target": "es5",
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false
   },
   "include": [
+    "./docs/src/*.ts",
     "./lib/**/*.ts",
     "./utils/**/*.ts",
     "./test/**/*.ts"
