@@ -12,7 +12,7 @@ docs/_sass/codemirror-theme.scss: node_modules/codemirror/theme/idea.css
 
 # TODO: Integrate Uglify
 docs/assets/js/stats.js: dist/docs/src/stats.js
-	./node_modules/.bin/browserify $< -o $@
+	./node_modules/.bin/browserify $< | uglifyjs --compress --mangle > $@
 
 tsc:
 	./node_modules/.bin/tsc
