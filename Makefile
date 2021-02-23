@@ -10,7 +10,6 @@ docs/_sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
 docs/_sass/codemirror-theme.scss: node_modules/codemirror/theme/idea.css
 	cp $< $@
 
-# TODO: Integrate Uglify
 docs/assets/js/stats.js: dist/docs/src/stats.js
 	./node_modules/.bin/browserify $< | uglifyjs --compress --mangle > $@
 
