@@ -58,7 +58,7 @@ tap.test('should qualify the survey test object', (test) => {
     'highly-structured',
     'highly-key-redundant',
     'little-value-redundant',
-    'moderately-nested'
+    'highly-nested'
   ]
 
   test.strictSame(qualify(summarize(analyze(document))), qualifiers)
