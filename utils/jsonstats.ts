@@ -243,12 +243,9 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
     qualifiers.push('little-value-redundant')
   }
 
-  if (summary.nestingWeight === 0) {
-    qualifiers.push('flat')
-
   // TODO: Back this magic number with research proof
-  } else if (summary.nestingWeight > 10) {
-    qualifiers.push('moderately-nested')
+  if (summary.nestingWeight < 10) {
+    qualifiers.push('little-nested')
   } else {
     qualifiers.push('highly-nested')
   }

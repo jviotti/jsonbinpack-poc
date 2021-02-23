@@ -17,3 +17,6 @@ test:
 
 serve:
 	cd docs && bundle exec jekyll serve --watch --incremental
+
+docs/_sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
+	cp $< $@
