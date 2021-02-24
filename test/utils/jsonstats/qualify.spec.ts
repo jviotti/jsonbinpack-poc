@@ -55,9 +55,7 @@ tap.test('should qualify the survey test object', (test) => {
   const qualifiers: string[] = [
     'small',
     'numeric-heavy',
-    'highly-structured',
-    'highly-key-redundant',
-    'little-value-redundant',
+    'little-redundant',
     'highly-nested'
   ]
 

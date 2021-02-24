@@ -223,24 +223,10 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
     qualifiers.push('boolean-heavy')
   }
 
-  if (summary.structuralWeight > summary.numericWeight &&
-    summary.structuralWeight > summary.textualWeight &&
-    summary.structuralWeight > summary.booleanWeight) {
-    qualifiers.push('highly-structured')
-  } else {
-    qualifiers.push('little-structured')
-  }
-
-  if (summary.keysRedundancy >= 30) {
-    qualifiers.push('highly-key-redundant')
-  } else {
-    qualifiers.push('little-key-redundant')
-  }
-
   if (summary.valuesRedundancy >= 30) {
-    qualifiers.push('highly-value-redundant')
+    qualifiers.push('highly-redundant')
   } else {
-    qualifiers.push('little-value-redundant')
+    qualifiers.push('little-redundant')
   }
 
   // TODO: Back this magic number with research proof
