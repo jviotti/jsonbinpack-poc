@@ -20,6 +20,7 @@ import {
 } from '../lib/json'
 
 import {
+  JSONStats,
   analyze,
   summarize,
   qualify
@@ -50,12 +51,14 @@ const normalize = (value: string): string => {
 
 const json: JSONValue = JSON.parse(normalize(fs.readFileSync(FILE, 'utf8')))
 
+const stats: JSONStats = analyze(json)
+
 if (COMMAND === 'analyze') {
-  console.log(JSON.stringify(analyze(json), null, 2))
+  console.log(JSON.stringify(stats, null, 2))
 } else if (COMMAND === 'summarize') {
-  console.log(JSON.stringify(summarize(analyze(json)), null, 2))
+  console.log(JSON.stringify(summarize(stats), null, 2))
 } else if (COMMAND === 'qualify') {
-  console.log(JSON.stringify(qualify(summarize(analyze(json))), null, 2))
+  console.log(JSON.stringify(qualify(summarize(stats)), null, 2))
 } else {
   help()
   process.exit(1)
