@@ -1,5 +1,10 @@
-.PHONY: tsc web-build web-serve build lint test
+.PHONY: deps tsc web-build web-serve build lint test
 .DEFAULT_GOAL = build
+
+deps: requirements.txt package.json Gemfile
+	npm install
+	pip3 install --requirement $<
+	bundle install
 
 tsc:
 	./node_modules/.bin/tsc

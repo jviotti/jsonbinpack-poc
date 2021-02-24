@@ -19,5 +19,6 @@ exclude:
   - package*.json
   - README.md
   - tsconfig.json
+  - requirements.txt
   - scripts
   - vendor
