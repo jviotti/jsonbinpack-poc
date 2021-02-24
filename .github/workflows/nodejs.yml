@@ -34,3 +34,6 @@ jobs:
       run: make test
       env:
         CI: true
+
+    - name: Run JSONStats on SchemaStore
+      run: ./scripts/schemastore-stats.sh
