@@ -18,8 +18,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Prepare environment
+      run: sudo gem install bundler -v 1.17.2 && sudo apt-get install python3-setuptools
+
     - name: Install dependencies
-      run: npm install
+      run: make deps
 
     - name: Build project
       run: make build web-build
