@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import * as fs from 'fs'
 import * as _ from 'lodash'
 
 import {
@@ -236,4 +237,44 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
   }
 
   return qualifiers
+}
+
+if (process.mainModule?.filename === __filename) {
+  const COMMAND: string | undefined = process.argv[2]
+  const FILE: string | undefined = process.argv[3]
+
+  const help = (): void => {
+    const commands: string = '<analyze|summarize|qualify>'
+    console.error(
+      `Usage: ${process.argv[0]} ${process.argv[1]} ${commands} <file>`)
+  }
+
+  if (typeof COMMAND === 'undefined' || typeof FILE === 'undefined') {
+    help()
+    process.exit(1)
+  }
+
+  // From https://github.com/sindresorhus/strip-bom/blob/main/index.js
+  const normalize = (value: string): string => {
+    if (value.charCodeAt(0) === 0xFEFF) {
+      return value.slice(1)
+    }
+
+    return value
+  }
+
+  const json: JSONValue = JSON.parse(normalize(fs.readFileSync(FILE, 'utf8')))
+
+  const stats: JSONStats = analyze(json)
+
+  if (COMMAND === 'analyze') {
+    console.log(JSON.stringify(stats, null, 2))
+  } else if (COMMAND === 'summarize') {
+    console.log(JSON.stringify(summarize(stats), null, 2))
+  } else if (COMMAND === 'qualify') {
+    console.log(JSON.stringify(qualify(summarize(stats)), null, 2))
+  } else {
+    help()
+    process.exit(1)
+  }
 }

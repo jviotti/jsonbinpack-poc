@@ -7,19 +7,16 @@ docs/_sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
 docs/_sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
 	cp $< $@
 
-docs/_sass/codemirror-theme.scss: node_modules/codemirror/theme/idea.css
-	cp $< $@
-
 docs/assets/js/stats.js: dist/docs/src/stats.js
 	./node_modules/.bin/browserify $< | uglifyjs --compress --mangle > $@
 
 tsc:
 	./node_modules/.bin/tsc
 
-build: tsc docs/assets/js/stats.js docs/_sass/tailwindcss.scss docs/_sass/codemirror.scss docs/_sass/codemirror-theme.scss
+build: tsc docs/assets/js/stats.js docs/_sass/tailwindcss.scss docs/_sass/codemirror.scss
 
 lint:
-	./node_modules/.bin/eslint --ext .ts lib test utils docs/src cli
+	./node_modules/.bin/eslint --ext .ts lib test utils docs/src
 
 test:
 	./node_modules/.bin/tap \
