@@ -8,7 +8,7 @@ build: tsc
 
 lint:
 	./node_modules/.bin/eslint --ext .ts lib test utils web
-	shellcheck scripts/**/*.sh
+	shellcheck scripts/*.sh
 
 test:
 	./node_modules/.bin/tap \
