@@ -19,7 +19,7 @@ tsc:
 build: tsc docs/assets/js/stats.js docs/_sass/tailwindcss.scss docs/_sass/codemirror.scss docs/_sass/codemirror-theme.scss
 
 lint:
-	./node_modules/.bin/eslint --ext .ts lib test utils docs/src
+	./node_modules/.bin/eslint --ext .ts lib test utils docs/src cli
 
 test:
 	./node_modules/.bin/tap \

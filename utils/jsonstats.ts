@@ -165,7 +165,6 @@ export interface JSONStatsSummary {
   structuralWeight: number;
 }
 
-// TODO: Revise this function
 const getSizeQualifier = (byteSize: number): JSONStatsSizeQualifier => {
   if (byteSize < 100) {
     return JSONStatsSizeQualifier.tiny
@@ -223,7 +222,7 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
     qualifiers.push('boolean-heavy')
   }
 
-  if (summary.valuesRedundancy >= 30) {
+  if (summary.valuesRedundancy >= 25) {
     qualifiers.push('highly-redundant')
   } else {
     qualifiers.push('little-redundant')
