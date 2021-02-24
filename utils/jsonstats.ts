@@ -239,7 +239,7 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
   }
 
   // Based on distribution plot results
-  if (summary.nestingWeight < 5) {
+  if (summary.nestingWeight < 10) {
     qualifiers.push('little-nested')
   } else {
     qualifiers.push('highly-nested')
