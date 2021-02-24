@@ -39,7 +39,16 @@ if (typeof COMMAND === 'undefined' || typeof FILE === 'undefined') {
   process.exit(1)
 }
 
-const json: JSONValue = JSON.parse(fs.readFileSync(FILE, 'utf8'))
+// From https://github.com/sindresorhus/strip-bom/blob/main/index.js
+const normalize = (value: string): string => {
+  if (value.charCodeAt(0) === 0xFEFF) {
+		return value.slice(1)
+	}
+
+  return value
+}
+
+const json: JSONValue = JSON.parse(normalize(fs.readFileSync(FILE, 'utf8')))
 
 if (COMMAND === 'analyze') {
   console.log(JSON.stringify(analyze(json), null, 2))
