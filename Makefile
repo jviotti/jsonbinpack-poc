@@ -1,4 +1,4 @@
-.PHONY: deps tsc web-build web-serve build lint test schemastore-stats
+.PHONY: deps tsc web-build web-serve build lint test schemastore-stats research-artifacts
 .DEFAULT_GOAL = build
 
 deps: requirements.txt package.json Gemfile
@@ -33,10 +33,15 @@ schemastore-stats:
 research/schemastore/byte-size-distribution.dat:
 	./scripts/schemastore-byte-sizes.sh > $@
 
-research/schemastore/byte-size-distribution.png: \
-	research/schemastore/byte-size-distribution.gp \
-	research/schemastore/byte-size-distribution.dat
+research/schemastore/nesting-weight-distribution.dat:
+	./scripts/schemastore-nesting-weights.sh > $@
+
+research/schemastore/%.png: research/schemastore/%.gp research/schemastore/%.dat
 	gnuplot $< > $@
+
+research-artifacts: schemastore-stats \
+	research/schemastore/byte-size-distribution.png \
+	research/schemastore/nesting-weight-distribution.png
 
 #################################################
 # WEB

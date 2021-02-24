@@ -19,7 +19,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Prepare environment
-      run: sudo gem install bundler -v 1.17.2 && sudo apt-get install python3-setuptools
+      run: sudo gem install bundler -v 1.17.2 && sudo apt-get install python3-setuptools gnuplot
 
     - name: Install dependencies
       run: make deps
@@ -37,4 +37,4 @@ jobs:
 
     # For reproducible research purposes
     - name: Analyze SchemaStore (research)
-      run: make schemastore-stats research/schemastore/byte-size-distribution.png
+      run: rm research/schemastore/*.dat && make research-artifacts
