@@ -104,11 +104,11 @@ dist
 .tern-port
 
 # Jekyll
-docs/_site
-docs/.sass-cache
-docs/.jekyll-cache
-docs/.jekyll-metadata
-docs/vendor
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
 
 # Other
 .tmp

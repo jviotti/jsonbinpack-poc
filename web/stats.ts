@@ -19,7 +19,7 @@ import * as CodeMirror from 'codemirror'
 import {
   JSONValue,
   JSONObject
-} from '../../lib/json'
+} from '../lib/json'
 
 import {
   JSONStats,
@@ -27,7 +27,7 @@ import {
   summarize,
   analyze,
   qualify
-} from '../../utils/jsonstats'
+} from '../utils/jsonstats'
 
 const EXAMPLE_JSON: JSONObject = {
   tags: [],

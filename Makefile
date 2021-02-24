@@ -7,7 +7,7 @@ tsc:
 build: tsc
 
 lint:
-	./node_modules/.bin/eslint --ext .ts lib test utils docs/src
+	./node_modules/.bin/eslint --ext .ts lib test utils web
 
 test:
 	./node_modules/.bin/tap \
@@ -21,15 +21,15 @@ test:
 # WEB
 #################################################
 
-docs/_sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
+_sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
 	cp $< $@
 
-docs/_sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
+_sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
 	cp $< $@
 
-docs/assets/js/stats.js: dist/docs/src/stats.js
+assets/js/%.js: dist/web/%.js
 	./node_modules/.bin/browserify $< | uglifyjs --compress --mangle > $@
 
-web-build: tsc docs/assets/js/stats.js docs/_sass/tailwindcss.scss docs/_sass/codemirror.scss
+web-build: tsc assets/js/stats.js _sass/tailwindcss.scss _sass/codemirror.scss
 web-serve:
-	bundle exec jekyll serve --watch --incremental
+	bundle exec jekyll serve --verbose --open-url --watch --incremental

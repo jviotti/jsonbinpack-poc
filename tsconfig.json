@@ -26,10 +26,9 @@
     "declarationMap": false
   },
   "include": [
-    "./cli/*.ts",
-    "./docs/src/*.ts",
     "./lib/**/*.ts",
     "./utils/**/*.ts",
-    "./test/**/*.ts"
+    "./test/**/*.ts",
+    "./web/**/*.ts"
   ]
 }

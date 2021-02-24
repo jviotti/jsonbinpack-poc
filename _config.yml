@@ -1,0 +1,26 @@
+title: JSON BinPack
+email: jv@jviotti.com
+description: >-
+  A schema-driven JSON serialization format based on JSON Schema
+baseurl: ""
+url: "https://www.jsonbinpack.org"
+sass:
+  style: :compressed
+  sass_dir: _sass
+exclude:
+  - .sass-cache
+  - .tmp
+  - node_modules
+  - dist
+  - lib
+  - test
+  - utils
+  - web
+  - .editorconfig
+  - .eslintrc.yml
+  - LICENSE
+  - Makefile
+  - package-lock.json
+  - package.json
+  - README.md
+  - tsconfig.json
