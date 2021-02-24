@@ -36,12 +36,19 @@ research/schemastore/byte-size-distribution.dat:
 research/schemastore/nesting-weight-distribution.dat:
 	./scripts/schemastore-nesting-weights.sh > $@
 
+research/schemastore/categories.dat: scripts/numeric-taxonomy.sh
+	./scripts/schemastore-categories.sh > $@
+
+research/schemastore/categories.gp: research/schemastore/generate-categories-plot.sh scripts/numeric-taxonomy.sh
+	./$< > $@
+
 research/schemastore/%.png: research/schemastore/%.gp research/schemastore/%.dat
 	gnuplot $< > $@
 
 research-artifacts: schemastore-stats \
 	research/schemastore/byte-size-distribution.png \
-	research/schemastore/nesting-weight-distribution.png
+	research/schemastore/nesting-weight-distribution.png \
+	research/schemastore/categories.png
 
 #################################################
 # WEB
