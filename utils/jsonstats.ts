@@ -174,6 +174,7 @@ export interface JSONStatsSummary {
   structuralWeight: number;
 }
 
+// Based on distribution plot results
 const getSizeQualifier = (byteSize: number): JSONStatsSizeQualifier => {
   if (byteSize < 100) {
     return JSONStatsSizeQualifier.tiny
@@ -237,8 +238,8 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
     qualifiers.push('little-redundant')
   }
 
-  // TODO: Back this magic number with research proof
-  if (summary.nestingWeight < 10) {
+  // Based on distribution plot results
+  if (summary.nestingWeight < 5) {
     qualifiers.push('little-nested')
   } else {
     qualifiers.push('highly-nested')
