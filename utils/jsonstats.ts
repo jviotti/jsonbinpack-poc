@@ -133,14 +133,22 @@ export const analyze = (
 
   accumulator.largestLevel = levels.lastIndexOf(Math.max(...levels))
   accumulator.duplicatedKeys = accumulator.keys.count - keys.size
-  accumulator.duplicatedValues =
-    accumulator.values.numeric.count +
-    accumulator.values.textual.count +
-    accumulator.values.boolean.count +
-    accumulator.values.structural.count -
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    _.uniqWith(values, _.isEqual).length
+  // Only calculate duplicated values for the top-level run
+  // for performance reasons. Otherwise calculating duplicates
+  // at every step is very time consuming.
+  if (level === 0) {
+    accumulator.duplicatedValues =
+      accumulator.values.numeric.count +
+      accumulator.values.textual.count +
+      accumulator.values.boolean.count +
+      accumulator.values.structural.count -
+
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      _.uniqWith(values, _.isEqual).length
+  } else {
+    accumulator.duplicatedValues = 0
+  }
 
   return accumulator
 }
