@@ -35,5 +35,6 @@ jobs:
       env:
         CI: true
 
-    - name: Run JSONStats on SchemaStore
-      run: ./scripts/schemastore-stats.sh
+    # For reproducible research purposes
+    - name: Analyze SchemaStore (research)
+      run: make schemastore-stats research/schemastore/byte-size-distribution.png

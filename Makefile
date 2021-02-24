@@ -1,4 +1,4 @@
-.PHONY: deps tsc web-build web-serve build lint test
+.PHONY: deps tsc web-build web-serve build lint test schemastore-stats
 .DEFAULT_GOAL = build
 
 deps: requirements.txt package.json Gemfile
@@ -22,6 +22,21 @@ test:
 		--jobs=1 \
 		--no-timeout \
 		'dist/test/**/*.spec.js'
+
+#################################################
+# RESEARCH
+#################################################
+
+schemastore-stats:
+	./scripts/schemastore-stats.sh
+
+research/schemastore/byte-size-distribution.dat:
+	./scripts/schemastore-byte-sizes.sh > $@
+
+research/schemastore/byte-size-distribution.png: \
+	research/schemastore/byte-size-distribution.gp \
+	research/schemastore/byte-size-distribution.dat
+	gnuplot $< > $@
 
 #################################################
 # WEB

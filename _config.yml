@@ -20,5 +20,6 @@ exclude:
   - README.md
   - tsconfig.json
   - requirements.txt
+  - research
   - scripts
   - vendor
