@@ -8,19 +8,16 @@ sass:
   style: :compressed
   sass_dir: _sass
 exclude:
-  - .sass-cache
-  - .tmp
   - node_modules
   - dist
   - lib
   - test
   - utils
   - web
-  - .editorconfig
-  - .eslintrc.yml
   - LICENSE
   - Makefile
-  - package-lock.json
-  - package.json
+  - package*.json
   - README.md
   - tsconfig.json
+  - scripts
+  - vendor
