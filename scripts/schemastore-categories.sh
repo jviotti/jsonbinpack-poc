@@ -14,5 +14,5 @@ do
     RESULT="$RESULT$(echo "$qualifier" | cut -c 1 | tr '[:lower:]' '[:upper:]')"
   done
 
-  ./scripts/numeric-taxonomy.sh | grep "$RESULT" | cut -d ' ' -f 2
+  ./scripts/numeric-taxonomy.sh | grep "^$RESULT" | cut -d ' ' -f 2
 done

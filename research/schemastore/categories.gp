@@ -1,5 +1,5 @@
 
-set terminal png size 1200,550
+set terminal png size 1200,850
 set terminal png enhanced
 
 set grid
@@ -19,41 +19,41 @@ set xlabel 'JSON Taxonomy Categories' offset 0,-3
 set xrange [ 0: 37 ]
 
 set xtics ( \
-  "TNHL" 1, \
-  "TNHH" 2, \
-  "TNLH" 3, \
-  "TNLL" 4, \
-  "TTHL" 5, \
-  "TTHH" 6, \
-  "TTLH" 7, \
-  "TTLL" 8, \
-  "TBHL" 9, \
-  "TBHH" 10, \
-  "TBLH" 11, \
-  "TBLL" 12, \
-  "SNHL" 13, \
-  "SNHH" 14, \
-  "SNLH" 15, \
-  "SNLL" 16, \
-  "STHL" 17, \
-  "STHH" 18, \
-  "STLH" 19, \
-  "STLL" 20, \
-  "SBHL" 21, \
-  "SBHH" 22, \
-  "SBLH" 23, \
-  "SBLL" 24, \
-  "LNHL" 25, \
-  "LNHH" 26, \
-  "LNLH" 27, \
-  "LNLL" 28, \
-  "LTHL" 29, \
-  "LTHH" 30, \
-  "LTLH" 31, \
-  "LTLL" 32, \
-  "LBHL" 33, \
-  "LBHH" 34, \
-  "LBLH" 35, \
-  "LBLL" 36, \
+  "Tiny Numeric Redundant Flat" 1, \
+  "Tiny Numeric Redundant Nested" 2, \
+  "Tiny Numeric Non-Redundant Nested" 3, \
+  "Tiny Numeric Non-Redundant Flat" 4, \
+  "Tiny Textual Redundant Flat" 5, \
+  "Tiny Textual Redundant Nested" 6, \
+  "Tiny Textual Non-Redundant Nested" 7, \
+  "Tiny Textual Non-Redundant Flat" 8, \
+  "Tiny Boolean Redundant Flat" 9, \
+  "Tiny Boolean Redundant Nested" 10, \
+  "Tiny Boolean Non-Redundant Nested" 11, \
+  "Tiny Boolean Non-Redundant Flat" 12, \
+  "Small Numeric Redundant Flat" 13, \
+  "Small Numeric Redundant Nested" 14, \
+  "Small Numeric Non-Redundant Nested" 15, \
+  "Small Numeric Non-Redundant Flat" 16, \
+  "Small Textual Redundant Flat" 17, \
+  "Small Textual Redundant Nested" 18, \
+  "Small Textual Non-Redundant Nested" 19, \
+  "Small Textual Non-Redundant Flat" 20, \
+  "Small Boolean Redundant Flat" 21, \
+  "Small Boolean Redundant Nested" 22, \
+  "Small Boolean Non-Redundant Nested" 23, \
+  "Small Boolean Non-Redundant Flat" 24, \
+  "Large Numeric Redundant Flat" 25, \
+  "Large Numeric Redundant Nested" 26, \
+  "Large Numeric Non-Redundant Nested" 27, \
+  "Large Numeric Non-Redundant Flat" 28, \
+  "Large Textual Redundant Flat" 29, \
+  "Large Textual Redundant Nested" 30, \
+  "Large Textual Non-Redundant Nested" 31, \
+  "Large Textual Non-Redundant Flat" 32, \
+  "Large Boolean Redundant Flat" 33, \
+  "Large Boolean Redundant Nested" 34, \
+  "Large Boolean Non-Redundant Nested" 35, \
+  "Large Boolean Non-Redundant Flat" 36, \
 ) rotate by 90 right
 plot 'research/schemastore/categories.dat' using 1 smooth frequency with boxes

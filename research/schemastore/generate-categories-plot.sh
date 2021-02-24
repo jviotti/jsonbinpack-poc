@@ -3,7 +3,7 @@
 set -eu
 
 echo "
-set terminal png size 1200,550
+set terminal png size 1200,850
 set terminal png enhanced
 
 set grid
@@ -29,7 +29,7 @@ IFS='
 
 for taxonomy in $(./scripts/numeric-taxonomy.sh)
 do
-  NAME="$(echo "$taxonomy" | cut -d ' ' -f 1)"
+  NAME="$(echo "$taxonomy" | cut -d ' ' -f 3-)"
   NUMBER="$(echo "$taxonomy" | cut -d ' ' -f 2)"
   echo "  \"$NAME\" $NUMBER, \\"
 done
