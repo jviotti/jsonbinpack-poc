@@ -1,9 +1,8 @@
-.PHONY: deps tsc web-build web-serve build lint test schemastore-stats research-artifacts
+.PHONY: deps tsc web-build web-serve build lint test
 .DEFAULT_GOAL = build
 
-deps: requirements.txt package.json Gemfile
+deps: package.json Gemfile
 	npm install
-	pip3 install --requirement $<
 	bundle install
 
 tsc:
@@ -13,7 +12,6 @@ build: tsc
 
 lint:
 	./node_modules/.bin/eslint --ext .ts lib test utils web
-	shellcheck scripts/*.sh
 
 test:
 	./node_modules/.bin/tap \
@@ -22,33 +20,6 @@ test:
 		--jobs=1 \
 		--no-timeout \
 		'dist/test/**/*.spec.js'
-
-#################################################
-# RESEARCH
-#################################################
-
-schemastore-stats:
-	./scripts/schemastore-stats.sh
-
-research/schemastore/byte-size-distribution.dat:
-	./scripts/schemastore-byte-sizes.sh > $@
-
-research/schemastore/nesting-weight-distribution.dat:
-	./scripts/schemastore-nesting-weights.sh > $@
-
-research/schemastore/categories.dat: scripts/numeric-taxonomy.sh
-	./scripts/schemastore-categories.sh > $@
-
-research/schemastore/categories.gp: research/schemastore/generate-categories-plot.sh scripts/numeric-taxonomy.sh
-	./$< > $@
-
-research/schemastore/%.png: research/schemastore/%.gp research/schemastore/%.dat
-	gnuplot $< > $@
-
-research-artifacts: schemastore-stats \
-	research/schemastore/byte-size-distribution.png \
-	research/schemastore/nesting-weight-distribution.png \
-	research/schemastore/categories.png
 
 #################################################
 # WEB
@@ -61,7 +32,7 @@ _sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
 	cp $< $@
 
 assets/js/%.js: dist/web/%.js
-	./node_modules/.bin/browserify $< | uglifyjs --compress --mangle > $@
+	./node_modules/.bin/browserify $< | ./node_modules/.bin/uglifyjs --compress --mangle > $@
 
 web-build: tsc assets/js/stats.js _sass/tailwindcss.scss _sass/codemirror.scss
 web-serve:
