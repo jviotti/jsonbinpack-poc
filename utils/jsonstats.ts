@@ -15,7 +15,7 @@
  */
 
 import * as fs from 'fs'
-import * as _ from 'lodash'
+import * as util from 'util'
 
 import {
   JSONValue,
@@ -82,6 +82,30 @@ const clone = <T>(value: T): T => {
   return JSON.parse(JSON.stringify(value))
 }
 
+const contains = <T>(list: T[], element: T): boolean => {
+  for (const item of list) {
+    if (util.isDeepStrictEqual(item, element)) {
+      return true
+    }
+  }
+
+  return false
+}
+
+const uniq = <T>(list: T[]): T[] => {
+  const result: T[] = []
+
+  for (const element of list) {
+    if (contains(result, element)) {
+      continue
+    }
+
+    result.push(element)
+  }
+
+  return result
+}
+
 export const analyze = (
   document: JSONValue,
   level: number = 0,
@@ -143,9 +167,7 @@ export const analyze = (
       accumulator.values.textual.count +
       accumulator.values.boolean.count +
       accumulator.values.structural.count -
-
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      _.uniqWith(values, _.isEqual).length
+      uniq(values).length
   } else {
     accumulator.duplicatedValues = 0
   }
