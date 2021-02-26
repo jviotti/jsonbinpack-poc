@@ -15,7 +15,6 @@
  */
 
 import * as fs from 'fs'
-import * as util from 'util'
 import * as _ from 'lodash'
 
 import {
@@ -146,7 +145,7 @@ export const analyze = (
       accumulator.values.structural.count -
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      _.uniqWith(values, util.isDeepStrictEqual).length
+      _.uniqWith(values, _.isEqual).length
   } else {
     accumulator.duplicatedValues = 0
   }
