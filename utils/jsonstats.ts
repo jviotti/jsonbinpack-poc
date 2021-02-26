@@ -224,25 +224,25 @@ export const qualify = (summary: JSONStatsSummary): string[] => {
 
   if (summary.numericWeight > summary.textualWeight &&
     summary.numericWeight > summary.booleanWeight) {
-    qualifiers.push('numeric-heavy')
+    qualifiers.push('numeric')
   } else if (summary.textualWeight > summary.numericWeight &&
     summary.textualWeight > summary.booleanWeight) {
-    qualifiers.push('textual-heavy')
+    qualifiers.push('textual')
   } else {
-    qualifiers.push('boolean-heavy')
+    qualifiers.push('boolean')
   }
 
   if (summary.valuesRedundancy >= 25) {
-    qualifiers.push('highly-redundant')
+    qualifiers.push('redundant')
   } else {
-    qualifiers.push('little-redundant')
+    qualifiers.push('non-redundant')
   }
 
   // Based on distribution plot results
   if (summary.nestingWeight < 10) {
-    qualifiers.push('little-nested')
+    qualifiers.push('flat')
   } else {
-    qualifiers.push('highly-nested')
+    qualifiers.push('nested')
   }
 
   return qualifiers

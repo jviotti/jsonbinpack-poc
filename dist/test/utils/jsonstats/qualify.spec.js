@@ -29,9 +29,9 @@ tap.test('should qualify the survey test object', function (test) {
     };
     var qualifiers = [
         'small',
-        'numeric-heavy',
-        'little-redundant',
-        'highly-nested'
+        'numeric',
+        'non-redundant',
+        'nested'
     ];
     test.strictSame(jsonstats_1.qualify(jsonstats_1.summarize(jsonstats_1.analyze(document))), qualifiers);
     test.end();
