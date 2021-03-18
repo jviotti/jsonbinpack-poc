@@ -1,2 +1,3 @@
 vendorpull https://github.com/jviotti/vendorpull 256efbbd0cc9c49af13c7f705235bd26733567a3
 jsontoolkit git@github.com:sourcemeta/jsontoolkit.git 4534797a3dcebc6c84899d227d478c96dcf46e70
+binary-json-size-benchmark git@github.com:jviotti/binary-json-size-benchmark.git fc3f8e1807362bed3ddb2206b5ba26c376dcec5c
