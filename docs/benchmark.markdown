@@ -1,6 +1,7 @@
 ---
 layout: base
 title: Benchmark
+style: simple
 permalink: /benchmark/
 ---
 

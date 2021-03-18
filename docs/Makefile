@@ -37,4 +37,4 @@ tsc:
 all: tsc assets/js/stats.min.js _sass/tailwindcss.scss _sass/codemirror.scss benchmark.markdown
 
 serve:
-	bundle exec jekyll serve --verbose --open-url --watch --incremental
+	bundle exec jekyll serve --open-url --watch --incremental

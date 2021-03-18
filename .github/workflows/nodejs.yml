@@ -18,19 +18,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Prepare environment
-      run: sudo gem install bundler -v 1.17.2 && sudo apt-get install python3-setuptools
-
     - name: Install dependencies
       run: make deps
 
     - name: Build project
-      run: make build web-build
-
-    - name: Run linter
-      run: make lint
-
-    - name: Run tests
-      run: make test
-      env:
-        CI: true
+      run: make -C docs all
