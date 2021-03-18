@@ -21,6 +21,7 @@ benchmark.markdown: $(VENDOR_DIRECTORY)/binary-json-size-benchmark/README.md $(B
 	echo "---" > $@
 	echo "layout: base" >> $@
 	echo "title: Benchmark" >> $@
+	echo "style: simple" >> $@
 	echo "permalink: /benchmark/" >> $@
 	echo "---\n" >> $@
 	cat $< | sed 's/\.\/charts/\/assets\/images\/benchmark/g' >> $@
