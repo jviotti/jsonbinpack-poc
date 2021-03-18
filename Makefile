@@ -27,6 +27,21 @@ test:
 # WEB
 #################################################
 
+assets/images/benchmark/%.png: vendor/binary-json-size-benchmark/charts/%.png
+	cp $< $@
+
+BENCHMARK_IMAGES = $(addprefix assets/images/benchmark/,\
+									 $(notdir \
+									 $(wildcard vendor/binary-json-size-benchmark/charts/*.png)))
+
+benchmark.markdown: vendor/binary-json-size-benchmark/README.md $(BENCHMARK_IMAGES)
+	echo "---" > $@
+	echo "layout: base" >> $@
+	echo "title: Benchmark" >> $@
+	echo "permalink: /benchmark/" >> $@
+	echo "---\n" >> $@
+	cat $< | sed 's/\.\/charts/\/assets\/images\/benchmark/g' >> $@
+
 _sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
 	cp $< $@
 
@@ -36,6 +51,6 @@ _sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
 assets/js/%.js: dist/web/%.js
 	./node_modules/.bin/browserify $< | ./node_modules/.bin/uglifyjs --compress --mangle > $@
 
-web-build: tsc assets/js/stats.js _sass/tailwindcss.scss _sass/codemirror.scss
+web-build: tsc assets/js/stats.js _sass/tailwindcss.scss _sass/codemirror.scss benchmark.markdown
 web-serve:
 	bundle exec jekyll serve --verbose --open-url --watch --incremental
