@@ -1,8 +1,10 @@
+include vendor/vendorpull/targets.mk
+
 .PHONY: deps tsc web-build web-serve build lint test
 .DEFAULT_GOAL = build
 
 deps: package.json Gemfile
-	npm install
+	node vendor/jsontoolkit/vendor/npm/bin/npm-cli.js install
 	bundle install
 
 tsc:
@@ -11,7 +13,7 @@ tsc:
 build: tsc
 
 lint:
-	./node_modules/.bin/eslint --ext .ts lib test utils web
+	./node_modules/.bin/eslint --ext .ts utils web
 
 test:
 	./node_modules/.bin/tap \

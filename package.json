@@ -30,6 +30,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.168",
     "codemirror": "^5.59.3",
+    "jsontoolkit": "./vendor/jsontoolkit",
     "lodash": "^4.17.20",
     "tailwindcss": "^2.0.3"
   }
