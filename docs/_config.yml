@@ -7,19 +7,4 @@ url: "https://www.jsonbinpack.org"
 sass:
   style: :compressed
   sass_dir: _sass
-exclude:
-  - node_modules
-  - dist
-  - lib
-  - test
-  - utils
-  - web
-  - LICENSE
-  - Makefile
-  - package*.json
-  - README.md
-  - tsconfig.json
-  - requirements.txt
-  - research
-  - scripts
-  - vendor
+exclude: [ lib, dist ]

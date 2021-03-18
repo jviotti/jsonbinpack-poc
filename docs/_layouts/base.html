@@ -16,7 +16,11 @@
   <meta name="description" content="{{ site.description }}">
   {% endif %}
 
+  {% if page.style == "simple" %}
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/simple.css" type="text/css">
+  {% else %}
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css" type="text/css">
+  {% endif %}
 </head>
 <body>
   {{ content }}
