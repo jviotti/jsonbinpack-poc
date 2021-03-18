@@ -18,16 +18,13 @@ import * as CodeMirror from 'codemirror'
 
 import {
   JSONValue,
-  JSONObject
-} from '../lib/json'
-
-import {
+  JSONObject,
   JSONStats,
   JSONStatsSummary,
   summarize,
   analyze,
   qualify
-} from '../utils/jsonstats'
+} from 'jsontoolkit'
 
 const EXAMPLE_JSON: JSONObject = {
   tags: [],
