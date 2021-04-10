@@ -1,5 +1,8 @@
 {
-  "extends": "@sourcemeta/typescript-config/web/tsconfig.json",
+  "extends": "@sourcemeta/typescript-config/node/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
   "include": [
     "./lib/**/*.ts",
     "./test/**/*.ts"
