@@ -26,24 +26,24 @@ export const BOUNDED = (
   }
 }
 
-// TODO: What if multiplier is negative?
 export const BOUNDED_MULTIPLE = (
   buffer: Buffer, offset: number,
   value: number, minimum: number, maximum: number, multiplier: number
 ): void => {
+  const positiveMultiplier: number = Math.abs(multiplier)
   BOUNDED(buffer, offset,
-    value / multiplier,
-    Math.floor(minimum / multiplier), Math.ceil(maximum / multiplier))
+    value / positiveMultiplier,
+    Math.floor(minimum / positiveMultiplier),
+    Math.ceil(maximum / positiveMultiplier))
 }
 
 export const ROOF_POSITIVE = (
   buffer: Buffer, offset: number,
   value: number, maximum: number
-): Buffer => {
+): void => {
   const bits: number = Math.ceil(Math.log(maximum + 1) / Math.log(2))
   const bytes: number = Math.floor((bits + 7) / 8)
   buffer.writeUIntLE(value, offset, bytes)
-  return buffer
 }
 
 // export const ROOF_NEGATIVE = (value: number, maximum: number): Buffer => {

@@ -68,3 +68,38 @@ tap_1.default.test('BOUNDED should encode 5 (0..65535)', function (test) {
     test.strictSame(buffer, Buffer.from([5, 0x00000000]));
     test.end();
 });
+tap_1.default.test('BOUNDED_MULTIPLE should encode 5 (0..10) / 5', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var offset = 0;
+    encode_1.BOUNDED_MULTIPLE(buffer, offset, 5, 0, 10, 5);
+    test.strictSame(buffer, Buffer.from([1]));
+    test.end();
+});
+tap_1.default.test('BOUNDED_MULTIPLE should encode 0 (0..10) / 5', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var offset = 0;
+    encode_1.BOUNDED_MULTIPLE(buffer, offset, 0, 0, 10, 5);
+    test.strictSame(buffer, Buffer.from([0]));
+    test.end();
+});
+tap_1.default.test('BOUNDED_MULTIPLE should encode 10 (0..10) / 5', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var offset = 0;
+    encode_1.BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, 5);
+    test.strictSame(buffer, Buffer.from([2]));
+    test.end();
+});
+tap_1.default.test('BOUNDED_MULTIPLE should encode -5 (-20..10) / 5', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var offset = 0;
+    encode_1.BOUNDED_MULTIPLE(buffer, offset, -5, -20, 10, 5);
+    test.strictSame(buffer, Buffer.from([3]));
+    test.end();
+});
+tap_1.default.test('BOUNDED_MULTIPLE should encode 10 (0..10) / -5', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var offset = 0;
+    encode_1.BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, -5);
+    test.strictSame(buffer, Buffer.from([2]));
+    test.end();
+});

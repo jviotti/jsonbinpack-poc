@@ -17,7 +17,8 @@
 import tap from 'tap'
 
 import {
-  BOUNDED
+  BOUNDED,
+  BOUNDED_MULTIPLE
 } from '../../../lib/types/integer/encode'
 
 tap.test('BOUNDED should encode 5 (0..10)', (test) => {
@@ -89,5 +90,45 @@ tap.test('BOUNDED should encode 5 (0..65535)', (test) => {
   const offset: number = 0
   BOUNDED(buffer, offset, 5, 0, 65535)
   test.strictSame(buffer, Buffer.from([ 0b00000101, 0x00000000 ]))
+  test.end()
+})
+
+tap.test('BOUNDED_MULTIPLE should encode 5 (0..10) / 5', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const offset: number = 0
+  BOUNDED_MULTIPLE(buffer, offset, 5, 0, 10, 5)
+  test.strictSame(buffer, Buffer.from([ 0b00000001 ]))
+  test.end()
+})
+
+tap.test('BOUNDED_MULTIPLE should encode 0 (0..10) / 5', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const offset: number = 0
+  BOUNDED_MULTIPLE(buffer, offset, 0, 0, 10, 5)
+  test.strictSame(buffer, Buffer.from([ 0b00000000 ]))
+  test.end()
+})
+
+tap.test('BOUNDED_MULTIPLE should encode 10 (0..10) / 5', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const offset: number = 0
+  BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, 5)
+  test.strictSame(buffer, Buffer.from([ 0b00000010 ]))
+  test.end()
+})
+
+tap.test('BOUNDED_MULTIPLE should encode -5 (-20..10) / 5', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const offset: number = 0
+  BOUNDED_MULTIPLE(buffer, offset, -5, -20, 10, 5)
+  test.strictSame(buffer, Buffer.from([ 0b00000011 ]))
+  test.end()
+})
+
+tap.test('BOUNDED_MULTIPLE should encode 10 (0..10) / -5', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const offset: number = 0
+  BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, -5)
+  test.strictSame(buffer, Buffer.from([ 0b00000010 ]))
   test.end()
 })

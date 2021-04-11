@@ -11,13 +11,13 @@ var BOUNDED = function (buffer, offset, value, minimum, maximum) {
 };
 exports.BOUNDED = BOUNDED;
 var BOUNDED_MULTIPLE = function (buffer, offset, value, minimum, maximum, multiplier) {
-    exports.BOUNDED(buffer, offset, value / multiplier, Math.floor(minimum / multiplier), Math.ceil(maximum / multiplier));
+    var positiveMultiplier = Math.abs(multiplier);
+    exports.BOUNDED(buffer, offset, value / positiveMultiplier, Math.floor(minimum / positiveMultiplier), Math.ceil(maximum / positiveMultiplier));
 };
 exports.BOUNDED_MULTIPLE = BOUNDED_MULTIPLE;
 var ROOF_POSITIVE = function (buffer, offset, value, maximum) {
     var bits = Math.ceil(Math.log(maximum + 1) / Math.log(2));
     var bytes = Math.floor((bits + 7) / 8);
     buffer.writeUIntLE(value, offset, bytes);
-    return buffer;
 };
 exports.ROOF_POSITIVE = ROOF_POSITIVE;
