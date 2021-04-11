@@ -20,7 +20,9 @@ import {
   BOUNDED,
   BOUNDED_MULTIPLE,
   ROOF,
-  ROOF_MULTIPLE
+  ROOF_MULTIPLE,
+  FLOOR,
+  FLOOR_MULTIPLE
 } from '../../../lib/types/integer/encode'
 
 tap.test('BOUNDED should encode 5 (0..10)', (test) => {
@@ -157,6 +159,32 @@ tap.test('ROOF_MULTIPLE should encode 10 (..10) / 10', (test) => {
     0b11001100,
     0b11001100,
     0b00001100
+  ]))
+  test.end()
+})
+
+tap.test('FLOOR should encode 3 (0..)', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const offset: number = 0
+  FLOOR(buffer, offset, 3, 0)
+  test.strictSame(buffer, Buffer.from([
+    0b00000011,
+    0b00000000,
+    0b00000000,
+    0b00000000
+  ]))
+  test.end()
+})
+
+tap.test('FLOOR_MULTIPLE should encode 10 (0..) / 5', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const offset: number = 0
+  FLOOR_MULTIPLE(buffer, offset, 10, 0, 5)
+  test.strictSame(buffer, Buffer.from([
+    0b00000010,
+    0b00000000,
+    0b00000000,
+    0b00000000
   ]))
   test.end()
 })

@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
+const INTEGER_MINIMUM: number = -Math.pow(2, 31)
+const INTEGER_MAXIMUM: number = Math.pow(2, 31) - 1
+
 export const BOUNDED = (
   buffer: Buffer, offset: number,
   value: number, minimum: number, maximum: number
 ): void => {
+  // TODO: If minimum is >= 0, then just var int
+  // Else: ZigZag + var int
   const range: number = maximum - minimum
   const bits: number = Math.ceil(Math.log(range + 1) / Math.log(2))
   const bytes: number = Math.floor((bits + 7) / 8)
@@ -41,40 +46,41 @@ export const ROOF = (
   buffer: Buffer, offset: number,
   value: number, maximum: number
 ): void => {
-  // TODO: Is this the right theoretical minumum?
-  const minimum: number = -Math.pow(2, 31)
-  BOUNDED(buffer, offset, value, minimum, maximum)
+  BOUNDED(buffer, offset, value, INTEGER_MINIMUM, maximum)
 }
 
 export const ROOF_MULTIPLE = (
   buffer: Buffer, offset: number,
   value: number, maximum: number, multiplier: number
 ): void => {
-  // TODO: Is this the right theoretical minumum?
-  const minimum: number = -Math.pow(2, 31)
-  BOUNDED_MULTIPLE(buffer, offset, value, minimum, maximum, multiplier)
+  BOUNDED_MULTIPLE(buffer, offset, value, INTEGER_MINIMUM, maximum, multiplier)
 }
 
-// export const FLOOR_POSITIVE = (value: number, minimum: number): Buffer => {
+export const FLOOR = (
+  buffer: Buffer, offset: number,
+  value: number, minimum: number
+): void => {
+  BOUNDED(buffer, offset, value, minimum, INTEGER_MAXIMUM)
+}
 
-// }
+export const FLOOR_MULTIPLE = (
+  buffer: Buffer, offset: number,
+  value: number, minimum: number, multiplier: number
+): void => {
+  BOUNDED_MULTIPLE(buffer, offset, value, minimum, INTEGER_MAXIMUM, multiplier)
+}
 
-// export const FLOOR_NEGATIVE = (value: number, minimum: number): Buffer => {
+export const ARBITRARY = (
+  buffer: Buffer, offset: number,
+  value: number
+): void => {
+  BOUNDED(buffer, offset, value, INTEGER_MINIMUM, INTEGER_MAXIMUM)
+}
 
-// }
-
-// export const FLOOR_POSITIVE_MULTIPLE = (value: number, minimum: number, multiplier: number): Buffer => {
-
-// }
-//
-// export const FLOOR_NEGATIVE_MULTIPLE = (value: number, minimum: number, multiplier: number): Buffer => {
-
-// }
-
-// export const ARBITRARY_MULTIPLE = (value: number, multiplier: number): Buffer => {
-
-// }
-
-// export const ARBITRARY = (value: number): Buffer => {
-
-// }
+export const ARBITRARY_MULTIPLE = (
+  buffer: Buffer, offset: number,
+  value: number, multiplier: number
+): void => {
+  BOUNDED_MULTIPLE(buffer, offset, value,
+    INTEGER_MINIMUM, INTEGER_MAXIMUM, multiplier)
+}

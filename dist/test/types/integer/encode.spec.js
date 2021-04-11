@@ -127,3 +127,27 @@ tap_1.default.test('ROOF_MULTIPLE should encode 10 (..10) / 10', function (test)
     ]));
     test.end();
 });
+tap_1.default.test('FLOOR should encode 3 (0..)', function (test) {
+    var buffer = Buffer.allocUnsafe(4);
+    var offset = 0;
+    encode_1.FLOOR(buffer, offset, 3, 0);
+    test.strictSame(buffer, Buffer.from([
+        3,
+        0,
+        0,
+        0
+    ]));
+    test.end();
+});
+tap_1.default.test('FLOOR_MULTIPLE should encode 10 (0..) / 5', function (test) {
+    var buffer = Buffer.allocUnsafe(4);
+    var offset = 0;
+    encode_1.FLOOR_MULTIPLE(buffer, offset, 10, 0, 5);
+    test.strictSame(buffer, Buffer.from([
+        2,
+        0,
+        0,
+        0
+    ]));
+    test.end();
+});
