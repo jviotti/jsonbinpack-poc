@@ -103,3 +103,27 @@ tap_1.default.test('BOUNDED_MULTIPLE should encode 10 (0..10) / -5', function (t
     test.strictSame(buffer, Buffer.from([2]));
     test.end();
 });
+tap_1.default.test('ROOF should encode 10 (..10)', function (test) {
+    var buffer = Buffer.allocUnsafe(4);
+    var offset = 0;
+    encode_1.ROOF(buffer, offset, 10, 10);
+    test.strictSame(buffer, Buffer.from([
+        10,
+        0,
+        0,
+        128
+    ]));
+    test.end();
+});
+tap_1.default.test('ROOF_MULTIPLE should encode 10 (..10) / 10', function (test) {
+    var buffer = Buffer.allocUnsafe(4);
+    var offset = 0;
+    encode_1.ROOF_MULTIPLE(buffer, offset, 10, 10, 10);
+    test.strictSame(buffer, Buffer.from([
+        206,
+        204,
+        204,
+        12
+    ]));
+    test.end();
+});

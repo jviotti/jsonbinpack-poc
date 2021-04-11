@@ -37,27 +37,24 @@ export const BOUNDED_MULTIPLE = (
     Math.ceil(maximum / positiveMultiplier))
 }
 
-export const ROOF_POSITIVE = (
+export const ROOF = (
   buffer: Buffer, offset: number,
   value: number, maximum: number
 ): void => {
-  const bits: number = Math.ceil(Math.log(maximum + 1) / Math.log(2))
-  const bytes: number = Math.floor((bits + 7) / 8)
-  buffer.writeUIntLE(value, offset, bytes)
+  // TODO: Is this the right theoretical minumum?
+  const minimum: number = -Math.pow(2, 31)
+  BOUNDED(buffer, offset, value, minimum, maximum)
 }
 
-// export const ROOF_NEGATIVE = (value: number, maximum: number): Buffer => {
-  // // TODO: Somehow convert unsigned integer?
-// }
+export const ROOF_MULTIPLE = (
+  buffer: Buffer, offset: number,
+  value: number, maximum: number, multiplier: number
+): void => {
+  // TODO: Is this the right theoretical minumum?
+  const minimum: number = -Math.pow(2, 31)
+  BOUNDED_MULTIPLE(buffer, offset, value, minimum, maximum, multiplier)
+}
 
-// export const ROOF_POSITIVE_MULTIPLE = (value: number, maximum: number, multiplier: number): Buffer => {
-
-// }
-//
-// export const ROOF_NEGATIVE_MULTIPLE = (value: number, maximum: number, multiplier: number): Buffer => {
-
-// }
-//
 // export const FLOOR_POSITIVE = (value: number, minimum: number): Buffer => {
 
 // }

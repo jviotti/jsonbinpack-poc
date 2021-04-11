@@ -18,7 +18,9 @@ import tap from 'tap'
 
 import {
   BOUNDED,
-  BOUNDED_MULTIPLE
+  BOUNDED_MULTIPLE,
+  ROOF,
+  ROOF_MULTIPLE
 } from '../../../lib/types/integer/encode'
 
 tap.test('BOUNDED should encode 5 (0..10)', (test) => {
@@ -130,5 +132,31 @@ tap.test('BOUNDED_MULTIPLE should encode 10 (0..10) / -5', (test) => {
   const offset: number = 0
   BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, -5)
   test.strictSame(buffer, Buffer.from([ 0b00000010 ]))
+  test.end()
+})
+
+tap.test('ROOF should encode 10 (..10)', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const offset: number = 0
+  ROOF(buffer, offset, 10, 10)
+  test.strictSame(buffer, Buffer.from([
+    0b00001010,
+    0b00000000,
+    0b00000000,
+    0b10000000
+  ]))
+  test.end()
+})
+
+tap.test('ROOF_MULTIPLE should encode 10 (..10) / 10', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const offset: number = 0
+  ROOF_MULTIPLE(buffer, offset, 10, 10, 10)
+  test.strictSame(buffer, Buffer.from([
+    0b11001110,
+    0b11001100,
+    0b11001100,
+    0b00001100
+  ]))
   test.end()
 })
