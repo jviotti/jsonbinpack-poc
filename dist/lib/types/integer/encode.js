@@ -8,36 +8,37 @@ var BOUNDED = function (buffer, offset, value, minimum, maximum) {
     var bits = Math.ceil(Math.log(range + 1) / Math.log(2));
     var bytes = Math.floor((bits + 7) / 8);
     if (bytes > 0) {
-        buffer.writeUIntLE(value - minimum, offset, bytes);
+        return buffer.writeUIntLE(value - minimum, offset, bytes);
     }
+    return 0;
 };
 exports.BOUNDED = BOUNDED;
 var BOUNDED_MULTIPLE = function (buffer, offset, value, minimum, maximum, multiplier) {
     var positiveMultiplier = Math.abs(multiplier);
-    exports.BOUNDED(buffer, offset, value / positiveMultiplier, Math.floor(minimum / positiveMultiplier), Math.ceil(maximum / positiveMultiplier));
+    return exports.BOUNDED(buffer, offset, value / positiveMultiplier, Math.floor(minimum / positiveMultiplier), Math.ceil(maximum / positiveMultiplier));
 };
 exports.BOUNDED_MULTIPLE = BOUNDED_MULTIPLE;
 var ROOF = function (buffer, offset, value, maximum) {
-    exports.BOUNDED(buffer, offset, value, INTEGER_MINIMUM, maximum);
+    return exports.BOUNDED(buffer, offset, value, INTEGER_MINIMUM, maximum);
 };
 exports.ROOF = ROOF;
 var ROOF_MULTIPLE = function (buffer, offset, value, maximum, multiplier) {
-    exports.BOUNDED_MULTIPLE(buffer, offset, value, INTEGER_MINIMUM, maximum, multiplier);
+    return exports.BOUNDED_MULTIPLE(buffer, offset, value, INTEGER_MINIMUM, maximum, multiplier);
 };
 exports.ROOF_MULTIPLE = ROOF_MULTIPLE;
 var FLOOR = function (buffer, offset, value, minimum) {
-    exports.BOUNDED(buffer, offset, value, minimum, INTEGER_MAXIMUM);
+    return exports.BOUNDED(buffer, offset, value, minimum, INTEGER_MAXIMUM);
 };
 exports.FLOOR = FLOOR;
 var FLOOR_MULTIPLE = function (buffer, offset, value, minimum, multiplier) {
-    exports.BOUNDED_MULTIPLE(buffer, offset, value, minimum, INTEGER_MAXIMUM, multiplier);
+    return exports.BOUNDED_MULTIPLE(buffer, offset, value, minimum, INTEGER_MAXIMUM, multiplier);
 };
 exports.FLOOR_MULTIPLE = FLOOR_MULTIPLE;
 var ARBITRARY = function (buffer, offset, value) {
-    exports.BOUNDED(buffer, offset, value, INTEGER_MINIMUM, INTEGER_MAXIMUM);
+    return exports.BOUNDED(buffer, offset, value, INTEGER_MINIMUM, INTEGER_MAXIMUM);
 };
 exports.ARBITRARY = ARBITRARY;
 var ARBITRARY_MULTIPLE = function (buffer, offset, value, multiplier) {
-    exports.BOUNDED_MULTIPLE(buffer, offset, value, INTEGER_MINIMUM, INTEGER_MAXIMUM, multiplier);
+    return exports.BOUNDED_MULTIPLE(buffer, offset, value, INTEGER_MINIMUM, INTEGER_MAXIMUM, multiplier);
 };
 exports.ARBITRARY_MULTIPLE = ARBITRARY_MULTIPLE;

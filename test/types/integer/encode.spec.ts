@@ -28,163 +28,181 @@ import {
 tap.test('BOUNDED should encode 5 (0..10)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED(buffer, offset, 5, 0, 10)
+  const bytesWritten: number = BOUNDED(buffer, offset, 5, 0, 10)
   test.strictSame(buffer, Buffer.from([ 0b00000101 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED should encode 5 (5..10)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED(buffer, offset, 5, 5, 10)
+  const bytesWritten: number = BOUNDED(buffer, offset, 5, 5, 10)
   test.strictSame(buffer, Buffer.from([ 0b00000000 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED should encode 5 (4..10)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED(buffer, offset, 5, 4, 10)
+  const bytesWritten: number = BOUNDED(buffer, offset, 5, 4, 10)
   test.strictSame(buffer, Buffer.from([ 0b00000001 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED should encode 0 (0..0)', (test) => {
   const buffer: Buffer = Buffer.alloc(1, 0)
   const offset: number = 0
-  BOUNDED(buffer, offset, 0, 0, 0)
+  const bytesWritten: number = BOUNDED(buffer, offset, 0, 0, 0)
   test.strictSame(buffer, Buffer.from([ 0b00000000 ]))
+  test.is(bytesWritten, 0)
   test.end()
 })
 
 tap.test('BOUNDED should encode 5 (5..5)', (test) => {
   const buffer: Buffer = Buffer.alloc(1, 0)
   const offset: number = 0
-  BOUNDED(buffer, offset, 5, 5, 5)
+  const bytesWritten: number = BOUNDED(buffer, offset, 5, 5, 5)
   test.strictSame(buffer, Buffer.from([ 0b00000000 ]))
+  test.is(bytesWritten, 0)
   test.end()
 })
 
 tap.test('BOUNDED should encode -5 (-5..-5)', (test) => {
   const buffer: Buffer = Buffer.alloc(1, 0)
   const offset: number = 0
-  BOUNDED(buffer, offset, -5, -5, -5)
+  const bytesWritten: number = BOUNDED(buffer, offset, -5, -5, -5)
   test.strictSame(buffer, Buffer.from([ 0b00000000 ]))
+  test.is(bytesWritten, 0)
   test.end()
 })
 
 tap.test('BOUNDED should encode -2 (-5..10)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED(buffer, offset, -2, -5, 10)
+  const bytesWritten: number = BOUNDED(buffer, offset, -2, -5, 10)
   test.strictSame(buffer, Buffer.from([ 0b00000011 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED should encode -2 (-5..-1)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED(buffer, offset, -2, -5, -1)
+  const bytesWritten: number = BOUNDED(buffer, offset, -2, -5, -1)
   test.strictSame(buffer, Buffer.from([ 0b00000011 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED should encode 5 (0..65535)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(2)
   const offset: number = 0
-  BOUNDED(buffer, offset, 5, 0, 65535)
+  const bytesWritten: number = BOUNDED(buffer, offset, 5, 0, 65535)
   test.strictSame(buffer, Buffer.from([ 0b00000101, 0x00000000 ]))
+  test.is(bytesWritten, 2)
   test.end()
 })
 
 tap.test('BOUNDED_MULTIPLE should encode 5 (0..10) / 5', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED_MULTIPLE(buffer, offset, 5, 0, 10, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE(buffer, offset, 5, 0, 10, 5)
   test.strictSame(buffer, Buffer.from([ 0b00000001 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED_MULTIPLE should encode 0 (0..10) / 5', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED_MULTIPLE(buffer, offset, 0, 0, 10, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE(buffer, offset, 0, 0, 10, 5)
   test.strictSame(buffer, Buffer.from([ 0b00000000 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED_MULTIPLE should encode 10 (0..10) / 5', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, 5)
   test.strictSame(buffer, Buffer.from([ 0b00000010 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED_MULTIPLE should encode -5 (-20..10) / 5', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED_MULTIPLE(buffer, offset, -5, -20, 10, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE(buffer, offset, -5, -20, 10, 5)
   test.strictSame(buffer, Buffer.from([ 0b00000011 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOUNDED_MULTIPLE should encode 10 (0..10) / -5', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
-  BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, -5)
+  const bytesWritten: number = BOUNDED_MULTIPLE(buffer, offset, 10, 0, 10, -5)
   test.strictSame(buffer, Buffer.from([ 0b00000010 ]))
+  test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('ROOF should encode 10 (..10)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(4)
   const offset: number = 0
-  ROOF(buffer, offset, 10, 10)
+  const bytesWritten: number = ROOF(buffer, offset, 10, 10)
   test.strictSame(buffer, Buffer.from([
     0b00001010,
     0b00000000,
     0b00000000,
     0b10000000
   ]))
+  test.is(bytesWritten, 4)
   test.end()
 })
 
 tap.test('ROOF_MULTIPLE should encode 10 (..10) / 10', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(4)
   const offset: number = 0
-  ROOF_MULTIPLE(buffer, offset, 10, 10, 10)
+  const bytesWritten: number = ROOF_MULTIPLE(buffer, offset, 10, 10, 10)
   test.strictSame(buffer, Buffer.from([
     0b11001110,
     0b11001100,
     0b11001100,
     0b00001100
   ]))
+  test.is(bytesWritten, 4)
   test.end()
 })
 
 tap.test('FLOOR should encode 3 (0..)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(4)
   const offset: number = 0
-  FLOOR(buffer, offset, 3, 0)
+  const bytesWritten: number = FLOOR(buffer, offset, 3, 0)
   test.strictSame(buffer, Buffer.from([
     0b00000011,
     0b00000000,
     0b00000000,
     0b00000000
   ]))
+  test.is(bytesWritten, 4)
   test.end()
 })
 
 tap.test('FLOOR_MULTIPLE should encode 10 (0..) / 5', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(4)
   const offset: number = 0
-  FLOOR_MULTIPLE(buffer, offset, 10, 0, 5)
+  const bytesWritten: number = FLOOR_MULTIPLE(buffer, offset, 10, 0, 5)
   test.strictSame(buffer, Buffer.from([
     0b00000010,
     0b00000000,
     0b00000000,
     0b00000000
   ]))
+  test.is(bytesWritten, 4)
   test.end()
 })
