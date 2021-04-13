@@ -31,3 +31,21 @@ export const varintEncode = (buffer: Buffer, offset: number, value: number): num
   cursor = buffer.writeUInt8(accumulator, cursor)
   return cursor - offset
 }
+
+// TODO: Try to refactor this function
+export const varintDecode = (buffer: Buffer, offset: number): number => {
+  let result: number = 0
+  let cursor: number = offset
+  let count: number = 0
+  let next: boolean = true
+
+  while (next) {
+    const value: number = buffer.readUInt8(cursor)
+    next = (value & MSB) !== 0
+    result += (value & REST) << (7 * count)
+    count += 1
+    cursor += 1
+  }
+
+  return result
+}

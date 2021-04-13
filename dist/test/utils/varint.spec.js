@@ -21,3 +21,10 @@ tap_1.default.test('should encode 300 as 0xAC 0x02', function (test) {
     test.is(bytesWritten, 2);
     test.end();
 });
+tap_1.default.test('should decode 0xAC 0x02 as 300', function (test) {
+    var buffer = Buffer.from([0xAC, 0x02]);
+    var offset = 0;
+    var result = varint_1.varintDecode(buffer, offset);
+    test.is(result, 300);
+    test.end();
+});

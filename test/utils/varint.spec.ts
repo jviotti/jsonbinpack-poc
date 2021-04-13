@@ -17,7 +17,8 @@
 import tap from 'tap'
 
 import {
-  varintEncode
+  varintEncode,
+  varintDecode
 } from '../../lib/utils/varint'
 
 tap.test('should encode 1 as 0x01', (test) => {
@@ -35,5 +36,13 @@ tap.test('should encode 300 as 0xAC 0x02', (test) => {
   const bytesWritten: number = varintEncode(buffer, offset, 300)
   test.strictSame(buffer, Buffer.from([ 0xAC, 0x02 ]))
   test.is(bytesWritten, 2)
+  test.end()
+})
+
+tap.test('should decode 0xAC 0x02 as 300', (test) => {
+  const buffer: Buffer = Buffer.from([ 0xAC, 0x02 ])
+  const offset: number = 0
+  const result: number = varintDecode(buffer, offset)
+  test.is(result, 300)
   test.end()
 })
