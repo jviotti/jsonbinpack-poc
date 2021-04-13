@@ -22,6 +22,7 @@
   "devDependencies": {
     "@sourcemeta/typescript-config": "^1.0.0",
     "@types/tap": "^14.10.2",
+    "fast-check": "^2.14.0",
     "tap": "^14.11.0"
   }
 }

@@ -15,29 +15,39 @@
  */
 
 import tap from 'tap'
+import * as fc from 'fast-check'
 
 import {
   zigzagEncode,
+  zigzagDecode
 } from '../../lib/utils/zigzag'
 
-const BITS: number = 32
-
 tap.test('should encode 0 as 0', (test) => {
-  test.is(zigzagEncode(0, BITS), 0)
+  test.is(zigzagEncode(0), 0)
   test.end()
 })
 
 tap.test('should encode -1 as 1', (test) => {
-  test.is(zigzagEncode(-1, BITS), 1)
+  test.is(zigzagEncode(-1), 1)
   test.end()
 })
 
 tap.test('should encode 1 as 2', (test) => {
-  test.is(zigzagEncode(1, BITS), 2)
+  test.is(zigzagEncode(1), 2)
   test.end()
 })
 
 tap.test('should encode -2 as 3', (test) => {
-  test.is(zigzagEncode(-2, BITS), 3)
+  test.is(zigzagEncode(-2), 3)
+  test.end()
+})
+
+tap.test('should decode a ZigZag encoded integer', (test) => {
+  fc.assert(fc.property(fc.integer(), (value: number): boolean => {
+    return zigzagDecode(zigzagEncode(value)) === value
+  }), {
+    verbose: false
+  })
+
   test.end()
 })
