@@ -17,7 +17,7 @@
 // Inspired by https://github.com/jacekv/varintjs/blob/master/varint.js
 
 const MSB: number = 0b10000000
-const REST: number = 0b0111111
+const REST: number = 0b01111111
 
 export const varintEncode = (buffer: Buffer, offset: number, value: number): number => {
   let accumulator: number = value

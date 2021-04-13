@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.varintDecode = exports.varintEncode = void 0;
 var MSB = 128;
-var REST = 63;
+var REST = 127;
 var varintEncode = function (buffer, offset, value) {
     var accumulator = value;
     var cursor = offset;
