@@ -41,6 +41,34 @@ tap_1.default.test('should encode -2 as 3', function (test) {
     test.is(zigzag_1.zigzagEncode(-2), 3);
     test.end();
 });
+tap_1.default.test('a positive integer should result in an even integer', function (test) {
+    fc.assert(fc.property(fc.integer({
+        min: 0
+    }), function (value) {
+        return zigzag_1.zigzagEncode(value) % 2 === 0;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
+tap_1.default.test('a negative integer should result in an odd integer', function (test) {
+    fc.assert(fc.property(fc.integer({
+        max: -1
+    }), function (value) {
+        return zigzag_1.zigzagEncode(value) % 2 === 1;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
+tap_1.default.test('encoding should result in a positive integer', function (test) {
+    fc.assert(fc.property(fc.integer(), function (value) {
+        return zigzag_1.zigzagEncode(value) >= 0;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('should decode a ZigZag encoded integer', function (test) {
     fc.assert(fc.property(fc.integer(), function (value) {
         return zigzag_1.zigzagDecode(zigzag_1.zigzagEncode(value)) === value;

@@ -42,6 +42,40 @@ tap.test('should encode -2 as 3', (test) => {
   test.end()
 })
 
+tap.test('a positive integer should result in an even integer', (test) => {
+  fc.assert(fc.property(fc.integer({
+    min: 0
+  }), (value: number): boolean => {
+    return zigzagEncode(value) % 2 === 0
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('a negative integer should result in an odd integer', (test) => {
+  fc.assert(fc.property(fc.integer({
+    max: -1
+  }), (value: number): boolean => {
+    return zigzagEncode(value) % 2 === 1
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('encoding should result in a positive integer', (test) => {
+  fc.assert(fc.property(fc.integer(), (value: number): boolean => {
+    return zigzagEncode(value) >= 0
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
 tap.test('should decode a ZigZag encoded integer', (test) => {
   fc.assert(fc.property(fc.integer(), (value: number): boolean => {
     return zigzagDecode(zigzagEncode(value)) === value
