@@ -28,6 +28,16 @@ export interface IntegerResult {
   bytes: number;
 }
 
+export const FLOOR_POSITIVE__ENUM_VARINT = (
+  buffer: Buffer, offset: number, minimum: number,
+): IntegerResult => {
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  return {
+    value: result.value + minimum,
+    bytes: result.bytes
+  }
+}
+
 export const ARBITRARY__ZIGZAG_VARINT = (
   buffer: Buffer, offset: number
 ): IntegerResult => {

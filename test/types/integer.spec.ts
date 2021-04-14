@@ -18,15 +18,39 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  FLOOR_POSITIVE__ENUM_VARINT as ENCODE_FLOOR_POSITIVE__ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT as ENCODE_ARBITRARY__ZIGZAG_VARINT,
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT as ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT
 } from '../../lib/types/integer/encode'
 
 import {
   IntegerResult,
+  FLOOR_POSITIVE__ENUM_VARINT as DECODE_FLOOR_POSITIVE__ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT as DECODE_ARBITRARY__ZIGZAG_VARINT,
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT as DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT
 } from '../../lib/types/integer/decode'
+
+tap.test('FLOOR_POSITIVE__ENUM_VARINT', (test) => {
+  fc.assert(fc.property(fc.integer({
+    min: 0
+  }), fc.integer({
+    min: 0
+  }), (
+    value: number, minimum: number
+  ): boolean => {
+    fc.pre(value >= minimum)
+    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const bytesWritten: number =
+      ENCODE_FLOOR_POSITIVE__ENUM_VARINT(buffer, 0, value, minimum)
+    const result: IntegerResult =
+      DECODE_FLOOR_POSITIVE__ENUM_VARINT(buffer, 0, minimum)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
 
 tap.test('ARBITRARY__ZIGZAG_VARINT', (test) => {
   fc.assert(fc.property(fc.integer(), (value: number): boolean => {

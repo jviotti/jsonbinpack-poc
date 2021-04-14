@@ -22,16 +22,27 @@ import {
   varintEncode
 } from '../../utils/varint'
 
+export const FLOOR_POSITIVE__ENUM_VARINT = (
+  buffer: Buffer, offset: number, value: number,
+  minimum: number,
+): number => {
+  return varintEncode(buffer, offset, value - minimum)
+}
+
+// TODO: If only minimum and minimum <= 0 => enum approach
+//
+// TODO: If only maximum and maximum > 0 => zig zag + var int
+// TODO: If only maximum and maximum <= 0 => as unsigned integer enum * -1
+
 export const ARBITRARY__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number,
-  value: number
+  buffer: Buffer, offset: number, value: number
 ): number => {
   return varintEncode(buffer, offset, zigzagEncode(value))
 }
 
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number,
-  value: number, multiplier: number
+  buffer: Buffer, offset: number, value: number,
+  multiplier: number
 ): number => {
   return ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(multiplier))
 }
