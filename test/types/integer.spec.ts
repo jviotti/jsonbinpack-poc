@@ -27,9 +27,7 @@ import {
 } from '../../lib/types/integer/decode'
 
 tap.test('ARBITRARY__ZIGZAG_VARINT', (test) => {
-  fc.assert(fc.property(fc.integer({
-    min: 0
-  }), (value: number): boolean => {
+  fc.assert(fc.property(fc.integer(), (value: number): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(10)
     const bytesWritten: number = ENCODE_ARBITRARY__ZIGZAG_VARINT(buffer, 0, value)
     const result: IntegerResult = DECODE_ARBITRARY__ZIGZAG_VARINT(buffer, 0)

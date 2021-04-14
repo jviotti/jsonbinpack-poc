@@ -27,9 +27,7 @@ var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/integer/encode");
 var decode_1 = require("../../lib/types/integer/decode");
 tap_1.default.test('ARBITRARY__ZIGZAG_VARINT', function (test) {
-    fc.assert(fc.property(fc.integer({
-        min: 0
-    }), function (value) {
+    fc.assert(fc.property(fc.integer(), function (value) {
         var buffer = Buffer.allocUnsafe(10);
         var bytesWritten = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0, value);
         var result = decode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0);
