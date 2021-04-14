@@ -67,7 +67,7 @@ tap.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT', (test) => {
   fc.assert(fc.property(fc.integer(), fc.integer(), (
     value: number, multiplier: number
   ): boolean => {
-    fc.pre(value % multiplier === 0);
+    fc.pre(value % multiplier === 0)
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number =
       ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, multiplier)
