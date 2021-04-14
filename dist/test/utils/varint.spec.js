@@ -57,6 +57,16 @@ tap_1.default.test('should decode 0xAC 0x02 as 300', function (test) {
     test.is(result.bytes, 2);
     test.end();
 });
+tap_1.default.test('should encode and decode 4294967294', function (test) {
+    var buffer = Buffer.allocUnsafe(5);
+    var offset = 0;
+    var bytesWritten = varint_1.varintEncode(buffer, offset, 4294967294);
+    test.is(bytesWritten, 5);
+    var result = varint_1.varintDecode(buffer, offset);
+    test.is(result.bytes, 5);
+    test.is(result.value, 4294967294);
+    test.end();
+});
 tap_1.default.test('should decode a varint encoded unsigned integer', function (test) {
     fc.assert(fc.property(fc.integer({
         min: 0

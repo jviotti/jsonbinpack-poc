@@ -59,6 +59,17 @@ tap.test('should decode 0xAC 0x02 as 300', (test) => {
   test.end()
 })
 
+tap.test('should encode and decode 4294967294', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(5)
+  const offset: number = 0
+  const bytesWritten: number = varintEncode(buffer, offset, 4294967294)
+  test.is(bytesWritten, 5)
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  test.is(result.bytes, 5)
+  test.is(result.value, 4294967294)
+  test.end()
+})
+
 tap.test('should decode a varint encoded unsigned integer', (test) => {
   fc.assert(fc.property(fc.integer({
     min: 0

@@ -15,23 +15,35 @@
  */
 
 import {
-  zigzagEncode
+  zigzagDecode
 } from '../../utils/zigzag'
 
 import {
-  varintEncode
+  varintDecode,
+  VarintDecodeResult
 } from '../../utils/varint'
 
+export interface IntegerResult {
+  value: number;
+  bytes: number;
+}
+
 export const ARBITRARY__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number,
-  value: number
-): number => {
-  return varintEncode(buffer, offset, zigzagEncode(value))
+  buffer: Buffer, offset: number
+): IntegerResult => {
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  return {
+    value: zigzagDecode(result.value),
+    bytes: result.bytes
+  }
 }
 
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number,
-  value: number, multiplier: number
-): number => {
-  return ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / multiplier)
+  buffer: Buffer, offset: number, multiplier: number
+): IntegerResult => {
+  const result: IntegerResult = ARBITRARY__ZIGZAG_VARINT(buffer, offset)
+  return {
+    value: result.value * multiplier,
+    bytes: result.bytes
+  }
 }

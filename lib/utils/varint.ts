@@ -42,12 +42,13 @@ export const varintDecode = (buffer: Buffer, offset: number): VarintDecodeResult
   let result: number = 0
   let cursor: number = offset
 
-  let next: boolean = true
-  while (next) {
+  while (true) {
     const value: number = buffer.readUInt8(cursor)
-    next = (value & MOST_SIGNIFICANT_BIT) !== 0
-    result += (value & LEAST_SIGNIFICANT_BITS) << (7 * (cursor - offset))
+    result += ((value & LEAST_SIGNIFICANT_BITS) << (7 * (cursor - offset))) >>> 0
     cursor += 1
+    if ((value & MOST_SIGNIFICANT_BIT) === 0) {
+      break
+    }
   }
 
   return {

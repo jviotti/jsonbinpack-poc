@@ -17,12 +17,13 @@ exports.varintEncode = varintEncode;
 var varintDecode = function (buffer, offset) {
     var result = 0;
     var cursor = offset;
-    var next = true;
-    while (next) {
+    while (true) {
         var value = buffer.readUInt8(cursor);
-        next = (value & MOST_SIGNIFICANT_BIT) !== 0;
-        result += (value & LEAST_SIGNIFICANT_BITS) << (7 * (cursor - offset));
+        result += ((value & LEAST_SIGNIFICANT_BITS) << (7 * (cursor - offset))) >>> 0;
         cursor += 1;
+        if ((value & MOST_SIGNIFICANT_BIT) === 0) {
+            break;
+        }
     }
     return {
         value: result,
