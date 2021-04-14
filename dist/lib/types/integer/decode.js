@@ -14,7 +14,7 @@ exports.ARBITRARY__ZIGZAG_VARINT = ARBITRARY__ZIGZAG_VARINT;
 var ARBITRARY_MULTIPLE__ZIGZAG_VARINT = function (buffer, offset, multiplier) {
     var result = exports.ARBITRARY__ZIGZAG_VARINT(buffer, offset);
     return {
-        value: result.value * multiplier,
+        value: result.value * Math.abs(multiplier),
         bytes: result.bytes
     };
 };

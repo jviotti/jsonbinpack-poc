@@ -43,7 +43,7 @@ export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
 ): IntegerResult => {
   const result: IntegerResult = ARBITRARY__ZIGZAG_VARINT(buffer, offset)
   return {
-    value: result.value * multiplier,
+    value: result.value * Math.abs(multiplier),
     bytes: result.bytes
   }
 }

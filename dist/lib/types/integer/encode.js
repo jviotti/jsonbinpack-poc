@@ -8,6 +8,6 @@ var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value) {
 };
 exports.ARBITRARY__ZIGZAG_VARINT = ARBITRARY__ZIGZAG_VARINT;
 var ARBITRARY_MULTIPLE__ZIGZAG_VARINT = function (buffer, offset, value, multiplier) {
-    return exports.ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / multiplier);
+    return exports.ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(multiplier));
 };
 exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = ARBITRARY_MULTIPLE__ZIGZAG_VARINT;

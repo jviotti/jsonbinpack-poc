@@ -33,5 +33,5 @@ export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
   buffer: Buffer, offset: number,
   value: number, multiplier: number
 ): number => {
-  return ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / multiplier)
+  return ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(multiplier))
 }

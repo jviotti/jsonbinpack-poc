@@ -37,3 +37,15 @@ tap_1.default.test('ARBITRARY__ZIGZAG_VARINT', function (test) {
     });
     test.end();
 });
+tap_1.default.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT', function (test) {
+    fc.assert(fc.property(fc.integer(), fc.integer(), function (value, multiplier) {
+        fc.pre(value % multiplier === 0);
+        var buffer = Buffer.allocUnsafe(8);
+        var bytesWritten = encode_1.ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, multiplier);
+        var result = decode_1.ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, multiplier);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});

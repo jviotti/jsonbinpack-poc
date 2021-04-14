@@ -18,12 +18,14 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
-  ARBITRARY__ZIGZAG_VARINT as ENCODE_ARBITRARY__ZIGZAG_VARINT
+  ARBITRARY__ZIGZAG_VARINT as ENCODE_ARBITRARY__ZIGZAG_VARINT,
+  ARBITRARY_MULTIPLE__ZIGZAG_VARINT as ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT
 } from '../../lib/types/integer/encode'
 
 import {
   IntegerResult,
-  ARBITRARY__ZIGZAG_VARINT as DECODE_ARBITRARY__ZIGZAG_VARINT
+  ARBITRARY__ZIGZAG_VARINT as DECODE_ARBITRARY__ZIGZAG_VARINT,
+  ARBITRARY_MULTIPLE__ZIGZAG_VARINT as DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT
 } from '../../lib/types/integer/decode'
 
 tap.test('ARBITRARY__ZIGZAG_VARINT', (test) => {
@@ -31,6 +33,24 @@ tap.test('ARBITRARY__ZIGZAG_VARINT', (test) => {
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number = ENCODE_ARBITRARY__ZIGZAG_VARINT(buffer, 0, value)
     const result: IntegerResult = DECODE_ARBITRARY__ZIGZAG_VARINT(buffer, 0)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT', (test) => {
+  fc.assert(fc.property(fc.integer(), fc.integer(), (
+    value: number, multiplier: number
+  ): boolean => {
+    fc.pre(value % multiplier === 0);
+    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const bytesWritten: number =
+      ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, multiplier)
+    const result: IntegerResult =
+      DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, multiplier)
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
