@@ -17,11 +17,36 @@
 import tap from 'tap'
 
 import {
+  BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT,
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT,
 } from '../../../lib/types/integer/encode'
+
+tap.test('BOUNDED__ENUM_VARINT: should encode -5 (-5..-1) as 0x00', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, -5, -5, -1)
+  test.strictSame(buffer, Buffer.from([ 0x00 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('BOUNDED__ENUM_VARINT: should encode 2 (-5..5) as 0x07', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 2, -5, 5)
+  test.strictSame(buffer, Buffer.from([ 0x07 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('BOUNDED__ENUM_VARINT: should encode 5 (2..3) as 0x03', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 5, 2, 3)
+  test.strictSame(buffer, Buffer.from([ 0x03 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
 
 tap.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
