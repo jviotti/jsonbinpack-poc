@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.FLOOR_POSITIVE__ENUM_VARINT = void 0;
+exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.FLOOR__ENUM_VARINT = void 0;
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
-var FLOOR_POSITIVE__ENUM_VARINT = function (buffer, offset, minimum) {
+var FLOOR__ENUM_VARINT = function (buffer, offset, minimum) {
     var result = varint_1.varintDecode(buffer, offset);
     return {
         value: result.value + minimum,
         bytes: result.bytes
     };
 };
-exports.FLOOR_POSITIVE__ENUM_VARINT = FLOOR_POSITIVE__ENUM_VARINT;
+exports.FLOOR__ENUM_VARINT = FLOOR__ENUM_VARINT;
 var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset) {
     var result = varint_1.varintDecode(buffer, offset);
     return {

@@ -26,7 +26,7 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/integer/encode");
 var decode_1 = require("../../lib/types/integer/decode");
-tap_1.default.test('FLOOR_POSITIVE__ENUM_VARINT', function (test) {
+tap_1.default.test('FLOOR__ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer({
         min: 0
     }), fc.integer({
@@ -34,8 +34,8 @@ tap_1.default.test('FLOOR_POSITIVE__ENUM_VARINT', function (test) {
     }), function (value, minimum) {
         fc.pre(value >= minimum);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.FLOOR_POSITIVE__ENUM_VARINT(buffer, 0, value, minimum);
-        var result = decode_1.FLOOR_POSITIVE__ENUM_VARINT(buffer, 0, minimum);
+        var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, value, minimum);
+        var result = decode_1.FLOOR__ENUM_VARINT(buffer, 0, minimum);
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false

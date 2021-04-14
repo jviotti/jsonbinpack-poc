@@ -28,7 +28,7 @@ export interface IntegerResult {
   bytes: number;
 }
 
-export const FLOOR_POSITIVE__ENUM_VARINT = (
+export const FLOOR__ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number,
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
