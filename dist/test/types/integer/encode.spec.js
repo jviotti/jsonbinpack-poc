@@ -5,6 +5,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/types/integer/encode");
+tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode -5 (-5..-1) as 0x00', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, -5, -5, -1);
+    test.strictSame(buffer, Buffer.from([0x00]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
+tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 2 (-5..5) as 0x07', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 2, -5, 5);
+    test.strictSame(buffer, Buffer.from([0x07]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
+tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..3) as 0x03', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, 2, 3);
+    test.strictSame(buffer, Buffer.from([0x03]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
 tap_1.default.test('BOUNDED__ENUM_VARINT: should encode -5 (-5..-1) as 0x00', function (test) {
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, -5, -5, -1);
