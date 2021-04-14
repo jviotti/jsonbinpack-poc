@@ -38,6 +38,16 @@ export const FLOOR__ENUM_VARINT = (
   }
 }
 
+export const ROOF_NEGATIVE__INVERSE_ENUM_VARINT = (
+  buffer: Buffer, offset: number, maximum: number,
+): IntegerResult => {
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  return {
+    value: -1 * (result.value - maximum),
+    bytes: result.bytes
+  }
+}
+
 export const ARBITRARY__ZIGZAG_VARINT = (
   buffer: Buffer, offset: number
 ): IntegerResult => {

@@ -29,8 +29,14 @@ export const FLOOR__ENUM_VARINT = (
   return varintEncode(buffer, offset, value - minimum)
 }
 
+export const ROOF_NEGATIVE__INVERSE_ENUM_VARINT = (
+  buffer: Buffer, offset: number, value: number,
+  maximum: number,
+): number => {
+  return varintEncode(buffer, offset, (-1 * value) + maximum)
+}
+
 // TODO: If only maximum and maximum > 0 => zig zag + var int
-// TODO: If only maximum and maximum <= 0 => as unsigned integer enum * -1
 
 export const ARBITRARY__ZIGZAG_VARINT = (
   buffer: Buffer, offset: number, value: number

@@ -42,6 +42,22 @@ tap_1.default.test('FLOOR__ENUM_VARINT', function (test) {
     });
     test.end();
 });
+tap_1.default.test('ROOF_NEGATIVE__INVERSE_ENUM_VARINT', function (test) {
+    fc.assert(fc.property(fc.integer({
+        max: 0
+    }), fc.integer({
+        max: 0
+    }), function (value, maximum) {
+        fc.pre(value <= maximum);
+        var buffer = Buffer.allocUnsafe(8);
+        var bytesWritten = encode_1.ROOF_NEGATIVE__INVERSE_ENUM_VARINT(buffer, 0, value, maximum);
+        var result = decode_1.ROOF_NEGATIVE__INVERSE_ENUM_VARINT(buffer, 0, maximum);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('ARBITRARY__ZIGZAG_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), function (value) {
         var buffer = Buffer.allocUnsafe(8);
