@@ -22,6 +22,22 @@ import {
   varintEncode
 } from '../../utils/varint'
 
+// Applicable if the difference between maximum and
+// minimum fits in an unsigned 8-bit integer
+export const BOUNDED_8BITS__ENUM_FIXED = (
+  buffer: Buffer, offset: number, value: number,
+  minimum: number, _maximum: number
+): number => {
+  return buffer.writeUInt8(value - minimum, offset) - offset
+}
+
+export const BOUNDED__ENUM_VARINT = (
+  buffer: Buffer, offset: number, value: number,
+  minimum: number, _maximum: number
+): number => {
+  return varintEncode(buffer, offset, value - minimum)
+}
+
 export const FLOOR__ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   minimum: number,

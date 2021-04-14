@@ -26,6 +26,18 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/integer/encode");
 var decode_1 = require("../../lib/types/integer/decode");
+tap_1.default.test('BOUNDED__ENUM_VARINT', function (test) {
+    fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), function (value, minimum, maximum) {
+        fc.pre(value >= minimum && value <= maximum);
+        var buffer = Buffer.allocUnsafe(8);
+        var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, value, minimum, maximum);
+        var result = decode_1.BOUNDED__ENUM_VARINT(buffer, 0, minimum, maximum);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('FLOOR__ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), function (value, minimum) {
         fc.pre(value >= minimum);

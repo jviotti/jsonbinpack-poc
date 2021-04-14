@@ -18,6 +18,7 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  BOUNDED__ENUM_VARINT as ENCODE_BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT as ENCODE_FLOOR__ENUM_VARINT,
   ROOF__INVERSE_ENUM_VARINT as ENCODE_ROOF__INVERSE_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT as ENCODE_ARBITRARY__ZIGZAG_VARINT,
@@ -26,11 +27,28 @@ import {
 
 import {
   IntegerResult,
+  BOUNDED__ENUM_VARINT as DECODE_BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT as DECODE_FLOOR__ENUM_VARINT,
   ROOF__INVERSE_ENUM_VARINT as DECODE_ROOF__INVERSE_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT as DECODE_ARBITRARY__ZIGZAG_VARINT,
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT as DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT
 } from '../../lib/types/integer/decode'
+
+tap.test('BOUNDED__ENUM_VARINT', (test) => {
+  fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), (
+    value: number, minimum: number, maximum: number
+  ): boolean => {
+    fc.pre(value >= minimum && value <= maximum)
+    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const bytesWritten: number = ENCODE_BOUNDED__ENUM_VARINT(buffer, 0, value, minimum, maximum)
+    const result: IntegerResult = DECODE_BOUNDED__ENUM_VARINT(buffer, 0, minimum, maximum)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
 
 tap.test('FLOOR__ENUM_VARINT', (test) => {
   fc.assert(fc.property(fc.integer(), fc.integer(), (

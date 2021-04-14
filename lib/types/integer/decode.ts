@@ -28,6 +28,16 @@ export interface IntegerResult {
   bytes: number;
 }
 
+export const BOUNDED__ENUM_VARINT = (
+  buffer: Buffer, offset: number, minimum: number, _maximum: number
+): IntegerResult => {
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  return {
+    value: result.value + minimum,
+    bytes: result.bytes
+  }
+}
+
 export const FLOOR__ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number,
 ): IntegerResult => {
