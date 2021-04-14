@@ -49,12 +49,6 @@ tap.test('should encode 50399 as 0xDF 0x89 0x03', (test) => {
   test.end()
 })
 
-// 1000 0000 0011 1011
-// 000 0000 011 1011
-// 011 1011 000 0000
-// 0001 1101 1000 0000
-// 128 + 256 + 1024 + 2048 + 4096
-
 tap.test('should decode 0xAC 0x02 as 300', (test) => {
   const buffer: Buffer = Buffer.from([ 0xAC, 0x02 ])
   const offset: number = 0
@@ -67,6 +61,20 @@ tap.test('should decode a varint encoded unsigned integer', (test) => {
   fc.assert(fc.property(fc.integer({
     min: 0
   }), (value: number): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(10)
+    const offset: number = 0
+    const bytesWritten: number = varintEncode(buffer, offset, value)
+    const result: number = varintDecode(buffer, offset)
+    return bytesWritten > 0 && result === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('should decode a varint encoded signed integer', (test) => {
+  fc.assert(fc.property(fc.integer(), (value: number): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(10)
     const offset: number = 0
     const bytesWritten: number = varintEncode(buffer, offset, value)
