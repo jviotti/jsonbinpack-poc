@@ -32,9 +32,14 @@ export const varintEncode = (buffer: Buffer, offset: number, value: number): num
   return cursor - offset
 }
 
+export interface VarintDecodeResult {
+  value: number;
+  bytes: number;
+}
+
 // TODO: Try to refactor this function
 // TODO: Return the number of written bytes somehow
-export const varintDecode = (buffer: Buffer, offset: number): number => {
+export const varintDecode = (buffer: Buffer, offset: number): VarintDecodeResult => {
   let result: number = 0
   let cursor: number = offset
   let count: number = 0
@@ -48,5 +53,8 @@ export const varintDecode = (buffer: Buffer, offset: number): number => {
     cursor += 1
   }
 
-  return result
+  return {
+    value: result,
+    bytes: count
+  }
 }

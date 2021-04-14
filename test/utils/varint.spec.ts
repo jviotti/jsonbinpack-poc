@@ -19,7 +19,8 @@ import * as fc from 'fast-check'
 
 import {
   varintEncode,
-  varintDecode
+  varintDecode,
+  VarintDecodeResult
 } from '../../lib/utils/varint'
 
 tap.test('should encode 1 as 0x01', (test) => {
@@ -52,8 +53,9 @@ tap.test('should encode 50399 as 0xDF 0x89 0x03', (test) => {
 tap.test('should decode 0xAC 0x02 as 300', (test) => {
   const buffer: Buffer = Buffer.from([ 0xAC, 0x02 ])
   const offset: number = 0
-  const result: number = varintDecode(buffer, offset)
-  test.is(result, 300)
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  test.is(result.value, 300)
+  test.is(result.bytes, 2)
   test.end()
 })
 
@@ -64,22 +66,8 @@ tap.test('should decode a varint encoded unsigned integer', (test) => {
     const buffer: Buffer = Buffer.allocUnsafe(10)
     const offset: number = 0
     const bytesWritten: number = varintEncode(buffer, offset, value)
-    const result: number = varintDecode(buffer, offset)
-    return bytesWritten > 0 && result === value
-  }), {
-    verbose: false
-  })
-
-  test.end()
-})
-
-tap.test('should decode a varint encoded signed integer', (test) => {
-  fc.assert(fc.property(fc.integer(), (value: number): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(10)
-    const offset: number = 0
-    const bytesWritten: number = varintEncode(buffer, offset, value)
-    const result: number = varintDecode(buffer, offset)
-    return bytesWritten > 0 && result === value
+    const result: VarintDecodeResult = varintDecode(buffer, offset)
+    return result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
   })

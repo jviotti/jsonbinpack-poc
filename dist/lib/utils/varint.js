@@ -26,6 +26,9 @@ var varintDecode = function (buffer, offset) {
         count += 1;
         cursor += 1;
     }
-    return result;
+    return {
+        value: result,
+        bytes: count
+    };
 };
 exports.varintDecode = varintDecode;

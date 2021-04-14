@@ -53,7 +53,8 @@ tap_1.default.test('should decode 0xAC 0x02 as 300', function (test) {
     var buffer = Buffer.from([0xAC, 0x02]);
     var offset = 0;
     var result = varint_1.varintDecode(buffer, offset);
-    test.is(result, 300);
+    test.is(result.value, 300);
+    test.is(result.bytes, 2);
     test.end();
 });
 tap_1.default.test('should decode a varint encoded unsigned integer', function (test) {
@@ -64,7 +65,7 @@ tap_1.default.test('should decode a varint encoded unsigned integer', function (
         var offset = 0;
         var bytesWritten = varint_1.varintEncode(buffer, offset, value);
         var result = varint_1.varintDecode(buffer, offset);
-        return bytesWritten > 0 && result === value;
+        return result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
     });
