@@ -67,7 +67,7 @@ tap.test('should decode a varint encoded unsigned integer', (test) => {
     const offset: number = 0
     const bytesWritten: number = varintEncode(buffer, offset, value)
     const result: VarintDecodeResult = varintDecode(buffer, offset)
-    return result.bytes === bytesWritten && result.value === value
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
   })

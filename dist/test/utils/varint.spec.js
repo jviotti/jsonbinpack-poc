@@ -65,7 +65,7 @@ tap_1.default.test('should decode a varint encoded unsigned integer', function (
         var offset = 0;
         var bytesWritten = varint_1.varintEncode(buffer, offset, value);
         var result = varint_1.varintDecode(buffer, offset);
-        return result.bytes === bytesWritten && result.value === value;
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
     });
