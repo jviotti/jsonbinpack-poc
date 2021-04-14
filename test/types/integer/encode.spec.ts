@@ -17,10 +17,27 @@
 import tap from 'tap'
 
 import {
+  FLOOR__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT,
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT,
 } from '../../../lib/types/integer/encode'
+
+tap.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, 0, -3, -10)
+  test.strictSame(buffer, Buffer.from([ 0x07 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, 0, 5, 2)
+  test.strictSame(buffer, Buffer.from([ 0x03 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
 
 tap.test('ROOF__MIRROR_ENUM_VARINT: should encode -3 (..-2) as 0x01', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)

@@ -5,6 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/types/integer/encode");
+tap_1.default.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, -3, -10);
+    test.strictSame(buffer, Buffer.from([0x07]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
+tap_1.default.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, 5, 2);
+    test.strictSame(buffer, Buffer.from([0x03]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
 tap_1.default.test('ROOF__MIRROR_ENUM_VARINT: should encode -3 (..-2) as 0x01', function (test) {
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, -3, -2);
