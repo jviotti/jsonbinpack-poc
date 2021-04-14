@@ -45,11 +45,20 @@ export const FLOOR__ENUM_VARINT = (
   return varintEncode(buffer, offset, value - minimum)
 }
 
-export const ROOF__INVERSE_ENUM_VARINT = (
+export const ROOF__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   maximum: number,
 ): number => {
   return varintEncode(buffer, offset, (-1 * value) + maximum)
+}
+
+// TODO: Test this function
+export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
+  buffer: Buffer, offset: number, value: number,
+  maximum: number, multiplier: number
+): number => {
+  return varintEncode(buffer, offset,
+    (-1 * (value / Math.abs(multiplier))) + (maximum / Math.abs(multiplier)))
 }
 
 export const ARBITRARY__ZIGZAG_VARINT = (

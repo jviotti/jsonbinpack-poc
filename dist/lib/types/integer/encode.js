@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.ROOF__INVERSE_ENUM_VARINT = exports.FLOOR__ENUM_VARINT = exports.BOUNDED__ENUM_VARINT = exports.BOUNDED_8BITS__ENUM_FIXED = void 0;
+exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = exports.ROOF__MIRROR_ENUM_VARINT = exports.FLOOR__ENUM_VARINT = exports.BOUNDED__ENUM_VARINT = exports.BOUNDED_8BITS__ENUM_FIXED = void 0;
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
 var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, value, minimum, _maximum) {
@@ -15,10 +15,14 @@ var FLOOR__ENUM_VARINT = function (buffer, offset, value, minimum) {
     return varint_1.varintEncode(buffer, offset, value - minimum);
 };
 exports.FLOOR__ENUM_VARINT = FLOOR__ENUM_VARINT;
-var ROOF__INVERSE_ENUM_VARINT = function (buffer, offset, value, maximum) {
+var ROOF__MIRROR_ENUM_VARINT = function (buffer, offset, value, maximum) {
     return varint_1.varintEncode(buffer, offset, (-1 * value) + maximum);
 };
-exports.ROOF__INVERSE_ENUM_VARINT = ROOF__INVERSE_ENUM_VARINT;
+exports.ROOF__MIRROR_ENUM_VARINT = ROOF__MIRROR_ENUM_VARINT;
+var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, maximum, multiplier) {
+    return varint_1.varintEncode(buffer, offset, (-1 * (value / Math.abs(multiplier))) + (maximum / Math.abs(multiplier)));
+};
+exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
 var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value) {
     return varint_1.varintEncode(buffer, offset, zigzag_1.zigzagEncode(value));
 };

@@ -57,7 +57,7 @@ export const FLOOR__ENUM_VARINT = (
   }
 }
 
-export const ROOF__INVERSE_ENUM_VARINT = (
+export const ROOF__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, maximum: number,
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)

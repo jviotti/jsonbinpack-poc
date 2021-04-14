@@ -83,12 +83,12 @@ tap_1.default.test('FLOOR__ENUM_VARINT', function (test) {
     });
     test.end();
 });
-tap_1.default.test('ROOF__INVERSE_ENUM_VARINT', function (test) {
+tap_1.default.test('ROOF__MIRROR_ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), function (value, maximum) {
         fc.pre(value <= maximum);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.ROOF__INVERSE_ENUM_VARINT(buffer, 0, value, maximum);
-        var result = decode_1.ROOF__INVERSE_ENUM_VARINT(buffer, 0, maximum);
+        var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, value, maximum);
+        var result = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, maximum);
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
