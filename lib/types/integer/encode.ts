@@ -57,8 +57,10 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   maximum: number, multiplier: number
 ): number => {
-  return varintEncode(buffer, offset,
-    (-1 * (value / Math.abs(multiplier))) + (maximum / Math.abs(multiplier)))
+  const absoluteMultiplier: number = Math.abs(multiplier)
+  return ROOF__MIRROR_ENUM_VARINT(buffer, offset,
+    value / absoluteMultiplier,
+    maximum / absoluteMultiplier)
 }
 
 export const ARBITRARY__ZIGZAG_VARINT = (
