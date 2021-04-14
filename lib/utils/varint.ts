@@ -16,15 +16,16 @@
 
 // Inspired by https://github.com/jacekv/varintjs/blob/master/varint.js
 
-const MSB: number = 0b10000000
-const REST: number = 0b01111111
+const MOST_SIGNIFICANT_BIT: number = 0b10000000
+const LEAST_SIGNIFICANT_BITS: number = 0b01111111
 
 export const varintEncode = (buffer: Buffer, offset: number, value: number): number => {
   let accumulator: number = value
   let cursor: number = offset
 
-  while (accumulator > REST) {
-    cursor = buffer.writeUInt8((accumulator & REST) | MSB, cursor)
+  while (accumulator > LEAST_SIGNIFICANT_BITS) {
+    cursor = buffer.writeUInt8(
+      (accumulator & LEAST_SIGNIFICANT_BITS) | MOST_SIGNIFICANT_BIT, cursor)
     accumulator >>>= 7
   }
 
@@ -44,8 +45,8 @@ export const varintDecode = (buffer: Buffer, offset: number): VarintDecodeResult
   let next: boolean = true
   while (next) {
     const value: number = buffer.readUInt8(cursor)
-    next = (value & MSB) !== 0
-    result += (value & REST) << (7 * (cursor - offset))
+    next = (value & MOST_SIGNIFICANT_BIT) !== 0
+    result += (value & LEAST_SIGNIFICANT_BITS) << (7 * (cursor - offset))
     cursor += 1
   }
 
