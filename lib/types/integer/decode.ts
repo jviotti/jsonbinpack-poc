@@ -28,6 +28,15 @@ export interface IntegerResult {
   bytes: number;
 }
 
+export const BOUNDED_8BITS__ENUM_FIXED = (
+  buffer: Buffer, offset: number, minimum: number, _maximum: number
+): IntegerResult => {
+  return {
+    value: buffer.readUInt8(offset) + minimum,
+    bytes: 1
+  }
+}
+
 export const BOUNDED__ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number, _maximum: number
 ): IntegerResult => {

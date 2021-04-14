@@ -18,6 +18,7 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  BOUNDED_8BITS__ENUM_FIXED as ENCODE_BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT as ENCODE_BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT as ENCODE_FLOOR__ENUM_VARINT,
   ROOF__INVERSE_ENUM_VARINT as ENCODE_ROOF__INVERSE_ENUM_VARINT,
@@ -27,12 +28,38 @@ import {
 
 import {
   IntegerResult,
+  BOUNDED_8BITS__ENUM_FIXED as DECODE_BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT as DECODE_BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT as DECODE_FLOOR__ENUM_VARINT,
   ROOF__INVERSE_ENUM_VARINT as DECODE_ROOF__INVERSE_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT as DECODE_ARBITRARY__ZIGZAG_VARINT,
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT as DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT
 } from '../../lib/types/integer/decode'
+
+const UINT8_MAX: number = Math.pow(2, 8) - 1
+
+tap.test('BOUNDED_8BITS__ENUM_FIXED', (test) => {
+  const arbitrary = fc.integer().chain((minimum: number) => {
+    return fc.tuple(
+      fc.constant(minimum),
+      fc.integer(minimum, minimum + UINT8_MAX),
+      fc.integer(minimum, minimum + UINT8_MAX))
+  })
+
+  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value ]): boolean => {
+    fc.pre(value <= maximum)
+    const buffer: Buffer = Buffer.allocUnsafe(1)
+    const bytesWritten: number =
+      ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum)
+    const result: IntegerResult =
+      DECODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, minimum, maximum)
+    return bytesWritten === 1 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
 
 tap.test('BOUNDED__ENUM_VARINT', (test) => {
   fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), (

@@ -18,6 +18,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -26,6 +42,23 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/integer/encode");
 var decode_1 = require("../../lib/types/integer/decode");
+var UINT8_MAX = Math.pow(2, 8) - 1;
+tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED', function (test) {
+    var arbitrary = fc.integer().chain(function (minimum) {
+        return fc.tuple(fc.constant(minimum), fc.integer(minimum, minimum + UINT8_MAX), fc.integer(minimum, minimum + UINT8_MAX));
+    });
+    fc.assert(fc.property(arbitrary, function (_a) {
+        var _b = __read(_a, 3), minimum = _b[0], maximum = _b[1], value = _b[2];
+        fc.pre(value <= maximum);
+        var buffer = Buffer.allocUnsafe(1);
+        var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum);
+        var result = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, minimum, maximum);
+        return bytesWritten === 1 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('BOUNDED__ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), function (value, minimum, maximum) {
         fc.pre(value >= minimum && value <= maximum);
