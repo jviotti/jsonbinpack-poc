@@ -37,24 +37,20 @@ export interface VarintDecodeResult {
   bytes: number;
 }
 
-// TODO: Try to refactor this function
-// TODO: Return the number of written bytes somehow
 export const varintDecode = (buffer: Buffer, offset: number): VarintDecodeResult => {
   let result: number = 0
   let cursor: number = offset
-  let count: number = 0
-  let next: boolean = true
 
+  let next: boolean = true
   while (next) {
     const value: number = buffer.readUInt8(cursor)
     next = (value & MSB) !== 0
-    result += (value & REST) << (7 * count)
-    count += 1
+    result += (value & REST) << (7 * (cursor - offset))
     cursor += 1
   }
 
   return {
     value: result,
-    bytes: count
+    bytes: cursor - offset
   }
 }
