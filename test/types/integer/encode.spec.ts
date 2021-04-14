@@ -21,6 +21,7 @@ import {
   BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT,
+  ROOF_MULTIPLE__MIRROR_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT,
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT,
 } from '../../../lib/types/integer/encode'
@@ -101,6 +102,38 @@ tap.test('ROOF__MIRROR_ENUM_VARINT: should encode 8 (..10) as 0x02', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, 0, 8, 10)
   test.strictSame(buffer, Buffer.from([ 0x02 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) / 5 as 0x02', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, -15, -5, 5)
+  test.strictSame(buffer, Buffer.from([ 0x02 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) / -5 as 0x02', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, -15, -5, -5)
+  test.strictSame(buffer, Buffer.from([ 0x02 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / 5 as 0x01', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, 15, 5)
+  test.strictSame(buffer, Buffer.from([ 0x01 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / -5 as 0x01', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, 15, -5)
+  test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()
 })
