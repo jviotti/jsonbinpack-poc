@@ -34,8 +34,8 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
 ): number => {
   assert(maximum - minimum <= 255)
   assert(maximum >= minimum)
-  // TODO: This should pass
-  // assert(value >= minimum && value <= maximum)
+  assert(value >= minimum)
+  assert(value <= maximum)
 
   return buffer.writeUInt8(value - minimum, offset) - offset
 }
@@ -45,8 +45,8 @@ export const BOUNDED__ENUM_VARINT = (
   minimum: number, maximum: number
 ): number => {
   assert(maximum >= minimum)
-  // TODO: This should pass
-  // assert(value >= minimum && value <= maximum)
+  assert(value >= minimum)
+  assert(value <= maximum)
 
   return varintEncode(buffer, offset, value - minimum)
 }

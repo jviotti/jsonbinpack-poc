@@ -19,9 +19,9 @@ tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 2 (-5..5) as 0x07',
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..3) as 0x03', function (test) {
+tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..8) as 0x03', function (test) {
     var buffer = Buffer.allocUnsafe(1);
-    var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, 2, 3);
+    var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, 2, 8);
     test.strictSame(buffer, Buffer.from([0x03]));
     test.is(bytesWritten, 1);
     test.end();
@@ -40,9 +40,9 @@ tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 2 (-5..5) as 0x07', func
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 5 (2..3) as 0x03', function (test) {
+tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', function (test) {
     var buffer = Buffer.allocUnsafe(1);
-    var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, 5, 2, 3);
+    var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, 5, 2, 8);
     test.strictSame(buffer, Buffer.from([0x03]));
     test.is(bytesWritten, 1);
     test.end();

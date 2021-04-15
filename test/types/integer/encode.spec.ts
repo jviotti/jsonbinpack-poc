@@ -42,9 +42,9 @@ tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode 2 (-5..5) as 0x07', (test) =>
   test.end()
 })
 
-tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..3) as 0x03', (test) => {
+tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..8) as 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, 2, 3)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, 2, 8)
   test.strictSame(buffer, Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -66,9 +66,9 @@ tap.test('BOUNDED__ENUM_VARINT: should encode 2 (-5..5) as 0x07', (test) => {
   test.end()
 })
 
-tap.test('BOUNDED__ENUM_VARINT: should encode 5 (2..3) as 0x03', (test) => {
+tap.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 5, 2, 3)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 5, 2, 8)
   test.strictSame(buffer, Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)
   test.end()

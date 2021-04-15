@@ -50,6 +50,7 @@ tap.test('BOUNDED_8BITS__ENUM_FIXED', (test) => {
 
   fc.assert(fc.property(arbitrary, ([ minimum, maximum, value ]): boolean => {
     fc.pre(value <= maximum)
+
     const buffer: Buffer = Buffer.allocUnsafe(1)
     const bytesWritten: number =
       ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum)

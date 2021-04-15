@@ -7,11 +7,15 @@ var varint_1 = require("../../utils/varint");
 var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, value, minimum, maximum) {
     assert_1.strict(maximum - minimum <= 255);
     assert_1.strict(maximum >= minimum);
+    assert_1.strict(value >= minimum);
+    assert_1.strict(value <= maximum);
     return buffer.writeUInt8(value - minimum, offset) - offset;
 };
 exports.BOUNDED_8BITS__ENUM_FIXED = BOUNDED_8BITS__ENUM_FIXED;
 var BOUNDED__ENUM_VARINT = function (buffer, offset, value, minimum, maximum) {
     assert_1.strict(maximum >= minimum);
+    assert_1.strict(value >= minimum);
+    assert_1.strict(value <= maximum);
     return varint_1.varintEncode(buffer, offset, value - minimum);
 };
 exports.BOUNDED__ENUM_VARINT = BOUNDED__ENUM_VARINT;
