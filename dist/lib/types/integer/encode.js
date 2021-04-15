@@ -32,6 +32,7 @@ exports.ROOF__MIRROR_ENUM_VARINT = ROOF__MIRROR_ENUM_VARINT;
 var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, maximum, multiplier) {
     assert_1.strict(value <= maximum);
     assert_1.strict(value % multiplier === 0);
+    assert_1.strict(maximum >= multiplier);
     var absoluteMultiplier = Math.abs(multiplier);
     var closestMaximumMultiple = Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier;
     return exports.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value / absoluteMultiplier, closestMaximumMultiple / absoluteMultiplier);

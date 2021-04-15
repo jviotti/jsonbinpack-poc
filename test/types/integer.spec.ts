@@ -119,7 +119,7 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', (test) => {
     return fc.tuple(
       fc.constant(maximum),
       fc.integer({ max: maximum }),
-      fc.integer()
+      fc.integer({ max: maximum })
     )
   })
 

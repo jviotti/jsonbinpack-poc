@@ -73,8 +73,7 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
 ): number => {
   assert(value <= maximum)
   assert(value % multiplier === 0)
-  // TODO: This should pass
-  // assert(maximum >= multiplier)
+  assert(maximum >= multiplier)
 
   const absoluteMultiplier: number = Math.abs(multiplier)
   const closestMaximumMultiple: number =

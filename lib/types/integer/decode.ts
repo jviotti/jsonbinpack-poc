@@ -84,8 +84,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, maximum: number, multiplier: number
 ): IntegerResult => {
-  // TODO: This assertion should pass
-  // assert(maximum >= multiplier)
+  assert(maximum >= multiplier)
 
   const absoluteMultiplier: number = Math.abs(multiplier)
   const closestMaximumMultiple: number =

@@ -97,7 +97,7 @@ tap_1.default.test('ROOF__MIRROR_ENUM_VARINT', function (test) {
 });
 tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', function (test) {
     var arbitrary = fc.integer().chain(function (maximum) {
-        return fc.tuple(fc.constant(maximum), fc.integer({ max: maximum }), fc.integer());
+        return fc.tuple(fc.constant(maximum), fc.integer({ max: maximum }), fc.integer({ max: maximum }));
     });
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 3), maximum = _b[0], value = _b[1], multiplier = _b[2];

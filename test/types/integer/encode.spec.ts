@@ -106,14 +106,6 @@ tap.test('ROOF__MIRROR_ENUM_VARINT: should encode 8 (..10) as 0x02', (test) => {
   test.end()
 })
 
-tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) / 5 as 0x02', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, -15, -5, 5)
-  test.strictSame(buffer, Buffer.from([ 0x02 ]))
-  test.is(bytesWritten, 1)
-  test.end()
-})
-
 tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) / -5 as 0x02', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, -15, -5, -5)
