@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   zigzagEncode
 } from '../../utils/zigzag'
 
@@ -26,15 +30,24 @@ import {
 // minimum fits in an unsigned 8-bit integer
 export const BOUNDED_8BITS__ENUM_FIXED = (
   buffer: Buffer, offset: number, value: number,
-  minimum: number, _maximum: number
+  minimum: number, maximum: number
 ): number => {
+  assert(maximum - minimum <= 255)
+  assert(maximum >= minimum)
+  // TODO: This should pass
+  // assert(value >= minimum && value <= maximum)
+
   return buffer.writeUInt8(value - minimum, offset) - offset
 }
 
 export const BOUNDED__ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
-  minimum: number, _maximum: number
+  minimum: number, maximum: number
 ): number => {
+  assert(maximum >= minimum)
+  // TODO: This should pass
+  // assert(value >= minimum && value <= maximum)
+
   return varintEncode(buffer, offset, value - minimum)
 }
 
@@ -42,6 +55,7 @@ export const FLOOR__ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   minimum: number,
 ): number => {
+  assert(value >= minimum)
   return varintEncode(buffer, offset, value - minimum)
 }
 
@@ -49,6 +63,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   maximum: number,
 ): number => {
+  assert(value <= maximum)
   return varintEncode(buffer, offset, (-1 * value) + maximum)
 }
 
@@ -56,6 +71,11 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   maximum: number, multiplier: number
 ): number => {
+  assert(value <= maximum)
+  assert(value % multiplier === 0)
+  // TODO: This should pass
+  // assert(maximum >= multiplier)
+
   const absoluteMultiplier: number = Math.abs(multiplier)
   const closestMaximumMultiple: number =
     Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier
@@ -73,5 +93,6 @@ export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
   buffer: Buffer, offset: number, value: number,
   multiplier: number
 ): number => {
+  assert(value % multiplier === 0)
   return ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(multiplier))
 }

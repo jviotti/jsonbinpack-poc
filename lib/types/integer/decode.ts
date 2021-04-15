@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   zigzagDecode
 } from '../../utils/zigzag'
 
@@ -29,8 +33,11 @@ export interface IntegerResult {
 }
 
 export const BOUNDED_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, minimum: number, _maximum: number
+  buffer: Buffer, offset: number, minimum: number, maximum: number
 ): IntegerResult => {
+  assert(maximum - minimum <= 255)
+  assert(maximum >= minimum)
+
   return {
     value: buffer.readUInt8(offset) + minimum,
     bytes: 1
@@ -38,8 +45,10 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
 }
 
 export const BOUNDED__ENUM_VARINT = (
-  buffer: Buffer, offset: number, minimum: number, _maximum: number
+  buffer: Buffer, offset: number, minimum: number, maximum: number
 ): IntegerResult => {
+  assert(maximum >= minimum)
+
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
     value: result.value + minimum,
@@ -75,6 +84,9 @@ export const ROOF__MIRROR_ENUM_VARINT = (
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, maximum: number, multiplier: number
 ): IntegerResult => {
+  // TODO: This assertion should pass
+  // assert(maximum >= multiplier)
+
   const absoluteMultiplier: number = Math.abs(multiplier)
   const closestMaximumMultiple: number =
     Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier

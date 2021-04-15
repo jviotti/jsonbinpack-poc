@@ -1,16 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = exports.ROOF__MIRROR_ENUM_VARINT = exports.FLOOR__ENUM_VARINT = exports.BOUNDED__ENUM_VARINT = exports.BOUNDED_8BITS__ENUM_FIXED = void 0;
+var assert_1 = require("assert");
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
-var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, minimum, _maximum) {
+var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, minimum, maximum) {
+    assert_1.strict(maximum - minimum <= 255);
+    assert_1.strict(maximum >= minimum);
     return {
         value: buffer.readUInt8(offset) + minimum,
         bytes: 1
     };
 };
 exports.BOUNDED_8BITS__ENUM_FIXED = BOUNDED_8BITS__ENUM_FIXED;
-var BOUNDED__ENUM_VARINT = function (buffer, offset, minimum, _maximum) {
+var BOUNDED__ENUM_VARINT = function (buffer, offset, minimum, maximum) {
+    assert_1.strict(maximum >= minimum);
     var result = varint_1.varintDecode(buffer, offset);
     return {
         value: result.value + minimum,
