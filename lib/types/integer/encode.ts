@@ -52,15 +52,15 @@ export const ROOF__MIRROR_ENUM_VARINT = (
   return varintEncode(buffer, offset, (-1 * value) + maximum)
 }
 
-// TODO: Refactor this function and its decode function
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   maximum: number, multiplier: number
 ): number => {
+  const absoluteMultiplier: number = Math.abs(multiplier)
   const closestMaximumMultiple: number =
-    Math.ceil(maximum / -Math.abs(multiplier)) * -Math.abs(multiplier)
+    Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier
   return ROOF__MIRROR_ENUM_VARINT(buffer, offset,
-    value / Math.abs(multiplier), closestMaximumMultiple / Math.abs(multiplier))
+    value / absoluteMultiplier, closestMaximumMultiple / absoluteMultiplier)
 }
 
 export const ARBITRARY__ZIGZAG_VARINT = (

@@ -96,8 +96,12 @@ tap_1.default.test('ROOF__MIRROR_ENUM_VARINT', function (test) {
     test.end();
 });
 tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', function (test) {
-    fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), function (value, maximum, multiplier) {
-        fc.pre(value <= maximum && value % multiplier === 0);
+    var arbitrary = fc.integer().chain(function (maximum) {
+        return fc.tuple(fc.constant(maximum), fc.integer({ max: maximum }), fc.integer());
+    });
+    fc.assert(fc.property(arbitrary, function (_a) {
+        var _b = __read(_a, 3), maximum = _b[0], value = _b[1], multiplier = _b[2];
+        fc.pre(value % multiplier === 0);
         var buffer = Buffer.allocUnsafe(8);
         var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, maximum, multiplier);
         var result = decode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, maximum, multiplier);

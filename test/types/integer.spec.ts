@@ -114,10 +114,16 @@ tap.test('ROOF__MIRROR_ENUM_VARINT', (test) => {
 })
 
 tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', (test) => {
-  fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), (
-    value: number, maximum: number, multiplier: number
-  ): boolean => {
-    fc.pre(value <= maximum && value % multiplier === 0)
+  const arbitrary = fc.integer().chain((maximum: number) => {
+    return fc.tuple(
+      fc.constant(maximum),
+      fc.integer({ max: maximum }),
+      fc.integer()
+    )
+  })
+
+  fc.assert(fc.property(arbitrary, ([ maximum, value, multiplier ]): boolean => {
+    fc.pre(value % multiplier === 0)
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number =
       ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, maximum, multiplier)

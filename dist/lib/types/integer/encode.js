@@ -20,8 +20,9 @@ var ROOF__MIRROR_ENUM_VARINT = function (buffer, offset, value, maximum) {
 };
 exports.ROOF__MIRROR_ENUM_VARINT = ROOF__MIRROR_ENUM_VARINT;
 var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, maximum, multiplier) {
-    var closestMaximumMultiple = Math.ceil(maximum / -Math.abs(multiplier)) * -Math.abs(multiplier);
-    return exports.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value / Math.abs(multiplier), closestMaximumMultiple / Math.abs(multiplier));
+    var absoluteMultiplier = Math.abs(multiplier);
+    var closestMaximumMultiple = Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier;
+    return exports.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value / absoluteMultiplier, closestMaximumMultiple / absoluteMultiplier);
 };
 exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
 var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value) {
