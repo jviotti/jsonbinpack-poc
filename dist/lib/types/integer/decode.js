@@ -35,9 +35,10 @@ var ROOF__MIRROR_ENUM_VARINT = function (buffer, offset, maximum) {
 };
 exports.ROOF__MIRROR_ENUM_VARINT = ROOF__MIRROR_ENUM_VARINT;
 var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, maximum, multiplier) {
+    var closestMaximumMultiple = Math.ceil(maximum / -Math.abs(multiplier)) * -Math.abs(multiplier);
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: -1 * ((result.value * Math.abs(multiplier)) - maximum),
+        value: -1 * ((result.value * Math.abs(multiplier)) - closestMaximumMultiple),
         bytes: result.bytes
     };
 };

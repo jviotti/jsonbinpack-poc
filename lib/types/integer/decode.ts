@@ -70,9 +70,11 @@ export const ROOF__MIRROR_ENUM_VARINT = (
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, maximum: number, multiplier: number
 ): IntegerResult => {
+  const closestMaximumMultiple: number =
+    Math.ceil(maximum / -Math.abs(multiplier)) * -Math.abs(multiplier)
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: -1 * ((result.value * Math.abs(multiplier)) - maximum),
+    value: -1 * ((result.value * Math.abs(multiplier)) - closestMaximumMultiple),
     bytes: result.bytes
   }
 }

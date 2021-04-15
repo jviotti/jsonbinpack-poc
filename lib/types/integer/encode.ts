@@ -52,7 +52,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
   return varintEncode(buffer, offset, (-1 * value) + maximum)
 }
 
-// TODO: Test this function
+// TODO: Refactor this function and its decode function
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   maximum: number, multiplier: number
