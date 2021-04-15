@@ -95,6 +95,18 @@ tap_1.default.test('ROOF__MIRROR_ENUM_VARINT', function (test) {
     });
     test.end();
 });
+tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', function (test) {
+    fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), function (value, maximum, multiplier) {
+        fc.pre(value <= maximum && value % multiplier === 0);
+        var buffer = Buffer.allocUnsafe(8);
+        var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, maximum, multiplier);
+        var result = decode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, maximum, multiplier);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('ARBITRARY__ZIGZAG_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), function (value) {
         var buffer = Buffer.allocUnsafe(8);

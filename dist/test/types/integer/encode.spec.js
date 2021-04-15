@@ -89,6 +89,13 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) 
     test.is(bytesWritten, 1);
     test.end();
 });
+tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 5 (..16) / 5 as 0x02', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 5, 16, 5);
+    test.strictSame(buffer, Buffer.from([0x02]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
 tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / 5 as 0x01', function (test) {
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, 15, 5);

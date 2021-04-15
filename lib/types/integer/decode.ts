@@ -58,11 +58,21 @@ export const FLOOR__ENUM_VARINT = (
 }
 
 export const ROOF__MIRROR_ENUM_VARINT = (
-  buffer: Buffer, offset: number, maximum: number,
+  buffer: Buffer, offset: number, maximum: number
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
     value: -1 * (result.value - maximum),
+    bytes: result.bytes
+  }
+}
+
+export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
+  buffer: Buffer, offset: number, maximum: number, multiplier: number
+): IntegerResult => {
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  return {
+    value: -1 * ((result.value * Math.abs(multiplier)) - maximum),
     bytes: result.bytes
   }
 }
