@@ -47,6 +47,9 @@ export const BOUNDED__ENUM_VARINT = (
   }
 }
 
+// TODO: Implement BOUNDED_8BITS__ENUM_VARINT
+// TODO: Implement BOUNDED_MULTIPLE__ENUM_VARINT
+
 export const FLOOR__ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number,
 ): IntegerResult => {
@@ -56,6 +59,8 @@ export const FLOOR__ENUM_VARINT = (
     bytes: result.bytes
   }
 }
+
+// TODO: Implement FLOOR_MULTIPLE__ENUM_VARINT
 
 export const ROOF__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, maximum: number
