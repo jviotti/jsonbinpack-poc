@@ -20,6 +20,7 @@ import * as fc from 'fast-check'
 import {
   BOUNDED_8BITS__ENUM_FIXED as ENCODE_BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT as ENCODE_BOUNDED__ENUM_VARINT,
+  BOUNDED_MULTIPLE__ENUM_VARINT as ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT,
   FLOOR__ENUM_VARINT as ENCODE_FLOOR__ENUM_VARINT,
   FLOOR_MULTIPLE__ENUM_VARINT as ENCODE_FLOOR_MULTIPLE__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT as ENCODE_ROOF__MIRROR_ENUM_VARINT,
@@ -32,6 +33,7 @@ import {
   IntegerResult,
   BOUNDED_8BITS__ENUM_FIXED as DECODE_BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT as DECODE_BOUNDED__ENUM_VARINT,
+  BOUNDED_MULTIPLE__ENUM_VARINT as DECODE_BOUNDED_MULTIPLE__ENUM_VARINT,
   FLOOR__ENUM_VARINT as DECODE_FLOOR__ENUM_VARINT,
   FLOOR_MULTIPLE__ENUM_VARINT as DECODE_FLOOR_MULTIPLE__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT as DECODE_ROOF__MIRROR_ENUM_VARINT,
@@ -74,6 +76,33 @@ tap.test('BOUNDED__ENUM_VARINT', (test) => {
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number = ENCODE_BOUNDED__ENUM_VARINT(buffer, 0, value, minimum, maximum)
     const result: IntegerResult = DECODE_BOUNDED__ENUM_VARINT(buffer, 0, minimum, maximum)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
+  const arbitrary = fc.integer().chain((minimum: number) => {
+    return fc.integer({ min: minimum }).chain((maximum: number) => {
+      return fc.tuple(
+        fc.constant(minimum),
+        fc.constant(maximum),
+        fc.integer({ min: minimum, max: maximum }),
+        fc.integer({ min: minimum, max: maximum })
+      )
+    })
+  })
+
+  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value, multiplier ]): boolean => {
+    fc.pre(value % multiplier === 0)
+    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const bytesWritten: number =
+      ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, value, minimum, maximum, multiplier)
+    const result: IntegerResult =
+      DECODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, minimum, maximum, multiplier)
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false

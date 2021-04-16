@@ -57,7 +57,25 @@ export const BOUNDED__ENUM_VARINT = (
 }
 
 // TODO: Implement BOUNDED_8BITS__ENUM_VARINT
-// TODO: Implement BOUNDED_MULTIPLE__ENUM_VARINT
+
+export const BOUNDED_MULTIPLE__ENUM_VARINT = (
+  buffer: Buffer, offset: number,
+  minimum: number, maximum: number, multiplier: number
+): IntegerResult => {
+  assert(maximum >= minimum)
+  assert(multiplier >= minimum)
+  assert(multiplier <= maximum)
+
+  const absoluteMultiplier: number = Math.abs(multiplier)
+  const closestMinimumMultiple: number =
+    Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier
+
+  const result: VarintDecodeResult = varintDecode(buffer, offset)
+  return {
+    value: (result.value * absoluteMultiplier) + closestMinimumMultiple,
+    bytes: result.bytes
+  }
+}
 
 export const FLOOR__ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number,
