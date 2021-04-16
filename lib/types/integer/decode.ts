@@ -44,6 +44,24 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
   }
 }
 
+export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
+  buffer: Buffer, offset: number,
+  minimum: number, maximum: number, multiplier: number
+): IntegerResult => {
+  assert(maximum >= minimum)
+  assert(multiplier >= minimum)
+  assert(multiplier <= maximum)
+
+  const absoluteMultiplier: number = Math.abs(multiplier)
+  const closestMinimumMultiple: number =
+    Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier
+
+  return {
+    value: (buffer.readUInt8(offset) * absoluteMultiplier) + closestMinimumMultiple,
+    bytes: 1
+  }
+}
+
 export const BOUNDED__ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number, maximum: number
 ): IntegerResult => {
@@ -55,8 +73,6 @@ export const BOUNDED__ENUM_VARINT = (
     bytes: result.bytes
   }
 }
-
-// TODO: Implement BOUNDED_8BITS__ENUM_VARINT
 
 export const BOUNDED_MULTIPLE__ENUM_VARINT = (
   buffer: Buffer, offset: number,

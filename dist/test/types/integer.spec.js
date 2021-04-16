@@ -59,6 +59,24 @@ tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED', function (test) {
     });
     test.end();
 });
+tap_1.default.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', function (test) {
+    var arbitrary = fc.integer().chain(function (minimum) {
+        return fc.integer(minimum, minimum + UINT8_MAX).chain(function (maximum) {
+            return fc.tuple(fc.constant(minimum), fc.constant(maximum), fc.integer(minimum, maximum), fc.integer(minimum, maximum));
+        });
+    });
+    fc.assert(fc.property(arbitrary, function (_a) {
+        var _b = __read(_a, 4), minimum = _b[0], maximum = _b[1], value = _b[2], multiplier = _b[3];
+        fc.pre(value % multiplier === 0);
+        var buffer = Buffer.allocUnsafe(1);
+        var bytesWritten = encode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum, multiplier);
+        var result = decode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, minimum, maximum, multiplier);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('BOUNDED__ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), function (value, minimum, maximum) {
         fc.pre(value >= minimum && value <= maximum);
