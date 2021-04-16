@@ -47,6 +47,13 @@ tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', funct
     test.is(bytesWritten, 1);
     test.end();
 });
+tap_1.default.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 15 (1..19) / 5 as 0x02', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 15, 1, 19, 5);
+    test.strictSame(buffer, Buffer.from([0x02]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
 tap_1.default.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', function (test) {
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, -3, -10);

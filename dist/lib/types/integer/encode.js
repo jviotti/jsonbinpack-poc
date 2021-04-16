@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = exports.ROOF__MIRROR_ENUM_VARINT = exports.FLOOR_MULTIPLE__ENUM_VARINT = exports.FLOOR__ENUM_VARINT = exports.BOUNDED__ENUM_VARINT = exports.BOUNDED_8BITS__ENUM_FIXED = void 0;
+exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = exports.ROOF__MIRROR_ENUM_VARINT = exports.FLOOR_MULTIPLE__ENUM_VARINT = exports.FLOOR__ENUM_VARINT = exports.BOUNDED_MULTIPLE__ENUM_VARINT = exports.BOUNDED__ENUM_VARINT = exports.BOUNDED_8BITS__ENUM_FIXED = void 0;
 var assert_1 = require("assert");
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
 var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, value, minimum, maximum) {
-    assert_1.strict(maximum - minimum <= 255);
     assert_1.strict(maximum >= minimum);
+    assert_1.strict(maximum - minimum <= 255);
     assert_1.strict(value >= minimum);
     assert_1.strict(value <= maximum);
     return buffer.writeUInt8(value - minimum, offset) - offset;
@@ -19,6 +19,19 @@ var BOUNDED__ENUM_VARINT = function (buffer, offset, value, minimum, maximum) {
     return varint_1.varintEncode(buffer, offset, value - minimum);
 };
 exports.BOUNDED__ENUM_VARINT = BOUNDED__ENUM_VARINT;
+var BOUNDED_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, minimum, maximum, multiplier) {
+    assert_1.strict(maximum >= minimum);
+    assert_1.strict(value >= minimum);
+    assert_1.strict(value <= maximum);
+    assert_1.strict(multiplier >= minimum);
+    assert_1.strict(multiplier <= maximum);
+    assert_1.strict(value % multiplier === 0);
+    var absoluteMultiplier = Math.abs(multiplier);
+    var closestMinimumMultiple = Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier;
+    var closestMaximumMultiple = Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier;
+    return exports.BOUNDED__ENUM_VARINT(buffer, offset, value / absoluteMultiplier, closestMinimumMultiple / absoluteMultiplier, closestMaximumMultiple / absoluteMultiplier);
+};
+exports.BOUNDED_MULTIPLE__ENUM_VARINT = BOUNDED_MULTIPLE__ENUM_VARINT;
 var FLOOR__ENUM_VARINT = function (buffer, offset, value, minimum) {
     assert_1.strict(value >= minimum);
     return varint_1.varintEncode(buffer, offset, value - minimum);

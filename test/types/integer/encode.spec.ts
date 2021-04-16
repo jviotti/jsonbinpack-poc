@@ -19,6 +19,7 @@ import tap from 'tap'
 import {
   BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT,
+  BOUNDED_MULTIPLE__ENUM_VARINT,
   FLOOR__ENUM_VARINT,
   FLOOR_MULTIPLE__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT,
@@ -71,6 +72,14 @@ tap.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 5, 2, 8)
   test.strictSame(buffer, Buffer.from([ 0x03 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 15 (1..19) / 5 as 0x02', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 15, 1, 19, 5)
+  test.strictSame(buffer, Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
   test.end()
 })

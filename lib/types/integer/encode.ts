@@ -51,6 +51,29 @@ export const BOUNDED__ENUM_VARINT = (
   return varintEncode(buffer, offset, value - minimum)
 }
 
+export const BOUNDED_MULTIPLE__ENUM_VARINT = (
+  buffer: Buffer, offset: number, value: number,
+  minimum: number, maximum: number, multiplier: number
+): number => {
+  assert(maximum >= minimum)
+  assert(value >= minimum)
+  assert(value <= maximum)
+  assert(multiplier >= minimum)
+  assert(multiplier <= maximum)
+  assert(value % multiplier === 0)
+
+  const absoluteMultiplier: number = Math.abs(multiplier)
+  const closestMinimumMultiple: number =
+    Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier
+  const closestMaximumMultiple: number =
+    Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier
+
+  return BOUNDED__ENUM_VARINT(buffer, offset,
+    value / absoluteMultiplier,
+    closestMinimumMultiple / absoluteMultiplier,
+    closestMaximumMultiple / absoluteMultiplier)
+}
+
 export const FLOOR__ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   minimum: number,

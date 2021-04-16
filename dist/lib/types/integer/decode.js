@@ -5,8 +5,8 @@ var assert_1 = require("assert");
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
 var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, minimum, maximum) {
-    assert_1.strict(maximum - minimum <= 255);
     assert_1.strict(maximum >= minimum);
+    assert_1.strict(maximum - minimum <= 255);
     return {
         value: buffer.readUInt8(offset) + minimum,
         bytes: 1
