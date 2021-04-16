@@ -20,6 +20,7 @@ import {
   BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT,
+  FLOOR_MULTIPLE__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT,
   ROOF_MULTIPLE__MIRROR_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT,
@@ -86,6 +87,22 @@ tap.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, 0, 5, 2)
   test.strictSame(buffer, Buffer.from([ 0x03 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (5..) / 5 as 0x01', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, 5, 5)
+  test.strictSame(buffer, Buffer.from([ 0x01 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (2..) / 5 as 0x01', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, 2, 5)
+  test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()
 })

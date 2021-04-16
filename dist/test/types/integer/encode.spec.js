@@ -61,6 +61,20 @@ tap_1.default.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', function
     test.is(bytesWritten, 1);
     test.end();
 });
+tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (5..) / 5 as 0x01', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, 5, 5);
+    test.strictSame(buffer, Buffer.from([0x01]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
+tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (2..) / 5 as 0x01', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, 2, 5);
+    test.strictSame(buffer, Buffer.from([0x01]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
 tap_1.default.test('ROOF__MIRROR_ENUM_VARINT: should encode -3 (..-2) as 0x01', function (test) {
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, -3, -2);

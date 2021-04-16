@@ -59,6 +59,22 @@ export const FLOOR__ENUM_VARINT = (
   return varintEncode(buffer, offset, value - minimum)
 }
 
+export const FLOOR_MULTIPLE__ENUM_VARINT = (
+  buffer: Buffer, offset: number, value: number,
+  minimum: number, multiplier: number
+): number => {
+  assert(value >= minimum)
+  assert(value % multiplier === 0)
+  assert(multiplier >= minimum)
+
+  const absoluteMultiplier: number = Math.abs(multiplier)
+  const closestMinimumMultiple: number =
+    Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier
+
+  return FLOOR__ENUM_VARINT(buffer, offset,
+    value / absoluteMultiplier, closestMinimumMultiple / absoluteMultiplier)
+}
+
 export const ROOF__MIRROR_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: number,
   maximum: number,
