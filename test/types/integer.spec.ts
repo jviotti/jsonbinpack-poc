@@ -21,6 +21,7 @@ import {
   BOUNDED_8BITS__ENUM_FIXED as ENCODE_BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT as ENCODE_BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT as ENCODE_FLOOR__ENUM_VARINT,
+  FLOOR_MULTIPLE__ENUM_VARINT as ENCODE_FLOOR_MULTIPLE__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT as ENCODE_ROOF__MIRROR_ENUM_VARINT,
   ROOF_MULTIPLE__MIRROR_ENUM_VARINT as ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT as ENCODE_ARBITRARY__ZIGZAG_VARINT,
@@ -32,6 +33,7 @@ import {
   BOUNDED_8BITS__ENUM_FIXED as DECODE_BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT as DECODE_BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT as DECODE_FLOOR__ENUM_VARINT,
+  FLOOR_MULTIPLE__ENUM_VARINT as DECODE_FLOOR_MULTIPLE__ENUM_VARINT,
   ROOF__MIRROR_ENUM_VARINT as DECODE_ROOF__MIRROR_ENUM_VARINT,
   ROOF_MULTIPLE__MIRROR_ENUM_VARINT as DECODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT,
   ARBITRARY__ZIGZAG_VARINT as DECODE_ARBITRARY__ZIGZAG_VARINT,
@@ -88,6 +90,30 @@ tap.test('FLOOR__ENUM_VARINT', (test) => {
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number = ENCODE_FLOOR__ENUM_VARINT(buffer, 0, value, minimum)
     const result: IntegerResult = DECODE_FLOOR__ENUM_VARINT(buffer, 0, minimum)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('FLOOR_MULTIPLE__ENUM_VARINT', (test) => {
+  const arbitrary = fc.integer().chain((minimum: number) => {
+    return fc.tuple(
+      fc.constant(minimum),
+      fc.integer({ min: minimum }),
+      fc.integer({ min: minimum })
+    )
+  })
+
+  fc.assert(fc.property(arbitrary, ([ minimum, value, multiplier ]): boolean => {
+    fc.pre(value % multiplier === 0)
+    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const bytesWritten: number =
+      ENCODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, value, minimum, multiplier)
+    const result: IntegerResult =
+      DECODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, minimum, multiplier)
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false

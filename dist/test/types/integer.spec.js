@@ -83,6 +83,22 @@ tap_1.default.test('FLOOR__ENUM_VARINT', function (test) {
     });
     test.end();
 });
+tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT', function (test) {
+    var arbitrary = fc.integer().chain(function (minimum) {
+        return fc.tuple(fc.constant(minimum), fc.integer({ min: minimum }), fc.integer({ min: minimum }));
+    });
+    fc.assert(fc.property(arbitrary, function (_a) {
+        var _b = __read(_a, 3), minimum = _b[0], value = _b[1], multiplier = _b[2];
+        fc.pre(value % multiplier === 0);
+        var buffer = Buffer.allocUnsafe(8);
+        var bytesWritten = encode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, value, minimum, multiplier);
+        var result = decode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, minimum, multiplier);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('ROOF__MIRROR_ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), function (value, maximum) {
         fc.pre(value <= maximum);
