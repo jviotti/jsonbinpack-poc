@@ -35,8 +35,8 @@ export interface IntegerResult {
 export const BOUNDED_8BITS__ENUM_FIXED = (
   buffer: Buffer, offset: number, minimum: number, maximum: number
 ): IntegerResult => {
-  assert(maximum - minimum <= 255)
   assert(maximum >= minimum)
+  assert(maximum - minimum <= 255)
 
   return {
     value: buffer.readUInt8(offset) + minimum,

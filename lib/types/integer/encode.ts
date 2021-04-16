@@ -32,8 +32,8 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
   buffer: Buffer, offset: number, value: number,
   minimum: number, maximum: number
 ): number => {
-  assert(maximum - minimum <= 255)
   assert(maximum >= minimum)
+  assert(maximum - minimum <= 255)
   assert(value >= minimum)
   assert(value <= maximum)
 
