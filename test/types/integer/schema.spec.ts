@@ -20,7 +20,7 @@ import {
   SchemaInteger,
   EncodingInteger,
   getIntegerEncoding
-} from '../../lib/schemas/integer'
+} from '../../../lib/types/integer/schema'
 
 tap.test('should encode an arbitrary integer', (test) => {
   const schema: SchemaInteger = {
