@@ -34,8 +34,8 @@ export const varintEncode = (buffer: Buffer, offset: number, value: number): num
 }
 
 export interface VarintDecodeResult {
-  value: number;
-  bytes: number;
+  readonly value: number;
+  readonly bytes: number;
 }
 
 export const varintDecode = (buffer: Buffer, offset: number): VarintDecodeResult => {

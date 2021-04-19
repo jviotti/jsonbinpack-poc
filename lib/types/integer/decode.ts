@@ -28,8 +28,8 @@ import {
 } from '../../utils/varint'
 
 export interface IntegerResult {
-  value: number;
-  bytes: number;
+  readonly value: number;
+  readonly bytes: number;
 }
 
 export const BOUNDED_8BITS__ENUM_FIXED = (
