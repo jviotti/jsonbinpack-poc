@@ -17,6 +17,7 @@
 import tap from 'tap'
 
 import {
+  FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../../lib/types/string/encode'
 
@@ -41,5 +42,13 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode " "', (test) => {
   const bytesWritten: number = ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ')
   test.strictSame(buffer, Buffer.from([ 0x01, 0x20 ]))
   test.is(bytesWritten, 2)
+  test.end()
+})
+
+tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (3..)', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', 3)
+  test.strictSame(buffer, Buffer.from([ 0x00, 0x66, 0x6f, 0x6f ]))
+  test.is(bytesWritten, 4)
   test.end()
 })

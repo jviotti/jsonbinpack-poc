@@ -15,16 +15,28 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   FLOOR__ENUM_VARINT
 } from '../integer/encode'
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
+export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
+  buffer: Buffer, offset: number, value: string, minimum: number
+): number => {
+  assert(minimum >= 0)
+  const length: number = Buffer.byteLength(value, STRING_ENCODING)
+  assert(length >= minimum)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length, minimum)
+  return buffer.write(value, offset + bytesWritten,
+    length, STRING_ENCODING) + bytesWritten
+}
+
 export const ARBITRARY__PREFIX_LENGTH_VARINT = (
   buffer: Buffer, offset: number, value: string
 ): number => {
-  const length: number = Buffer.byteLength(value, STRING_ENCODING)
-  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length, 0)
-  return buffer.write(value, offset + bytesWritten,
-    length, STRING_ENCODING) + bytesWritten
+  return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, 0)
 }

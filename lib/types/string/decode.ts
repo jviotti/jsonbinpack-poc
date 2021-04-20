@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   IntegerResult,
   FLOOR__ENUM_VARINT
 } from '../integer/decode'
@@ -26,13 +30,20 @@ export interface StringResult {
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
-export const ARBITRARY__PREFIX_LENGTH_VARINT = (
-  buffer: Buffer, offset: number
+export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
+  buffer: Buffer, offset: number, minimum: number
 ): StringResult => {
-  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, 0)
+  assert(minimum >= 0)
+  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, minimum)
   return {
     value: buffer.toString(
       STRING_ENCODING, length.bytes, length.bytes + length.value),
     bytes: length.bytes + length.value
   }
+}
+
+export const ARBITRARY__PREFIX_LENGTH_VARINT = (
+  buffer: Buffer, offset: number
+): StringResult => {
+  return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, 0)
 }
