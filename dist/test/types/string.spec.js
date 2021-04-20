@@ -42,6 +42,22 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/string/encode");
 var decode_1 = require("../../lib/types/string/decode");
+tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
+    var arbitrary = fc.nat(255).chain(function (maximum) {
+        return fc.tuple(fc.nat(maximum), fc.constant(maximum), fc.string({ maxLength: maximum }));
+    });
+    fc.assert(fc.property(arbitrary, function (_a) {
+        var _b = __read(_a, 3), minimum = _b[0], maximum = _b[1], value = _b[2];
+        fc.pre(Buffer.byteLength(value, 'utf8') >= minimum);
+        var buffer = Buffer.allocUnsafe(256);
+        var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, minimum, maximum);
+        var result = decode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, minimum, maximum);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     var arbitrary = fc.nat(1000).chain(function (maximum) {
         return fc.tuple(fc.nat(maximum), fc.constant(maximum), fc.string({ maxLength: maximum }));

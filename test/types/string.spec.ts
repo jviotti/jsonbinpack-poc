@@ -18,6 +18,7 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  BOUNDED__PREFIX_LENGTH_8BIT_FIXED as ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT as ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
   ROOF__PREFIX_LENGTH_8BIT_FIXED as ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
   ROOF__PREFIX_LENGTH_ENUM_VARINT as ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT,
@@ -27,12 +28,35 @@ import {
 
 import {
   StringResult,
+  BOUNDED__PREFIX_LENGTH_8BIT_FIXED as DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT as DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
   ROOF__PREFIX_LENGTH_8BIT_FIXED as DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
   ROOF__PREFIX_LENGTH_ENUM_VARINT as DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT as DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT as DECODE_ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../lib/types/string/decode'
+
+tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
+  const arbitrary = fc.nat(255).chain((maximum: number) => {
+    return fc.tuple(
+      fc.nat(maximum),
+      fc.constant(maximum),
+      fc.string({ maxLength: maximum })
+    )
+  })
+
+  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value ]): boolean => {
+    fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
+    const buffer: Buffer = Buffer.allocUnsafe(256)
+    const bytesWritten: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, minimum, maximum)
+    const result: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, minimum, maximum)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
 
 tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   const arbitrary = fc.nat(1000).chain((maximum: number) => {

@@ -30,7 +30,18 @@ import {
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
-// TODO: BOUNDED 8bit
+export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
+  buffer: Buffer, offset: number, value: string, minimum: number, maximum: number
+): number => {
+  assert(minimum >= 0)
+  assert(maximum >= minimum)
+  assert(maximum - minimum <= 255)
+  const length: number = Buffer.byteLength(value, STRING_ENCODING)
+  assert(length <= maximum)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, minimum, maximum)
+  return buffer.write(value, offset + bytesWritten,
+    length, STRING_ENCODING) + bytesWritten
+}
 
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: string, minimum: number, maximum: number
@@ -50,11 +61,7 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
 ): number => {
   assert(maximum >= 0)
   assert(maximum <= 255)
-  const length: number = Buffer.byteLength(value, STRING_ENCODING)
-  assert(length <= maximum)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, 0, maximum)
-  return buffer.write(value, offset + bytesWritten,
-    length, STRING_ENCODING) + bytesWritten
+  return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, 0, maximum)
 }
 
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (

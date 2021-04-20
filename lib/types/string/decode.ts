@@ -32,6 +32,20 @@ export interface StringResult {
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
+export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
+  buffer: Buffer, offset: number, minimum: number, maximum: number
+): StringResult => {
+  assert(minimum >= 0)
+  assert(maximum >= minimum)
+  assert(maximum - minimum <= 255)
+  const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, minimum, maximum)
+  return {
+    value: buffer.toString(
+      STRING_ENCODING, length.bytes, length.bytes + length.value),
+    bytes: length.bytes + length.value
+  }
+}
+
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number, maximum: number
 ): StringResult => {
@@ -50,12 +64,7 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
 ): StringResult => {
   assert(maximum >= 0)
   assert(maximum <= 255)
-  const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, maximum)
-  return {
-    value: buffer.toString(
-      STRING_ENCODING, length.bytes, length.bytes + length.value),
-    bytes: length.bytes + length.value
-  }
+  return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, 0, maximum)
 }
 
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
