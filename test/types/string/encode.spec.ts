@@ -35,3 +35,11 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode ""', (test) => {
   test.is(bytesWritten, 1)
   test.end()
 })
+
+tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode " "', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(2)
+  const bytesWritten: number = ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ')
+  test.strictSame(buffer, Buffer.from([ 0x01, 0x20 ]))
+  test.is(bytesWritten, 2)
+  test.end()
+})

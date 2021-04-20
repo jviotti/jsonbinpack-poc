@@ -19,3 +19,10 @@ tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode ""', function
     test.is(bytesWritten, 1);
     test.end();
 });
+tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode " "', function (test) {
+    var buffer = Buffer.allocUnsafe(2);
+    var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ');
+    test.strictSame(buffer, Buffer.from([0x01, 0x20]));
+    test.is(bytesWritten, 2);
+    test.end();
+});

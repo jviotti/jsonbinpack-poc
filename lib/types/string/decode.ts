@@ -32,7 +32,7 @@ export const ARBITRARY__PREFIX_LENGTH_VARINT = (
   const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, 0)
   return {
     value: buffer.toString(
-      STRING_ENCODING, length.bytes, length.value),
+      STRING_ENCODING, length.bytes, length.bytes + length.value),
     bytes: length.bytes + length.value
   }
 }
