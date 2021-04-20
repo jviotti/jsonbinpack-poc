@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as CodeMirror from 'codemirror'
+import CodeMirror from 'codemirror'
 
 import {
   JSONValue,
