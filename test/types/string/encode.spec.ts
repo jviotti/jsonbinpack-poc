@@ -17,9 +17,26 @@
 import tap from 'tap'
 
 import {
+  ROOF__PREFIX_LENGTH_8BIT_FIXED,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../../lib/types/string/encode'
+
+tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode "foo" (..4)', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', 4)
+  test.strictSame(buffer, Buffer.from([ 0x03, 0x66, 0x6f, 0x6f ]))
+  test.is(bytesWritten, 4)
+  test.end()
+})
+
+tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (3..)', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', 3)
+  test.strictSame(buffer, Buffer.from([ 0x00, 0x66, 0x6f, 0x6f ]))
+  test.is(bytesWritten, 4)
+  test.end()
+})
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode "foo"', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(4)
@@ -42,13 +59,5 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode " "', (test) => {
   const bytesWritten: number = ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ')
   test.strictSame(buffer, Buffer.from([ 0x01, 0x20 ]))
   test.is(bytesWritten, 2)
-  test.end()
-})
-
-tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (3..)', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', 3)
-  test.strictSame(buffer, Buffer.from([ 0x00, 0x66, 0x6f, 0x6f ]))
-  test.is(bytesWritten, 4)
   test.end()
 })

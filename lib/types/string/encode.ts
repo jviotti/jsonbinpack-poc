@@ -19,10 +19,26 @@ import {
 } from 'assert'
 
 import {
+  BOUNDED_8BITS__ENUM_FIXED,
   FLOOR__ENUM_VARINT
 } from '../integer/encode'
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
+
+// TODO: BOUNDED 8bit
+// TODO: BOUNDED >8bit
+// TODO: ROOF with max >= 255 using var int
+
+export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
+  buffer: Buffer, offset: number, value: string, maximum: number
+): number => {
+  assert(maximum >= 0)
+  assert(maximum <= 255)
+  const length: number = Buffer.byteLength(value, STRING_ENCODING)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, 0, maximum)
+  return buffer.write(value, offset + bytesWritten,
+    length, STRING_ENCODING) + bytesWritten
+}
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: string, minimum: number

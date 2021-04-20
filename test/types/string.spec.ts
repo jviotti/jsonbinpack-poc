@@ -18,15 +18,37 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  ROOF__PREFIX_LENGTH_8BIT_FIXED as ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT as ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT as ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../lib/types/string/encode'
 
 import {
   StringResult,
+  ROOF__PREFIX_LENGTH_8BIT_FIXED as DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT as DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT as DECODE_ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../lib/types/string/decode'
+
+tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
+  const arbitrary = fc.nat(255).chain((maximum: number) => {
+    return fc.tuple(
+      fc.constant(maximum),
+      fc.string({ maxLength: maximum })
+    )
+  })
+
+  fc.assert(fc.property(arbitrary, ([ maximum, value ]): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(256)
+    const bytesWritten: number = ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, maximum)
+    const result: StringResult = DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, maximum)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
 
 tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   const arbitrary = fc.nat(2000).chain((minimum: number) => {

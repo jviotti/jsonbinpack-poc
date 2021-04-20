@@ -20,6 +20,7 @@ import {
 
 import {
   IntegerResult,
+  BOUNDED_8BITS__ENUM_FIXED,
   FLOOR__ENUM_VARINT
 } from '../integer/decode'
 
@@ -29,6 +30,19 @@ export interface StringResult {
 }
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
+
+export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
+  buffer: Buffer, offset: number, maximum: number
+): StringResult => {
+  assert(maximum >= 0)
+  assert(maximum <= 255)
+  const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, maximum)
+  return {
+    value: buffer.toString(
+      STRING_ENCODING, length.bytes, length.bytes + length.value),
+    bytes: length.bytes + length.value
+  }
+}
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number
