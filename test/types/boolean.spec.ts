@@ -1,0 +1,64 @@
+/*
+ * Copyright 2021 Juan Cruz Viotti
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import tap from 'tap'
+
+import {
+  BOOLEAN_8BITS__ENUM_FIXED as ENCODE_BOOLEAN_8BITS__ENUM_FIXED,
+  NULL_8BITS__ENUM_FIXED as ENCODE_NULL_8BITS__ENUM_FIXED
+} from '../../lib/types/boolean/encode'
+
+import {
+  BooleanResult,
+  NullResult,
+  BOOLEAN_8BITS__ENUM_FIXED as DECODE_BOOLEAN_8BITS__ENUM_FIXED,
+  NULL_8BITS__ENUM_FIXED as DECODE_NULL_8BITS__ENUM_FIXED
+} from '../../lib/types/boolean/decode'
+
+tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
+  const value: boolean = false
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value)
+  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0)
+
+  test.is(bytesWritten, 1)
+  test.is(bytesWritten, result.bytes)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('BOOLEAN_8BITS__ENUM_FIXED: true', (test) => {
+  const value: boolean = true
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value)
+  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0)
+
+  test.is(bytesWritten, 1)
+  test.is(bytesWritten, result.bytes)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0)
+  const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 0)
+
+  test.is(bytesWritten, 1)
+  test.is(bytesWritten, result.bytes)
+  test.is(result.value, null)
+  test.end()
+})
