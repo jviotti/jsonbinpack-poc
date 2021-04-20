@@ -17,11 +17,20 @@
 import tap from 'tap'
 
 import {
+  BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
   ROOF__PREFIX_LENGTH_8BIT_FIXED,
   ROOF__PREFIX_LENGTH_ENUM_VARINT,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../../lib/types/string/encode'
+
+tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', 2, 4)
+  test.strictSame(buffer, Buffer.from([ 0x01, 0x66, 0x6f, 0x6f ]))
+  test.is(bytesWritten, 4)
+  test.end()
+})
 
 tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode "foo" (..4)', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(4)
