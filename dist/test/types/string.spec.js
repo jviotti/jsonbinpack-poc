@@ -57,6 +57,21 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
     });
     test.end();
 });
+tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
+    var arbitrary = fc.nat(1000).chain(function (maximum) {
+        return fc.tuple(fc.constant(maximum), fc.string({ maxLength: maximum }));
+    });
+    fc.assert(fc.property(arbitrary, function (_a) {
+        var _b = __read(_a, 2), maximum = _b[0], value = _b[1];
+        var buffer = Buffer.allocUnsafe(2048);
+        var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, maximum);
+        var result = decode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, maximum);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     var arbitrary = fc.nat(2000).chain(function (minimum) {
         return fc.tuple(fc.constant(minimum), fc.string({ minLength: minimum, maxLength: 2000 }));
