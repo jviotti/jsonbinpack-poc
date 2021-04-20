@@ -21,8 +21,14 @@
   "homepage": "https://github.com/jviotti/jsonbinpack#readme",
   "devDependencies": {
     "@sourcemeta/typescript-config": "^1.0.0",
+    "@types/codemirror": "^0.0.108",
     "@types/tap": "^14.10.2",
+    "browserify": "^17.0.0",
+    "codemirror": "^5.59.3",
     "fast-check": "^2.14.0",
-    "tap": "^14.11.0"
+    "jsontoolkit": "./vendor/jsontoolkit",
+    "tailwindcss": "^2.0.3",
+    "tap": "^14.11.0",
+    "uglify-js": "^3.12.8"
   }
 }
