@@ -18,6 +18,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -26,6 +42,21 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/string/encode");
 var decode_1 = require("../../lib/types/string/decode");
+tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
+    var arbitrary = fc.nat(2000).chain(function (minimum) {
+        return fc.tuple(fc.constant(minimum), fc.string({ minLength: minimum, maxLength: 2000 }));
+    });
+    fc.assert(fc.property(arbitrary, function (_a) {
+        var _b = __read(_a, 2), minimum = _b[0], value = _b[1];
+        var buffer = Buffer.allocUnsafe(2048);
+        var bytesWritten = encode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, minimum);
+        var result = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, minimum);
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', function (test) {
     fc.assert(fc.property(fc.string({ maxLength: 1000 }), function (value) {
         var buffer = Buffer.allocUnsafe(2048);

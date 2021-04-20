@@ -18,13 +18,35 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  FLOOR__PREFIX_LENGTH_ENUM_VARINT as ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT as ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../lib/types/string/encode'
 
 import {
   StringResult,
+  FLOOR__PREFIX_LENGTH_ENUM_VARINT as DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   ARBITRARY__PREFIX_LENGTH_VARINT as DECODE_ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../lib/types/string/decode'
+
+tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
+  const arbitrary = fc.nat(2000).chain((minimum: number) => {
+    return fc.tuple(
+      fc.constant(minimum),
+      fc.string({ minLength: minimum, maxLength: 2000 })
+    )
+  })
+
+  fc.assert(fc.property(arbitrary, ([ minimum, value ]): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const bytesWritten: number = ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, minimum)
+    const result: StringResult = DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, minimum)
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
   fc.assert(fc.property(fc.string({ maxLength: 1000 }), (value: string): boolean => {
