@@ -19,10 +19,3 @@ tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: should encode true as 0x01', func
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('NULL_8BITS__ENUM_FIXED: should encode null as 0x00', function (test) {
-    var buffer = Buffer.allocUnsafe(1);
-    var bytesWritten = encode_1.NULL_8BITS__ENUM_FIXED(buffer, 0);
-    test.strictSame(buffer, Buffer.from([0x00]));
-    test.is(bytesWritten, 1);
-    test.end();
-});

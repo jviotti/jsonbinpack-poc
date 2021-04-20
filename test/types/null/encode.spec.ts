@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-import {
-  BOUNDED_8BITS__ENUM_FIXED
-} from '../integer/encode'
+import tap from 'tap'
 
-export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: boolean
-): number => {
-  const integer: number = value ? 1 : 0
-  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, integer, 0, 1)
-}
+import {
+  NULL_8BITS__ENUM_FIXED
+} from '../../../lib/types/null/encode'
+
+tap.test('NULL_8BITS__ENUM_FIXED: should encode null as 0x00', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = NULL_8BITS__ENUM_FIXED(buffer, 0)
+  test.strictSame(buffer, Buffer.from([ 0x00 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})

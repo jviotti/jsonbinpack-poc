@@ -17,15 +17,12 @@
 import tap from 'tap'
 
 import {
-  BOOLEAN_8BITS__ENUM_FIXED as ENCODE_BOOLEAN_8BITS__ENUM_FIXED,
-  NULL_8BITS__ENUM_FIXED as ENCODE_NULL_8BITS__ENUM_FIXED
+  BOOLEAN_8BITS__ENUM_FIXED as ENCODE_BOOLEAN_8BITS__ENUM_FIXED
 } from '../../lib/types/boolean/encode'
 
 import {
   BooleanResult,
-  NullResult,
-  BOOLEAN_8BITS__ENUM_FIXED as DECODE_BOOLEAN_8BITS__ENUM_FIXED,
-  NULL_8BITS__ENUM_FIXED as DECODE_NULL_8BITS__ENUM_FIXED
+  BOOLEAN_8BITS__ENUM_FIXED as DECODE_BOOLEAN_8BITS__ENUM_FIXED
 } from '../../lib/types/boolean/decode'
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
@@ -49,16 +46,5 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: true', (test) => {
   test.is(bytesWritten, 1)
   test.is(bytesWritten, result.bytes)
   test.is(result.value, value)
-  test.end()
-})
-
-tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0)
-  const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 0)
-
-  test.is(bytesWritten, 1)
-  test.is(bytesWritten, result.bytes)
-  test.is(result.value, null)
   test.end()
 })

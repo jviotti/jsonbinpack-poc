@@ -15,12 +15,27 @@
  */
 
 import {
-  BOUNDED_8BITS__ENUM_FIXED
-} from '../integer/encode'
+  strict as assert
+} from 'assert'
 
-export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: boolean
-): number => {
-  const integer: number = value ? 1 : 0
-  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, integer, 0, 1)
+import {
+  IntegerResult,
+  BOUNDED_8BITS__ENUM_FIXED
+} from '../integer/decode'
+
+export interface NullResult {
+  readonly value: null;
+  readonly bytes: number;
+}
+
+export const NULL_8BITS__ENUM_FIXED = (
+  buffer: Buffer, offset: number
+): NullResult => {
+  const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, 0)
+  assert(result.value === 0)
+
+  return {
+    value: null,
+    bytes: result.bytes
+  }
 }

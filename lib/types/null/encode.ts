@@ -18,9 +18,8 @@ import {
   BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/encode'
 
-export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: boolean
+export const NULL_8BITS__ENUM_FIXED = (
+  buffer: Buffer, offset: number
 ): number => {
-  const integer: number = value ? 1 : 0
-  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, integer, 0, 1)
+  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, 0, 0)
 }

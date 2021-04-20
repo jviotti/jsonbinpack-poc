@@ -28,11 +28,6 @@ export interface BooleanResult {
   readonly bytes: number;
 }
 
-export interface NullResult {
-  readonly value: null;
-  readonly bytes: number;
-}
-
 export const BOOLEAN_8BITS__ENUM_FIXED = (
   buffer: Buffer, offset: number
 ): BooleanResult => {
@@ -42,18 +37,6 @@ export const BOOLEAN_8BITS__ENUM_FIXED = (
 
   return {
     value: Boolean(result.value),
-    bytes: result.bytes
-  }
-}
-
-export const NULL_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number
-): NullResult => {
-  const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, 0)
-  assert(result.value === 0)
-
-  return {
-    value: null,
     bytes: result.bytes
   }
 }
