@@ -22,6 +22,15 @@ import {
   getIntegerEncoding
 } from '../../../lib/types/integer/schema'
 
+import * as ENCODE_FUNCTIONS from '../../../lib/types/integer/encode'
+import * as DECODE_FUNCTIONS from '../../../lib/types/integer/decode'
+
+tap.test('the encoding enum should include all encoding functions', (test) => {
+  test.strictSame(Object.values(EncodingInteger).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(EncodingInteger).sort(), Object.keys(DECODE_FUNCTIONS).sort())
+  test.end()
+})
+
 tap.test('should encode an arbitrary integer', (test) => {
   const schema: SchemaInteger = {
     type: 'integer'
