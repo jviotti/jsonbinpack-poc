@@ -27,8 +27,8 @@ var mapper_1 = require("../../../lib/types/number/mapper");
 var ENCODE_FUNCTIONS = __importStar(require("../../../lib/types/number/encode"));
 var DECODE_FUNCTIONS = __importStar(require("../../../lib/types/number/decode"));
 tap_1.default.test('the encoding enum should include all encoding functions', function (test) {
-    test.strictSame(Object.values(mapper_1.EncodingNumber).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
-    test.strictSame(Object.values(mapper_1.EncodingNumber).sort(), Object.keys(DECODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.NumberEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.NumberEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort());
     test.end();
 });
 tap_1.default.test('should encode a number simple value', function (test) {
@@ -36,6 +36,6 @@ tap_1.default.test('should encode a number simple value', function (test) {
         type: 'number'
     };
     var encoding = mapper_1.getNumberEncoding(schema);
-    test.is(encoding, mapper_1.EncodingNumber.DOUBLE__IEEE764_LE);
+    test.is(encoding, mapper_1.NumberEncoding.DOUBLE__IEEE764_LE);
     test.end();
 });

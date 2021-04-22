@@ -26,7 +26,7 @@ import {
   UINT8_MAX
 } from '../../utils/limits'
 
-export enum EncodingInteger {
+export enum IntegerEncoding {
   BOUNDED_8BITS__ENUM_FIXED = 'BOUNDED_8BITS__ENUM_FIXED',
   BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
   BOUNDED__ENUM_VARINT = 'BOUNDED__ENUM_VARINT',
@@ -39,7 +39,7 @@ export enum EncodingInteger {
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT = 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT'
 }
 
-export const getIntegerEncoding = (schema: IntegerCanonicalSchema): EncodingInteger => {
+export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncoding => {
   assert(typeof schema.minimum === 'undefined' ||
     typeof schema.maximum === 'undefined' ||
     schema.maximum >= schema.minimum)
@@ -47,30 +47,30 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): EncodingInte
   if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && 'multipleOf' in schema) {
     // TODO: Handle 8-bits case
-    return EncodingInteger.BOUNDED_MULTIPLE__ENUM_VARINT
+    return IntegerEncoding.BOUNDED_MULTIPLE__ENUM_VARINT
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
     if (schema.maximum - schema.minimum <= UINT8_MAX) {
-      return EncodingInteger.BOUNDED_8BITS__ENUM_FIXED
+      return IntegerEncoding.BOUNDED_8BITS__ENUM_FIXED
     }
 
-    return EncodingInteger.BOUNDED__ENUM_VARINT
+    return IntegerEncoding.BOUNDED__ENUM_VARINT
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum === 'undefined' && 'multipleOf' in schema) {
-    return EncodingInteger.FLOOR_MULTIPLE__ENUM_VARINT
+    return IntegerEncoding.FLOOR_MULTIPLE__ENUM_VARINT
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum === 'undefined' && !('multipleOf' in schema)) {
-    return EncodingInteger.FLOOR__ENUM_VARINT
+    return IntegerEncoding.FLOOR__ENUM_VARINT
   } else if (typeof schema.minimum === 'undefined' &&
     typeof schema.maximum !== 'undefined' && 'multipleOf' in schema) {
-    return EncodingInteger.ROOF_MULTIPLE__MIRROR_ENUM_VARINT
+    return IntegerEncoding.ROOF_MULTIPLE__MIRROR_ENUM_VARINT
   } else if (typeof schema.minimum === 'undefined' &&
     typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
-    return EncodingInteger.ROOF__MIRROR_ENUM_VARINT
+    return IntegerEncoding.ROOF__MIRROR_ENUM_VARINT
   } else if (typeof schema.minimum === 'undefined' &&
     typeof schema.maximum === 'undefined' && 'multipleOf' in schema) {
-    return EncodingInteger.ARBITRARY_MULTIPLE__ZIGZAG_VARINT
+    return IntegerEncoding.ARBITRARY_MULTIPLE__ZIGZAG_VARINT
   } else {
-    return EncodingInteger.ARBITRARY__ZIGZAG_VARINT
+    return IntegerEncoding.ARBITRARY__ZIGZAG_VARINT
   }
 }

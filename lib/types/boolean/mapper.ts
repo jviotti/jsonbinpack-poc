@@ -18,10 +18,10 @@ import {
   BooleanCanonicalSchema
 } from '../../canonical-schema'
 
-export enum EncodingBoolean {
+export enum BooleanEncoding {
   BOOLEAN_8BITS__ENUM_FIXED = 'BOOLEAN_8BITS__ENUM_FIXED'
 }
 
-export const getBooleanEncoding = (_schema: BooleanCanonicalSchema): EncodingBoolean => {
-  return EncodingBoolean.BOOLEAN_8BITS__ENUM_FIXED
+export const getBooleanEncoding = (_schema: BooleanCanonicalSchema): BooleanEncoding => {
+  return BooleanEncoding.BOOLEAN_8BITS__ENUM_FIXED
 }

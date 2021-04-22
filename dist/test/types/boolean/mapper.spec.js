@@ -27,8 +27,8 @@ var mapper_1 = require("../../../lib/types/boolean/mapper");
 var ENCODE_FUNCTIONS = __importStar(require("../../../lib/types/boolean/encode"));
 var DECODE_FUNCTIONS = __importStar(require("../../../lib/types/boolean/decode"));
 tap_1.default.test('the encoding enum should include all encoding functions', function (test) {
-    test.strictSame(Object.values(mapper_1.EncodingBoolean).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
-    test.strictSame(Object.values(mapper_1.EncodingBoolean).sort(), Object.keys(DECODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.BooleanEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.BooleanEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort());
     test.end();
 });
 tap_1.default.test('should encode a boolean value', function (test) {
@@ -36,6 +36,6 @@ tap_1.default.test('should encode a boolean value', function (test) {
         type: 'boolean'
     };
     var encoding = mapper_1.getBooleanEncoding(schema);
-    test.is(encoding, mapper_1.EncodingBoolean.BOOLEAN_8BITS__ENUM_FIXED);
+    test.is(encoding, mapper_1.BooleanEncoding.BOOLEAN_8BITS__ENUM_FIXED);
     test.end();
 });

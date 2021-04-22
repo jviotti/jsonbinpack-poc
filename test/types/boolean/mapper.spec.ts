@@ -21,7 +21,7 @@ import {
 } from '../../../lib/canonical-schema'
 
 import {
-  EncodingBoolean,
+  BooleanEncoding,
   getBooleanEncoding
 } from '../../../lib/types/boolean/mapper'
 
@@ -29,8 +29,8 @@ import * as ENCODE_FUNCTIONS from '../../../lib/types/boolean/encode'
 import * as DECODE_FUNCTIONS from '../../../lib/types/boolean/decode'
 
 tap.test('the encoding enum should include all encoding functions', (test) => {
-  test.strictSame(Object.values(EncodingBoolean).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
-  test.strictSame(Object.values(EncodingBoolean).sort(), Object.keys(DECODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(BooleanEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(BooleanEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort())
   test.end()
 })
 
@@ -39,7 +39,7 @@ tap.test('should encode a boolean value', (test) => {
     type: 'boolean'
   }
 
-  const encoding: EncodingBoolean = getBooleanEncoding(schema)
-  test.is(encoding, EncodingBoolean.BOOLEAN_8BITS__ENUM_FIXED)
+  const encoding: BooleanEncoding = getBooleanEncoding(schema)
+  test.is(encoding, BooleanEncoding.BOOLEAN_8BITS__ENUM_FIXED)
   test.end()
 })

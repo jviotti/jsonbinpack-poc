@@ -18,10 +18,10 @@ import {
   NullCanonicalSchema
 } from '../../canonical-schema'
 
-export enum EncodingNull {
+export enum NullEncoding {
   NULL_8BITS__ENUM_FIXED = 'NULL_8BITS__ENUM_FIXED'
 }
 
-export const getNullEncoding = (_schema: NullCanonicalSchema): EncodingNull => {
-  return EncodingNull.NULL_8BITS__ENUM_FIXED
+export const getNullEncoding = (_schema: NullCanonicalSchema): NullEncoding => {
+  return NullEncoding.NULL_8BITS__ENUM_FIXED
 }

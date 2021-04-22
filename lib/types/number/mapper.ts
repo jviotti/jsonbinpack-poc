@@ -18,10 +18,10 @@ import {
   NumberCanonicalSchema
 } from '../../canonical-schema'
 
-export enum EncodingNumber {
+export enum NumberEncoding {
   DOUBLE__IEEE764_LE = 'DOUBLE__IEEE764_LE'
 }
 
-export const getNumberEncoding = (_schema: NumberCanonicalSchema): EncodingNumber => {
-  return EncodingNumber.DOUBLE__IEEE764_LE
+export const getNumberEncoding = (_schema: NumberCanonicalSchema): NumberEncoding => {
+  return NumberEncoding.DOUBLE__IEEE764_LE
 }

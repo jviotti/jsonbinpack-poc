@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNumberEncoding = exports.EncodingNumber = void 0;
-var EncodingNumber;
-(function (EncodingNumber) {
-    EncodingNumber["DOUBLE__IEEE764_LE"] = "DOUBLE__IEEE764_LE";
-})(EncodingNumber = exports.EncodingNumber || (exports.EncodingNumber = {}));
+exports.getNumberEncoding = exports.NumberEncoding = void 0;
+var NumberEncoding;
+(function (NumberEncoding) {
+    NumberEncoding["DOUBLE__IEEE764_LE"] = "DOUBLE__IEEE764_LE";
+})(NumberEncoding = exports.NumberEncoding || (exports.NumberEncoding = {}));
 var getNumberEncoding = function (_schema) {
-    return EncodingNumber.DOUBLE__IEEE764_LE;
+    return NumberEncoding.DOUBLE__IEEE764_LE;
 };
 exports.getNumberEncoding = getNumberEncoding;

@@ -21,7 +21,7 @@ import {
 } from '../../../lib/canonical-schema'
 
 import {
-  EncodingNumber,
+  NumberEncoding,
   getNumberEncoding
 } from '../../../lib/types/number/mapper'
 
@@ -29,8 +29,8 @@ import * as ENCODE_FUNCTIONS from '../../../lib/types/number/encode'
 import * as DECODE_FUNCTIONS from '../../../lib/types/number/decode'
 
 tap.test('the encoding enum should include all encoding functions', (test) => {
-  test.strictSame(Object.values(EncodingNumber).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
-  test.strictSame(Object.values(EncodingNumber).sort(), Object.keys(DECODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(NumberEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(NumberEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort())
   test.end()
 })
 
@@ -39,7 +39,7 @@ tap.test('should encode a number simple value', (test) => {
     type: 'number'
   }
 
-  const encoding: EncodingNumber = getNumberEncoding(schema)
-  test.is(encoding, EncodingNumber.DOUBLE__IEEE764_LE)
+  const encoding: NumberEncoding = getNumberEncoding(schema)
+  test.is(encoding, NumberEncoding.DOUBLE__IEEE764_LE)
   test.end()
 })

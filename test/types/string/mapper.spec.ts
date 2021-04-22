@@ -21,7 +21,7 @@ import {
 } from '../../../lib/canonical-schema'
 
 import {
-  EncodingString,
+  StringEncoding,
   getStringEncoding
 } from '../../../lib/types/string/mapper'
 
@@ -29,8 +29,8 @@ import * as ENCODE_FUNCTIONS from '../../../lib/types/string/encode'
 import * as DECODE_FUNCTIONS from '../../../lib/types/string/decode'
 
 tap.test('the encoding enum should include all encoding functions', (test) => {
-  test.strictSame(Object.values(EncodingString).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
-  test.strictSame(Object.values(EncodingString).sort(), Object.keys(DECODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(StringEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(StringEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort())
   test.end()
 })
 
@@ -39,8 +39,8 @@ tap.test('should encode a simple string', (test) => {
     type: 'string'
   }
 
-  const encoding: EncodingString = getStringEncoding(schema)
-  test.is(encoding, EncodingString.ARBITRARY__PREFIX_LENGTH_VARINT)
+  const encoding: StringEncoding = getStringEncoding(schema)
+  test.is(encoding, StringEncoding.ARBITRARY__PREFIX_LENGTH_VARINT)
   test.end()
 })
 
@@ -50,8 +50,8 @@ tap.test('should encode a string with minLength', (test) => {
     minLength: 5
   }
 
-  const encoding: EncodingString = getStringEncoding(schema)
-  test.is(encoding, EncodingString.FLOOR__PREFIX_LENGTH_ENUM_VARINT)
+  const encoding: StringEncoding = getStringEncoding(schema)
+  test.is(encoding, StringEncoding.FLOOR__PREFIX_LENGTH_ENUM_VARINT)
   test.end()
 })
 
@@ -61,8 +61,8 @@ tap.test('should encode a string with maxLength >= 255', (test) => {
     maxLength: 256
   }
 
-  const encoding: EncodingString = getStringEncoding(schema)
-  test.is(encoding, EncodingString.ROOF__PREFIX_LENGTH_ENUM_VARINT)
+  const encoding: StringEncoding = getStringEncoding(schema)
+  test.is(encoding, StringEncoding.ROOF__PREFIX_LENGTH_ENUM_VARINT)
   test.end()
 })
 
@@ -72,8 +72,8 @@ tap.test('should encode a string with maxLength < 255', (test) => {
     maxLength: 254
   }
 
-  const encoding: EncodingString = getStringEncoding(schema)
-  test.is(encoding, EncodingString.ROOF__PREFIX_LENGTH_8BIT_FIXED)
+  const encoding: StringEncoding = getStringEncoding(schema)
+  test.is(encoding, StringEncoding.ROOF__PREFIX_LENGTH_8BIT_FIXED)
   test.end()
 })
 
@@ -83,8 +83,8 @@ tap.test('should encode a string with maxLength = 255', (test) => {
     maxLength: 255
   }
 
-  const encoding: EncodingString = getStringEncoding(schema)
-  test.is(encoding, EncodingString.ROOF__PREFIX_LENGTH_8BIT_FIXED)
+  const encoding: StringEncoding = getStringEncoding(schema)
+  test.is(encoding, StringEncoding.ROOF__PREFIX_LENGTH_8BIT_FIXED)
   test.end()
 })
 
@@ -95,8 +95,8 @@ tap.test('should encode a string with minLength and maxLength < 255', (test) => 
     maxLength: 300
   }
 
-  const encoding: EncodingString = getStringEncoding(schema)
-  test.is(encoding, EncodingString.BOUNDED__PREFIX_LENGTH_8BIT_FIXED)
+  const encoding: StringEncoding = getStringEncoding(schema)
+  test.is(encoding, StringEncoding.BOUNDED__PREFIX_LENGTH_8BIT_FIXED)
   test.end()
 })
 
@@ -107,7 +107,7 @@ tap.test('should encode a string with minLength and maxLength > 255', (test) => 
     maxLength: 600
   }
 
-  const encoding: EncodingString = getStringEncoding(schema)
-  test.is(encoding, EncodingString.BOUNDED__PREFIX_LENGTH_ENUM_VARINT)
+  const encoding: StringEncoding = getStringEncoding(schema)
+  test.is(encoding, StringEncoding.BOUNDED__PREFIX_LENGTH_ENUM_VARINT)
   test.end()
 })

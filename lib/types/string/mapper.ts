@@ -26,7 +26,7 @@ import {
   UINT8_MAX
 } from '../../utils/limits'
 
-export enum EncodingString {
+export enum StringEncoding {
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED = 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT = 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
   ROOF__PREFIX_LENGTH_8BIT_FIXED = 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
@@ -35,7 +35,7 @@ export enum EncodingString {
   ARBITRARY__PREFIX_LENGTH_VARINT = 'ARBITRARY__PREFIX_LENGTH_VARINT'
 }
 
-export const getStringEncoding = (schema: StringCanonicalSchema): EncodingString => {
+export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding => {
   assert(typeof schema.minLength === 'undefined' || schema.minLength >= 0)
   assert(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0)
   assert(typeof schema.minLength === 'undefined' ||
@@ -44,19 +44,19 @@ export const getStringEncoding = (schema: StringCanonicalSchema): EncodingString
 
   if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
     if (schema.maxLength - schema.minLength <= UINT8_MAX) {
-      return EncodingString.BOUNDED__PREFIX_LENGTH_8BIT_FIXED
+      return StringEncoding.BOUNDED__PREFIX_LENGTH_8BIT_FIXED
     }
 
-    return EncodingString.BOUNDED__PREFIX_LENGTH_ENUM_VARINT
+    return StringEncoding.BOUNDED__PREFIX_LENGTH_ENUM_VARINT
   } else if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength === 'undefined') {
-    return EncodingString.FLOOR__PREFIX_LENGTH_ENUM_VARINT
+    return StringEncoding.FLOOR__PREFIX_LENGTH_ENUM_VARINT
   } else if (typeof schema.minLength === 'undefined' && typeof schema.maxLength !== 'undefined') {
     if (schema.maxLength <= UINT8_MAX) {
-      return EncodingString.ROOF__PREFIX_LENGTH_8BIT_FIXED
+      return StringEncoding.ROOF__PREFIX_LENGTH_8BIT_FIXED
     }
 
-    return EncodingString.ROOF__PREFIX_LENGTH_ENUM_VARINT
+    return StringEncoding.ROOF__PREFIX_LENGTH_ENUM_VARINT
   } else {
-    return EncodingString.ARBITRARY__PREFIX_LENGTH_VARINT
+    return StringEncoding.ARBITRARY__PREFIX_LENGTH_VARINT
   }
 }

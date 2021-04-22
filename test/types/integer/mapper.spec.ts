@@ -21,7 +21,7 @@ import {
 } from '../../../lib/canonical-schema'
 
 import {
-  EncodingInteger,
+  IntegerEncoding,
   getIntegerEncoding
 } from '../../../lib/types/integer/mapper'
 
@@ -29,8 +29,8 @@ import * as ENCODE_FUNCTIONS from '../../../lib/types/integer/encode'
 import * as DECODE_FUNCTIONS from '../../../lib/types/integer/decode'
 
 tap.test('the encoding enum should include all encoding functions', (test) => {
-  test.strictSame(Object.values(EncodingInteger).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
-  test.strictSame(Object.values(EncodingInteger).sort(), Object.keys(DECODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(IntegerEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(IntegerEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort())
   test.end()
 })
 
@@ -39,8 +39,8 @@ tap.test('should encode an arbitrary integer', (test) => {
     type: 'integer'
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.ARBITRARY__ZIGZAG_VARINT)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.ARBITRARY__ZIGZAG_VARINT)
   test.end()
 })
 
@@ -50,8 +50,8 @@ tap.test('should encode an arbitrary integer with multipleOf', (test) => {
     multipleOf: 5
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.ARBITRARY_MULTIPLE__ZIGZAG_VARINT)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.ARBITRARY_MULTIPLE__ZIGZAG_VARINT)
   test.end()
 })
 
@@ -61,8 +61,8 @@ tap.test('should encode an integer with minimum', (test) => {
     minimum: 0
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.FLOOR__ENUM_VARINT)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.FLOOR__ENUM_VARINT)
   test.end()
 })
 
@@ -73,8 +73,8 @@ tap.test('should encode an integer with minimum and multipleOf', (test) => {
     multipleOf: 5
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.FLOOR_MULTIPLE__ENUM_VARINT)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.FLOOR_MULTIPLE__ENUM_VARINT)
   test.end()
 })
 
@@ -84,8 +84,8 @@ tap.test('should encode an integer with maximum', (test) => {
     maximum: 100
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.ROOF__MIRROR_ENUM_VARINT)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.ROOF__MIRROR_ENUM_VARINT)
   test.end()
 })
 
@@ -96,8 +96,8 @@ tap.test('should encode an integer with maximum and multipleOf', (test) => {
     multipleOf: 5
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.ROOF_MULTIPLE__MIRROR_ENUM_VARINT)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.ROOF_MULTIPLE__MIRROR_ENUM_VARINT)
   test.end()
 })
 
@@ -108,8 +108,8 @@ tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
     maximum: 100
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.BOUNDED_8BITS__ENUM_FIXED)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.BOUNDED_8BITS__ENUM_FIXED)
   test.end()
 })
 
@@ -120,7 +120,7 @@ tap.test('should encode an >8-bit integer with minimum and maximum', (test) => {
     maximum: 100000
   }
 
-  const encoding: EncodingInteger = getIntegerEncoding(schema)
-  test.is(encoding, EncodingInteger.BOUNDED__ENUM_VARINT)
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+  test.is(encoding, IntegerEncoding.BOUNDED__ENUM_VARINT)
   test.end()
 })
