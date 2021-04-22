@@ -72,8 +72,12 @@ export interface StringCanonicalSchema {
   // TODO: We can use these in the future to apply more clever encodings
   readonly contentEncoding?: string;
   readonly contentMediaType?: string;
-
-  // TODO: Define this once we have a proper type to
-  // represent a schema
-  // readonly contentSchema?: XXXXX;
+  readonly contentSchema?: CanonicalSchema;
 }
+
+export type CanonicalSchema =
+  BooleanCanonicalSchema |
+  IntegerCanonicalSchema |
+  NullCanonicalSchema |
+  NumberCanonicalSchema |
+  StringCanonicalSchema
