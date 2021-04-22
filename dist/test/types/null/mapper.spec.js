@@ -23,19 +23,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var schema_1 = require("../../../lib/types/null/schema");
+var mapper_1 = require("../../../lib/types/null/mapper");
 var ENCODE_FUNCTIONS = __importStar(require("../../../lib/types/null/encode"));
 var DECODE_FUNCTIONS = __importStar(require("../../../lib/types/null/decode"));
 tap_1.default.test('the encoding enum should include all encoding functions', function (test) {
-    test.strictSame(Object.values(schema_1.EncodingNull).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
-    test.strictSame(Object.values(schema_1.EncodingNull).sort(), Object.keys(DECODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingNull).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingNull).sort(), Object.keys(DECODE_FUNCTIONS).sort());
     test.end();
 });
 tap_1.default.test('should encode a null value', function (test) {
     var schema = {
         type: 'null'
     };
-    var encoding = schema_1.getNullEncoding(schema);
-    test.is(encoding, schema_1.EncodingNull.NULL_8BITS__ENUM_FIXED);
+    var encoding = mapper_1.getNullEncoding(schema);
+    test.is(encoding, mapper_1.EncodingNull.NULL_8BITS__ENUM_FIXED);
     test.end();
 });

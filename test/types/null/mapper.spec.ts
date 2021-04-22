@@ -17,29 +17,29 @@
 import tap from 'tap'
 
 import {
-  BooleanCanonicalSchema
+  NullCanonicalSchema
 } from '../../../lib/canonical-schema'
 
 import {
-  EncodingBoolean,
-  getBooleanEncoding
-} from '../../../lib/types/boolean/schema'
+  EncodingNull,
+  getNullEncoding
+} from '../../../lib/types/null/mapper'
 
-import * as ENCODE_FUNCTIONS from '../../../lib/types/boolean/encode'
-import * as DECODE_FUNCTIONS from '../../../lib/types/boolean/decode'
+import * as ENCODE_FUNCTIONS from '../../../lib/types/null/encode'
+import * as DECODE_FUNCTIONS from '../../../lib/types/null/decode'
 
 tap.test('the encoding enum should include all encoding functions', (test) => {
-  test.strictSame(Object.values(EncodingBoolean).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
-  test.strictSame(Object.values(EncodingBoolean).sort(), Object.keys(DECODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(EncodingNull).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
+  test.strictSame(Object.values(EncodingNull).sort(), Object.keys(DECODE_FUNCTIONS).sort())
   test.end()
 })
 
-tap.test('should encode a boolean value', (test) => {
-  const schema: BooleanCanonicalSchema = {
-    type: 'boolean'
+tap.test('should encode a null value', (test) => {
+  const schema: NullCanonicalSchema = {
+    type: 'null'
   }
 
-  const encoding: EncodingBoolean = getBooleanEncoding(schema)
-  test.is(encoding, EncodingBoolean.BOOLEAN_8BITS__ENUM_FIXED)
+  const encoding: EncodingNull = getNullEncoding(schema)
+  test.is(encoding, EncodingNull.NULL_8BITS__ENUM_FIXED)
   test.end()
 })

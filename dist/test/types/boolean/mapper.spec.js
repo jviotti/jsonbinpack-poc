@@ -23,19 +23,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var schema_1 = require("../../../lib/types/number/schema");
-var ENCODE_FUNCTIONS = __importStar(require("../../../lib/types/number/encode"));
-var DECODE_FUNCTIONS = __importStar(require("../../../lib/types/number/decode"));
+var mapper_1 = require("../../../lib/types/boolean/mapper");
+var ENCODE_FUNCTIONS = __importStar(require("../../../lib/types/boolean/encode"));
+var DECODE_FUNCTIONS = __importStar(require("../../../lib/types/boolean/decode"));
 tap_1.default.test('the encoding enum should include all encoding functions', function (test) {
-    test.strictSame(Object.values(schema_1.EncodingNumber).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
-    test.strictSame(Object.values(schema_1.EncodingNumber).sort(), Object.keys(DECODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingBoolean).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingBoolean).sort(), Object.keys(DECODE_FUNCTIONS).sort());
     test.end();
 });
-tap_1.default.test('should encode a number simple value', function (test) {
+tap_1.default.test('should encode a boolean value', function (test) {
     var schema = {
-        type: 'number'
+        type: 'boolean'
     };
-    var encoding = schema_1.getNumberEncoding(schema);
-    test.is(encoding, schema_1.EncodingNumber.DOUBLE__IEEE764_LE);
+    var encoding = mapper_1.getBooleanEncoding(schema);
+    test.is(encoding, mapper_1.EncodingBoolean.BOOLEAN_8BITS__ENUM_FIXED);
     test.end();
 });

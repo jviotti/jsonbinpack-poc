@@ -23,20 +23,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var schema_1 = require("../../../lib/types/string/schema");
+var mapper_1 = require("../../../lib/types/string/mapper");
 var ENCODE_FUNCTIONS = __importStar(require("../../../lib/types/string/encode"));
 var DECODE_FUNCTIONS = __importStar(require("../../../lib/types/string/decode"));
 tap_1.default.test('the encoding enum should include all encoding functions', function (test) {
-    test.strictSame(Object.values(schema_1.EncodingString).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
-    test.strictSame(Object.values(schema_1.EncodingString).sort(), Object.keys(DECODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingString).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingString).sort(), Object.keys(DECODE_FUNCTIONS).sort());
     test.end();
 });
 tap_1.default.test('should encode a simple string', function (test) {
     var schema = {
         type: 'string'
     };
-    var encoding = schema_1.getStringEncoding(schema);
-    test.is(encoding, schema_1.EncodingString.ARBITRARY__PREFIX_LENGTH_VARINT);
+    var encoding = mapper_1.getStringEncoding(schema);
+    test.is(encoding, mapper_1.EncodingString.ARBITRARY__PREFIX_LENGTH_VARINT);
     test.end();
 });
 tap_1.default.test('should encode a string with minLength', function (test) {
@@ -44,8 +44,8 @@ tap_1.default.test('should encode a string with minLength', function (test) {
         type: 'string',
         minLength: 5
     };
-    var encoding = schema_1.getStringEncoding(schema);
-    test.is(encoding, schema_1.EncodingString.FLOOR__PREFIX_LENGTH_ENUM_VARINT);
+    var encoding = mapper_1.getStringEncoding(schema);
+    test.is(encoding, mapper_1.EncodingString.FLOOR__PREFIX_LENGTH_ENUM_VARINT);
     test.end();
 });
 tap_1.default.test('should encode a string with maxLength >= 255', function (test) {
@@ -53,8 +53,8 @@ tap_1.default.test('should encode a string with maxLength >= 255', function (tes
         type: 'string',
         maxLength: 256
     };
-    var encoding = schema_1.getStringEncoding(schema);
-    test.is(encoding, schema_1.EncodingString.ROOF__PREFIX_LENGTH_ENUM_VARINT);
+    var encoding = mapper_1.getStringEncoding(schema);
+    test.is(encoding, mapper_1.EncodingString.ROOF__PREFIX_LENGTH_ENUM_VARINT);
     test.end();
 });
 tap_1.default.test('should encode a string with maxLength < 255', function (test) {
@@ -62,8 +62,8 @@ tap_1.default.test('should encode a string with maxLength < 255', function (test
         type: 'string',
         maxLength: 254
     };
-    var encoding = schema_1.getStringEncoding(schema);
-    test.is(encoding, schema_1.EncodingString.ROOF__PREFIX_LENGTH_8BIT_FIXED);
+    var encoding = mapper_1.getStringEncoding(schema);
+    test.is(encoding, mapper_1.EncodingString.ROOF__PREFIX_LENGTH_8BIT_FIXED);
     test.end();
 });
 tap_1.default.test('should encode a string with maxLength = 255', function (test) {
@@ -71,8 +71,8 @@ tap_1.default.test('should encode a string with maxLength = 255', function (test
         type: 'string',
         maxLength: 255
     };
-    var encoding = schema_1.getStringEncoding(schema);
-    test.is(encoding, schema_1.EncodingString.ROOF__PREFIX_LENGTH_8BIT_FIXED);
+    var encoding = mapper_1.getStringEncoding(schema);
+    test.is(encoding, mapper_1.EncodingString.ROOF__PREFIX_LENGTH_8BIT_FIXED);
     test.end();
 });
 tap_1.default.test('should encode a string with minLength and maxLength < 255', function (test) {
@@ -81,8 +81,8 @@ tap_1.default.test('should encode a string with minLength and maxLength < 255', 
         minLength: 100,
         maxLength: 300
     };
-    var encoding = schema_1.getStringEncoding(schema);
-    test.is(encoding, schema_1.EncodingString.BOUNDED__PREFIX_LENGTH_8BIT_FIXED);
+    var encoding = mapper_1.getStringEncoding(schema);
+    test.is(encoding, mapper_1.EncodingString.BOUNDED__PREFIX_LENGTH_8BIT_FIXED);
     test.end();
 });
 tap_1.default.test('should encode a string with minLength and maxLength > 255', function (test) {
@@ -91,7 +91,7 @@ tap_1.default.test('should encode a string with minLength and maxLength > 255', 
         minLength: 100,
         maxLength: 600
     };
-    var encoding = schema_1.getStringEncoding(schema);
-    test.is(encoding, schema_1.EncodingString.BOUNDED__PREFIX_LENGTH_ENUM_VARINT);
+    var encoding = mapper_1.getStringEncoding(schema);
+    test.is(encoding, mapper_1.EncodingString.BOUNDED__PREFIX_LENGTH_ENUM_VARINT);
     test.end();
 });

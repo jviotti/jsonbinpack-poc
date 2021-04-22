@@ -23,7 +23,7 @@ import {
 import {
   EncodingInteger,
   getIntegerEncoding
-} from '../../../lib/types/integer/schema'
+} from '../../../lib/types/integer/mapper'
 
 import * as ENCODE_FUNCTIONS from '../../../lib/types/integer/encode'
 import * as DECODE_FUNCTIONS from '../../../lib/types/integer/decode'

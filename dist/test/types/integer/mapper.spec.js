@@ -23,20 +23,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var schema_1 = require("../../../lib/types/integer/schema");
+var mapper_1 = require("../../../lib/types/integer/mapper");
 var ENCODE_FUNCTIONS = __importStar(require("../../../lib/types/integer/encode"));
 var DECODE_FUNCTIONS = __importStar(require("../../../lib/types/integer/decode"));
 tap_1.default.test('the encoding enum should include all encoding functions', function (test) {
-    test.strictSame(Object.values(schema_1.EncodingInteger).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
-    test.strictSame(Object.values(schema_1.EncodingInteger).sort(), Object.keys(DECODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingInteger).sort(), Object.keys(ENCODE_FUNCTIONS).sort());
+    test.strictSame(Object.values(mapper_1.EncodingInteger).sort(), Object.keys(DECODE_FUNCTIONS).sort());
     test.end();
 });
 tap_1.default.test('should encode an arbitrary integer', function (test) {
     var schema = {
         type: 'integer'
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.ARBITRARY__ZIGZAG_VARINT);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.ARBITRARY__ZIGZAG_VARINT);
     test.end();
 });
 tap_1.default.test('should encode an arbitrary integer with multipleOf', function (test) {
@@ -44,8 +44,8 @@ tap_1.default.test('should encode an arbitrary integer with multipleOf', functio
         type: 'integer',
         multipleOf: 5
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.ARBITRARY_MULTIPLE__ZIGZAG_VARINT);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.ARBITRARY_MULTIPLE__ZIGZAG_VARINT);
     test.end();
 });
 tap_1.default.test('should encode an integer with minimum', function (test) {
@@ -53,8 +53,8 @@ tap_1.default.test('should encode an integer with minimum', function (test) {
         type: 'integer',
         minimum: 0
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.FLOOR__ENUM_VARINT);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.FLOOR__ENUM_VARINT);
     test.end();
 });
 tap_1.default.test('should encode an integer with minimum and multipleOf', function (test) {
@@ -63,8 +63,8 @@ tap_1.default.test('should encode an integer with minimum and multipleOf', funct
         minimum: 0,
         multipleOf: 5
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.FLOOR_MULTIPLE__ENUM_VARINT);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.FLOOR_MULTIPLE__ENUM_VARINT);
     test.end();
 });
 tap_1.default.test('should encode an integer with maximum', function (test) {
@@ -72,8 +72,8 @@ tap_1.default.test('should encode an integer with maximum', function (test) {
         type: 'integer',
         maximum: 100
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.ROOF__MIRROR_ENUM_VARINT);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.ROOF__MIRROR_ENUM_VARINT);
     test.end();
 });
 tap_1.default.test('should encode an integer with maximum and multipleOf', function (test) {
@@ -82,8 +82,8 @@ tap_1.default.test('should encode an integer with maximum and multipleOf', funct
         maximum: 100,
         multipleOf: 5
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.ROOF_MULTIPLE__MIRROR_ENUM_VARINT);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.ROOF_MULTIPLE__MIRROR_ENUM_VARINT);
     test.end();
 });
 tap_1.default.test('should encode an 8-bit integer with minimum and maximum', function (test) {
@@ -92,8 +92,8 @@ tap_1.default.test('should encode an 8-bit integer with minimum and maximum', fu
         minimum: -100,
         maximum: 100
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.BOUNDED_8BITS__ENUM_FIXED);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.BOUNDED_8BITS__ENUM_FIXED);
     test.end();
 });
 tap_1.default.test('should encode an >8-bit integer with minimum and maximum', function (test) {
@@ -102,7 +102,7 @@ tap_1.default.test('should encode an >8-bit integer with minimum and maximum', f
         minimum: -100,
         maximum: 100000
     };
-    var encoding = schema_1.getIntegerEncoding(schema);
-    test.is(encoding, schema_1.EncodingInteger.BOUNDED__ENUM_VARINT);
+    var encoding = mapper_1.getIntegerEncoding(schema);
+    test.is(encoding, mapper_1.EncodingInteger.BOUNDED__ENUM_VARINT);
     test.end();
 });

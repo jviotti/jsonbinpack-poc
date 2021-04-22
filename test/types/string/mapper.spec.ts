@@ -23,7 +23,7 @@ import {
 import {
   EncodingString,
   getStringEncoding
-} from '../../../lib/types/string/schema'
+} from '../../../lib/types/string/mapper'
 
 import * as ENCODE_FUNCTIONS from '../../../lib/types/string/encode'
 import * as DECODE_FUNCTIONS from '../../../lib/types/string/decode'

@@ -23,7 +23,7 @@ import {
 import {
   EncodingNumber,
   getNumberEncoding
-} from '../../../lib/types/number/schema'
+} from '../../../lib/types/number/mapper'
 
 import * as ENCODE_FUNCTIONS from '../../../lib/types/number/encode'
 import * as DECODE_FUNCTIONS from '../../../lib/types/number/decode'
