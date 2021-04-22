@@ -19,6 +19,10 @@ import {
 } from 'assert'
 
 import {
+  JSONNumber
+} from '../../json'
+
+import {
   zigzagEncode
 } from '../../utils/zigzag'
 
@@ -33,7 +37,7 @@ import {
 // Applicable if the difference between maximum and
 // minimum fits in an unsigned 8-bit integer
 export const BOUNDED_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   minimum: number, maximum: number
 ): number => {
   assert(maximum >= minimum)
@@ -45,7 +49,7 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
 }
 
 export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   minimum: number, maximum: number, multiplier: number
 ): number => {
   assert(maximum >= minimum)
@@ -71,7 +75,7 @@ export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
 }
 
 export const BOUNDED__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   minimum: number, maximum: number
 ): number => {
   assert(maximum >= minimum)
@@ -82,7 +86,7 @@ export const BOUNDED__ENUM_VARINT = (
 }
 
 export const BOUNDED_MULTIPLE__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   minimum: number, maximum: number, multiplier: number
 ): number => {
   assert(maximum >= minimum)
@@ -105,7 +109,7 @@ export const BOUNDED_MULTIPLE__ENUM_VARINT = (
 }
 
 export const FLOOR__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   minimum: number,
 ): number => {
   assert(value >= minimum)
@@ -113,7 +117,7 @@ export const FLOOR__ENUM_VARINT = (
 }
 
 export const FLOOR_MULTIPLE__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   minimum: number, multiplier: number
 ): number => {
   assert(value >= minimum)
@@ -129,7 +133,7 @@ export const FLOOR_MULTIPLE__ENUM_VARINT = (
 }
 
 export const ROOF__MIRROR_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   maximum: number,
 ): number => {
   assert(value <= maximum)
@@ -137,7 +141,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
 }
 
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   maximum: number, multiplier: number
 ): number => {
   assert(value <= maximum)
@@ -152,13 +156,13 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
 }
 
 export const ARBITRARY__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number, value: number
+  buffer: Buffer, offset: number, value: JSONNumber
 ): number => {
   return varintEncode(buffer, offset, zigzagEncode(value))
 }
 
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number, value: number,
+  buffer: Buffer, offset: number, value: JSONNumber,
   multiplier: number
 ): number => {
   assert(value % multiplier === 0)

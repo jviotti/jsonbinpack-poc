@@ -17,6 +17,10 @@
 import tap from 'tap'
 
 import {
+  JSONBoolean
+} from '../../lib/json'
+
+import {
   BOOLEAN_8BITS__ENUM_FIXED as ENCODE_BOOLEAN_8BITS__ENUM_FIXED
 } from '../../lib/types/boolean/encode'
 
@@ -26,7 +30,7 @@ import {
 } from '../../lib/types/boolean/decode'
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
-  const value: boolean = false
+  const value: JSONBoolean = false
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value)
   const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0)
@@ -38,7 +42,7 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
 })
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: true', (test) => {
-  const value: boolean = true
+  const value: JSONBoolean = true
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value)
   const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0)

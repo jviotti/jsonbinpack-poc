@@ -19,12 +19,16 @@ import {
 } from 'assert'
 
 import {
+  JSONBoolean
+} from '../../json'
+
+import {
   IntegerResult,
   BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/decode'
 
 export interface BooleanResult {
-  readonly value: boolean;
+  readonly value: JSONBoolean;
   readonly bytes: number;
 }
 

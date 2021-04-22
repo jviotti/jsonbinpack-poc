@@ -15,6 +15,10 @@
  */
 
 import {
+  JSONString
+} from '../../json'
+
+import {
   strict as assert
 } from 'assert'
 
@@ -30,7 +34,7 @@ import {
 } from '../../utils/limits'
 
 export interface StringResult {
-  readonly value: string;
+  readonly value: JSONString;
   readonly bytes: number;
 }
 

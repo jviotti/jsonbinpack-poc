@@ -15,12 +15,17 @@
  */
 
 import {
+  JSONBoolean,
+  JSONNumber
+} from '../../json'
+
+import {
   BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/encode'
 
 export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: boolean
+  buffer: Buffer, offset: number, value: JSONBoolean
 ): number => {
-  const integer: number = value ? 1 : 0
+  const integer: JSONNumber = value ? 1 : 0
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, integer, 0, 1)
 }

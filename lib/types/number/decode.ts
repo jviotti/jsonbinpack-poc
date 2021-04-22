@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  JSONNumber
+} from '../../json'
+
 export interface NumberResult {
-  readonly value: number;
+  readonly value: JSONNumber;
   readonly bytes: number;
 }
 

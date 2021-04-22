@@ -1,0 +1,60 @@
+{
+  "foo": "bar",
+  "baz": {
+    "qux": 1,
+    "hello": [ "world" ]
+  }
+}
+
+// START OF OBJECT #
+  // FOO => ARBITRARY_STRING
+  // START OF OBJECT #/baz
+    // QUX => UINT8
+    // START OF ARRAY #/baz/hello
+      // ELEMENT 0 => ARBITRARY_STRING
+    // END OF ARRAY #/baz/hello
+  // END OF OBJECT #/baz
+// END OF OBJECT #
+
+{
+  // STRICTLY TYPED FINITE OBJECT
+  "type": "object",
+  "required": [ "foo", "baz" ],
+  "additionalProperties": false,
+  "properties": {
+    // ARBITRARY_STRING
+    "foo": {
+      "type": "string"
+    },
+    // STRICTLY TYPED FINITE OBJECT
+    "bar": {
+      "type": "object",
+      "required": [ "qux", "hello" ],
+      "additionalProperties": false
+      "properties": {
+
+        // UINT8
+        "qux": {
+          "type": "integer"
+        },
+
+        // UNIFORM_ARRAY (STRING)
+        "hello": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
+
+absoluteMapper = (Schema) => [ ENCODINGS + REFS ]
+
+STRICTLY_TYPED_FINITE_OBJECT = (buffer, offset, numberOfKeys, ...values) => {
+  for value of values {
+    type = value.type
+    encoding = value.encoding
+    actual_value = value.value
+
+  }
+}

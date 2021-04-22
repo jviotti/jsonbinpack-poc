@@ -19,12 +19,16 @@ import {
 } from 'assert'
 
 import {
+  JSONNull
+} from '../../json'
+
+import {
   IntegerResult,
   BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/decode'
 
 export interface NullResult {
-  readonly value: null;
+  readonly value: JSONNull;
   readonly bytes: number;
 }
 

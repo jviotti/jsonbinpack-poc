@@ -19,6 +19,10 @@ import {
 } from 'assert'
 
 import {
+  JSONNumber
+} from '../../json'
+
+import {
   zigzagDecode
 } from '../../utils/zigzag'
 
@@ -32,7 +36,7 @@ import {
 } from '../../utils/limits'
 
 export interface IntegerResult {
-  readonly value: number;
+  readonly value: JSONNumber;
   readonly bytes: number;
 }
 

@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-import {
-  JSONNumber
-} from '../../json'
+export type JSONNumber = number
+export type JSONBoolean = boolean
+export type JSONString = string
+export type JSONNull = null
 
-// TODO: Find out in which case we can safely do a 32-bit floating-point
-// numbers encoding
+export type JSONScalar = JSONNumber | JSONBoolean | JSONString | JSONNull
 
-export const DOUBLE__IEEE764_LE = (
-  buffer: Buffer, offset: number, value: JSONNumber
-): number => {
-  return buffer.writeDoubleLE(value, offset) - offset
+export interface JSONObject {
+  readonly [key: string]: JSONValue;
 }
+
+export type JSONValue =
+  JSONObject | JSONValue[] | JSONScalar
