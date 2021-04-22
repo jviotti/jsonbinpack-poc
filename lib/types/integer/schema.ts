@@ -15,23 +15,16 @@
  */
 
 import {
+  IntegerCanonicalSchema
+} from '../../canonical-schema'
+
+import {
   strict as assert
 } from 'assert'
 
 import {
   UINT8_MAX
 } from '../../utils/limits'
-
-export interface SchemaInteger {
-  readonly type: 'integer';
-
-  // The exclusiveMinimum and exclusiveMaximum keywords
-  // should be transformed to minimum and maximum
-  readonly minimum?: number;
-  readonly maximum?: number;
-
-  readonly multipleOf?: number;
-}
 
 export enum EncodingInteger {
   BOUNDED_8BITS__ENUM_FIXED = 'BOUNDED_8BITS__ENUM_FIXED',
@@ -46,7 +39,7 @@ export enum EncodingInteger {
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT = 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT'
 }
 
-export const getIntegerEncoding = (schema: SchemaInteger): EncodingInteger => {
+export const getIntegerEncoding = (schema: IntegerCanonicalSchema): EncodingInteger => {
   assert(typeof schema.minimum === 'undefined' ||
     typeof schema.maximum === 'undefined' ||
     schema.maximum >= schema.minimum)

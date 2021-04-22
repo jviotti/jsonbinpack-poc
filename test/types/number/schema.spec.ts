@@ -17,7 +17,10 @@
 import tap from 'tap'
 
 import {
-  SchemaNumber,
+  NumberCanonicalSchema
+} from '../../../lib/canonical-schema'
+
+import {
   EncodingNumber,
   getNumberEncoding
 } from '../../../lib/types/number/schema'
@@ -32,7 +35,7 @@ tap.test('the encoding enum should include all encoding functions', (test) => {
 })
 
 tap.test('should encode a number simple value', (test) => {
-  const schema: SchemaNumber = {
+  const schema: NumberCanonicalSchema = {
     type: 'number'
   }
 

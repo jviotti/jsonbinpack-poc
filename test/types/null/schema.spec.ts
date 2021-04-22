@@ -17,7 +17,10 @@
 import tap from 'tap'
 
 import {
-  SchemaNull,
+  NullCanonicalSchema
+} from '../../../lib/canonical-schema'
+
+import {
   EncodingNull,
   getNullEncoding
 } from '../../../lib/types/null/schema'
@@ -32,7 +35,7 @@ tap.test('the encoding enum should include all encoding functions', (test) => {
 })
 
 tap.test('should encode a null value', (test) => {
-  const schema: SchemaNull = {
+  const schema: NullCanonicalSchema = {
     type: 'null'
   }
 

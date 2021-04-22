@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-export interface SchemaNull {
-  readonly type: 'null';
-}
+import {
+  NullCanonicalSchema
+} from '../../canonical-schema'
 
 export enum EncodingNull {
   NULL_8BITS__ENUM_FIXED = 'NULL_8BITS__ENUM_FIXED'
 }
 
-export const getNullEncoding = (_schema: SchemaNull): EncodingNull => {
+export const getNullEncoding = (_schema: NullCanonicalSchema): EncodingNull => {
   return EncodingNull.NULL_8BITS__ENUM_FIXED
 }

@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 
-export interface SchemaNumber {
-  readonly type: 'number';
-
-  /*
-   * For now we don't take these schema arguments into
-   * consideration, but we might in the future if we
-   * implement different real number encodings.
-   */
-
-  // The exclusiveMinimum and exclusiveMaximum keywords
-  // should be transformed to minimum and maximum
-  readonly minimum?: number;
-  readonly maximum?: number;
-
-  readonly multipleOf?: number;
-}
+import {
+  NumberCanonicalSchema
+} from '../../canonical-schema'
 
 export enum EncodingNumber {
   DOUBLE__IEEE764_LE = 'DOUBLE__IEEE764_LE'
 }
 
-export const getNumberEncoding = (_schema: SchemaNumber): EncodingNumber => {
+export const getNumberEncoding = (_schema: NumberCanonicalSchema): EncodingNumber => {
   return EncodingNumber.DOUBLE__IEEE764_LE
 }

@@ -17,7 +17,10 @@
 import tap from 'tap'
 
 import {
-  SchemaString,
+  StringCanonicalSchema
+} from '../../../lib/canonical-schema'
+
+import {
   EncodingString,
   getStringEncoding
 } from '../../../lib/types/string/schema'
@@ -32,7 +35,7 @@ tap.test('the encoding enum should include all encoding functions', (test) => {
 })
 
 tap.test('should encode a simple string', (test) => {
-  const schema: SchemaString = {
+  const schema: StringCanonicalSchema = {
     type: 'string'
   }
 
@@ -42,7 +45,7 @@ tap.test('should encode a simple string', (test) => {
 })
 
 tap.test('should encode a string with minLength', (test) => {
-  const schema: SchemaString = {
+  const schema: StringCanonicalSchema = {
     type: 'string',
     minLength: 5
   }
@@ -53,7 +56,7 @@ tap.test('should encode a string with minLength', (test) => {
 })
 
 tap.test('should encode a string with maxLength >= 255', (test) => {
-  const schema: SchemaString = {
+  const schema: StringCanonicalSchema = {
     type: 'string',
     maxLength: 256
   }
@@ -64,7 +67,7 @@ tap.test('should encode a string with maxLength >= 255', (test) => {
 })
 
 tap.test('should encode a string with maxLength < 255', (test) => {
-  const schema: SchemaString = {
+  const schema: StringCanonicalSchema = {
     type: 'string',
     maxLength: 254
   }
@@ -75,7 +78,7 @@ tap.test('should encode a string with maxLength < 255', (test) => {
 })
 
 tap.test('should encode a string with maxLength = 255', (test) => {
-  const schema: SchemaString = {
+  const schema: StringCanonicalSchema = {
     type: 'string',
     maxLength: 255
   }
@@ -86,7 +89,7 @@ tap.test('should encode a string with maxLength = 255', (test) => {
 })
 
 tap.test('should encode a string with minLength and maxLength < 255', (test) => {
-  const schema: SchemaString = {
+  const schema: StringCanonicalSchema = {
     type: 'string',
     minLength: 100,
     maxLength: 300
@@ -98,7 +101,7 @@ tap.test('should encode a string with minLength and maxLength < 255', (test) => 
 })
 
 tap.test('should encode a string with minLength and maxLength > 255', (test) => {
-  const schema: SchemaString = {
+  const schema: StringCanonicalSchema = {
     type: 'string',
     minLength: 100,
     maxLength: 600

@@ -15,40 +15,16 @@
  */
 
 import {
+  StringCanonicalSchema
+} from '../../canonical-schema'
+
+import {
   strict as assert
 } from 'assert'
 
 import {
   UINT8_MAX
 } from '../../utils/limits'
-
-export interface SchemaString {
-  readonly type: 'string';
-  readonly maxLength?: number;
-  readonly minLength?: number;
-
-  // See http://json-schema.org/draft/2020-12/json-schema-validation.html#rfc.section.7.3
-  // TODO: We can use these in the future to apply more clever encodings
-  readonly format?:
-    'date-time' | 'date' | 'time' | 'duration' |
-    'email' | 'idn-email' |
-    'hostname' | 'idn-hostname' |
-    'ipv4' | 'ipv6' |
-    'uri' | 'uri-reference' | 'iri' | 'iri-reference' | 'uuid' |
-    'uri-template' |
-    'json-pointer' | 'relative-json-pointer' |
-    'regex';
-
-  readonly pattern?: string;
-
-  // TODO: We can use these in the future to apply more clever encodings
-  readonly contentEncoding?: string;
-  readonly contentMediaType?: string;
-
-  // TODO: Define this once we have a proper type to
-  // represent a schema
-  // readonly contentSchema?: XXXXX;
-}
 
 export enum EncodingString {
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED = 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
@@ -59,7 +35,7 @@ export enum EncodingString {
   ARBITRARY__PREFIX_LENGTH_VARINT = 'ARBITRARY__PREFIX_LENGTH_VARINT'
 }
 
-export const getStringEncoding = (schema: SchemaString): EncodingString => {
+export const getStringEncoding = (schema: StringCanonicalSchema): EncodingString => {
   assert(typeof schema.minLength === 'undefined' || schema.minLength >= 0)
   assert(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0)
   assert(typeof schema.minLength === 'undefined' ||

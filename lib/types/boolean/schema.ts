@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-export interface SchemaBoolean {
-  readonly type: 'boolean';
-}
+import {
+  BooleanCanonicalSchema
+} from '../../canonical-schema'
 
 export enum EncodingBoolean {
   BOOLEAN_8BITS__ENUM_FIXED = 'BOOLEAN_8BITS__ENUM_FIXED'
 }
 
-export const getBooleanEncoding = (_schema: SchemaBoolean): EncodingBoolean => {
+export const getBooleanEncoding = (_schema: BooleanCanonicalSchema): EncodingBoolean => {
   return EncodingBoolean.BOOLEAN_8BITS__ENUM_FIXED
 }
