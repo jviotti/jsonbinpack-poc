@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   UINT8_MAX
 } from '../../utils/limits'
 
@@ -56,6 +60,12 @@ export enum EncodingString {
 }
 
 export const getStringEncoding = (schema: SchemaString): EncodingString => {
+  assert(typeof schema.minLength === 'undefined' || schema.minLength >= 0)
+  assert(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0)
+  assert(typeof schema.minLength === 'undefined' ||
+    typeof schema.maxLength === 'undefined' ||
+    schema.maxLength >= schema.minLength)
+
   if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
     if (schema.maxLength - schema.minLength <= UINT8_MAX) {
       return EncodingString.BOUNDED__PREFIX_LENGTH_8BIT_FIXED

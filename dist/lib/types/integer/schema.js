@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIntegerEncoding = exports.EncodingInteger = void 0;
+var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var EncodingInteger;
 (function (EncodingInteger) {
@@ -16,6 +17,9 @@ var EncodingInteger;
     EncodingInteger["ARBITRARY_MULTIPLE__ZIGZAG_VARINT"] = "ARBITRARY_MULTIPLE__ZIGZAG_VARINT";
 })(EncodingInteger = exports.EncodingInteger || (exports.EncodingInteger = {}));
 var getIntegerEncoding = function (schema) {
+    assert_1.strict(typeof schema.minimum === 'undefined' ||
+        typeof schema.maximum === 'undefined' ||
+        schema.maximum >= schema.minimum);
     if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum !== 'undefined' && 'multipleOf' in schema) {
         return EncodingInteger.BOUNDED_MULTIPLE__ENUM_VARINT;

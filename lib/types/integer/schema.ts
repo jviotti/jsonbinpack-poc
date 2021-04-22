@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   UINT8_MAX
 } from '../../utils/limits'
 
@@ -43,6 +47,10 @@ export enum EncodingInteger {
 }
 
 export const getIntegerEncoding = (schema: SchemaInteger): EncodingInteger => {
+  assert(typeof schema.minimum === 'undefined' ||
+    typeof schema.maximum === 'undefined' ||
+    schema.maximum >= schema.minimum)
+
   if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && 'multipleOf' in schema) {
     // TODO: Handle 8-bits case
