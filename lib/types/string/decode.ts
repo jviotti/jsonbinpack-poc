@@ -25,6 +25,10 @@ import {
   FLOOR__ENUM_VARINT
 } from '../integer/decode'
 
+import {
+  UINT8_MAX
+} from '../../utils/limits'
+
 export interface StringResult {
   readonly value: string;
   readonly bytes: number;
@@ -37,7 +41,7 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
 ): StringResult => {
   assert(minimum >= 0)
   assert(maximum >= minimum)
-  assert(maximum - minimum <= 255)
+  assert(maximum - minimum <= UINT8_MAX)
   const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, minimum, maximum)
   return {
     value: buffer.toString(
@@ -63,7 +67,7 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
   buffer: Buffer, offset: number, maximum: number
 ): StringResult => {
   assert(maximum >= 0)
-  assert(maximum <= 255)
+  assert(maximum <= UINT8_MAX)
   return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, 0, maximum)
 }
 

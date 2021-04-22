@@ -27,6 +27,10 @@ import {
   VarintDecodeResult
 } from '../../utils/varint'
 
+import {
+  UINT8_MAX
+} from '../../utils/limits'
+
 export interface IntegerResult {
   readonly value: number;
   readonly bytes: number;
@@ -36,7 +40,7 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
   buffer: Buffer, offset: number, minimum: number, maximum: number
 ): IntegerResult => {
   assert(maximum >= minimum)
-  assert(maximum - minimum <= 255)
+  assert(maximum - minimum <= UINT8_MAX)
 
   return {
     value: buffer.readUInt8(offset) + minimum,

@@ -4,9 +4,10 @@ exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = e
 var assert_1 = require("assert");
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
+var limits_1 = require("../../utils/limits");
 var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, value, minimum, maximum) {
     assert_1.strict(maximum >= minimum);
-    assert_1.strict(maximum - minimum <= 255);
+    assert_1.strict(maximum - minimum <= limits_1.UINT8_MAX);
     assert_1.strict(value >= minimum);
     assert_1.strict(value <= maximum);
     return buffer.writeUInt8(value - minimum, offset) - offset;
@@ -24,7 +25,7 @@ var BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = function (buffer, offset, value, minimu
     var closestMaximumMultiple = Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier;
     var enumMinimum = closestMinimumMultiple / absoluteMultiplier;
     var enumMaximum = closestMaximumMultiple / absoluteMultiplier;
-    assert_1.strict(enumMaximum - enumMinimum <= 255);
+    assert_1.strict(enumMaximum - enumMinimum <= limits_1.UINT8_MAX);
     return exports.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value / absoluteMultiplier, enumMinimum, enumMaximum);
 };
 exports.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = BOUNDED_MULTIPLE_8BITS__ENUM_FIXED;

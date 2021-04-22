@@ -26,6 +26,10 @@ import {
   varintEncode
 } from '../../utils/varint'
 
+import {
+  UINT8_MAX
+} from '../../utils/limits'
+
 // Applicable if the difference between maximum and
 // minimum fits in an unsigned 8-bit integer
 export const BOUNDED_8BITS__ENUM_FIXED = (
@@ -33,7 +37,7 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
   minimum: number, maximum: number
 ): number => {
   assert(maximum >= minimum)
-  assert(maximum - minimum <= 255)
+  assert(maximum - minimum <= UINT8_MAX)
   assert(value >= minimum)
   assert(value <= maximum)
 
@@ -58,7 +62,7 @@ export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
     Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier
   const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
   const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
-  assert(enumMaximum - enumMinimum <= 255)
+  assert(enumMaximum - enumMinimum <= UINT8_MAX)
 
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset,
     value / absoluteMultiplier,

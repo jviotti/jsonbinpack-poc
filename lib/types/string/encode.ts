@@ -24,6 +24,10 @@ import {
   FLOOR__ENUM_VARINT
 } from '../integer/encode'
 
+import {
+  UINT8_MAX
+} from '../../utils/limits'
+
 // TODO: Consider de-duplicating strings by supporting
 // new encodings that take an offset pointer instead
 // of a string value?
@@ -35,7 +39,7 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
 ): number => {
   assert(minimum >= 0)
   assert(maximum >= minimum)
-  assert(maximum - minimum <= 255)
+  assert(maximum - minimum <= UINT8_MAX)
   const length: number = Buffer.byteLength(value, STRING_ENCODING)
   assert(length <= maximum)
   const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, minimum, maximum)
@@ -60,7 +64,7 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
   buffer: Buffer, offset: number, value: string, maximum: number
 ): number => {
   assert(maximum >= 0)
-  assert(maximum <= 255)
+  assert(maximum <= UINT8_MAX)
   return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, 0, maximum)
 }
 

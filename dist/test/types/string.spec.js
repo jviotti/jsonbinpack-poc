@@ -42,14 +42,15 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/string/encode");
 var decode_1 = require("../../lib/types/string/decode");
+var limits_1 = require("../../lib/utils/limits");
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
-    var arbitrary = fc.nat(255).chain(function (maximum) {
+    var arbitrary = fc.nat(limits_1.UINT8_MAX).chain(function (maximum) {
         return fc.tuple(fc.nat(maximum), fc.constant(maximum), fc.string({ maxLength: maximum }));
     });
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 3), minimum = _b[0], maximum = _b[1], value = _b[2];
         fc.pre(Buffer.byteLength(value, 'utf8') >= minimum);
-        var buffer = Buffer.allocUnsafe(256);
+        var buffer = Buffer.allocUnsafe(limits_1.UINT8_MAX + 1);
         var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, minimum, maximum);
         var result = decode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, minimum, maximum);
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
@@ -75,12 +76,12 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test)
     test.end();
 });
 tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
-    var arbitrary = fc.nat(255).chain(function (maximum) {
+    var arbitrary = fc.nat(limits_1.UINT8_MAX).chain(function (maximum) {
         return fc.tuple(fc.constant(maximum), fc.string({ maxLength: maximum }));
     });
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 2), maximum = _b[0], value = _b[1];
-        var buffer = Buffer.allocUnsafe(256);
+        var buffer = Buffer.allocUnsafe(limits_1.UINT8_MAX + 1);
         var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, maximum);
         var result = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, maximum);
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;

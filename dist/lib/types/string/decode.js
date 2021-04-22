@@ -3,11 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = void 0;
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
+var limits_1 = require("../../utils/limits");
 var STRING_ENCODING = 'utf8';
 var BOUNDED__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, minimum, maximum) {
     assert_1.strict(minimum >= 0);
     assert_1.strict(maximum >= minimum);
-    assert_1.strict(maximum - minimum <= 255);
+    assert_1.strict(maximum - minimum <= limits_1.UINT8_MAX);
     var length = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, minimum, maximum);
     return {
         value: buffer.toString(STRING_ENCODING, length.bytes, length.bytes + length.value),
@@ -27,7 +28,7 @@ var BOUNDED__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, minimum, maxi
 exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = BOUNDED__PREFIX_LENGTH_ENUM_VARINT;
 var ROOF__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, maximum) {
     assert_1.strict(maximum >= 0);
-    assert_1.strict(maximum <= 255);
+    assert_1.strict(maximum <= limits_1.UINT8_MAX);
     return exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, 0, maximum);
 };
 exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = ROOF__PREFIX_LENGTH_8BIT_FIXED;

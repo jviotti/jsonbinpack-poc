@@ -42,10 +42,10 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/integer/encode");
 var decode_1 = require("../../lib/types/integer/decode");
-var UINT8_MAX = Math.pow(2, 8) - 1;
+var limits_1 = require("../../lib/utils/limits");
 tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED', function (test) {
     var arbitrary = fc.integer().chain(function (minimum) {
-        return fc.tuple(fc.constant(minimum), fc.integer(minimum, minimum + UINT8_MAX), fc.integer(minimum, minimum + UINT8_MAX));
+        return fc.tuple(fc.constant(minimum), fc.integer(minimum, minimum + limits_1.UINT8_MAX), fc.integer(minimum, minimum + limits_1.UINT8_MAX));
     });
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 3), minimum = _b[0], maximum = _b[1], value = _b[2];
@@ -61,7 +61,7 @@ tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED', function (test) {
 });
 tap_1.default.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', function (test) {
     var arbitrary = fc.integer().chain(function (minimum) {
-        return fc.integer(minimum, minimum + UINT8_MAX).chain(function (maximum) {
+        return fc.integer(minimum, minimum + limits_1.UINT8_MAX).chain(function (maximum) {
             return fc.tuple(fc.constant(minimum), fc.constant(maximum), fc.integer(minimum, maximum), fc.integer(minimum, maximum));
         });
     });

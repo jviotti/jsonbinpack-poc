@@ -44,7 +44,9 @@ import {
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT as DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT
 } from '../../lib/types/integer/decode'
 
-const UINT8_MAX: number = Math.pow(2, 8) - 1
+import {
+  UINT8_MAX
+} from '../../lib/utils/limits'
 
 tap.test('BOUNDED_8BITS__ENUM_FIXED', (test) => {
   const arbitrary = fc.integer().chain((minimum: number) => {

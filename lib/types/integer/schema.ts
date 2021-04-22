@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  UINT8_MAX
+} from '../../utils/limits'
+
 export interface SchemaInteger {
   readonly type: 'integer';
 
@@ -45,7 +49,7 @@ export const getIntegerEncoding = (schema: SchemaInteger): EncodingInteger => {
     return EncodingInteger.BOUNDED_MULTIPLE__ENUM_VARINT
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
-    if (schema.maximum - schema.minimum <= 255) {
+    if (schema.maximum - schema.minimum <= UINT8_MAX) {
       return EncodingInteger.BOUNDED_8BITS__ENUM_FIXED
     }
 

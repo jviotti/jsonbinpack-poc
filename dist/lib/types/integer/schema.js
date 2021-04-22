@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIntegerEncoding = exports.EncodingInteger = void 0;
+var limits_1 = require("../../utils/limits");
 var EncodingInteger;
 (function (EncodingInteger) {
     EncodingInteger["BOUNDED_8BITS__ENUM_FIXED"] = "BOUNDED_8BITS__ENUM_FIXED";
@@ -21,7 +22,7 @@ var getIntegerEncoding = function (schema) {
     }
     else if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
-        if (schema.maximum - schema.minimum <= 255) {
+        if (schema.maximum - schema.minimum <= limits_1.UINT8_MAX) {
             return EncodingInteger.BOUNDED_8BITS__ENUM_FIXED;
         }
         return EncodingInteger.BOUNDED__ENUM_VARINT;

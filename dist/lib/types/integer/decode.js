@@ -4,9 +4,10 @@ exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = e
 var assert_1 = require("assert");
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
+var limits_1 = require("../../utils/limits");
 var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, minimum, maximum) {
     assert_1.strict(maximum >= minimum);
-    assert_1.strict(maximum - minimum <= 255);
+    assert_1.strict(maximum - minimum <= limits_1.UINT8_MAX);
     return {
         value: buffer.readUInt8(offset) + minimum,
         bytes: 1
