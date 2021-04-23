@@ -51,3 +51,14 @@ tap.test('ANY__TYPE_PREFIX: should encode "foo" as 0x00 0x03 + string', (test) =
   test.is(bytesWritten, 5)
   test.end()
 })
+
+tap.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x03 + double', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(9)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, 3.14, {})
+  test.strictSame(buffer, Buffer.from([
+    0x03, 0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x09, 0x40 ]))
+  test.is(bytesWritten, 9)
+  test.end()
+})
+
+// TODO: Add integer tests
