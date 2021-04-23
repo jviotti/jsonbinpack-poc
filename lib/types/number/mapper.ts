@@ -18,10 +18,24 @@ import {
   NumberCanonicalSchema
 } from '../../canonical-schema'
 
-export enum NumberEncoding {
-  DOUBLE__IEEE764_LE = 'DOUBLE__IEEE764_LE'
+import {
+  BaseEncodingDefinition
+} from '../../encoding'
+
+import {
+  NoOptions
+} from './options'
+
+export interface DOUBLE__IEEE764_LE_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'DOUBLE__IEEE764_LE';
+  readonly options: NoOptions;
 }
 
+export type NumberEncoding = DOUBLE__IEEE764_LE_ENCODING
+
 export const getNumberEncoding = (_schema: NumberCanonicalSchema): NumberEncoding => {
-  return NumberEncoding.DOUBLE__IEEE764_LE
+  return {
+    encoding: 'DOUBLE__IEEE764_LE',
+    options: {}
+  }
 }
