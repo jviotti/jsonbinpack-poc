@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-export interface FloorOptions {
+export interface NoOptions {}
+
+export interface FloorOptions extends NoOptions {
   readonly minimum: number;
 }
 
-export interface RoofOptions {
+export interface RoofOptions extends NoOptions {
   readonly maximum: number;
 }
 
-export interface MultiplierOptions {
+export interface MultiplierOptions extends NoOptions {
   readonly multiplier: number;
 }
 

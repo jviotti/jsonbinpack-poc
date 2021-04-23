@@ -251,7 +251,7 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / -5 as 0x0
 
 tap.test('ARBITRARY__ZIGZAG_VARINT: should encode -25200 as 0xdf 0x89 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(3)
-  const bytesWritten: number = ARBITRARY__ZIGZAG_VARINT(buffer, 0, -25200)
+  const bytesWritten: number = ARBITRARY__ZIGZAG_VARINT(buffer, 0, -25200, {})
   test.strictSame(buffer, Buffer.from([ 0xdf, 0x89, 0x03 ]))
   test.is(bytesWritten, 3)
   test.end()

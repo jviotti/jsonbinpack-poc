@@ -207,7 +207,7 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) /
 });
 tap_1.default.test('ARBITRARY__ZIGZAG_VARINT: should encode -25200 as 0xdf 0x89 0x03', function (test) {
     var buffer = Buffer.allocUnsafe(3);
-    var bytesWritten = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0, -25200);
+    var bytesWritten = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0, -25200, {});
     test.strictSame(buffer, Buffer.from([0xdf, 0x89, 0x03]));
     test.is(bytesWritten, 3);
     test.end();

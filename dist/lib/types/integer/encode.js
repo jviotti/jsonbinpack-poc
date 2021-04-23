@@ -87,12 +87,12 @@ var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, options
     });
 };
 exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
-var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value) {
+var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value, _options) {
     return varint_1.varintEncode(buffer, offset, zigzag_1.zigzagEncode(value));
 };
 exports.ARBITRARY__ZIGZAG_VARINT = ARBITRARY__ZIGZAG_VARINT;
 var ARBITRARY_MULTIPLE__ZIGZAG_VARINT = function (buffer, offset, value, options) {
     assert_1.strict(value % options.multiplier === 0);
-    return exports.ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(options.multiplier));
+    return exports.ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(options.multiplier), {});
 };
 exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = ARBITRARY_MULTIPLE__ZIGZAG_VARINT;

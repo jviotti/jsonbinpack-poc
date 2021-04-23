@@ -166,8 +166,8 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', function (test) {
 tap_1.default.test('ARBITRARY__ZIGZAG_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), function (value) {
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0, value);
-        var result = decode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0);
+        var bytesWritten = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0, value, {});
+        var result = decode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0, {});
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false

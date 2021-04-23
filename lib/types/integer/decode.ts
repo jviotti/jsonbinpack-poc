@@ -36,6 +36,7 @@ import {
 } from '../../utils/limits'
 
 import {
+  NoOptions,
   FloorOptions,
   FloorMultiplierOptions,
   RoofOptions,
@@ -161,7 +162,7 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
 }
 
 export const ARBITRARY__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number
+  buffer: Buffer, offset: number, _options: NoOptions
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
@@ -173,7 +174,7 @@ export const ARBITRARY__ZIGZAG_VARINT = (
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
   buffer: Buffer, offset: number, options: MultiplierOptions
 ): IntegerResult => {
-  const result: IntegerResult = ARBITRARY__ZIGZAG_VARINT(buffer, offset)
+  const result: IntegerResult = ARBITRARY__ZIGZAG_VARINT(buffer, offset, {})
   return {
     value: result.value * Math.abs(options.multiplier),
     bytes: result.bytes
