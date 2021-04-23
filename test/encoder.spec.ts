@@ -26,7 +26,7 @@ import {
   JSONValue
 } from '../lib/json'
 
-tap.test('XXXXXXXXXX', (test) => {
+tap.test('should dynamically encode a boolean value', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const offset: number = 0
   const encoding: Encoding = {
@@ -37,9 +37,7 @@ tap.test('XXXXXXXXXX', (test) => {
 
   const value: JSONValue = true
   const bytesWritten: number = encode(buffer, offset, encoding, value)
-
-  console.log(buffer)
-
   test.is(bytesWritten, 1)
+  test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.end()
 })
