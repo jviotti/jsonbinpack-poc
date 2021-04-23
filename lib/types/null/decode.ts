@@ -33,7 +33,7 @@ import {
 
 import {
   DecodeResult
-} from '../../encoding'
+} from '../base'
 
 export interface NullResult extends DecodeResult {
   readonly value: JSONNull;

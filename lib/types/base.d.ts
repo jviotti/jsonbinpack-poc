@@ -15,28 +15,10 @@
  */
 
 import {
-  JSONNumber
-} from '../../json'
+  JSONValue
+} from '../json'
 
-import {
-  NoOptions
-} from './options'
-
-import {
-  DecodeResult
-} from '../base'
-
-export interface NumberResult extends DecodeResult {
-  readonly value: JSONNumber;
+export interface DecodeResult {
+  readonly value: JSONValue;
   readonly bytes: number;
-}
-
-export const DOUBLE__IEEE764_LE = (
-  buffer: Buffer, offset: number, _options: NoOptions
-): NumberResult => {
-  const result: number = buffer.readDoubleLE(offset)
-  return {
-    value: result,
-    bytes: 8
-  }
 }

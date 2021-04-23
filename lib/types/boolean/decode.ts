@@ -33,7 +33,7 @@ import {
 
 import {
   DecodeResult
-} from '../../encoding'
+} from '../base'
 
 export interface BooleanResult extends DecodeResult {
   readonly value: JSONBoolean;

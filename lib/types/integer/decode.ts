@@ -37,7 +37,7 @@ import {
 
 import {
   DecodeResult
-} from '../../encoding'
+} from '../base'
 
 import {
   NoOptions,

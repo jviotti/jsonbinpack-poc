@@ -42,7 +42,7 @@ import {
 
 import {
   DecodeResult
-} from '../../encoding'
+} from '../base'
 
 export interface StringResult extends DecodeResult {
   readonly value: JSONString;
