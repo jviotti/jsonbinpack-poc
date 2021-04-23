@@ -15,27 +15,13 @@
  */
 
 import {
-  BooleanCanonicalSchema
-} from '../../canonical-schema'
+  BooleanEncoding
+} from './types/boolean/mapper'
 
-import {
-  BaseEncodingDefinition
-} from '../../encoding'
-
-import {
-  NoOptions
-} from './options'
-
-export interface BOOLEAN_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
-  readonly encoding: 'BOOLEAN_8BITS__ENUM_FIXED';
-  readonly options: NoOptions;
+export interface BaseEncodingDefinition {
+  readonly encoding: string;
+  readonly options: object;
 }
 
-export type BooleanEncoding = BOOLEAN_8BITS__ENUM_FIXED_ENCODING
-
-export const getBooleanEncoding = (_schema: BooleanCanonicalSchema): BooleanEncoding => {
-  return {
-    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-    options: {}
-  }
-}
+// The union of all possible encodings
+export type Encoding = BooleanEncoding

@@ -39,20 +39,6 @@ export enum IntegerEncoding {
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT = 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT'
 }
 
-// TODO: Do not return just an encoding, but an interface
-// that statically defines to options to be passed to that
-// encoding too (as an array).
-// For example:
-// {
-//   encoding: BOUNDED_8BITS__ENUM_FIXED,
-//   type: integer
-//   path: [ pointer ] <pointer> // Take the pointer an argument to getIntegerEncoding()
-//   options: [ 2, 200 ]
-// }
-//
-// We will be dynamically calling functions based on i.e. IntegerEncoding
-// so we don't need to worry about argument typing either
-
 export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncoding => {
   assert(typeof schema.minimum === 'undefined' ||
     typeof schema.maximum === 'undefined' ||
