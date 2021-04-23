@@ -27,8 +27,8 @@ import {
 
 tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0)
-  const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 0)
+  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
+  const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
 
   test.is(bytesWritten, 1)
   test.is(bytesWritten, result.bytes)
