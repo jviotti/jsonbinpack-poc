@@ -75,9 +75,12 @@ export interface StringCanonicalSchema {
   readonly contentSchema?: CanonicalSchema;
 }
 
+export interface AnyCanonicalSchema {}
+
 export type CanonicalSchema =
   BooleanCanonicalSchema |
   IntegerCanonicalSchema |
   NullCanonicalSchema |
   NumberCanonicalSchema |
-  StringCanonicalSchema
+  StringCanonicalSchema |
+  AnyCanonicalSchema
