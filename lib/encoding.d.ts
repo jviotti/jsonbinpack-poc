@@ -30,6 +30,10 @@ import {
   IntegerEncoding
 } from './types/integer/mapper'
 
+import {
+  StringEncoding
+} from './types/string/mapper'
+
 export interface BaseEncodingDefinition {
   readonly encoding: string;
   readonly options: object;
@@ -40,4 +44,5 @@ export type Encoding =
   BooleanEncoding |
   NullEncoding |
   NumberEncoding |
-  IntegerEncoding
+  IntegerEncoding |
+  StringEncoding

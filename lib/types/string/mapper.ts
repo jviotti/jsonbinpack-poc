@@ -15,25 +15,65 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   StringCanonicalSchema
 } from '../../canonical-schema'
 
 import {
-  strict as assert
-} from 'assert'
+  BaseEncodingDefinition
+} from '../../encoding'
 
 import {
   UINT8_MAX
 } from '../../utils/limits'
 
-export enum StringEncoding {
-  BOUNDED__PREFIX_LENGTH_8BIT_FIXED = 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
-  BOUNDED__PREFIX_LENGTH_ENUM_VARINT = 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
-  ROOF__PREFIX_LENGTH_8BIT_FIXED = 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
-  ROOF__PREFIX_LENGTH_ENUM_VARINT = 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
-  FLOOR__PREFIX_LENGTH_ENUM_VARINT = 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-  ARBITRARY__PREFIX_LENGTH_VARINT = 'ARBITRARY__PREFIX_LENGTH_VARINT'
+import {
+  NoOptions,
+  BoundedOptions,
+  RoofOptions,
+  FloorOptions
+} from './options'
+
+export interface BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED';
+  readonly options: BoundedOptions;
 }
+
+export interface BOUNDED__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT';
+  readonly options: BoundedOptions;
+}
+
+export interface ROOF__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED';
+  readonly options: RoofOptions;
+}
+
+export interface ROOF__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT';
+  readonly options: RoofOptions;
+}
+
+export interface FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT';
+  readonly options: FloorOptions;
+}
+
+export interface ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT';
+  readonly options: NoOptions;
+}
+
+export type StringEncoding =
+  BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
+  BOUNDED__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
+  ROOF__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
+  ROOF__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
+  FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
+  ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING
 
 export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding => {
   assert(typeof schema.minLength === 'undefined' || schema.minLength >= 0)
@@ -43,20 +83,33 @@ export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding
     schema.maxLength >= schema.minLength)
 
   if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
-    if (schema.maxLength - schema.minLength <= UINT8_MAX) {
-      return StringEncoding.BOUNDED__PREFIX_LENGTH_8BIT_FIXED
+    return {
+      encoding: (schema.maxLength - schema.minLength <= UINT8_MAX)
+        ? 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' : 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
+      options: {
+        minimum: schema.minLength,
+        maximum: schema.maxLength
+      }
     }
-
-    return StringEncoding.BOUNDED__PREFIX_LENGTH_ENUM_VARINT
   } else if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength === 'undefined') {
-    return StringEncoding.FLOOR__PREFIX_LENGTH_ENUM_VARINT
-  } else if (typeof schema.minLength === 'undefined' && typeof schema.maxLength !== 'undefined') {
-    if (schema.maxLength <= UINT8_MAX) {
-      return StringEncoding.ROOF__PREFIX_LENGTH_8BIT_FIXED
+    return {
+      encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+      options: {
+        minimum: schema.minLength
+      }
     }
-
-    return StringEncoding.ROOF__PREFIX_LENGTH_ENUM_VARINT
+  } else if (typeof schema.minLength === 'undefined' && typeof schema.maxLength !== 'undefined') {
+    return {
+      encoding: schema.maxLength <= UINT8_MAX
+        ? 'ROOF__PREFIX_LENGTH_8BIT_FIXED' : 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
+      options: {
+        maximum: schema.maxLength
+      }
+    }
   } else {
-    return StringEncoding.ARBITRARY__PREFIX_LENGTH_VARINT
+    return {
+      encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+      options: {}
+    }
   }
 }
