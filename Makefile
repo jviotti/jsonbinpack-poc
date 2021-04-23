@@ -1,6 +1,6 @@
 include vendor/vendorpull/targets.mk
 
-include node_modules/@sourcemeta/typescript-config/targets.mk
+-include node_modules/@sourcemeta/typescript-config/targets.mk
 TYPESCRIPT_CONFIG_DIRECTORIES = lib test
 
 .PHONY: deps web build lint test
