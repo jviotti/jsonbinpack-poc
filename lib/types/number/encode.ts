@@ -18,11 +18,15 @@ import {
   JSONNumber
 } from '../../json'
 
+import {
+  NoOptions
+} from './options'
+
 // TODO: Find out in which case we can safely do a 32-bit floating-point
 // numbers encoding
 
 export const DOUBLE__IEEE764_LE = (
-  buffer: Buffer, offset: number, value: JSONNumber
+  buffer: Buffer, offset: number, value: JSONNumber, _options: NoOptions
 ): number => {
   return buffer.writeDoubleLE(value, offset) - offset
 }

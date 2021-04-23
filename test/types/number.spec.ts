@@ -29,8 +29,8 @@ import {
 tap.test('DOUBLE__IEEE764_LE', (test) => {
   fc.assert(fc.property(fc.double(), (value: number): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(8)
-    const bytesWritten: number = ENCODE_DOUBLE__IEEE764_LE(buffer, 0, value)
-    const result: NumberResult = DECODE_DOUBLE__IEEE764_LE(buffer, 0)
+    const bytesWritten: number = ENCODE_DOUBLE__IEEE764_LE(buffer, 0, value, {})
+    const result: NumberResult = DECODE_DOUBLE__IEEE764_LE(buffer, 0, {})
     return bytesWritten === 8 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false

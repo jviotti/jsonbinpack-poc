@@ -18,13 +18,17 @@ import {
   JSONNumber
 } from '../../json'
 
+import {
+  NoOptions
+} from './options'
+
 export interface NumberResult {
   readonly value: JSONNumber;
   readonly bytes: number;
 }
 
 export const DOUBLE__IEEE764_LE = (
-  buffer: Buffer, offset: number
+  buffer: Buffer, offset: number, _options: NoOptions
 ): NumberResult => {
   const result: number = buffer.readDoubleLE(offset)
   return {
