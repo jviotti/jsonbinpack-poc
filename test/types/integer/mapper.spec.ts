@@ -25,22 +25,17 @@ import {
   getIntegerEncoding
 } from '../../../lib/types/integer/mapper'
 
-import * as ENCODE_FUNCTIONS from '../../../lib/types/integer/encode'
-import * as DECODE_FUNCTIONS from '../../../lib/types/integer/decode'
-
-tap.test('the encoding enum should include all encoding functions', (test) => {
-  test.strictSame(Object.values(IntegerEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
-  test.strictSame(Object.values(IntegerEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort())
-  test.end()
-})
-
 tap.test('should encode an arbitrary integer', (test) => {
   const schema: IntegerCanonicalSchema = {
     type: 'integer'
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.ARBITRARY__ZIGZAG_VARINT)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+    options: {}
+  })
+
   test.end()
 })
 
@@ -50,8 +45,14 @@ tap.test('should encode an arbitrary integer with multipleOf', (test) => {
     multipleOf: 5
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.ARBITRARY_MULTIPLE__ZIGZAG_VARINT)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
+    options: {
+      multiplier: 5
+    }
+  })
+
   test.end()
 })
 
@@ -61,8 +62,14 @@ tap.test('should encode an integer with minimum', (test) => {
     minimum: 0
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.FLOOR__ENUM_VARINT)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'FLOOR__ENUM_VARINT',
+    options: {
+      minimum: 0
+    }
+  })
+
   test.end()
 })
 
@@ -73,8 +80,15 @@ tap.test('should encode an integer with minimum and multipleOf', (test) => {
     multipleOf: 5
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.FLOOR_MULTIPLE__ENUM_VARINT)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
+    options: {
+      minimum: 0,
+      multiplier: 5
+    }
+  })
+
   test.end()
 })
 
@@ -84,8 +98,14 @@ tap.test('should encode an integer with maximum', (test) => {
     maximum: 100
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.ROOF__MIRROR_ENUM_VARINT)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'ROOF__MIRROR_ENUM_VARINT',
+    options: {
+      maximum: 100
+    }
+  })
+
   test.end()
 })
 
@@ -96,8 +116,15 @@ tap.test('should encode an integer with maximum and multipleOf', (test) => {
     multipleOf: 5
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.ROOF_MULTIPLE__MIRROR_ENUM_VARINT)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
+    options: {
+      maximum: 100,
+      multiplier: 5
+    }
+  })
+
   test.end()
 })
 
@@ -108,8 +135,15 @@ tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
     maximum: 100
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.BOUNDED_8BITS__ENUM_FIXED)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+    options: {
+      minimum: -100,
+      maximum: 100
+    }
+  })
+
   test.end()
 })
 
@@ -120,7 +154,14 @@ tap.test('should encode an >8-bit integer with minimum and maximum', (test) => {
     maximum: 100000
   }
 
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
-  test.is(encoding, IntegerEncoding.BOUNDED__ENUM_VARINT)
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'BOUNDED__ENUM_VARINT',
+    options: {
+      minimum: -100,
+      maximum: 100000
+    }
+  })
+
   test.end()
 })

@@ -1,58 +1,86 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getIntegerEncoding = exports.IntegerEncoding = void 0;
+exports.getIntegerEncoding = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
-var IntegerEncoding;
-(function (IntegerEncoding) {
-    IntegerEncoding["BOUNDED_8BITS__ENUM_FIXED"] = "BOUNDED_8BITS__ENUM_FIXED";
-    IntegerEncoding["BOUNDED_MULTIPLE_8BITS__ENUM_FIXED"] = "BOUNDED_MULTIPLE_8BITS__ENUM_FIXED";
-    IntegerEncoding["BOUNDED__ENUM_VARINT"] = "BOUNDED__ENUM_VARINT";
-    IntegerEncoding["BOUNDED_MULTIPLE__ENUM_VARINT"] = "BOUNDED_MULTIPLE__ENUM_VARINT";
-    IntegerEncoding["FLOOR__ENUM_VARINT"] = "FLOOR__ENUM_VARINT";
-    IntegerEncoding["FLOOR_MULTIPLE__ENUM_VARINT"] = "FLOOR_MULTIPLE__ENUM_VARINT";
-    IntegerEncoding["ROOF__MIRROR_ENUM_VARINT"] = "ROOF__MIRROR_ENUM_VARINT";
-    IntegerEncoding["ROOF_MULTIPLE__MIRROR_ENUM_VARINT"] = "ROOF_MULTIPLE__MIRROR_ENUM_VARINT";
-    IntegerEncoding["ARBITRARY__ZIGZAG_VARINT"] = "ARBITRARY__ZIGZAG_VARINT";
-    IntegerEncoding["ARBITRARY_MULTIPLE__ZIGZAG_VARINT"] = "ARBITRARY_MULTIPLE__ZIGZAG_VARINT";
-})(IntegerEncoding = exports.IntegerEncoding || (exports.IntegerEncoding = {}));
 var getIntegerEncoding = function (schema) {
     assert_1.strict(typeof schema.minimum === 'undefined' ||
         typeof schema.maximum === 'undefined' ||
         schema.maximum >= schema.minimum);
     if (typeof schema.minimum !== 'undefined' &&
-        typeof schema.maximum !== 'undefined' && 'multipleOf' in schema) {
-        return IntegerEncoding.BOUNDED_MULTIPLE__ENUM_VARINT;
+        typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
+        return {
+            encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
+            options: {
+                minimum: schema.minimum,
+                maximum: schema.maximum,
+                multiplier: schema.multipleOf
+            }
+        };
     }
     else if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
-        if (schema.maximum - schema.minimum <= limits_1.UINT8_MAX) {
-            return IntegerEncoding.BOUNDED_8BITS__ENUM_FIXED;
-        }
-        return IntegerEncoding.BOUNDED__ENUM_VARINT;
+        return {
+            encoding: (schema.maximum - schema.minimum <= limits_1.UINT8_MAX)
+                ? 'BOUNDED_8BITS__ENUM_FIXED' : 'BOUNDED__ENUM_VARINT',
+            options: {
+                minimum: schema.minimum,
+                maximum: schema.maximum,
+            }
+        };
     }
     else if (typeof schema.minimum !== 'undefined' &&
-        typeof schema.maximum === 'undefined' && 'multipleOf' in schema) {
-        return IntegerEncoding.FLOOR_MULTIPLE__ENUM_VARINT;
+        typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
+        return {
+            encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
+            options: {
+                minimum: schema.minimum,
+                multiplier: schema.multipleOf
+            }
+        };
     }
     else if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum === 'undefined' && !('multipleOf' in schema)) {
-        return IntegerEncoding.FLOOR__ENUM_VARINT;
+        return {
+            encoding: 'FLOOR__ENUM_VARINT',
+            options: {
+                minimum: schema.minimum
+            }
+        };
     }
     else if (typeof schema.minimum === 'undefined' &&
-        typeof schema.maximum !== 'undefined' && 'multipleOf' in schema) {
-        return IntegerEncoding.ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
+        typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
+        return {
+            encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
+            options: {
+                maximum: schema.maximum,
+                multiplier: schema.multipleOf
+            }
+        };
     }
     else if (typeof schema.minimum === 'undefined' &&
         typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
-        return IntegerEncoding.ROOF__MIRROR_ENUM_VARINT;
+        return {
+            encoding: 'ROOF__MIRROR_ENUM_VARINT',
+            options: {
+                maximum: schema.maximum
+            }
+        };
     }
     else if (typeof schema.minimum === 'undefined' &&
-        typeof schema.maximum === 'undefined' && 'multipleOf' in schema) {
-        return IntegerEncoding.ARBITRARY_MULTIPLE__ZIGZAG_VARINT;
+        typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
+        return {
+            encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
+            options: {
+                multiplier: schema.multipleOf
+            }
+        };
     }
     else {
-        return IntegerEncoding.ARBITRARY__ZIGZAG_VARINT;
+        return {
+            encoding: 'ARBITRARY__ZIGZAG_VARINT',
+            options: {}
+        };
     }
 };
 exports.getIntegerEncoding = getIntegerEncoding;
