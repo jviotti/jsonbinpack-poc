@@ -38,6 +38,26 @@ import {
   StringOptions
 } from './string/options'
 
+import {
+  BooleanEncodingNames
+} from './boolean/mapper'
+
+import {
+  NullEncodingNames
+} from './null/mapper'
+
+import {
+  NumberEncodingNames
+} from './number/mapper'
+
+import {
+  IntegerEncodingNames
+} from './integer/mapper'
+
+import {
+  StringEncodingNames
+} from './string/mapper'
+
 export interface DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
@@ -57,8 +77,12 @@ export enum EncodingType {
 export interface BaseEncodingDefinition {
   readonly type: EncodingType;
 
-  // TODO: Make this specific
-  readonly encoding: string;
+  readonly encoding:
+    BooleanEncodingNames |
+    NullEncodingNames |
+    NumberEncodingNames |
+    IntegerEncodingNames |
+    StringEncodingNames;
 
   readonly options:
     BooleanOptions |

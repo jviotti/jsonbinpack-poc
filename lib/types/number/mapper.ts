@@ -33,6 +33,7 @@ export interface DOUBLE__IEEE764_LE_ENCODING extends BaseEncodingDefinition {
   readonly options: NoOptions;
 }
 
+export type NumberEncodingNames = 'DOUBLE__IEEE764_LE'
 export type NumberEncoding = DOUBLE__IEEE764_LE_ENCODING
 
 export const getNumberEncoding = (_schema: NumberCanonicalSchema): NumberEncoding => {
