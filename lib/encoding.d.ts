@@ -18,10 +18,14 @@ import {
   BooleanEncoding
 } from './types/boolean/mapper'
 
+import {
+  NullEncoding
+} from './types/null/mapper'
+
 export interface BaseEncodingDefinition {
   readonly encoding: string;
   readonly options: object;
 }
 
 // The union of all possible encodings
-export type Encoding = BooleanEncoding
+export type Encoding = BooleanEncoding | NullEncoding

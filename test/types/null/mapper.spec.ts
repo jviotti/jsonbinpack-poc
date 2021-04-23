@@ -25,21 +25,16 @@ import {
   getNullEncoding
 } from '../../../lib/types/null/mapper'
 
-import * as ENCODE_FUNCTIONS from '../../../lib/types/null/encode'
-import * as DECODE_FUNCTIONS from '../../../lib/types/null/decode'
-
-tap.test('the encoding enum should include all encoding functions', (test) => {
-  test.strictSame(Object.values(NullEncoding).sort(), Object.keys(ENCODE_FUNCTIONS).sort())
-  test.strictSame(Object.values(NullEncoding).sort(), Object.keys(DECODE_FUNCTIONS).sort())
-  test.end()
-})
-
 tap.test('should encode a null value', (test) => {
   const schema: NullCanonicalSchema = {
     type: 'null'
   }
 
-  const encoding: NullEncoding = getNullEncoding(schema)
-  test.is(encoding, NullEncoding.NULL_8BITS__ENUM_FIXED)
+  const result: NullEncoding = getNullEncoding(schema)
+  test.strictSame(result, {
+    encoding: 'NULL_8BITS__ENUM_FIXED',
+    options: {}
+  })
+
   test.end()
 })

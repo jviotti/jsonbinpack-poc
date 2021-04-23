@@ -18,10 +18,24 @@ import {
   NullCanonicalSchema
 } from '../../canonical-schema'
 
-export enum NullEncoding {
-  NULL_8BITS__ENUM_FIXED = 'NULL_8BITS__ENUM_FIXED'
+import {
+  BaseEncodingDefinition
+} from '../../encoding'
+
+import {
+  NoOptions
+} from './options'
+
+export interface NULL_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
+  readonly encoding: 'NULL_8BITS__ENUM_FIXED';
+  readonly options: NoOptions;
 }
 
+export type NullEncoding = NULL_8BITS__ENUM_FIXED_ENCODING
+
 export const getNullEncoding = (_schema: NullCanonicalSchema): NullEncoding => {
-  return NullEncoding.NULL_8BITS__ENUM_FIXED
+  return {
+    encoding: 'NULL_8BITS__ENUM_FIXED',
+    options: {}
+  }
 }
