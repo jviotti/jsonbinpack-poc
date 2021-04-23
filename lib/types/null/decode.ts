@@ -35,7 +35,11 @@ export interface NullResult {
 export const NULL_8BITS__ENUM_FIXED = (
   buffer: Buffer, offset: number
 ): NullResult => {
-  const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, 0)
+  const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+    minimum: 0,
+    maximum: 0
+  })
+
   assert(result.value === 0)
 
   return {

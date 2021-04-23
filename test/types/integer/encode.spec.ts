@@ -31,7 +31,10 @@ import {
 
 tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode -5 (-5..-1) as 0x00', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, -5, -5, -1)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, -5, {
+    minimum: -5,
+    maximum: -1
+  })
   test.strictSame(buffer, Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -39,7 +42,10 @@ tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode -5 (-5..-1) as 0x00', (test) 
 
 tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode 2 (-5..5) as 0x07', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 2, -5, 5)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 2, {
+    minimum: -5,
+    maximum: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x07 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -47,7 +53,10 @@ tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode 2 (-5..5) as 0x07', (test) =>
 
 tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..8) as 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, 2, 8)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, {
+    minimum: 2,
+    maximum: 8
+  })
   test.strictSame(buffer, Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -55,7 +64,11 @@ tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..8) as 0x03', (test) => 
 
 tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 5 (1..19) / 5 as 0x00', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, 5, 1, 19, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, 5, {
+    minimum: 1,
+    maximum: 19,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -63,7 +76,11 @@ tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 5 (1..19) / 5 as 0x0
 
 tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 15 (1..19) / 5 as 0x02', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, 15, 1, 19, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, 15, {
+    minimum: 1,
+    maximum: 19,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -71,7 +88,10 @@ tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 15 (1..19) / 5 as 0x
 
 tap.test('BOUNDED__ENUM_VARINT: should encode -5 (-5..-1) as 0x00', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, -5, -5, -1)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, -5, {
+    minimum: -5,
+    maximum: -1
+  })
   test.strictSame(buffer, Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -79,7 +99,10 @@ tap.test('BOUNDED__ENUM_VARINT: should encode -5 (-5..-1) as 0x00', (test) => {
 
 tap.test('BOUNDED__ENUM_VARINT: should encode 2 (-5..5) as 0x07', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 2, -5, 5)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 2, {
+    minimum: -5,
+    maximum: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x07 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -87,7 +110,10 @@ tap.test('BOUNDED__ENUM_VARINT: should encode 2 (-5..5) as 0x07', (test) => {
 
 tap.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 5, 2, 8)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, 0, 5, {
+    minimum: 2,
+    maximum: 8
+  })
   test.strictSame(buffer, Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -95,7 +121,11 @@ tap.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', (test) => {
 
 tap.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 5 (1..19) / 5 as 0x00', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 5, 1, 19, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 5, {
+    minimum: 1,
+    maximum: 19,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -103,7 +133,11 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 5 (1..19) / 5 as 0x00', (
 
 tap.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 15 (1..19) / 5 as 0x02', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 15, 1, 19, 5)
+  const bytesWritten: number = BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 15, {
+    minimum: 1,
+    maximum: 19,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -111,7 +145,9 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 15 (1..19) / 5 as 0x02', 
 
 tap.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, 0, -3, -10)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, 0, -3, {
+    minimum: -10
+  })
   test.strictSame(buffer, Buffer.from([ 0x07 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -119,7 +155,9 @@ tap.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', (test) => {
 
 tap.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, 0, 5, 2)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, 0, 5, {
+    minimum: 2
+  })
   test.strictSame(buffer, Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -127,7 +165,10 @@ tap.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', (test) => {
 
 tap.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (5..) / 5 as 0x01', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, 5, 5)
+  const bytesWritten: number = FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, {
+    minimum: 5,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -135,7 +176,10 @@ tap.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (5..) / 5 as 0x01', (tes
 
 tap.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (2..) / 5 as 0x01', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, 2, 5)
+  const bytesWritten: number = FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, {
+    minimum: 2,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -143,7 +187,9 @@ tap.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (2..) / 5 as 0x01', (tes
 
 tap.test('ROOF__MIRROR_ENUM_VARINT: should encode -3 (..-2) as 0x01', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, 0, -3, -2)
+  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, 0, -3, {
+    maximum: -2
+  })
   test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -151,7 +197,9 @@ tap.test('ROOF__MIRROR_ENUM_VARINT: should encode -3 (..-2) as 0x01', (test) => 
 
 tap.test('ROOF__MIRROR_ENUM_VARINT: should encode 8 (..10) as 0x02', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, 0, 8, 10)
+  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, 0, 8, {
+    maximum: 10
+  })
   test.strictSame(buffer, Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -159,7 +207,10 @@ tap.test('ROOF__MIRROR_ENUM_VARINT: should encode 8 (..10) as 0x02', (test) => {
 
 tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) / -5 as 0x02', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, -15, -5, -5)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, -15, {
+    maximum: -5,
+    multiplier: -5
+  })
   test.strictSame(buffer, Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -167,7 +218,10 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) / -5 as 0x
 
 tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 5 (..16) / 5 as 0x02', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 5, 16, 5)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 5, {
+    maximum: 16,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -175,7 +229,10 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 5 (..16) / 5 as 0x02'
 
 tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / 5 as 0x01', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, 15, 5)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, {
+    maximum: 15,
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -183,7 +240,10 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / 5 as 0x01
 
 tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / -5 as 0x01', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, 15, -5)
+  const bytesWritten: number = ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, {
+    maximum: 15,
+    multiplier: -5
+  })
   test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -199,7 +259,9 @@ tap.test('ARBITRARY__ZIGZAG_VARINT: should encode -25200 as 0xdf 0x89 0x03', (te
 
 tap.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT: should encode 10 / 5  as 0x04', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, 10, 5)
+  const bytesWritten: number = ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, 10, {
+    multiplier: 5
+  })
   test.strictSame(buffer, Buffer.from([ 0x04 ]))
   test.is(bytesWritten, 1)
   test.end()

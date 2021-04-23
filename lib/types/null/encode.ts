@@ -21,5 +21,8 @@ import {
 export const NULL_8BITS__ENUM_FIXED = (
   buffer: Buffer, offset: number
 ): number => {
-  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, 0, 0)
+  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, {
+    minimum: 0,
+    maximum: 0
+  })
 }

@@ -35,34 +35,43 @@ import {
   UINT8_MAX
 } from '../../utils/limits'
 
+import {
+  FloorOptions,
+  FloorMultiplierOptions,
+  RoofOptions,
+  RoofMultiplierOptions,
+  MultiplierOptions,
+  BoundedOptions,
+  BoundedMultiplierOptions
+} from './options'
+
 export interface IntegerResult {
   readonly value: JSONNumber;
   readonly bytes: number;
 }
 
 export const BOUNDED_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, minimum: number, maximum: number
+  buffer: Buffer, offset: number, options: BoundedOptions
 ): IntegerResult => {
-  assert(maximum >= minimum)
-  assert(maximum - minimum <= UINT8_MAX)
+  assert(options.maximum >= options.minimum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
 
   return {
-    value: buffer.readUInt8(offset) + minimum,
+    value: buffer.readUInt8(offset) + options.minimum,
     bytes: 1
   }
 }
 
 export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number,
-  minimum: number, maximum: number, multiplier: number
+  buffer: Buffer, offset: number, options: BoundedMultiplierOptions
 ): IntegerResult => {
-  assert(maximum >= minimum)
-  assert(multiplier >= minimum)
-  assert(multiplier <= maximum)
+  assert(options.maximum >= options.minimum)
+  assert(options.multiplier >= options.minimum)
+  assert(options.multiplier <= options.maximum)
 
-  const absoluteMultiplier: number = Math.abs(multiplier)
+  const absoluteMultiplier: number = Math.abs(options.multiplier)
   const closestMinimumMultiple: number =
-    Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier
+    Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier
 
   return {
     value: (buffer.readUInt8(offset) * absoluteMultiplier) + closestMinimumMultiple,
@@ -71,28 +80,27 @@ export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
 }
 
 export const BOUNDED__ENUM_VARINT = (
-  buffer: Buffer, offset: number, minimum: number, maximum: number
+  buffer: Buffer, offset: number, options: BoundedOptions
 ): IntegerResult => {
-  assert(maximum >= minimum)
+  assert(options.maximum >= options.minimum)
 
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: result.value + minimum,
+    value: result.value + options.minimum,
     bytes: result.bytes
   }
 }
 
 export const BOUNDED_MULTIPLE__ENUM_VARINT = (
-  buffer: Buffer, offset: number,
-  minimum: number, maximum: number, multiplier: number
+  buffer: Buffer, offset: number, options: BoundedMultiplierOptions
 ): IntegerResult => {
-  assert(maximum >= minimum)
-  assert(multiplier >= minimum)
-  assert(multiplier <= maximum)
+  assert(options.maximum >= options.minimum)
+  assert(options.multiplier >= options.minimum)
+  assert(options.multiplier <= options.maximum)
 
-  const absoluteMultiplier: number = Math.abs(multiplier)
+  const absoluteMultiplier: number = Math.abs(options.multiplier)
   const closestMinimumMultiple: number =
-    Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier
+    Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier
 
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
@@ -102,23 +110,23 @@ export const BOUNDED_MULTIPLE__ENUM_VARINT = (
 }
 
 export const FLOOR__ENUM_VARINT = (
-  buffer: Buffer, offset: number, minimum: number,
+  buffer: Buffer, offset: number, options: FloorOptions,
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: result.value + minimum,
+    value: result.value + options.minimum,
     bytes: result.bytes
   }
 }
 
 export const FLOOR_MULTIPLE__ENUM_VARINT = (
-  buffer: Buffer, offset: number, minimum: number, multiplier: number
+  buffer: Buffer, offset: number, options: FloorMultiplierOptions
 ): IntegerResult => {
-  assert(multiplier >= minimum)
+  assert(options.multiplier >= options.minimum)
 
-  const absoluteMultiplier: number = Math.abs(multiplier)
+  const absoluteMultiplier: number = Math.abs(options.multiplier)
   const closestMinimumMultiple: number =
-    Math.ceil(minimum / absoluteMultiplier) * absoluteMultiplier
+    Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier
 
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
@@ -128,23 +136,23 @@ export const FLOOR_MULTIPLE__ENUM_VARINT = (
 }
 
 export const ROOF__MIRROR_ENUM_VARINT = (
-  buffer: Buffer, offset: number, maximum: number
+  buffer: Buffer, offset: number, options: RoofOptions
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: -1 * (result.value - maximum),
+    value: -1 * (result.value - options.maximum),
     bytes: result.bytes
   }
 }
 
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
-  buffer: Buffer, offset: number, maximum: number, multiplier: number
+  buffer: Buffer, offset: number, options: RoofMultiplierOptions
 ): IntegerResult => {
-  assert(maximum >= multiplier)
+  assert(options.maximum >= options.multiplier)
 
-  const absoluteMultiplier: number = Math.abs(multiplier)
+  const absoluteMultiplier: number = Math.abs(options.multiplier)
   const closestMaximumMultiple: number =
-    Math.ceil(maximum / -absoluteMultiplier) * -absoluteMultiplier
+    Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
     value: -1 * ((result.value * absoluteMultiplier) - closestMaximumMultiple),
@@ -163,11 +171,11 @@ export const ARBITRARY__ZIGZAG_VARINT = (
 }
 
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number, multiplier: number
+  buffer: Buffer, offset: number, options: MultiplierOptions
 ): IntegerResult => {
   const result: IntegerResult = ARBITRARY__ZIGZAG_VARINT(buffer, offset)
   return {
-    value: result.value * Math.abs(multiplier),
+    value: result.value * Math.abs(options.multiplier),
     bytes: result.bytes
   }
 }

@@ -46,7 +46,11 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   assert(minimum >= 0)
   assert(maximum >= minimum)
   assert(maximum - minimum <= UINT8_MAX)
-  const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, minimum, maximum)
+  const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+    minimum,
+    maximum
+  })
+
   return {
     value: buffer.toString(
       STRING_ENCODING, length.bytes, length.bytes + length.value),
@@ -59,7 +63,11 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
 ): StringResult => {
   assert(minimum >= 0)
   assert(maximum >= minimum)
-  const length: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, minimum, maximum)
+  const length: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, {
+    minimum,
+    maximum
+  })
+
   return {
     value: buffer.toString(
       STRING_ENCODING, length.bytes, length.bytes + length.value),
@@ -85,7 +93,10 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: Buffer, offset: number, minimum: number
 ): StringResult => {
   assert(minimum >= 0)
-  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, minimum)
+  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+    minimum
+  })
+
   return {
     value: buffer.toString(
       STRING_ENCODING, length.bytes, length.bytes + length.value),

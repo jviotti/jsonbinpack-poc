@@ -51,8 +51,8 @@ tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED', function (test) {
         var _b = __read(_a, 3), minimum = _b[0], maximum = _b[1], value = _b[2];
         fc.pre(value <= maximum);
         var buffer = Buffer.allocUnsafe(1);
-        var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum);
-        var result = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, minimum, maximum);
+        var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, { minimum: minimum, maximum: maximum });
+        var result = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, { minimum: minimum, maximum: maximum });
         return bytesWritten === 1 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -69,8 +69,8 @@ tap_1.default.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', function (test) {
         var _b = __read(_a, 4), minimum = _b[0], maximum = _b[1], value = _b[2], multiplier = _b[3];
         fc.pre(value % multiplier === 0);
         var buffer = Buffer.allocUnsafe(1);
-        var bytesWritten = encode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum, multiplier);
-        var result = decode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, minimum, maximum, multiplier);
+        var bytesWritten = encode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, value, { minimum: minimum, maximum: maximum, multiplier: multiplier });
+        var result = decode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, { minimum: minimum, maximum: maximum, multiplier: multiplier });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -81,8 +81,8 @@ tap_1.default.test('BOUNDED__ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), function (value, minimum, maximum) {
         fc.pre(value >= minimum && value <= maximum);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, value, minimum, maximum);
-        var result = decode_1.BOUNDED__ENUM_VARINT(buffer, 0, minimum, maximum);
+        var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, value, { minimum: minimum, maximum: maximum });
+        var result = decode_1.BOUNDED__ENUM_VARINT(buffer, 0, { minimum: minimum, maximum: maximum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -99,8 +99,8 @@ tap_1.default.test('BOUNDED_MULTIPLE__ENUM_VARINT', function (test) {
         var _b = __read(_a, 4), minimum = _b[0], maximum = _b[1], value = _b[2], multiplier = _b[3];
         fc.pre(value % multiplier === 0);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, value, minimum, maximum, multiplier);
-        var result = decode_1.BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, minimum, maximum, multiplier);
+        var bytesWritten = encode_1.BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, value, { minimum: minimum, maximum: maximum, multiplier: multiplier });
+        var result = decode_1.BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, { minimum: minimum, maximum: maximum, multiplier: multiplier });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -111,8 +111,8 @@ tap_1.default.test('FLOOR__ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), function (value, minimum) {
         fc.pre(value >= minimum);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, value, minimum);
-        var result = decode_1.FLOOR__ENUM_VARINT(buffer, 0, minimum);
+        var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, value, { minimum: minimum });
+        var result = decode_1.FLOOR__ENUM_VARINT(buffer, 0, { minimum: minimum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -127,8 +127,8 @@ tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT', function (test) {
         var _b = __read(_a, 3), minimum = _b[0], value = _b[1], multiplier = _b[2];
         fc.pre(value % multiplier === 0);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, value, minimum, multiplier);
-        var result = decode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, minimum, multiplier);
+        var bytesWritten = encode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, value, { minimum: minimum, multiplier: multiplier });
+        var result = decode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, { minimum: minimum, multiplier: multiplier });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -139,8 +139,8 @@ tap_1.default.test('ROOF__MIRROR_ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), function (value, maximum) {
         fc.pre(value <= maximum);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, value, maximum);
-        var result = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, maximum);
+        var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, value, { maximum: maximum });
+        var result = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, { maximum: maximum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -155,8 +155,8 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', function (test) {
         var _b = __read(_a, 3), maximum = _b[0], value = _b[1], multiplier = _b[2];
         fc.pre(value % multiplier === 0);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, maximum, multiplier);
-        var result = decode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, maximum, multiplier);
+        var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, { maximum: maximum, multiplier: multiplier });
+        var result = decode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, { maximum: maximum, multiplier: multiplier });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -178,8 +178,8 @@ tap_1.default.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT', function (test) {
     fc.assert(fc.property(fc.integer(), fc.integer(), function (value, multiplier) {
         fc.pre(value % multiplier === 0);
         var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, multiplier);
-        var result = decode_1.ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, multiplier);
+        var bytesWritten = encode_1.ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, { multiplier: multiplier });
+        var result = decode_1.ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, { multiplier: multiplier });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false

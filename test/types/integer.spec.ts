@@ -61,9 +61,9 @@ tap.test('BOUNDED_8BITS__ENUM_FIXED', (test) => {
 
     const buffer: Buffer = Buffer.allocUnsafe(1)
     const bytesWritten: number =
-      ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum)
+      ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, { minimum, maximum })
     const result: IntegerResult =
-      DECODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, minimum, maximum)
+      DECODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, { minimum, maximum })
     return bytesWritten === 1 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -88,9 +88,9 @@ tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', (test) => {
     fc.pre(value % multiplier === 0)
     const buffer: Buffer = Buffer.allocUnsafe(1)
     const bytesWritten: number =
-      ENCODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, value, minimum, maximum, multiplier)
+      ENCODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, value, { minimum, maximum, multiplier })
     const result: IntegerResult =
-      DECODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, minimum, maximum, multiplier)
+      DECODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, { minimum, maximum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -105,8 +105,8 @@ tap.test('BOUNDED__ENUM_VARINT', (test) => {
   ): boolean => {
     fc.pre(value >= minimum && value <= maximum)
     const buffer: Buffer = Buffer.allocUnsafe(8)
-    const bytesWritten: number = ENCODE_BOUNDED__ENUM_VARINT(buffer, 0, value, minimum, maximum)
-    const result: IntegerResult = DECODE_BOUNDED__ENUM_VARINT(buffer, 0, minimum, maximum)
+    const bytesWritten: number = ENCODE_BOUNDED__ENUM_VARINT(buffer, 0, value, { minimum, maximum })
+    const result: IntegerResult = DECODE_BOUNDED__ENUM_VARINT(buffer, 0, { minimum, maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -131,9 +131,9 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
     fc.pre(value % multiplier === 0)
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number =
-      ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, value, minimum, maximum, multiplier)
+      ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, value, { minimum, maximum, multiplier })
     const result: IntegerResult =
-      DECODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, minimum, maximum, multiplier)
+      DECODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, { minimum, maximum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -148,8 +148,8 @@ tap.test('FLOOR__ENUM_VARINT', (test) => {
   ): boolean => {
     fc.pre(value >= minimum)
     const buffer: Buffer = Buffer.allocUnsafe(8)
-    const bytesWritten: number = ENCODE_FLOOR__ENUM_VARINT(buffer, 0, value, minimum)
-    const result: IntegerResult = DECODE_FLOOR__ENUM_VARINT(buffer, 0, minimum)
+    const bytesWritten: number = ENCODE_FLOOR__ENUM_VARINT(buffer, 0, value, { minimum })
+    const result: IntegerResult = DECODE_FLOOR__ENUM_VARINT(buffer, 0, { minimum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -171,9 +171,9 @@ tap.test('FLOOR_MULTIPLE__ENUM_VARINT', (test) => {
     fc.pre(value % multiplier === 0)
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number =
-      ENCODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, value, minimum, multiplier)
+      ENCODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, value, { minimum, multiplier })
     const result: IntegerResult =
-      DECODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, minimum, multiplier)
+      DECODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, { minimum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -189,9 +189,9 @@ tap.test('ROOF__MIRROR_ENUM_VARINT', (test) => {
     fc.pre(value <= maximum)
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number =
-      ENCODE_ROOF__MIRROR_ENUM_VARINT(buffer, 0, value, maximum)
+      ENCODE_ROOF__MIRROR_ENUM_VARINT(buffer, 0, value, { maximum })
     const result: IntegerResult =
-      DECODE_ROOF__MIRROR_ENUM_VARINT(buffer, 0, maximum)
+      DECODE_ROOF__MIRROR_ENUM_VARINT(buffer, 0, { maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -213,9 +213,9 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', (test) => {
     fc.pre(value % multiplier === 0)
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number =
-      ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, maximum, multiplier)
+      ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, { maximum, multiplier })
     const result: IntegerResult =
-      DECODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, maximum, multiplier)
+      DECODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, { maximum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -244,9 +244,9 @@ tap.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT', (test) => {
     fc.pre(value % multiplier === 0)
     const buffer: Buffer = Buffer.allocUnsafe(8)
     const bytesWritten: number =
-      ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, multiplier)
+      ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, { multiplier })
     const result: IntegerResult =
-      DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, multiplier)
+      DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, { multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false

@@ -47,7 +47,11 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   assert(maximum - minimum <= UINT8_MAX)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length <= maximum)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, minimum, maximum)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, {
+    minimum,
+    maximum
+  })
+
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
@@ -60,7 +64,11 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length >= minimum)
   assert(length <= maximum)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset, length, minimum, maximum)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset, length, {
+    minimum,
+    maximum
+  })
+
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
@@ -85,7 +93,10 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   assert(minimum >= 0)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length >= minimum)
-  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length, minimum)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length, {
+    minimum
+  })
+
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }

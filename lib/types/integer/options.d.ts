@@ -14,37 +14,25 @@
  * limitations under the License.
  */
 
-import {
-  strict as assert
-} from 'assert'
-
-import {
-  JSONBoolean
-} from '../../json'
-
-import {
-  IntegerResult,
-  BOUNDED_8BITS__ENUM_FIXED
-} from '../integer/decode'
-
-export interface BooleanResult {
-  readonly value: JSONBoolean;
-  readonly bytes: number;
+export interface FloorOptions {
+  readonly minimum: number;
 }
 
-export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number
-): BooleanResult => {
-  const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
-    minimum: 0,
-    maximum: 1
-  })
-
-  assert(result.value >= 0)
-  assert(result.value <= 1)
-
-  return {
-    value: Boolean(result.value),
-    bytes: result.bytes
-  }
+export interface RoofOptions {
+  readonly maximum: number;
 }
+
+export interface MultiplierOptions {
+  readonly multiplier: number;
+}
+
+export interface BoundedOptions extends FloorOptions, RoofOptions {}
+
+export interface BoundedMultiplierOptions
+  extends BoundedOptions, MultiplierOptions {}
+
+export interface FloorMultiplierOptions
+  extends FloorOptions, MultiplierOptions {}
+
+export interface RoofMultiplierOptions
+  extends RoofOptions, MultiplierOptions {}
