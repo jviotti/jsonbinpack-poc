@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   BooleanEncoding
 } from './types/boolean/mapper'
 
@@ -71,6 +75,7 @@ export const encode = (
   buffer: Buffer, offset: number, encoding: Encoding, value: JSONValue
 ): number => {
   const fns: object | undefined = TYPE_INDEX.get(encoding.type)
+  assert(typeof fns !== 'undefined')
 
   // This is the only place in the codebase where we throw away
   // typing in order to dynamically load encoding functions

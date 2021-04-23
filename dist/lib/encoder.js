@@ -20,6 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.encode = exports.EncodingType = void 0;
+var assert_1 = require("assert");
 var base_1 = require("./types/base");
 var base_2 = require("./types/base");
 Object.defineProperty(exports, "EncodingType", { enumerable: true, get: function () { return base_2.EncodingType; } });
@@ -36,6 +37,7 @@ TYPE_INDEX.set(base_1.EncodingType.Number, NUMBER);
 TYPE_INDEX.set(base_1.EncodingType.String, STRING);
 var encode = function (buffer, offset, encoding, value) {
     var fns = TYPE_INDEX.get(encoding.type);
+    assert_1.strict(typeof fns !== 'undefined');
     return fns[encoding.encoding](buffer, offset, value, encoding.options);
 };
 exports.encode = encode;
