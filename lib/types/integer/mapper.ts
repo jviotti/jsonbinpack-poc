@@ -23,7 +23,8 @@ import {
 } from '../../canonical-schema'
 
 import {
-  BaseEncodingDefinition
+  BaseEncodingDefinition,
+  EncodingType
 } from '../../encoding'
 
 import {
@@ -42,61 +43,61 @@ import {
 } from './options'
 
 export interface BOUNDED_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'BOUNDED_8BITS__ENUM_FIXED';
   readonly options: BoundedOptions;
 }
 
 export interface BOUNDED_MULTIPLE_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED';
   readonly options: BoundedMultiplierOptions;
 }
 
 export interface BOUNDED__ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'BOUNDED__ENUM_VARINT';
   readonly options: BoundedOptions;
 }
 
 export interface BOUNDED_MULTIPLE__ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT';
   readonly options: BoundedMultiplierOptions;
 }
 
 export interface FLOOR__ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'FLOOR__ENUM_VARINT';
   readonly options: FloorOptions;
 }
 
 export interface FLOOR_MULTIPLE__ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'FLOOR_MULTIPLE__ENUM_VARINT';
   readonly options: FloorMultiplierOptions;
 }
 
 export interface ROOF__MIRROR_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'ROOF__MIRROR_ENUM_VARINT';
   readonly options: RoofOptions;
 }
 
 export interface ROOF_MULTIPLE__MIRROR_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT';
   readonly options: RoofMultiplierOptions;
 }
 
 export interface ARBITRARY__ZIGZAG_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'ARBITRARY__ZIGZAG_VARINT';
   readonly options: NoOptions;
 }
 
 export interface ARBITRARY_MULTIPLE__ZIGZAG_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: 'integer';
+  readonly type: EncodingType.Integer;
   readonly encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT';
   readonly options: MultiplierOptions;
 }
@@ -122,7 +123,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
     typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
     // TODO: Handle 8-bits case
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
       options: {
         minimum: schema.minimum,
@@ -133,7 +134,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: (schema.maximum - schema.minimum <= UINT8_MAX)
         ? 'BOUNDED_8BITS__ENUM_FIXED' : 'BOUNDED__ENUM_VARINT',
       options: {
@@ -144,7 +145,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
       options: {
         minimum: schema.minimum,
@@ -154,7 +155,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum === 'undefined' && !('multipleOf' in schema)) {
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: 'FLOOR__ENUM_VARINT',
       options: {
         minimum: schema.minimum
@@ -163,7 +164,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
   } else if (typeof schema.minimum === 'undefined' &&
     typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
       options: {
         maximum: schema.maximum,
@@ -173,7 +174,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
   } else if (typeof schema.minimum === 'undefined' &&
     typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: 'ROOF__MIRROR_ENUM_VARINT',
       options: {
         maximum: schema.maximum
@@ -182,7 +183,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
   } else if (typeof schema.minimum === 'undefined' &&
     typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
       options: {
         multiplier: schema.multipleOf
@@ -190,7 +191,7 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
     }
   } else {
     return {
-      type: 'integer',
+      type: EncodingType.Integer,
       encoding: 'ARBITRARY__ZIGZAG_VARINT',
       options: {}
     }

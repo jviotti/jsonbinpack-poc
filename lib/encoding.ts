@@ -34,8 +34,19 @@ import {
   StringEncoding
 } from './types/string/mapper'
 
+export enum EncodingType {
+  Boolean = 'boolean',
+  Integer = 'integer',
+  Null = 'null',
+  Number = 'number',
+  String = 'string',
+  Array = 'array',
+  Object = 'object',
+  Any = 'any'
+}
+
 export interface BaseEncodingDefinition {
-  readonly type: 'boolean' | 'integer' | 'null' | 'number' | 'string' | 'array' | 'object' | 'any';
+  readonly type: EncodingType;
   readonly encoding: string;
   readonly options: object;
 }
