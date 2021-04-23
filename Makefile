@@ -1,15 +1,17 @@
 include vendor/vendorpull/targets.mk
 
-.PHONY: deps tsc web build test
+include node_modules/@sourcemeta/typescript-config/targets.mk
+TYPESCRIPT_CONFIG_DIRECTORIES = lib test
+
+.PHONY: deps web build lint test
 .DEFAULT_GOAL = build
 
 deps: package.json
 	node vendor/jsontoolkit/vendor/npm/bin/npm-cli.js install
 
-tsc:
-	./node_modules/.bin/tsc
-
 build: tsc
+
+lint: eslint
 
 test:
 	./node_modules/.bin/tap \

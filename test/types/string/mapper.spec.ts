@@ -112,7 +112,9 @@ tap.test('should encode a string with maxLength = 255', (test) => {
   test.end()
 })
 
-tap.test('should encode a string with minLength and maxLength < 255', (test) => {
+tap.test('should encode a string with minLength and maxLength < 255', (
+  test
+) => {
   const schema: StringCanonicalSchema = {
     type: 'string',
     minLength: 100,
@@ -132,7 +134,9 @@ tap.test('should encode a string with minLength and maxLength < 255', (test) => 
   test.end()
 })
 
-tap.test('should encode a string with minLength and maxLength > 255', (test) => {
+tap.test('should encode a string with minLength and maxLength > 255', (
+  test
+) => {
   const schema: StringCanonicalSchema = {
     type: 'string',
     minLength: 100,

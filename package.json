@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/jviotti/jsonbinpack#readme",
   "devDependencies": {
-    "@sourcemeta/typescript-config": "^1.0.0",
+    "@sourcemeta/typescript-config": "^2.0.0",
     "@types/codemirror": "^0.0.108",
     "@types/tap": "^14.10.2",
     "browserify": "^17.0.0",
