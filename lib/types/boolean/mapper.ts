@@ -21,7 +21,7 @@ import {
 import {
   BaseEncodingDefinition,
   EncodingType
-} from '../../encoding'
+} from '../base'
 
 import {
   NoOptions

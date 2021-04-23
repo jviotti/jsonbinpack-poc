@@ -25,7 +25,7 @@ import {
 import {
   BaseEncodingDefinition,
   EncodingType
-} from '../../encoding'
+} from '../base'
 
 import {
   UINT8_MAX

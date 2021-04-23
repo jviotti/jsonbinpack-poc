@@ -54,23 +54,6 @@ import {
   StringOptions
 } from './types/string/options'
 
-export enum EncodingType {
-  Boolean = 'boolean',
-  Integer = 'integer',
-  Null = 'null',
-  Number = 'number',
-  String = 'string',
-  Array = 'array',
-  Object = 'object',
-  Any = 'any'
-}
-
-export interface BaseEncodingDefinition {
-  readonly type: EncodingType;
-  readonly encoding: string;
-  readonly options: object;
-}
-
 // The union of all possible encodings
 export type Encoding =
   BooleanEncoding |

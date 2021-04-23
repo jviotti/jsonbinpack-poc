@@ -22,3 +22,21 @@ export interface DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
 }
+
+export enum EncodingType {
+  Boolean = 'boolean',
+  Integer = 'integer',
+  Null = 'null',
+  Number = 'number',
+  String = 'string',
+  Array = 'array',
+  Object = 'object',
+  Any = 'any'
+}
+
+export interface BaseEncodingDefinition {
+  readonly type: EncodingType;
+  // TODO: Make these specific
+  readonly encoding: string;
+  readonly options: object;
+}
