@@ -15,3 +15,5 @@
  */
 
 export interface NoOptions {}
+
+export type NullOptions = NoOptions

@@ -34,6 +34,26 @@ import {
   StringEncoding
 } from './types/string/mapper'
 
+import {
+  BooleanOptions
+} from './types/boolean/options'
+
+import {
+  NullOptions
+} from './types/null/options'
+
+import {
+  NumberOptions
+} from './types/number/options'
+
+import {
+  IntegerOptions
+} from './types/integer/options'
+
+import {
+  StringOptions
+} from './types/string/options'
+
 export enum EncodingType {
   Boolean = 'boolean',
   Integer = 'integer',
@@ -58,3 +78,10 @@ export type Encoding =
   NumberEncoding |
   IntegerEncoding |
   StringEncoding
+
+export type EncodingOptions =
+  BooleanOptions |
+  NullOptions |
+  NumberOptions |
+  IntegerOptions |
+  StringOptions

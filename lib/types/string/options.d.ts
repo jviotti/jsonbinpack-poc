@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
+import {
+  NoOptions,
+  BoundedOptions,
+  RoofOptions,
+  FloorOptions
+} from '../integer/options'
+
 export {
   NoOptions,
   BoundedOptions,
   RoofOptions,
   FloorOptions
 } from '../integer/options'
+
+export type StringOptions = NoOptions | BoundedOptions | RoofOptions | FloorOptions

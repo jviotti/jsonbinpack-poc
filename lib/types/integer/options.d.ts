@@ -44,3 +44,13 @@ export interface FloorMultiplierOptions
 
 export interface RoofMultiplierOptions
   extends RoofOptions, MultiplierOptions {}
+
+export type IntegerOptions =
+  NoOptions |
+  FloorOptions |
+  RoofOptions |
+  MultiplierOptions |
+  BoundedOptions |
+  BoundedMultiplierOptions |
+  FloorMultiplierOptions |
+  RoofMultiplierOptions

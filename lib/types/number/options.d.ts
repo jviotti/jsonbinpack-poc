@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  NoOptions
+} from '../null/options'
+
 export {
   NoOptions
 } from '../null/options'
+
+export type NumberOptions = NoOptions
