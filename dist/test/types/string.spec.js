@@ -51,8 +51,8 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) 
         var _b = __read(_a, 3), minimum = _b[0], maximum = _b[1], value = _b[2];
         fc.pre(Buffer.byteLength(value, 'utf8') >= minimum);
         var buffer = Buffer.allocUnsafe(limits_1.UINT8_MAX + 1);
-        var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, minimum, maximum);
-        var result = decode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, minimum, maximum);
+        var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, { minimum: minimum, maximum: maximum });
+        var result = decode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, { minimum: minimum, maximum: maximum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -67,8 +67,8 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test)
         var _b = __read(_a, 3), minimum = _b[0], maximum = _b[1], value = _b[2];
         fc.pre(Buffer.byteLength(value, 'utf8') >= minimum);
         var buffer = Buffer.allocUnsafe(2048);
-        var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, minimum, maximum);
-        var result = decode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, minimum, maximum);
+        var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, { minimum: minimum, maximum: maximum });
+        var result = decode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, { minimum: minimum, maximum: maximum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -82,8 +82,8 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 2), maximum = _b[0], value = _b[1];
         var buffer = Buffer.allocUnsafe(limits_1.UINT8_MAX + 1);
-        var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, maximum);
-        var result = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, maximum);
+        var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, { maximum: maximum });
+        var result = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, { maximum: maximum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -97,8 +97,8 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 2), maximum = _b[0], value = _b[1];
         var buffer = Buffer.allocUnsafe(2048);
-        var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, maximum);
-        var result = decode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, maximum);
+        var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, { maximum: maximum });
+        var result = decode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, { maximum: maximum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -112,8 +112,8 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 2), minimum = _b[0], value = _b[1];
         var buffer = Buffer.allocUnsafe(2048);
-        var bytesWritten = encode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, minimum);
-        var result = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, minimum);
+        var bytesWritten = encode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, { minimum: minimum });
+        var result = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, { minimum: minimum });
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -123,8 +123,8 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
 tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', function (test) {
     fc.assert(fc.property(fc.string({ maxLength: 1000 }), function (value) {
         var buffer = Buffer.allocUnsafe(2048);
-        var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, value);
-        var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0);
+        var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, value, {});
+        var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {});
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false

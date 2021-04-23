@@ -15,5 +15,8 @@
  */
 
 export {
-  NoOptions
-} from '../null/options'
+  NoOptions,
+  BoundedOptions,
+  RoofOptions,
+  FloorOptions
+} from '../integer/options'

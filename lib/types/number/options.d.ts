@@ -14,4 +14,6 @@
  * limitations under the License.
  */
 
-export interface NoOptions {}
+export {
+  NoOptions
+} from '../null/options'

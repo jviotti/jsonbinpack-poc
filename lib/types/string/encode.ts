@@ -33,6 +33,13 @@ import {
   UINT8_MAX
 } from '../../utils/limits'
 
+import {
+  NoOptions,
+  BoundedOptions,
+  RoofOptions,
+  FloorOptions
+} from './options'
+
 // TODO: Consider de-duplicating strings by supporting
 // new encodings that take an offset pointer instead
 // of a string value?
@@ -40,69 +47,66 @@ import {
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: Buffer, offset: number, value: JSONString, minimum: number, maximum: number
+  buffer: Buffer, offset: number, value: JSONString, options: BoundedOptions
 ): number => {
-  assert(minimum >= 0)
-  assert(maximum >= minimum)
-  assert(maximum - minimum <= UINT8_MAX)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
-  assert(length <= maximum)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, {
-    minimum,
-    maximum
-  })
-
+  assert(length <= options.maximum)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length, options)
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
 
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString, minimum: number, maximum: number
+  buffer: Buffer, offset: number, value: JSONString, options: BoundedOptions
 ): number => {
-  assert(minimum >= 0)
-  assert(minimum <= maximum)
+  assert(options.minimum >= 0)
+  assert(options.minimum <= options.maximum)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
-  assert(length >= minimum)
-  assert(length <= maximum)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset, length, {
-    minimum,
-    maximum
-  })
-
+  assert(length >= options.minimum)
+  assert(length <= options.maximum)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset, length, options)
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
 
 export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: Buffer, offset: number, value: JSONString, maximum: number
+  buffer: Buffer, offset: number, value: JSONString, options: RoofOptions
 ): number => {
-  assert(maximum >= 0)
-  assert(maximum <= UINT8_MAX)
-  return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, 0, maximum)
+  assert(options.maximum >= 0)
+  assert(options.maximum <= UINT8_MAX)
+  return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum
+  })
 }
 
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString, maximum: number
+  buffer: Buffer, offset: number, value: JSONString, options: RoofOptions
 ): number => {
-  return BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, 0, maximum)
+  return BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum
+  })
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString, minimum: number
+  buffer: Buffer, offset: number, value: JSONString, options: FloorOptions
 ): number => {
-  assert(minimum >= 0)
+  assert(options.minimum >= 0)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
-  assert(length >= minimum)
-  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length, {
-    minimum
-  })
-
+  assert(length >= options.minimum)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length, options)
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
 
 export const ARBITRARY__PREFIX_LENGTH_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString
+  buffer: Buffer, offset: number, value: JSONString, _options: NoOptions
 ): number => {
-  return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, 0)
+  return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
+    minimum: 0
+  })
 }

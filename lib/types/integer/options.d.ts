@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-export interface NoOptions {}
+import {
+  NoOptions
+} from '../null/options'
+
+export {
+  NoOptions
+} from '../null/options'
 
 export interface FloorOptions extends NoOptions {
   readonly minimum: number;
