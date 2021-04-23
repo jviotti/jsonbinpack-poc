@@ -32,8 +32,8 @@ import {
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
   const value: JSONBoolean = false
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value)
-  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0)
+  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value, {})
+  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, {})
 
   test.is(bytesWritten, 1)
   test.is(bytesWritten, result.bytes)
@@ -44,8 +44,8 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: true', (test) => {
   const value: JSONBoolean = true
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value)
-  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0)
+  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value, {})
+  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, {})
 
   test.is(bytesWritten, 1)
   test.is(bytesWritten, result.bytes)

@@ -27,13 +27,17 @@ import {
   BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/decode'
 
+import {
+  NoOptions
+} from './options'
+
 export interface BooleanResult {
   readonly value: JSONBoolean;
   readonly bytes: number;
 }
 
 export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number
+  buffer: Buffer, offset: number, _options: NoOptions
 ): BooleanResult => {
   const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
     minimum: 0,

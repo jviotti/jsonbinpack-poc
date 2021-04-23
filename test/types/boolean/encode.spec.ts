@@ -22,7 +22,7 @@ import {
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: should encode false as 0x00', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, false)
+  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, false, {})
   test.strictSame(buffer, Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
@@ -30,7 +30,7 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: should encode false as 0x00', (test) => {
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: should encode true as 0x01', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, true)
+  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, true, {})
   test.strictSame(buffer, Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()

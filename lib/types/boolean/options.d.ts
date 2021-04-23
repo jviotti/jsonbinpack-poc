@@ -14,25 +14,4 @@
  * limitations under the License.
  */
 
-import {
-  JSONBoolean,
-  JSONNumber
-} from '../../json'
-
-import {
-  NoOptions
-} from './options'
-
-import {
-  BOUNDED_8BITS__ENUM_FIXED
-} from '../integer/encode'
-
-export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: JSONBoolean, _options: NoOptions
-): number => {
-  const integer: JSONNumber = value ? 1 : 0
-  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, integer, {
-    minimum: 0,
-    maximum: 1
-  })
-}
+export interface NoOptions {}
