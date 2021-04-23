@@ -74,16 +74,16 @@ export enum EncodingType {
   Any = 'any'
 }
 
+export type EncodingNames =
+  BooleanEncodingNames |
+  NullEncodingNames |
+  NumberEncodingNames |
+  IntegerEncodingNames |
+  StringEncodingNames;
+
 export interface BaseEncodingDefinition {
   readonly type: EncodingType;
-
-  readonly encoding:
-    BooleanEncodingNames |
-    NullEncodingNames |
-    NumberEncodingNames |
-    IntegerEncodingNames |
-    StringEncodingNames;
-
+  readonly encoding: EncodingNames;
   readonly options:
     BooleanOptions |
     NullOptions |

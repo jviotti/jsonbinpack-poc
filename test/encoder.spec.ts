@@ -14,30 +14,32 @@
  * limitations under the License.
  */
 
-import {
-  BooleanEncoding
-} from './types/boolean/mapper'
+import tap from 'tap'
 
 import {
-  NullEncoding
-} from './types/null/mapper'
+  Encoding,
+  EncodingType,
+  encode
+} from '../lib/encoder'
 
 import {
-  NumberEncoding
-} from './types/number/mapper'
+  JSONValue
+} from '../lib/json'
 
-import {
-  IntegerEncoding
-} from './types/integer/mapper'
+tap.test('XXXXXXXXXX', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const offset: number = 0
+  const encoding: Encoding = {
+    type: EncodingType.Boolean,
+    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+    options: {}
+  }
 
-import {
-  StringEncoding
-} from './types/string/mapper'
+  const value: JSONValue = true
+  const bytesWritten: number = encode(buffer, offset, encoding, value)
 
-// The union of all possible encodings
-export type Encoding =
-  BooleanEncoding |
-  NullEncoding |
-  NumberEncoding |
-  IntegerEncoding |
-  StringEncoding
+  console.log(buffer)
+
+  test.is(bytesWritten, 1)
+  test.end()
+})
