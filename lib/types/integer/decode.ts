@@ -36,6 +36,10 @@ import {
 } from '../../utils/limits'
 
 import {
+  DecodeResult
+} from '../../encoding'
+
+import {
   NoOptions,
   FloorOptions,
   FloorMultiplierOptions,
@@ -46,7 +50,7 @@ import {
   BoundedMultiplierOptions
 } from './options'
 
-export interface IntegerResult {
+export interface IntegerResult extends DecodeResult {
   readonly value: JSONNumber;
   readonly bytes: number;
 }

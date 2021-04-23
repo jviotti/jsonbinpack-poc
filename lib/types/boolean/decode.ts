@@ -31,7 +31,11 @@ import {
   NoOptions
 } from './options'
 
-export interface BooleanResult {
+import {
+  DecodeResult
+} from '../../encoding'
+
+export interface BooleanResult extends DecodeResult {
   readonly value: JSONBoolean;
   readonly bytes: number;
 }

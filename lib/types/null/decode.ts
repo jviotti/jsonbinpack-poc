@@ -31,7 +31,11 @@ import {
   NoOptions
 } from './options'
 
-export interface NullResult {
+import {
+  DecodeResult
+} from '../../encoding'
+
+export interface NullResult extends DecodeResult {
   readonly value: JSONNull;
   readonly bytes: number;
 }

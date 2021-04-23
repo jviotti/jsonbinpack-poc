@@ -40,7 +40,11 @@ import {
   UINT8_MAX
 } from '../../utils/limits'
 
-export interface StringResult {
+import {
+  DecodeResult
+} from '../../encoding'
+
+export interface StringResult extends DecodeResult {
   readonly value: JSONString;
   readonly bytes: number;
 }

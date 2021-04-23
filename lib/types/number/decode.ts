@@ -22,7 +22,11 @@ import {
   NoOptions
 } from './options'
 
-export interface NumberResult {
+import {
+  DecodeResult
+} from '../../encoding'
+
+export interface NumberResult extends DecodeResult {
   readonly value: JSONNumber;
   readonly bytes: number;
 }

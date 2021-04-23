@@ -54,6 +54,10 @@ import {
   StringOptions
 } from './types/string/options'
 
+import {
+  JSONValue
+} from './json'
+
 export enum EncodingType {
   Boolean = 'boolean',
   Integer = 'integer',
@@ -85,3 +89,21 @@ export type EncodingOptions =
   NumberOptions |
   IntegerOptions |
   StringOptions
+
+export interface DecodeResult {
+  readonly value: JSONValue;
+  readonly bytes: number;
+}
+
+export type EncodeFunction = (
+  buffer: Buffer,
+  offset: number,
+  value: JSONValue,
+  options: EncodingOptions
+) => number
+
+export type DecodeFunction = (
+  buffer: Buffer,
+  offset: number,
+  options: EncodingOptions
+) => DecodeResult
