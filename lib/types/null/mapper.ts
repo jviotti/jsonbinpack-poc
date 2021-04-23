@@ -27,6 +27,7 @@ import {
 } from './options'
 
 export interface NULL_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'null';
   readonly encoding: 'NULL_8BITS__ENUM_FIXED';
   readonly options: NoOptions;
 }
@@ -35,6 +36,7 @@ export type NullEncoding = NULL_8BITS__ENUM_FIXED_ENCODING
 
 export const getNullEncoding = (_schema: NullCanonicalSchema): NullEncoding => {
   return {
+    type: 'null',
     encoding: 'NULL_8BITS__ENUM_FIXED',
     options: {}
   }

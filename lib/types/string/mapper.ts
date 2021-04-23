@@ -38,31 +38,37 @@ import {
 } from './options'
 
 export interface BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'string';
   readonly encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED';
   readonly options: BoundedOptions;
 }
 
 export interface BOUNDED__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'string';
   readonly encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT';
   readonly options: BoundedOptions;
 }
 
 export interface ROOF__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'string';
   readonly encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED';
   readonly options: RoofOptions;
 }
 
 export interface ROOF__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'string';
   readonly encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT';
   readonly options: RoofOptions;
 }
 
 export interface FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'string';
   readonly encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT';
   readonly options: FloorOptions;
 }
 
 export interface ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'string';
   readonly encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT';
   readonly options: NoOptions;
 }
@@ -84,6 +90,7 @@ export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding
 
   if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
     return {
+      type: 'string',
       encoding: (schema.maxLength - schema.minLength <= UINT8_MAX)
         ? 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' : 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
       options: {
@@ -93,6 +100,7 @@ export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding
     }
   } else if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength === 'undefined') {
     return {
+      type: 'string',
       encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
       options: {
         minimum: schema.minLength
@@ -100,6 +108,7 @@ export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding
     }
   } else if (typeof schema.minLength === 'undefined' && typeof schema.maxLength !== 'undefined') {
     return {
+      type: 'string',
       encoding: schema.maxLength <= UINT8_MAX
         ? 'ROOF__PREFIX_LENGTH_8BIT_FIXED' : 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
       options: {
@@ -108,6 +117,7 @@ export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding
     }
   } else {
     return {
+      type: 'string',
       encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
       options: {}
     }

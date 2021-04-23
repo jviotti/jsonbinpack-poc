@@ -11,6 +11,7 @@ tap_1.default.test('should encode a simple string', function (test) {
     };
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
+        type: 'string',
         encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
         options: {}
     });
@@ -23,6 +24,7 @@ tap_1.default.test('should encode a string with minLength', function (test) {
     };
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
+        type: 'string',
         encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
         options: {
             minimum: 5
@@ -37,6 +39,7 @@ tap_1.default.test('should encode a string with maxLength >= 255', function (tes
     };
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
+        type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
         options: {
             maximum: 256
@@ -51,6 +54,7 @@ tap_1.default.test('should encode a string with maxLength < 255', function (test
     };
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
+        type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
         options: {
             maximum: 254
@@ -65,6 +69,7 @@ tap_1.default.test('should encode a string with maxLength = 255', function (test
     };
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
+        type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
         options: {
             maximum: 255
@@ -80,6 +85,7 @@ tap_1.default.test('should encode a string with minLength and maxLength < 255', 
     };
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
+        type: 'string',
         encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
         options: {
             minimum: 100,
@@ -96,6 +102,7 @@ tap_1.default.test('should encode a string with minLength and maxLength > 255', 
     };
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
+        type: 'string',
         encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
         options: {
             minimum: 100,

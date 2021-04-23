@@ -32,6 +32,7 @@ tap.test('should encode a simple string', (test) => {
 
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
+    type: 'string',
     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
     options: {}
   })
@@ -47,6 +48,7 @@ tap.test('should encode a string with minLength', (test) => {
 
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
+    type: 'string',
     encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
     options: {
       minimum: 5
@@ -64,6 +66,7 @@ tap.test('should encode a string with maxLength >= 255', (test) => {
 
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
+    type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
     options: {
       maximum: 256
@@ -81,6 +84,7 @@ tap.test('should encode a string with maxLength < 255', (test) => {
 
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
+    type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
     options: {
       maximum: 254
@@ -98,6 +102,7 @@ tap.test('should encode a string with maxLength = 255', (test) => {
 
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
+    type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
     options: {
       maximum: 255
@@ -116,6 +121,7 @@ tap.test('should encode a string with minLength and maxLength < 255', (test) => 
 
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
+    type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
     options: {
       minimum: 100,
@@ -135,6 +141,7 @@ tap.test('should encode a string with minLength and maxLength > 255', (test) => 
 
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
+    type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
     options: {
       minimum: 100,

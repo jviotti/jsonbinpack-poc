@@ -35,6 +35,7 @@ import {
 } from './types/string/mapper'
 
 export interface BaseEncodingDefinition {
+  readonly type: 'boolean' | 'integer' | 'null' | 'number' | 'string' | 'array' | 'object' | 'any';
   readonly encoding: string;
   readonly options: object;
 }

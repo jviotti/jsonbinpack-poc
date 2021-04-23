@@ -32,6 +32,7 @@ tap.test('should encode a number simple value', (test) => {
 
   const result: NumberEncoding = getNumberEncoding(schema)
   test.strictSame(result, {
+    type: 'number',
     encoding: 'DOUBLE__IEEE764_LE',
     options: {}
   })

@@ -11,6 +11,7 @@ tap_1.default.test('should encode an arbitrary integer', function (test) {
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'ARBITRARY__ZIGZAG_VARINT',
         options: {}
     });
@@ -23,6 +24,7 @@ tap_1.default.test('should encode an arbitrary integer with multipleOf', functio
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
         options: {
             multiplier: 5
@@ -37,6 +39,7 @@ tap_1.default.test('should encode an integer with minimum', function (test) {
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'FLOOR__ENUM_VARINT',
         options: {
             minimum: 0
@@ -52,6 +55,7 @@ tap_1.default.test('should encode an integer with minimum and multipleOf', funct
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
         options: {
             minimum: 0,
@@ -67,6 +71,7 @@ tap_1.default.test('should encode an integer with maximum', function (test) {
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'ROOF__MIRROR_ENUM_VARINT',
         options: {
             maximum: 100
@@ -82,6 +87,7 @@ tap_1.default.test('should encode an integer with maximum and multipleOf', funct
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
         options: {
             maximum: 100,
@@ -98,6 +104,7 @@ tap_1.default.test('should encode an 8-bit integer with minimum and maximum', fu
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'BOUNDED_8BITS__ENUM_FIXED',
         options: {
             minimum: -100,
@@ -114,6 +121,7 @@ tap_1.default.test('should encode an >8-bit integer with minimum and maximum', f
     };
     var result = mapper_1.getIntegerEncoding(schema);
     test.strictSame(result, {
+        type: 'integer',
         encoding: 'BOUNDED__ENUM_VARINT',
         options: {
             minimum: -100,

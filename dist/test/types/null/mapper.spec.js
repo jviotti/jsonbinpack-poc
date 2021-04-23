@@ -11,6 +11,7 @@ tap_1.default.test('should encode a null value', function (test) {
     };
     var result = mapper_1.getNullEncoding(schema);
     test.strictSame(result, {
+        type: 'null',
         encoding: 'NULL_8BITS__ENUM_FIXED',
         options: {}
     });

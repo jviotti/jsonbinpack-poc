@@ -32,6 +32,7 @@ tap.test('should encode an arbitrary integer', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'ARBITRARY__ZIGZAG_VARINT',
     options: {}
   })
@@ -47,6 +48,7 @@ tap.test('should encode an arbitrary integer with multipleOf', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
     options: {
       multiplier: 5
@@ -64,6 +66,7 @@ tap.test('should encode an integer with minimum', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'FLOOR__ENUM_VARINT',
     options: {
       minimum: 0
@@ -82,6 +85,7 @@ tap.test('should encode an integer with minimum and multipleOf', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
     options: {
       minimum: 0,
@@ -100,6 +104,7 @@ tap.test('should encode an integer with maximum', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'ROOF__MIRROR_ENUM_VARINT',
     options: {
       maximum: 100
@@ -118,6 +123,7 @@ tap.test('should encode an integer with maximum and multipleOf', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
     options: {
       maximum: 100,
@@ -137,6 +143,7 @@ tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'BOUNDED_8BITS__ENUM_FIXED',
     options: {
       minimum: -100,
@@ -156,6 +163,7 @@ tap.test('should encode an >8-bit integer with minimum and maximum', (test) => {
 
   const result: IntegerEncoding = getIntegerEncoding(schema)
   test.strictSame(result, {
+    type: 'integer',
     encoding: 'BOUNDED__ENUM_VARINT',
     options: {
       minimum: -100,

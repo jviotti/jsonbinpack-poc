@@ -27,6 +27,7 @@ import {
 } from './options'
 
 export interface BOOLEAN_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
+  readonly type: 'boolean';
   readonly encoding: 'BOOLEAN_8BITS__ENUM_FIXED';
   readonly options: NoOptions;
 }
@@ -35,6 +36,7 @@ export type BooleanEncoding = BOOLEAN_8BITS__ENUM_FIXED_ENCODING
 
 export const getBooleanEncoding = (_schema: BooleanCanonicalSchema): BooleanEncoding => {
   return {
+    type: 'boolean',
     encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
     options: {}
   }
