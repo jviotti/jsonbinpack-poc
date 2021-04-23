@@ -19,7 +19,9 @@ import tap from 'tap'
 import {
   Encoding,
   EncodingType,
-  encode
+  DecodeResult,
+  encode,
+  decode
 } from '../lib/encoder'
 
 import {
@@ -39,5 +41,10 @@ tap.test('should dynamically encode a boolean value', (test) => {
   const bytesWritten: number = encode(buffer, offset, encoding, value)
   test.is(bytesWritten, 1)
   test.strictSame(buffer, Buffer.from([ 0x01 ]))
+
+  const result: DecodeResult = decode(buffer, offset, encoding)
+  test.is(result.bytes, bytesWritten)
+  test.strictSame(result.value, value)
+
   test.end()
 })

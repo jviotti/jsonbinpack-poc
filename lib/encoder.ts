@@ -39,7 +39,8 @@ import {
 } from './types/string/mapper'
 
 import {
-  EncodingType
+  EncodingType,
+  DecodeResult
 } from './types/base'
 
 import {
@@ -47,14 +48,21 @@ import {
 } from './json'
 
 export {
-  EncodingType
+  EncodingType,
+  DecodeResult
 } from './types/base'
 
-import * as BOOLEAN from './types/boolean/encode'
-import * as INTEGER from './types/integer/encode'
-import * as NULL from './types/null/encode'
-import * as NUMBER from './types/number/encode'
-import * as STRING from './types/string/encode'
+import * as ENCODE_BOOLEAN from './types/boolean/encode'
+import * as ENCODE_INTEGER from './types/integer/encode'
+import * as ENCODE_NULL from './types/null/encode'
+import * as ENCODE_NUMBER from './types/number/encode'
+import * as ENCODE_STRING from './types/string/encode'
+
+import * as DECODE_BOOLEAN from './types/boolean/decode'
+import * as DECODE_INTEGER from './types/integer/decode'
+import * as DECODE_NULL from './types/null/decode'
+import * as DECODE_NUMBER from './types/number/decode'
+import * as DECODE_STRING from './types/string/decode'
 
 // The union of all possible encodings
 export type Encoding =
@@ -64,17 +72,25 @@ export type Encoding =
   IntegerEncoding |
   StringEncoding
 
-const TYPE_INDEX: Map<EncodingType, object> = new Map()
-TYPE_INDEX.set(EncodingType.Boolean, BOOLEAN)
-TYPE_INDEX.set(EncodingType.Integer, INTEGER)
-TYPE_INDEX.set(EncodingType.Null, NULL)
-TYPE_INDEX.set(EncodingType.Number, NUMBER)
-TYPE_INDEX.set(EncodingType.String, STRING)
+const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
+const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
+
+ENCODE_TYPE_INDEX.set(EncodingType.Boolean, ENCODE_BOOLEAN)
+ENCODE_TYPE_INDEX.set(EncodingType.Integer, ENCODE_INTEGER)
+ENCODE_TYPE_INDEX.set(EncodingType.Null, ENCODE_NULL)
+ENCODE_TYPE_INDEX.set(EncodingType.Number, ENCODE_NUMBER)
+ENCODE_TYPE_INDEX.set(EncodingType.String, ENCODE_STRING)
+
+DECODE_TYPE_INDEX.set(EncodingType.Boolean, DECODE_BOOLEAN)
+DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
+DECODE_TYPE_INDEX.set(EncodingType.Null, DECODE_NULL)
+DECODE_TYPE_INDEX.set(EncodingType.Number, DECODE_NUMBER)
+DECODE_TYPE_INDEX.set(EncodingType.String, DECODE_STRING)
 
 export const encode = (
   buffer: Buffer, offset: number, encoding: Encoding, value: JSONValue
 ): number => {
-  const fns: object | undefined = TYPE_INDEX.get(encoding.type)
+  const fns: object | undefined = ENCODE_TYPE_INDEX.get(encoding.type)
   assert(typeof fns !== 'undefined')
 
   // This is the only place in the codebase where we throw away
@@ -83,4 +99,18 @@ export const encode = (
   // Maybe there is a way to do this in a type-safe manner?
   // @ts-ignore
   return fns[encoding.encoding](buffer, offset, value, encoding.options)
+}
+
+export const decode = (
+  buffer: Buffer, offset: number, encoding: Encoding
+): DecodeResult => {
+  const fns: object | undefined = DECODE_TYPE_INDEX.get(encoding.type)
+  assert(typeof fns !== 'undefined')
+
+  // This is the only place in the codebase where we throw away
+  // typing in order to dynamically load encoding functions
+  // from an encoding definition.
+  // Maybe there is a way to do this in a type-safe manner?
+  // @ts-ignore
+  return fns[encoding.encoding](buffer, offset, encoding.options)
 }
