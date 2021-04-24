@@ -43,6 +43,15 @@ var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/string/encode");
 var decode_1 = require("../../lib/types/string/decode");
 var limits_1 = require("../../lib/utils/limits");
+tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', function (test) {
+    var buffer = Buffer.allocUnsafe(2048);
+    var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {});
+    test.is(bytesWritten, 2);
+    var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {});
+    test.is(result.bytes, 2);
+    test.is(result.value, ' ');
+    test.end();
+});
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
     var arbitrary = fc.nat(limits_1.UINT8_MAX).chain(function (maximum) {
         return fc.tuple(fc.nat(maximum), fc.constant(maximum), fc.string({ maxLength: maximum }));

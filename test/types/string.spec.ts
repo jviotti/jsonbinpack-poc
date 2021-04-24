@@ -40,6 +40,16 @@ import {
   UINT8_MAX
 } from '../../lib/utils/limits'
 
+tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(2048)
+  const bytesWritten: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {})
+  test.is(bytesWritten, 2)
+  const result: StringResult = DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {})
+  test.is(result.bytes, 2)
+  test.is(result.value, ' ')
+  test.end()
+})
+
 tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
   const arbitrary = fc.nat(UINT8_MAX).chain((maximum: number) => {
     return fc.tuple(
