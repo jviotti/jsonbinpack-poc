@@ -15,3 +15,12 @@ tap_1.default.test('NULL_8BITS__ENUM_FIXED', function (test) {
     test.is(result.value, null);
     test.end();
 });
+tap_1.default.test('NULL_8BITS__ENUM_FIXED with offset > 0', function (test) {
+    var buffer = Buffer.allocUnsafe(6);
+    var bytesWritten = encode_1.NULL_8BITS__ENUM_FIXED(buffer, 5, {});
+    var result = decode_1.NULL_8BITS__ENUM_FIXED(buffer, 5, {});
+    test.is(bytesWritten, 1);
+    test.is(bytesWritten, result.bytes);
+    test.is(result.value, null);
+    test.end();
+});
