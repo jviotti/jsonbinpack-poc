@@ -11,7 +11,7 @@ var BOUNDED__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
     var length = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, options);
     return {
-        value: buffer.toString(STRING_ENCODING, length.bytes, length.bytes + length.value),
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
         bytes: length.bytes + length.value
     };
 };
@@ -21,7 +21,7 @@ var BOUNDED__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= options.minimum);
     var length = decode_1.BOUNDED__ENUM_VARINT(buffer, offset, options);
     return {
-        value: buffer.toString(STRING_ENCODING, length.bytes, length.bytes + length.value),
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
         bytes: length.bytes + length.value
     };
 };
