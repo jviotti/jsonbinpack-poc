@@ -104,10 +104,6 @@ export const ANY__TYPE_PREFIX = (
   // Encode an number value
   } else {
     const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number)
-
-    // TODO: Maybe force-try if a 32-bit results in precision lost
-    // and if not use a different "32-bit" number type and encoding
-
     const valueBytes: number =
       DOUBLE__IEEE764_LE(buffer, offset + tagBytes, value, {})
     return tagBytes + valueBytes
