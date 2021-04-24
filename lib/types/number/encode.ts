@@ -24,6 +24,11 @@ import {
 
 // TODO: Find out in which case we can safely do a 32-bit floating-point
 // numbers encoding
+// TODO: Otherwise encode integral and decimal parts as two different
+// integers. The first one can be zigzag + varint and the decimal one
+// always varint (as it can't be negative by definition)
+// Maybe we can choose between this an IEEE764 depending on the
+// amount of digits?
 
 export const DOUBLE__IEEE764_LE = (
   buffer: Buffer, offset: number, value: JSONNumber, _options: NoOptions
