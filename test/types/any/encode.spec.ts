@@ -64,7 +64,7 @@ tap.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x03 + double', (test) => {
 tap.test('ANY__TYPE_PREFIX: should encode 256 as 0x07 + varint', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(3)
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, 256, {})
-  test.strictSame(buffer, Buffer.from([ 0x07, 0x80, 0x02, ]))
+  test.strictSame(buffer, Buffer.from([ 0x07, 0x80, 0x02 ]))
   test.is(bytesWritten, 3)
   test.end()
 })
@@ -81,6 +81,30 @@ tap.test('ANY__TYPE_PREFIX: should encode 0 as 0x09 0x00', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(2)
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, 0, {})
   test.strictSame(buffer, Buffer.from([ 0x09, 0x00 ]))
+  test.is(bytesWritten, 2)
+  test.end()
+})
+
+tap.test('ANY__TYPE_PREFIX: should encode -257 as 0x08 + 256 varint', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(3)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, -257, {})
+  test.strictSame(buffer, Buffer.from([ 0x08, 0x80, 0x02 ]))
+  test.is(bytesWritten, 3)
+  test.end()
+})
+
+tap.test('ANY__TYPE_PREFIX: should encode -1 as 0x0a 0x00', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(2)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, -1, {})
+  test.strictSame(buffer, Buffer.from([ 0x0a, 0x00 ]))
+  test.is(bytesWritten, 2)
+  test.end()
+})
+
+tap.test('ANY__TYPE_PREFIX: should encode -256 as 0x0a 0xff', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(2)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, -256, {})
+  test.strictSame(buffer, Buffer.from([ 0x0a, 0xff ]))
   test.is(bytesWritten, 2)
   test.end()
 })

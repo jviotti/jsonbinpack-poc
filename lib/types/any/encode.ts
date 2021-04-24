@@ -99,11 +99,27 @@ export const ANY__TYPE_PREFIX = (
       return tagBytes + valueBytes
     }
 
-    //    AND if the value is <= 255, use Type.PositiveIntegerByte
-    // TODO: If the value is < 0, use Type.NegativeInteger and encode still as positive
-    //    AND if the value is <= 255, use Type.NativeIntegerByte
-    return 0
+    const absoluteValue: number = Math.abs(value) - 1
+    if (absoluteValue <= 255) {
+      const tagBytes: number =
+        encodeTypeTag(buffer, offset, Type.NegativeIntegerByte)
+      const valueBytes: number =
+        BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes, absoluteValue, {
+          // TODO: Add UINT8_MIN for this
+          minimum: 0,
+          // TODO: Use UINT8_MAX constant
+          maximum: 255
+        })
+      return tagBytes + valueBytes
+    }
 
+    const tagBytes: number =
+      encodeTypeTag(buffer, offset, Type.NegativeInteger)
+    const valueBytes: number =
+      FLOOR__ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
+        minimum: 0
+      })
+    return tagBytes + valueBytes
   // Encode an number value
   } else {
     const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number)

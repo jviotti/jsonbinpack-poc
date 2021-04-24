@@ -39,13 +39,26 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options) {
                 });
                 return tagBytes_1 + valueBytes_1;
             }
-            var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.PositiveInteger);
-            var valueBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes, value, {
+            var tagBytes_2 = encodeTypeTag(buffer, offset, types_1.Type.PositiveInteger);
+            var valueBytes_2 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_2, value, {
                 minimum: 0
             });
-            return tagBytes + valueBytes;
+            return tagBytes_2 + valueBytes_2;
         }
-        return 0;
+        var absoluteValue = Math.abs(value) - 1;
+        if (absoluteValue <= 255) {
+            var tagBytes_3 = encodeTypeTag(buffer, offset, types_1.Type.NegativeIntegerByte);
+            var valueBytes_3 = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes_3, absoluteValue, {
+                minimum: 0,
+                maximum: 255
+            });
+            return tagBytes_3 + valueBytes_3;
+        }
+        var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.NegativeInteger);
+        var valueBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
+            minimum: 0
+        });
+        return tagBytes + valueBytes;
     }
     else {
         var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.Number);
