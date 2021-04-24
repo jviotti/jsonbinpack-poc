@@ -46,7 +46,7 @@ import {
 
 const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
-    minimum: 0,
+    minimum: UINT8_MIN,
     // TODO: Find a way to keep this automatically in sync with "Type"
     maximum: 10
   })

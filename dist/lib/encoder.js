@@ -35,6 +35,7 @@ var DECODE_INTEGER = __importStar(require("./types/integer/decode"));
 var DECODE_NULL = __importStar(require("./types/null/decode"));
 var DECODE_NUMBER = __importStar(require("./types/number/decode"));
 var DECODE_STRING = __importStar(require("./types/string/decode"));
+var DECODE_ANY = __importStar(require("./types/any/decode"));
 var ENCODE_TYPE_INDEX = new Map();
 var DECODE_TYPE_INDEX = new Map();
 ENCODE_TYPE_INDEX.set(base_1.EncodingType.Boolean, ENCODE_BOOLEAN);
@@ -48,6 +49,7 @@ DECODE_TYPE_INDEX.set(base_1.EncodingType.Integer, DECODE_INTEGER);
 DECODE_TYPE_INDEX.set(base_1.EncodingType.Null, DECODE_NULL);
 DECODE_TYPE_INDEX.set(base_1.EncodingType.Number, DECODE_NUMBER);
 DECODE_TYPE_INDEX.set(base_1.EncodingType.String, DECODE_STRING);
+DECODE_TYPE_INDEX.set(base_1.EncodingType.Any, DECODE_ANY);
 var encode = function (buffer, offset, encoding, value) {
     var fns = ENCODE_TYPE_INDEX.get(encoding.type);
     assert_1.strict(typeof fns !== 'undefined');

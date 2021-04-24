@@ -68,9 +68,7 @@ import * as DECODE_INTEGER from './types/integer/decode'
 import * as DECODE_NULL from './types/null/decode'
 import * as DECODE_NUMBER from './types/number/decode'
 import * as DECODE_STRING from './types/string/decode'
-
-// TODO: Uncomment once we implement "any" decode
-// import * as DECODE_ANY from './types/any/decode'
+import * as DECODE_ANY from './types/any/decode'
 
 // The union of all possible encodings
 export type Encoding =
@@ -96,9 +94,7 @@ DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
 DECODE_TYPE_INDEX.set(EncodingType.Null, DECODE_NULL)
 DECODE_TYPE_INDEX.set(EncodingType.Number, DECODE_NUMBER)
 DECODE_TYPE_INDEX.set(EncodingType.String, DECODE_STRING)
-
-// TODO: Uncomment once we implement "any" decode
-// DECODE_TYPE_INDEX.set(EncodingType.Any, DECODE_ANY)
+DECODE_TYPE_INDEX.set(EncodingType.Any, DECODE_ANY)
 
 export const encode = (
   buffer: Buffer, offset: number, encoding: Encoding, value: JSONValue

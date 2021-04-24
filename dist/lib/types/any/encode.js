@@ -8,7 +8,7 @@ var encode_2 = require("../string/encode");
 var encode_3 = require("../number/encode");
 var encodeTypeTag = function (buffer, offset, tag) {
     return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
-        minimum: 0,
+        minimum: limits_1.UINT8_MIN,
         maximum: 10
     });
 };
