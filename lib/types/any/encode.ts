@@ -27,7 +27,8 @@ import {
 } from './types'
 
 import {
-  BOUNDED_8BITS__ENUM_FIXED
+  BOUNDED_8BITS__ENUM_FIXED,
+  FLOOR__ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -74,7 +75,30 @@ export const ANY__TYPE_PREFIX = (
   // Encode an integer value
   } else if (Number.isInteger(value)) {
 
-    // TODO: If the value is >= 0, use Type.PositiveInteger and encode as floor varint
+    if (value >= 0) {
+      // TODO: Use UINT8_MAX constant
+      if (value <= 255) {
+        const tagBytes: number =
+          encodeTypeTag(buffer, offset, Type.PositiveIntegerByte)
+        const valueBytes: number =
+          BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes, value, {
+            // TODO: Add UINT8_MIN for this
+            minimum: 0,
+            // TODO: Use UINT8_MAX constant
+            maximum: 255
+          })
+        return tagBytes + valueBytes
+      }
+
+      const tagBytes: number =
+        encodeTypeTag(buffer, offset, Type.PositiveInteger)
+      const valueBytes: number =
+        FLOOR__ENUM_VARINT(buffer, offset + tagBytes, value, {
+          minimum: 0
+        })
+      return tagBytes + valueBytes
+    }
+
     //    AND if the value is <= 255, use Type.PositiveIntegerByte
     // TODO: If the value is < 0, use Type.NegativeInteger and encode still as positive
     //    AND if the value is <= 255, use Type.NativeIntegerByte

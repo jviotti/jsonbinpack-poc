@@ -30,6 +30,21 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options) {
         return tagBytes + valueBytes;
     }
     else if (Number.isInteger(value)) {
+        if (value >= 0) {
+            if (value <= 255) {
+                var tagBytes_1 = encodeTypeTag(buffer, offset, types_1.Type.PositiveIntegerByte);
+                var valueBytes_1 = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes_1, value, {
+                    minimum: 0,
+                    maximum: 255
+                });
+                return tagBytes_1 + valueBytes_1;
+            }
+            var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.PositiveInteger);
+            var valueBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes, value, {
+                minimum: 0
+            });
+            return tagBytes + valueBytes;
+        }
         return 0;
     }
     else {

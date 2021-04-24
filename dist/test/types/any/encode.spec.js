@@ -42,3 +42,24 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x03 + double', func
     test.is(bytesWritten, 9);
     test.end();
 });
+tap_1.default.test('ANY__TYPE_PREFIX: should encode 256 as 0x07 + varint', function (test) {
+    var buffer = Buffer.allocUnsafe(3);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 256, {});
+    test.strictSame(buffer, Buffer.from([0x07, 0x80, 0x02,]));
+    test.is(bytesWritten, 3);
+    test.end();
+});
+tap_1.default.test('ANY__TYPE_PREFIX: should encode 255 as 0x09 0xff', function (test) {
+    var buffer = Buffer.allocUnsafe(2);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 255, {});
+    test.strictSame(buffer, Buffer.from([0x09, 0xff]));
+    test.is(bytesWritten, 2);
+    test.end();
+});
+tap_1.default.test('ANY__TYPE_PREFIX: should encode 0 as 0x09 0x00', function (test) {
+    var buffer = Buffer.allocUnsafe(2);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 0, {});
+    test.strictSame(buffer, Buffer.from([0x09, 0x00]));
+    test.is(bytesWritten, 2);
+    test.end();
+});
