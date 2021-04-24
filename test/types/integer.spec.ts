@@ -51,19 +51,20 @@ import {
 tap.test('BOUNDED_8BITS__ENUM_FIXED', (test) => {
   const arbitrary = fc.integer().chain((minimum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.constant(minimum),
       fc.integer(minimum, minimum + UINT8_MAX),
       fc.integer(minimum, minimum + UINT8_MAX))
   })
 
-  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
     fc.pre(value <= maximum)
 
-    const buffer: Buffer = Buffer.allocUnsafe(1)
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 1)
     const bytesWritten: number =
-      ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, value, { minimum, maximum })
+      ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value, { minimum, maximum })
     const result: IntegerResult =
-      DECODE_BOUNDED_8BITS__ENUM_FIXED(buffer, 0, { minimum, maximum })
+      DECODE_BOUNDED_8BITS__ENUM_FIXED(buffer, offset, { minimum, maximum })
     return bytesWritten === 1 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -76,6 +77,7 @@ tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', (test) => {
   const arbitrary = fc.integer().chain((minimum: number) => {
     return fc.integer(minimum, minimum + UINT8_MAX).chain((maximum: number) => {
       return fc.tuple(
+        fc.nat(10),
         fc.constant(minimum),
         fc.constant(maximum),
         fc.integer(minimum, maximum),
@@ -84,13 +86,15 @@ tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', (test) => {
     })
   })
 
-  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value, multiplier ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value, multiplier ]): boolean => {
     fc.pre(value % multiplier === 0)
-    const buffer: Buffer = Buffer.allocUnsafe(1)
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 1)
     const bytesWritten: number =
-      ENCODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, value, { minimum, maximum, multiplier })
+      ENCODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(
+        buffer, offset, value, { minimum, maximum, multiplier })
     const result: IntegerResult =
-      DECODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, { minimum, maximum, multiplier })
+      DECODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(
+        buffer, offset, { minimum, maximum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -100,13 +104,15 @@ tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', (test) => {
 })
 
 tap.test('BOUNDED__ENUM_VARINT', (test) => {
-  fc.assert(fc.property(fc.integer(), fc.integer(), fc.integer(), (
-    value: number, minimum: number, maximum: number
+  fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), fc.integer(), (
+    offset: number, value: number, minimum: number, maximum: number
   ): boolean => {
     fc.pre(value >= minimum && value <= maximum)
-    const buffer: Buffer = Buffer.allocUnsafe(8)
-    const bytesWritten: number = ENCODE_BOUNDED__ENUM_VARINT(buffer, 0, value, { minimum, maximum })
-    const result: IntegerResult = DECODE_BOUNDED__ENUM_VARINT(buffer, 0, { minimum, maximum })
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
+    const bytesWritten: number =
+      ENCODE_BOUNDED__ENUM_VARINT(buffer, offset, value, { minimum, maximum })
+    const result: IntegerResult =
+      DECODE_BOUNDED__ENUM_VARINT(buffer, offset, { minimum, maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -119,6 +125,7 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
   const arbitrary = fc.integer().chain((minimum: number) => {
     return fc.integer({ min: minimum }).chain((maximum: number) => {
       return fc.tuple(
+        fc.nat(10),
         fc.constant(minimum),
         fc.constant(maximum),
         fc.integer({ min: minimum, max: maximum }),
@@ -127,13 +134,13 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
     })
   })
 
-  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value, multiplier ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value, multiplier ]): boolean => {
     fc.pre(value % multiplier === 0)
-    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
     const bytesWritten: number =
-      ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, value, { minimum, maximum, multiplier })
+      ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, offset, value, { minimum, maximum, multiplier })
     const result: IntegerResult =
-      DECODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, { minimum, maximum, multiplier })
+      DECODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, offset, { minimum, maximum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -143,13 +150,15 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
 })
 
 tap.test('FLOOR__ENUM_VARINT', (test) => {
-  fc.assert(fc.property(fc.integer(), fc.integer(), (
-    value: number, minimum: number
+  fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), (
+    offset: number, value: number, minimum: number
   ): boolean => {
     fc.pre(value >= minimum)
-    const buffer: Buffer = Buffer.allocUnsafe(8)
-    const bytesWritten: number = ENCODE_FLOOR__ENUM_VARINT(buffer, 0, value, { minimum })
-    const result: IntegerResult = DECODE_FLOOR__ENUM_VARINT(buffer, 0, { minimum })
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
+    const bytesWritten: number =
+      ENCODE_FLOOR__ENUM_VARINT(buffer, offset, value, { minimum })
+    const result: IntegerResult =
+      DECODE_FLOOR__ENUM_VARINT(buffer, offset, { minimum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -161,19 +170,20 @@ tap.test('FLOOR__ENUM_VARINT', (test) => {
 tap.test('FLOOR_MULTIPLE__ENUM_VARINT', (test) => {
   const arbitrary = fc.integer().chain((minimum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.constant(minimum),
       fc.integer({ min: minimum }),
       fc.integer({ min: minimum })
     )
   })
 
-  fc.assert(fc.property(arbitrary, ([ minimum, value, multiplier ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, minimum, value, multiplier ]): boolean => {
     fc.pre(value % multiplier === 0)
-    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
     const bytesWritten: number =
-      ENCODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, value, { minimum, multiplier })
+      ENCODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, offset, value, { minimum, multiplier })
     const result: IntegerResult =
-      DECODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, { minimum, multiplier })
+      DECODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, offset, { minimum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -183,15 +193,15 @@ tap.test('FLOOR_MULTIPLE__ENUM_VARINT', (test) => {
 })
 
 tap.test('ROOF__MIRROR_ENUM_VARINT', (test) => {
-  fc.assert(fc.property(fc.integer(), fc.integer(), (
-    value: number, maximum: number
+  fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), (
+    offset: number, value: number, maximum: number
   ): boolean => {
     fc.pre(value <= maximum)
-    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
     const bytesWritten: number =
-      ENCODE_ROOF__MIRROR_ENUM_VARINT(buffer, 0, value, { maximum })
+      ENCODE_ROOF__MIRROR_ENUM_VARINT(buffer, offset, value, { maximum })
     const result: IntegerResult =
-      DECODE_ROOF__MIRROR_ENUM_VARINT(buffer, 0, { maximum })
+      DECODE_ROOF__MIRROR_ENUM_VARINT(buffer, offset, { maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -203,19 +213,20 @@ tap.test('ROOF__MIRROR_ENUM_VARINT', (test) => {
 tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', (test) => {
   const arbitrary = fc.integer().chain((maximum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.constant(maximum),
       fc.integer({ max: maximum }),
       fc.integer({ max: maximum })
     )
   })
 
-  fc.assert(fc.property(arbitrary, ([ maximum, value, multiplier ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, maximum, value, multiplier ]): boolean => {
     fc.pre(value % multiplier === 0)
-    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
     const bytesWritten: number =
-      ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, value, { maximum, multiplier })
+      ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, offset, value, { maximum, multiplier })
     const result: IntegerResult =
-      DECODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, { maximum, multiplier })
+      DECODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, offset, { maximum, multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -225,10 +236,12 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', (test) => {
 })
 
 tap.test('ARBITRARY__ZIGZAG_VARINT', (test) => {
-  fc.assert(fc.property(fc.integer(), (value: number): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(8)
-    const bytesWritten: number = ENCODE_ARBITRARY__ZIGZAG_VARINT(buffer, 0, value, {})
-    const result: IntegerResult = DECODE_ARBITRARY__ZIGZAG_VARINT(buffer, 0, {})
+  fc.assert(fc.property(fc.nat(10), fc.integer(), (offset: number, value: number): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
+    const bytesWritten: number =
+      ENCODE_ARBITRARY__ZIGZAG_VARINT(buffer, offset, value, {})
+    const result: IntegerResult =
+      DECODE_ARBITRARY__ZIGZAG_VARINT(buffer, offset, {})
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -238,15 +251,15 @@ tap.test('ARBITRARY__ZIGZAG_VARINT', (test) => {
 })
 
 tap.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT', (test) => {
-  fc.assert(fc.property(fc.integer(), fc.integer(), (
-    value: number, multiplier: number
+  fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), (
+    offset: number, value: number, multiplier: number
   ): boolean => {
     fc.pre(value % multiplier === 0)
-    const buffer: Buffer = Buffer.allocUnsafe(8)
+    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
     const bytesWritten: number =
-      ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, value, { multiplier })
+      ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, offset, value, { multiplier })
     const result: IntegerResult =
-      DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, { multiplier })
+      DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, offset, { multiplier })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
