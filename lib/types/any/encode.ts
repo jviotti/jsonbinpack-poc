@@ -19,6 +19,11 @@ import {
 } from '../../json'
 
 import {
+  UINT8_MIN,
+  UINT8_MAX
+} from '../../utils/limits'
+
+import {
   NoOptions
 } from './options'
 
@@ -74,47 +79,23 @@ export const ANY__TYPE_PREFIX = (
 
   // Encode an integer value
   } else if (Number.isInteger(value)) {
-
-    if (value >= 0) {
-      // TODO: Use UINT8_MAX constant
-      if (value <= 255) {
-        const tagBytes: number =
-          encodeTypeTag(buffer, offset, Type.PositiveIntegerByte)
-        const valueBytes: number =
-          BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes, value, {
-            // TODO: Add UINT8_MIN for this
-            minimum: 0,
-            // TODO: Use UINT8_MAX constant
-            maximum: 255
-          })
-        return tagBytes + valueBytes
-      }
-
-      const tagBytes: number =
-        encodeTypeTag(buffer, offset, Type.PositiveInteger)
-      const valueBytes: number =
-        FLOOR__ENUM_VARINT(buffer, offset + tagBytes, value, {
-          minimum: 0
-        })
-      return tagBytes + valueBytes
-    }
-
-    const absoluteValue: number = Math.abs(value) - 1
-    if (absoluteValue <= 255) {
-      const tagBytes: number =
-        encodeTypeTag(buffer, offset, Type.NegativeIntegerByte)
+    const isPositive: boolean = value >= 0
+    const absoluteValue: number = isPositive ? value : Math.abs(value) - 1
+    if (absoluteValue <= UINT8_MAX) {
+      const type: Type = isPositive
+        ? Type.PositiveIntegerByte : Type.NegativeIntegerByte
+      const tagBytes: number = encodeTypeTag(buffer, offset, type)
       const valueBytes: number =
         BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes, absoluteValue, {
-          // TODO: Add UINT8_MIN for this
-          minimum: 0,
-          // TODO: Use UINT8_MAX constant
-          maximum: 255
+          minimum: UINT8_MIN,
+          maximum: UINT8_MAX
         })
       return tagBytes + valueBytes
     }
 
-    const tagBytes: number =
-      encodeTypeTag(buffer, offset, Type.NegativeInteger)
+    const type: Type = isPositive
+      ? Type.PositiveInteger : Type.NegativeInteger
+    const tagBytes: number = encodeTypeTag(buffer, offset, type)
     const valueBytes: number =
       FLOOR__ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
         minimum: 0

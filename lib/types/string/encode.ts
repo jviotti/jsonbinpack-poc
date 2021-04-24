@@ -30,6 +30,7 @@ import {
 } from '../integer/encode'
 
 import {
+  UINT8_MIN,
   UINT8_MAX
 } from '../../utils/limits'
 
@@ -49,7 +50,7 @@ const STRING_ENCODING: BufferEncoding = 'utf8'
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   buffer: Buffer, offset: number, value: JSONString, options: BoundedOptions
 ): number => {
-  assert(options.minimum >= 0)
+  assert(options.minimum >= UINT8_MIN)
   assert(options.maximum >= options.minimum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)

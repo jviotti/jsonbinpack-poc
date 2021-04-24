@@ -14,4 +14,5 @@
  * limitations under the License.
  */
 
+export const UINT8_MIN: number = 0
 export const UINT8_MAX: number = Math.pow(2, 8) - 1
