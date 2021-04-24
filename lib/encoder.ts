@@ -39,6 +39,10 @@ import {
 } from './types/string/mapper'
 
 import {
+  AnyEncoding
+} from './types/any/mapper'
+
+import {
   EncodingType,
   DecodeResult
 } from './types/base'
@@ -57,6 +61,7 @@ import * as ENCODE_INTEGER from './types/integer/encode'
 import * as ENCODE_NULL from './types/null/encode'
 import * as ENCODE_NUMBER from './types/number/encode'
 import * as ENCODE_STRING from './types/string/encode'
+import * as ENCODE_ANY from './types/any/encode'
 
 import * as DECODE_BOOLEAN from './types/boolean/decode'
 import * as DECODE_INTEGER from './types/integer/decode'
@@ -64,13 +69,17 @@ import * as DECODE_NULL from './types/null/decode'
 import * as DECODE_NUMBER from './types/number/decode'
 import * as DECODE_STRING from './types/string/decode'
 
+// TODO: Uncomment once we implement "any" decode
+// import * as DECODE_ANY from './types/any/decode'
+
 // The union of all possible encodings
 export type Encoding =
   BooleanEncoding |
   NullEncoding |
   NumberEncoding |
   IntegerEncoding |
-  StringEncoding
+  StringEncoding |
+  AnyEncoding
 
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
@@ -80,12 +89,16 @@ ENCODE_TYPE_INDEX.set(EncodingType.Integer, ENCODE_INTEGER)
 ENCODE_TYPE_INDEX.set(EncodingType.Null, ENCODE_NULL)
 ENCODE_TYPE_INDEX.set(EncodingType.Number, ENCODE_NUMBER)
 ENCODE_TYPE_INDEX.set(EncodingType.String, ENCODE_STRING)
+ENCODE_TYPE_INDEX.set(EncodingType.Any, ENCODE_ANY)
 
 DECODE_TYPE_INDEX.set(EncodingType.Boolean, DECODE_BOOLEAN)
 DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
 DECODE_TYPE_INDEX.set(EncodingType.Null, DECODE_NULL)
 DECODE_TYPE_INDEX.set(EncodingType.Number, DECODE_NUMBER)
 DECODE_TYPE_INDEX.set(EncodingType.String, DECODE_STRING)
+
+// TODO: Uncomment once we implement "any" decode
+// DECODE_TYPE_INDEX.set(EncodingType.Any, DECODE_ANY)
 
 export const encode = (
   buffer: Buffer, offset: number, encoding: Encoding, value: JSONValue
