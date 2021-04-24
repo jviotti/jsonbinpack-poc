@@ -52,6 +52,14 @@ tap.test('ANY__TYPE_PREFIX: should encode "foo" as 0x00 0x03 + string', (test) =
   test.end()
 })
 
+tap.test('ANY__TYPE_PREFIX: should encode " " as 0x00 0x01 0x20', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(3)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, ' ', {})
+  test.strictSame(buffer, Buffer.from([ 0x00, 0x01, 0x20 ]))
+  test.is(bytesWritten, 3)
+  test.end()
+})
+
 tap.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x03 + double', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(9)
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, 3.14, {})
