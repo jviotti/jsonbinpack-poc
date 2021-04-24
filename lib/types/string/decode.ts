@@ -105,7 +105,7 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, options)
   return {
     value: buffer.toString(
-      STRING_ENCODING, length.bytes, length.bytes + length.value),
+      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
     bytes: length.bytes + length.value
   }
 }

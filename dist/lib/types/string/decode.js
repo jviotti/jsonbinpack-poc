@@ -46,7 +46,7 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     var length = decode_1.FLOOR__ENUM_VARINT(buffer, offset, options);
     return {
-        value: buffer.toString(STRING_ENCODING, length.bytes, length.bytes + length.value),
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
         bytes: length.bytes + length.value
     };
 };

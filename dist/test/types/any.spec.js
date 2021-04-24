@@ -26,12 +26,23 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/any/encode");
 var decode_1 = require("../../lib/types/any/decode");
+tap_1.default.test('ANY__TYPE_PREFIX: should handle " "', function (test) {
+    var buffer = Buffer.allocUnsafe(2048);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, ' ', {});
+    test.is(bytesWritten, 3);
+    var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
+    console.log(result);
+    test.is(result.bytes, 3);
+    test.is(result.value, ' ');
+    test.end();
+});
 tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
-    fc.assert(fc.property(fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double()), function (value) {
+    fc.assert(fc.property(fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 1000 })), function (value) {
         var buffer = Buffer.allocUnsafe(2048);
         var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {});
         var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
-        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+        return bytesWritten > 0 &&
+            result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
     });
