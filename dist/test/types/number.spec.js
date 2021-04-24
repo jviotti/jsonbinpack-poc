@@ -27,10 +27,10 @@ var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/number/encode");
 var decode_1 = require("../../lib/types/number/decode");
 tap_1.default.test('DOUBLE__IEEE764_LE', function (test) {
-    fc.assert(fc.property(fc.double(), function (value) {
-        var buffer = Buffer.allocUnsafe(8);
-        var bytesWritten = encode_1.DOUBLE__IEEE764_LE(buffer, 0, value, {});
-        var result = decode_1.DOUBLE__IEEE764_LE(buffer, 0, {});
+    fc.assert(fc.property(fc.nat(10), fc.double(), function (offset, value) {
+        var buffer = Buffer.allocUnsafe(offset + 8);
+        var bytesWritten = encode_1.DOUBLE__IEEE764_LE(buffer, offset, value, {});
+        var result = decode_1.DOUBLE__IEEE764_LE(buffer, offset, {});
         return bytesWritten === 8 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
