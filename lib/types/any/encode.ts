@@ -101,6 +101,7 @@ export const ANY__TYPE_PREFIX = (
         minimum: 0
       })
     return tagBytes + valueBytes
+
   // Encode an number value
   } else {
     const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number)
