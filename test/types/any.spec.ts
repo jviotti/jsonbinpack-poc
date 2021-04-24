@@ -42,17 +42,17 @@ tap.test('ANY__TYPE_PREFIX: should handle " "', (test) => {
 })
 
 tap.test('ANY__TYPE_PREFIX: scalars', (test) => {
-  fc.assert(fc.property(fc.oneof(
+  fc.assert(fc.property(fc.nat(10), fc.oneof(
     fc.constant(null),
     fc.boolean(),
     fc.integer(),
     fc.float(),
     fc.double(),
     fc.string({ maxLength: 1000 })
-  ), (value: JSONValue): boolean => {
+  ), (offset: number, value: JSONValue): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(2048)
-    const bytesWritten: number = ENCODE_ANY__TYPE_PREFIX(buffer, 0, value, {})
-    const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
+    const bytesWritten: number = ENCODE_ANY__TYPE_PREFIX(buffer, offset, value, {})
+    const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, offset, {})
     return bytesWritten > 0 &&
       result.bytes === bytesWritten && result.value === value
   }), {

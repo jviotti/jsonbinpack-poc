@@ -37,10 +37,10 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle " "', function (test) {
     test.end();
 });
 tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
-    fc.assert(fc.property(fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 1000 })), function (value) {
+    fc.assert(fc.property(fc.nat(10), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 1000 })), function (offset, value) {
         var buffer = Buffer.allocUnsafe(2048);
-        var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {});
-        var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
+        var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, offset, value, {});
+        var result = decode_1.ANY__TYPE_PREFIX(buffer, offset, {});
         return bytesWritten > 0 &&
             result.bytes === bytesWritten && result.value === value;
     }), {
