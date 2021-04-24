@@ -8,7 +8,7 @@ var encode_3 = require("../number/encode");
 var encodeTypeTag = function (buffer, offset, tag) {
     return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
         minimum: 0,
-        maximum: 11
+        maximum: 10
     });
 };
 var ANY__TYPE_PREFIX = function (buffer, offset, value, _options) {
@@ -30,9 +30,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options) {
         return tagBytes + valueBytes;
     }
     else if (Number.isInteger(value)) {
-        var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.Integer);
-        var valueBytes = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, offset + tagBytes, value, {});
-        return tagBytes + valueBytes;
+        return 0;
     }
     else {
         var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.Number);

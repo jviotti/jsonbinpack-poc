@@ -20,26 +20,26 @@ import {
   ANY__TYPE_PREFIX
 } from '../../../lib/types/any/encode'
 
-tap.test('ANY__TYPE_PREFIX: should encode null as 0x07', (test) => {
+tap.test('ANY__TYPE_PREFIX: should encode null as 0x06', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, null, {})
-  test.strictSame(buffer, Buffer.from([ 0x07 ]))
-  test.is(bytesWritten, 1)
-  test.end()
-})
-
-tap.test('ANY__TYPE_PREFIX: should encode false as 0x06', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, false, {})
   test.strictSame(buffer, Buffer.from([ 0x06 ]))
   test.is(bytesWritten, 1)
   test.end()
 })
 
-tap.test('ANY__TYPE_PREFIX: should encode true as 0x05', (test) => {
+tap.test('ANY__TYPE_PREFIX: should encode false as 0x05', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, false, {})
+  test.strictSame(buffer, Buffer.from([ 0x05 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('ANY__TYPE_PREFIX: should encode true as 0x04', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, true, {})
-  test.strictSame(buffer, Buffer.from([ 0x05 ]))
+  test.strictSame(buffer, Buffer.from([ 0x04 ]))
   test.is(bytesWritten, 1)
   test.end()
 })

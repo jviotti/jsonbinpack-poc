@@ -27,8 +27,7 @@ import {
 } from './types'
 
 import {
-  BOUNDED_8BITS__ENUM_FIXED,
-  ARBITRARY__ZIGZAG_VARINT
+  BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/encode'
 
 import {
@@ -43,7 +42,7 @@ const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: 0,
     // TODO: Find a way to keep this automatically in sync with "Type"
-    maximum: 11
+    maximum: 10
   })
 }
 
@@ -79,11 +78,7 @@ export const ANY__TYPE_PREFIX = (
     //    AND if the value is <= 255, use Type.PositiveIntegerByte
     // TODO: If the value is < 0, use Type.NegativeInteger and encode still as positive
     //    AND if the value is <= 255, use Type.NativeIntegerByte
-
-    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Integer)
-    const valueBytes: number =
-      ARBITRARY__ZIGZAG_VARINT(buffer, offset + tagBytes, value, {})
-    return tagBytes + valueBytes
+    return 0
 
   // Encode an number value
   } else {

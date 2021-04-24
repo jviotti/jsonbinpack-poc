@@ -19,12 +19,11 @@ export enum Type {
   Object = 1,
   Array = 2,
   Number = 3,
-  Integer = 4,
-  True = 5,
-  False = 6,
-  Null = 7,
-  PositiveInteger = 8,
-  NegativeInteger = 9,
-  PositiveIntegerByte = 10,
-  NegativeIntegerByte = 11
+  True = 4,
+  False = 5,
+  Null = 6,
+  PositiveInteger = 7,
+  NegativeInteger = 8,
+  PositiveIntegerByte = 9,
+  NegativeIntegerByte = 10
 }

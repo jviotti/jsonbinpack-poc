@@ -5,24 +5,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/types/any/encode");
-tap_1.default.test('ANY__TYPE_PREFIX: should encode null as 0x07', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode null as 0x06', function (test) {
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, null, {});
-    test.strictSame(buffer, Buffer.from([0x07]));
-    test.is(bytesWritten, 1);
-    test.end();
-});
-tap_1.default.test('ANY__TYPE_PREFIX: should encode false as 0x06', function (test) {
-    var buffer = Buffer.allocUnsafe(1);
-    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, false, {});
     test.strictSame(buffer, Buffer.from([0x06]));
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode true as 0x05', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode false as 0x05', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, false, {});
+    test.strictSame(buffer, Buffer.from([0x05]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
+tap_1.default.test('ANY__TYPE_PREFIX: should encode true as 0x04', function (test) {
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, true, {});
-    test.strictSame(buffer, Buffer.from([0x05]));
+    test.strictSame(buffer, Buffer.from([0x04]));
     test.is(bytesWritten, 1);
     test.end();
 });
