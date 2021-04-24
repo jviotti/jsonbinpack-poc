@@ -53,17 +53,20 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
 tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
   const arbitrary = fc.nat(UINT8_MAX).chain((maximum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.nat(maximum),
       fc.constant(maximum),
       fc.string({ maxLength: maximum })
     )
   })
 
-  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
     fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
-    const buffer: Buffer = Buffer.allocUnsafe(UINT8_MAX + 1)
-    const bytesWritten: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, { minimum, maximum })
-    const result: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, { minimum, maximum })
+    const buffer: Buffer = Buffer.allocUnsafe(offset + UINT8_MAX + 1)
+    const bytesWritten: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+      buffer, offset, value, { minimum, maximum })
+    const result: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+      buffer, offset, { minimum, maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -75,17 +78,20 @@ tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
 tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   const arbitrary = fc.nat(1000).chain((maximum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.nat(maximum),
       fc.constant(maximum),
       fc.string({ maxLength: maximum })
     )
   })
 
-  fc.assert(fc.property(arbitrary, ([ minimum, maximum, value ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
     fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
     const buffer: Buffer = Buffer.allocUnsafe(2048)
-    const bytesWritten: number = ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, { minimum, maximum })
-    const result: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, { minimum, maximum })
+    const bytesWritten: number =
+      ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum, maximum })
+    const result: StringResult =
+      DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum, maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -97,15 +103,18 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
 tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
   const arbitrary = fc.nat(UINT8_MAX).chain((maximum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.constant(maximum),
       fc.string({ maxLength: maximum })
     )
   })
 
-  fc.assert(fc.property(arbitrary, ([ maximum, value ]): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(UINT8_MAX + 1)
-    const bytesWritten: number = ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, value, { maximum })
-    const result: StringResult = DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, { maximum })
+  fc.assert(fc.property(arbitrary, ([ offset, maximum, value ]): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(offset + UINT8_MAX + 1)
+    const bytesWritten: number =
+      ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, { maximum })
+    const result: StringResult =
+      DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, { maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -117,15 +126,18 @@ tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
 tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   const arbitrary = fc.nat(1000).chain((maximum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.constant(maximum),
       fc.string({ maxLength: maximum })
     )
   })
 
-  fc.assert(fc.property(arbitrary, ([ maximum, value ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, maximum, value ]): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(2048)
-    const bytesWritten: number = ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, { maximum })
-    const result: StringResult = DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, { maximum })
+    const bytesWritten: number =
+      ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum })
+    const result: StringResult =
+      DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -137,15 +149,18 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
 tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   const arbitrary = fc.nat(2000).chain((minimum: number) => {
     return fc.tuple(
+      fc.nat(10),
       fc.constant(minimum),
       fc.string({ minLength: minimum, maxLength: 2000 })
     )
   })
 
-  fc.assert(fc.property(arbitrary, ([ minimum, value ]): boolean => {
+  fc.assert(fc.property(arbitrary, ([ offset, minimum, value ]): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(2048)
-    const bytesWritten: number = ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, value, { minimum })
-    const result: StringResult = DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, { minimum })
+    const bytesWritten: number =
+      ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum })
+    const result: StringResult =
+      DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -155,10 +170,14 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
 })
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
-  fc.assert(fc.property(fc.string({ maxLength: 1000 }), (value: string): boolean => {
+  fc.assert(fc.property(fc.nat(10), fc.string({ maxLength: 1000 }), (
+    offset: number, value: string
+  ): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(2048)
-    const bytesWritten: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, value, {})
-    const result: StringResult = DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {})
+    const bytesWritten: number =
+      ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {})
+    const result: StringResult =
+      DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
