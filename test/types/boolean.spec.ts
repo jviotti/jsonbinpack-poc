@@ -41,11 +41,35 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
   test.end()
 })
 
+tap.test('BOOLEAN_8BITS__ENUM_FIXED: false with offset > 0', (test) => {
+  const value: JSONBoolean = false
+  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, value, {})
+  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, {})
+
+  test.is(bytesWritten, 1)
+  test.is(bytesWritten, result.bytes)
+  test.is(result.value, value)
+  test.end()
+})
+
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: true', (test) => {
   const value: JSONBoolean = true
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value, {})
   const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, {})
+
+  test.is(bytesWritten, 1)
+  test.is(bytesWritten, result.bytes)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('BOOLEAN_8BITS__ENUM_FIXED: true with offset > 0', (test) => {
+  const value: JSONBoolean = true
+  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, value, {})
+  const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, {})
 
   test.is(bytesWritten, 1)
   test.is(bytesWritten, result.bytes)
