@@ -18,8 +18,21 @@ import {
   NoOptions
 } from '../null/options'
 
+import {
+  BoundedOptions,
+  FloorOptions,
+  RoofOptions
+} from '../integer/options'
+
 export {
   NoOptions
 } from '../null/options'
 
-export type ArrayOptions = NoOptions
+export {
+  BoundedOptions,
+  FloorOptions,
+  RoofOptions
+} from '../integer/options'
+
+export type ArrayOptions =
+  NoOptions | BoundedOptions | FloorOptions | RoofOptions
