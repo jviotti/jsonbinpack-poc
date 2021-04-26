@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
+var mapper_1 = require("../../../lib/types/boolean/mapper");
 var encode_1 = require("../../../lib/types/array/encode");
 tap_1.default.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
@@ -99,5 +100,24 @@ tap_1.default.test('ROOF_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 20
         0x07, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 10);
+    test.end();
+});
+tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+    var encoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var buffer = Buffer.allocUnsafe(4);
+    var bytesWritten = encode_1.BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
+        true, false, true
+    ], {
+        minimum: 0,
+        maximum: 3,
+        encoding: encoding
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03,
+        0x01, 0x00, 0x01
+    ]));
+    test.is(bytesWritten, 4);
     test.end();
 });

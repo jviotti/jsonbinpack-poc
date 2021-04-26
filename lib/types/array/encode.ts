@@ -27,10 +27,15 @@ import {
 } from '../../utils/limits'
 
 import {
+  encode
+} from '../../encoder'
+
+import {
   NoOptions,
   RoofOptions,
   FloorOptions,
-  BoundedOptions
+  BoundedOptions,
+  TypedBoundedOptions
 } from './options'
 
 import {
@@ -144,4 +149,29 @@ export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
   return FLOOR_UNTYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0
   })
+}
+
+export const BOUNDED_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(value.length >= options.minimum)
+  assert(value.length <= options.maximum)
+
+  const lengthBytes: number =
+    BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const element of value) {
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, options.encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
 }

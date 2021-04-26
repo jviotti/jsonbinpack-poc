@@ -24,6 +24,10 @@ import {
   RoofOptions
 } from '../integer/options'
 
+import {
+  Encoding
+} from '../../encoder'
+
 export {
   NoOptions
 } from '../null/options'
@@ -34,5 +38,9 @@ export {
   RoofOptions
 } from '../integer/options'
 
+export interface TypedBoundedOptions extends BoundedOptions {
+  readonly encoding: Encoding;
+}
+
 export type ArrayOptions =
-  NoOptions | BoundedOptions | FloorOptions | RoofOptions
+  NoOptions | BoundedOptions | FloorOptions | RoofOptions | TypedBoundedOptions
