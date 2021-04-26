@@ -17,7 +17,9 @@
 import tap from 'tap'
 
 import {
-  UNBOUNDED_UNTYPED__LENGTH_PREFIX
+  UNBOUNDED_UNTYPED__LENGTH_PREFIX,
+  BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX,
+  BOUNDED_UNTYPED__LENGTH_PREFIX
 } from '../../../lib/types/array/encode'
 
 tap.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
@@ -28,6 +30,46 @@ tap.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
 
   test.strictSame(buffer, Buffer.from([
     0x03, // array length
+    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x04, // true
+    0x07, 0xd0, 0x0f // 2000
+  ]))
+
+  test.is(bytesWritten, 10)
+  test.end()
+})
+
+tap.test('BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const bytesWritten: number = BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    'foo', true, 2000
+  ], {
+    minimum: 2,
+    maximum: 3
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x01, // array length
+    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x04, // true
+    0x07, 0xd0, 0x0f // 2000
+  ]))
+
+  test.is(bytesWritten, 10)
+  test.end()
+})
+
+tap.test('BOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const bytesWritten: number = BOUNDED_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    'foo', true, 2000
+  ], {
+    minimum: 2,
+    maximum: 3
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x01, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
