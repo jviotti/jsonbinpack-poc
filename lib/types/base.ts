@@ -43,6 +43,10 @@ import {
 } from './any/options'
 
 import {
+  ArrayOptions
+} from './array/options'
+
+import {
   BooleanEncodingNames
 } from './boolean/mapper'
 
@@ -99,5 +103,6 @@ export interface BaseEncodingDefinition {
     NumberOptions |
     IntegerOptions |
     StringOptions |
-    AnyOptions;
+    AnyOptions |
+    ArrayOptions;
 }
