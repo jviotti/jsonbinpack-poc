@@ -16,8 +16,7 @@ var encode_1 = require("../integer/encode");
 var encode_2 = require("../any/encode");
 var UNBOUNDED_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, _options) {
     var e_1, _a;
-    var length = value.length;
-    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, length, {
+    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, {
         minimum: 0
     });
     var bytesWritten = lengthBytes;

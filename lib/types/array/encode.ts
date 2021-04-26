@@ -33,14 +33,15 @@ import {
 export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], _options: NoOptions
 ): number => {
-  const length: number = value.length
-  const lengthBytes: number = FLOOR__ENUM_VARINT(buffer, offset, length, {
-    minimum: 0
-  })
+  const lengthBytes: number =
+    FLOOR__ENUM_VARINT(buffer, offset, value.length, {
+      minimum: 0
+    })
 
   let bytesWritten = lengthBytes
   for (const element of value) {
-    const elementBytes: number = ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
+    const elementBytes: number =
+      ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
     bytesWritten += elementBytes
   }
 
