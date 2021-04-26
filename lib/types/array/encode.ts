@@ -151,6 +151,32 @@ export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
   })
 }
 
+export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(value.length >= options.minimum)
+  assert(value.length <= options.maximum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
+
+  const lengthBytes: number =
+    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const element of value) {
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, options.encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
+}
+
 export const BOUNDED_TYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
 ): number => {

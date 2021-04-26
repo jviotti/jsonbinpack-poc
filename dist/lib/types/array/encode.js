@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = void 0;
+exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var encoder_1 = require("../../encoder");
@@ -124,14 +124,15 @@ var UNBOUNDED_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, _options
     });
 };
 exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = UNBOUNDED_UNTYPED__LENGTH_PREFIX;
-var BOUNDED_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+var BOUNDED_8BITS_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     var e_4, _a;
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value.length >= options.minimum);
     assert_1.strict(value.length <= options.maximum);
-    var lengthBytes = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
+    assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
+    var lengthBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
     });
@@ -149,6 +150,35 @@ var BOUNDED_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
             if (value_4_1 && !value_4_1.done && (_a = value_4.return)) _a.call(value_4);
         }
         finally { if (e_4) throw e_4.error; }
+    }
+    return bytesWritten;
+};
+exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = BOUNDED_8BITS_TYPED__LENGTH_PREFIX;
+var BOUNDED_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+    var e_5, _a;
+    assert_1.strict(options.maximum >= 0);
+    assert_1.strict(options.minimum >= 0);
+    assert_1.strict(options.maximum >= options.minimum);
+    assert_1.strict(value.length >= options.minimum);
+    assert_1.strict(value.length <= options.maximum);
+    var lengthBytes = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
+        minimum: options.minimum,
+        maximum: options.maximum
+    });
+    var bytesWritten = lengthBytes;
+    try {
+        for (var value_5 = __values(value), value_5_1 = value_5.next(); !value_5_1.done; value_5_1 = value_5.next()) {
+            var element = value_5_1.value;
+            var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, options.encoding, element);
+            bytesWritten += elementBytes;
+        }
+    }
+    catch (e_5_1) { e_5 = { error: e_5_1 }; }
+    finally {
+        try {
+            if (value_5_1 && !value_5_1.done && (_a = value_5.return)) _a.call(value_5);
+        }
+        finally { if (e_5) throw e_5.error; }
     }
     return bytesWritten;
 };

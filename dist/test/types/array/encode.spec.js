@@ -121,3 +121,22 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, t
     test.is(bytesWritten, 4);
     test.end();
 });
+tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+    var encoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var buffer = Buffer.allocUnsafe(4);
+    var bytesWritten = encode_1.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
+        true, false, true
+    ], {
+        minimum: 0,
+        maximum: 3,
+        encoding: encoding
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03,
+        0x01, 0x00, 0x01
+    ]));
+    test.is(bytesWritten, 4);
+    test.end();
+});
