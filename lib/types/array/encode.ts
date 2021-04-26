@@ -23,6 +23,10 @@ import {
 } from '../../json'
 
 import {
+  UINT8_MAX
+} from '../../utils/limits'
+
+import {
   NoOptions,
   RoofOptions,
   FloorOptions,
@@ -31,12 +35,39 @@ import {
 
 import {
   FLOOR__ENUM_VARINT,
-  BOUNDED__ENUM_VARINT
+  BOUNDED__ENUM_VARINT,
+  BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/encode'
 
 import {
   ANY__TYPE_PREFIX
 } from '../any/encode'
+
+export const BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: BoundedOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(value.length >= options.minimum)
+  assert(value.length <= options.maximum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
+
+  const lengthBytes: number =
+    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const element of value) {
+    const elementBytes: number =
+      ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
+}
 
 export const BOUNDED_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: BoundedOptions
@@ -80,6 +111,19 @@ export const FLOOR_UNTYPED__LENGTH_PREFIX = (
   }
 
   return bytesWritten
+}
+
+export const ROOF_8BITS_UNTYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: RoofOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(value.length <= options.maximum)
+  assert(options.maximum <= UINT8_MAX)
+
+  return BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum
+  })
 }
 
 export const ROOF_UNTYPED__LENGTH_PREFIX = (

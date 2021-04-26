@@ -11,18 +11,20 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = void 0;
+exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
+var limits_1 = require("../../utils/limits");
 var encode_1 = require("../integer/encode");
 var encode_2 = require("../any/encode");
-var BOUNDED_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+var BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     var e_1, _a;
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value.length >= options.minimum);
     assert_1.strict(value.length <= options.maximum);
-    var lengthBytes = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
+    assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
+    var lengthBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
     });
@@ -43,12 +45,18 @@ var BOUNDED_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     }
     return bytesWritten;
 };
-exports.BOUNDED_UNTYPED__LENGTH_PREFIX = BOUNDED_UNTYPED__LENGTH_PREFIX;
-var FLOOR_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX;
+var BOUNDED_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     var e_2, _a;
+    assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
+    assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value.length >= options.minimum);
-    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, options);
+    assert_1.strict(value.length <= options.maximum);
+    var lengthBytes = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
+        minimum: options.minimum,
+        maximum: options.maximum
+    });
     var bytesWritten = lengthBytes;
     try {
         for (var value_2 = __values(value), value_2_1 = value_2.next(); !value_2_1.done; value_2_1 = value_2.next()) {
@@ -66,7 +74,40 @@ var FLOOR_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     }
     return bytesWritten;
 };
+exports.BOUNDED_UNTYPED__LENGTH_PREFIX = BOUNDED_UNTYPED__LENGTH_PREFIX;
+var FLOOR_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+    var e_3, _a;
+    assert_1.strict(options.minimum >= 0);
+    assert_1.strict(value.length >= options.minimum);
+    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, options);
+    var bytesWritten = lengthBytes;
+    try {
+        for (var value_3 = __values(value), value_3_1 = value_3.next(); !value_3_1.done; value_3_1 = value_3.next()) {
+            var element = value_3_1.value;
+            var elementBytes = encode_2.ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {});
+            bytesWritten += elementBytes;
+        }
+    }
+    catch (e_3_1) { e_3 = { error: e_3_1 }; }
+    finally {
+        try {
+            if (value_3_1 && !value_3_1.done && (_a = value_3.return)) _a.call(value_3);
+        }
+        finally { if (e_3) throw e_3.error; }
+    }
+    return bytesWritten;
+};
 exports.FLOOR_UNTYPED__LENGTH_PREFIX = FLOOR_UNTYPED__LENGTH_PREFIX;
+var ROOF_8BITS_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+    assert_1.strict(options.maximum >= 0);
+    assert_1.strict(value.length <= options.maximum);
+    assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
+    return exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX(buffer, offset, value, {
+        minimum: 0,
+        maximum: options.maximum
+    });
+};
+exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = ROOF_8BITS_UNTYPED__LENGTH_PREFIX;
 var ROOF_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
