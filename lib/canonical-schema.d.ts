@@ -77,10 +77,20 @@ export interface StringCanonicalSchema {
 
 export interface AnyCanonicalSchema {}
 
+export interface ArrayCanonicalSchema {
+  readonly type: 'array';
+  readonly uniqueItems?: boolean;
+  readonly maxItems?: number;
+  readonly minItems?: number;
+  readonly items?: CanonicalSchema;
+  readonly prefixItems?: CanonicalSchema[];
+}
+
 export type CanonicalSchema =
   BooleanCanonicalSchema |
   IntegerCanonicalSchema |
   NullCanonicalSchema |
   NumberCanonicalSchema |
   StringCanonicalSchema |
-  AnyCanonicalSchema
+  AnyCanonicalSchema |
+  ArrayCanonicalSchema
