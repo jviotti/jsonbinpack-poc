@@ -53,3 +53,19 @@ tap_1.default.test('BOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true,
     test.is(bytesWritten, 10);
     test.end();
 });
+tap_1.default.test('FLOOR_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+    var buffer = Buffer.allocUnsafe(10);
+    var bytesWritten = encode_1.FLOOR_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+        'foo', true, 2000
+    ], {
+        minimum: 3
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x00,
+        0x00, 0x03, 0x66, 0x6f, 0x6f,
+        0x04,
+        0x07, 0xd0, 0x0f
+    ]));
+    test.is(bytesWritten, 10);
+    test.end();
+});
