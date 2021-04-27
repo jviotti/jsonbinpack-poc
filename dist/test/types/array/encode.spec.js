@@ -249,3 +249,21 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true
     test.is(bytesWritten, 4);
     test.end();
 });
+tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
+    var encoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var buffer = Buffer.allocUnsafe(4);
+    var bytesWritten = encode_1.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
+        true, false, true
+    ], {
+        minimum: 2,
+        prefixEncodings: [encoding, encoding]
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x01,
+        0x01, 0x00, 0x04
+    ]));
+    test.is(bytesWritten, 4);
+    test.end();
+});

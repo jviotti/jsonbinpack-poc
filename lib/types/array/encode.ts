@@ -40,7 +40,8 @@ import {
   TypedBoundedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
-  SemiTypedBoundedOptions
+  SemiTypedBoundedOptions,
+  SemiTypedFloorOptions
 } from './options'
 
 import {
@@ -313,6 +314,35 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
     BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
       minimum: options.minimum,
       maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
+    if (encoding === null) {
+      const elementBytes: number =
+        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
+      bytesWritten += elementBytes
+    } else {
+      const elementBytes: number =
+        encode(buffer, offset + bytesWritten, encoding, element)
+      bytesWritten += elementBytes
+    }
+  }
+
+  return bytesWritten
+}
+
+export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedFloorOptions
+): number => {
+  assert(options.minimum >= 0)
+  assert(value.length >= options.minimum)
+  assert(options.prefixEncodings.length > 0)
+
+  const lengthBytes: number =
+    FLOOR__ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum
     })
 
   let bytesWritten = lengthBytes

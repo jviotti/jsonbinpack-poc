@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = exports.UNBOUNDED_TYPED__LENGTH_PREFIX = exports.FLOOR_TYPED__LENGTH_PREFIX = exports.ROOF_TYPED__LENGTH_PREFIX = exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = void 0;
+exports.FLOOR_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = exports.UNBOUNDED_TYPED__LENGTH_PREFIX = exports.FLOOR_TYPED__LENGTH_PREFIX = exports.ROOF_TYPED__LENGTH_PREFIX = exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var encoder_1 = require("../../encoder");
@@ -330,3 +330,37 @@ var BOUNDED_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options)
     return bytesWritten;
 };
 exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = BOUNDED_SEMITYPED__LENGTH_PREFIX;
+var FLOOR_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+    var e_9, _a;
+    var _b;
+    assert_1.strict(options.minimum >= 0);
+    assert_1.strict(value.length >= options.minimum);
+    assert_1.strict(options.prefixEncodings.length > 0);
+    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, {
+        minimum: options.minimum
+    });
+    var bytesWritten = lengthBytes;
+    try {
+        for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
+            var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
+            var encoding = (_b = options.prefixEncodings[index]) !== null && _b !== void 0 ? _b : null;
+            if (encoding === null) {
+                var elementBytes = encode_2.ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {});
+                bytesWritten += elementBytes;
+            }
+            else {
+                var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, encoding, element);
+                bytesWritten += elementBytes;
+            }
+        }
+    }
+    catch (e_9_1) { e_9 = { error: e_9_1 }; }
+    finally {
+        try {
+            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+        }
+        finally { if (e_9) throw e_9.error; }
+    }
+    return bytesWritten;
+};
+exports.FLOOR_SEMITYPED__LENGTH_PREFIX = FLOOR_SEMITYPED__LENGTH_PREFIX;
