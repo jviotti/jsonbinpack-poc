@@ -46,7 +46,6 @@ export interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];
 }
 
-
 export interface TypedFloorOptions extends FloorOptions, TypedOptions {}
 export interface TypedRoofOptions extends RoofOptions, TypedOptions {}
 export interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
