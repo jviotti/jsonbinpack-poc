@@ -41,7 +41,8 @@ import {
   TypedFloorOptions,
   TypedRoofOptions,
   SemiTypedBoundedOptions,
-  SemiTypedFloorOptions
+  SemiTypedFloorOptions,
+  SemiTypedRoofOptions
 } from './options'
 
 import {
@@ -360,4 +361,33 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
   }
 
   return bytesWritten
+}
+
+export const ROOF_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(value.length <= options.maximum)
+  assert(options.prefixEncodings.length > 0)
+
+  return BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum,
+    prefixEncodings: options.prefixEncodings
+  })
+}
+
+export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(value.length <= options.maximum)
+  assert(options.prefixEncodings.length > 0)
+  assert(options.maximum <= UINT8_MAX)
+
+  return BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum,
+    prefixEncodings: options.prefixEncodings
+  })
 }
