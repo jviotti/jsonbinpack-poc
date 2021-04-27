@@ -194,3 +194,20 @@ tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, tru
     test.is(bytesWritten, 4);
     test.end();
 });
+tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+    var encoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var buffer = Buffer.allocUnsafe(4);
+    var bytesWritten = encode_1.UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
+        true, false, true
+    ], {
+        encoding: encoding
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03,
+        0x01, 0x00, 0x01
+    ]));
+    test.is(bytesWritten, 4);
+    test.end();
+});

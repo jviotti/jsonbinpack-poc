@@ -35,6 +35,7 @@ import {
   RoofOptions,
   FloorOptions,
   BoundedOptions,
+  TypedOptions,
   TypedBoundedOptions,
   TypedFloorOptions,
   TypedRoofOptions
@@ -250,4 +251,13 @@ export const FLOOR_TYPED__LENGTH_PREFIX = (
   }
 
   return bytesWritten
+}
+
+export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedOptions
+): number => {
+  return FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    encoding: options.encoding
+  })
 }

@@ -32,7 +32,8 @@ import {
   BOUNDED_8BITS_TYPED__LENGTH_PREFIX,
   ROOF_TYPED__LENGTH_PREFIX,
   ROOF_8BITS_TYPED__LENGTH_PREFIX,
-  FLOOR_TYPED__LENGTH_PREFIX
+  FLOOR_TYPED__LENGTH_PREFIX,
+  UNBOUNDED_TYPED__LENGTH_PREFIX
 } from '../../../lib/types/array/encode'
 
 tap.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
@@ -254,6 +255,27 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
 
   test.strictSame(buffer, Buffer.from([
     0x00, // array length
+    0x01, 0x00, 0x01
+  ]))
+
+  test.is(bytesWritten, 4)
+  test.end()
+})
+
+tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+  const encoding: BooleanEncoding = getBooleanEncoding({
+    type: 'boolean'
+  })
+
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
+    true, false, true
+  ], {
+    encoding
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, // array length
     0x01, 0x00, 0x01
   ]))
 
