@@ -42,17 +42,9 @@ export interface TypedOptions {
   readonly encoding: Encoding;
 }
 
-export interface TypedFloorOptions extends FloorOptions {
-  readonly encoding: Encoding;
-}
-
-export interface TypedRoofOptions extends RoofOptions {
-  readonly encoding: Encoding;
-}
-
-export interface TypedBoundedOptions extends BoundedOptions {
-  readonly encoding: Encoding;
-}
+export interface TypedFloorOptions extends FloorOptions, TypedOptions {}
+export interface TypedRoofOptions extends RoofOptions, TypedOptions {}
+export interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 
 export type ArrayOptions =
   NoOptions |
