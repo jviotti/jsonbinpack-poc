@@ -35,7 +35,8 @@ import {
   RoofOptions,
   FloorOptions,
   BoundedOptions,
-  TypedBoundedOptions
+  TypedBoundedOptions,
+  TypedRoofOptions
 } from './options'
 
 import {
@@ -200,4 +201,31 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
   }
 
   return bytesWritten
+}
+
+export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(value.length <= options.maximum)
+  assert(options.maximum <= UINT8_MAX)
+
+  return BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum,
+    encoding: options.encoding
+  })
+}
+
+export const ROOF_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(value.length <= options.maximum)
+
+  return BOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum,
+    encoding: options.encoding
+  })
 }

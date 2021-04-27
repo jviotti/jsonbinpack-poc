@@ -38,9 +38,18 @@ export {
   RoofOptions
 } from '../integer/options'
 
+export interface TypedRoofOptions extends RoofOptions {
+  readonly encoding: Encoding;
+}
+
 export interface TypedBoundedOptions extends BoundedOptions {
   readonly encoding: Encoding;
 }
 
 export type ArrayOptions =
-  NoOptions | BoundedOptions | FloorOptions | RoofOptions | TypedBoundedOptions
+  NoOptions |
+  BoundedOptions |
+  FloorOptions |
+  RoofOptions |
+  TypedRoofOptions |
+  TypedBoundedOptions
