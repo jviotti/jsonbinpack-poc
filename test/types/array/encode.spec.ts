@@ -38,7 +38,8 @@ import {
   BOUNDED_SEMITYPED__LENGTH_PREFIX,
   FLOOR_SEMITYPED__LENGTH_PREFIX,
   ROOF_SEMITYPED__LENGTH_PREFIX,
-  ROOF_8BITS_SEMITYPED__LENGTH_PREFIX
+  ROOF_8BITS_SEMITYPED__LENGTH_PREFIX,
+  UNBOUNDED_SEMITYPED__LENGTH_PREFIX
 } from '../../../lib/types/array/encode'
 
 tap.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
@@ -388,6 +389,27 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
     true, false, true
   ], {
     maximum: 3,
+    prefixEncodings: [ encoding, encoding ]
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, // array length
+    0x01, 0x00, 0x04
+  ]))
+
+  test.is(bytesWritten, 4)
+  test.end()
+})
+
+tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
+  const encoding: BooleanEncoding = getBooleanEncoding({
+    type: 'boolean'
+  })
+
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
+    true, false, true
+  ], {
     prefixEncodings: [ encoding, encoding ]
   })
 
