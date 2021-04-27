@@ -46,6 +46,7 @@ export interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];
 }
 
+
 export interface TypedFloorOptions extends FloorOptions, TypedOptions {}
 export interface TypedRoofOptions extends RoofOptions, TypedOptions {}
 export interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
@@ -53,6 +54,11 @@ export interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
 export interface SemiTypedRoofOptions extends RoofOptions, SemiTypedOptions {}
 export interface SemiTypedBoundedOptions extends BoundedOptions, SemiTypedOptions {}
+
+export interface HybridTypedOptions extends TypedOptions, SemiTypedOptions {}
+export interface HybridTypedFloorOptions extends FloorOptions, HybridTypedOptions {}
+export interface HybridTypedRoofOptions extends RoofOptions, HybridTypedOptions {}
+export interface HybridTypedBoundedOptions extends BoundedOptions, HybridTypedOptions {}
 
 export type ArrayOptions =
   NoOptions |
@@ -66,4 +72,8 @@ export type ArrayOptions =
   SemiTypedOptions |
   SemiTypedFloorOptions |
   SemiTypedRoofOptions |
-  SemiTypedBoundedOptions
+  SemiTypedBoundedOptions |
+  HybridTypedOptions |
+  HybridTypedFloorOptions |
+  HybridTypedRoofOptions |
+  HybridTypedBoundedOptions
