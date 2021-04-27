@@ -43,7 +43,11 @@ import {
   SemiTypedOptions,
   SemiTypedBoundedOptions,
   SemiTypedFloorOptions,
-  SemiTypedRoofOptions
+  SemiTypedRoofOptions,
+  HybridTypedOptions,
+  HybridTypedBoundedOptions,
+  HybridTypedFloorOptions,
+  HybridTypedRoofOptions
 } from './options'
 
 import {
@@ -431,6 +435,144 @@ export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
 
   return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
+    prefixEncodings: options.prefixEncodings
+  })
+}
+
+export const BOUNDED_HYBRID__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedBoundedOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(value.length >= options.minimum)
+  assert(value.length <= options.maximum)
+  assert(options.prefixEncodings.length > 0)
+
+  const lengthBytes: number =
+    BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
+}
+
+export const BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedBoundedOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(value.length >= options.minimum)
+  assert(value.length <= options.maximum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
+  assert(options.prefixEncodings.length > 0)
+
+  const lengthBytes: number =
+    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
+}
+
+export const ROOF_HYBRID__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedRoofOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(value.length <= options.maximum)
+  assert(options.prefixEncodings.length > 0)
+
+  const lengthBytes: number =
+    ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
+}
+
+export const ROOF_8BITS_HYBRID__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedRoofOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(value.length <= options.maximum)
+  assert(options.prefixEncodings.length > 0)
+  assert(options.maximum <= UINT8_MAX)
+
+  const lengthBytes: number =
+    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
+      minimum: 0,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
+}
+
+export const FLOOR_HYBRID__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedFloorOptions
+): number => {
+  assert(options.minimum >= 0)
+  assert(value.length >= options.minimum)
+  assert(options.prefixEncodings.length > 0)
+
+  const lengthBytes: number =
+    FLOOR__ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
+}
+
+export const UNBOUNDED_HYBRID__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedOptions
+): number => {
+  assert(options.prefixEncodings.length > 0)
+
+  return FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    encoding: options.encoding,
     prefixEncodings: options.prefixEncodings
   })
 }
