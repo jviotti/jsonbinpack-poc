@@ -42,9 +42,17 @@ export interface TypedOptions {
   readonly encoding: Encoding;
 }
 
+export interface SemiTypedOptions {
+  readonly prefixEncodings: Encoding[];
+}
+
 export interface TypedFloorOptions extends FloorOptions, TypedOptions {}
 export interface TypedRoofOptions extends RoofOptions, TypedOptions {}
 export interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
+
+export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
+export interface SemiTypedRoofOptions extends RoofOptions, SemiTypedOptions {}
+export interface SemiTypedBoundedOptions extends BoundedOptions, SemiTypedOptions {}
 
 export type ArrayOptions =
   NoOptions |
@@ -54,4 +62,8 @@ export type ArrayOptions =
   TypedOptions |
   TypedFloorOptions |
   TypedRoofOptions |
-  TypedBoundedOptions
+  TypedBoundedOptions |
+  SemiTypedOptions |
+  SemiTypedFloorOptions |
+  SemiTypedRoofOptions |
+  SemiTypedBoundedOptions

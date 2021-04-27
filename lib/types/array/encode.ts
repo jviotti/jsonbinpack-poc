@@ -27,7 +27,8 @@ import {
 } from '../../utils/limits'
 
 import {
-  encode
+  encode,
+  Encoding
 } from '../../encoder'
 
 import {
@@ -38,7 +39,8 @@ import {
   TypedOptions,
   TypedBoundedOptions,
   TypedFloorOptions,
-  TypedRoofOptions
+  TypedRoofOptions,
+  SemiTypedBoundedOptions
 } from './options'
 
 import {
@@ -260,4 +262,38 @@ export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
     minimum: 0,
     encoding: options.encoding
   })
+}
+
+export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(value.length >= options.minimum)
+  assert(value.length <= options.maximum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
+  assert(options.prefixEncodings.length > 0)
+
+  const lengthBytes: number =
+    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
+    if (encoding === null) {
+      const elementBytes: number =
+        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
+      bytesWritten += elementBytes
+    } else {
+      const elementBytes: number =
+        encode(buffer, offset + bytesWritten, encoding, element)
+      bytesWritten += elementBytes
+    }
+  }
+
+  return bytesWritten
 }
