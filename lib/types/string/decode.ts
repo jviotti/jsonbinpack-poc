@@ -26,7 +26,8 @@ import {
   IntegerResult,
   BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT,
-  FLOOR__ENUM_VARINT
+  FLOOR__ENUM_VARINT,
+  ROOF__MIRROR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -92,10 +93,13 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: Buffer, offset: number, options: RoofOptions
 ): StringResult => {
-  return BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-    minimum: 0,
-    maximum: options.maximum
-  })
+  assert(options.maximum >= 0)
+  const length: IntegerResult = ROOF__MIRROR_ENUM_VARINT(buffer, offset, options)
+  return {
+    value: buffer.toString(
+      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
+    bytes: length.bytes + length.value
+  }
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (

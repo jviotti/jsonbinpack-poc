@@ -36,10 +36,12 @@ var ROOF__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
 };
 exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = ROOF__PREFIX_LENGTH_8BIT_FIXED;
 var ROOF__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
-    return exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-        minimum: 0,
-        maximum: options.maximum
-    });
+    assert_1.strict(options.maximum >= 0);
+    var length = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, options);
+    return {
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
+        bytes: length.bytes + length.value
+    };
 };
 exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = ROOF__PREFIX_LENGTH_ENUM_VARINT;
 var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {

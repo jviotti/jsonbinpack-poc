@@ -29,7 +29,7 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (..4)',
     var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', {
         maximum: 4
     });
-    test.strictSame(buffer, Buffer.from([0x03, 0x66, 0x6f, 0x6f]));
+    test.strictSame(buffer, Buffer.from([0x01, 0x66, 0x6f, 0x6f]));
     test.is(bytesWritten, 4);
     test.end();
 });

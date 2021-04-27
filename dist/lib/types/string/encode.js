@@ -7,6 +7,7 @@ var limits_1 = require("../../utils/limits");
 var STRING_ENCODING = 'utf8';
 var BOUNDED__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, value, options) {
     assert_1.strict(options.minimum >= limits_1.UINT8_MIN);
+    assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
     var length = Buffer.byteLength(value, STRING_ENCODING);
@@ -18,6 +19,7 @@ exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = BOUNDED__PREFIX_LENGTH_8BIT_FIXED;
 var BOUNDED__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.minimum <= options.maximum);
+    assert_1.strict(options.maximum >= 0);
     var length = Buffer.byteLength(value, STRING_ENCODING);
     assert_1.strict(length >= options.minimum);
     assert_1.strict(length <= options.maximum);
@@ -35,10 +37,11 @@ var ROOF__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, value, options) {
 };
 exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = ROOF__PREFIX_LENGTH_8BIT_FIXED;
 var ROOF__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options) {
-    return exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
-        minimum: 0,
-        maximum: options.maximum
-    });
+    var length = Buffer.byteLength(value, STRING_ENCODING);
+    assert_1.strict(options.maximum >= 0);
+    assert_1.strict(length <= options.maximum);
+    var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, length, options);
+    return buffer.write(value, offset + bytesWritten, length, STRING_ENCODING) + bytesWritten;
 };
 exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = ROOF__PREFIX_LENGTH_ENUM_VARINT;
 var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options) {

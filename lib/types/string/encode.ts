@@ -26,7 +26,8 @@ import {
 import {
   BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT,
-  FLOOR__ENUM_VARINT
+  FLOOR__ENUM_VARINT,
+  ROOF__MIRROR_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -51,6 +52,7 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   buffer: Buffer, offset: number, value: JSONString, options: BoundedOptions
 ): number => {
   assert(options.minimum >= UINT8_MIN)
+  assert(options.maximum >= 0)
   assert(options.maximum >= options.minimum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
@@ -65,6 +67,7 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
 ): number => {
   assert(options.minimum >= 0)
   assert(options.minimum <= options.maximum)
+  assert(options.maximum >= 0)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length >= options.minimum)
   assert(length <= options.maximum)
@@ -87,10 +90,12 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: Buffer, offset: number, value: JSONString, options: RoofOptions
 ): number => {
-  return BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum
-  })
+  const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
+  assert(options.maximum >= 0)
+  assert(length <= options.maximum)
+  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset, length, options)
+  return buffer.write(value, offset + bytesWritten,
+    length, STRING_ENCODING) + bytesWritten
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
