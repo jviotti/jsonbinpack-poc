@@ -297,3 +297,37 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
 
   return bytesWritten
 }
+
+export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
+): number => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(value.length >= options.minimum)
+  assert(value.length <= options.maximum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
+  assert(options.prefixEncodings.length > 0)
+
+  const lengthBytes: number =
+    BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
+    if (encoding === null) {
+      const elementBytes: number =
+        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
+      bytesWritten += elementBytes
+    } else {
+      const elementBytes: number =
+        encode(buffer, offset + bytesWritten, encoding, element)
+      bytesWritten += elementBytes
+    }
+  }
+
+  return bytesWritten
+}
