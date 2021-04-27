@@ -36,6 +36,7 @@ import {
   FloorOptions,
   BoundedOptions,
   TypedBoundedOptions,
+  TypedFloorOptions,
   TypedRoofOptions
 } from './options'
 
@@ -228,4 +229,25 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
     maximum: options.maximum,
     encoding: options.encoding
   })
+}
+
+export const FLOOR_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedFloorOptions
+): number => {
+  assert(options.minimum >= 0)
+  assert(value.length >= options.minimum)
+
+  const lengthBytes: number =
+    FLOOR__ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const element of value) {
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, options.encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
 }

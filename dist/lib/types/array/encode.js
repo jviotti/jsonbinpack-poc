@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ROOF_TYPED__LENGTH_PREFIX = exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = void 0;
+exports.FLOOR_TYPED__LENGTH_PREFIX = exports.ROOF_TYPED__LENGTH_PREFIX = exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_UNTYPED__LENGTH_PREFIX = exports.ROOF_UNTYPED__LENGTH_PREFIX = exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = exports.FLOOR_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_UNTYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var encoder_1 = require("../../encoder");
@@ -204,3 +204,28 @@ var ROOF_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     });
 };
 exports.ROOF_TYPED__LENGTH_PREFIX = ROOF_TYPED__LENGTH_PREFIX;
+var FLOOR_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+    var e_6, _a;
+    assert_1.strict(options.minimum >= 0);
+    assert_1.strict(value.length >= options.minimum);
+    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, {
+        minimum: options.minimum
+    });
+    var bytesWritten = lengthBytes;
+    try {
+        for (var value_6 = __values(value), value_6_1 = value_6.next(); !value_6_1.done; value_6_1 = value_6.next()) {
+            var element = value_6_1.value;
+            var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, options.encoding, element);
+            bytesWritten += elementBytes;
+        }
+    }
+    catch (e_6_1) { e_6 = { error: e_6_1 }; }
+    finally {
+        try {
+            if (value_6_1 && !value_6_1.done && (_a = value_6.return)) _a.call(value_6);
+        }
+        finally { if (e_6) throw e_6.error; }
+    }
+    return bytesWritten;
+};
+exports.FLOOR_TYPED__LENGTH_PREFIX = FLOOR_TYPED__LENGTH_PREFIX;

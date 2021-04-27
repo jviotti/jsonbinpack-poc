@@ -38,6 +38,10 @@ export {
   RoofOptions
 } from '../integer/options'
 
+export interface TypedFloorOptions extends FloorOptions {
+  readonly encoding: Encoding;
+}
+
 export interface TypedRoofOptions extends RoofOptions {
   readonly encoding: Encoding;
 }
@@ -51,5 +55,6 @@ export type ArrayOptions =
   BoundedOptions |
   FloorOptions |
   RoofOptions |
+  TypedFloorOptions |
   TypedRoofOptions |
   TypedBoundedOptions
