@@ -49,7 +49,8 @@ import {
 import {
   FLOOR__ENUM_VARINT,
   BOUNDED__ENUM_VARINT,
-  BOUNDED_8BITS__ENUM_FIXED
+  BOUNDED_8BITS__ENUM_FIXED,
+  ROOF__MIRROR_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -145,10 +146,17 @@ export const ROOF_UNTYPED__LENGTH_PREFIX = (
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
 
-  return BOUNDED_UNTYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum
-  })
+  const lengthBytes: number =
+    ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, options)
+
+  let bytesWritten = lengthBytes
+  for (const element of value) {
+    const elementBytes: number =
+      ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
 }
 
 export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
@@ -230,11 +238,19 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
 
-  return BOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum,
-    encoding: options.encoding
-  })
+  const lengthBytes: number =
+    ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const element of value) {
+    const elementBytes: number =
+      encode(buffer, offset + bytesWritten, options.encoding, element)
+    bytesWritten += elementBytes
+  }
+
+  return bytesWritten
 }
 
 export const FLOOR_TYPED__LENGTH_PREFIX = (
@@ -371,11 +387,26 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
   assert(value.length <= options.maximum)
   assert(options.prefixEncodings.length > 0)
 
-  return BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings
-  })
+  const lengthBytes: number =
+    ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
+      maximum: options.maximum
+    })
+
+  let bytesWritten = lengthBytes
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
+    if (encoding === null) {
+      const elementBytes: number =
+        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
+      bytesWritten += elementBytes
+    } else {
+      const elementBytes: number =
+        encode(buffer, offset + bytesWritten, encoding, element)
+      bytesWritten += elementBytes
+    }
+  }
+
+  return bytesWritten
 }
 
 export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (

@@ -146,7 +146,7 @@ tap.test('ROOF_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (te
   })
 
   test.strictSame(buffer, Buffer.from([
-    0x03, // array length
+    0x00, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
@@ -216,7 +216,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
   })
 
   test.strictSame(buffer, Buffer.from([
-    0x03, // array length
+    0x00, // array length
     0x01, 0x00, 0x01
   ]))
 
@@ -371,7 +371,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
   })
 
   test.strictSame(buffer, Buffer.from([
-    0x03, // array length
+    0x00, // array length
     0x01, 0x00, 0x04
   ]))
 

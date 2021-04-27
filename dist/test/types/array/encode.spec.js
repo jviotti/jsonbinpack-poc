@@ -94,7 +94,7 @@ tap_1.default.test('ROOF_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 20
         maximum: 3
     });
     test.strictSame(buffer, Buffer.from([
-        0x03,
+        0x00,
         0x00, 0x03, 0x66, 0x6f, 0x6f,
         0x04,
         0x07, 0xd0, 0x0f
@@ -152,7 +152,7 @@ tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true
         encoding: encoding
     });
     test.strictSame(buffer, Buffer.from([
-        0x03,
+        0x00,
         0x01, 0x00, 0x01
     ]));
     test.is(bytesWritten, 4);
@@ -279,7 +279,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, t
         prefixEncodings: [encoding, encoding]
     });
     test.strictSame(buffer, Buffer.from([
-        0x03,
+        0x00,
         0x01, 0x00, 0x04
     ]));
     test.is(bytesWritten, 4);
