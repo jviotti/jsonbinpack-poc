@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var mapper_1 = require("../../../lib/types/boolean/mapper");
+var mapper_2 = require("../../../lib/types/integer/mapper");
 var encode_1 = require("../../../lib/types/array/encode");
 tap_1.default.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
@@ -316,6 +317,54 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:tr
     test.strictSame(buffer, Buffer.from([
         0x03,
         0x01, 0x00, 0x04
+    ]));
+    test.is(bytesWritten, 4);
+    test.end();
+});
+tap_1.default.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+    var booleanEncoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var integerEncoding = mapper_2.getIntegerEncoding({
+        type: 'integer'
+    });
+    var buffer = Buffer.allocUnsafe(4);
+    var bytesWritten = encode_1.BOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+        true, false, 5
+    ], {
+        minimum: 2,
+        maximum: 3,
+        prefixEncodings: [booleanEncoding, booleanEncoding],
+        encoding: integerEncoding
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x01,
+        0x01, 0x00,
+        0x0a
+    ]));
+    test.is(bytesWritten, 4);
+    test.end();
+});
+tap_1.default.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+    var booleanEncoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var integerEncoding = mapper_2.getIntegerEncoding({
+        type: 'integer'
+    });
+    var buffer = Buffer.allocUnsafe(4);
+    var bytesWritten = encode_1.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+        true, false, 5
+    ], {
+        minimum: 2,
+        maximum: 3,
+        prefixEncodings: [booleanEncoding, booleanEncoding],
+        encoding: integerEncoding
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x01,
+        0x01, 0x00,
+        0x0a
     ]));
     test.is(bytesWritten, 4);
     test.end();
