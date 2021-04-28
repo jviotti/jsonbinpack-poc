@@ -73,17 +73,6 @@ const encodeArray = (
   return cursor
 }
 
-const encodeAnyArray = (buffer: Buffer, offset: number, value: JSONValue[]): number => {
-  let cursor = offset
-  for (const element of value) {
-    const bytesWritten: number =
-      ANY__TYPE_PREFIX(buffer, cursor, element, {})
-    cursor += bytesWritten
-  }
-
-  return cursor
-}
-
 const encodePrefixArray = (
   buffer: Buffer, offset: number, value: JSONValue[],
   prefixEncodings: Encoding[], defaultEncoding?: Encoding
@@ -117,7 +106,7 @@ export const BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = (
 
   const lengthBytes: number =
     BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, options)
-  return encodeAnyArray(buffer, lengthBytes, value)
+  return encodePrefixArray(buffer, lengthBytes, value, [])
 }
 
 export const BOUNDED_UNTYPED__LENGTH_PREFIX = (
@@ -131,7 +120,7 @@ export const BOUNDED_UNTYPED__LENGTH_PREFIX = (
 
   const lengthBytes: number =
     BOUNDED__ENUM_VARINT(buffer, offset, value.length, options)
-  return encodeAnyArray(buffer, lengthBytes, value)
+  return encodePrefixArray(buffer, lengthBytes, value, [])
 }
 
 export const FLOOR_UNTYPED__LENGTH_PREFIX = (
@@ -142,7 +131,7 @@ export const FLOOR_UNTYPED__LENGTH_PREFIX = (
 
   const lengthBytes: number =
     FLOOR__ENUM_VARINT(buffer, offset, value.length, options)
-  return encodeAnyArray(buffer, lengthBytes, value)
+  return encodePrefixArray(buffer, lengthBytes, value, [])
 }
 
 export const ROOF_8BITS_UNTYPED__LENGTH_PREFIX = (
@@ -166,7 +155,7 @@ export const ROOF_UNTYPED__LENGTH_PREFIX = (
 
   const lengthBytes: number =
     ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, options)
-  return encodeAnyArray(buffer, lengthBytes, value)
+  return encodePrefixArray(buffer, lengthBytes, value, [])
 }
 
 export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
