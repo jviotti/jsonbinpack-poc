@@ -85,12 +85,13 @@ const encodeAnyArray = (buffer: Buffer, offset: number, value: JSONValue[]): num
 }
 
 const encodePrefixArray = (
-  buffer: Buffer, offset: number, value: JSONValue[], prefixEncodings: Encoding[]
+  buffer: Buffer, offset: number, value: JSONValue[],
+  prefixEncodings: Encoding[], defaultEncoding?: Encoding
 ): number => {
   let cursor = offset
   for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding | null = prefixEncodings[index] ?? null
-    if (encoding === null) {
+    const encoding: Encoding | undefined = prefixEncodings[index] ?? defaultEncoding
+    if (typeof encoding === 'undefined') {
       const bytesWritten: number =
         ANY__TYPE_PREFIX(buffer, cursor, element, {})
       cursor += bytesWritten
@@ -376,15 +377,8 @@ export const BOUNDED_HYBRID__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodePrefixArray(
+    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = (
@@ -404,15 +398,8 @@ export const BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodePrefixArray(
+    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const ROOF_HYBRID__LENGTH_PREFIX = (
@@ -427,15 +414,8 @@ export const ROOF_HYBRID__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodePrefixArray(
+    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const ROOF_8BITS_HYBRID__LENGTH_PREFIX = (
@@ -452,15 +432,8 @@ export const ROOF_8BITS_HYBRID__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodePrefixArray(
+    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const FLOOR_HYBRID__LENGTH_PREFIX = (
@@ -475,15 +448,8 @@ export const FLOOR_HYBRID__LENGTH_PREFIX = (
       minimum: options.minimum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding = options.prefixEncodings[index] ?? options.encoding
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodePrefixArray(
+    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const UNBOUNDED_HYBRID__LENGTH_PREFIX = (

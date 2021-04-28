@@ -71,15 +71,15 @@ var encodeAnyArray = function (buffer, offset, value) {
     }
     return cursor;
 };
-var encodePrefixArray = function (buffer, offset, value, prefixEncodings) {
+var encodePrefixArray = function (buffer, offset, value, prefixEncodings, defaultEncoding) {
     var e_3, _a;
     var _b;
     var cursor = offset;
     try {
         for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
             var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
-            var encoding = (_b = prefixEncodings[index]) !== null && _b !== void 0 ? _b : null;
-            if (encoding === null) {
+            var encoding = (_b = prefixEncodings[index]) !== null && _b !== void 0 ? _b : defaultEncoding;
+            if (typeof encoding === 'undefined') {
                 var bytesWritten = encode_2.ANY__TYPE_PREFIX(buffer, cursor, element, {});
                 cursor += bytesWritten;
             }
@@ -283,8 +283,6 @@ var UNBOUNDED_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, option
 };
 exports.UNBOUNDED_SEMITYPED__LENGTH_PREFIX = UNBOUNDED_SEMITYPED__LENGTH_PREFIX;
 var BOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    var e_4, _a;
-    var _b;
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
@@ -295,28 +293,10 @@ var BOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
         minimum: options.minimum,
         maximum: options.maximum
     });
-    var bytesWritten = lengthBytes;
-    try {
-        for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
-            var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
-            var encoding = (_b = options.prefixEncodings[index]) !== null && _b !== void 0 ? _b : options.encoding;
-            var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, encoding, element);
-            bytesWritten += elementBytes;
-        }
-    }
-    catch (e_4_1) { e_4 = { error: e_4_1 }; }
-    finally {
-        try {
-            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
-        }
-        finally { if (e_4) throw e_4.error; }
-    }
-    return bytesWritten;
+    return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
 exports.BOUNDED_HYBRID__LENGTH_PREFIX = BOUNDED_HYBRID__LENGTH_PREFIX;
 var BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    var e_5, _a;
-    var _b;
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
@@ -328,56 +308,20 @@ var BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, optio
         minimum: options.minimum,
         maximum: options.maximum
     });
-    var bytesWritten = lengthBytes;
-    try {
-        for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
-            var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
-            var encoding = (_b = options.prefixEncodings[index]) !== null && _b !== void 0 ? _b : options.encoding;
-            var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, encoding, element);
-            bytesWritten += elementBytes;
-        }
-    }
-    catch (e_5_1) { e_5 = { error: e_5_1 }; }
-    finally {
-        try {
-            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
-        }
-        finally { if (e_5) throw e_5.error; }
-    }
-    return bytesWritten;
+    return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
 exports.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = BOUNDED_8BITS_HYBRID__LENGTH_PREFIX;
 var ROOF_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    var e_6, _a;
-    var _b;
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
     assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
         maximum: options.maximum
     });
-    var bytesWritten = lengthBytes;
-    try {
-        for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
-            var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
-            var encoding = (_b = options.prefixEncodings[index]) !== null && _b !== void 0 ? _b : options.encoding;
-            var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, encoding, element);
-            bytesWritten += elementBytes;
-        }
-    }
-    catch (e_6_1) { e_6 = { error: e_6_1 }; }
-    finally {
-        try {
-            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
-        }
-        finally { if (e_6) throw e_6.error; }
-    }
-    return bytesWritten;
+    return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
 exports.ROOF_HYBRID__LENGTH_PREFIX = ROOF_HYBRID__LENGTH_PREFIX;
 var ROOF_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    var e_7, _a;
-    var _b;
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
     assert_1.strict(options.prefixEncodings.length > 0);
@@ -386,51 +330,17 @@ var ROOF_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options)
         minimum: 0,
         maximum: options.maximum
     });
-    var bytesWritten = lengthBytes;
-    try {
-        for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
-            var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
-            var encoding = (_b = options.prefixEncodings[index]) !== null && _b !== void 0 ? _b : options.encoding;
-            var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, encoding, element);
-            bytesWritten += elementBytes;
-        }
-    }
-    catch (e_7_1) { e_7 = { error: e_7_1 }; }
-    finally {
-        try {
-            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
-        }
-        finally { if (e_7) throw e_7.error; }
-    }
-    return bytesWritten;
+    return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
 exports.ROOF_8BITS_HYBRID__LENGTH_PREFIX = ROOF_8BITS_HYBRID__LENGTH_PREFIX;
 var FLOOR_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    var e_8, _a;
-    var _b;
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(value.length >= options.minimum);
     assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, {
         minimum: options.minimum
     });
-    var bytesWritten = lengthBytes;
-    try {
-        for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
-            var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
-            var encoding = (_b = options.prefixEncodings[index]) !== null && _b !== void 0 ? _b : options.encoding;
-            var elementBytes = encoder_1.encode(buffer, offset + bytesWritten, encoding, element);
-            bytesWritten += elementBytes;
-        }
-    }
-    catch (e_8_1) { e_8 = { error: e_8_1 }; }
-    finally {
-        try {
-            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
-        }
-        finally { if (e_8) throw e_8.error; }
-    }
-    return bytesWritten;
+    return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
 exports.FLOOR_HYBRID__LENGTH_PREFIX = FLOOR_HYBRID__LENGTH_PREFIX;
 var UNBOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
