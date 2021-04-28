@@ -33,7 +33,7 @@ import {
   BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX as DECODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX
 } from '../../lib/types/array/decode'
 
-tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] ([])', (test) => {
+tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', (test) => {
   const value: JSONValue = [ 'foo', true, 2000 ]
   const buffer: Buffer = Buffer.allocUnsafe(10)
   const options: SemiTypedBoundedOptions = {
