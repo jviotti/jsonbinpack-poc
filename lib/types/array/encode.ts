@@ -61,6 +61,49 @@ import {
   ANY__TYPE_PREFIX
 } from '../any/encode'
 
+const encodeArray = (
+  buffer: Buffer, offset: number, value: JSONValue[], encoding: Encoding
+): number => {
+  let cursor = offset
+  for (const element of value) {
+    const bytesWritten: number = encode(buffer, cursor, encoding, element)
+    cursor += bytesWritten
+  }
+
+  return cursor
+}
+
+const encodeAnyArray = (buffer: Buffer, offset: number, value: JSONValue[]): number => {
+  let cursor = offset
+  for (const element of value) {
+    const bytesWritten: number =
+      ANY__TYPE_PREFIX(buffer, cursor, element, {})
+    cursor += bytesWritten
+  }
+
+  return cursor
+}
+
+const encodePrefixArray = (
+  buffer: Buffer, offset: number, value: JSONValue[], prefixEncodings: Encoding[]
+): number => {
+  let cursor = offset
+  for (const [ index, element ] of value.entries()) {
+    const encoding: Encoding | null = prefixEncodings[index] ?? null
+    if (encoding === null) {
+      const bytesWritten: number =
+        ANY__TYPE_PREFIX(buffer, cursor, element, {})
+      cursor += bytesWritten
+    } else {
+      const bytesWritten: number =
+        encode(buffer, cursor, encoding, element)
+      cursor += bytesWritten
+    }
+  }
+
+  return cursor
+}
+
 export const BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: BoundedOptions
 ): number => {
@@ -72,19 +115,8 @@ export const BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = (
   assert(options.maximum - options.minimum <= UINT8_MAX)
 
   const lengthBytes: number =
-    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
-      minimum: options.minimum,
-      maximum: options.maximum
-    })
-
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, options)
+  return encodeAnyArray(buffer, lengthBytes, value)
 }
 
 export const BOUNDED_UNTYPED__LENGTH_PREFIX = (
@@ -97,19 +129,8 @@ export const BOUNDED_UNTYPED__LENGTH_PREFIX = (
   assert(value.length <= options.maximum)
 
   const lengthBytes: number =
-    BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum,
-      maximum: options.maximum
-    })
-
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+    BOUNDED__ENUM_VARINT(buffer, offset, value.length, options)
+  return encodeAnyArray(buffer, lengthBytes, value)
 }
 
 export const FLOOR_UNTYPED__LENGTH_PREFIX = (
@@ -120,15 +141,7 @@ export const FLOOR_UNTYPED__LENGTH_PREFIX = (
 
   const lengthBytes: number =
     FLOOR__ENUM_VARINT(buffer, offset, value.length, options)
-
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodeAnyArray(buffer, lengthBytes, value)
 }
 
 export const ROOF_8BITS_UNTYPED__LENGTH_PREFIX = (
@@ -152,15 +165,7 @@ export const ROOF_UNTYPED__LENGTH_PREFIX = (
 
   const lengthBytes: number =
     ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, options)
-
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodeAnyArray(buffer, lengthBytes, value)
 }
 
 export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
@@ -187,14 +192,7 @@ export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, options.encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodeArray(buffer, lengthBytes, value, options.encoding)
 }
 
 export const BOUNDED_TYPED__LENGTH_PREFIX = (
@@ -212,14 +210,7 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, options.encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodeArray(buffer, lengthBytes, value, options.encoding)
 }
 
 export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
@@ -247,14 +238,7 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, options.encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodeArray(buffer, lengthBytes, value, options.encoding)
 }
 
 export const FLOOR_TYPED__LENGTH_PREFIX = (
@@ -268,14 +252,7 @@ export const FLOOR_TYPED__LENGTH_PREFIX = (
       minimum: options.minimum
     })
 
-  let bytesWritten = lengthBytes
-  for (const element of value) {
-    const elementBytes: number =
-      encode(buffer, offset + bytesWritten, options.encoding, element)
-    bytesWritten += elementBytes
-  }
-
-  return bytesWritten
+  return encodeArray(buffer, lengthBytes, value, options.encoding)
 }
 
 export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
@@ -304,21 +281,7 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
-    if (encoding === null) {
-      const elementBytes: number =
-        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-      bytesWritten += elementBytes
-    } else {
-      const elementBytes: number =
-        encode(buffer, offset + bytesWritten, encoding, element)
-      bytesWritten += elementBytes
-    }
-  }
-
-  return bytesWritten
+  return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings)
 }
 
 export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
@@ -338,21 +301,7 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
-    if (encoding === null) {
-      const elementBytes: number =
-        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-      bytesWritten += elementBytes
-    } else {
-      const elementBytes: number =
-        encode(buffer, offset + bytesWritten, encoding, element)
-      bytesWritten += elementBytes
-    }
-  }
-
-  return bytesWritten
+  return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings)
 }
 
 export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
@@ -367,21 +316,7 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
       minimum: options.minimum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
-    if (encoding === null) {
-      const elementBytes: number =
-        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-      bytesWritten += elementBytes
-    } else {
-      const elementBytes: number =
-        encode(buffer, offset + bytesWritten, encoding, element)
-      bytesWritten += elementBytes
-    }
-  }
-
-  return bytesWritten
+  return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings)
 }
 
 export const ROOF_SEMITYPED__LENGTH_PREFIX = (
@@ -396,21 +331,7 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  let bytesWritten = lengthBytes
-  for (const [ index, element ] of value.entries()) {
-    const encoding: Encoding | null = options.prefixEncodings[index] ?? null
-    if (encoding === null) {
-      const elementBytes: number =
-        ANY__TYPE_PREFIX(buffer, offset + bytesWritten, element, {})
-      bytesWritten += elementBytes
-    } else {
-      const elementBytes: number =
-        encode(buffer, offset + bytesWritten, encoding, element)
-      bytesWritten += elementBytes
-    }
-  }
-
-  return bytesWritten
+  return encodePrefixArray(buffer, lengthBytes, value, options.prefixEncodings)
 }
 
 export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
