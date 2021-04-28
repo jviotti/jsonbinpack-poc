@@ -46,7 +46,9 @@ import {
   ROOF_8BITS_SEMITYPED__LENGTH_PREFIX,
   UNBOUNDED_SEMITYPED__LENGTH_PREFIX,
   BOUNDED_HYBRID__LENGTH_PREFIX,
-  BOUNDED_8BITS_HYBRID__LENGTH_PREFIX
+  BOUNDED_8BITS_HYBRID__LENGTH_PREFIX,
+  ROOF_HYBRID__LENGTH_PREFIX,
+  ROOF_8BITS_HYBRID__LENGTH_PREFIX
 } from '../../../lib/types/array/encode'
 
 tap.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
@@ -429,7 +431,6 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
   test.end()
 })
 
-
 tap.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
@@ -488,3 +489,58 @@ tap.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed
   test.end()
 })
 
+tap.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+    type: 'boolean'
+  })
+
+  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+    type: 'integer'
+  })
+
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = ROOF_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    true, false, 5
+  ], {
+    maximum: 3,
+    prefixEncodings: [ booleanEncoding, booleanEncoding ],
+    encoding: integerEncoding
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x00, // array length
+    0x01, 0x00, // true, false
+    0x0a // 5
+  ]))
+
+  test.is(bytesWritten, 4)
+  test.end()
+})
+
+tap.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+    type: 'boolean'
+  })
+
+  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+    type: 'integer'
+  })
+
+  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const bytesWritten: number = ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    true, false, 5
+  ], {
+    maximum: 3,
+    prefixEncodings: [ booleanEncoding, booleanEncoding ],
+    encoding: integerEncoding
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, // array length
+    0x01, 0x00, // true, false
+    0x0a // 5
+  ]))
+
+  test.is(bytesWritten, 4)
+  test.end()
+})
