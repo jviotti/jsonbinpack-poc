@@ -81,52 +81,31 @@ const encodeArray = (
 export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-  assert(value.length >= options.minimum)
-  assert(value.length <= options.maximum)
-  assert(options.maximum - options.minimum <= UINT8_MAX)
-
-  const lengthBytes: number =
-    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
-      minimum: options.minimum,
-      maximum: options.maximum
-    })
-
-  return encodeArray(
-    buffer, lengthBytes, value, [], options.encoding)
+  return BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: options.minimum,
+    maximum: options.maximum,
+    prefixEncodings: [],
+    encoding: options.encoding
+  })
 }
 
 export const BOUNDED_TYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-  assert(value.length >= options.minimum)
-  assert(value.length <= options.maximum)
-
-  const lengthBytes: number =
-    BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum,
-      maximum: options.maximum
-    })
-
-  return encodeArray(
-    buffer, lengthBytes, value, [], options.encoding)
+  return BOUNDED_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: options.minimum,
+    maximum: options.maximum,
+    prefixEncodings: [],
+    encoding: options.encoding
+  })
 }
 
 export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(value.length <= options.maximum)
-  assert(options.maximum <= UINT8_MAX)
-
-  return BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
+  return ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
     maximum: options.maximum,
+    prefixEncodings: [],
     encoding: options.encoding
   })
 }
@@ -134,31 +113,21 @@ export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
 export const ROOF_TYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(value.length <= options.maximum)
-
-  const lengthBytes: number =
-    ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
-      maximum: options.maximum
-    })
-
-  return encodeArray(
-    buffer, lengthBytes, value, [], options.encoding)
+  return ROOF_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
+    maximum: options.maximum,
+    prefixEncodings: [],
+    encoding: options.encoding
+  })
 }
 
 export const FLOOR_TYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: TypedFloorOptions
 ): number => {
-  assert(options.minimum >= 0)
-  assert(value.length >= options.minimum)
-
-  const lengthBytes: number =
-    FLOOR__ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum
-    })
-
-  return encodeArray(
-    buffer, lengthBytes, value, [], options.encoding)
+  return FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: options.minimum,
+    prefixEncodings: [],
+    encoding: options.encoding
+  })
 }
 
 export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
