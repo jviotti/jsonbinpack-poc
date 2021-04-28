@@ -7,11 +7,13 @@ var tap_1 = __importDefault(require("tap"));
 var mapper_1 = require("../../../lib/types/boolean/mapper");
 var mapper_2 = require("../../../lib/types/integer/mapper");
 var encode_1 = require("../../../lib/types/array/encode");
-tap_1.default.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
-    var bytesWritten = encode_1.UNBOUNDED_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
-    ], {});
+    ], {
+        prefixEncodings: []
+    });
     test.strictSame(buffer, Buffer.from([
         0x03,
         0x00, 0x03, 0x66, 0x6f, 0x6f,
@@ -21,11 +23,12 @@ tap_1.default.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", tru
     test.is(bytesWritten, 10);
     test.end();
 });
-tap_1.default.test('BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
-    var bytesWritten = encode_1.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
+        prefixEncodings: [],
         minimum: 2,
         maximum: 3
     });
@@ -38,11 +41,12 @@ tap_1.default.test('BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo",
     test.is(bytesWritten, 10);
     test.end();
 });
-tap_1.default.test('BOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
-    var bytesWritten = encode_1.BOUNDED_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
+        prefixEncodings: [],
         minimum: 2,
         maximum: 3
     });
@@ -55,11 +59,12 @@ tap_1.default.test('BOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true,
     test.is(bytesWritten, 10);
     test.end();
 });
-tap_1.default.test('FLOOR_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
-    var bytesWritten = encode_1.FLOOR_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
+        prefixEncodings: [],
         minimum: 3
     });
     test.strictSame(buffer, Buffer.from([
@@ -71,11 +76,12 @@ tap_1.default.test('FLOOR_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
     test.is(bytesWritten, 10);
     test.end();
 });
-tap_1.default.test('ROOF_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
-    var bytesWritten = encode_1.ROOF_8BITS_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
+        prefixEncodings: [],
         maximum: 3
     });
     test.strictSame(buffer, Buffer.from([
@@ -87,11 +93,12 @@ tap_1.default.test('ROOF_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", tr
     test.is(bytesWritten, 10);
     test.end();
 });
-tap_1.default.test('ROOF_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = Buffer.allocUnsafe(10);
-    var bytesWritten = encode_1.ROOF_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
+        prefixEncodings: [],
         maximum: 3
     });
     test.strictSame(buffer, Buffer.from([

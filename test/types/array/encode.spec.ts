@@ -27,13 +27,6 @@ import {
 } from '../../../lib/types/integer/mapper'
 
 import {
-  UNBOUNDED_UNTYPED__LENGTH_PREFIX,
-  BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX,
-  BOUNDED_UNTYPED__LENGTH_PREFIX,
-  FLOOR_UNTYPED__LENGTH_PREFIX,
-  ROOF_8BITS_UNTYPED__LENGTH_PREFIX,
-  ROOF_UNTYPED__LENGTH_PREFIX,
-
   BOUNDED_TYPED__LENGTH_PREFIX,
   BOUNDED_8BITS_TYPED__LENGTH_PREFIX,
   ROOF_TYPED__LENGTH_PREFIX,
@@ -56,11 +49,13 @@ import {
   UNBOUNDED_HYBRID__LENGTH_PREFIX
 } from '../../../lib/types/array/encode'
 
-tap.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(10)
-  const bytesWritten: number = UNBOUNDED_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
-  ], {})
+  ], {
+    prefixEncodings: []
+  })
 
   test.strictSame(buffer, Buffer.from([
     0x03, // array length
@@ -73,11 +68,12 @@ tap.test('UNBOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
   test.end()
 })
 
-tap.test('BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(10)
-  const bytesWritten: number = BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
+    prefixEncodings: [],
     minimum: 2,
     maximum: 3
   })
@@ -93,11 +89,12 @@ tap.test('BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 200
   test.end()
 })
 
-tap.test('BOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(10)
-  const bytesWritten: number = BOUNDED_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
+    prefixEncodings: [],
     minimum: 2,
     maximum: 3
   })
@@ -113,11 +110,12 @@ tap.test('BOUNDED_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', 
   test.end()
 })
 
-tap.test('FLOOR_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(10)
-  const bytesWritten: number = FLOOR_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
+    prefixEncodings: [],
     minimum: 3
   })
 
@@ -132,11 +130,12 @@ tap.test('FLOOR_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (t
   test.end()
 })
 
-tap.test('ROOF_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(10)
-  const bytesWritten: number = ROOF_8BITS_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
+    prefixEncodings: [],
     maximum: 3
   })
 
@@ -151,11 +150,12 @@ tap.test('ROOF_8BITS_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]
   test.end()
 })
 
-tap.test('ROOF_UNTYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(10)
-  const bytesWritten: number = ROOF_UNTYPED__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
+    prefixEncodings: [],
     maximum: 3
   })
 

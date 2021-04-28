@@ -60,10 +60,6 @@ export interface HybridTypedRoofOptions extends RoofOptions, HybridTypedOptions 
 export interface HybridTypedBoundedOptions extends BoundedOptions, HybridTypedOptions {}
 
 export type ArrayOptions =
-  NoOptions |
-  BoundedOptions |
-  FloorOptions |
-  RoofOptions |
   TypedOptions |
   TypedFloorOptions |
   TypedRoofOptions |

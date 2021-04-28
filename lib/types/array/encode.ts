@@ -32,10 +32,6 @@ import {
 } from '../../encoder'
 
 import {
-  NoOptions,
-  RoofOptions,
-  FloorOptions,
-  BoundedOptions,
   TypedOptions,
   TypedBoundedOptions,
   TypedFloorOptions,
@@ -80,61 +76,6 @@ const encodeArray = (
   }
 
   return cursor
-}
-
-export const BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: BoundedOptions
-): number => {
-  return BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: options.minimum,
-    maximum: options.maximum,
-    prefixEncodings: []
-  })
-}
-
-export const BOUNDED_UNTYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: BoundedOptions
-): number => {
-  return BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: options.minimum,
-    maximum: options.maximum,
-    prefixEncodings: []
-  })
-}
-
-export const FLOOR_UNTYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: FloorOptions
-): number => {
-  return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: options.minimum,
-    prefixEncodings: []
-  })
-}
-
-export const ROOF_8BITS_UNTYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: RoofOptions
-): number => {
-  return ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
-    maximum: options.maximum,
-    prefixEncodings: []
-  })
-}
-
-export const ROOF_UNTYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: RoofOptions
-): number => {
-  return ROOF_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
-    maximum: options.maximum,
-    prefixEncodings: []
-  })
-}
-
-export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], _options: NoOptions
-): number => {
-  return FLOOR_UNTYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0
-  })
 }
 
 export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
