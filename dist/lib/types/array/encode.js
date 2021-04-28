@@ -61,48 +61,40 @@ var encodeArray = function (buffer, offset, value, prefixEncodings, defaultEncod
     return cursor;
 };
 var BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(options.maximum >= options.minimum);
-    assert_1.strict(value.length >= options.minimum);
-    assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    var lengthBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, options);
-    return encodeArray(buffer, lengthBytes, value, []);
+    return exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+        minimum: options.minimum,
+        maximum: options.maximum,
+        prefixEncodings: []
+    });
 };
 exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX;
 var BOUNDED_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(options.maximum >= options.minimum);
-    assert_1.strict(value.length >= options.minimum);
-    assert_1.strict(value.length <= options.maximum);
-    var lengthBytes = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, value.length, options);
-    return encodeArray(buffer, lengthBytes, value, []);
+    return exports.BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+        minimum: options.minimum,
+        maximum: options.maximum,
+        prefixEncodings: []
+    });
 };
 exports.BOUNDED_UNTYPED__LENGTH_PREFIX = BOUNDED_UNTYPED__LENGTH_PREFIX;
 var FLOOR_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(value.length >= options.minimum);
-    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, options);
-    return encodeArray(buffer, lengthBytes, value, []);
+    return exports.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+        minimum: options.minimum,
+        prefixEncodings: []
+    });
 };
 exports.FLOOR_UNTYPED__LENGTH_PREFIX = FLOOR_UNTYPED__LENGTH_PREFIX;
 var ROOF_8BITS_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
-    return exports.BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX(buffer, offset, value, {
-        minimum: 0,
-        maximum: options.maximum
+    return exports.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+        maximum: options.maximum,
+        prefixEncodings: []
     });
 };
 exports.ROOF_8BITS_UNTYPED__LENGTH_PREFIX = ROOF_8BITS_UNTYPED__LENGTH_PREFIX;
 var ROOF_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(value.length <= options.maximum);
-    var lengthBytes = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, options);
-    return encodeArray(buffer, lengthBytes, value, []);
+    return exports.ROOF_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+        maximum: options.maximum,
+        prefixEncodings: []
+    });
 };
 exports.ROOF_UNTYPED__LENGTH_PREFIX = ROOF_UNTYPED__LENGTH_PREFIX;
 var UNBOUNDED_UNTYPED__LENGTH_PREFIX = function (buffer, offset, value, _options) {
@@ -181,7 +173,6 @@ var BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, op
     assert_1.strict(value.length >= options.minimum);
     assert_1.strict(value.length <= options.maximum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
@@ -196,7 +187,6 @@ var BOUNDED_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options)
     assert_1.strict(value.length >= options.minimum);
     assert_1.strict(value.length <= options.maximum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
@@ -207,7 +197,6 @@ exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = BOUNDED_SEMITYPED__LENGTH_PREFIX;
 var FLOOR_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(value.length >= options.minimum);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, {
         minimum: options.minimum
     });
@@ -217,7 +206,6 @@ exports.FLOOR_SEMITYPED__LENGTH_PREFIX = FLOOR_SEMITYPED__LENGTH_PREFIX;
 var ROOF_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
         maximum: options.maximum
     });
@@ -227,7 +215,6 @@ exports.ROOF_SEMITYPED__LENGTH_PREFIX = ROOF_SEMITYPED__LENGTH_PREFIX;
 var ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.prefixEncodings.length > 0);
     assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
     return exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
         minimum: 0,
@@ -237,7 +224,6 @@ var ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, optio
 };
 exports.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = ROOF_8BITS_SEMITYPED__LENGTH_PREFIX;
 var UNBOUNDED_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    assert_1.strict(options.prefixEncodings.length > 0);
     return exports.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
         minimum: 0,
         prefixEncodings: options.prefixEncodings
@@ -250,7 +236,6 @@ var BOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value.length >= options.minimum);
     assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
@@ -265,7 +250,6 @@ var BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, optio
     assert_1.strict(value.length >= options.minimum);
     assert_1.strict(value.length <= options.maximum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
@@ -276,7 +260,6 @@ exports.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = BOUNDED_8BITS_HYBRID__LENGTH_PREFI
 var ROOF_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
         maximum: options.maximum
     });
@@ -286,7 +269,6 @@ exports.ROOF_HYBRID__LENGTH_PREFIX = ROOF_HYBRID__LENGTH_PREFIX;
 var ROOF_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.prefixEncodings.length > 0);
     assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
     var lengthBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
         minimum: 0,
@@ -298,7 +280,6 @@ exports.ROOF_8BITS_HYBRID__LENGTH_PREFIX = ROOF_8BITS_HYBRID__LENGTH_PREFIX;
 var FLOOR_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(value.length >= options.minimum);
-    assert_1.strict(options.prefixEncodings.length > 0);
     var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, {
         minimum: options.minimum
     });
@@ -306,7 +287,6 @@ var FLOOR_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
 };
 exports.FLOOR_HYBRID__LENGTH_PREFIX = FLOOR_HYBRID__LENGTH_PREFIX;
 var UNBOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    assert_1.strict(options.prefixEncodings.length > 0);
     return exports.FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
         minimum: 0,
         encoding: options.encoding,

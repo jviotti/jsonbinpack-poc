@@ -85,65 +85,48 @@ const encodeArray = (
 export const BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: BoundedOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-  assert(value.length >= options.minimum)
-  assert(value.length <= options.maximum)
-  assert(options.maximum - options.minimum <= UINT8_MAX)
-
-  const lengthBytes: number =
-    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, options)
-  return encodeArray(buffer, lengthBytes, value, [])
+  return BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: options.minimum,
+    maximum: options.maximum,
+    prefixEncodings: []
+  })
 }
 
 export const BOUNDED_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: BoundedOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-  assert(value.length >= options.minimum)
-  assert(value.length <= options.maximum)
-
-  const lengthBytes: number =
-    BOUNDED__ENUM_VARINT(buffer, offset, value.length, options)
-  return encodeArray(buffer, lengthBytes, value, [])
+  return BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: options.minimum,
+    maximum: options.maximum,
+    prefixEncodings: []
+  })
 }
 
 export const FLOOR_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: FloorOptions
 ): number => {
-  assert(options.minimum >= 0)
-  assert(value.length >= options.minimum)
-
-  const lengthBytes: number =
-    FLOOR__ENUM_VARINT(buffer, offset, value.length, options)
-  return encodeArray(buffer, lengthBytes, value, [])
+  return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: options.minimum,
+    prefixEncodings: []
+  })
 }
 
 export const ROOF_8BITS_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: RoofOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(value.length <= options.maximum)
-  assert(options.maximum <= UINT8_MAX)
-
-  return BOUNDED_8BITS_UNTYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum
+  return ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+    maximum: options.maximum,
+    prefixEncodings: []
   })
 }
 
 export const ROOF_UNTYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: RoofOptions
 ): number => {
-  assert(options.maximum >= 0)
-  assert(value.length <= options.maximum)
-
-  const lengthBytes: number =
-    ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, options)
-  return encodeArray(buffer, lengthBytes, value, [])
+  return ROOF_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+    maximum: options.maximum,
+    prefixEncodings: []
+  })
 }
 
 export const UNBOUNDED_UNTYPED__LENGTH_PREFIX = (
@@ -255,7 +238,6 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
   assert(value.length >= options.minimum)
   assert(value.length <= options.maximum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
@@ -275,7 +257,6 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
   assert(value.length >= options.minimum)
   assert(value.length <= options.maximum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
@@ -291,7 +272,6 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
 ): number => {
   assert(options.minimum >= 0)
   assert(value.length >= options.minimum)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     FLOOR__ENUM_VARINT(buffer, offset, value.length, {
@@ -306,7 +286,6 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
@@ -321,7 +300,6 @@ export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
-  assert(options.prefixEncodings.length > 0)
   assert(options.maximum <= UINT8_MAX)
 
   return BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
@@ -334,8 +312,6 @@ export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
 export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedOptions
 ): number => {
-  assert(options.prefixEncodings.length > 0)
-
   return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
     prefixEncodings: options.prefixEncodings
@@ -350,7 +326,6 @@ export const BOUNDED_HYBRID__LENGTH_PREFIX = (
   assert(options.maximum >= options.minimum)
   assert(value.length >= options.minimum)
   assert(value.length <= options.maximum)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
@@ -371,7 +346,6 @@ export const BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = (
   assert(value.length >= options.minimum)
   assert(value.length <= options.maximum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
@@ -388,7 +362,6 @@ export const ROOF_HYBRID__LENGTH_PREFIX = (
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
@@ -404,7 +377,6 @@ export const ROOF_8BITS_HYBRID__LENGTH_PREFIX = (
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
-  assert(options.prefixEncodings.length > 0)
   assert(options.maximum <= UINT8_MAX)
 
   const lengthBytes: number =
@@ -422,7 +394,6 @@ export const FLOOR_HYBRID__LENGTH_PREFIX = (
 ): number => {
   assert(options.minimum >= 0)
   assert(value.length >= options.minimum)
-  assert(options.prefixEncodings.length > 0)
 
   const lengthBytes: number =
     FLOOR__ENUM_VARINT(buffer, offset, value.length, {
@@ -436,8 +407,6 @@ export const FLOOR_HYBRID__LENGTH_PREFIX = (
 export const UNBOUNDED_HYBRID__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedOptions
 ): number => {
-  assert(options.prefixEncodings.length > 0)
-
   return FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
     encoding: options.encoding,
