@@ -53,6 +53,31 @@ export interface ArrayResult extends DecodeResult {
   readonly bytes: number;
 }
 
+const decodeArray = (
+  buffer: Buffer, offset: number, length: number,
+  prefixEncodings: Encoding[], defaultEncoding?: Encoding
+): ArrayResult => {
+  let index = 0
+  let cursor = offset
+  const result = []
+
+  while (index < length) {
+    const encoding: Encoding | undefined =
+      prefixEncodings[index] ?? defaultEncoding
+    const elementResult: DecodeResult = typeof encoding === 'undefined'
+      ? ANY__TYPE_PREFIX(buffer, cursor, {})
+      : decode(buffer, cursor, encoding)
+    cursor += elementResult.bytes
+    result.push(elementResult.value)
+    index += 1
+  }
+
+  return {
+    value: result,
+    bytes: cursor
+  }
+}
+
 export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
   buffer: Buffer, offset: number, options: SemiTypedBoundedOptions
 ): ArrayResult => {
@@ -66,22 +91,6 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
     maximum: options.maximum
   })
 
-  let index = 0
-  let cursor = lengthResult.bytes
-  const result = []
-
-  while (index < lengthResult.value) {
-    const encoding: Encoding | undefined = options.prefixEncodings[index]
-    const elementResult: DecodeResult = typeof encoding === 'undefined'
-      ? ANY__TYPE_PREFIX(buffer, cursor, {})
-      : decode(buffer, cursor, encoding)
-    cursor += elementResult.bytes
-    result.push(elementResult.value)
-    index += 1
-  }
-
-  return {
-    value: result,
-    bytes: cursor
-  }
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
 }
