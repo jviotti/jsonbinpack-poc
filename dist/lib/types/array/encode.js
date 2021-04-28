@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UNBOUNDED_HYBRID__LENGTH_PREFIX = exports.FLOOR_HYBRID__LENGTH_PREFIX = exports.ROOF_8BITS_HYBRID__LENGTH_PREFIX = exports.ROOF_HYBRID__LENGTH_PREFIX = exports.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = exports.BOUNDED_HYBRID__LENGTH_PREFIX = exports.UNBOUNDED_SEMITYPED__LENGTH_PREFIX = exports.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = exports.ROOF_SEMITYPED__LENGTH_PREFIX = exports.FLOOR_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = exports.UNBOUNDED_TYPED__LENGTH_PREFIX = exports.FLOOR_TYPED__LENGTH_PREFIX = exports.ROOF_TYPED__LENGTH_PREFIX = exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = void 0;
+exports.UNBOUNDED_HYBRID__LENGTH_PREFIX = exports.FLOOR_HYBRID__LENGTH_PREFIX = exports.ROOF_8BITS_HYBRID__LENGTH_PREFIX = exports.ROOF_HYBRID__LENGTH_PREFIX = exports.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = exports.BOUNDED_HYBRID__LENGTH_PREFIX = exports.UNBOUNDED_SEMITYPED__LENGTH_PREFIX = exports.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = exports.ROOF_SEMITYPED__LENGTH_PREFIX = exports.FLOOR_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var encoder_1 = require("../../encoder");
@@ -60,55 +60,6 @@ var encodeArray = function (buffer, offset, value, prefixEncodings, defaultEncod
     }
     return cursor;
 };
-var BOUNDED_8BITS_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    return exports.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-        minimum: options.minimum,
-        maximum: options.maximum,
-        prefixEncodings: [],
-        encoding: options.encoding
-    });
-};
-exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = BOUNDED_8BITS_TYPED__LENGTH_PREFIX;
-var BOUNDED_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    return exports.BOUNDED_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-        minimum: options.minimum,
-        maximum: options.maximum,
-        prefixEncodings: [],
-        encoding: options.encoding
-    });
-};
-exports.BOUNDED_TYPED__LENGTH_PREFIX = BOUNDED_TYPED__LENGTH_PREFIX;
-var ROOF_8BITS_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    return exports.ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-        maximum: options.maximum,
-        prefixEncodings: [],
-        encoding: options.encoding
-    });
-};
-exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = ROOF_8BITS_TYPED__LENGTH_PREFIX;
-var ROOF_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    return exports.ROOF_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-        maximum: options.maximum,
-        prefixEncodings: [],
-        encoding: options.encoding
-    });
-};
-exports.ROOF_TYPED__LENGTH_PREFIX = ROOF_TYPED__LENGTH_PREFIX;
-var FLOOR_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    return exports.FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-        minimum: options.minimum,
-        prefixEncodings: [],
-        encoding: options.encoding
-    });
-};
-exports.FLOOR_TYPED__LENGTH_PREFIX = FLOOR_TYPED__LENGTH_PREFIX;
-var UNBOUNDED_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    return exports.FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, value, {
-        minimum: 0,
-        encoding: options.encoding
-    });
-};
-exports.UNBOUNDED_TYPED__LENGTH_PREFIX = UNBOUNDED_TYPED__LENGTH_PREFIX;
 var BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);

@@ -32,10 +32,6 @@ import {
 } from '../../encoder'
 
 import {
-  TypedOptions,
-  TypedBoundedOptions,
-  TypedFloorOptions,
-  TypedRoofOptions,
   SemiTypedOptions,
   SemiTypedBoundedOptions,
   SemiTypedFloorOptions,
@@ -76,67 +72,6 @@ const encodeArray = (
   }
 
   return cursor
-}
-
-export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
-): number => {
-  return BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: options.minimum,
-    maximum: options.maximum,
-    prefixEncodings: [],
-    encoding: options.encoding
-  })
-}
-
-export const BOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
-): number => {
-  return BOUNDED_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: options.minimum,
-    maximum: options.maximum,
-    prefixEncodings: [],
-    encoding: options.encoding
-  })
-}
-
-export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
-): number => {
-  return ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-    maximum: options.maximum,
-    prefixEncodings: [],
-    encoding: options.encoding
-  })
-}
-
-export const ROOF_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
-): number => {
-  return ROOF_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-    maximum: options.maximum,
-    prefixEncodings: [],
-    encoding: options.encoding
-  })
-}
-
-export const FLOOR_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedFloorOptions
-): number => {
-  return FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: options.minimum,
-    prefixEncodings: [],
-    encoding: options.encoding
-  })
-}
-
-export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedOptions
-): number => {
-  return FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    encoding: options.encoding
-  })
 }
 
 export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (

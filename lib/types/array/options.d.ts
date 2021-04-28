@@ -38,7 +38,7 @@ export {
   RoofOptions
 } from '../integer/options'
 
-export interface TypedOptions {
+interface TypedOptions {
   readonly encoding: Encoding;
 }
 
@@ -46,9 +46,9 @@ export interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];
 }
 
-export interface TypedFloorOptions extends FloorOptions, TypedOptions {}
-export interface TypedRoofOptions extends RoofOptions, TypedOptions {}
-export interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
+interface TypedFloorOptions extends FloorOptions, TypedOptions {}
+interface TypedRoofOptions extends RoofOptions, TypedOptions {}
+interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 
 export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
 export interface SemiTypedRoofOptions extends RoofOptions, SemiTypedOptions {}
@@ -60,10 +60,6 @@ export interface HybridTypedRoofOptions extends RoofOptions, HybridTypedOptions 
 export interface HybridTypedBoundedOptions extends BoundedOptions, HybridTypedOptions {}
 
 export type ArrayOptions =
-  TypedOptions |
-  TypedFloorOptions |
-  TypedRoofOptions |
-  TypedBoundedOptions |
   SemiTypedOptions |
   SemiTypedFloorOptions |
   SemiTypedRoofOptions |
