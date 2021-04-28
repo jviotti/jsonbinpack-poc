@@ -34,12 +34,12 @@ import {
   ROOF_8BITS_SEMITYPED__LENGTH_PREFIX,
   UNBOUNDED_SEMITYPED__LENGTH_PREFIX,
 
-  BOUNDED_HYBRID__LENGTH_PREFIX,
-  BOUNDED_8BITS_HYBRID__LENGTH_PREFIX,
-  ROOF_HYBRID__LENGTH_PREFIX,
-  ROOF_8BITS_HYBRID__LENGTH_PREFIX,
-  FLOOR_HYBRID__LENGTH_PREFIX,
-  UNBOUNDED_HYBRID__LENGTH_PREFIX
+  BOUNDED_TYPED__LENGTH_PREFIX,
+  BOUNDED_8BITS_TYPED__LENGTH_PREFIX,
+  ROOF_TYPED__LENGTH_PREFIX,
+  ROOF_8BITS_TYPED__LENGTH_PREFIX,
+  FLOOR_TYPED__LENGTH_PREFIX,
+  UNBOUNDED_TYPED__LENGTH_PREFIX
 } from '../../../lib/types/array/encode'
 
 tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
@@ -163,13 +163,13 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (
   test.end()
 })
 
-tap.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = BOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
     minimum: 0,
@@ -187,13 +187,13 @@ tap.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (
   test.end()
 })
 
-tap.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
     minimum: 0,
@@ -211,13 +211,13 @@ tap.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, false, true
   test.end()
 })
 
-tap.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = ROOF_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
     maximum: 3,
@@ -234,13 +234,13 @@ tap.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
   test.end()
 })
 
-tap.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
     maximum: 3,
@@ -257,13 +257,13 @@ tap.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]'
   test.end()
 })
 
-tap.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = FLOOR_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
     minimum: 3,
@@ -280,13 +280,13 @@ tap.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (te
   test.end()
 })
 
-tap.test('UNBOUNDED_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = UNBOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
     prefixEncodings: [],
@@ -435,7 +435,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
   test.end()
 })
 
-tap.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -445,7 +445,7 @@ tap.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = BOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
     minimum: 2,
@@ -464,7 +464,7 @@ tap.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false
   test.end()
 })
 
-tap.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -474,7 +474,7 @@ tap.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
     minimum: 2,
@@ -493,7 +493,7 @@ tap.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed
   test.end()
 })
 
-tap.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -503,7 +503,7 @@ tap.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = ROOF_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
     maximum: 3,
@@ -521,7 +521,7 @@ tap.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
   test.end()
 })
 
-tap.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -531,7 +531,7 @@ tap.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:fa
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
     maximum: 3,
@@ -549,7 +549,7 @@ tap.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:fa
   test.end()
 })
 
-tap.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -559,7 +559,7 @@ tap.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = FLOOR_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
     minimum: 2,
@@ -577,7 +577,7 @@ tap.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 
   test.end()
 })
 
-tap.test('UNBOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -587,7 +587,7 @@ tap.test('UNBOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:fal
   })
 
   const buffer: Buffer = Buffer.allocUnsafe(4)
-  const bytesWritten: number = UNBOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+  const bytesWritten: number = UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
     prefixEncodings: [ booleanEncoding, booleanEncoding ],

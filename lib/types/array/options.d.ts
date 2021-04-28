@@ -28,43 +28,28 @@ import {
   Encoding
 } from '../../encoder'
 
-export {
-  NoOptions
-} from '../null/options'
-
-export {
-  BoundedOptions,
-  FloorOptions,
-  RoofOptions
-} from '../integer/options'
-
-interface TypedOptions {
-  readonly encoding: Encoding;
-}
-
 export interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];
+}
+
+export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
+export interface SemiTypedRoofOptions extends RoofOptions, SemiTypedOptions {}
+export interface SemiTypedBoundedOptions extends BoundedOptions, SemiTypedOptions {}
+
+interface TypedOptions extends SemiTypedOptions {
+  readonly encoding: Encoding;
 }
 
 interface TypedFloorOptions extends FloorOptions, TypedOptions {}
 interface TypedRoofOptions extends RoofOptions, TypedOptions {}
 interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 
-export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
-export interface SemiTypedRoofOptions extends RoofOptions, SemiTypedOptions {}
-export interface SemiTypedBoundedOptions extends BoundedOptions, SemiTypedOptions {}
-
-export interface HybridTypedOptions extends TypedOptions, SemiTypedOptions {}
-export interface HybridTypedFloorOptions extends FloorOptions, HybridTypedOptions {}
-export interface HybridTypedRoofOptions extends RoofOptions, HybridTypedOptions {}
-export interface HybridTypedBoundedOptions extends BoundedOptions, HybridTypedOptions {}
-
 export type ArrayOptions =
   SemiTypedOptions |
   SemiTypedFloorOptions |
   SemiTypedRoofOptions |
   SemiTypedBoundedOptions |
-  HybridTypedOptions |
-  HybridTypedFloorOptions |
-  HybridTypedRoofOptions |
-  HybridTypedBoundedOptions
+  TypedOptions |
+  TypedFloorOptions |
+  TypedRoofOptions |
+  TypedBoundedOptions

@@ -110,12 +110,12 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 
     test.is(bytesWritten, 10);
     test.end();
 });
-tap_1.default.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var encoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.BOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
         minimum: 0,
@@ -130,12 +130,12 @@ tap_1.default.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ true, false, 
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var encoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
         minimum: 0,
@@ -150,12 +150,12 @@ tap_1.default.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, f
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var encoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.ROOF_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
         maximum: 3,
@@ -169,12 +169,12 @@ tap_1.default.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ true, false, tru
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var encoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
         maximum: 3,
@@ -188,12 +188,12 @@ tap_1.default.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ true, fals
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var encoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.FLOOR_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
         minimum: 3,
@@ -207,12 +207,12 @@ tap_1.default.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ true, false, tr
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('UNBOUNDED_HYBRID__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
+tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var encoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.UNBOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
         prefixEncodings: [],
@@ -334,7 +334,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:tr
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var booleanEncoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
@@ -342,7 +342,7 @@ tap_1.default.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, t
         type: 'integer'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.BOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
         minimum: 2,
@@ -358,7 +358,7 @@ tap_1.default.test('BOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, t
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var booleanEncoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
@@ -366,7 +366,7 @@ tap_1.default.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:t
         type: 'integer'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
         minimum: 2,
@@ -382,7 +382,7 @@ tap_1.default.test('BOUNDED_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:t
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var booleanEncoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
@@ -390,7 +390,7 @@ tap_1.default.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ typed:true, type
         type: 'integer'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.ROOF_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
         maximum: 3,
@@ -405,7 +405,7 @@ tap_1.default.test('ROOF_HYBRID__LENGTH_PREFIX: should encode [ typed:true, type
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var booleanEncoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
@@ -413,7 +413,7 @@ tap_1.default.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true
         type: 'integer'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.ROOF_8BITS_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
         maximum: 3,
@@ -428,7 +428,7 @@ tap_1.default.test('ROOF_8BITS_HYBRID__LENGTH_PREFIX: should encode [ typed:true
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var booleanEncoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
@@ -436,7 +436,7 @@ tap_1.default.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typ
         type: 'integer'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.FLOOR_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
         minimum: 2,
@@ -451,7 +451,7 @@ tap_1.default.test('FLOOR_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typ
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('UNBOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
+tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var booleanEncoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
     });
@@ -459,7 +459,7 @@ tap_1.default.test('UNBOUNDED_HYBRID__LENGTH_PREFIX: should encode [ typed:true,
         type: 'integer'
     });
     var buffer = Buffer.allocUnsafe(4);
-    var bytesWritten = encode_1.UNBOUNDED_HYBRID__LENGTH_PREFIX(buffer, 0, [
+    var bytesWritten = encode_1.UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
         prefixEncodings: [booleanEncoding, booleanEncoding],

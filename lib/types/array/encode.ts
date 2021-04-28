@@ -36,10 +36,10 @@ import {
   SemiTypedBoundedOptions,
   SemiTypedFloorOptions,
   SemiTypedRoofOptions,
-  HybridTypedOptions,
-  HybridTypedBoundedOptions,
-  HybridTypedFloorOptions,
-  HybridTypedRoofOptions
+  TypedOptions,
+  TypedBoundedOptions,
+  TypedFloorOptions,
+  TypedRoofOptions
 } from './options'
 
 import {
@@ -163,8 +163,8 @@ export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
   })
 }
 
-export const BOUNDED_HYBRID__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedBoundedOptions
+export const BOUNDED_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -182,8 +182,8 @@ export const BOUNDED_HYBRID__LENGTH_PREFIX = (
     buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
-export const BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedBoundedOptions
+export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -202,8 +202,8 @@ export const BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = (
     buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
-export const ROOF_HYBRID__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedRoofOptions
+export const ROOF_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -217,8 +217,8 @@ export const ROOF_HYBRID__LENGTH_PREFIX = (
     buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
-export const ROOF_8BITS_HYBRID__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedRoofOptions
+export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -234,8 +234,8 @@ export const ROOF_8BITS_HYBRID__LENGTH_PREFIX = (
     buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
-export const FLOOR_HYBRID__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedFloorOptions
+export const FLOOR_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedFloorOptions
 ): number => {
   assert(options.minimum >= 0)
   assert(value.length >= options.minimum)
@@ -249,10 +249,10 @@ export const FLOOR_HYBRID__LENGTH_PREFIX = (
     buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
-export const UNBOUNDED_HYBRID__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: HybridTypedOptions
+export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, value: JSONValue[], options: TypedOptions
 ): number => {
-  return FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
+  return FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
     encoding: options.encoding,
     prefixEncodings: options.prefixEncodings

@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UNBOUNDED_HYBRID__LENGTH_PREFIX = exports.FLOOR_HYBRID__LENGTH_PREFIX = exports.ROOF_8BITS_HYBRID__LENGTH_PREFIX = exports.ROOF_HYBRID__LENGTH_PREFIX = exports.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = exports.BOUNDED_HYBRID__LENGTH_PREFIX = exports.UNBOUNDED_SEMITYPED__LENGTH_PREFIX = exports.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = exports.ROOF_SEMITYPED__LENGTH_PREFIX = exports.FLOOR_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = void 0;
+exports.UNBOUNDED_TYPED__LENGTH_PREFIX = exports.FLOOR_TYPED__LENGTH_PREFIX = exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = exports.ROOF_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_SEMITYPED__LENGTH_PREFIX = exports.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = exports.ROOF_SEMITYPED__LENGTH_PREFIX = exports.FLOOR_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var encoder_1 = require("../../encoder");
@@ -124,7 +124,7 @@ var UNBOUNDED_SEMITYPED__LENGTH_PREFIX = function (buffer, offset, value, option
     });
 };
 exports.UNBOUNDED_SEMITYPED__LENGTH_PREFIX = UNBOUNDED_SEMITYPED__LENGTH_PREFIX;
-var BOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
+var BOUNDED_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
@@ -136,8 +136,8 @@ var BOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
     });
     return encodeArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
-exports.BOUNDED_HYBRID__LENGTH_PREFIX = BOUNDED_HYBRID__LENGTH_PREFIX;
-var BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
+exports.BOUNDED_TYPED__LENGTH_PREFIX = BOUNDED_TYPED__LENGTH_PREFIX;
+var BOUNDED_8BITS_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
@@ -150,8 +150,8 @@ var BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, optio
     });
     return encodeArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
-exports.BOUNDED_8BITS_HYBRID__LENGTH_PREFIX = BOUNDED_8BITS_HYBRID__LENGTH_PREFIX;
-var ROOF_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
+exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = BOUNDED_8BITS_TYPED__LENGTH_PREFIX;
+var ROOF_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
     var lengthBytes = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
@@ -159,8 +159,8 @@ var ROOF_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
     });
     return encodeArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
-exports.ROOF_HYBRID__LENGTH_PREFIX = ROOF_HYBRID__LENGTH_PREFIX;
-var ROOF_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
+exports.ROOF_TYPED__LENGTH_PREFIX = ROOF_TYPED__LENGTH_PREFIX;
+var ROOF_8BITS_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
     assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
@@ -170,8 +170,8 @@ var ROOF_8BITS_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options)
     });
     return encodeArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
-exports.ROOF_8BITS_HYBRID__LENGTH_PREFIX = ROOF_8BITS_HYBRID__LENGTH_PREFIX;
-var FLOOR_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
+exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = ROOF_8BITS_TYPED__LENGTH_PREFIX;
+var FLOOR_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(value.length >= options.minimum);
     var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, value.length, {
@@ -179,12 +179,12 @@ var FLOOR_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
     });
     return encodeArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
-exports.FLOOR_HYBRID__LENGTH_PREFIX = FLOOR_HYBRID__LENGTH_PREFIX;
-var UNBOUNDED_HYBRID__LENGTH_PREFIX = function (buffer, offset, value, options) {
-    return exports.FLOOR_HYBRID__LENGTH_PREFIX(buffer, offset, value, {
+exports.FLOOR_TYPED__LENGTH_PREFIX = FLOOR_TYPED__LENGTH_PREFIX;
+var UNBOUNDED_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {
+    return exports.FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, value, {
         minimum: 0,
         encoding: options.encoding,
         prefixEncodings: options.prefixEncodings
     });
 };
-exports.UNBOUNDED_HYBRID__LENGTH_PREFIX = UNBOUNDED_HYBRID__LENGTH_PREFIX;
+exports.UNBOUNDED_TYPED__LENGTH_PREFIX = UNBOUNDED_TYPED__LENGTH_PREFIX;
