@@ -7,6 +7,7 @@ var mapper_3 = require("./types/number/mapper");
 var mapper_4 = require("./types/integer/mapper");
 var mapper_5 = require("./types/string/mapper");
 var mapper_6 = require("./types/any/mapper");
+var mapper_7 = require("./types/array/mapper");
 var getEncoding = function (schema) {
     if (!('type' in schema)) {
         return mapper_6.getAnyEncoding(schema);
@@ -27,7 +28,7 @@ var getEncoding = function (schema) {
         return mapper_5.getStringEncoding(schema);
     }
     else if (schema.type === 'array') {
-        throw new Error('TODO: Unimplemented');
+        return mapper_7.getArrayEncoding(schema);
     }
     else {
         throw new Error('TODO: Unimplemented');

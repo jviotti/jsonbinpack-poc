@@ -160,6 +160,133 @@ tap.test('should encode an arbitrary array with maxItems - minItems > 255', (tes
   test.end()
 })
 
-// TODO: Add semityped tests with prefixEncodings
-// TODO: Add typed tests with no prefixEncodings
-// TODO: Add typed tests with prefixEncodings
+tap.test('should encode an semi-typed scalar heterogeneous array', (test) => {
+  const schema: ArrayCanonicalSchema = {
+    type: 'array',
+    prefixItems: [
+      {
+        type: 'integer'
+      },
+      {
+        type: 'string',
+        maxLength: 5
+      }
+    ]
+  }
+
+  const result: ArrayEncoding = getArrayEncoding(schema)
+  test.strictSame(result, {
+    type: 'array',
+    encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+    options: {
+      prefixEncodings: [
+        {
+          type: 'integer',
+          encoding: 'ARBITRARY__ZIGZAG_VARINT',
+          options: {}
+        },
+        {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        }
+      ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode an semi-typed array with minItems', (test) => {
+  const schema: ArrayCanonicalSchema = {
+    type: 'array',
+    minItems: 5,
+    prefixItems: [
+      {
+        type: 'integer'
+      },
+      {
+        type: 'string',
+        maxLength: 5
+      }
+    ]
+  }
+
+  const result: ArrayEncoding = getArrayEncoding(schema)
+  test.strictSame(result, {
+    type: 'array',
+    encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
+    options: {
+      minimum: 5,
+      prefixEncodings: [
+        {
+          type: 'integer',
+          encoding: 'ARBITRARY__ZIGZAG_VARINT',
+          options: {}
+        },
+        {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        }
+      ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode an semi + fully typed array with minItems', (test) => {
+  const schema: ArrayCanonicalSchema = {
+    type: 'array',
+    minItems: 5,
+    items: {
+      type: 'array'
+    },
+    prefixItems: [
+      {
+        type: 'integer'
+      },
+      {
+        type: 'string',
+        maxLength: 5
+      }
+    ]
+  }
+
+  const result: ArrayEncoding = getArrayEncoding(schema)
+  test.strictSame(result, {
+    type: 'array',
+    encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
+    options: {
+      minimum: 5,
+      encoding: {
+        type: 'array',
+        encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+        options: {
+          prefixEncodings: []
+        }
+      },
+      prefixEncodings: [
+        {
+          type: 'integer',
+          encoding: 'ARBITRARY__ZIGZAG_VARINT',
+          options: {}
+        },
+        {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        }
+      ]
+    }
+  })
+
+  test.end()
+})
