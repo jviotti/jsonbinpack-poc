@@ -15,7 +15,12 @@
  */
 
 import {
-  ArrayCanonicalSchema
+  UINT8_MAX
+} from '../../utils/limits'
+
+import {
+  ArrayCanonicalSchema,
+  CanonicalSchema
 } from '../../canonical-schema'
 
 import {
@@ -26,6 +31,10 @@ import {
 import {
   Encoding
 } from '../../encoder'
+
+import {
+  getEncoding
+} from '../../mapper'
 
 import {
   SemiTypedOptions,
@@ -136,16 +145,104 @@ export type ArrayEncoding =
   FLOOR_TYPED__LENGTH_PREFIX_ENCODING |
   ROOF_8BITS_TYPED__LENGTH_PREFIX_ENCODING |
   ROOF_TYPED__LENGTH_PREFIX_ENCODING |
-  UNBOUNDED_TYPED__LENGTH_PREFI_ENCODING
+  UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
 
-export const getArrayEncoding = (schema: AnyCanonicalSchema): ArrayEncoding => {
-  const prefixEncodings: Encoding[] = (schema.prefixItems ?? []).map((subschema: CanonicalSchema) => {
+export const getArrayEncoding = (schema: ArrayCanonicalSchema): ArrayEncoding => {
+  const encodingSchema: CanonicalSchema | undefined = schema.items
+  const prefixEncodings: Encoding[] =
+    (schema.prefixItems ?? []).map((subschema: CanonicalSchema) => {
+      return getEncoding(subschema)
+    })
 
-  })
+  if (typeof encodingSchema === 'undefined') {
+    if (typeof schema.minItems !== 'undefined' &&
+      typeof schema.maxItems !== 'undefined') {
+      return {
+        type: EncodingType.Array,
+        encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
+          ? 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' : 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
+        options: {
+          minimum: schema.minItems,
+          maximum: schema.maxItems,
+          prefixEncodings
+        }
+      }
+    } else if (typeof schema.minItems === 'undefined' &&
+      typeof schema.maxItems !== 'undefined') {
+      return {
+        type: EncodingType.Array,
+        encoding: (schema.maxItems <= UINT8_MAX)
+          ? 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' : 'ROOF_SEMITYPED__LENGTH_PREFIX',
+        options: {
+          maximum: schema.maxItems,
+          prefixEncodings
+        }
+      }
+    } else if (typeof schema.minItems !== 'undefined' &&
+      typeof schema.maxItems === 'undefined') {
+      return {
+        type: EncodingType.Array,
+        encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
+        options: {
+          minimum: schema.minItems,
+          prefixEncodings
+        }
+      }
+    } else {
+      return {
+        type: EncodingType.Array,
+        encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+        options: {
+          prefixEncodings
+        }
+      }
+    }
+  }
 
-  return {
-    type: EncodingType.Array,
-    encoding: 'ANY__TYPE_PREFIX',
-    options: {}
+  if (typeof schema.minItems !== 'undefined' &&
+    typeof schema.maxItems !== 'undefined') {
+    return {
+      type: EncodingType.Array,
+      encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
+        ? 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' : 'BOUNDED_TYPED__LENGTH_PREFIX',
+      options: {
+        minimum: schema.minItems,
+        maximum: schema.maxItems,
+        encoding: getEncoding(encodingSchema),
+        prefixEncodings
+      }
+    }
+  } else if (typeof schema.minItems === 'undefined' &&
+    typeof schema.maxItems !== 'undefined') {
+    return {
+      type: EncodingType.Array,
+      encoding: (schema.maxItems <= UINT8_MAX)
+        ? 'ROOF_8BITS_TYPED__LENGTH_PREFIX' : 'ROOF_TYPED__LENGTH_PREFIX',
+      options: {
+        maximum: schema.maxItems,
+        encoding: getEncoding(encodingSchema),
+        prefixEncodings
+      }
+    }
+  } else if (typeof schema.minItems !== 'undefined' &&
+    typeof schema.maxItems === 'undefined') {
+    return {
+      type: EncodingType.Array,
+      encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
+      options: {
+        minimum: schema.minItems,
+        encoding: getEncoding(encodingSchema),
+        prefixEncodings
+      }
+    }
+  } else {
+    return {
+      type: EncodingType.Array,
+      encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
+      options: {
+        encoding: getEncoding(encodingSchema),
+        prefixEncodings
+      }
+    }
   }
 }

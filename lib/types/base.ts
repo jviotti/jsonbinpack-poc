@@ -70,6 +70,10 @@ import {
   AnyEncodingNames
 } from './any/mapper'
 
+import {
+  ArrayEncodingNames
+} from './array/mapper'
+
 export interface DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
@@ -92,7 +96,8 @@ export type EncodingNames =
   NumberEncodingNames |
   IntegerEncodingNames |
   StringEncodingNames |
-  AnyEncodingNames;
+  AnyEncodingNames |
+  ArrayEncodingNames;
 
 export interface BaseEncodingDefinition {
   readonly type: EncodingType;
