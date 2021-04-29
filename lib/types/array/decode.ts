@@ -24,7 +24,10 @@ import {
 
 import {
   IntegerResult,
-  BOUNDED_8BITS__ENUM_FIXED
+  BOUNDED__ENUM_VARINT,
+  BOUNDED_8BITS__ENUM_FIXED,
+  FLOOR__ENUM_VARINT,
+  ROOF__MIRROR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -41,6 +44,9 @@ import {
 } from '../../utils/limits'
 
 import {
+  SemiTypedOptions,
+  SemiTypedRoofOptions,
+  SemiTypedFloorOptions,
   SemiTypedBoundedOptions
 } from './options'
 
@@ -93,4 +99,68 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
 
   return decodeArray(
     buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+}
+
+export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: SemiTypedBoundedOptions
+): ArrayResult => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+
+  const lengthResult: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum,
+    maximum: options.maximum
+  })
+
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+}
+
+export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: SemiTypedFloorOptions
+): ArrayResult => {
+  assert(options.minimum >= 0)
+
+  const lengthResult: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum
+  })
+
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+}
+
+export const ROOF_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: SemiTypedRoofOptions
+): ArrayResult => {
+  assert(options.maximum >= 0)
+
+  const lengthResult: IntegerResult = ROOF__MIRROR_ENUM_VARINT(buffer, offset, {
+    maximum: options.maximum
+  })
+
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+}
+
+export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: SemiTypedRoofOptions
+): ArrayResult => {
+  assert(options.maximum >= 0)
+  assert(options.maximum <= UINT8_MAX)
+
+  return BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, offset, {
+    minimum: 0,
+    maximum: options.maximum,
+    prefixEncodings: options.prefixEncodings
+  })
+}
+
+export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: SemiTypedOptions
+): ArrayResult => {
+  return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, {
+    minimum: 0,
+    prefixEncodings: options.prefixEncodings
+  })
 }
