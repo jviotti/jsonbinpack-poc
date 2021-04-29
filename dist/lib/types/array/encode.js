@@ -164,11 +164,12 @@ var ROOF_8BITS_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) 
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
     assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
-    var lengthBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
+    return exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, offset, value, {
         minimum: 0,
-        maximum: options.maximum
+        maximum: options.maximum,
+        prefixEncodings: options.prefixEncodings,
+        encoding: options.encoding
     });
-    return encodeArray(buffer, lengthBytes, value, options.prefixEncodings, options.encoding);
 };
 exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = ROOF_8BITS_TYPED__LENGTH_PREFIX;
 var FLOOR_TYPED__LENGTH_PREFIX = function (buffer, offset, value, options) {

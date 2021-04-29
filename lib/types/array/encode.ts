@@ -224,14 +224,12 @@ export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
   assert(value.length <= options.maximum)
   assert(options.maximum <= UINT8_MAX)
 
-  const lengthBytes: number =
-    BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
-      minimum: 0,
-      maximum: options.maximum
-    })
-
-  return encodeArray(
-    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
+  return BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, offset, value, {
+    minimum: 0,
+    maximum: options.maximum,
+    prefixEncodings: options.prefixEncodings,
+    encoding: options.encoding
+  })
 }
 
 export const FLOOR_TYPED__LENGTH_PREFIX = (

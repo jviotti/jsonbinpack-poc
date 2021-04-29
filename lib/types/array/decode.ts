@@ -44,6 +44,10 @@ import {
 } from '../../utils/limits'
 
 import {
+  TypedOptions,
+  TypedRoofOptions,
+  TypedFloorOptions,
+  TypedBoundedOptions,
   SemiTypedOptions,
   SemiTypedRoofOptions,
   SemiTypedFloorOptions,
@@ -162,5 +166,92 @@ export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
   return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, {
     minimum: 0,
     prefixEncodings: options.prefixEncodings
+  })
+}
+
+export const BOUNDED_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: TypedBoundedOptions
+): ArrayResult => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+
+  const lengthResult: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum,
+    maximum: options.maximum
+  })
+
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value,
+    options.prefixEncodings, options.encoding)
+}
+
+export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: TypedBoundedOptions
+): ArrayResult => {
+  assert(options.maximum >= 0)
+  assert(options.minimum >= 0)
+  assert(options.maximum >= options.minimum)
+  assert(options.maximum - options.minimum <= UINT8_MAX)
+
+  const lengthResult: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+    minimum: options.minimum,
+    maximum: options.maximum
+  })
+
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value,
+    options.prefixEncodings, options.encoding)
+}
+
+export const ROOF_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: TypedRoofOptions
+): ArrayResult => {
+  assert(options.maximum >= 0)
+
+  const lengthResult: IntegerResult = ROOF__MIRROR_ENUM_VARINT(buffer, offset, {
+    maximum: options.maximum
+  })
+
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value,
+      options.prefixEncodings, options.encoding)
+}
+
+export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: TypedRoofOptions
+): ArrayResult => {
+  assert(options.maximum >= 0)
+  assert(options.maximum <= UINT8_MAX)
+
+  return BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, offset, {
+    minimum: 0,
+    maximum: options.maximum,
+    prefixEncodings: options.prefixEncodings,
+    encoding: options.encoding
+  })
+}
+
+export const FLOOR_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: TypedFloorOptions
+): ArrayResult => {
+  assert(options.minimum >= 0)
+
+  const lengthResult: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum
+  })
+
+  return decodeArray(
+    buffer, lengthResult.bytes, lengthResult.value,
+    options.prefixEncodings, options.encoding)
+}
+
+export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
+  buffer: Buffer, offset: number, options: TypedOptions
+): ArrayResult => {
+  return FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, {
+    minimum: 0,
+    prefixEncodings: options.prefixEncodings,
+    encoding: options.encoding
   })
 }
