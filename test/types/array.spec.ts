@@ -19,8 +19,14 @@ import * as fc from 'fast-check'
 import * as util from 'util'
 
 import {
-  JSONValue
+  JSONValue,
+  JSONNumber
 } from '../../lib/json'
+
+import {
+  getIntegerEncoding,
+  IntegerEncoding
+} from '../../lib/types/integer/mapper'
 
 import {
   SemiTypedOptions,
@@ -29,12 +35,14 @@ import {
 
 import {
   UNBOUNDED_SEMITYPED__LENGTH_PREFIX as ENCODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX,
+  UNBOUNDED_TYPED__LENGTH_PREFIX as ENCODE_UNBOUNDED_TYPED__LENGTH_PREFIX,
   BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX as ENCODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX
 } from '../../lib/types/array/encode'
 
 import {
   ArrayResult,
   UNBOUNDED_SEMITYPED__LENGTH_PREFIX as DECODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX,
+  UNBOUNDED_TYPED__LENGTH_PREFIX as DECODE_UNBOUNDED_TYPED__LENGTH_PREFIX,
   BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX as DECODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX
 } from '../../lib/types/array/decode'
 
@@ -96,6 +104,36 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', (test) => {
     const result: ArrayResult =
       DECODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, {
         prefixEncodings: []
+      })
+
+    return bytesWritten > 0 && result.bytes === bytesWritten &&
+      util.isDeepStrictEqual(result.value, value)
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', (test) => {
+  fc.assert(fc.property(fc.array(fc.integer()), (value: JSONNumber[]): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const offset: number = 0
+
+    const encoding: IntegerEncoding = getIntegerEncoding({
+      type: 'integer'
+    })
+
+    const bytesWritten: number =
+      ENCODE_UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {
+        prefixEncodings: [],
+        encoding
+      })
+
+    const result: ArrayResult =
+      DECODE_UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, {
+        prefixEncodings: [],
+        encoding
       })
 
     return bytesWritten > 0 && result.bytes === bytesWritten &&
