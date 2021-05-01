@@ -85,6 +85,14 @@ export interface ArrayCanonicalSchema {
   readonly prefixItems?: CanonicalSchema[];
 }
 
+export interface ObjectCanonicalSchema {
+  readonly type: 'object';
+  readonly required?: string[];
+  readonly propertyNames?: StringCanonicalSchema;
+  readonly properties?: Map<string, CanonicalSchema>;
+  readonly additionalProperties?: boolean | CanonicalSchema;
+}
+
 export type CanonicalSchema =
   BooleanCanonicalSchema |
   IntegerCanonicalSchema |
@@ -92,4 +100,5 @@ export type CanonicalSchema =
   NumberCanonicalSchema |
   StringCanonicalSchema |
   AnyCanonicalSchema |
-  ArrayCanonicalSchema
+  ArrayCanonicalSchema |
+  ObjectCanonicalSchema
