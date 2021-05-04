@@ -58,13 +58,20 @@ var bitsetEncode = function (buffer, offset, bits) {
 exports.bitsetEncode = bitsetEncode;
 var bitsetDecode = function (buffer, offset, length) {
     if (length === 0) {
-        return [];
+        return {
+            value: [],
+            bytes: 0
+        };
     }
-    var value = buffer.readUIntLE(offset, getBytesToStoreBits(length));
+    var bytes = getBytesToStoreBits(length);
+    var value = buffer.readUIntLE(offset, bytes);
     var result = [];
     while (result.length < length) {
         result.push(Boolean((1 << result.length) & value));
     }
-    return result;
+    return {
+        value: result,
+        bytes: bytes
+    };
 };
 exports.bitsetDecode = bitsetDecode;

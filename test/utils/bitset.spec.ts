@@ -20,7 +20,8 @@ import * as util from 'util'
 
 import {
   bitsetEncode,
-  bitsetDecode
+  bitsetDecode,
+  BitsetResult
 } from '../../lib/utils/bitset'
 
 tap.test('should encode [ true ] as 0000 0001', (test) => {
@@ -56,16 +57,18 @@ tap.test('should encode [ false, false, true, false, true, true, false, true, tr
 tap.test('should decode 0000 0001 as [ true ]', (test) => {
   const offset: number = 0
   const buffer: Buffer = Buffer.from([ 0b00000001 ])
-  const bits: boolean[] = bitsetDecode(buffer, offset, 1)
-  test.strictSame(bits, [ true ])
+  const result: BitsetResult = bitsetDecode(buffer, offset, 1)
+  test.strictSame(result.value, [ true ])
+  test.is(result.bytes, 1)
   test.end()
 })
 
 tap.test('should decode 0001 0100 as [ false, false, true, false, true ]', (test) => {
   const offset: number = 0
   const buffer: Buffer = Buffer.from([ 0b00010100 ])
-  const bits: boolean[] = bitsetDecode(buffer, offset, 5)
-  test.strictSame(bits, [ false, false, true, false, true ])
+  const result: BitsetResult = bitsetDecode(buffer, offset, 5)
+  test.strictSame(result.value, [ false, false, true, false, true ])
+  test.is(result.bytes, 1)
   test.end()
 })
 
@@ -74,8 +77,9 @@ tap.test('should encode/decode random arrays of booleans', (test) => {
     const buffer: Buffer = Buffer.allocUnsafe(value.length)
     const offset: number = 0
     const bytesWritten: number = bitsetEncode(buffer, offset, value)
-    const result: boolean[] = bitsetDecode(buffer, offset, value.length)
-    return bytesWritten * 8 >= value.length && util.isDeepStrictEqual(result, value)
+    const result: BitsetResult = bitsetDecode(buffer, offset, value.length)
+    return bytesWritten * 8 >= value.length && bytesWritten === result.bytes &&
+      util.isDeepStrictEqual(result.value, value)
   }), {
     verbose: false
   })

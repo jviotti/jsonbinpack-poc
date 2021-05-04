@@ -56,15 +56,17 @@ tap_1.default.test('should encode [ false, false, true, false, true, true, false
 tap_1.default.test('should decode 0000 0001 as [ true ]', function (test) {
     var offset = 0;
     var buffer = Buffer.from([1]);
-    var bits = bitset_1.bitsetDecode(buffer, offset, 1);
-    test.strictSame(bits, [true]);
+    var result = bitset_1.bitsetDecode(buffer, offset, 1);
+    test.strictSame(result.value, [true]);
+    test.is(result.bytes, 1);
     test.end();
 });
 tap_1.default.test('should decode 0001 0100 as [ false, false, true, false, true ]', function (test) {
     var offset = 0;
     var buffer = Buffer.from([20]);
-    var bits = bitset_1.bitsetDecode(buffer, offset, 5);
-    test.strictSame(bits, [false, false, true, false, true]);
+    var result = bitset_1.bitsetDecode(buffer, offset, 5);
+    test.strictSame(result.value, [false, false, true, false, true]);
+    test.is(result.bytes, 1);
     test.end();
 });
 tap_1.default.test('should encode/decode random arrays of booleans', function (test) {
@@ -73,7 +75,8 @@ tap_1.default.test('should encode/decode random arrays of booleans', function (t
         var offset = 0;
         var bytesWritten = bitset_1.bitsetEncode(buffer, offset, value);
         var result = bitset_1.bitsetDecode(buffer, offset, value.length);
-        return bytesWritten * 8 >= value.length && util.isDeepStrictEqual(result, value);
+        return bytesWritten * 8 >= value.length && bytesWritten === result.bytes &&
+            util.isDeepStrictEqual(result.value, value);
     }), {
         verbose: false
     });

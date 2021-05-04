@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  DecodeResult
+} from '../types/base'
+
 const getBytesToStoreBits = (bits: number): number => {
   return ((bits + 7) & (-8)) / 8
 }
@@ -36,19 +40,30 @@ export const bitsetEncode = (
   return buffer.writeUIntLE(result >>> 0, offset, bytes) - offset
 }
 
+export interface BitsetResult extends DecodeResult {
+  value: boolean[];
+}
+
 export const bitsetDecode = (
   buffer: Buffer, offset: number, length: number
-): boolean[] => {
+): BitsetResult => {
   if (length === 0) {
-    return []
+    return {
+      value: [],
+      bytes: 0
+    }
   }
 
-  const value: number = buffer.readUIntLE(offset, getBytesToStoreBits(length))
+  const bytes: number = getBytesToStoreBits(length)
+  const value: number = buffer.readUIntLE(offset, bytes)
   const result: boolean[] = []
 
   while (result.length < length) {
     result.push(Boolean((1 << result.length) & value))
   }
 
-  return result
+  return {
+    value: result,
+    bytes
+  }
 }
