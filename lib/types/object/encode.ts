@@ -15,15 +15,25 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   JSONObject
 } from '../../json'
 
 import {
-  encode
+  encode,
+  Encoding
 } from '../../encoder'
 
 import {
-  TypedKeysOptions
+  bitsetEncode
+} from '../../utils/bitset'
+
+import {
+  TypedKeysOptions,
+  OptionalBoundedOptions
 } from './options'
 
 import {
@@ -33,6 +43,38 @@ import {
 import {
   ANY__TYPE_PREFIX
 } from '../any/encode'
+
+export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: OptionalBoundedOptions
+): number => {
+  assert(Object.keys(value).length <= options.optionalProperties.length)
+
+  const keys: string[] = []
+  const bitset: boolean[] = []
+
+  for (const property of options.optionalProperties) {
+    const isPropertySet: boolean = typeof value[property] !== 'undefined'
+    bitset.push(isPropertySet)
+    if (isPropertySet) {
+      keys.push(property)
+    }
+  }
+
+  const lengthBytes: number = FLOOR__ENUM_VARINT(buffer, offset, bitset.length, {
+    minimum: 0
+  })
+
+  const bitsetBytes: number = bitsetEncode(buffer, offset + lengthBytes, bitset)
+
+  let cursor = offset + lengthBytes + bitsetBytes
+  for (const key of keys) {
+    const encoding: Encoding = options.propertyEncodings[key]
+    const bytesWritten: number = encode(buffer, cursor, encoding, value[key])
+    cursor += bytesWritten
+  }
+
+  return cursor - offset
+}
 
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: TypedKeysOptions

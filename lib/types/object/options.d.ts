@@ -15,11 +15,20 @@
  */
 
 import {
+  Encoding
+} from '../../encoder'
+
+import {
   StringEncoding
 } from '../string/mapper'
+
+export interface OptionalBoundedOptions {
+  propertyEncodings: Record<string, Encoding>;
+  optionalProperties: string[];
+}
 
 export interface TypedKeysOptions {
   keyEncoding: StringEncoding;
 }
 
-export type ObjectOptions = TypedKeysOptions
+export type ObjectOptions = OptionalBoundedOptions | TypedKeysOptions

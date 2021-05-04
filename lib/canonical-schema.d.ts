@@ -89,7 +89,7 @@ export interface ObjectCanonicalSchema {
   readonly type: 'object';
   readonly required?: string[];
   readonly propertyNames?: StringCanonicalSchema;
-  readonly properties?: Map<string, CanonicalSchema>;
+  readonly properties?: Record<string, CanonicalSchema>;
   readonly additionalProperties?: boolean | CanonicalSchema;
 }
 

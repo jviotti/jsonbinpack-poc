@@ -17,8 +17,13 @@
 import tap from 'tap'
 
 import {
-  ARBITRARY_TYPED_KEYS_OBJECT
+  ARBITRARY_TYPED_KEYS_OBJECT,
+  OPTIONAL_BOUNDED_TYPED_OBJECT
 } from '../../../lib/types/object/encode'
+
+import {
+  getIntegerEncoding
+} from '../../../lib/types/integer/mapper'
 
 import {
   getStringEncoding
@@ -68,5 +73,58 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
   ]))
 
   test.is(bytesWritten, 16)
+  test.end()
+})
+
+tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(7)
+  const bytesWritten: number = OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: 'bar',
+    baz: 1
+  }, {
+    optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x04, // length
+    0b00000101, // bit set
+    0x01, // 1
+    0x03, 0x62, 0x61, 0x72 // "bar"
+  ]))
+
+  test.is(bytesWritten, 7)
+  test.end()
+})
+
+tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(2)
+  const bytesWritten: number = OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
+    optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x04, // length
+    0b00000000 // bit set
+  ]))
+
+  test.is(bytesWritten, 2)
   test.end()
 })
