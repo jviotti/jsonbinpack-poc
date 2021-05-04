@@ -27,14 +27,41 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.OPTIONAL_BOUNDED_TYPED_OBJECT = void 0;
+exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.OPTIONAL_BOUNDED_TYPED_OBJECT = exports.REQUIRED_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var bitset_1 = require("../../utils/bitset");
 var decode_1 = require("../integer/decode");
 var decode_2 = require("../any/decode");
 var encoder_1 = require("../../encoder");
-var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
+var REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_1, _a;
+    var result = {};
+    var cursor = offset;
+    try {
+        for (var _b = __values(options.requiredProperties), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var key = _c.value;
+            var encoding = options.propertyEncodings[key];
+            var propertyResult = encoder_1.decode(buffer, cursor, encoding);
+            assert_1.strict(propertyResult.bytes >= 0);
+            Reflect.set(result, key, propertyResult.value);
+            cursor += propertyResult.bytes;
+        }
+    }
+    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_1) throw e_1.error; }
+    }
+    return {
+        value: result,
+        bytes: cursor - offset
+    };
+};
+exports.REQUIRED_BOUNDED_TYPED_OBJECT = REQUIRED_BOUNDED_TYPED_OBJECT;
+var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
+    var e_2, _a;
     var bitsetLength = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
         minimum: 0
     });
@@ -57,12 +84,12 @@ var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
             cursor += propertyResult.bytes;
         }
     }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    catch (e_2_1) { e_2 = { error: e_2_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_1) throw e_1.error; }
+        finally { if (e_2) throw e_2.error; }
     }
     return {
         value: result,
@@ -91,7 +118,7 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, options) {
     }
     return {
         value: value,
-        bytes: cursor
+        bytes: cursor - offset
     };
 };
 exports.ARBITRARY_TYPED_KEYS_OBJECT = ARBITRARY_TYPED_KEYS_OBJECT;

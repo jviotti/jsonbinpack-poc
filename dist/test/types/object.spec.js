@@ -71,3 +71,27 @@ tap_1.default.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', fun
     test.strictSame(result.value, value);
     test.end();
 });
+tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', function (test) {
+    var buffer = Buffer.allocUnsafe(5);
+    var value = {
+        foo: 'bar',
+        baz: 1
+    };
+    var options = {
+        requiredProperties: ['baz', 'foo'],
+        propertyEncodings: {
+            foo: mapper_1.getStringEncoding({
+                type: 'string'
+            }),
+            baz: mapper_2.getIntegerEncoding({
+                type: 'integer',
+                minimum: 0
+            })
+        }
+    };
+    var bytesWritten = encode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options);
+    var result = decode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, options);
+    test.is(bytesWritten, result.bytes);
+    test.strictSame(result.value, value);
+    test.end();
+});

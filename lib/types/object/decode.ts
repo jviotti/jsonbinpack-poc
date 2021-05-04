@@ -39,7 +39,8 @@ import {
 
 import {
   TypedKeysOptions,
-  OptionalBoundedOptions
+  OptionalBoundedOptions,
+  RequiredBoundedOptions
 } from './options'
 
 import {
@@ -51,6 +52,25 @@ import {
 export interface ObjectResult extends DecodeResult {
   readonly value: JSONObject;
   readonly bytes: number;
+}
+
+export const REQUIRED_BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, options: RequiredBoundedOptions
+): ObjectResult => {
+  const result: JSONObject = {}
+  let cursor: number = offset
+  for (const key of options.requiredProperties) {
+    const encoding: Encoding = options.propertyEncodings[key]
+    const propertyResult: DecodeResult = decode(buffer, cursor, encoding)
+    assert(propertyResult.bytes >= 0)
+    Reflect.set(result, key, propertyResult.value)
+    cursor += propertyResult.bytes
+  }
+
+  return {
+    value: result,
+    bytes: cursor - offset
+  }
 }
 
 export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
@@ -117,6 +137,6 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
 
   return {
     value,
-    bytes: cursor
+    bytes: cursor - offset
   }
 }

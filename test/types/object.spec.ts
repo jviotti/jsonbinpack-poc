@@ -21,18 +21,21 @@ import {
 } from '../../lib/json'
 
 import {
+  RequiredBoundedOptions,
   OptionalBoundedOptions
 } from '../../lib/types/object/options'
 
 import {
   ARBITRARY_TYPED_KEYS_OBJECT as ENCODE_ARBITRARY_TYPED_KEYS_OBJECT,
-  OPTIONAL_BOUNDED_TYPED_OBJECT as ENCODE_OPTIONAL_BOUNDED_TYPED_OBJECT
+  OPTIONAL_BOUNDED_TYPED_OBJECT as ENCODE_OPTIONAL_BOUNDED_TYPED_OBJECT,
+  REQUIRED_BOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_BOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/encode'
 
 import {
   ObjectResult,
   ARBITRARY_TYPED_KEYS_OBJECT as DECODE_ARBITRARY_TYPED_KEYS_OBJECT,
-  OPTIONAL_BOUNDED_TYPED_OBJECT as DECODE_OPTIONAL_BOUNDED_TYPED_OBJECT
+  OPTIONAL_BOUNDED_TYPED_OBJECT as DECODE_OPTIONAL_BOUNDED_TYPED_OBJECT,
+  REQUIRED_BOUNDED_TYPED_OBJECT as DECODE_REQUIRED_BOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/decode'
 
 import {
@@ -121,6 +124,37 @@ tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
     buffer, 0, value, options)
 
   const result: ObjectResult = DECODE_OPTIONAL_BOUNDED_TYPED_OBJECT(
+    buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(5)
+  const value: JSONObject = {
+    foo: 'bar',
+    baz: 1
+  }
+
+  const options: RequiredBoundedOptions = {
+    requiredProperties: [ 'baz', 'foo' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_REQUIRED_BOUNDED_TYPED_OBJECT(
+    buffer, 0, value, options)
+
+  const result: ObjectResult = DECODE_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
