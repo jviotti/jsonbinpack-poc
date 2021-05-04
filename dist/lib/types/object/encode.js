@@ -36,6 +36,9 @@ var encode_2 = require("../any/encode");
 var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     var e_1, _a, e_2, _b;
     assert_1.strict(Object.keys(value).length <= options.optionalProperties.length);
+    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, options.optionalProperties.length, {
+        minimum: 0
+    });
     var keys = [];
     var bitset = [];
     try {
@@ -55,9 +58,6 @@ var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
         }
         finally { if (e_1) throw e_1.error; }
     }
-    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, bitset.length, {
-        minimum: 0
-    });
     var bitsetBytes = bitset_1.bitsetEncode(buffer, offset + lengthBytes, bitset);
     var cursor = offset + lengthBytes + bitsetBytes;
     try {

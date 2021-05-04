@@ -49,6 +49,11 @@ export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
 ): number => {
   assert(Object.keys(value).length <= options.optionalProperties.length)
 
+  const lengthBytes: number = FLOOR__ENUM_VARINT(
+    buffer, offset, options.optionalProperties.length, {
+      minimum: 0
+    })
+
   const keys: string[] = []
   const bitset: boolean[] = []
   for (const property of options.optionalProperties) {
@@ -59,13 +64,7 @@ export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
     }
   }
 
-  // TODO: This can be just options.optionalProperties.length
-  const lengthBytes: number = FLOOR__ENUM_VARINT(buffer, offset, bitset.length, {
-    minimum: 0
-  })
-
   const bitsetBytes: number = bitsetEncode(buffer, offset + lengthBytes, bitset)
-
   let cursor = offset + lengthBytes + bitsetBytes
   for (const key of keys) {
     const encoding: Encoding = options.propertyEncodings[key]
