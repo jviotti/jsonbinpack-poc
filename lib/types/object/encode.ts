@@ -51,7 +51,6 @@ export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
 
   const keys: string[] = []
   const bitset: boolean[] = []
-
   for (const property of options.optionalProperties) {
     const isPropertySet: boolean = typeof value[property] !== 'undefined'
     bitset.push(isPropertySet)
@@ -60,6 +59,7 @@ export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
     }
   }
 
+  // TODO: This can be just options.optionalProperties.length
   const lengthBytes: number = FLOOR__ENUM_VARINT(buffer, offset, bitset.length, {
     minimum: 0
   })

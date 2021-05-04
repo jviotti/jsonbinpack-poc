@@ -7,6 +7,7 @@ var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../lib/types/object/encode");
 var decode_1 = require("../../lib/types/object/decode");
 var mapper_1 = require("../../lib/types/string/mapper");
+var mapper_2 = require("../../lib/types/integer/mapper");
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', function (test) {
     var buffer = Buffer.allocUnsafe(16);
     var value = {
@@ -42,6 +43,30 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
     var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
         keyEncoding: keyEncoding
     });
+    test.is(bytesWritten, result.bytes);
+    test.strictSame(result.value, value);
+    test.end();
+});
+tap_1.default.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', function (test) {
+    var buffer = Buffer.allocUnsafe(7);
+    var value = {
+        foo: 'bar',
+        baz: 1
+    };
+    var options = {
+        optionalProperties: ['baz', 'bar', 'foo', 'qux'],
+        propertyEncodings: {
+            foo: mapper_1.getStringEncoding({
+                type: 'string'
+            }),
+            baz: mapper_2.getIntegerEncoding({
+                type: 'integer',
+                minimum: 0
+            })
+        }
+    };
+    var bytesWritten = encode_1.OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, value, options);
+    var result = decode_1.OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, options);
     test.is(bytesWritten, result.bytes);
     test.strictSame(result.value, value);
     test.end();
