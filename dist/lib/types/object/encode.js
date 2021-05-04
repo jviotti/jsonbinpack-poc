@@ -27,14 +27,36 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.OPTIONAL_BOUNDED_TYPED_OBJECT = void 0;
+exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.OPTIONAL_BOUNDED_TYPED_OBJECT = exports.REQUIRED_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var encoder_1 = require("../../encoder");
 var bitset_1 = require("../../utils/bitset");
 var encode_1 = require("../integer/encode");
 var encode_2 = require("../any/encode");
+var REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
+    var e_1, _a;
+    assert_1.strict(Object.keys(value).length === options.requiredProperties.length);
+    var cursor = offset;
+    try {
+        for (var _b = __values(options.requiredProperties), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var key = _c.value;
+            var objectValue = value[key];
+            var encoding = options.propertyEncodings[key];
+            cursor += encoder_1.encode(buffer, cursor, encoding, objectValue);
+        }
+    }
+    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_1) throw e_1.error; }
+    }
+    return cursor - offset;
+};
+exports.REQUIRED_BOUNDED_TYPED_OBJECT = REQUIRED_BOUNDED_TYPED_OBJECT;
 var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
-    var e_1, _a, e_2, _b;
+    var e_2, _a, e_3, _b;
     assert_1.strict(Object.keys(value).length <= options.optionalProperties.length);
     var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, options.optionalProperties.length, {
         minimum: 0
@@ -51,12 +73,12 @@ var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
             }
         }
     }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    catch (e_2_1) { e_2 = { error: e_2_1 }; }
     finally {
         try {
             if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
         }
-        finally { if (e_1) throw e_1.error; }
+        finally { if (e_2) throw e_2.error; }
     }
     var bitsetBytes = bitset_1.bitsetEncode(buffer, offset + lengthBytes, bitset);
     var cursor = offset + lengthBytes + bitsetBytes;
@@ -68,18 +90,18 @@ var OPTIONAL_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
             cursor += bytesWritten;
         }
     }
-    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+    catch (e_3_1) { e_3 = { error: e_3_1 }; }
     finally {
         try {
             if (keys_1_1 && !keys_1_1.done && (_b = keys_1.return)) _b.call(keys_1);
         }
-        finally { if (e_2) throw e_2.error; }
+        finally { if (e_3) throw e_3.error; }
     }
     return cursor - offset;
 };
 exports.OPTIONAL_BOUNDED_TYPED_OBJECT = OPTIONAL_BOUNDED_TYPED_OBJECT;
 var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options) {
-    var e_3, _a;
+    var e_4, _a;
     var cursor = encode_1.FLOOR__ENUM_VARINT(buffer, offset, Object.keys(value).length, {
         minimum: 0
     });
@@ -90,13 +112,13 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options) {
             cursor += encode_2.ANY__TYPE_PREFIX(buffer, cursor, objectValue, {});
         }
     }
-    catch (e_3_1) { e_3 = { error: e_3_1 }; }
+    catch (e_4_1) { e_4 = { error: e_4_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_3) throw e_3.error; }
+        finally { if (e_4) throw e_4.error; }
     }
-    return cursor;
+    return cursor - offset;
 };
 exports.ARBITRARY_TYPED_KEYS_OBJECT = ARBITRARY_TYPED_KEYS_OBJECT;

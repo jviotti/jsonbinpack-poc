@@ -27,8 +27,16 @@ export interface OptionalBoundedOptions {
   optionalProperties: string[];
 }
 
+export interface RequiredBoundedOptions {
+  propertyEncodings: Record<string, Encoding>;
+  requiredProperties: string[];
+}
+
 export interface TypedKeysOptions {
   keyEncoding: StringEncoding;
 }
 
-export type ObjectOptions = OptionalBoundedOptions | TypedKeysOptions
+export type ObjectOptions =
+  OptionalBoundedOptions |
+  RequiredBoundedOptions |
+  TypedKeysOptions

@@ -19,7 +19,8 @@ import {
 } from 'assert'
 
 import {
-  JSONObject
+  JSONObject,
+  JSONValue
 } from '../../json'
 
 import {
@@ -33,7 +34,8 @@ import {
 
 import {
   TypedKeysOptions,
-  OptionalBoundedOptions
+  OptionalBoundedOptions,
+  RequiredBoundedOptions
 } from './options'
 
 import {
@@ -43,6 +45,21 @@ import {
 import {
   ANY__TYPE_PREFIX
 } from '../any/encode'
+
+export const REQUIRED_BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedOptions
+): number => {
+  assert(Object.keys(value).length === options.requiredProperties.length)
+
+  let cursor: number = offset
+  for (const key of options.requiredProperties) {
+    const objectValue: JSONValue = value[key]
+    const encoding: Encoding = options.propertyEncodings[key]
+    cursor += encode(buffer, cursor, encoding, objectValue)
+  }
+
+  return cursor - offset
+}
 
 export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: OptionalBoundedOptions
@@ -88,5 +105,5 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
     cursor += ANY__TYPE_PREFIX(buffer, cursor, objectValue, {})
   }
 
-  return cursor
+  return cursor - offset
 }

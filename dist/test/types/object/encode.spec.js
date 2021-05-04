@@ -95,3 +95,36 @@ tap_1.default.test('OPTIONAL_BOUNDED_TYPED_OBJECT: should encode typed {}', func
     test.is(bytesWritten, 2);
     test.end();
 });
+tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', function (test) {
+    var buffer = Buffer.allocUnsafe(5);
+    var bytesWritten = encode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar',
+        baz: 1
+    }, {
+        requiredProperties: ['baz', 'foo'],
+        propertyEncodings: {
+            foo: mapper_2.getStringEncoding({
+                type: 'string'
+            }),
+            baz: mapper_1.getIntegerEncoding({
+                type: 'integer',
+                minimum: 0
+            })
+        }
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x01,
+        0x03, 0x62, 0x61, 0x72
+    ]));
+    test.is(bytesWritten, 5);
+    test.end();
+});
+tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', function (test) {
+    var buffer = Buffer.allocUnsafe(1);
+    var bytesWritten = encode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
+        requiredProperties: [],
+        propertyEncodings: {}
+    });
+    test.is(bytesWritten, 0);
+    test.end();
+});
