@@ -1,9 +1,30 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
+var fc = __importStar(require("fast-check"));
+var util = __importStar(require("util"));
 var bitset_1 = require("../../lib/utils/bitset");
 tap_1.default.test('should encode [ true ] as 0000 0001', function (test) {
     var buffer = Buffer.allocUnsafe(1);
@@ -44,5 +65,17 @@ tap_1.default.test('should decode 0001 0100 as [ false, false, true, false, true
     var buffer = Buffer.from([20]);
     var bits = bitset_1.bitsetDecode(buffer, offset, 5);
     test.strictSame(bits, [false, false, true, false, true]);
+    test.end();
+});
+tap_1.default.test('should encode/decode random arrays of booleans', function (test) {
+    fc.assert(fc.property(fc.array(fc.boolean()), function (value) {
+        var buffer = Buffer.allocUnsafe(value.length);
+        var offset = 0;
+        var bytesWritten = bitset_1.bitsetEncode(buffer, offset, value);
+        var result = bitset_1.bitsetDecode(buffer, offset, value.length);
+        return bytesWritten * 8 >= value.length && util.isDeepStrictEqual(result, value);
+    }), {
+        verbose: false
+    });
     test.end();
 });

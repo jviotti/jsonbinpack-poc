@@ -33,6 +33,9 @@ var getBytesToStoreBits = function (bits) {
 };
 var bitsetEncode = function (buffer, offset, bits) {
     var e_1, _a;
+    if (bits.length === 0) {
+        return 0;
+    }
     var bytes = getBytesToStoreBits(bits.length);
     var result = 0;
     try {
@@ -54,6 +57,9 @@ var bitsetEncode = function (buffer, offset, bits) {
 };
 exports.bitsetEncode = bitsetEncode;
 var bitsetDecode = function (buffer, offset, length) {
+    if (length === 0) {
+        return [];
+    }
     var value = buffer.readUIntLE(offset, getBytesToStoreBits(length));
     var result = [];
     while (result.length < length) {

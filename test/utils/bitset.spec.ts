@@ -15,6 +15,8 @@
  */
 
 import tap from 'tap'
+import * as fc from 'fast-check'
+import * as util from 'util'
 
 import {
   bitsetEncode,
@@ -51,8 +53,6 @@ tap.test('should encode [ false, false, true, false, true, true, false, true, tr
   test.end()
 })
 
-// TODO: Use fast-check to generate arrays of booleans
-
 tap.test('should decode 0000 0001 as [ true ]', (test) => {
   const offset: number = 0
   const buffer: Buffer = Buffer.from([ 0b00000001 ])
@@ -66,5 +66,19 @@ tap.test('should decode 0001 0100 as [ false, false, true, false, true ]', (test
   const buffer: Buffer = Buffer.from([ 0b00010100 ])
   const bits: boolean[] = bitsetDecode(buffer, offset, 5)
   test.strictSame(bits, [ false, false, true, false, true ])
+  test.end()
+})
+
+tap.test('should encode/decode random arrays of booleans', (test) => {
+  fc.assert(fc.property(fc.array(fc.boolean()), (value: boolean[]): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(value.length)
+    const offset: number = 0
+    const bytesWritten: number = bitsetEncode(buffer, offset, value)
+    const result: boolean[] = bitsetDecode(buffer, offset, value.length)
+    return bytesWritten * 8 >= value.length && util.isDeepStrictEqual(result, value)
+  }), {
+    verbose: false
+  })
+
   test.end()
 })

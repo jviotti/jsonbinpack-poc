@@ -21,6 +21,10 @@ const getBytesToStoreBits = (bits: number): number => {
 export const bitsetEncode = (
   buffer: Buffer, offset: number, bits: boolean[]
 ): number => {
+  if (bits.length === 0) {
+    return 0
+  }
+
   const bytes: number = getBytesToStoreBits(bits.length)
   let result: number = 0
   for (const [ index, bit ] of bits.entries()) {
@@ -35,6 +39,10 @@ export const bitsetEncode = (
 export const bitsetDecode = (
   buffer: Buffer, offset: number, length: number
 ): boolean[] => {
+  if (length === 0) {
+    return []
+  }
+
   const value: number = buffer.readUIntLE(offset, getBytesToStoreBits(length))
   const result: boolean[] = []
 
