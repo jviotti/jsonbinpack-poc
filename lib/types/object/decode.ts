@@ -40,7 +40,7 @@ import {
 import {
   TypedKeysOptions,
   OptionalBoundedOptions,
-  RequiredBoundedOptions
+  RequiredBoundedTypedOptions
 } from './options'
 
 import {
@@ -55,7 +55,7 @@ export interface ObjectResult extends DecodeResult {
 }
 
 export const REQUIRED_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: RequiredBoundedOptions
+  buffer: Buffer, offset: number, options: RequiredBoundedTypedOptions
 ): ObjectResult => {
   const result: JSONObject = {}
   let cursor: number = offset

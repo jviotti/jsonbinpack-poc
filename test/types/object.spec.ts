@@ -25,7 +25,7 @@ import {
 } from '../../lib/types/base'
 
 import {
-  RequiredBoundedOptions,
+  RequiredBoundedTypedOptions,
   OptionalBoundedOptions
 } from '../../lib/types/object/options'
 
@@ -142,7 +142,7 @@ tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
     baz: 1
   }
 
-  const options: RequiredBoundedOptions = {
+  const options: RequiredBoundedTypedOptions = {
     requiredProperties: [ 'baz', 'foo' ],
     encoding: {
       type: EncodingType.Any,

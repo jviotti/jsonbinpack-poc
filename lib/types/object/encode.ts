@@ -19,8 +19,7 @@ import {
 } from 'assert'
 
 import {
-  JSONObject,
-  JSONValue
+  JSONObject
 } from '../../json'
 
 import {
@@ -40,7 +39,7 @@ import {
   TypedKeysOptions,
   BoundedOptions,
   OptionalBoundedOptions,
-  RequiredBoundedOptions
+  RequiredBoundedTypedOptions
 } from './options'
 
 import {
@@ -52,13 +51,12 @@ import {
 } from '../any/encode'
 
 export const REQUIRED_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedOptions
+  buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
 ): number => {
   let cursor: number = offset
   for (const key of options.requiredProperties) {
-    const objectValue: JSONValue = value[key]
     const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
-    cursor += encode(buffer, cursor, encoding, objectValue)
+    cursor += encode(buffer, cursor, encoding, value[key])
   }
 
   return cursor - offset

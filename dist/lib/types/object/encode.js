@@ -41,9 +41,8 @@ var REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     try {
         for (var _c = __values(options.requiredProperties), _d = _c.next(); !_d.done; _d = _c.next()) {
             var key = _d.value;
-            var objectValue = value[key];
             var encoding = (_b = options.propertyEncodings[key]) !== null && _b !== void 0 ? _b : options.encoding;
-            cursor += encoder_1.encode(buffer, cursor, encoding, objectValue);
+            cursor += encoder_1.encode(buffer, cursor, encoding, value[key]);
         }
     }
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
