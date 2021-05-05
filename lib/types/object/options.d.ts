@@ -22,16 +22,28 @@ import {
   StringEncoding
 } from '../string/mapper'
 
+export interface RequiredBoundedOptions {
+  propertyEncodings: Record<string, Encoding>;
+  encoding: Encoding;
+  requiredProperties: string[];
+}
+
+// Implies additionalProperties: false
+// Implies required: []
+// Implies properties: NOT {}
 export interface OptionalBoundedOptions {
   propertyEncodings: Record<string, Encoding>;
   optionalProperties: string[];
 }
 
-export interface RequiredBoundedOptions {
-  propertyEncodings: Record<string, Encoding>;
-  requiredProperties: string[];
-}
+// Implies additionalProperties: false
+// Implies required: [ ... ]
+// Implies properties: NOT {}
+export interface BoundedOptions extends OptionalBoundedOptions, RequiredBoundedOptions {}
 
+// Implies additionalProperties: NOT false
+// Implies required: []
+// Implies properties: {}
 export interface TypedKeysOptions {
   keyEncoding: StringEncoding;
 }
@@ -39,4 +51,5 @@ export interface TypedKeysOptions {
 export type ObjectOptions =
   OptionalBoundedOptions |
   RequiredBoundedOptions |
+  BoundedOptions |
   TypedKeysOptions

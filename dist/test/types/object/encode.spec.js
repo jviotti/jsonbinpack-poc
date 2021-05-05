@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/types/object/encode");
+var base_1 = require("../../../lib/types/base");
 var mapper_1 = require("../../../lib/types/integer/mapper");
 var mapper_2 = require("../../../lib/types/string/mapper");
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', function (test) {
@@ -102,6 +103,11 @@ tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar
         baz: 1
     }, {
         requiredProperties: ['baz', 'foo'],
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        },
         propertyEncodings: {
             foo: mapper_2.getStringEncoding({
                 type: 'string'
@@ -123,6 +129,11 @@ tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', func
     var buffer = Buffer.allocUnsafe(1);
     var bytesWritten = encode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
         requiredProperties: [],
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        },
         propertyEncodings: {}
     });
     test.is(bytesWritten, 0);

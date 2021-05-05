@@ -21,6 +21,10 @@ import {
 } from '../../lib/json'
 
 import {
+  EncodingType
+} from '../../lib/types/base'
+
+import {
   RequiredBoundedOptions,
   OptionalBoundedOptions
 } from '../../lib/types/object/options'
@@ -140,6 +144,11 @@ tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
 
   const options: RequiredBoundedOptions = {
     requiredProperties: [ 'baz', 'foo' ],
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'

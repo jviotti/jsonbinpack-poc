@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
+var base_1 = require("../../lib/types/base");
 var encode_1 = require("../../lib/types/object/encode");
 var decode_1 = require("../../lib/types/object/decode");
 var mapper_1 = require("../../lib/types/string/mapper");
@@ -79,6 +80,11 @@ tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', fun
     };
     var options = {
         requiredProperties: ['baz', 'foo'],
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        },
         propertyEncodings: {
             foo: mapper_1.getStringEncoding({
                 type: 'string'

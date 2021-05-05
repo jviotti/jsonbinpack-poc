@@ -33,7 +33,12 @@ import {
 } from '../../utils/bitset'
 
 import {
+  EncodingType
+} from '../base'
+
+import {
   TypedKeysOptions,
+  BoundedOptions,
   OptionalBoundedOptions,
   RequiredBoundedOptions
 } from './options'
@@ -49,12 +54,10 @@ import {
 export const REQUIRED_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedOptions
 ): number => {
-  assert(Object.keys(value).length === options.requiredProperties.length)
-
   let cursor: number = offset
   for (const key of options.requiredProperties) {
     const objectValue: JSONValue = value[key]
-    const encoding: Encoding = options.propertyEncodings[key]
+    const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
     cursor += encode(buffer, cursor, encoding, objectValue)
   }
 
@@ -90,6 +93,40 @@ export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
   }
 
   return cursor - offset
+}
+
+export const BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: BoundedOptions
+): number => {
+  assert(Object.keys(value).length ===
+    options.requiredProperties.length + options.optionalProperties.length)
+
+  const requiredSubset: JSONObject = {}
+  for (const key of options.requiredProperties) {
+    Reflect.set(requiredSubset, key, value[key])
+  }
+
+  const optionalSubset: JSONObject = {}
+  for (const key of options.optionalProperties) {
+    Reflect.set(optionalSubset, key, value[key])
+  }
+
+  const requiredBytes: number = REQUIRED_BOUNDED_TYPED_OBJECT(
+    buffer, offset, requiredSubset, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties,
+      encoding: {
+        type: EncodingType.Any,
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    })
+
+  return OPTIONAL_BOUNDED_TYPED_OBJECT(
+    buffer, offset + requiredBytes, optionalSubset, {
+      propertyEncodings: options.propertyEncodings,
+      optionalProperties: options.optionalProperties
+    })
 }
 
 export const ARBITRARY_TYPED_KEYS_OBJECT = (

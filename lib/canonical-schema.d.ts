@@ -87,10 +87,16 @@ export interface ArrayCanonicalSchema {
 
 export interface ObjectCanonicalSchema {
   readonly type: 'object';
-  readonly required?: string[];
-  readonly propertyNames?: StringCanonicalSchema;
-  readonly properties?: Record<string, CanonicalSchema>;
-  readonly additionalProperties?: boolean | CanonicalSchema;
+  readonly additionalProperties: boolean | CanonicalSchema;
+
+  // Default to an empty array to make this a no-op
+  readonly required: string[];
+
+  // Default to { type: string } to make this a no-op
+  readonly propertyNames: StringCanonicalSchema;
+
+  // Default to {} to make this a no-op
+  readonly properties: Record<string, CanonicalSchema>;
 }
 
 export type CanonicalSchema =

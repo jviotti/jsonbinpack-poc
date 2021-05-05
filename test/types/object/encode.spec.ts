@@ -23,6 +23,10 @@ import {
 } from '../../../lib/types/object/encode'
 
 import {
+  EncodingType
+} from '../../../lib/types/base'
+
+import {
   getIntegerEncoding
 } from '../../../lib/types/integer/mapper'
 
@@ -137,6 +141,11 @@ tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}',
     baz: 1
   }, {
     requiredProperties: [ 'baz', 'foo' ],
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'
@@ -161,6 +170,11 @@ tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(1)
   const bytesWritten: number = REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
     requiredProperties: [],
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
     propertyEncodings: {}
   })
 
