@@ -34,6 +34,7 @@ import {
 import {
   TypedKeysOptions,
   BoundedTypedOptions,
+  UnboundedTypedOptions,
   RequiredUnboundedTypedOptions,
   OptionalBoundedTypedOptions,
   OptionalUnboundedTypedOptions,
@@ -113,7 +114,7 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
       encoding: options.encoding
     })
 
-  return NON_REQUIRED_BOUNDED_TYPED_OBJECT(
+  return requiredBytes + NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset + requiredBytes, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
       optionalProperties: options.optionalProperties,
@@ -157,7 +158,7 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
       encoding: options.encoding
     })
 
-  return ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
+  return requiredBytes + ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
     keyEncoding: options.keyEncoding,
     encoding: options.encoding
   })
@@ -181,16 +182,50 @@ export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
       encoding: options.encoding
     })
 
-  return ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + optionalBytes, rest, {
+  return optionalBytes + ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + optionalBytes, rest, {
     keyEncoding: options.keyEncoding,
     encoding: options.encoding
   })
 }
 
+export const MIXED_UNBOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: UnboundedTypedOptions
+): number => {
+  const required: Set<string> = new Set<string>(options.requiredProperties)
+  const optional: Set<string> = new Set<string>(options.optionalProperties)
 
+  const requiredSubset: JSONObject = {}
+  const optionalSubset: JSONObject = {}
 
+  const rest: JSONObject = {}
 
+  for (const key of Object.keys(value)) {
+    if (required.has(key)) {
+      Reflect.set(requiredSubset, key, value[key])
+    } else if (optional.has(key)) {
+      Reflect.set(optionalSubset, key, value[key])
+    } else {
+      Reflect.set(rest, key, value[key])
+    }
+  }
 
+  const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, offset, requiredSubset, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties,
+      encoding: options.encoding
+    })
 
+  const optionalBytes: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
+    buffer, offset + requiredBytes, optionalSubset, {
+      propertyEncodings: options.propertyEncodings,
+      optionalProperties: options.optionalProperties,
+      encoding: options.encoding
+    })
 
-
+  return requiredBytes + optionalBytes + ARBITRARY_TYPED_KEYS_OBJECT(
+    buffer, offset + requiredBytes + optionalBytes, rest, {
+      keyEncoding: options.keyEncoding,
+      encoding: options.encoding
+    })
+}
