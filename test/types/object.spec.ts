@@ -64,12 +64,22 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
 
   const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, value, {
-      keyEncoding
+      keyEncoding,
+      encoding: {
+        type: EncodingType.Any,
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
     })
 
   const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, {
-      keyEncoding
+      keyEncoding,
+      encoding: {
+        type: EncodingType.Any,
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
     })
 
   test.is(bytesWritten, result.bytes)
@@ -91,12 +101,22 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
 
   const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, value, {
-      keyEncoding
+      keyEncoding,
+      encoding: {
+        type: EncodingType.Any,
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
     })
 
   const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, {
-      keyEncoding
+      keyEncoding,
+      encoding: {
+        type: EncodingType.Any,
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
     })
 
   test.is(bytesWritten, result.bytes)

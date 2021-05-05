@@ -36,16 +36,13 @@ import {
   BoundedTypedOptions,
   RequiredUnboundedTypedOptions,
   OptionalBoundedTypedOptions,
+  OptionalUnboundedTypedOptions,
   RequiredBoundedTypedOptions
 } from './options'
 
 import {
   FLOOR__ENUM_VARINT
 } from '../integer/encode'
-
-import {
-  ANY__TYPE_PREFIX
-} from '../any/encode'
 
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
@@ -134,7 +131,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
 
   for (const [ key, objectValue ] of Object.entries(value)) {
     cursor += encode(buffer, cursor, options.keyEncoding, key)
-    cursor += ANY__TYPE_PREFIX(buffer, cursor, objectValue, {})
+    cursor += encode(buffer, cursor, options.encoding, objectValue)
   }
 
   return cursor - offset
@@ -161,7 +158,32 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
     })
 
   return ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
-    keyEncoding: options.keyEncoding
+    keyEncoding: options.keyEncoding,
+    encoding: options.encoding
+  })
+}
+
+export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: OptionalUnboundedTypedOptions
+): number => {
+  const optional: Set<string> = new Set<string>(options.optionalProperties)
+  const optionalSubset: JSONObject = {}
+  const rest: JSONObject = {}
+
+  for (const key of Object.keys(value)) {
+    Reflect.set(optional.has(key) ? optionalSubset : rest, key, value[key])
+  }
+
+  const optionalBytes: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
+    buffer, offset, optionalSubset, {
+      propertyEncodings: options.propertyEncodings,
+      optionalProperties: options.optionalProperties,
+      encoding: options.encoding
+    })
+
+  return ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + optionalBytes, rest, {
+    keyEncoding: options.keyEncoding,
+    encoding: options.encoding
   })
 }
 

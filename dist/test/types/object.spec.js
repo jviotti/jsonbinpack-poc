@@ -19,10 +19,20 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', fun
         type: 'string'
     });
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, {
-        keyEncoding: keyEncoding
+        keyEncoding: keyEncoding,
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
     });
     var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
-        keyEncoding: keyEncoding
+        keyEncoding: keyEncoding,
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
     });
     test.is(bytesWritten, result.bytes);
     test.strictSame(result.value, value);
@@ -39,10 +49,20 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
         minLength: 3
     });
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, {
-        keyEncoding: keyEncoding
+        keyEncoding: keyEncoding,
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
     });
     var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
-        keyEncoding: keyEncoding
+        keyEncoding: keyEncoding,
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
     });
     test.is(bytesWritten, result.bytes);
     test.strictSame(result.value, value);

@@ -42,7 +42,12 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
   }, {
     keyEncoding: getStringEncoding({
       type: 'string'
-    })
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    }
   })
 
   test.strictSame(buffer, Buffer.from([
@@ -66,7 +71,12 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
     keyEncoding: getStringEncoding({
       type: 'string',
       minLength: 3
-    })
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    }
   })
 
   test.strictSame(buffer, Buffer.from([

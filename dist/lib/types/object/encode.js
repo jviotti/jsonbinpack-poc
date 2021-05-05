@@ -27,12 +27,11 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
+exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var encoder_1 = require("../../encoder");
 var bitset_1 = require("../../utils/bitset");
 var encode_1 = require("../integer/encode");
-var encode_2 = require("../any/encode");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     var e_1, _a;
     var _b;
@@ -155,7 +154,7 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options) {
         for (var _b = __values(Object.entries(value)), _c = _b.next(); !_c.done; _c = _b.next()) {
             var _d = __read(_c.value, 2), key = _d[0], objectValue = _d[1];
             cursor += encoder_1.encode(buffer, cursor, options.keyEncoding, key);
-            cursor += encode_2.ANY__TYPE_PREFIX(buffer, cursor, objectValue, {});
+            cursor += encoder_1.encode(buffer, cursor, options.encoding, objectValue);
         }
     }
     catch (e_6_1) { e_6 = { error: e_6_1 }; }
@@ -193,7 +192,37 @@ var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) 
         encoding: options.encoding
     });
     return exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
-        keyEncoding: options.keyEncoding
+        keyEncoding: options.keyEncoding,
+        encoding: options.encoding
     });
 };
 exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = REQUIRED_UNBOUNDED_TYPED_OBJECT;
+var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
+    var e_8, _a;
+    var optional = new Set(options.optionalProperties);
+    var optionalSubset = {};
+    var rest = {};
+    try {
+        for (var _b = __values(Object.keys(value)), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var key = _c.value;
+            Reflect.set(optional.has(key) ? optionalSubset : rest, key, value[key]);
+        }
+    }
+    catch (e_8_1) { e_8 = { error: e_8_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_8) throw e_8.error; }
+    }
+    var optionalBytes = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset, optionalSubset, {
+        propertyEncodings: options.propertyEncodings,
+        optionalProperties: options.optionalProperties,
+        encoding: options.encoding
+    });
+    return exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + optionalBytes, rest, {
+        keyEncoding: options.keyEncoding,
+        encoding: options.encoding
+    });
+};
+exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = OPTIONAL_UNBOUNDED_TYPED_OBJECT;

@@ -33,11 +33,6 @@ import {
 } from '../integer/decode'
 
 import {
-  AnyResult,
-  ANY__TYPE_PREFIX
-} from '../any/decode'
-
-import {
   TypedKeysOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
@@ -126,8 +121,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
     assert(keyResult.bytes >= 0)
     cursor += keyResult.bytes
 
-    const valueResult: AnyResult =
-      ANY__TYPE_PREFIX(buffer, cursor, {})
+    const valueResult: DecodeResult = decode(buffer, cursor, options.encoding)
     assert(valueResult.bytes >= 0)
     cursor += valueResult.bytes
 

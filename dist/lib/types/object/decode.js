@@ -31,7 +31,6 @@ exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT 
 var assert_1 = require("assert");
 var bitset_1 = require("../../utils/bitset");
 var decode_1 = require("../integer/decode");
-var decode_2 = require("../any/decode");
 var encoder_1 = require("../../encoder");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_1, _a;
@@ -112,7 +111,7 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, options) {
         assert_1.strict(typeof keyResult.value === 'string');
         assert_1.strict(keyResult.bytes >= 0);
         cursor += keyResult.bytes;
-        var valueResult = decode_2.ANY__TYPE_PREFIX(buffer, cursor, {});
+        var valueResult = encoder_1.decode(buffer, cursor, options.encoding);
         assert_1.strict(valueResult.bytes >= 0);
         cursor += valueResult.bytes;
         Reflect.set(value, keyResult.value, valueResult.value);

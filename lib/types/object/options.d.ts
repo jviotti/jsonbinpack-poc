@@ -37,10 +37,8 @@ export interface OptionalBoundedTypedOptions {
 export interface BoundedTypedOptions extends
   OptionalBoundedTypedOptions, RequiredBoundedTypedOptions {}
 
-// Implies additionalProperties: NOT false
-// Implies required: []
-// Implies properties: {}
 export interface TypedKeysOptions {
+  encoding: Encoding;
   keyEncoding: StringEncoding;
 }
 
@@ -50,9 +48,16 @@ export interface RequiredUnboundedTypedOptions extends TypedKeysOptions {
   requiredProperties: string[];
 }
 
+export interface OptionalUnboundedTypedOptions extends TypedKeysOptions {
+  propertyEncodings: Record<string, Encoding>;
+  encoding: Encoding;
+  optionalProperties: string[];
+}
+
 export type ObjectOptions =
   OptionalBoundedTypedOptions |
   RequiredBoundedTypedOptions |
   RequiredUnboundedTypedOptions |
+  OptionalUnboundedTypedOptions |
   BoundedTypedOptions |
   TypedKeysOptions
