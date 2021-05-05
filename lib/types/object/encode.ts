@@ -53,6 +53,7 @@ import {
 export const REQUIRED_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
 ): number => {
+  assert(options.requiredProperties.length > 0)
   let cursor: number = offset
   for (const key of options.requiredProperties) {
     const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
@@ -61,6 +62,10 @@ export const REQUIRED_BOUNDED_TYPED_OBJECT = (
 
   return cursor - offset
 }
+
+
+
+
 
 export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: OptionalBoundedOptions

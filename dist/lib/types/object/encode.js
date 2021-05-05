@@ -37,6 +37,7 @@ var encode_2 = require("../any/encode");
 var REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     var e_1, _a;
     var _b;
+    assert_1.strict(options.requiredProperties.length > 0);
     var cursor = offset;
     try {
         for (var _c = __values(options.requiredProperties), _d = _c.next(); !_d.done; _d = _c.next()) {

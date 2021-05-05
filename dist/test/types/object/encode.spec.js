@@ -125,17 +125,3 @@ tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar
     test.is(bytesWritten, 5);
     test.end();
 });
-tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', function (test) {
-    var buffer = Buffer.allocUnsafe(1);
-    var bytesWritten = encode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
-        requiredProperties: [],
-        encoding: {
-            type: base_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
-            options: {}
-        },
-        propertyEncodings: {}
-    });
-    test.is(bytesWritten, 0);
-    test.end();
-});

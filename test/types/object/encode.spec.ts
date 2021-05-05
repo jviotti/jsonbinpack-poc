@@ -165,19 +165,3 @@ tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}',
   test.is(bytesWritten, 5)
   test.end()
 })
-
-tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(1)
-  const bytesWritten: number = REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
-    requiredProperties: [],
-    encoding: {
-      type: EncodingType.Any,
-      encoding: 'ANY__TYPE_PREFIX',
-      options: {}
-    },
-    propertyEncodings: {}
-  })
-
-  test.is(bytesWritten, 0)
-  test.end()
-})
