@@ -44,8 +44,15 @@ export interface TypedKeysOptions {
   keyEncoding: StringEncoding;
 }
 
+export interface RequiredUnboundedTypedOptions extends TypedKeysOptions {
+  propertyEncodings: Record<string, Encoding>;
+  encoding: Encoding;
+  requiredProperties: string[];
+}
+
 export type ObjectOptions =
   OptionalBoundedTypedOptions |
   RequiredBoundedTypedOptions |
+  RequiredUnboundedTypedOptions |
   BoundedTypedOptions |
   TypedKeysOptions

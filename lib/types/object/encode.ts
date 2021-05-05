@@ -34,6 +34,7 @@ import {
 import {
   TypedKeysOptions,
   BoundedTypedOptions,
+  RequiredUnboundedTypedOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
 } from './options'
@@ -138,3 +139,36 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
 
   return cursor - offset
 }
+
+export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: RequiredUnboundedTypedOptions
+): number => {
+  assert(options.requiredProperties.length > 0)
+
+  const required: Set<string> = new Set<string>(options.requiredProperties)
+  const requiredSubset: JSONObject = {}
+  const rest: JSONObject = {}
+
+  for (const key of Object.keys(value)) {
+    Reflect.set(required.has(key) ? requiredSubset : rest, key, value[key])
+  }
+
+  const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, offset, requiredSubset, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties,
+      encoding: options.encoding
+    })
+
+  return ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
+    keyEncoding: options.keyEncoding
+  })
+}
+
+
+
+
+
+
+
+

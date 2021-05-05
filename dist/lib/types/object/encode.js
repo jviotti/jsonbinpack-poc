@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
+exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var encoder_1 = require("../../encoder");
 var bitset_1 = require("../../utils/bitset");
@@ -168,3 +168,32 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options) {
     return cursor - offset;
 };
 exports.ARBITRARY_TYPED_KEYS_OBJECT = ARBITRARY_TYPED_KEYS_OBJECT;
+var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
+    var e_7, _a;
+    assert_1.strict(options.requiredProperties.length > 0);
+    var required = new Set(options.requiredProperties);
+    var requiredSubset = {};
+    var rest = {};
+    try {
+        for (var _b = __values(Object.keys(value)), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var key = _c.value;
+            Reflect.set(required.has(key) ? requiredSubset : rest, key, value[key]);
+        }
+    }
+    catch (e_7_1) { e_7 = { error: e_7_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_7) throw e_7.error; }
+    }
+    var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset, requiredSubset, {
+        propertyEncodings: options.propertyEncodings,
+        requiredProperties: options.requiredProperties,
+        encoding: options.encoding
+    });
+    return exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
+        keyEncoding: options.keyEncoding
+    });
+};
+exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = REQUIRED_UNBOUNDED_TYPED_OBJECT;
