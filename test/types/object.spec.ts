@@ -26,19 +26,19 @@ import {
 
 import {
   RequiredBoundedTypedOptions,
-  OptionalBoundedOptions
+  OptionalBoundedTypedOptions
 } from '../../lib/types/object/options'
 
 import {
   ARBITRARY_TYPED_KEYS_OBJECT as ENCODE_ARBITRARY_TYPED_KEYS_OBJECT,
-  OPTIONAL_BOUNDED_TYPED_OBJECT as ENCODE_OPTIONAL_BOUNDED_TYPED_OBJECT,
+  NON_REQUIRED_BOUNDED_TYPED_OBJECT as ENCODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT,
   REQUIRED_BOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_BOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/encode'
 
 import {
   ObjectResult,
   ARBITRARY_TYPED_KEYS_OBJECT as DECODE_ARBITRARY_TYPED_KEYS_OBJECT,
-  OPTIONAL_BOUNDED_TYPED_OBJECT as DECODE_OPTIONAL_BOUNDED_TYPED_OBJECT,
+  NON_REQUIRED_BOUNDED_TYPED_OBJECT as DECODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT,
   REQUIRED_BOUNDED_TYPED_OBJECT as DECODE_REQUIRED_BOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/decode'
 
@@ -104,15 +104,20 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
   test.end()
 })
 
-tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
+tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(7)
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
   }
 
-  const options: OptionalBoundedOptions = {
+  const options: OptionalBoundedTypedOptions = {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'
@@ -124,10 +129,10 @@ tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
     }
   }
 
-  const bytesWritten: number = ENCODE_OPTIONAL_BOUNDED_TYPED_OBJECT(
+  const bytesWritten: number = ENCODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, 0, value, options)
 
-  const result: ObjectResult = DECODE_OPTIONAL_BOUNDED_TYPED_OBJECT(
+  const result: ObjectResult = DECODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)

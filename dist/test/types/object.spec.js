@@ -48,7 +48,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
     test.strictSame(result.value, value);
     test.end();
 });
-tap_1.default.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', function (test) {
+tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', function (test) {
     var buffer = Buffer.allocUnsafe(7);
     var value = {
         foo: 'bar',
@@ -56,6 +56,11 @@ tap_1.default.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', fun
     };
     var options = {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        },
         propertyEncodings: {
             foo: mapper_1.getStringEncoding({
                 type: 'string'
@@ -66,8 +71,8 @@ tap_1.default.test('OPTIONAL_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', fun
             })
         }
     };
-    var bytesWritten = encode_1.OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, value, options);
-    var result = decode_1.OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, options);
+    var bytesWritten = encode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options);
+    var result = decode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, options);
     test.is(bytesWritten, result.bytes);
     test.strictSame(result.value, value);
     test.end();

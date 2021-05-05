@@ -18,7 +18,7 @@ import tap from 'tap'
 
 import {
   ARBITRARY_TYPED_KEYS_OBJECT,
-  OPTIONAL_BOUNDED_TYPED_OBJECT,
+  NON_REQUIRED_BOUNDED_TYPED_OBJECT,
   REQUIRED_BOUNDED_TYPED_OBJECT
 } from '../../../lib/types/object/encode'
 
@@ -81,13 +81,18 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
   test.end()
 })
 
-tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
+tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(7)
-  const bytesWritten: number = OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, {
+  const bytesWritten: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
     baz: 1
   }, {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'
@@ -110,10 +115,15 @@ tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}',
   test.end()
 })
 
-tap.test('OPTIONAL_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => {
+tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(2)
-  const bytesWritten: number = OPTIONAL_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
+  const bytesWritten: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'

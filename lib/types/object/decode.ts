@@ -39,7 +39,7 @@ import {
 
 import {
   TypedKeysOptions,
-  OptionalBoundedOptions,
+  OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
 } from './options'
 
@@ -73,8 +73,8 @@ export const REQUIRED_BOUNDED_TYPED_OBJECT = (
   }
 }
 
-export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: OptionalBoundedOptions
+export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, options: OptionalBoundedTypedOptions
 ): ObjectResult => {
   const bitsetLength: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
     minimum: 0
@@ -93,7 +93,7 @@ export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
     }
 
     const key: string = options.optionalProperties[index]
-    const encoding: Encoding = options.propertyEncodings[key]
+    const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
     const propertyResult: DecodeResult = decode(buffer, cursor, encoding)
     assert(propertyResult.bytes >= 0)
     Reflect.set(result, key, propertyResult.value)

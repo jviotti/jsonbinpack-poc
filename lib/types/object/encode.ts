@@ -38,7 +38,7 @@ import {
 import {
   TypedKeysOptions,
   BoundedOptions,
-  OptionalBoundedOptions,
+  OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
 } from './options'
 
@@ -63,12 +63,8 @@ export const REQUIRED_BOUNDED_TYPED_OBJECT = (
   return cursor - offset
 }
 
-
-
-
-
-export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: OptionalBoundedOptions
+export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: OptionalBoundedTypedOptions
 ): number => {
   assert(Object.keys(value).length <= options.optionalProperties.length)
 
@@ -90,13 +86,23 @@ export const OPTIONAL_BOUNDED_TYPED_OBJECT = (
   const bitsetBytes: number = bitsetEncode(buffer, offset + lengthBytes, bitset)
   let cursor = offset + lengthBytes + bitsetBytes
   for (const key of keys) {
-    const encoding: Encoding = options.propertyEncodings[key]
+    const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
     const bytesWritten: number = encode(buffer, cursor, encoding, value[key])
     cursor += bytesWritten
   }
 
   return cursor - offset
 }
+
+
+
+
+
+
+
+
+
+
 
 export const BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: BoundedOptions
@@ -125,10 +131,15 @@ export const BOUNDED_TYPED_OBJECT = (
       }
     })
 
-  return OPTIONAL_BOUNDED_TYPED_OBJECT(
+  return NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset + requiredBytes, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
-      optionalProperties: options.optionalProperties
+      optionalProperties: options.optionalProperties,
+      encoding: {
+        type: EncodingType.Any,
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
     })
 }
 
