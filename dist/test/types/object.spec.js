@@ -77,7 +77,7 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}',
     test.strictSame(result.value, value);
     test.end();
 });
-tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', function (test) {
+tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', function (test) {
     var buffer = Buffer.allocUnsafe(5);
     var value = {
         foo: 'bar',
@@ -100,8 +100,8 @@ tap_1.default.test('REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', fun
             })
         }
     };
-    var bytesWritten = encode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options);
-    var result = decode_1.REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, options);
+    var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, value, options);
+    var result = decode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, options);
     test.is(bytesWritten, result.bytes);
     test.strictSame(result.value, value);
     test.end();

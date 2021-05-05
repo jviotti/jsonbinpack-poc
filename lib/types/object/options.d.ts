@@ -34,10 +34,8 @@ export interface OptionalBoundedTypedOptions {
   optionalProperties: string[];
 }
 
-// Implies additionalProperties: false
-// Implies required: [ ... ]
-// Implies properties: NOT {}
-export interface BoundedOptions extends OptionalBoundedTypedOptions, RequiredBoundedTypedOptions {}
+export interface BoundedTypedOptions extends
+  OptionalBoundedTypedOptions, RequiredBoundedTypedOptions {}
 
 // Implies additionalProperties: NOT false
 // Implies required: []
@@ -49,5 +47,5 @@ export interface TypedKeysOptions {
 export type ObjectOptions =
   OptionalBoundedTypedOptions |
   RequiredBoundedTypedOptions |
-  BoundedOptions |
+  BoundedTypedOptions |
   TypedKeysOptions

@@ -27,13 +27,13 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_BOUNDED_TYPED_OBJECT = void 0;
+exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var bitset_1 = require("../../utils/bitset");
 var decode_1 = require("../integer/decode");
 var decode_2 = require("../any/decode");
 var encoder_1 = require("../../encoder");
-var REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
+var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_1, _a;
     var _b;
     var result = {};
@@ -60,7 +60,7 @@ var REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
         bytes: cursor - offset
     };
 };
-exports.REQUIRED_BOUNDED_TYPED_OBJECT = REQUIRED_BOUNDED_TYPED_OBJECT;
+exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT;
 var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_2, _a;
     var _b;

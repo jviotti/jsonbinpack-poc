@@ -32,12 +32,8 @@ import {
 } from '../../utils/bitset'
 
 import {
-  EncodingType
-} from '../base'
-
-import {
   TypedKeysOptions,
-  BoundedOptions,
+  BoundedTypedOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
 } from './options'
@@ -50,10 +46,12 @@ import {
   ANY__TYPE_PREFIX
 } from '../any/encode'
 
-export const REQUIRED_BOUNDED_TYPED_OBJECT = (
+export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
 ): number => {
   assert(options.requiredProperties.length > 0)
+  assert(Object.keys(value).length === options.requiredProperties.length)
+
   let cursor: number = offset
   for (const key of options.requiredProperties) {
     const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
@@ -94,18 +92,8 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
   return cursor - offset
 }
 
-
-
-
-
-
-
-
-
-
-
-export const BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: BoundedOptions
+export const MIXED_BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, value: JSONObject, options: BoundedTypedOptions
 ): number => {
   assert(Object.keys(value).length ===
     options.requiredProperties.length + options.optionalProperties.length)
@@ -120,26 +108,18 @@ export const BOUNDED_TYPED_OBJECT = (
     Reflect.set(optionalSubset, key, value[key])
   }
 
-  const requiredBytes: number = REQUIRED_BOUNDED_TYPED_OBJECT(
+  const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties,
-      encoding: {
-        type: EncodingType.Any,
-        encoding: 'ANY__TYPE_PREFIX',
-        options: {}
-      }
+      encoding: options.encoding
     })
 
   return NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset + requiredBytes, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
       optionalProperties: options.optionalProperties,
-      encoding: {
-        type: EncodingType.Any,
-        encoding: 'ANY__TYPE_PREFIX',
-        options: {}
-      }
+      encoding: options.encoding
     })
 }
 

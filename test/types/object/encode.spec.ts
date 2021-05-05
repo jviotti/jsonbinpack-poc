@@ -19,7 +19,7 @@ import tap from 'tap'
 import {
   ARBITRARY_TYPED_KEYS_OBJECT,
   NON_REQUIRED_BOUNDED_TYPED_OBJECT,
-  REQUIRED_BOUNDED_TYPED_OBJECT
+  REQUIRED_ONLY_BOUNDED_TYPED_OBJECT
 } from '../../../lib/types/object/encode'
 
 import {
@@ -144,9 +144,9 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => 
   test.end()
 })
 
-tap.test('REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(5)
-  const bytesWritten: number = REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {
+  const bytesWritten: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
     baz: 1
   }, {

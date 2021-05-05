@@ -54,7 +54,7 @@ export interface ObjectResult extends DecodeResult {
   readonly bytes: number;
 }
 
-export const REQUIRED_BOUNDED_TYPED_OBJECT = (
+export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, options: RequiredBoundedTypedOptions
 ): ObjectResult => {
   const result: JSONObject = {}
