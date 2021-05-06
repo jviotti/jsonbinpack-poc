@@ -37,7 +37,18 @@ tap.test('should encode a bounded object with only required keys', (test) => {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
     options: {
-      propertyEncodings: {},
+      propertyEncodings: {
+        foo: {
+          type: 'any',
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        },
+        bar: {
+          type: 'any',
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        }
+      },
       encoding: {
         type: 'any',
         encoding: 'ANY__TYPE_PREFIX',
@@ -63,7 +74,18 @@ tap.test('should encode a bounded object with required keys and empty properties
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
     options: {
-      propertyEncodings: {},
+      propertyEncodings: {
+        foo: {
+          type: 'any',
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        },
+        bar: {
+          type: 'any',
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        }
+      },
       encoding: {
         type: 'any',
         encoding: 'ANY__TYPE_PREFIX',
@@ -101,6 +123,11 @@ tap.test('should encode a bounded object with partially defined required keys', 
           options: {
             maximum: 5
           }
+        },
+        bar: {
+          type: 'any',
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
         }
       },
       encoding: {
@@ -342,6 +369,11 @@ tap.test('should encode a bounded object with an optional and a required propert
           options: {
             maximum: 5
           }
+        },
+        bar: {
+          type: 'any',
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
         }
       },
       encoding: {

@@ -141,6 +141,12 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
       return accumulator
     }, {})
 
+  for (const key of requiredProperties.concat(optionalProperties)) {
+    if (!(key in propertyEncodings)) {
+      propertyEncodings[key] = additionalProperties ?? getEncoding({})
+    }
+  }
+
   const keyEncoding: StringEncoding =
     getStringEncoding(schema.propertyNames ?? {
       type: 'string'
@@ -149,6 +155,7 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
   // TODO: Improve and test this definition
 
   // Bounded encodings
+  // TODO: Remove "encoding" from bounded encodings
   if (additionalProperties === null) {
     if (optionalProperties.length === 0) {
       return {

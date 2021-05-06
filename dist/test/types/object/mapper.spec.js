@@ -16,7 +16,18 @@ tap_1.default.test('should encode a bounded object with only required keys', fun
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
         options: {
-            propertyEncodings: {},
+            propertyEncodings: {
+                foo: {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
+                },
+                bar: {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
+                }
+            },
             encoding: {
                 type: 'any',
                 encoding: 'ANY__TYPE_PREFIX',
@@ -39,7 +50,18 @@ tap_1.default.test('should encode a bounded object with required keys and empty 
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
         options: {
-            propertyEncodings: {},
+            propertyEncodings: {
+                foo: {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
+                },
+                bar: {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
+                }
+            },
             encoding: {
                 type: 'any',
                 encoding: 'ANY__TYPE_PREFIX',
@@ -74,6 +96,11 @@ tap_1.default.test('should encode a bounded object with partially defined requir
                     options: {
                         maximum: 5
                     }
+                },
+                bar: {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
                 }
             },
             encoding: {
@@ -297,6 +324,11 @@ tap_1.default.test('should encode a bounded object with an optional and a requir
                     options: {
                         maximum: 5
                     }
+                },
+                bar: {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
                 }
             },
             encoding: {
