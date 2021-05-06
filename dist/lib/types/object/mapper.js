@@ -87,7 +87,6 @@ var getObjectEncoding = function (schema) {
                 encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
                 options: {
                     propertyEncodings: propertyEncodings,
-                    encoding: mapper_2.getEncoding({}),
                     optionalProperties: optionalProperties,
                     requiredProperties: requiredProperties
                 }

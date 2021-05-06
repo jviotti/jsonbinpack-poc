@@ -155,7 +155,6 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
   // TODO: Improve and test this definition
 
   // Bounded encodings
-  // TODO: Remove "encoding" from bounded encodings
   if (additionalProperties === null) {
     if (optionalProperties.length === 0) {
       return {
@@ -181,7 +180,6 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
         encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
         options: {
           propertyEncodings,
-          encoding: getEncoding({}),
           optionalProperties,
           requiredProperties
         }

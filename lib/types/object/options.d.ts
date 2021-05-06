@@ -41,7 +41,7 @@ export interface OptionalBoundedTypedOptions extends TypedPropertiesOptions {
 }
 
 export interface BoundedTypedOptions extends
-  OptionalBoundedTypedOptions, RequiredBoundedTypedOptions, HomogeneousPropertiesOptions {}
+  OptionalBoundedTypedOptions, RequiredBoundedTypedOptions {}
 
 export interface TypedKeysOptions extends HomogeneousPropertiesOptions {
   keyEncoding: StringEncoding;
@@ -54,7 +54,7 @@ export interface OptionalUnboundedTypedOptions extends
   OptionalBoundedTypedOptions, TypedKeysOptions, HomogeneousPropertiesOptions {}
 
 export interface UnboundedTypedOptions extends
-  BoundedTypedOptions, TypedKeysOptions {}
+  BoundedTypedOptions, TypedKeysOptions, HomogeneousPropertiesOptions {}
 
 export type ObjectOptions =
   RequiredBoundedTypedOptions |

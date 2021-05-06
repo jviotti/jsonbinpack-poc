@@ -291,11 +291,6 @@ tap_1.default.test('should encode a bounded object with an optional and a requir
                     options: {}
                 }
             },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
-            },
             optionalProperties: ['foo'],
             requiredProperties: ['bar']
         }
@@ -335,11 +330,6 @@ tap_1.default.test('should encode a bounded object with an optional and a typed 
                     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
                     options: {}
                 }
-            },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
             },
             optionalProperties: ['foo'],
             requiredProperties: ['bar']
