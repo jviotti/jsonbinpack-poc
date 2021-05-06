@@ -34,7 +34,7 @@ var bitset_1 = require("../../utils/bitset");
 var encode_1 = require("../integer/encode");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     var e_1, _a;
-    assert_1.strict(options.requiredProperties.length > 0);
+    assert_1.strict(Object.keys(options.requiredProperties).length === Object.keys(options.propertyEncodings).length);
     assert_1.strict(Object.keys(value).length === options.requiredProperties.length);
     var cursor = offset;
     try {
@@ -57,6 +57,7 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, option
 exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT;
 var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     var e_2, _a, e_3, _b;
+    assert_1.strict(Object.keys(options.optionalProperties).length === Object.keys(options.propertyEncodings).length);
     assert_1.strict(Object.keys(value).length <= options.optionalProperties.length);
     var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, options.optionalProperties.length, {
         minimum: 0

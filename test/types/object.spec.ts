@@ -25,6 +25,10 @@ import {
 } from '../../lib/types/base'
 
 import {
+  getAnyEncoding
+} from '../../lib/types/any/mapper'
+
+import {
   RequiredBoundedTypedOptions,
   OptionalBoundedTypedOptions
 } from '../../lib/types/object/options'
@@ -140,7 +144,9 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =>
       baz: getIntegerEncoding({
         type: 'integer',
         minimum: 0
-      })
+      }),
+      bar: getAnyEncoding({}),
+      qux: getAnyEncoding({})
     }
   }
 

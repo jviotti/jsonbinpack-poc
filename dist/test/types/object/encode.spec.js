@@ -6,15 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/types/object/encode");
 var base_1 = require("../../../lib/types/base");
-var mapper_1 = require("../../../lib/types/integer/mapper");
-var mapper_2 = require("../../../lib/types/string/mapper");
+var mapper_1 = require("../../../lib/types/any/mapper");
+var mapper_2 = require("../../../lib/types/integer/mapper");
+var mapper_3 = require("../../../lib/types/string/mapper");
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', function (test) {
     var buffer = Buffer.allocUnsafe(16);
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
     }, {
-        keyEncoding: mapper_2.getStringEncoding({
+        keyEncoding: mapper_3.getStringEncoding({
             type: 'string'
         }),
         encoding: {
@@ -39,7 +40,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",
         foo: 'bar',
         baz: 1
     }, {
-        keyEncoding: mapper_2.getStringEncoding({
+        keyEncoding: mapper_3.getStringEncoding({
             type: 'string',
             minLength: 3
         }),
@@ -67,13 +68,15 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:
     }, {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
         propertyEncodings: {
-            foo: mapper_2.getStringEncoding({
+            foo: mapper_3.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_1.getIntegerEncoding({
+            baz: mapper_2.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }),
+            bar: mapper_1.getAnyEncoding({}),
+            qux: mapper_1.getAnyEncoding({})
         }
     });
     test.strictSame(buffer, Buffer.from([
@@ -90,13 +93,15 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', 
     var bytesWritten = encode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
         propertyEncodings: {
-            foo: mapper_2.getStringEncoding({
+            foo: mapper_3.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_1.getIntegerEncoding({
+            baz: mapper_2.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }),
+            bar: mapper_1.getAnyEncoding({}),
+            qux: mapper_1.getAnyEncoding({})
         }
     });
     test.strictSame(buffer, Buffer.from([
@@ -114,10 +119,10 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
     }, {
         requiredProperties: ['baz', 'foo'],
         propertyEncodings: {
-            foo: mapper_2.getStringEncoding({
+            foo: mapper_3.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_1.getIntegerEncoding({
+            baz: mapper_2.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
             })

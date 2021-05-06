@@ -27,6 +27,10 @@ import {
 } from '../../../lib/types/base'
 
 import {
+  getAnyEncoding
+} from '../../../lib/types/any/mapper'
+
+import {
   getIntegerEncoding
 } from '../../../lib/types/integer/mapper'
 
@@ -105,7 +109,9 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:
       baz: getIntegerEncoding({
         type: 'integer',
         minimum: 0
-      })
+      }),
+      bar: getAnyEncoding({}),
+      qux: getAnyEncoding({})
     }
   })
 
@@ -131,7 +137,9 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => 
       baz: getIntegerEncoding({
         type: 'integer',
         minimum: 0
-      })
+      }),
+      bar: getAnyEncoding({}),
+      qux: getAnyEncoding({})
     }
   })
 
