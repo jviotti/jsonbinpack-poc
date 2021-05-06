@@ -386,3 +386,185 @@ tap.test('should encode a bounded object with an optional and a typed required p
 
   test.end()
 })
+
+tap.test('should encode a simple unbounded object', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object'
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a simple unbounded object with additionalProperties: true', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: true
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a simple unbounded object with additionalProperties: schema', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: {
+      type: 'string'
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      encoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a simple unbounded object with propertyNames', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    propertyNames: {
+      type: 'string',
+      maxLength: 5
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+        options: {
+          maximum: 5
+        }
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a simple unbounded object with propertyNames and additionalProperties: true', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: true,
+    propertyNames: {
+      type: 'string',
+      maxLength: 5
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+        options: {
+          maximum: 5
+        }
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a simple unbounded object with propertyNames and additionalProperties: schema', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: {
+      type: 'string'
+    },
+    propertyNames: {
+      type: 'string',
+      maxLength: 5
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+        options: {
+          maximum: 5
+        }
+      },
+      encoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})

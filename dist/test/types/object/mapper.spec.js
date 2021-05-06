@@ -337,3 +337,167 @@ tap_1.default.test('should encode a bounded object with an optional and a typed 
     });
     test.end();
 });
+tap_1.default.test('should encode a simple unbounded object', function (test) {
+    var schema = {
+        type: 'object'
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+        options: {
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a simple unbounded object with additionalProperties: true', function (test) {
+    var schema = {
+        type: 'object',
+        additionalProperties: true
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+        options: {
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a simple unbounded object with additionalProperties: schema', function (test) {
+    var schema = {
+        type: 'object',
+        additionalProperties: {
+            type: 'string'
+        }
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+        options: {
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            encoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a simple unbounded object with propertyNames', function (test) {
+    var schema = {
+        type: 'object',
+        propertyNames: {
+            type: 'string',
+            maxLength: 5
+        }
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+        options: {
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+                options: {
+                    maximum: 5
+                }
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a simple unbounded object with propertyNames and additionalProperties: true', function (test) {
+    var schema = {
+        type: 'object',
+        additionalProperties: true,
+        propertyNames: {
+            type: 'string',
+            maxLength: 5
+        }
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+        options: {
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+                options: {
+                    maximum: 5
+                }
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a simple unbounded object with propertyNames and additionalProperties: schema', function (test) {
+    var schema = {
+        type: 'object',
+        additionalProperties: {
+            type: 'string'
+        },
+        propertyNames: {
+            type: 'string',
+            maxLength: 5
+        }
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+        options: {
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+                options: {
+                    maximum: 5
+                }
+            },
+            encoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});

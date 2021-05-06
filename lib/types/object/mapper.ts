@@ -152,8 +152,6 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
       type: 'string'
     })
 
-  // TODO: Improve and test this definition
-
   // Bounded encodings
   if (additionalProperties === null) {
     if (optionalProperties.length === 0) {
@@ -186,6 +184,19 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
       }
     }
   }
+
+  if (requiredProperties.length === 0 && optionalProperties.length === 0) {
+    return {
+      type: EncodingType.Object,
+      encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+      options: {
+        encoding: additionalProperties,
+        keyEncoding
+      }
+    }
+  }
+
+  // TODO: Improve and test this definition
 
   return {
     type: EncodingType.Object,

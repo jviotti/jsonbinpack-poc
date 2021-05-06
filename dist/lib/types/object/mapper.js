@@ -93,6 +93,16 @@ var getObjectEncoding = function (schema) {
             };
         }
     }
+    if (requiredProperties.length === 0 && optionalProperties.length === 0) {
+        return {
+            type: base_1.EncodingType.Object,
+            encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+            options: {
+                encoding: additionalProperties,
+                keyEncoding: keyEncoding
+            }
+        };
+    }
     return {
         type: base_1.EncodingType.Object,
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
