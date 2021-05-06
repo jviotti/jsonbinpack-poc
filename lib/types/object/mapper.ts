@@ -185,7 +185,19 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
     }
   }
 
-  if (requiredProperties.length > 0 && optionalProperties.length === 0) {
+  if (requiredProperties.length > 0 && optionalProperties.length > 0) {
+    return {
+      type: EncodingType.Object,
+      encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
+      options: {
+        propertyEncodings,
+        optionalProperties,
+        requiredProperties,
+        keyEncoding,
+        encoding: additionalProperties
+      }
+    }
+  } else if (requiredProperties.length > 0 && optionalProperties.length === 0) {
     return {
       type: EncodingType.Object,
       encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -205,18 +217,6 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
         propertyEncodings,
         keyEncoding,
         optionalProperties
-      }
-    }
-  } else if (requiredProperties.length > 0 && optionalProperties.length > 0) {
-    return {
-      type: EncodingType.Object,
-      encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
-      options: {
-        propertyEncodings,
-        optionalProperties,
-        requiredProperties,
-        keyEncoding,
-        encoding: additionalProperties
       }
     }
   }

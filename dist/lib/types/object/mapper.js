@@ -93,7 +93,20 @@ var getObjectEncoding = function (schema) {
             };
         }
     }
-    if (requiredProperties.length > 0 && optionalProperties.length === 0) {
+    if (requiredProperties.length > 0 && optionalProperties.length > 0) {
+        return {
+            type: base_1.EncodingType.Object,
+            encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
+            options: {
+                propertyEncodings: propertyEncodings,
+                optionalProperties: optionalProperties,
+                requiredProperties: requiredProperties,
+                keyEncoding: keyEncoding,
+                encoding: additionalProperties
+            }
+        };
+    }
+    else if (requiredProperties.length > 0 && optionalProperties.length === 0) {
         return {
             type: base_1.EncodingType.Object,
             encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -114,19 +127,6 @@ var getObjectEncoding = function (schema) {
                 propertyEncodings: propertyEncodings,
                 keyEncoding: keyEncoding,
                 optionalProperties: optionalProperties
-            }
-        };
-    }
-    else if (requiredProperties.length > 0 && optionalProperties.length > 0) {
-        return {
-            type: base_1.EncodingType.Object,
-            encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
-            options: {
-                propertyEncodings: propertyEncodings,
-                optionalProperties: optionalProperties,
-                requiredProperties: requiredProperties,
-                keyEncoding: keyEncoding,
-                encoding: additionalProperties
             }
         };
     }
