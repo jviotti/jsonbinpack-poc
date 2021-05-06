@@ -15,6 +15,24 @@
  */
 
 import {
+  CanonicalSchema,
+  ObjectCanonicalSchema
+} from '../../canonical-schema'
+
+import {
+  getStringEncoding,
+  StringEncoding
+} from '../string/mapper'
+
+import {
+  getEncoding
+} from '../../mapper'
+
+import {
+  Encoding
+} from '../../encoder'
+
+import {
   BaseEncodingDefinition,
   EncodingType
 } from '../base'
@@ -87,3 +105,70 @@ export type ObjectEncoding =
   REQUIRED_UNBOUNDED_TYPED_OBJECT_ENCODING |
   OPTIONAL_UNBOUNDED_TYPED_OBJECT_ENCODING |
   MIXED_UNBOUNDED_TYPED_OBJECT_ENCODING
+
+const parseAdditionalProperties = (
+  value: undefined | boolean | CanonicalSchema
+): Encoding | null => {
+  if (typeof value === 'boolean' && !value) {
+    return null
+  }
+
+  const schema: CanonicalSchema =
+    (typeof value === 'undefined' || (typeof value === 'boolean' && value))
+      ? {} : value
+  return getEncoding(schema)
+}
+
+export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding => {
+  const additionalProperties: Encoding | null =
+    parseAdditionalProperties(schema.additionalProperties)
+  const requiredProperties: string[] =
+    (schema.required ?? []).sort((left: string, right: string) => {
+      return left.localeCompare(right)
+    })
+
+  const properties: Record<string, CanonicalSchema> = schema.properties ?? {}
+  const optionalProperties: string[] = Object.keys(properties)
+    .filter((key: string) => {
+      return requiredProperties.indexOf(key) === -1
+    }).sort((left: string, right: string) => {
+      return left.localeCompare(right)
+    })
+
+  const propertyEncodings: Record<string, Encoding> = Object.keys(properties)
+    .reduce((accumulator: Record<string, Encoding>, key: string) => {
+      accumulator[key] = getEncoding(properties[key])
+      return accumulator
+    }, {})
+
+  const keyEncoding: StringEncoding =
+    getStringEncoding(schema.propertyNames ?? {
+      type: 'string'
+    })
+
+  // TODO: Improve and test this definition
+
+  // Bounded encodings
+  if (additionalProperties === null) {
+    if (optionalProperties.length === 0) {
+      return {
+        type: EncodingType.Object,
+        encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+        options: {
+          propertyEncodings,
+          encoding: getEncoding({}),
+          requiredProperties
+        }
+      }
+    }
+  }
+
+  return {
+    type: EncodingType.Object,
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      encoding: getEncoding({}),
+      keyEncoding
+    }
+  }
+}

@@ -23,9 +23,6 @@ import {
 } from '../string/mapper'
 
 // TODO: Revise the names of these options interfaces
-// TODO: Write object mapping function to ensure these make sense
-// The mapping function should start by doing the required/optional sorting stuff
-// and then applying logic based on that rather than on the presence of the keywords
 
 interface TypedPropertiesOptions {
   propertyEncodings: Record<string, Encoding>;
