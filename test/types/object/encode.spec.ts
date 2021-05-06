@@ -20,7 +20,8 @@ import {
   ARBITRARY_TYPED_KEYS_OBJECT,
   NON_REQUIRED_BOUNDED_TYPED_OBJECT,
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
-  MIXED_BOUNDED_TYPED_OBJECT
+  MIXED_BOUNDED_TYPED_OBJECT,
+  REQUIRED_UNBOUNDED_TYPED_OBJECT
 } from '../../../lib/types/object/encode'
 
 import {
@@ -235,5 +236,68 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
   ]))
 
   test.is(bytesWritten, 6)
+  test.end()
+})
+
+tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",baz:1}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(11)
+  const bytesWritten: number = REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: 'bar',
+    baz: 1
+  }, {
+    requiredProperties: [ 'foo' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      })
+    },
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    }
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x01, // length
+    0x03, 0x62, 0x61, 0x7a, // key length + 'baz'
+    0x09, 0x01 // positive integer type tag + 1
+  ]))
+
+  test.is(bytesWritten, 11)
+  test.end()
+})
+
+tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(5)
+  const bytesWritten: number = REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: 'bar'
+  }, {
+    requiredProperties: [ 'foo' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      })
+    },
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    }
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x00 // length
+  ]))
+
+  test.is(bytesWritten, 5)
   test.end()
 })

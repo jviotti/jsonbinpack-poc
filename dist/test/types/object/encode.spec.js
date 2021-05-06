@@ -185,3 +185,60 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
     test.is(bytesWritten, 6);
     test.end();
 });
+tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",baz:1}', function (test) {
+    var buffer = Buffer.allocUnsafe(11);
+    var bytesWritten = encode_1.REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar',
+        baz: 1
+    }, {
+        requiredProperties: ['foo'],
+        propertyEncodings: {
+            foo: mapper_3.getStringEncoding({
+                type: 'string'
+            })
+        },
+        keyEncoding: mapper_3.getStringEncoding({
+            type: 'string'
+        }),
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03, 0x62, 0x61, 0x72,
+        0x01,
+        0x03, 0x62, 0x61, 0x7a,
+        0x09, 0x01
+    ]));
+    test.is(bytesWritten, 11);
+    test.end();
+});
+tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', function (test) {
+    var buffer = Buffer.allocUnsafe(5);
+    var bytesWritten = encode_1.REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar'
+    }, {
+        requiredProperties: ['foo'],
+        propertyEncodings: {
+            foo: mapper_3.getStringEncoding({
+                type: 'string'
+            })
+        },
+        keyEncoding: mapper_3.getStringEncoding({
+            type: 'string'
+        }),
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03, 0x62, 0x61, 0x72,
+        0x00
+    ]));
+    test.is(bytesWritten, 5);
+    test.end();
+});

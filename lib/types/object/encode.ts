@@ -124,7 +124,7 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: TypedKeysOptions
 ): number => {
-  let cursor: number = FLOOR__ENUM_VARINT(
+  let cursor: number = offset + FLOOR__ENUM_VARINT(
     buffer, offset, Object.keys(value).length, {
       minimum: 0
     })

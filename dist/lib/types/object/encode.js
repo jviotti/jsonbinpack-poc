@@ -144,7 +144,7 @@ var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
 exports.MIXED_BOUNDED_TYPED_OBJECT = MIXED_BOUNDED_TYPED_OBJECT;
 var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options) {
     var e_6, _a;
-    var cursor = encode_1.FLOOR__ENUM_VARINT(buffer, offset, Object.keys(value).length, {
+    var cursor = offset + encode_1.FLOOR__ENUM_VARINT(buffer, offset, Object.keys(value).length, {
         minimum: 0
     });
     try {
