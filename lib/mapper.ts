@@ -50,6 +50,10 @@ import {
   getArrayEncoding
 } from './types/array/mapper'
 
+import {
+  getObjectEncoding
+} from './types/object/mapper'
+
 export const getEncoding = (schema: CanonicalSchema): Encoding => {
   if (!('type' in schema)) {
     return getAnyEncoding(schema)
@@ -66,6 +70,6 @@ export const getEncoding = (schema: CanonicalSchema): Encoding => {
   } else if (schema.type === 'array') {
     return getArrayEncoding(schema)
   } else {
-    throw new Error('TODO: Unimplemented')
+    return getObjectEncoding(schema)
   }
 }
