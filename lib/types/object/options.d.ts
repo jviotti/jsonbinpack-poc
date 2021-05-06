@@ -22,51 +22,50 @@ import {
   StringEncoding
 } from '../string/mapper'
 
-export interface RequiredBoundedTypedOptions {
+// TODO: Revise the names of these options interfaces
+// TODO: Write object mapping function to ensure these make sense
+// The mapping function should start by doing the required/optional sorting stuff
+// and then applying logic based on that rather than on the presence of the keywords
+
+interface TypedPropertiesOptions {
   propertyEncodings: Record<string, Encoding>;
-  encoding: Encoding;
-  requiredProperties: string[];
 }
 
-export interface OptionalBoundedTypedOptions {
-  propertyEncodings: Record<string, Encoding>;
+interface HomogeneousPropertiesOptions {
   encoding: Encoding;
-  optionalProperties: string[];
 }
+
+export interface RequiredBoundedTypedOptions extends
+  TypedPropertiesOptions, HomogeneousPropertiesOptions {
+    requiredProperties: string[];
+  }
+
+export interface OptionalBoundedTypedOptions extends
+  TypedPropertiesOptions, HomogeneousPropertiesOptions {
+    optionalProperties: string[];
+  }
 
 export interface BoundedTypedOptions extends
   OptionalBoundedTypedOptions, RequiredBoundedTypedOptions {}
 
-export interface TypedKeysOptions {
-  encoding: Encoding;
+export interface TypedKeysOptions extends HomogeneousPropertiesOptions {
   keyEncoding: StringEncoding;
 }
 
-export interface UnboundedTypedOptions {
-  propertyEncodings: Record<string, Encoding>;
-  encoding: Encoding;
-  optionalProperties: string[];
-  requiredProperties: string[];
-  keyEncoding: StringEncoding;
-}
+export interface RequiredUnboundedTypedOptions extends
+  RequiredBoundedTypedOptions, TypedKeysOptions {}
 
-export interface RequiredUnboundedTypedOptions extends TypedKeysOptions {
-  propertyEncodings: Record<string, Encoding>;
-  encoding: Encoding;
-  requiredProperties: string[];
-}
+export interface OptionalUnboundedTypedOptions extends
+  OptionalBoundedTypedOptions, TypedKeysOptions {}
 
-export interface OptionalUnboundedTypedOptions extends TypedKeysOptions {
-  propertyEncodings: Record<string, Encoding>;
-  encoding: Encoding;
-  optionalProperties: string[];
-}
+export interface UnboundedTypedOptions extends
+  BoundedTypedOptions, TypedKeysOptions {}
 
 export type ObjectOptions =
-  UnboundedTypedOptions |
-  OptionalBoundedTypedOptions |
   RequiredBoundedTypedOptions |
-  RequiredUnboundedTypedOptions |
-  OptionalUnboundedTypedOptions |
+  OptionalBoundedTypedOptions |
   BoundedTypedOptions |
-  TypedKeysOptions
+  TypedKeysOptions |
+  OptionalUnboundedTypedOptions |
+  RequiredUnboundedTypedOptions |
+  UnboundedTypedOptions

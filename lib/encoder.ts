@@ -47,6 +47,10 @@ import {
 } from './types/array/mapper'
 
 import {
+  ObjectEncoding
+} from './types/object/mapper'
+
+import {
   EncodingType,
   DecodeResult
 } from './types/base'
@@ -84,7 +88,8 @@ export type Encoding =
   IntegerEncoding |
   StringEncoding |
   AnyEncoding |
-  ArrayEncoding
+  ArrayEncoding |
+  ObjectEncoding
 
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()

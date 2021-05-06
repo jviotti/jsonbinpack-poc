@@ -47,6 +47,10 @@ import {
 } from './array/options'
 
 import {
+  ObjectOptions
+} from './object/options'
+
+import {
   BooleanEncodingNames
 } from './boolean/mapper'
 
@@ -74,6 +78,10 @@ import {
   ArrayEncodingNames
 } from './array/mapper'
 
+import {
+  ObjectEncodingNames
+} from './object/mapper'
+
 export interface DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
@@ -97,7 +105,8 @@ export type EncodingNames =
   IntegerEncodingNames |
   StringEncodingNames |
   AnyEncodingNames |
-  ArrayEncodingNames;
+  ArrayEncodingNames |
+  ObjectEncodingNames
 
 export interface BaseEncodingDefinition {
   readonly type: EncodingType;
@@ -109,5 +118,6 @@ export interface BaseEncodingDefinition {
     IntegerOptions |
     StringOptions |
     AnyOptions |
-    ArrayOptions;
+    ArrayOptions |
+    ObjectOptions;
 }
