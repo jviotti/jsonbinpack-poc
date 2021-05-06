@@ -133,11 +133,6 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =>
 
   const options: OptionalBoundedTypedOptions = {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
-    encoding: {
-      type: EncodingType.Any,
-      encoding: 'ANY__TYPE_PREFIX',
-      options: {}
-    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'

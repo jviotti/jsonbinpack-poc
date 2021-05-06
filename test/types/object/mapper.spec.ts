@@ -214,11 +214,6 @@ tap.test('should encode a bounded object with optional properties', (test) => {
           }
         }
       },
-      encoding: {
-        type: 'any',
-        encoding: 'ANY__TYPE_PREFIX',
-        options: {}
-      },
       optionalProperties: [ 'foo' ]
     }
   })
@@ -259,11 +254,6 @@ tap.test('should encode a bounded object with more than one optional keys', (tes
           encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
           options: {}
         }
-      },
-      encoding: {
-        type: 'any',
-        encoding: 'ANY__TYPE_PREFIX',
-        options: {}
       },
       optionalProperties: [ 'bar', 'foo' ]
     }
@@ -306,11 +296,6 @@ tap.test('should encode a bounded object with more than one optional keys and em
           encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
           options: {}
         }
-      },
-      encoding: {
-        type: 'any',
-        encoding: 'ANY__TYPE_PREFIX',
-        options: {}
       },
       optionalProperties: [ 'bar', 'foo' ]
     }

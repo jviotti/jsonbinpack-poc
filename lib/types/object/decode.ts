@@ -89,7 +89,8 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
     }
 
     const key: string = options.optionalProperties[index]
-    const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
+    const encoding: Encoding | undefined = options.propertyEncodings[key]
+    assert(typeof encoding !== 'undefined')
     const propertyResult: DecodeResult = decode(buffer, cursor, encoding)
     assert(propertyResult.bytes >= 0)
     Reflect.set(result, key, propertyResult.value)

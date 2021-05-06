@@ -98,11 +98,6 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:
     baz: 1
   }, {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
-    encoding: {
-      type: EncodingType.Any,
-      encoding: 'ANY__TYPE_PREFIX',
-      options: {}
-    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'
@@ -129,11 +124,6 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => 
   const buffer: Buffer = Buffer.allocUnsafe(2)
   const bytesWritten: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
-    encoding: {
-      type: EncodingType.Any,
-      encoding: 'ANY__TYPE_PREFIX',
-      options: {}
-    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'

@@ -118,8 +118,7 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
   return requiredBytes + NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset + requiredBytes, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
-      optionalProperties: options.optionalProperties,
-      encoding: options.encoding
+      optionalProperties: options.optionalProperties
     })
 }
 
@@ -178,8 +177,7 @@ export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
   const optionalBytes: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
-      optionalProperties: options.optionalProperties,
-      encoding: options.encoding
+      optionalProperties: options.optionalProperties
     })
 
   return optionalBytes + ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + optionalBytes, rest, {
@@ -218,8 +216,7 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
   const optionalBytes: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset + requiredBytes, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
-      optionalProperties: options.optionalProperties,
-      encoding: options.encoding
+      optionalProperties: options.optionalProperties
     })
 
   return requiredBytes + optionalBytes + ARBITRARY_TYPED_KEYS_OBJECT(

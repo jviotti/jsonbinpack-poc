@@ -32,15 +32,13 @@ interface HomogeneousPropertiesOptions {
   encoding: Encoding;
 }
 
-export interface RequiredBoundedTypedOptions extends
-  TypedPropertiesOptions {
-    requiredProperties: string[];
-  }
+export interface RequiredBoundedTypedOptions extends TypedPropertiesOptions {
+  requiredProperties: string[];
+}
 
-export interface OptionalBoundedTypedOptions extends
-  TypedPropertiesOptions, HomogeneousPropertiesOptions {
-    optionalProperties: string[];
-  }
+export interface OptionalBoundedTypedOptions extends TypedPropertiesOptions {
+  optionalProperties: string[];
+}
 
 export interface BoundedTypedOptions extends
   OptionalBoundedTypedOptions, RequiredBoundedTypedOptions, HomogeneousPropertiesOptions {}
@@ -53,7 +51,7 @@ export interface RequiredUnboundedTypedOptions extends
   RequiredBoundedTypedOptions, TypedKeysOptions, HomogeneousPropertiesOptions {}
 
 export interface OptionalUnboundedTypedOptions extends
-  OptionalBoundedTypedOptions, TypedKeysOptions {}
+  OptionalBoundedTypedOptions, TypedKeysOptions, HomogeneousPropertiesOptions {}
 
 export interface UnboundedTypedOptions extends
   BoundedTypedOptions, TypedKeysOptions {}

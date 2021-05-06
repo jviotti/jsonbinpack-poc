@@ -76,11 +76,6 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}',
     };
     var options = {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
-        encoding: {
-            type: base_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
-            options: {}
-        },
         propertyEncodings: {
             foo: mapper_1.getStringEncoding({
                 type: 'string'

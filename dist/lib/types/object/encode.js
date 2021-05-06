@@ -139,8 +139,7 @@ var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     });
     return requiredBytes + exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset + requiredBytes, optionalSubset, {
         propertyEncodings: options.propertyEncodings,
-        optionalProperties: options.optionalProperties,
-        encoding: options.encoding
+        optionalProperties: options.optionalProperties
     });
 };
 exports.MIXED_BOUNDED_TYPED_OBJECT = MIXED_BOUNDED_TYPED_OBJECT;
@@ -215,8 +214,7 @@ var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) 
     }
     var optionalBytes = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset, optionalSubset, {
         propertyEncodings: options.propertyEncodings,
-        optionalProperties: options.optionalProperties,
-        encoding: options.encoding
+        optionalProperties: options.optionalProperties
     });
     return optionalBytes + exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + optionalBytes, rest, {
         keyEncoding: options.keyEncoding,
@@ -258,8 +256,7 @@ var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     });
     var optionalBytes = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset + requiredBytes, optionalSubset, {
         propertyEncodings: options.propertyEncodings,
-        optionalProperties: options.optionalProperties,
-        encoding: options.encoding
+        optionalProperties: options.optionalProperties
     });
     return requiredBytes + optionalBytes + exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes + optionalBytes, rest, {
         keyEncoding: options.keyEncoding,

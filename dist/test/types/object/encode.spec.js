@@ -66,11 +66,6 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:
         baz: 1
     }, {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
-        encoding: {
-            type: base_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
-            options: {}
-        },
         propertyEncodings: {
             foo: mapper_2.getStringEncoding({
                 type: 'string'
@@ -94,11 +89,6 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', 
     var buffer = Buffer.allocUnsafe(2);
     var bytesWritten = encode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
-        encoding: {
-            type: base_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
-            options: {}
-        },
         propertyEncodings: {
             foo: mapper_2.getStringEncoding({
                 type: 'string'

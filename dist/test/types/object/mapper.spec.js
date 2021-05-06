@@ -178,11 +178,6 @@ tap_1.default.test('should encode a bounded object with optional properties', fu
                     }
                 }
             },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
-            },
             optionalProperties: ['foo']
         }
     });
@@ -220,11 +215,6 @@ tap_1.default.test('should encode a bounded object with more than one optional k
                     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
                     options: {}
                 }
-            },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
             },
             optionalProperties: ['bar', 'foo']
         }
@@ -264,11 +254,6 @@ tap_1.default.test('should encode a bounded object with more than one optional k
                     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
                     options: {}
                 }
-            },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
             },
             optionalProperties: ['bar', 'foo']
         }
