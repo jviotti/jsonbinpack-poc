@@ -641,3 +641,66 @@ tap_1.default.test('should encode a simple unbounded object with two optional pr
     });
     test.end();
 });
+tap_1.default.test('should encode a complex unbounded object', function (test) {
+    var schema = {
+        type: 'object',
+        required: ['foo', 'bar'],
+        additionalProperties: {
+            type: 'integer'
+        },
+        propertyNames: {
+            type: 'string',
+            minLength: 3
+        },
+        properties: {
+            bar: {
+                type: 'string',
+                maxLength: 5
+            },
+            baz: {
+                type: 'string'
+            }
+        }
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
+        options: {
+            optionalProperties: ['baz'],
+            requiredProperties: ['bar', 'foo'],
+            propertyEncodings: {
+                foo: {
+                    type: 'integer',
+                    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+                    options: {}
+                },
+                bar: {
+                    type: 'string',
+                    encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+                    options: {
+                        maximum: 5
+                    }
+                },
+                baz: {
+                    type: 'string',
+                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                    options: {}
+                }
+            },
+            keyEncoding: {
+                type: 'string',
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 3
+                }
+            },
+            encoding: {
+                type: 'integer',
+                encoding: 'ARBITRARY__ZIGZAG_VARINT',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});

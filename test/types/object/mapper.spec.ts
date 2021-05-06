@@ -720,3 +720,69 @@ tap.test('should encode a simple unbounded object with two optional properties',
 
   test.end()
 })
+
+tap.test('should encode a complex unbounded object', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    required: [ 'foo', 'bar' ],
+    additionalProperties: {
+      type: 'integer'
+    },
+    propertyNames: {
+      type: 'string',
+      minLength: 3
+    },
+    properties: {
+      bar: {
+        type: 'string',
+        maxLength: 5
+      },
+      baz: {
+        type: 'string'
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
+    options: {
+      optionalProperties: [ 'baz' ],
+      requiredProperties: [ 'bar', 'foo' ],
+      propertyEncodings: {
+        foo: {
+          type: 'integer',
+          encoding: 'ARBITRARY__ZIGZAG_VARINT',
+          options: {}
+        },
+        bar: {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        },
+        baz: {
+          type: 'string',
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        }
+      },
+      keyEncoding: {
+        type: 'string',
+        encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+        options: {
+          minimum: 3
+        }
+      },
+      encoding: {
+        type: 'integer',
+        encoding: 'ARBITRARY__ZIGZAG_VARINT',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})

@@ -207,9 +207,19 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
         optionalProperties
       }
     }
+  } else if (requiredProperties.length > 0 && optionalProperties.length > 0) {
+    return {
+      type: EncodingType.Object,
+      encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
+      options: {
+        propertyEncodings,
+        optionalProperties,
+        requiredProperties,
+        keyEncoding,
+        encoding: additionalProperties
+      }
+    }
   }
-
-  // TODO: Improve and test this definition
 
   return {
     type: EncodingType.Object,

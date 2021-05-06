@@ -117,6 +117,19 @@ var getObjectEncoding = function (schema) {
             }
         };
     }
+    else if (requiredProperties.length > 0 && optionalProperties.length > 0) {
+        return {
+            type: base_1.EncodingType.Object,
+            encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
+            options: {
+                propertyEncodings: propertyEncodings,
+                optionalProperties: optionalProperties,
+                requiredProperties: requiredProperties,
+                keyEncoding: keyEncoding,
+                encoding: additionalProperties
+            }
+        };
+    }
     return {
         type: base_1.EncodingType.Object,
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
