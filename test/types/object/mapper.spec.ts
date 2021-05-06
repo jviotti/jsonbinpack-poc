@@ -50,6 +50,32 @@ tap.test('should encode a bounded object with only required keys', (test) => {
   test.end()
 })
 
+tap.test('should encode a bounded object with required keys and empty properties', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {},
+    required: [ 'foo', 'bar' ]
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {},
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      requiredProperties: [ 'bar', 'foo' ]
+    }
+  })
+
+  test.end()
+})
+
 tap.test('should encode a bounded object with partially defined required keys', (test) => {
   const schema: ObjectCanonicalSchema = {
     type: 'object',
@@ -285,6 +311,94 @@ tap.test('should encode a bounded object with more than one optional keys and em
         options: {}
       },
       optionalProperties: [ 'bar', 'foo' ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded object with an optional and a required property', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: false,
+    required: [ 'bar' ],
+    properties: {
+      foo: {
+        type: 'string',
+        maxLength: 5
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {
+        foo: {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        }
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      optionalProperties: [ 'foo' ],
+      requiredProperties: [ 'bar' ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded object with an optional and a typed required property', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: false,
+    required: [ 'bar' ],
+    properties: {
+      bar: {
+        type: 'string'
+      },
+      foo: {
+        type: 'string',
+        maxLength: 5
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {
+        foo: {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        },
+        bar: {
+          type: 'string',
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        }
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      optionalProperties: [ 'foo' ],
+      requiredProperties: [ 'bar' ]
     }
   })
 

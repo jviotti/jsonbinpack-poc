@@ -170,6 +170,17 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
           optionalProperties
         }
       }
+    } else {
+      return {
+        type: EncodingType.Object,
+        encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
+        options: {
+          propertyEncodings,
+          encoding: getEncoding({}),
+          optionalProperties,
+          requiredProperties
+        }
+      }
     }
   }
 
