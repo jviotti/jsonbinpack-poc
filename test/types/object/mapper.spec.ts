@@ -670,3 +670,53 @@ tap.test('should encode a simple unbounded object with a required typed property
 
   test.end()
 })
+
+tap.test('should encode a simple unbounded object with two optional properties', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string'
+      },
+      bar: {
+        type: 'string',
+        maxLength: 5
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
+    options: {
+      optionalProperties: [ 'bar', 'foo' ],
+      propertyEncodings: {
+        foo: {
+          type: 'string',
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        },
+        bar: {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        }
+      },
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})

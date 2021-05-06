@@ -196,15 +196,15 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
         requiredProperties
       }
     }
-  }
-
-  if (requiredProperties.length === 0 && optionalProperties.length === 0) {
+  } else if (requiredProperties.length === 0 && optionalProperties.length > 0) {
     return {
       type: EncodingType.Object,
-      encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+      encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
       options: {
         encoding: additionalProperties,
-        keyEncoding
+        propertyEncodings,
+        keyEncoding,
+        optionalProperties
       }
     }
   }
@@ -215,7 +215,7 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
     type: EncodingType.Object,
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
     options: {
-      encoding: getEncoding({}),
+      encoding: additionalProperties,
       keyEncoding
     }
   }

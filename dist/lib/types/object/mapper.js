@@ -105,13 +105,15 @@ var getObjectEncoding = function (schema) {
             }
         };
     }
-    if (requiredProperties.length === 0 && optionalProperties.length === 0) {
+    else if (requiredProperties.length === 0 && optionalProperties.length > 0) {
         return {
             type: base_1.EncodingType.Object,
-            encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+            encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
             options: {
                 encoding: additionalProperties,
-                keyEncoding: keyEncoding
+                propertyEncodings: propertyEncodings,
+                keyEncoding: keyEncoding,
+                optionalProperties: optionalProperties
             }
         };
     }
@@ -119,7 +121,7 @@ var getObjectEncoding = function (schema) {
         type: base_1.EncodingType.Object,
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
         options: {
-            encoding: mapper_2.getEncoding({}),
+            encoding: additionalProperties,
             keyEncoding: keyEncoding
         }
     };
