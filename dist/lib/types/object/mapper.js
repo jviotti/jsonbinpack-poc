@@ -93,6 +93,18 @@ var getObjectEncoding = function (schema) {
             };
         }
     }
+    if (requiredProperties.length > 0 && optionalProperties.length === 0) {
+        return {
+            type: base_1.EncodingType.Object,
+            encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+            options: {
+                encoding: additionalProperties,
+                propertyEncodings: propertyEncodings,
+                keyEncoding: keyEncoding,
+                requiredProperties: requiredProperties
+            }
+        };
+    }
     if (requiredProperties.length === 0 && optionalProperties.length === 0) {
         return {
             type: base_1.EncodingType.Object,

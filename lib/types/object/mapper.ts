@@ -185,6 +185,19 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
     }
   }
 
+  if (requiredProperties.length > 0 && optionalProperties.length === 0) {
+    return {
+      type: EncodingType.Object,
+      encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+      options: {
+        encoding: additionalProperties,
+        propertyEncodings,
+        keyEncoding,
+        requiredProperties
+      }
+    }
+  }
+
   if (requiredProperties.length === 0 && optionalProperties.length === 0) {
     return {
       type: EncodingType.Object,

@@ -360,6 +360,30 @@ tap_1.default.test('should encode a simple unbounded object', function (test) {
     });
     test.end();
 });
+tap_1.default.test('should encode a simple unbounded object with empty required', function (test) {
+    var schema = {
+        type: 'object',
+        required: []
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+        options: {
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
 tap_1.default.test('should encode a simple unbounded object with additionalProperties: true', function (test) {
     var schema = {
         type: 'object',
@@ -495,6 +519,75 @@ tap_1.default.test('should encode a simple unbounded object with propertyNames a
             encoding: {
                 type: 'string',
                 encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a simple unbounded object with a required property', function (test) {
+    var schema = {
+        type: 'object',
+        required: ['foo']
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+        options: {
+            requiredProperties: ['foo'],
+            propertyEncodings: {
+                foo: {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
+                }
+            },
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a simple unbounded object with a required typed property', function (test) {
+    var schema = {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+            foo: {
+                type: 'string'
+            }
+        }
+    };
+    var result = mapper_1.getObjectEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+        options: {
+            requiredProperties: ['foo'],
+            propertyEncodings: {
+                foo: {
+                    type: 'string',
+                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                    options: {}
+                }
+            },
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
                 options: {}
             }
         }

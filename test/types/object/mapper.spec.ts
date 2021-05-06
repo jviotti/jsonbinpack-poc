@@ -413,6 +413,33 @@ tap.test('should encode a simple unbounded object', (test) => {
   test.end()
 })
 
+tap.test('should encode a simple unbounded object with empty required', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    required: []
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+    options: {
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
 tap.test('should encode a simple unbounded object with additionalProperties: true', (test) => {
   const schema: ObjectCanonicalSchema = {
     type: 'object',
@@ -561,6 +588,81 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
       encoding: {
         type: 'string',
         encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a simple unbounded object with a required property', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    required: [ 'foo' ]
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+    options: {
+      requiredProperties: [ 'foo' ],
+      propertyEncodings: {
+        foo: {
+          type: 'any',
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        }
+      },
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a simple unbounded object with a required typed property', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    required: [ 'foo' ],
+    properties: {
+      foo: {
+        type: 'string'
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+    options: {
+      requiredProperties: [ 'foo' ],
+      propertyEncodings: {
+        foo: {
+          type: 'string',
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        }
+      },
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
         options: {}
       }
     }
