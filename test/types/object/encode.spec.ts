@@ -19,7 +19,8 @@ import tap from 'tap'
 import {
   ARBITRARY_TYPED_KEYS_OBJECT,
   NON_REQUIRED_BOUNDED_TYPED_OBJECT,
-  REQUIRED_ONLY_BOUNDED_TYPED_OBJECT
+  REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
+  MIXED_BOUNDED_TYPED_OBJECT
 } from '../../../lib/types/object/encode'
 
 import {
@@ -37,6 +38,8 @@ import {
 import {
   getStringEncoding
 } from '../../../lib/types/string/mapper'
+
+// TODO: Test the remaining object functions
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(16)
@@ -176,5 +179,61 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
   ]))
 
   test.is(bytesWritten, 5)
+  test.end()
+})
+
+tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one required', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(7)
+  const bytesWritten: number = MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: 'bar',
+    baz: 1
+  }, {
+    requiredProperties: [ 'foo' ],
+    optionalProperties: [ 'baz' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x01, 0x01, // bit map
+    0x01 // 1
+  ]))
+
+  test.is(bytesWritten, 7)
+  test.end()
+})
+
+tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one missing optional', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const bytesWritten: number = MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: 'bar'
+  }, {
+    requiredProperties: [ 'foo' ],
+    optionalProperties: [ 'baz' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x01, 0x00 // bit map
+  ]))
+
+  test.is(bytesWritten, 6)
   test.end()
 })

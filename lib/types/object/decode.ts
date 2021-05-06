@@ -44,6 +44,8 @@ import {
   DecodeResult
 } from '../../encoder'
 
+// TODO: Implement the remaining decode functions
+
 export interface ObjectResult extends DecodeResult {
   readonly value: JSONObject;
   readonly bytes: number;

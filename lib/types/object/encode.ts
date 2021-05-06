@@ -48,7 +48,6 @@ import {
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
 ): number => {
-  assert(Object.keys(options.requiredProperties).length === Object.keys(options.propertyEncodings).length)
   assert(Object.keys(value).length === options.requiredProperties.length)
 
   let cursor: number = offset
@@ -64,7 +63,6 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
 export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: OptionalBoundedTypedOptions
 ): number => {
-  assert(Object.keys(options.optionalProperties).length === Object.keys(options.propertyEncodings).length)
   assert(Object.keys(value).length <= options.optionalProperties.length)
 
   const lengthBytes: number = FLOOR__ENUM_VARINT(
@@ -97,7 +95,7 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
 export const MIXED_BOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: BoundedTypedOptions
 ): number => {
-  assert(Object.keys(value).length ===
+  assert(Object.keys(value).length <=
     options.requiredProperties.length + options.optionalProperties.length)
 
   const requiredSubset: JSONObject = {}

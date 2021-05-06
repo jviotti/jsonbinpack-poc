@@ -135,3 +135,53 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
     test.is(bytesWritten, 5);
     test.end();
 });
+tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one required', function (test) {
+    var buffer = Buffer.allocUnsafe(7);
+    var bytesWritten = encode_1.MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar',
+        baz: 1
+    }, {
+        requiredProperties: ['foo'],
+        optionalProperties: ['baz'],
+        propertyEncodings: {
+            foo: mapper_3.getStringEncoding({
+                type: 'string'
+            }),
+            baz: mapper_2.getIntegerEncoding({
+                type: 'integer',
+                minimum: 0
+            })
+        }
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03, 0x62, 0x61, 0x72,
+        0x01, 0x01,
+        0x01
+    ]));
+    test.is(bytesWritten, 7);
+    test.end();
+});
+tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one missing optional', function (test) {
+    var buffer = Buffer.allocUnsafe(6);
+    var bytesWritten = encode_1.MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar'
+    }, {
+        requiredProperties: ['foo'],
+        optionalProperties: ['baz'],
+        propertyEncodings: {
+            foo: mapper_3.getStringEncoding({
+                type: 'string'
+            }),
+            baz: mapper_2.getIntegerEncoding({
+                type: 'integer',
+                minimum: 0
+            })
+        }
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03, 0x62, 0x61, 0x72,
+        0x01, 0x00
+    ]));
+    test.is(bytesWritten, 6);
+    test.end();
+});
