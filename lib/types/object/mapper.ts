@@ -160,6 +160,16 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
           requiredProperties
         }
       }
+    } else if (requiredProperties.length === 0) {
+      return {
+        type: EncodingType.Object,
+        encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
+        options: {
+          propertyEncodings,
+          encoding: getEncoding({}),
+          optionalProperties
+        }
+      }
     }
   }
 

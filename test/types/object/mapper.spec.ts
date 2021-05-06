@@ -25,7 +25,7 @@ import {
   getObjectEncoding
 } from '../../../lib/types/object/mapper'
 
-tap.test('should encode a bounded object with only required names', (test) => {
+tap.test('should encode a bounded object with only required keys', (test) => {
   const schema: ObjectCanonicalSchema = {
     type: 'object',
     additionalProperties: false,
@@ -50,7 +50,7 @@ tap.test('should encode a bounded object with only required names', (test) => {
   test.end()
 })
 
-tap.test('should encode a bounded object with partially defined required names', (test) => {
+tap.test('should encode a bounded object with partially defined required keys', (test) => {
   const schema: ObjectCanonicalSchema = {
     type: 'object',
     additionalProperties: false,
@@ -89,7 +89,7 @@ tap.test('should encode a bounded object with partially defined required names',
   test.end()
 })
 
-tap.test('should encode a bounded object with fully defined required names', (test) => {
+tap.test('should encode a bounded object with fully defined required keys', (test) => {
   const schema: ObjectCanonicalSchema = {
     type: 'object',
     additionalProperties: false,
@@ -130,6 +130,161 @@ tap.test('should encode a bounded object with fully defined required names', (te
         options: {}
       },
       requiredProperties: [ 'bar', 'foo' ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded object with no required nor optionals', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: false
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {},
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      requiredProperties: []
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded object with optional properties', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      foo: {
+        type: 'string',
+        maxLength: 5
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {
+        foo: {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        }
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      optionalProperties: [ 'foo' ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded object with more than one optional keys', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: false,
+    properties: {
+      bar: {
+        type: 'string'
+      },
+      foo: {
+        type: 'string',
+        maxLength: 5
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {
+        foo: {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        },
+        bar: {
+          type: 'string',
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        }
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      optionalProperties: [ 'bar', 'foo' ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded object with more than one optional keys and empty required', (test) => {
+  const schema: ObjectCanonicalSchema = {
+    type: 'object',
+    additionalProperties: false,
+    required: [],
+    properties: {
+      bar: {
+        type: 'string'
+      },
+      foo: {
+        type: 'string',
+        maxLength: 5
+      }
+    }
+  }
+
+  const result: ObjectEncoding = getObjectEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {
+        foo: {
+          type: 'string',
+          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          options: {
+            maximum: 5
+          }
+        },
+        bar: {
+          type: 'string',
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        }
+      },
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      optionalProperties: [ 'bar', 'foo' ]
     }
   })
 

@@ -45,6 +45,17 @@ var getObjectEncoding = function (schema) {
                 }
             };
         }
+        else if (requiredProperties.length === 0) {
+            return {
+                type: base_1.EncodingType.Object,
+                encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
+                options: {
+                    propertyEncodings: propertyEncodings,
+                    encoding: mapper_2.getEncoding({}),
+                    optionalProperties: optionalProperties
+                }
+            };
+        }
     }
     return {
         type: base_1.EncodingType.Object,
