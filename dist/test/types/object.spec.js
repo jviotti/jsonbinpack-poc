@@ -105,11 +105,6 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}'
     };
     var options = {
         requiredProperties: ['baz', 'foo'],
-        encoding: {
-            type: base_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
-            options: {}
-        },
         propertyEncodings: {
             foo: mapper_1.getStringEncoding({
                 type: 'string'

@@ -161,11 +161,6 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
     baz: 1
   }, {
     requiredProperties: [ 'baz', 'foo' ],
-    encoding: {
-      type: EncodingType.Any,
-      encoding: 'ANY__TYPE_PREFIX',
-      options: {}
-    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'

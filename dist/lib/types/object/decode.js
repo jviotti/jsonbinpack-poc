@@ -34,13 +34,13 @@ var decode_1 = require("../integer/decode");
 var encoder_1 = require("../../encoder");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_1, _a;
-    var _b;
     var result = {};
     var cursor = offset;
     try {
-        for (var _c = __values(options.requiredProperties), _d = _c.next(); !_d.done; _d = _c.next()) {
-            var key = _d.value;
-            var encoding = (_b = options.propertyEncodings[key]) !== null && _b !== void 0 ? _b : options.encoding;
+        for (var _b = __values(options.requiredProperties), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var key = _c.value;
+            var encoding = options.propertyEncodings[key];
+            assert_1.strict(typeof encoding !== 'undefined');
             var propertyResult = encoder_1.decode(buffer, cursor, encoding);
             assert_1.strict(propertyResult.bytes >= 0);
             Reflect.set(result, key, propertyResult.value);
@@ -50,7 +50,7 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
         finally { if (e_1) throw e_1.error; }
     }

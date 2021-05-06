@@ -33,7 +33,7 @@ interface HomogeneousPropertiesOptions {
 }
 
 export interface RequiredBoundedTypedOptions extends
-  TypedPropertiesOptions, HomogeneousPropertiesOptions {
+  TypedPropertiesOptions {
     requiredProperties: string[];
   }
 
@@ -43,14 +43,14 @@ export interface OptionalBoundedTypedOptions extends
   }
 
 export interface BoundedTypedOptions extends
-  OptionalBoundedTypedOptions, RequiredBoundedTypedOptions {}
+  OptionalBoundedTypedOptions, RequiredBoundedTypedOptions, HomogeneousPropertiesOptions {}
 
 export interface TypedKeysOptions extends HomogeneousPropertiesOptions {
   keyEncoding: StringEncoding;
 }
 
 export interface RequiredUnboundedTypedOptions extends
-  RequiredBoundedTypedOptions, TypedKeysOptions {}
+  RequiredBoundedTypedOptions, TypedKeysOptions, HomogeneousPropertiesOptions {}
 
 export interface OptionalUnboundedTypedOptions extends
   OptionalBoundedTypedOptions, TypedKeysOptions {}

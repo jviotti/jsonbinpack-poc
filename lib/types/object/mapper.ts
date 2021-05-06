@@ -163,7 +163,6 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
         options: {
           propertyEncodings,
-          encoding: getEncoding({}),
           requiredProperties
         }
       }

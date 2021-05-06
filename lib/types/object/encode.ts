@@ -53,7 +53,8 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
 
   let cursor: number = offset
   for (const key of options.requiredProperties) {
-    const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
+    const encoding: Encoding | undefined = options.propertyEncodings[key]
+    assert(typeof encoding !== 'undefined')
     cursor += encode(buffer, cursor, encoding, value[key])
   }
 
@@ -83,7 +84,8 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
   const bitsetBytes: number = bitsetEncode(buffer, offset + lengthBytes, bitset)
   let cursor = offset + lengthBytes + bitsetBytes
   for (const key of keys) {
-    const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
+    const encoding: Encoding | undefined = options.propertyEncodings[key]
+    assert(typeof encoding !== 'undefined')
     const bytesWritten: number = encode(buffer, cursor, encoding, value[key])
     cursor += bytesWritten
   }
@@ -110,8 +112,7 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties,
-      encoding: options.encoding
+      requiredProperties: options.requiredProperties
     })
 
   return requiredBytes + NON_REQUIRED_BOUNDED_TYPED_OBJECT(
@@ -154,8 +155,7 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties,
-      encoding: options.encoding
+      requiredProperties: options.requiredProperties
     })
 
   return requiredBytes + ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
@@ -212,8 +212,7 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties,
-      encoding: options.encoding
+      requiredProperties: options.requiredProperties
     })
 
   const optionalBytes: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(

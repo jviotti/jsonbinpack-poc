@@ -28,11 +28,6 @@ tap_1.default.test('should encode a bounded object with only required keys', fun
                     options: {}
                 }
             },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
-            },
             requiredProperties: ['bar', 'foo']
         }
     });
@@ -61,11 +56,6 @@ tap_1.default.test('should encode a bounded object with required keys and empty 
                     encoding: 'ANY__TYPE_PREFIX',
                     options: {}
                 }
-            },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
             },
             requiredProperties: ['bar', 'foo']
         }
@@ -102,11 +92,6 @@ tap_1.default.test('should encode a bounded object with partially defined requir
                     encoding: 'ANY__TYPE_PREFIX',
                     options: {}
                 }
-            },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
             },
             requiredProperties: ['bar', 'foo']
         }
@@ -147,11 +132,6 @@ tap_1.default.test('should encode a bounded object with fully defined required k
                     options: {}
                 }
             },
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
-            },
             requiredProperties: ['bar', 'foo']
         }
     });
@@ -168,11 +148,6 @@ tap_1.default.test('should encode a bounded object with no required nor optional
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
         options: {
             propertyEncodings: {},
-            encoding: {
-                type: 'any',
-                encoding: 'ANY__TYPE_PREFIX',
-                options: {}
-            },
             requiredProperties: []
         }
     });

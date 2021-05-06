@@ -55,7 +55,8 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   const result: JSONObject = {}
   let cursor: number = offset
   for (const key of options.requiredProperties) {
-    const encoding: Encoding = options.propertyEncodings[key] ?? options.encoding
+    const encoding: Encoding | undefined = options.propertyEncodings[key]
+    assert(typeof encoding !== 'undefined')
     const propertyResult: DecodeResult = decode(buffer, cursor, encoding)
     assert(propertyResult.bytes >= 0)
     Reflect.set(result, key, propertyResult.value)

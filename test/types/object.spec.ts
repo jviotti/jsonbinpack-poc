@@ -169,11 +169,6 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =
 
   const options: RequiredBoundedTypedOptions = {
     requiredProperties: [ 'baz', 'foo' ],
-    encoding: {
-      type: EncodingType.Any,
-      encoding: 'ANY__TYPE_PREFIX',
-      options: {}
-    },
     propertyEncodings: {
       foo: getStringEncoding({
         type: 'string'
