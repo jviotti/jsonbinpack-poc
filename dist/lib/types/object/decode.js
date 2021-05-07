@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
+exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var bitset_1 = require("../../utils/bitset");
 var decode_1 = require("../integer/decode");
@@ -113,13 +113,28 @@ var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     };
 };
 exports.MIXED_BOUNDED_TYPED_OBJECT = MIXED_BOUNDED_TYPED_OBJECT;
+var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
+    var requiredResult = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset, {
+        propertyEncodings: options.propertyEncodings,
+        requiredProperties: options.requiredProperties
+    });
+    var arbitraryResult = exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredResult.bytes, {
+        keyEncoding: options.keyEncoding,
+        encoding: options.encoding
+    });
+    return {
+        bytes: requiredResult.bytes + arbitraryResult.bytes,
+        value: Object.assign(requiredResult.value, arbitraryResult.value)
+    };
+};
+exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = REQUIRED_UNBOUNDED_TYPED_OBJECT;
 var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, options) {
     var result = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
         minimum: 0
     });
     assert_1.strict(result.value >= 0);
     var count = 0;
-    var cursor = result.bytes;
+    var cursor = offset + result.bytes;
     var value = {};
     while (count < result.value) {
         var keyResult = encoder_1.decode(buffer, cursor, options.keyEncoding);

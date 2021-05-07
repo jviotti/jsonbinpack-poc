@@ -34,6 +34,7 @@ import {
 
 import {
   BoundedTypedOptions,
+  RequiredUnboundedTypedOptions,
   TypedKeysOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
@@ -127,6 +128,27 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
   }
 }
 
+export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, options: RequiredUnboundedTypedOptions
+): ObjectResult => {
+  const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, offset, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties
+    })
+
+  const arbitraryResult: ObjectResult = ARBITRARY_TYPED_KEYS_OBJECT(
+    buffer, offset + requiredResult.bytes, {
+      keyEncoding: options.keyEncoding,
+      encoding: options.encoding
+    })
+
+  return {
+    bytes: requiredResult.bytes + arbitraryResult.bytes,
+    value: Object.assign(requiredResult.value, arbitraryResult.value)
+  }
+}
+
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
   buffer: Buffer, offset: number, options: TypedKeysOptions
 ): ObjectResult => {
@@ -137,7 +159,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
   assert(result.value >= 0)
 
   let count: number = 0
-  let cursor: number = result.bytes
+  let cursor: number = offset + result.bytes
   let value: JSONObject = {}
 
   while (count < result.value) {

@@ -29,6 +29,7 @@ import {
 } from '../../lib/types/any/mapper'
 
 import {
+  RequiredUnboundedTypedOptions,
   BoundedTypedOptions,
   RequiredBoundedTypedOptions,
   OptionalBoundedTypedOptions
@@ -38,7 +39,8 @@ import {
   ARBITRARY_TYPED_KEYS_OBJECT as ENCODE_ARBITRARY_TYPED_KEYS_OBJECT,
   NON_REQUIRED_BOUNDED_TYPED_OBJECT as ENCODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT,
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
-  MIXED_BOUNDED_TYPED_OBJECT as ENCODE_MIXED_BOUNDED_TYPED_OBJECT
+  MIXED_BOUNDED_TYPED_OBJECT as ENCODE_MIXED_BOUNDED_TYPED_OBJECT,
+  REQUIRED_UNBOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/encode'
 
 import {
@@ -46,7 +48,8 @@ import {
   ARBITRARY_TYPED_KEYS_OBJECT as DECODE_ARBITRARY_TYPED_KEYS_OBJECT,
   NON_REQUIRED_BOUNDED_TYPED_OBJECT as DECODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT,
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
-  MIXED_BOUNDED_TYPED_OBJECT as DECODE_MIXED_BOUNDED_TYPED_OBJECT
+  MIXED_BOUNDED_TYPED_OBJECT as DECODE_MIXED_BOUNDED_TYPED_OBJECT,
+  REQUIRED_UNBOUNDED_TYPED_OBJECT as DECODE_REQUIRED_UNBOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/decode'
 
 import {
@@ -248,6 +251,69 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optiona
 
   const bytesWritten: number = ENCODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options)
   const result: ObjectResult = DECODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(11)
+  const value: JSONObject = {
+    foo: 'bar',
+    baz: 1
+  }
+
+  const options: RequiredUnboundedTypedOptions = {
+    requiredProperties: [ 'foo' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      })
+    },
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    }
+  }
+
+  const bytesWritten: number = ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const result: ObjectResult = DECODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(5)
+  const value: JSONObject = {
+    foo: 'bar'
+  }
+
+  const options: RequiredUnboundedTypedOptions = {
+    requiredProperties: [ 'foo' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      })
+    },
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    }
+  }
+
+  const bytesWritten: number = ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const result: ObjectResult = DECODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
   test.strictSame(result.value, value)
