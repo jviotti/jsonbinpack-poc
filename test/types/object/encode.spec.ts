@@ -22,7 +22,8 @@ import {
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
   MIXED_BOUNDED_TYPED_OBJECT,
   REQUIRED_UNBOUNDED_TYPED_OBJECT,
-  OPTIONAL_UNBOUNDED_TYPED_OBJECT
+  OPTIONAL_UNBOUNDED_TYPED_OBJECT,
+  MIXED_UNBOUNDED_TYPED_OBJECT
 } from '../../../lib/types/object/encode'
 
 import {
@@ -40,8 +41,6 @@ import {
 import {
   getStringEncoding
 } from '../../../lib/types/string/mapper'
-
-// TODO: Test the remaining object functions
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(16)
@@ -331,6 +330,47 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
     0x01, // length
     0x03, 0x62, 0x61, 0x7a, // key length + 'baz'
     0x09, 0x01 // positive integer type tag + 1
+  ]))
+
+  test.is(bytesWritten, 13)
+  test.end()
+})
+
+tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux:null}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(13)
+  const bytesWritten: number = MIXED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: 'bar',
+    baz: 1,
+    qux: null
+  }, {
+    requiredProperties: [ 'foo' ],
+    optionalProperties: [ 'baz' ],
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  })
+
+  test.strictSame(buffer, Buffer.from([
+    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x01, 0x01, // bit map
+    0x01, // 1
+    0x01, // free form count
+    0x03, 0x71, 0x75, 0x78,
+    0x06 // null type tag
   ]))
 
   test.is(bytesWritten, 13)

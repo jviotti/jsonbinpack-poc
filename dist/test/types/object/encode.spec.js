@@ -273,3 +273,41 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
     test.is(bytesWritten, 13);
     test.end();
 });
+tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux:null}', function (test) {
+    var buffer = Buffer.allocUnsafe(13);
+    var bytesWritten = encode_1.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar',
+        baz: 1,
+        qux: null
+    }, {
+        requiredProperties: ['foo'],
+        optionalProperties: ['baz'],
+        keyEncoding: mapper_3.getStringEncoding({
+            type: 'string'
+        }),
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        },
+        propertyEncodings: {
+            foo: mapper_3.getStringEncoding({
+                type: 'string'
+            }),
+            baz: mapper_2.getIntegerEncoding({
+                type: 'integer',
+                minimum: 0
+            })
+        }
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x03, 0x62, 0x61, 0x72,
+        0x01, 0x01,
+        0x01,
+        0x01,
+        0x03, 0x71, 0x75, 0x78,
+        0x06
+    ]));
+    test.is(bytesWritten, 13);
+    test.end();
+});
