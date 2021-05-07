@@ -251,3 +251,37 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}
     test.strictSame(result.value, value);
     test.end();
 });
+tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', function (test) {
+    var buffer = Buffer.allocUnsafe(13);
+    var value = {
+        foo: 'bar',
+        baz: 1,
+        qux: null
+    };
+    var options = {
+        requiredProperties: ['foo'],
+        optionalProperties: ['baz'],
+        keyEncoding: mapper_2.getStringEncoding({
+            type: 'string'
+        }),
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        },
+        propertyEncodings: {
+            foo: mapper_2.getStringEncoding({
+                type: 'string'
+            }),
+            baz: mapper_3.getIntegerEncoding({
+                type: 'integer',
+                minimum: 0
+            })
+        }
+    };
+    var bytesWritten = encode_1.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options);
+    var result = decode_1.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, 0, options);
+    test.is(bytesWritten, result.bytes);
+    test.strictSame(result.value, value);
+    test.end();
+});

@@ -32,6 +32,7 @@ import {
   RequiredUnboundedTypedOptions,
   OptionalUnboundedTypedOptions,
   BoundedTypedOptions,
+  UnboundedTypedOptions,
   RequiredBoundedTypedOptions,
   OptionalBoundedTypedOptions
 } from '../../lib/types/object/options'
@@ -42,7 +43,8 @@ import {
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
   MIXED_BOUNDED_TYPED_OBJECT as ENCODE_MIXED_BOUNDED_TYPED_OBJECT,
   REQUIRED_UNBOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT,
-  OPTIONAL_UNBOUNDED_TYPED_OBJECT as ENCODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT
+  OPTIONAL_UNBOUNDED_TYPED_OBJECT as ENCODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT,
+  MIXED_UNBOUNDED_TYPED_OBJECT as ENCODE_MIXED_UNBOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/encode'
 
 import {
@@ -52,7 +54,8 @@ import {
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
   MIXED_BOUNDED_TYPED_OBJECT as DECODE_MIXED_BOUNDED_TYPED_OBJECT,
   REQUIRED_UNBOUNDED_TYPED_OBJECT as DECODE_REQUIRED_UNBOUNDED_TYPED_OBJECT,
-  OPTIONAL_UNBOUNDED_TYPED_OBJECT as DECODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT
+  OPTIONAL_UNBOUNDED_TYPED_OBJECT as DECODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT,
+  MIXED_UNBOUNDED_TYPED_OBJECT as DECODE_MIXED_UNBOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/decode'
 
 import {
@@ -350,6 +353,46 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
   const bytesWritten: number = ENCODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT(
     buffer, 0, value, options)
   const result: ObjectResult = DECODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT(
+    buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(13)
+  const value: JSONObject = {
+    foo: 'bar',
+    baz: 1,
+    qux: null
+  }
+
+  const options: UnboundedTypedOptions = {
+    requiredProperties: [ 'foo' ],
+    optionalProperties: [ 'baz' ],
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    },
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_MIXED_UNBOUNDED_TYPED_OBJECT(
+    buffer, 0, value, options)
+  const result: ObjectResult = DECODE_MIXED_UNBOUNDED_TYPED_OBJECT(
     buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)

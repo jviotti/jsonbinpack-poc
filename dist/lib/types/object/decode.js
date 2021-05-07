@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
+exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var bitset_1 = require("../../utils/bitset");
 var decode_1 = require("../integer/decode");
@@ -168,3 +168,23 @@ var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     };
 };
 exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = OPTIONAL_UNBOUNDED_TYPED_OBJECT;
+var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
+    var requiredResult = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset, {
+        propertyEncodings: options.propertyEncodings,
+        requiredProperties: options.requiredProperties
+    });
+    var optionalResult = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset + requiredResult.bytes, {
+        propertyEncodings: options.propertyEncodings,
+        optionalProperties: options.optionalProperties
+    });
+    var arbitraryResult = exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredResult.bytes + optionalResult.bytes, {
+        keyEncoding: options.keyEncoding,
+        encoding: options.encoding
+    });
+    console.log(requiredResult, optionalResult, arbitraryResult);
+    return {
+        bytes: requiredResult.bytes + optionalResult.bytes + arbitraryResult.bytes,
+        value: Object.assign(requiredResult.value, optionalResult.value, arbitraryResult.value)
+    };
+};
+exports.MIXED_UNBOUNDED_TYPED_OBJECT = MIXED_UNBOUNDED_TYPED_OBJECT;

@@ -36,6 +36,7 @@ import {
   BoundedTypedOptions,
   RequiredUnboundedTypedOptions,
   OptionalUnboundedTypedOptions,
+  UnboundedTypedOptions,
   TypedKeysOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
@@ -202,5 +203,34 @@ export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
   return {
     bytes: optionalResult.bytes + arbitraryResult.bytes,
     value: Object.assign(optionalResult.value, arbitraryResult.value)
+  }
+}
+
+export const MIXED_UNBOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, options: UnboundedTypedOptions
+): ObjectResult => {
+  const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, offset, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties
+    })
+
+  const optionalResult: ObjectResult = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
+    buffer, offset + requiredResult.bytes, {
+      propertyEncodings: options.propertyEncodings,
+      optionalProperties: options.optionalProperties
+    })
+
+  const arbitraryResult: ObjectResult = ARBITRARY_TYPED_KEYS_OBJECT(
+    buffer, offset + requiredResult.bytes + optionalResult.bytes, {
+      keyEncoding: options.keyEncoding,
+      encoding: options.encoding
+    })
+
+  console.log(requiredResult, optionalResult, arbitraryResult)
+
+  return {
+    bytes: requiredResult.bytes + optionalResult.bytes + arbitraryResult.bytes,
+    value: Object.assign(requiredResult.value, optionalResult.value, arbitraryResult.value)
   }
 }
