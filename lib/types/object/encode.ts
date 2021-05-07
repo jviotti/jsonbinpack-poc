@@ -165,6 +165,7 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
 export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
   buffer: Buffer, offset: number, value: JSONObject, options: OptionalUnboundedTypedOptions
 ): number => {
+  assert(Object.keys(options.propertyEncodings).length === options.optionalProperties.length)
   const optional: Set<string> = new Set<string>(options.optionalProperties)
   const optionalSubset: JSONObject = {}
   const rest: JSONObject = {}

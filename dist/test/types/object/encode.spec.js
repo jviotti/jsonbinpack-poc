@@ -242,3 +242,34 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
     test.is(bytesWritten, 5);
     test.end();
 });
+tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",baz:1}', function (test) {
+    var buffer = Buffer.allocUnsafe(13);
+    var bytesWritten = encode_1.OPTIONAL_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar',
+        baz: 1
+    }, {
+        optionalProperties: ['foo'],
+        propertyEncodings: {
+            foo: mapper_3.getStringEncoding({
+                type: 'string'
+            })
+        },
+        keyEncoding: mapper_3.getStringEncoding({
+            type: 'string'
+        }),
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
+    });
+    test.strictSame(buffer, Buffer.from([
+        0x01, 0x01,
+        0x03, 0x62, 0x61, 0x72,
+        0x01,
+        0x03, 0x62, 0x61, 0x7a,
+        0x09, 0x01
+    ]));
+    test.is(bytesWritten, 13);
+    test.end();
+});

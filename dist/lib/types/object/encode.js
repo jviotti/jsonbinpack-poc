@@ -195,6 +195,7 @@ var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) 
 exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = REQUIRED_UNBOUNDED_TYPED_OBJECT;
 var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options) {
     var e_8, _a;
+    assert_1.strict(Object.keys(options.propertyEncodings).length === options.optionalProperties.length);
     var optional = new Set(options.optionalProperties);
     var optionalSubset = {};
     var rest = {};
