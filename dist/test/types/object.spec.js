@@ -223,3 +223,31 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', functio
     test.strictSame(result.value, value);
     test.end();
 });
+tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', function (test) {
+    var buffer = Buffer.allocUnsafe(13);
+    var value = {
+        foo: 'bar',
+        baz: 1
+    };
+    var options = {
+        optionalProperties: ['foo'],
+        propertyEncodings: {
+            foo: mapper_2.getStringEncoding({
+                type: 'string'
+            })
+        },
+        keyEncoding: mapper_2.getStringEncoding({
+            type: 'string'
+        }),
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
+    };
+    var bytesWritten = encode_1.OPTIONAL_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options);
+    var result = decode_1.OPTIONAL_UNBOUNDED_TYPED_OBJECT(buffer, 0, options);
+    test.is(bytesWritten, result.bytes);
+    test.strictSame(result.value, value);
+    test.end();
+});

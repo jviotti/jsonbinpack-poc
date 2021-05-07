@@ -35,6 +35,7 @@ import {
 import {
   BoundedTypedOptions,
   RequiredUnboundedTypedOptions,
+  OptionalUnboundedTypedOptions,
   TypedKeysOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
@@ -128,27 +129,6 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
   }
 }
 
-export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: RequiredUnboundedTypedOptions
-): ObjectResult => {
-  const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
-    buffer, offset, {
-      propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties
-    })
-
-  const arbitraryResult: ObjectResult = ARBITRARY_TYPED_KEYS_OBJECT(
-    buffer, offset + requiredResult.bytes, {
-      keyEncoding: options.keyEncoding,
-      encoding: options.encoding
-    })
-
-  return {
-    bytes: requiredResult.bytes + arbitraryResult.bytes,
-    value: Object.assign(requiredResult.value, arbitraryResult.value)
-  }
-}
-
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
   buffer: Buffer, offset: number, options: TypedKeysOptions
 ): ObjectResult => {
@@ -180,5 +160,47 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
   return {
     value,
     bytes: cursor - offset
+  }
+}
+
+export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, options: RequiredUnboundedTypedOptions
+): ObjectResult => {
+  const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, offset, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties
+    })
+
+  const arbitraryResult: ObjectResult = ARBITRARY_TYPED_KEYS_OBJECT(
+    buffer, offset + requiredResult.bytes, {
+      keyEncoding: options.keyEncoding,
+      encoding: options.encoding
+    })
+
+  return {
+    bytes: requiredResult.bytes + arbitraryResult.bytes,
+    value: Object.assign(requiredResult.value, arbitraryResult.value)
+  }
+}
+
+export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, options: OptionalUnboundedTypedOptions
+): ObjectResult => {
+  const optionalResult: ObjectResult = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
+    buffer, offset, {
+      propertyEncodings: options.propertyEncodings,
+      optionalProperties: options.optionalProperties
+    })
+
+  const arbitraryResult: ObjectResult = ARBITRARY_TYPED_KEYS_OBJECT(
+    buffer, offset + optionalResult.bytes, {
+      keyEncoding: options.keyEncoding,
+      encoding: options.encoding
+    })
+
+  return {
+    bytes: optionalResult.bytes + arbitraryResult.bytes,
+    value: Object.assign(optionalResult.value, arbitraryResult.value)
   }
 }
