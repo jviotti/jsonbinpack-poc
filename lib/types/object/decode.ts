@@ -33,6 +33,7 @@ import {
 } from '../integer/decode'
 
 import {
+  BoundedTypedOptions,
   TypedKeysOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions
@@ -84,7 +85,7 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
   assert(bitsetResult.value.length === bitsetLength.value)
 
   const result: JSONObject = {}
-  let cursor: number = bitsetLength.bytes + bitsetResult.bytes
+  let cursor: number = offset + bitsetLength.bytes + bitsetResult.bytes
   for (const [ index, value ] of bitsetResult.value.entries()) {
     if (!value) {
       continue
@@ -102,6 +103,27 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
   return {
     value: result,
     bytes: cursor - offset
+  }
+}
+
+export const MIXED_BOUNDED_TYPED_OBJECT = (
+  buffer: Buffer, offset: number, options: BoundedTypedOptions
+): ObjectResult => {
+  const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, offset, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties
+    })
+
+  const optionalResult: ObjectResult = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
+    buffer, offset + requiredResult.bytes, {
+      propertyEncodings: options.propertyEncodings,
+      optionalProperties: options.optionalProperties
+    })
+
+  return {
+    bytes: requiredResult.bytes + optionalResult.bytes,
+    value: Object.assign(requiredResult.value, optionalResult.value)
   }
 }
 

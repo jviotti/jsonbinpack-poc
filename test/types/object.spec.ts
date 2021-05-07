@@ -29,6 +29,7 @@ import {
 } from '../../lib/types/any/mapper'
 
 import {
+  BoundedTypedOptions,
   RequiredBoundedTypedOptions,
   OptionalBoundedTypedOptions
 } from '../../lib/types/object/options'
@@ -36,14 +37,16 @@ import {
 import {
   ARBITRARY_TYPED_KEYS_OBJECT as ENCODE_ARBITRARY_TYPED_KEYS_OBJECT,
   NON_REQUIRED_BOUNDED_TYPED_OBJECT as ENCODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT,
-  REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT
+  REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
+  MIXED_BOUNDED_TYPED_OBJECT as ENCODE_MIXED_BOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/encode'
 
 import {
   ObjectResult,
   ARBITRARY_TYPED_KEYS_OBJECT as DECODE_ARBITRARY_TYPED_KEYS_OBJECT,
   NON_REQUIRED_BOUNDED_TYPED_OBJECT as DECODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT,
-  REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT
+  REQUIRED_ONLY_BOUNDED_TYPED_OBJECT as DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT,
+  MIXED_BOUNDED_TYPED_OBJECT as DECODE_MIXED_BOUNDED_TYPED_OBJECT
 } from '../../lib/types/object/decode'
 
 import {
@@ -54,6 +57,8 @@ import {
 import {
   getIntegerEncoding
 } from '../../lib/types/integer/mapper'
+
+// TODO: Use fast-check to fuzz objects for ARBITRARY_TYPED_KEYS_OBJECT
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(16)
@@ -186,6 +191,63 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =
 
   const result: ObjectResult = DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(7)
+  const value: JSONObject = {
+    foo: 'bar',
+    baz: 1
+  }
+
+  const options: BoundedTypedOptions = {
+    requiredProperties: [ 'foo' ],
+    optionalProperties: [ 'baz' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const result: ObjectResult = DECODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optional', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const value: JSONObject = {
+    foo: 'bar'
+  }
+
+  const options: BoundedTypedOptions = {
+    requiredProperties: [ 'foo' ],
+    optionalProperties: [ 'baz' ],
+    propertyEncodings: {
+      foo: getStringEncoding({
+        type: 'string'
+      }),
+      baz: getIntegerEncoding({
+        type: 'integer',
+        minimum: 0
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const result: ObjectResult = DECODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
   test.strictSame(result.value, value)
