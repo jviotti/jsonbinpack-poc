@@ -24,6 +24,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
+var util = __importStar(require("util"));
 var encode_1 = require("../../lib/types/any/encode");
 var decode_1 = require("../../lib/types/any/decode");
 tap_1.default.test('ANY__TYPE_PREFIX: should handle " "', function (test) {
@@ -68,6 +69,19 @@ tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
         var result = decode_1.ANY__TYPE_PREFIX(buffer, offset, {});
         return bytesWritten > 0 &&
             result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
+tap_1.default.test('ANY__TYPE_PREFIX: JSON', function (test) {
+    fc.assert(fc.property(fc.json(), function (json) {
+        var value = JSON.parse(json);
+        var buffer = Buffer.allocUnsafe(2048);
+        var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {});
+        var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
+        return bytesWritten > 0 && result.bytes === bytesWritten &&
+            util.isDeepStrictEqual(result.value, value);
     }), {
         verbose: false
     });
