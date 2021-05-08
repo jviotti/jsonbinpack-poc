@@ -64,11 +64,11 @@ export interface ArrayResult extends DecodeResult {
 }
 
 const decodeArray = (
-  buffer: Buffer, offset: number, length: number,
+  buffer: Buffer, offset: number, bytesWritten: number, length: number,
   prefixEncodings: Encoding[], defaultEncoding?: Encoding
 ): ArrayResult => {
   let index = 0
-  let cursor = offset
+  let cursor = offset + bytesWritten
   const result = []
 
   while (index < length) {
@@ -84,7 +84,7 @@ const decodeArray = (
 
   return {
     value: result,
-    bytes: cursor
+    bytes: cursor - (offset + bytesWritten) + bytesWritten
   }
 }
 
@@ -102,7 +102,7 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
 }
 
 export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
@@ -118,7 +118,7 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
 }
 
 export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
@@ -131,7 +131,7 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
 }
 
 export const ROOF_SEMITYPED__LENGTH_PREFIX = (
@@ -144,7 +144,7 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
+    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
 }
 
 export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
@@ -182,7 +182,7 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value,
+    buffer, offset, lengthResult.bytes, lengthResult.value,
     options.prefixEncodings, options.encoding)
 }
 
@@ -200,7 +200,7 @@ export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value,
+    buffer, offset, lengthResult.bytes, lengthResult.value,
     options.prefixEncodings, options.encoding)
 }
 
@@ -214,7 +214,7 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value,
+    buffer, offset, lengthResult.bytes, lengthResult.value,
       options.prefixEncodings, options.encoding)
 }
 
@@ -242,7 +242,7 @@ export const FLOOR_TYPED__LENGTH_PREFIX = (
   })
 
   return decodeArray(
-    buffer, lengthResult.bytes, lengthResult.value,
+    buffer, offset, lengthResult.bytes, lengthResult.value,
     options.prefixEncodings, options.encoding)
 }
 

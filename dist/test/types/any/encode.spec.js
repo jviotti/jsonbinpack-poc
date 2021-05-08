@@ -108,3 +108,20 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', function
     test.is(bytesWritten, 17);
     test.end();
 });
+tap_1.default.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
+    var buffer = Buffer.allocUnsafe(11);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, [
+        'foo',
+        true,
+        2000
+    ], {});
+    test.strictSame(buffer, Buffer.from([
+        0x02,
+        0x03,
+        0x00, 0x03, 0x66, 0x6f, 0x6f,
+        0x04,
+        0x07, 0xd0, 0x0f
+    ]));
+    test.is(bytesWritten, 11);
+    test.end();
+});

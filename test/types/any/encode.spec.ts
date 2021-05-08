@@ -136,3 +136,23 @@ tap.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', (test) => {
   test.is(bytesWritten, 17)
   test.end()
 })
+
+tap.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(11)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, [
+    'foo',
+    true,
+    2000
+  ], {})
+
+  test.strictSame(buffer, Buffer.from([
+    0x02, // tag
+    0x03, // array length
+    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x04, // true
+    0x07, 0xd0, 0x0f // 2000
+  ]))
+
+  test.is(bytesWritten, 11)
+  test.end()
+})

@@ -52,6 +52,10 @@ import {
   ARBITRARY_TYPED_KEYS_OBJECT
 } from '../object/encode'
 
+import {
+  UNBOUNDED_SEMITYPED__LENGTH_PREFIX
+} from '../array/encode'
+
 const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
@@ -63,9 +67,17 @@ const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
 export const ANY__TYPE_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue, _options: NoOptions
 ): number => {
-  // TODO: Implement array
+  // Encode an object value
   if (Array.isArray(value)) {
-    throw new Error('TODO: Unimplemented')
+    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Array)
+    const valueBytes: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(
+      buffer, offset + tagBytes, value, {
+        prefixEncodings: []
+      })
+
+    return tagBytes + valueBytes
+
+  // Encode an array value
   } else if (typeof value === 'object' && value !== null) {
     const tagBytes: number = encodeTypeTag(buffer, offset, Type.Object)
     const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT(
@@ -83,10 +95,9 @@ export const ANY__TYPE_PREFIX = (
       })
 
     return tagBytes + valueBytes
-  }
 
   // Encode a null value (at the type level)
-  if (value === null) {
+  } else if (value === null) {
     return encodeTypeTag(buffer, offset, Type.Null)
 
   // Encode a boolean value (at the type level)

@@ -58,6 +58,8 @@ tap.test('ANY__TYPE_PREFIX: should handle {"foo":"bar","baz":1}', (test) => {
   test.end()
 })
 
+// TODO: Add generative test on the whole "json" type
+
 tap.test('ANY__TYPE_PREFIX: scalars', (test) => {
   fc.assert(fc.property(fc.nat(10), fc.oneof(
     fc.constant(null),

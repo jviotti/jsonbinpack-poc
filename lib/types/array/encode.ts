@@ -71,7 +71,7 @@ const encodeArray = (
     }
   }
 
-  return cursor
+  return cursor - offset
 }
 
 export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
@@ -90,7 +90,7 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  return encodeArray(buffer, lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
 }
 
 export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
@@ -109,7 +109,7 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  return encodeArray(buffer, lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
 }
 
 export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
@@ -123,7 +123,7 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
       minimum: options.minimum
     })
 
-  return encodeArray(buffer, lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
 }
 
 export const ROOF_SEMITYPED__LENGTH_PREFIX = (
@@ -137,7 +137,7 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  return encodeArray(buffer, lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
 }
 
 export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
@@ -178,8 +178,8 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  return encodeArray(
-    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
+  return lengthBytes + encodeArray(
+    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
@@ -198,8 +198,8 @@ export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  return encodeArray(
-    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
+  return lengthBytes + encodeArray(
+    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const ROOF_TYPED__LENGTH_PREFIX = (
@@ -213,8 +213,8 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
       maximum: options.maximum
     })
 
-  return encodeArray(
-    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
+  return lengthBytes + encodeArray(
+    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
@@ -243,8 +243,8 @@ export const FLOOR_TYPED__LENGTH_PREFIX = (
       minimum: options.minimum
     })
 
-  return encodeArray(
-    buffer, lengthBytes, value, options.prefixEncodings, options.encoding)
+  return lengthBytes + encodeArray(
+    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
 }
 
 export const UNBOUNDED_TYPED__LENGTH_PREFIX = (

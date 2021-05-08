@@ -8,6 +8,7 @@ var encode_1 = require("../integer/encode");
 var encode_2 = require("../string/encode");
 var encode_3 = require("../number/encode");
 var encode_4 = require("../object/encode");
+var encode_5 = require("../array/encode");
 var encodeTypeTag = function (buffer, offset, tag) {
     return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
         minimum: limits_1.UINT8_MIN,
@@ -16,7 +17,11 @@ var encodeTypeTag = function (buffer, offset, tag) {
 };
 var ANY__TYPE_PREFIX = function (buffer, offset, value, _options) {
     if (Array.isArray(value)) {
-        throw new Error('TODO: Unimplemented');
+        var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.Array);
+        var valueBytes = encode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tagBytes, value, {
+            prefixEncodings: []
+        });
+        return tagBytes + valueBytes;
     }
     else if (typeof value === 'object' && value !== null) {
         var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.Object);
@@ -34,7 +39,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options) {
         });
         return tagBytes + valueBytes;
     }
-    if (value === null) {
+    else if (value === null) {
         return encodeTypeTag(buffer, offset, types_1.Type.Null);
     }
     else if (typeof value === 'boolean') {
