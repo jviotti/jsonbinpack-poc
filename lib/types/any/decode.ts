@@ -54,6 +54,11 @@ import {
 } from '../object/decode'
 
 import {
+  ArrayResult,
+  UNBOUNDED_SEMITYPED__LENGTH_PREFIX
+} from '../array/decode'
+
+import {
   Type
 } from './types'
 
@@ -72,7 +77,15 @@ export const ANY__TYPE_PREFIX = (
   })
 
   if (tag.value === Type.Array) {
-    throw new Error('TODO: Unimplemented')
+    const result: ArrayResult =
+      UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
+        prefixEncodings: []
+      })
+
+    return {
+      value: result.value,
+      bytes: tag.bytes + result.bytes
+    }
   } else if (tag.value === Type.Object) {
     const result: ObjectResult =
       ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {

@@ -7,6 +7,7 @@ var decode_1 = require("../integer/decode");
 var decode_2 = require("../string/decode");
 var decode_3 = require("../number/decode");
 var decode_4 = require("../object/decode");
+var decode_5 = require("../array/decode");
 var types_1 = require("./types");
 var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
     var tag = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
@@ -14,7 +15,13 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         maximum: 10
     });
     if (tag.value === types_1.Type.Array) {
-        throw new Error('TODO: Unimplemented');
+        var result = decode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
+            prefixEncodings: []
+        });
+        return {
+            value: result.value,
+            bytes: tag.bytes + result.bytes
+        };
     }
     else if (tag.value === types_1.Type.Object) {
         var result = decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {

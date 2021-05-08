@@ -58,6 +58,20 @@ tap.test('ANY__TYPE_PREFIX: should handle {"foo":"bar","baz":1}', (test) => {
   test.end()
 })
 
+tap.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(100)
+  const bytesWritten: number = ENCODE_ANY__TYPE_PREFIX(buffer, 0, [
+    'foo', true, 2000
+  ], {})
+
+  test.is(bytesWritten, 11)
+  const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
+  test.is(result.bytes, 11)
+  test.strictSame(result.value, [ 'foo', true, 2000 ])
+
+  test.end()
+})
+
 // TODO: Add generative test on the whole "json" type
 
 tap.test('ANY__TYPE_PREFIX: scalars', (test) => {

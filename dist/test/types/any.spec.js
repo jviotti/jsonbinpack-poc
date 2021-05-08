@@ -50,6 +50,17 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle {"foo":"bar","baz":1}', func
     });
     test.end();
 });
+tap_1.default.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', function (test) {
+    var buffer = Buffer.allocUnsafe(100);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, [
+        'foo', true, 2000
+    ], {});
+    test.is(bytesWritten, 11);
+    var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
+    test.is(result.bytes, 11);
+    test.strictSame(result.value, ['foo', true, 2000]);
+    test.end();
+});
 tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
     fc.assert(fc.property(fc.nat(10), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 1000 })), function (offset, value) {
         var buffer = Buffer.allocUnsafe(2048);
