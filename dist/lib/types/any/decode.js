@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ANY__TYPE_PREFIX = void 0;
 var limits_1 = require("../../utils/limits");
+var base_1 = require("../base");
 var decode_1 = require("../integer/decode");
 var decode_2 = require("../string/decode");
 var decode_3 = require("../number/decode");
+var decode_4 = require("../object/decode");
 var types_1 = require("./types");
 var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
     var tag = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
@@ -15,7 +17,22 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         throw new Error('TODO: Unimplemented');
     }
     else if (tag.value === types_1.Type.Object) {
-        throw new Error('TODO: Unimplemented');
+        var result = decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
+            keyEncoding: {
+                type: base_1.EncodingType.String,
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            encoding: {
+                type: base_1.EncodingType.Any,
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+            }
+        });
+        return {
+            value: result.value,
+            bytes: tag.bytes + result.bytes
+        };
     }
     if (tag.value === types_1.Type.Null) {
         return {

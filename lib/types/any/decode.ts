@@ -28,6 +28,7 @@ import {
 } from './options'
 
 import {
+  EncodingType,
   DecodeResult
 } from '../base'
 
@@ -46,6 +47,11 @@ import {
   NumberResult,
   DOUBLE__IEEE764_LE
 } from '../number/decode'
+
+import {
+  ObjectResult,
+  ARBITRARY_TYPED_KEYS_OBJECT
+} from '../object/decode'
 
 import {
   Type
@@ -68,7 +74,24 @@ export const ANY__TYPE_PREFIX = (
   if (tag.value === Type.Array) {
     throw new Error('TODO: Unimplemented')
   } else if (tag.value === Type.Object) {
-    throw new Error('TODO: Unimplemented')
+    const result: ObjectResult =
+      ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
+        keyEncoding: {
+          type: EncodingType.String,
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        },
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        }
+      })
+
+    return {
+      value: result.value,
+      bytes: tag.bytes + result.bytes
+    }
   }
 
   if (tag.value === Type.Null) {
