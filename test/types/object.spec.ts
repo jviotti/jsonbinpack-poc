@@ -82,19 +82,19 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
     }
   }
 
-  fc.assert(fc.property(fc.dictionary(fc.string(), fc.oneof(
+  fc.assert(fc.property(fc.nat(10), fc.dictionary(fc.string(), fc.oneof(
     fc.constant(null),
     fc.boolean(),
     fc.integer(),
     fc.float(),
     fc.double(),
     fc.string({ maxLength: 10 })
-  )), (value: JSONObject): boolean => {
+  )), (offset: number, value: JSONObject): boolean => {
     const buffer: Buffer = Buffer.allocUnsafe(2048)
     const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
-      buffer, 0, value, options)
+      buffer, offset, value, options)
     const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
-      buffer, 0, options)
+      buffer, offset, options)
     return bytesWritten > 0 && result.bytes === bytesWritten &&
       util.isDeepStrictEqual(result.value, value)
   }), {

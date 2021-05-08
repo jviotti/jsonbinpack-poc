@@ -42,10 +42,10 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test
             options: {}
         }
     };
-    fc.assert(fc.property(fc.dictionary(fc.string(), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 10 }))), function (value) {
+    fc.assert(fc.property(fc.nat(10), fc.dictionary(fc.string(), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 10 }))), function (offset, value) {
         var buffer = Buffer.allocUnsafe(2048);
-        var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, options);
-        var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, options);
+        var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset, value, options);
+        var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset, options);
         return bytesWritten > 0 && result.bytes === bytesWritten &&
             util.isDeepStrictEqual(result.value, value);
     }), {
