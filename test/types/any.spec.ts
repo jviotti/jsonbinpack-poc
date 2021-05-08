@@ -40,6 +40,24 @@ tap.test('ANY__TYPE_PREFIX: should handle " "', (test) => {
   test.end()
 })
 
+tap.test('ANY__TYPE_PREFIX: should handle {"foo":"bar","baz":1}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(100)
+  const bytesWritten: number = ENCODE_ANY__TYPE_PREFIX(buffer, 0, {
+    foo: 'bar',
+    baz: 1
+  }, {})
+
+  test.is(bytesWritten, 17)
+  const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
+  test.is(result.bytes, 17)
+  test.strictSame(result.value, {
+    foo: 'bar',
+    baz: 1
+  })
+
+  test.end()
+})
+
 tap.test('ANY__TYPE_PREFIX: scalars', (test) => {
   fc.assert(fc.property(fc.nat(10), fc.oneof(
     fc.constant(null),
