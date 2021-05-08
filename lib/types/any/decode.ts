@@ -105,9 +105,7 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  }
-
-  if (tag.value === Type.Null) {
+  } else if (tag.value === Type.Null) {
     return {
       value: null,
       bytes: tag.bytes

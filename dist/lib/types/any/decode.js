@@ -41,7 +41,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: tag.bytes + result.bytes
         };
     }
-    if (tag.value === types_1.Type.Null) {
+    else if (tag.value === types_1.Type.Null) {
         return {
             value: null,
             bytes: tag.bytes
