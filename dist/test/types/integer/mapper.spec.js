@@ -5,6 +5,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var mapper_1 = require("../../../lib/types/integer/mapper");
+tap_1.default.test('should encode an 8-bit integer with minimum, maximum, and multiplier', function (test) {
+    var schema = {
+        type: 'integer',
+        minimum: -100,
+        maximum: 100,
+        multipleOf: 5
+    };
+    var result = mapper_1.getIntegerEncoding(schema);
+    test.strictSame(result, {
+        type: 'integer',
+        encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
+        options: {
+            minimum: -100,
+            maximum: 100,
+            multiplier: 5
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode an integer with minimum, maximum, and multiplier', function (test) {
+    var schema = {
+        type: 'integer',
+        minimum: -100,
+        maximum: 10000,
+        multipleOf: 5
+    };
+    var result = mapper_1.getIntegerEncoding(schema);
+    test.strictSame(result, {
+        type: 'integer',
+        encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
+        options: {
+            minimum: -100,
+            maximum: 10000,
+            multiplier: 5
+        }
+    });
+    test.end();
+});
 tap_1.default.test('should encode an arbitrary integer', function (test) {
     var schema = {
         type: 'integer'

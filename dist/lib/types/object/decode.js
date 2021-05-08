@@ -181,7 +181,6 @@ var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
         keyEncoding: options.keyEncoding,
         encoding: options.encoding
     });
-    console.log(requiredResult, optionalResult, arbitraryResult);
     return {
         bytes: requiredResult.bytes + optionalResult.bytes + arbitraryResult.bytes,
         value: Object.assign(requiredResult.value, optionalResult.value, arbitraryResult.value)

@@ -132,10 +132,19 @@ export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncod
 
   if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
-    // TODO: Handle 8-bits case
+    const absoluteMultiplier: number = Math.abs(schema.multipleOf)
+    const closestMinimumMultiple: number =
+      Math.ceil(schema.minimum / absoluteMultiplier) * absoluteMultiplier
+    const closestMaximumMultiple: number =
+      Math.ceil(schema.maximum / -absoluteMultiplier) * -absoluteMultiplier
+    const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
+    const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
+
     return {
       type: EncodingType.Integer,
-      encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
+      encoding: enumMaximum - enumMinimum <= UINT8_MAX
+        ? 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED'
+        : 'BOUNDED_MULTIPLE__ENUM_VARINT',
       options: {
         minimum: schema.minimum,
         maximum: schema.maximum,

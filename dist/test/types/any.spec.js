@@ -31,7 +31,6 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle " "', function (test) {
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, ' ', {});
     test.is(bytesWritten, 3);
     var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
-    console.log(result);
     test.is(result.bytes, 3);
     test.is(result.value, ' ');
     test.end();

@@ -10,9 +10,16 @@ var getIntegerEncoding = function (schema) {
         schema.maximum >= schema.minimum);
     if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
+        var absoluteMultiplier = Math.abs(schema.multipleOf);
+        var closestMinimumMultiple = Math.ceil(schema.minimum / absoluteMultiplier) * absoluteMultiplier;
+        var closestMaximumMultiple = Math.ceil(schema.maximum / -absoluteMultiplier) * -absoluteMultiplier;
+        var enumMinimum = closestMinimumMultiple / absoluteMultiplier;
+        var enumMaximum = closestMaximumMultiple / absoluteMultiplier;
         return {
             type: base_1.EncodingType.Integer,
-            encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
+            encoding: enumMaximum - enumMinimum <= limits_1.UINT8_MAX
+                ? 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED'
+                : 'BOUNDED_MULTIPLE__ENUM_VARINT',
             options: {
                 minimum: schema.minimum,
                 maximum: schema.maximum,

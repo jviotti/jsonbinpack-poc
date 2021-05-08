@@ -35,7 +35,6 @@ tap.test('ANY__TYPE_PREFIX: should handle " "', (test) => {
   const bytesWritten: number = ENCODE_ANY__TYPE_PREFIX(buffer, 0, ' ', {})
   test.is(bytesWritten, 3)
   const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
-  console.log(result)
   test.is(result.bytes, 3)
   test.is(result.value, ' ')
   test.end()

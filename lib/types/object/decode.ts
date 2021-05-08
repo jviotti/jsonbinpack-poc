@@ -48,8 +48,6 @@ import {
   DecodeResult
 } from '../../encoder'
 
-// TODO: Implement the remaining decode functions
-
 export interface ObjectResult extends DecodeResult {
   readonly value: JSONObject;
   readonly bytes: number;
@@ -226,8 +224,6 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
       keyEncoding: options.keyEncoding,
       encoding: options.encoding
     })
-
-  console.log(requiredResult, optionalResult, arbitraryResult)
 
   return {
     bytes: requiredResult.bytes + optionalResult.bytes + arbitraryResult.bytes,

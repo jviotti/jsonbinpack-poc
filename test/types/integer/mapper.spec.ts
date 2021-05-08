@@ -25,6 +25,50 @@ import {
   getIntegerEncoding
 } from '../../../lib/types/integer/mapper'
 
+tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier', (test) => {
+  const schema: IntegerCanonicalSchema = {
+    type: 'integer',
+    minimum: -100,
+    maximum: 100,
+    multipleOf: 5
+  }
+
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    type: 'integer',
+    encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
+    options: {
+      minimum: -100,
+      maximum: 100,
+      multiplier: 5
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode an integer with minimum, maximum, and multiplier', (test) => {
+  const schema: IntegerCanonicalSchema = {
+    type: 'integer',
+    minimum: -100,
+    maximum: 10000,
+    multipleOf: 5
+  }
+
+  const result: IntegerEncoding = getIntegerEncoding(schema)
+  test.strictSame(result, {
+    type: 'integer',
+    encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
+    options: {
+      minimum: -100,
+      maximum: 10000,
+      multiplier: 5
+    }
+  })
+
+  test.end()
+})
+
 tap.test('should encode an arbitrary integer', (test) => {
   const schema: IntegerCanonicalSchema = {
     type: 'integer'
