@@ -1,15 +1,58 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
+var fc = __importStar(require("fast-check"));
+var util = __importStar(require("util"));
 var base_1 = require("../../lib/types/base");
 var mapper_1 = require("../../lib/types/any/mapper");
 var encode_1 = require("../../lib/types/object/encode");
 var decode_1 = require("../../lib/types/object/decode");
 var mapper_2 = require("../../lib/types/string/mapper");
 var mapper_3 = require("../../lib/types/integer/mapper");
+tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test) {
+    var options = {
+        keyEncoding: mapper_2.getStringEncoding({
+            type: 'string'
+        }),
+        encoding: {
+            type: base_1.EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+        }
+    };
+    fc.assert(fc.property(fc.dictionary(fc.string(), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 10 }))), function (value) {
+        var buffer = Buffer.allocUnsafe(2048);
+        var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, options);
+        var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, options);
+        return bytesWritten > 0 && result.bytes === bytesWritten &&
+            util.isDeepStrictEqual(result.value, value);
+    }), {
+        verbose: false
+    });
+    test.end();
+});
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', function (test) {
     var buffer = Buffer.allocUnsafe(16);
     var value = {

@@ -15,6 +15,8 @@
  */
 
 import tap from 'tap'
+import * as fc from 'fast-check'
+import * as util from 'util'
 
 import {
   JSONObject
@@ -29,6 +31,7 @@ import {
 } from '../../lib/types/any/mapper'
 
 import {
+  TypedKeysOptions,
   RequiredUnboundedTypedOptions,
   OptionalUnboundedTypedOptions,
   BoundedTypedOptions,
@@ -67,7 +70,39 @@ import {
   getIntegerEncoding
 } from '../../lib/types/integer/mapper'
 
-// TODO: Use fast-check to fuzz objects for ARBITRARY_TYPED_KEYS_OBJECT
+tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
+  const options: TypedKeysOptions = {
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    }),
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY__TYPE_PREFIX',
+      options: {}
+    }
+  }
+
+  fc.assert(fc.property(fc.dictionary(fc.string(), fc.oneof(
+    fc.constant(null),
+    fc.boolean(),
+    fc.integer(),
+    fc.float(),
+    fc.double(),
+    fc.string({ maxLength: 10 })
+  )), (value: JSONObject): boolean => {
+    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
+      buffer, 0, value, options)
+    const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
+      buffer, 0, options)
+    return bytesWritten > 0 && result.bytes === bytesWritten &&
+      util.isDeepStrictEqual(result.value, value)
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
   const buffer: Buffer = Buffer.allocUnsafe(16)
