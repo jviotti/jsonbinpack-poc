@@ -91,3 +91,20 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode -256 as 0x0a 0xff', function
     test.is(bytesWritten, 2);
     test.end();
 });
+tap_1.default.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', function (test) {
+    var buffer = Buffer.allocUnsafe(17);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, {
+        foo: 'bar',
+        baz: 1
+    }, {});
+    test.strictSame(buffer, Buffer.from([
+        0x01,
+        0x02,
+        0x03, 0x66, 0x6f, 0x6f,
+        0x00, 0x03, 0x62, 0x61, 0x72,
+        0x03, 0x62, 0x61, 0x7a,
+        0x09, 0x01
+    ]));
+    test.is(bytesWritten, 17);
+    test.end();
+});

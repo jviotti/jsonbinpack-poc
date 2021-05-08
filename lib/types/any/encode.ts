@@ -32,6 +32,10 @@ import {
 } from './types'
 
 import {
+  EncodingType
+} from '../base'
+
+import {
   BOUNDED_8BITS__ENUM_FIXED,
   FLOOR__ENUM_VARINT
 } from '../integer/encode'
@@ -44,6 +48,10 @@ import {
   DOUBLE__IEEE764_LE
 } from '../number/encode'
 
+import {
+  ARBITRARY_TYPED_KEYS_OBJECT
+} from '../object/encode'
+
 const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
@@ -55,11 +63,26 @@ const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
 export const ANY__TYPE_PREFIX = (
   buffer: Buffer, offset: number, value: JSONValue, _options: NoOptions
 ): number => {
-  // TODO: Implement array and object support
+  // TODO: Implement array
   if (Array.isArray(value)) {
     throw new Error('TODO: Unimplemented')
   } else if (typeof value === 'object' && value !== null) {
-    throw new Error('TODO: Unimplemented')
+    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Object)
+    const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT(
+      buffer, offset + tagBytes, value, {
+        keyEncoding: {
+          type: EncodingType.String,
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        },
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        }
+      })
+
+    return tagBytes + valueBytes
   }
 
   // Encode a null value (at the type level)

@@ -22,8 +22,6 @@ import {
   StringEncoding
 } from '../string/mapper'
 
-// TODO: Revise the names of these options interfaces
-
 interface TypedPropertiesOptions {
   propertyEncodings: Record<string, Encoding>;
 }

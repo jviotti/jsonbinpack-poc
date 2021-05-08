@@ -116,3 +116,23 @@ tap.test('ANY__TYPE_PREFIX: should encode -256 as 0x0a 0xff', (test) => {
   test.is(bytesWritten, 2)
   test.end()
 })
+
+tap.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(17)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, {
+    foo: 'bar',
+    baz: 1
+  }, {})
+
+  test.strictSame(buffer, Buffer.from([
+    0x01, // tag
+    0x02, // length
+    0x03, 0x66, 0x6f, 0x6f, // key length + 'foo'
+    0x00, 0x03, 0x62, 0x61, 0x72, // string tag + length + 'bar'
+    0x03, 0x62, 0x61, 0x7a, // key length + 'baz'
+    0x09, 0x01 // positive integer type tag + 1
+  ]))
+
+  test.is(bytesWritten, 17)
+  test.end()
+})
