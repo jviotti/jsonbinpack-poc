@@ -149,6 +149,19 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
   test.end()
 })
 
+tap.test('FLOOR__ENUM_VARINT: should encode 696667952522107300000', (test) => {
+  const buffer: Buffer = Buffer.allocUnsafe(60)
+  const value: number = 696667952522107300000
+  const bytesWritten: number =
+    ENCODE_FLOOR__ENUM_VARINT(buffer, 0, value, { minimum: 0 })
+  const result: IntegerResult =
+    DECODE_FLOOR__ENUM_VARINT(buffer, 0, { minimum: 0 })
+
+  test.is(bytesWritten, result.bytes)
+  test.is(result.value, value)
+  test.end()
+})
+
 tap.test('FLOOR__ENUM_VARINT', (test) => {
   fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), (
     offset: number, value: number, minimum: number

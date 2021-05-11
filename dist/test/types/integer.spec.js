@@ -107,6 +107,15 @@ tap_1.default.test('BOUNDED_MULTIPLE__ENUM_VARINT', function (test) {
     });
     test.end();
 });
+tap_1.default.test('FLOOR__ENUM_VARINT: should encode 696667952522107300000', function (test) {
+    var buffer = Buffer.allocUnsafe(60);
+    var value = 696667952522107300000;
+    var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, value, { minimum: 0 });
+    var result = decode_1.FLOOR__ENUM_VARINT(buffer, 0, { minimum: 0 });
+    test.is(bytesWritten, result.bytes);
+    test.is(result.value, value);
+    test.end();
+});
 tap_1.default.test('FLOOR__ENUM_VARINT', function (test) {
     fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), function (offset, value, minimum) {
         fc.pre(value >= minimum);
