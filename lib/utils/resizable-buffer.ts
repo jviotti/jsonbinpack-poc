@@ -23,30 +23,45 @@ export default class ResizableBuffer {
     this.written = 0
   }
 
+  private grow (bytes: number): void {
+    if (this.written + bytes > this.buffer.length) {
+      this.buffer = Buffer.concat([
+        this.buffer,
+        // Allocate the required amount of bytes but also
+        // add some extra room (twice the buffer size)
+        // to minimize future allocations.
+        Buffer.allocUnsafe((this.buffer.length * 2) + bytes)
+      ])
+    }
+  }
+
   public getBuffer (): Buffer {
     return this.buffer.slice(0, this.written)
   }
 
-  // TODO: Grow at least by the max necessary amount in each of the .write() functions
   public writeUInt8 (value: number, offset: number): number {
+    this.grow(1)
     const cursor: number = this.buffer.writeUInt8(value, offset)
     this.written = Math.max(this.written, cursor)
     return cursor
   }
 
   public writeUIntLE (value: number, offset: number, byteLength: number): number {
+    this.grow(byteLength)
     const cursor: number = this.buffer.writeUIntLE(value, offset, byteLength)
     this.written = Math.max(this.written, cursor)
     return cursor
   }
 
   public write (value: string, offset: number, length: number, encoding: BufferEncoding): number {
+    this.grow(length)
     const bytesWritten: number = this.buffer.write(value, offset, length, encoding)
     this.written = Math.max(this.written, offset + bytesWritten)
     return bytesWritten
   }
 
   public writeDoubleLE (value: number, offset: number): number {
+    this.grow(8)
     const cursor: number = this.buffer.writeDoubleLE(value, offset)
     this.written = Math.max(this.written, cursor)
     return cursor
