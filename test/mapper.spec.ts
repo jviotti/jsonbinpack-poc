@@ -17,8 +17,8 @@
 import tap from 'tap'
 
 import {
-  CanonicalSchema
-} from '../lib/canonical-schema'
+  EncodingSchema
+} from '../lib/encoding-schema'
 
 import {
   Encoding
@@ -29,7 +29,7 @@ import {
 } from '../lib/mapper'
 
 tap.test('should get an integer encoding', (test) => {
-  const schema: CanonicalSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     minimum: 5
   }
@@ -47,7 +47,7 @@ tap.test('should get an integer encoding', (test) => {
 })
 
 tap.test('should get a string encoding', (test) => {
-  const schema: CanonicalSchema = {
+  const schema: EncodingSchema = {
     type: 'string',
     maxLength: 20
   }

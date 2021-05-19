@@ -15,8 +15,8 @@
  */
 
 import {
-  BooleanCanonicalSchema
-} from '../../canonical-schema'
+  BooleanEncodingSchema
+} from '../../encoding-schema'
 
 import {
   BaseEncodingDefinition,
@@ -36,7 +36,7 @@ export interface BOOLEAN_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefiniti
 export type BooleanEncodingNames = 'BOOLEAN_8BITS__ENUM_FIXED'
 export type BooleanEncoding = BOOLEAN_8BITS__ENUM_FIXED_ENCODING
 
-export const getBooleanEncoding = (_schema: BooleanCanonicalSchema): BooleanEncoding => {
+export const getBooleanEncoding = (_schema: BooleanEncodingSchema): BooleanEncoding => {
   return {
     type: EncodingType.Boolean,
     encoding: 'BOOLEAN_8BITS__ENUM_FIXED',

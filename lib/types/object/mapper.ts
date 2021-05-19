@@ -15,9 +15,9 @@
  */
 
 import {
-  CanonicalSchema,
-  ObjectCanonicalSchema
-} from '../../canonical-schema'
+  EncodingSchema,
+  ObjectEncodingSchema
+} from '../../encoding-schema'
 
 import {
   getStringEncoding,
@@ -107,19 +107,19 @@ export type ObjectEncoding =
   MIXED_UNBOUNDED_TYPED_OBJECT_ENCODING
 
 const parseAdditionalProperties = (
-  value: undefined | boolean | CanonicalSchema
+  value: undefined | boolean | EncodingSchema
 ): Encoding | null => {
   if (typeof value === 'boolean' && !value) {
     return null
   }
 
-  const schema: CanonicalSchema =
+  const schema: EncodingSchema =
     (typeof value === 'undefined' || (typeof value === 'boolean' && value))
       ? {} : value
   return getEncoding(schema)
 }
 
-export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding => {
+export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding => {
   const additionalProperties: Encoding | null =
     parseAdditionalProperties(schema.additionalProperties)
   const requiredProperties: string[] =
@@ -127,7 +127,7 @@ export const getObjectEncoding = (schema: ObjectCanonicalSchema): ObjectEncoding
       return left.localeCompare(right)
     })
 
-  const properties: Record<string, CanonicalSchema> = schema.properties ?? {}
+  const properties: Record<string, EncodingSchema> = schema.properties ?? {}
   const optionalProperties: string[] = Object.keys(properties)
     .filter((key: string) => {
       return requiredProperties.indexOf(key) === -1

@@ -15,8 +15,8 @@
  */
 
 import {
-  NumberCanonicalSchema
-} from '../../canonical-schema'
+  NumberEncodingSchema
+} from '../../encoding-schema'
 
 import {
   BaseEncodingDefinition,
@@ -36,7 +36,7 @@ export interface DOUBLE__IEEE764_LE_ENCODING extends BaseEncodingDefinition {
 export type NumberEncodingNames = 'DOUBLE__IEEE764_LE'
 export type NumberEncoding = DOUBLE__IEEE764_LE_ENCODING
 
-export const getNumberEncoding = (_schema: NumberCanonicalSchema): NumberEncoding => {
+export const getNumberEncoding = (_schema: NumberEncodingSchema): NumberEncoding => {
   return {
     type: EncodingType.Number,
     encoding: 'DOUBLE__IEEE764_LE',

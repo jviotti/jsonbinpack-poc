@@ -15,8 +15,8 @@
  */
 
 import {
-  AnyCanonicalSchema
-} from '../../canonical-schema'
+  AnyEncodingSchema
+} from '../../encoding-schema'
 
 import {
   BaseEncodingDefinition,
@@ -36,7 +36,7 @@ export interface ANY__TYPE_PREFIX_ENCODING extends BaseEncodingDefinition {
 export type AnyEncodingNames = 'ANY__TYPE_PREFIX'
 export type AnyEncoding = ANY__TYPE_PREFIX_ENCODING
 
-export const getAnyEncoding = (_schema: AnyCanonicalSchema): AnyEncoding => {
+export const getAnyEncoding = (_schema: AnyEncodingSchema): AnyEncoding => {
   return {
     type: EncodingType.Any,
     encoding: 'ANY__TYPE_PREFIX',

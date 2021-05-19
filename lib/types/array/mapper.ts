@@ -19,9 +19,9 @@ import {
 } from '../../utils/limits'
 
 import {
-  ArrayCanonicalSchema,
-  CanonicalSchema
-} from '../../canonical-schema'
+  ArrayEncodingSchema,
+  EncodingSchema
+} from '../../encoding-schema'
 
 import {
   BaseEncodingDefinition,
@@ -147,10 +147,10 @@ export type ArrayEncoding =
   ROOF_TYPED__LENGTH_PREFIX_ENCODING |
   UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
 
-export const getArrayEncoding = (schema: ArrayCanonicalSchema): ArrayEncoding => {
-  const encodingSchema: CanonicalSchema | undefined = schema.items
+export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => {
+  const encodingSchema: EncodingSchema | undefined = schema.items
   const prefixEncodings: Encoding[] =
-    (schema.prefixItems ?? []).map((subschema: CanonicalSchema) => {
+    (schema.prefixItems ?? []).map((subschema: EncodingSchema) => {
       return getEncoding(subschema)
     })
 

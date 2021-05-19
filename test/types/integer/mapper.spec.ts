@@ -17,8 +17,8 @@
 import tap from 'tap'
 
 import {
-  IntegerCanonicalSchema
-} from '../../../lib/canonical-schema'
+  IntegerEncodingSchema
+} from '../../../lib/encoding-schema'
 
 import {
   IntegerEncoding,
@@ -26,7 +26,7 @@ import {
 } from '../../../lib/types/integer/mapper'
 
 tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 100,
@@ -48,7 +48,7 @@ tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier',
 })
 
 tap.test('should encode an integer with minimum, maximum, and multiplier', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 10000,
@@ -70,7 +70,7 @@ tap.test('should encode an integer with minimum, maximum, and multiplier', (test
 })
 
 tap.test('should encode an arbitrary integer', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer'
   }
 
@@ -85,7 +85,7 @@ tap.test('should encode an arbitrary integer', (test) => {
 })
 
 tap.test('should encode an arbitrary integer with multipleOf', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     multipleOf: 5
   }
@@ -103,7 +103,7 @@ tap.test('should encode an arbitrary integer with multipleOf', (test) => {
 })
 
 tap.test('should encode an integer with minimum', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     minimum: 0
   }
@@ -121,7 +121,7 @@ tap.test('should encode an integer with minimum', (test) => {
 })
 
 tap.test('should encode an integer with minimum and multipleOf', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     minimum: 0,
     multipleOf: 5
@@ -141,7 +141,7 @@ tap.test('should encode an integer with minimum and multipleOf', (test) => {
 })
 
 tap.test('should encode an integer with maximum', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     maximum: 100
   }
@@ -159,7 +159,7 @@ tap.test('should encode an integer with maximum', (test) => {
 })
 
 tap.test('should encode an integer with maximum and multipleOf', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     maximum: 100,
     multipleOf: 5
@@ -179,7 +179,7 @@ tap.test('should encode an integer with maximum and multipleOf', (test) => {
 })
 
 tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 100
@@ -199,7 +199,7 @@ tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
 })
 
 tap.test('should encode an >8-bit integer with minimum and maximum', (test) => {
-  const schema: IntegerCanonicalSchema = {
+  const schema: IntegerEncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 100000

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-export interface BooleanCanonicalSchema {
+export interface BooleanEncodingSchema {
   readonly type: 'boolean';
 }
 
-export interface IntegerCanonicalSchema {
+export interface IntegerEncodingSchema {
   readonly type: 'integer';
 
   // The exclusiveMinimum and exclusiveMaximum keywords
@@ -29,11 +29,11 @@ export interface IntegerCanonicalSchema {
   readonly multipleOf?: number;
 }
 
-export interface NullCanonicalSchema {
+export interface NullEncodingSchema {
   readonly type: 'null';
 }
 
-export interface NumberCanonicalSchema {
+export interface NumberEncodingSchema {
   readonly type: 'number';
 
   /*
@@ -50,7 +50,7 @@ export interface NumberCanonicalSchema {
   readonly multipleOf?: number;
 }
 
-export interface StringCanonicalSchema {
+export interface StringEncodingSchema {
   readonly type: 'string';
   readonly maxLength?: number;
   readonly minLength?: number;
@@ -72,33 +72,33 @@ export interface StringCanonicalSchema {
   // TODO: We can use these in the future to apply more clever encodings
   readonly contentEncoding?: string;
   readonly contentMediaType?: string;
-  readonly contentSchema?: CanonicalSchema;
+  readonly contentSchema?: EncodingSchema;
 }
 
-export interface AnyCanonicalSchema {}
+export interface AnyEncodingSchema {}
 
-export interface ArrayCanonicalSchema {
+export interface ArrayEncodingSchema {
   readonly type: 'array';
   readonly maxItems?: number;
   readonly minItems?: number;
-  readonly items?: CanonicalSchema;
-  readonly prefixItems?: CanonicalSchema[];
+  readonly items?: EncodingSchema;
+  readonly prefixItems?: EncodingSchema[];
 }
 
-export interface ObjectCanonicalSchema {
+export interface ObjectEncodingSchema {
   readonly type: 'object';
-  readonly additionalProperties?: boolean | CanonicalSchema;
+  readonly additionalProperties?: boolean | EncodingSchema;
   readonly required?: string[];
-  readonly propertyNames?: StringCanonicalSchema;
-  readonly properties?: Record<string, CanonicalSchema>;
+  readonly propertyNames?: StringEncodingSchema;
+  readonly properties?: Record<string, EncodingSchema>;
 }
 
-export type CanonicalSchema =
-  BooleanCanonicalSchema |
-  IntegerCanonicalSchema |
-  NullCanonicalSchema |
-  NumberCanonicalSchema |
-  StringCanonicalSchema |
-  AnyCanonicalSchema |
-  ArrayCanonicalSchema |
-  ObjectCanonicalSchema
+export type EncodingSchema =
+  BooleanEncodingSchema |
+  IntegerEncodingSchema |
+  NullEncodingSchema |
+  NumberEncodingSchema |
+  StringEncodingSchema |
+  AnyEncodingSchema |
+  ArrayEncodingSchema |
+  ObjectEncodingSchema

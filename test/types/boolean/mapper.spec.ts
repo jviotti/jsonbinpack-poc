@@ -17,8 +17,8 @@
 import tap from 'tap'
 
 import {
-  BooleanCanonicalSchema
-} from '../../../lib/canonical-schema'
+  BooleanEncodingSchema
+} from '../../../lib/encoding-schema'
 
 import {
   BooleanEncoding,
@@ -26,7 +26,7 @@ import {
 } from '../../../lib/types/boolean/mapper'
 
 tap.test('should encode a boolean value', (test) => {
-  const schema: BooleanCanonicalSchema = {
+  const schema: BooleanEncodingSchema = {
     type: 'boolean'
   }
 

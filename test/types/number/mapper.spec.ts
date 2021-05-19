@@ -17,8 +17,8 @@
 import tap from 'tap'
 
 import {
-  NumberCanonicalSchema
-} from '../../../lib/canonical-schema'
+  NumberEncodingSchema
+} from '../../../lib/encoding-schema'
 
 import {
   NumberEncoding,
@@ -26,7 +26,7 @@ import {
 } from '../../../lib/types/number/mapper'
 
 tap.test('should encode a number simple value', (test) => {
-  const schema: NumberCanonicalSchema = {
+  const schema: NumberEncodingSchema = {
     type: 'number'
   }
 

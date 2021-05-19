@@ -17,8 +17,8 @@
 import tap from 'tap'
 
 import {
-  NullCanonicalSchema
-} from '../../../lib/canonical-schema'
+  NullEncodingSchema
+} from '../../../lib/encoding-schema'
 
 import {
   NullEncoding,
@@ -26,7 +26,7 @@ import {
 } from '../../../lib/types/null/mapper'
 
 tap.test('should encode a null value', (test) => {
-  const schema: NullCanonicalSchema = {
+  const schema: NullEncodingSchema = {
     type: 'null'
   }
 

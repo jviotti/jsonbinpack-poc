@@ -19,8 +19,8 @@ import {
 } from 'assert'
 
 import {
-  IntegerCanonicalSchema
-} from '../../canonical-schema'
+  IntegerEncodingSchema
+} from '../../encoding-schema'
 
 import {
   BaseEncodingDefinition,
@@ -125,7 +125,7 @@ export type IntegerEncoding =
   ARBITRARY__ZIGZAG_VARINT_ENCODING |
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT_ENCODING
 
-export const getIntegerEncoding = (schema: IntegerCanonicalSchema): IntegerEncoding => {
+export const getIntegerEncoding = (schema: IntegerEncodingSchema): IntegerEncoding => {
   assert(typeof schema.minimum === 'undefined' ||
     typeof schema.maximum === 'undefined' ||
     schema.maximum >= schema.minimum)

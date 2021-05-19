@@ -19,8 +19,8 @@ import {
 } from './encoder'
 
 import {
-  CanonicalSchema
-} from './canonical-schema'
+  EncodingSchema
+} from './encoding-schema'
 
 import {
   getBooleanEncoding
@@ -54,7 +54,7 @@ import {
   getObjectEncoding
 } from './types/object/mapper'
 
-export const getEncoding = (schema: CanonicalSchema): Encoding => {
+export const getEncoding = (schema: EncodingSchema): Encoding => {
   if (!('type' in schema)) {
     return getAnyEncoding(schema)
   } else if (schema.type === 'boolean') {

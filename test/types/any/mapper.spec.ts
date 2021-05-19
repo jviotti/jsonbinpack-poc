@@ -17,8 +17,8 @@
 import tap from 'tap'
 
 import {
-  AnyCanonicalSchema
-} from '../../../lib/canonical-schema'
+  AnyEncodingSchema
+} from '../../../lib/encoding-schema'
 
 import {
   AnyEncoding,
@@ -26,7 +26,7 @@ import {
 } from '../../../lib/types/any/mapper'
 
 tap.test('should encode an any value', (test) => {
-  const schema: AnyCanonicalSchema = {}
+  const schema: AnyEncodingSchema = {}
 
   const result: AnyEncoding = getAnyEncoding(schema)
   test.strictSame(result, {

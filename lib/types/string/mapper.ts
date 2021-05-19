@@ -19,8 +19,8 @@ import {
 } from 'assert'
 
 import {
-  StringCanonicalSchema
-} from '../../canonical-schema'
+  StringEncodingSchema
+} from '../../encoding-schema'
 
 import {
   BaseEncodingDefinition,
@@ -89,7 +89,7 @@ export type StringEncoding =
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING
 
-export const getStringEncoding = (schema: StringCanonicalSchema): StringEncoding => {
+export const getStringEncoding = (schema: StringEncodingSchema): StringEncoding => {
   assert(typeof schema.minLength === 'undefined' || schema.minLength >= 0)
   assert(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0)
   assert(typeof schema.minLength === 'undefined' ||
