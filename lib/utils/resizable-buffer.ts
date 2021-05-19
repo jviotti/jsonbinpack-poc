@@ -16,9 +16,11 @@
 
 export default class ResizableBuffer {
   private buffer: Buffer;
+  private written: number;
 
   constructor (buffer: Buffer) {
     this.buffer = buffer
+    this.written = 0
   }
 
   public getBuffer (): Buffer {
@@ -26,19 +28,27 @@ export default class ResizableBuffer {
   }
 
   public writeUInt8 (value: number, offset: number): number {
-    return this.buffer.writeUInt8(value, offset)
+    const cursor: number = this.buffer.writeUInt8(value, offset)
+    this.written = Math.max(this.written, cursor)
+    return cursor
   }
 
   public writeUIntLE (value: number, offset: number, byteLength: number): number {
-    return this.buffer.writeUIntLE(value, offset, byteLength)
+    const cursor: number = this.buffer.writeUIntLE(value, offset, byteLength)
+    this.written = Math.max(this.written, cursor)
+    return cursor
   }
 
   public write (value: string, offset: number, length: number, encoding: BufferEncoding): number {
-    return this.buffer.write(value, offset, length, encoding)
+    const cursor: number = this.buffer.write(value, offset, length, encoding)
+    this.written = Math.max(this.written, cursor)
+    return cursor
   }
 
   public writeDoubleLE (value: number, offset: number): number {
-    return this.buffer.writeDoubleLE(value, offset)
+    const cursor: number = this.buffer.writeDoubleLE(value, offset)
+    this.written = Math.max(this.written, cursor)
+    return cursor
   }
 
   public readUInt8 (offset: number): number {

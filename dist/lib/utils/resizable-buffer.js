@@ -3,21 +3,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ResizableBuffer = (function () {
     function ResizableBuffer(buffer) {
         this.buffer = buffer;
+        this.written = 0;
     }
     ResizableBuffer.prototype.getBuffer = function () {
         return this.buffer;
     };
     ResizableBuffer.prototype.writeUInt8 = function (value, offset) {
-        return this.buffer.writeUInt8(value, offset);
+        var cursor = this.buffer.writeUInt8(value, offset);
+        this.written = Math.max(this.written, cursor);
+        return cursor;
     };
     ResizableBuffer.prototype.writeUIntLE = function (value, offset, byteLength) {
-        return this.buffer.writeUIntLE(value, offset, byteLength);
+        var cursor = this.buffer.writeUIntLE(value, offset, byteLength);
+        this.written = Math.max(this.written, cursor);
+        return cursor;
     };
     ResizableBuffer.prototype.write = function (value, offset, length, encoding) {
-        return this.buffer.write(value, offset, length, encoding);
+        var cursor = this.buffer.write(value, offset, length, encoding);
+        this.written = Math.max(this.written, cursor);
+        return cursor;
     };
     ResizableBuffer.prototype.writeDoubleLE = function (value, offset) {
-        return this.buffer.writeDoubleLE(value, offset);
+        var cursor = this.buffer.writeDoubleLE(value, offset);
+        this.written = Math.max(this.written, cursor);
+        return cursor;
     };
     ResizableBuffer.prototype.readUInt8 = function (offset) {
         return this.buffer.readUInt8(offset);

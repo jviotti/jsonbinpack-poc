@@ -42,7 +42,7 @@ tap.test('should dynamically encode a boolean value', (test) => {
   const value: JSONValue = true
   const bytesWritten: number = encode(buffer, offset, encoding, value)
   test.is(bytesWritten, 1)
-  test.strictSame(buffer, new ResizableBuffer(Buffer.from([ 0x01 ])))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01 ]))
 
   const result: DecodeResult = decode(buffer, offset, encoding)
   test.is(result.bytes, bytesWritten)
