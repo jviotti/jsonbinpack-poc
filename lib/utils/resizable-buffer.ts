@@ -21,39 +21,39 @@ export default class ResizableBuffer {
     this.buffer = buffer
   }
 
-  public writeUInt8 (value: number, offset: number): number {
-    return this.buffer.writeUInt8(value, offset)
+  public getBuffer (): Buffer {
+    return this.buffer
   }
 
-  public readUInt8 (offset: number): number {
-    return this.buffer.readUInt8(offset)
+  public writeUInt8 (value: number, offset: number): number {
+    return this.buffer.writeUInt8(value, offset)
   }
 
   public writeUIntLE (value: number, offset: number, byteLength: number): number {
     return this.buffer.writeUIntLE(value, offset, byteLength)
   }
 
-  public readUIntLE (offset: number, byteLength: number): number {
-    return this.buffer.readUIntLE(offset, byteLength)
-  }
-
   public write (value: string, offset: number, length: number, encoding: BufferEncoding): number {
     return this.buffer.write(value, offset, length, encoding)
-  }
-
-  public toString (encoding: BufferEncoding, start: number, end: number): string {
-    return this.buffer.toString(encoding, start, end)
   }
 
   public writeDoubleLE (value: number, offset: number): number {
     return this.buffer.writeDoubleLE(value, offset)
   }
 
-  public readDoubleLE (offset: number): number {
-    return this.buffer.readDoubleLE(offset)
+  public readUInt8 (offset: number): number {
+    return this.buffer.readUInt8(offset)
   }
 
-  public getBuffer (): Buffer {
-    return this.buffer
+  public readUIntLE (offset: number, byteLength: number): number {
+    return this.buffer.readUIntLE(offset, byteLength)
+  }
+
+  public toString (encoding: BufferEncoding, start: number, end: number): string {
+    return this.buffer.toString(encoding, start, end)
+  }
+
+  public readDoubleLE (offset: number): number {
+    return this.buffer.readDoubleLE(offset)
   }
 }
