@@ -28,9 +28,10 @@ var util = __importStar(require("util"));
 var mapper_1 = require("../../lib/types/integer/mapper");
 var encode_1 = require("../../lib/types/array/encode");
 var decode_1 = require("../../lib/types/array/decode");
+var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', function (test) {
     var value = ['foo', true, 2000];
-    var buffer = Buffer.allocUnsafe(10);
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
     var options = {
         prefixEncodings: [],
         minimum: 2,
@@ -45,7 +46,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 
 });
 tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', function (test) {
     var value = [];
-    var buffer = Buffer.allocUnsafe(1);
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
     var options = {
         prefixEncodings: []
     };
@@ -58,7 +59,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', function (test
 });
 tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', function (test) {
     fc.assert(fc.property(fc.array(fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 10 }))), function (value) {
-        var buffer = Buffer.allocUnsafe(2048);
+        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var offset = 0;
         var bytesWritten = encode_1.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
             prefixEncodings: []
@@ -75,7 +76,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', function (tes
 });
 tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', function (test) {
     fc.assert(fc.property(fc.array(fc.integer()), function (value) {
-        var buffer = Buffer.allocUnsafe(2048);
+        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var offset = 0;
         var encoding = mapper_1.getIntegerEncoding({
             type: 'integer'

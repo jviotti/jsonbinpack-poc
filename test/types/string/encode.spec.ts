@@ -24,16 +24,18 @@ import {
   ARBITRARY__PREFIX_LENGTH_VARINT
 } from '../../../lib/types/string/encode'
 
+import ResizableBuffer from '../../../lib/utils/resizable-buffer'
+
 tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (
   test
 ) => {
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number =
     BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', {
       minimum: 2,
       maximum: 4
     })
-  test.strictSame(buffer, Buffer.from([ 0x01, 0x66, 0x6f, 0x6f ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 4)
   test.end()
 })
@@ -41,12 +43,12 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (
 tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode "foo" (..4)', (
   test
 ) => {
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number =
     ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', {
       maximum: 4
     })
-  test.strictSame(buffer, Buffer.from([ 0x03, 0x66, 0x6f, 0x6f ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x03, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 4)
   test.end()
 })
@@ -54,12 +56,12 @@ tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode "foo" (..4)', (
 tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (..4)', (
   test
 ) => {
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number =
     ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', {
       maximum: 4
     })
-  test.strictSame(buffer, Buffer.from([ 0x01, 0x66, 0x6f, 0x6f ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 4)
   test.end()
 })
@@ -67,39 +69,39 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (..4)', (
 tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (3..)', (
   test
 ) => {
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number =
     FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', {
       minimum: 3
     })
-  test.strictSame(buffer, Buffer.from([ 0x00, 0x66, 0x6f, 0x6f ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 4)
   test.end()
 })
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode "foo"', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number =
     ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, 'foo', {})
-  test.strictSame(buffer, Buffer.from([ 0x03, 0x66, 0x6f, 0x6f ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x03, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 4)
   test.end()
 })
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode ""', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number =
     ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, '', {})
-  test.strictSame(buffer, Buffer.from([ 0x00 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode " "', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(2)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
   const bytesWritten: number =
     ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {})
-  test.strictSame(buffer, Buffer.from([ 0x01, 0x20 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01, 0x20 ]))
   test.is(bytesWritten, 2)
   test.end()
 })

@@ -40,8 +40,10 @@ import {
   UINT8_MAX
 } from '../../lib/utils/limits'
 
+import ResizableBuffer from '../../lib/utils/resizable-buffer'
+
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(2048)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
   const bytesWritten: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {})
   test.is(bytesWritten, 2)
   const result: StringResult = DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {})
@@ -62,7 +64,7 @@ tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
 
   fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
     fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
-    const buffer: Buffer = Buffer.allocUnsafe(offset + UINT8_MAX + 1)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + UINT8_MAX + 1))
     const bytesWritten: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
       buffer, offset, value, { minimum, maximum })
     const result: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
@@ -87,7 +89,7 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
 
   fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
     fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
-    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
       ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum, maximum })
     const result: StringResult =
@@ -110,7 +112,7 @@ tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
   })
 
   fc.assert(fc.property(arbitrary, ([ offset, maximum, value ]): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(offset + UINT8_MAX + 1)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + UINT8_MAX + 1))
     const bytesWritten: number =
       ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, { maximum })
     const result: StringResult =
@@ -133,7 +135,7 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   })
 
   fc.assert(fc.property(arbitrary, ([ offset, maximum, value ]): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
       ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum })
     const result: StringResult =
@@ -156,7 +158,7 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   })
 
   fc.assert(fc.property(arbitrary, ([ offset, minimum, value ]): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
       ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum })
     const result: StringResult =
@@ -173,7 +175,7 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
   fc.assert(fc.property(fc.nat(10), fc.string({ maxLength: 1000 }), (
     offset: number, value: string
   ): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
       ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {})
     const result: StringResult =

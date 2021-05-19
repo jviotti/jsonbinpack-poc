@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from './resizable-buffer'
+
 import {
   DecodeResult
 } from '../types/base'
@@ -23,7 +25,7 @@ const getBytesToStoreBits = (bits: number): number => {
 }
 
 export const bitsetEncode = (
-  buffer: Buffer, offset: number, bits: boolean[]
+  buffer: ResizableBuffer, offset: number, bits: boolean[]
 ): number => {
   if (bits.length === 0) {
     return 0
@@ -45,7 +47,7 @@ export interface BitsetResult extends DecodeResult {
 }
 
 export const bitsetDecode = (
-  buffer: Buffer, offset: number, length: number
+  buffer: ResizableBuffer, offset: number, length: number
 ): BitsetResult => {
   if (length === 0) {
     return {

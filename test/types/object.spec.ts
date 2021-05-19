@@ -70,6 +70,8 @@ import {
   getIntegerEncoding
 } from '../../lib/types/integer/mapper'
 
+import ResizableBuffer from '../../lib/utils/resizable-buffer'
+
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
   const options: TypedKeysOptions = {
     keyEncoding: getStringEncoding({
@@ -90,7 +92,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
     fc.double(),
     fc.string({ maxLength: 10 })
   )), (offset: number, value: JSONObject): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(2048)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
       buffer, offset, value, options)
     const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
@@ -105,7 +107,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
 })
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(16)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(16))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
@@ -141,7 +143,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
 })
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(16)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(16))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
@@ -178,7 +180,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
 })
 
 tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(7)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
@@ -211,7 +213,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =>
 })
 
 tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(5)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
@@ -242,7 +244,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =
 })
 
 tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(7)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
@@ -271,7 +273,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required'
 })
 
 tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optional', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
   const value: JSONObject = {
     foo: 'bar'
   }
@@ -299,7 +301,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optiona
 })
 
 tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(11)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(11))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
@@ -331,7 +333,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
 })
 
 tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(5)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
   const value: JSONObject = {
     foo: 'bar'
   }
@@ -362,7 +364,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
 })
 
 tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(13)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(13))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1
@@ -396,7 +398,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
 })
 
 tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(13)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(13))
   const value: JSONObject = {
     foo: 'bar',
     baz: 1,

@@ -20,10 +20,12 @@ import {
   NULL_8BITS__ENUM_FIXED
 } from '../../../lib/types/null/encode'
 
+import ResizableBuffer from '../../../lib/utils/resizable-buffer'
+
 tap.test('NULL_8BITS__ENUM_FIXED: should encode null as 0x00', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = NULL_8BITS__ENUM_FIXED(buffer, 0, {})
-  test.strictSame(buffer, Buffer.from([ 0x00 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
 })

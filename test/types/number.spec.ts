@@ -26,9 +26,11 @@ import {
   DOUBLE__IEEE764_LE as DECODE_DOUBLE__IEEE764_LE
 } from '../../lib/types/number/decode'
 
+import ResizableBuffer from '../../lib/utils/resizable-buffer'
+
 tap.test('DOUBLE__IEEE764_LE', (test) => {
   fc.assert(fc.property(fc.nat(10), fc.double(), (offset: number, value: number): boolean => {
-    const buffer: Buffer = Buffer.allocUnsafe(offset + 8)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number = ENCODE_DOUBLE__IEEE764_LE(buffer, offset, value, {})
     const result: NumberResult = DECODE_DOUBLE__IEEE764_LE(buffer, offset, {})
     return bytesWritten === 8 && result.bytes === bytesWritten && result.value === value

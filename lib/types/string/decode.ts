@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   JSONString
 } from '../../json'
@@ -53,7 +55,7 @@ export interface StringResult extends DecodeResult {
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: Buffer, offset: number, options: BoundedOptions
+  buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): StringResult => {
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
@@ -67,7 +69,7 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
 }
 
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, options: BoundedOptions
+  buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): StringResult => {
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
@@ -80,7 +82,7 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
 }
 
 export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: Buffer, offset: number, options: RoofOptions
+  buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): StringResult => {
   assert(options.maximum >= 0)
   assert(options.maximum <= UINT8_MAX)
@@ -91,7 +93,7 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
 }
 
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, options: RoofOptions
+  buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): StringResult => {
   assert(options.maximum >= 0)
   const length: IntegerResult = ROOF__MIRROR_ENUM_VARINT(buffer, offset, options)
@@ -103,7 +105,7 @@ export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, options: FloorOptions
+  buffer: ResizableBuffer, offset: number, options: FloorOptions
 ): StringResult => {
   assert(options.minimum >= 0)
   const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, options)
@@ -115,7 +117,7 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
 }
 
 export const ARBITRARY__PREFIX_LENGTH_VARINT = (
-  buffer: Buffer, offset: number, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): StringResult => {
   return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
     minimum: 0

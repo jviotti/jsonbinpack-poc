@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   strict as assert
 } from 'assert'
@@ -48,7 +50,7 @@ import {
 // Applicable if the difference between maximum and
 // minimum fits in an unsigned 8-bit integer
 export const BOUNDED_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: BoundedOptions
 ): number => {
   assert(options.maximum >= options.minimum)
@@ -60,7 +62,7 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
 }
 
 export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: BoundedMultiplierOptions
 ): number => {
   assert(options.maximum >= options.minimum)
@@ -87,7 +89,7 @@ export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
 }
 
 export const BOUNDED__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: BoundedOptions
 ): number => {
   assert(options.maximum >= options.minimum)
@@ -98,7 +100,7 @@ export const BOUNDED__ENUM_VARINT = (
 }
 
 export const BOUNDED_MULTIPLE__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: BoundedMultiplierOptions
 ): number => {
   assert(options.maximum >= options.minimum)
@@ -122,7 +124,7 @@ export const BOUNDED_MULTIPLE__ENUM_VARINT = (
 }
 
 export const FLOOR__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: FloorOptions
 ): number => {
   assert(value >= options.minimum)
@@ -130,7 +132,7 @@ export const FLOOR__ENUM_VARINT = (
 }
 
 export const FLOOR_MULTIPLE__ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: FloorMultiplierOptions
 ): number => {
   assert(value >= options.minimum)
@@ -148,7 +150,7 @@ export const FLOOR_MULTIPLE__ENUM_VARINT = (
 }
 
 export const ROOF__MIRROR_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: RoofOptions
 ): number => {
   assert(value <= options.maximum)
@@ -156,7 +158,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
 }
 
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: RoofMultiplierOptions
 ): number => {
   assert(value <= options.maximum)
@@ -173,13 +175,13 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
 }
 
 export const ARBITRARY__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions
 ): number => {
   return varintEncode(buffer, offset, zigzagEncode(value))
 }
 
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
-  buffer: Buffer, offset: number, value: JSONNumber,
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: MultiplierOptions
 ): number => {
   assert(value % options.multiplier === 0)

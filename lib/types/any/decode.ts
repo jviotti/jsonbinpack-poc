@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   JSONValue
 } from '../../json'
@@ -68,7 +70,7 @@ export interface AnyResult extends DecodeResult {
 }
 
 export const ANY__TYPE_PREFIX = (
-  buffer: Buffer, offset: number, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): AnyResult => {
   const tag: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
     minimum: UINT8_MIN,

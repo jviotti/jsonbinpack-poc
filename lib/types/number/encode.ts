@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   JSONNumber
 } from '../../json'
@@ -31,7 +33,7 @@ import {
 // amount of digits?
 
 export const DOUBLE__IEEE764_LE = (
-  buffer: Buffer, offset: number, value: JSONNumber, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions
 ): number => {
   return buffer.writeDoubleLE(value, offset) - offset
 }

@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../lib/types/boolean/encode");
 var decode_1 = require("../../lib/types/boolean/decode");
+var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: false', function (test) {
     var value = false;
-    var buffer = Buffer.allocUnsafe(1);
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value, {});
     var result = decode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, {});
     test.is(bytesWritten, 1);
@@ -18,7 +19,7 @@ tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: false', function (test) {
 });
 tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: false with offset > 0', function (test) {
     var value = false;
-    var buffer = Buffer.allocUnsafe(6);
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(6));
     var bytesWritten = encode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, value, {});
     var result = decode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, {});
     test.is(bytesWritten, 1);
@@ -28,7 +29,7 @@ tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: false with offset > 0', function 
 });
 tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: true', function (test) {
     var value = true;
-    var buffer = Buffer.allocUnsafe(1);
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value, {});
     var result = decode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, {});
     test.is(bytesWritten, 1);
@@ -38,7 +39,7 @@ tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: true', function (test) {
 });
 tap_1.default.test('BOOLEAN_8BITS__ENUM_FIXED: true with offset > 0', function (test) {
     var value = true;
-    var buffer = Buffer.allocUnsafe(6);
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(6));
     var bytesWritten = encode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, value, {});
     var result = decode_1.BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, {});
     test.is(bytesWritten, 1);

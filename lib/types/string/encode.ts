@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   strict as assert
 } from 'assert'
@@ -49,7 +51,7 @@ import {
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: Buffer, offset: number, value: JSONString, options: BoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions
 ): number => {
   assert(options.minimum >= UINT8_MIN)
   assert(options.maximum >= 0)
@@ -63,7 +65,7 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
 }
 
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString, options: BoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions
 ): number => {
   assert(options.minimum >= 0)
   assert(options.minimum <= options.maximum)
@@ -77,7 +79,7 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
 }
 
 export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: Buffer, offset: number, value: JSONString, options: RoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(options.maximum <= UINT8_MAX)
@@ -88,7 +90,7 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
 }
 
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString, options: RoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions
 ): number => {
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(options.maximum >= 0)
@@ -99,7 +101,7 @@ export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString, options: FloorOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: FloorOptions
 ): number => {
   assert(options.minimum >= 0)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
@@ -110,7 +112,7 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
 }
 
 export const ARBITRARY__PREFIX_LENGTH_VARINT = (
-  buffer: Buffer, offset: number, value: JSONString, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, _options: NoOptions
 ): number => {
   return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
     minimum: 0

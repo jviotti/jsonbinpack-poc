@@ -42,15 +42,17 @@ import {
   UNBOUNDED_TYPED__LENGTH_PREFIX
 } from '../../../lib/types/array/encode'
 
+import ResizableBuffer from '../../../lib/utils/resizable-buffer'
+
 tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
     prefixEncodings: []
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
@@ -62,7 +64,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 
 })
 
 tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
@@ -71,7 +73,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
     maximum: 3
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
@@ -83,7 +85,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
 })
 
 tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
@@ -92,7 +94,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
     maximum: 3
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
@@ -104,7 +106,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
 })
 
 tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
@@ -112,7 +114,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', 
     minimum: 3
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
@@ -124,7 +126,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', 
 })
 
 tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
@@ -132,7 +134,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000
     maximum: 3
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
@@ -144,7 +146,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000
 })
 
 tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(10)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
@@ -152,7 +154,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (
     maximum: 3
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
     0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
@@ -168,7 +170,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -178,7 +180,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
     encoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x01
   ]))
@@ -192,7 +194,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -202,7 +204,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
     encoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x01
   ]))
@@ -216,7 +218,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -225,7 +227,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
     encoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
     0x01, 0x00, 0x01
   ]))
@@ -239,7 +241,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]',
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -248,7 +250,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]',
     encoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x01
   ]))
@@ -262,7 +264,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -271,7 +273,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
     encoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
     0x01, 0x00, 0x01
   ]))
@@ -285,7 +287,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', 
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -293,7 +295,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', 
     encoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x01
   ]))
@@ -307,7 +309,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, ty
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -316,7 +318,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, ty
     prefixEncodings: [ encoding, encoding ]
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x04
   ]))
@@ -330,7 +332,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fa
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -339,7 +341,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fa
     prefixEncodings: [ encoding, encoding ]
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x04
   ]))
@@ -353,7 +355,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -361,7 +363,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
     prefixEncodings: [ encoding, encoding ]
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
     0x01, 0x00, 0x04
   ]))
@@ -375,7 +377,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -383,7 +385,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
     prefixEncodings: [ encoding, encoding ]
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
     0x01, 0x00, 0x04
   ]))
@@ -397,7 +399,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
@@ -405,7 +407,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
     prefixEncodings: [ encoding, encoding ]
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x04
   ]))
@@ -419,14 +421,14 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
     type: 'boolean'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, true
   ], {
     prefixEncodings: [ encoding, encoding ]
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, 0x04
   ]))
@@ -444,7 +446,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false,
     type: 'integer'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
@@ -454,7 +456,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false,
     encoding: integerEncoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
     0x01, 0x00, // true, false
     0x0a // 5
@@ -473,7 +475,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
     type: 'integer'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
@@ -483,7 +485,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
     encoding: integerEncoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
     0x01, 0x00, // true, false
     0x0a // 5
@@ -502,7 +504,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 
     type: 'integer'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
@@ -511,7 +513,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 
     encoding: integerEncoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
     0x01, 0x00, // true, false
     0x0a // 5
@@ -530,7 +532,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fal
     type: 'integer'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
@@ -539,7 +541,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fal
     encoding: integerEncoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, // true, false
     0x0a // 5
@@ -558,7 +560,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
     type: 'integer'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
@@ -567,7 +569,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
     encoding: integerEncoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
     0x01, 0x00, // true, false
     0x0a // 5
@@ -586,7 +588,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
     type: 'integer'
   })
 
-  const buffer: Buffer = Buffer.allocUnsafe(4)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
     true, false, 5
   ], {
@@ -594,7 +596,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
     encoding: integerEncoding
   })
 
-  test.strictSame(buffer, Buffer.from([
+  test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
     0x01, 0x00, // true, false
     0x0a // 5

@@ -29,9 +29,11 @@ import {
   BOOLEAN_8BITS__ENUM_FIXED as DECODE_BOOLEAN_8BITS__ENUM_FIXED
 } from '../../lib/types/boolean/decode'
 
+import ResizableBuffer from '../../lib/utils/resizable-buffer'
+
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
   const value: JSONBoolean = false
-  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value, {})
   const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, {})
 
@@ -43,7 +45,7 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: false with offset > 0', (test) => {
   const value: JSONBoolean = false
-  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
   const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, value, {})
   const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, {})
 
@@ -55,7 +57,7 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: false with offset > 0', (test) => {
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: true', (test) => {
   const value: JSONBoolean = true
-  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, value, {})
   const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, {})
 
@@ -67,7 +69,7 @@ tap.test('BOOLEAN_8BITS__ENUM_FIXED: true', (test) => {
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: true with offset > 0', (test) => {
   const value: JSONBoolean = true
-  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
   const bytesWritten: number = ENCODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, value, {})
   const result: BooleanResult = DECODE_BOOLEAN_8BITS__ENUM_FIXED(buffer, 5, {})
 

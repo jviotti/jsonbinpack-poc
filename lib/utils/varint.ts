@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from './resizable-buffer'
+
 // Inspired by https://github.com/jacekv/varintjs/blob/master/varint.js
 
 const MOST_SIGNIFICANT_BIT: bigint = BigInt(0b10000000)
@@ -21,7 +23,7 @@ const LEAST_SIGNIFICANT_BITS: bigint = BigInt(0b01111111)
 const SHIFT: bigint = BigInt(7)
 const ZERO: bigint = BigInt(0)
 
-export const varintEncode = (buffer: Buffer, offset: number, value: number): number => {
+export const varintEncode = (buffer: ResizableBuffer, offset: number, value: number): number => {
   let accumulator: bigint = BigInt(value)
   let cursor: number = offset
 
@@ -40,7 +42,7 @@ export interface VarintDecodeResult {
   readonly bytes: number;
 }
 
-export const varintDecode = (buffer: Buffer, offset: number): VarintDecodeResult => {
+export const varintDecode = (buffer: ResizableBuffer, offset: number): VarintDecodeResult => {
   let result: bigint = ZERO
   let cursor: number = offset
 

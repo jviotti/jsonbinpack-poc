@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   strict as assert
 } from 'assert'
@@ -41,7 +43,7 @@ export interface BooleanResult extends DecodeResult {
 }
 
 export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): BooleanResult => {
   const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
     minimum: 0,

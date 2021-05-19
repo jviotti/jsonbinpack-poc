@@ -25,8 +25,10 @@ import {
   NULL_8BITS__ENUM_FIXED as DECODE_NULL_8BITS__ENUM_FIXED
 } from '../../lib/types/null/decode'
 
+import ResizableBuffer from '../../lib/utils/resizable-buffer'
+
 tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(1)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
   const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
 
@@ -37,7 +39,7 @@ tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
 })
 
 tap.test('NULL_8BITS__ENUM_FIXED with offset > 0', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(6)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
   const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 5, {})
   const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 5, {})
 

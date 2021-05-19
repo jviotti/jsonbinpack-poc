@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   JSONBoolean,
   JSONNumber
@@ -28,7 +30,7 @@ import {
 } from '../integer/encode'
 
 export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, value: JSONBoolean, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONBoolean, _options: NoOptions
 ): number => {
   const integer: JSONNumber = value ? 1 : 0
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, integer, {

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   strict as assert
 } from 'assert'
@@ -46,7 +48,7 @@ import {
 } from '../integer/encode'
 
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
 ): number => {
   assert(Object.keys(value).length === options.requiredProperties.length)
 
@@ -61,7 +63,7 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
 }
 
 export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: OptionalBoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: OptionalBoundedTypedOptions
 ): number => {
   assert(Object.keys(value).length <= options.optionalProperties.length)
 
@@ -93,7 +95,7 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
 }
 
 export const MIXED_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: BoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: BoundedTypedOptions
 ): number => {
   assert(Object.keys(value).length <=
     options.requiredProperties.length + options.optionalProperties.length)
@@ -122,7 +124,7 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
 }
 
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: TypedKeysOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: TypedKeysOptions
 ): number => {
   let cursor: number = offset + FLOOR__ENUM_VARINT(
     buffer, offset, Object.keys(value).length, {
@@ -138,7 +140,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
 }
 
 export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: RequiredUnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredUnboundedTypedOptions
 ): number => {
   assert(options.requiredProperties.length > 0)
 
@@ -163,7 +165,7 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
 }
 
 export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: OptionalUnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: OptionalUnboundedTypedOptions
 ): number => {
   assert(Object.keys(options.propertyEncodings).length === options.optionalProperties.length)
   const optional: Set<string> = new Set<string>(options.optionalProperties)
@@ -187,7 +189,7 @@ export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
 }
 
 export const MIXED_UNBOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, value: JSONObject, options: UnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: UnboundedTypedOptions
 ): number => {
   const required: Set<string> = new Set<string>(options.requiredProperties)
   const optional: Set<string> = new Set<string>(options.optionalProperties)

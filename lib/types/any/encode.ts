@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   JSONValue
 } from '../../json'
@@ -56,7 +58,7 @@ import {
   UNBOUNDED_SEMITYPED__LENGTH_PREFIX
 } from '../array/encode'
 
-const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
+const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
     // TODO: Find a way to keep this automatically in sync with "Type"
@@ -65,7 +67,7 @@ const encodeTypeTag = (buffer: Buffer, offset: number, tag: number): number => {
 }
 
 export const ANY__TYPE_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue, _options: NoOptions
 ): number => {
   // Encode an object value
   if (Array.isArray(value)) {

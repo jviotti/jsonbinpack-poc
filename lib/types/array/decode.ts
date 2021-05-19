@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   strict as assert
 } from 'assert'
@@ -64,7 +66,7 @@ export interface ArrayResult extends DecodeResult {
 }
 
 const decodeArray = (
-  buffer: Buffer, offset: number, bytesWritten: number, length: number,
+  buffer: ResizableBuffer, offset: number, bytesWritten: number, length: number,
   prefixEncodings: Encoding[], defaultEncoding?: Encoding
 ): ArrayResult => {
   let index = 0
@@ -89,7 +91,7 @@ const decodeArray = (
 }
 
 export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: SemiTypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, options: SemiTypedBoundedOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -106,7 +108,7 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: SemiTypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, options: SemiTypedBoundedOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -122,7 +124,7 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: SemiTypedFloorOptions
+  buffer: ResizableBuffer, offset: number, options: SemiTypedFloorOptions
 ): ArrayResult => {
   assert(options.minimum >= 0)
 
@@ -135,7 +137,7 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: SemiTypedRoofOptions
+  buffer: ResizableBuffer, offset: number, options: SemiTypedRoofOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
 
@@ -148,7 +150,7 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: SemiTypedRoofOptions
+  buffer: ResizableBuffer, offset: number, options: SemiTypedRoofOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
   assert(options.maximum <= UINT8_MAX)
@@ -161,7 +163,7 @@ export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: SemiTypedOptions
+  buffer: ResizableBuffer, offset: number, options: SemiTypedOptions
 ): ArrayResult => {
   return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, {
     minimum: 0,
@@ -170,7 +172,7 @@ export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const BOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: TypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, options: TypedBoundedOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -187,7 +189,7 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
 }
 
 export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: TypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, options: TypedBoundedOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -205,7 +207,7 @@ export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: TypedRoofOptions
+  buffer: ResizableBuffer, offset: number, options: TypedRoofOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
 
@@ -219,7 +221,7 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: TypedRoofOptions
+  buffer: ResizableBuffer, offset: number, options: TypedRoofOptions
 ): ArrayResult => {
   assert(options.maximum >= 0)
   assert(options.maximum <= UINT8_MAX)
@@ -233,7 +235,7 @@ export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
 }
 
 export const FLOOR_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: TypedFloorOptions
+  buffer: ResizableBuffer, offset: number, options: TypedFloorOptions
 ): ArrayResult => {
   assert(options.minimum >= 0)
 
@@ -247,7 +249,7 @@ export const FLOOR_TYPED__LENGTH_PREFIX = (
 }
 
 export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, options: TypedOptions
+  buffer: ResizableBuffer, offset: number, options: TypedOptions
 ): ArrayResult => {
   return FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, {
     minimum: 0,

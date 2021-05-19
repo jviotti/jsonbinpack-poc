@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   strict as assert
 } from 'assert'
@@ -54,7 +56,7 @@ import {
 } from '../any/encode'
 
 const encodeArray = (
-  buffer: Buffer, offset: number, value: JSONValue[],
+  buffer: ResizableBuffer, offset: number, value: JSONValue[],
   prefixEncodings: Encoding[], defaultEncoding?: Encoding
 ): number => {
   let cursor = offset
@@ -75,7 +77,7 @@ const encodeArray = (
 }
 
 export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -94,7 +96,7 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -113,7 +115,7 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedFloorOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedFloorOptions
 ): number => {
   assert(options.minimum >= 0)
   assert(value.length >= options.minimum)
@@ -127,7 +129,7 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -141,7 +143,7 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -155,7 +157,7 @@ export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: SemiTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedOptions
 ): number => {
   return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
@@ -164,7 +166,7 @@ export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
 }
 
 export const BOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -183,7 +185,7 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
 }
 
 export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -203,7 +205,7 @@ export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedRoofOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -218,7 +220,7 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
 }
 
 export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedRoofOptions
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -233,7 +235,7 @@ export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
 }
 
 export const FLOOR_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedFloorOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedFloorOptions
 ): number => {
   assert(options.minimum >= 0)
   assert(value.length >= options.minimum)
@@ -248,7 +250,7 @@ export const FLOOR_TYPED__LENGTH_PREFIX = (
 }
 
 export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: Buffer, offset: number, value: JSONValue[], options: TypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedOptions
 ): number => {
   return FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,

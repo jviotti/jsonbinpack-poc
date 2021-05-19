@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   BOUNDED_8BITS__ENUM_FIXED
 } from '../integer/encode'
@@ -23,7 +25,7 @@ import {
 } from './options'
 
 export const NULL_8BITS__ENUM_FIXED = (
-  buffer: Buffer, offset: number, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, {
     minimum: 0,

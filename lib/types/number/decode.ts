@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   JSONNumber
 } from '../../json'
@@ -32,7 +34,7 @@ export interface NumberResult extends DecodeResult {
 }
 
 export const DOUBLE__IEEE764_LE = (
-  buffer: Buffer, offset: number, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): NumberResult => {
   const result: number = buffer.readDoubleLE(offset)
   return {

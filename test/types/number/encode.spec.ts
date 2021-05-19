@@ -20,10 +20,12 @@ import {
   DOUBLE__IEEE764_LE
 } from '../../../lib/types/number/encode'
 
+import ResizableBuffer from '../../../lib/utils/resizable-buffer'
+
 tap.test('DOUBLE__IEEE764_LE: should encode 3.14 as 1f 85 eb 51 b8 1e 09 40', (test) => {
-  const buffer: Buffer = Buffer.allocUnsafe(8)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(8))
   const bytesWritten: number = DOUBLE__IEEE764_LE(buffer, 0, 3.14, {})
-  test.strictSame(buffer, Buffer.from([ 0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x09, 0x40 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x09, 0x40 ]))
   test.is(bytesWritten, 8)
   test.end()
 })

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 import {
   strict as assert
 } from 'assert'
@@ -54,7 +56,7 @@ export interface ObjectResult extends DecodeResult {
 }
 
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: RequiredBoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, options: RequiredBoundedTypedOptions
 ): ObjectResult => {
   const result: JSONObject = {}
   let cursor: number = offset
@@ -74,7 +76,7 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
 }
 
 export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: OptionalBoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, options: OptionalBoundedTypedOptions
 ): ObjectResult => {
   const bitsetLength: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
     minimum: 0
@@ -108,7 +110,7 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
 }
 
 export const MIXED_BOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: BoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, options: BoundedTypedOptions
 ): ObjectResult => {
   const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, {
@@ -129,7 +131,7 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
 }
 
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
-  buffer: Buffer, offset: number, options: TypedKeysOptions
+  buffer: ResizableBuffer, offset: number, options: TypedKeysOptions
 ): ObjectResult => {
   const result: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
     minimum: 0
@@ -163,7 +165,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
 }
 
 export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: RequiredUnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, options: RequiredUnboundedTypedOptions
 ): ObjectResult => {
   const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, {
@@ -184,7 +186,7 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
 }
 
 export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: OptionalUnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, options: OptionalUnboundedTypedOptions
 ): ObjectResult => {
   const optionalResult: ObjectResult = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset, {
@@ -205,7 +207,7 @@ export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
 }
 
 export const MIXED_UNBOUNDED_TYPED_OBJECT = (
-  buffer: Buffer, offset: number, options: UnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, options: UnboundedTypedOptions
 ): ObjectResult => {
   const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, {

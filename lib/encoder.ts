@@ -59,6 +59,8 @@ import {
   JSONValue
 } from './json'
 
+import ResizableBuffer from './utils/resizable-buffer'
+
 export {
   EncodingType,
   DecodeResult
@@ -115,7 +117,7 @@ DECODE_TYPE_INDEX.set(EncodingType.Array, DECODE_ARRAY)
 DECODE_TYPE_INDEX.set(EncodingType.Object, DECODE_OBJECT)
 
 export const encode = (
-  buffer: Buffer, offset: number, encoding: Encoding, value: JSONValue
+  buffer: ResizableBuffer, offset: number, encoding: Encoding, value: JSONValue
 ): number => {
   const fns: object | undefined = ENCODE_TYPE_INDEX.get(encoding.type)
   assert(typeof fns !== 'undefined')
@@ -129,7 +131,7 @@ export const encode = (
 }
 
 export const decode = (
-  buffer: Buffer, offset: number, encoding: Encoding
+  buffer: ResizableBuffer, offset: number, encoding: Encoding
 ): DecodeResult => {
   const fns: object | undefined = DECODE_TYPE_INDEX.get(encoding.type)
   assert(typeof fns !== 'undefined')
