@@ -101,3 +101,16 @@ tap_1.default.test('ANY__TYPE_PREFIX: JSON with small ResizableBuffer', function
     });
     test.end();
 });
+tap_1.default.test('ANY__TYPE_PREFIX: JSON with 0 ResizableBuffer', function (test) {
+    fc.assert(fc.property(fc.json(), function (json) {
+        var value = JSON.parse(json);
+        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(0));
+        var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {});
+        var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
+        return bytesWritten > 0 && result.bytes === bytesWritten &&
+            util.isDeepStrictEqual(result.value, value);
+    }), {
+        verbose: false
+    });
+    test.end();
+});

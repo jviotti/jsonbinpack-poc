@@ -2,7 +2,7 @@
   "name": "jsonbinpack",
   "version": "1.0.0",
   "description": "A schema-driven JSON serialization format based on JSON Schema",
-  "main": "lib/index.js",
+  "main": "dist/lib/index.js",
   "directories": {
     "doc": "docs"
   },

@@ -125,3 +125,18 @@ tap.test('ANY__TYPE_PREFIX: JSON with small ResizableBuffer', (test) => {
 
   test.end()
 })
+
+tap.test('ANY__TYPE_PREFIX: JSON with 0 ResizableBuffer', (test) => {
+  fc.assert(fc.property(fc.json(), (json: string): boolean => {
+    const value: JSONValue = JSON.parse(json)
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(0))
+    const bytesWritten: number = ENCODE_ANY__TYPE_PREFIX(buffer, 0, value, {})
+    const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
+    return bytesWritten > 0 && result.bytes === bytesWritten &&
+      util.isDeepStrictEqual(result.value, value)
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
