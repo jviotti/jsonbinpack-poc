@@ -24,9 +24,10 @@ export default class ResizableBuffer {
   }
 
   public getBuffer (): Buffer {
-    return this.buffer
+    return this.buffer.slice(0, this.written)
   }
 
+  // TODO: Grow at least by the max necessary amount in each of the .write() functions
   public writeUInt8 (value: number, offset: number): number {
     const cursor: number = this.buffer.writeUInt8(value, offset)
     this.written = Math.max(this.written, cursor)
@@ -40,9 +41,9 @@ export default class ResizableBuffer {
   }
 
   public write (value: string, offset: number, length: number, encoding: BufferEncoding): number {
-    const cursor: number = this.buffer.write(value, offset, length, encoding)
-    this.written = Math.max(this.written, cursor)
-    return cursor
+    const bytesWritten: number = this.buffer.write(value, offset, length, encoding)
+    this.written = Math.max(this.written, offset + bytesWritten)
+    return bytesWritten
   }
 
   public writeDoubleLE (value: number, offset: number): number {

@@ -6,7 +6,7 @@ var ResizableBuffer = (function () {
         this.written = 0;
     }
     ResizableBuffer.prototype.getBuffer = function () {
-        return this.buffer;
+        return this.buffer.slice(0, this.written);
     };
     ResizableBuffer.prototype.writeUInt8 = function (value, offset) {
         var cursor = this.buffer.writeUInt8(value, offset);
@@ -19,9 +19,9 @@ var ResizableBuffer = (function () {
         return cursor;
     };
     ResizableBuffer.prototype.write = function (value, offset, length, encoding) {
-        var cursor = this.buffer.write(value, offset, length, encoding);
-        this.written = Math.max(this.written, cursor);
-        return cursor;
+        var bytesWritten = this.buffer.write(value, offset, length, encoding);
+        this.written = Math.max(this.written, offset + bytesWritten);
+        return bytesWritten;
     };
     ResizableBuffer.prototype.writeDoubleLE = function (value, offset) {
         var cursor = this.buffer.writeDoubleLE(value, offset);
