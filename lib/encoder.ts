@@ -51,6 +51,10 @@ import {
 } from './types/object/mapper'
 
 import {
+  EnumEncoding
+} from './types/enum/mapper'
+
+import {
   EncodingType,
   DecodeResult
 } from './types/base'
@@ -74,6 +78,7 @@ import * as ENCODE_STRING from './types/string/encode'
 import * as ENCODE_ANY from './types/any/encode'
 import * as ENCODE_ARRAY from './types/array/encode'
 import * as ENCODE_OBJECT from './types/object/encode'
+import * as ENCODE_ENUM from './types/enum/encode'
 
 import * as DECODE_BOOLEAN from './types/boolean/decode'
 import * as DECODE_INTEGER from './types/integer/decode'
@@ -83,6 +88,7 @@ import * as DECODE_STRING from './types/string/decode'
 import * as DECODE_ANY from './types/any/decode'
 import * as DECODE_ARRAY from './types/array/decode'
 import * as DECODE_OBJECT from './types/object/decode'
+import * as DECODE_ENUM from './types/enum/decode'
 
 // The union of all possible encodings
 export type Encoding =
@@ -93,7 +99,8 @@ export type Encoding =
   StringEncoding |
   AnyEncoding |
   ArrayEncoding |
-  ObjectEncoding
+  ObjectEncoding |
+  EnumEncoding
 
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
@@ -106,6 +113,7 @@ ENCODE_TYPE_INDEX.set(EncodingType.String, ENCODE_STRING)
 ENCODE_TYPE_INDEX.set(EncodingType.Any, ENCODE_ANY)
 ENCODE_TYPE_INDEX.set(EncodingType.Array, ENCODE_ARRAY)
 ENCODE_TYPE_INDEX.set(EncodingType.Object, ENCODE_OBJECT)
+ENCODE_TYPE_INDEX.set(EncodingType.Enum, ENCODE_ENUM)
 
 DECODE_TYPE_INDEX.set(EncodingType.Boolean, DECODE_BOOLEAN)
 DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
@@ -115,6 +123,7 @@ DECODE_TYPE_INDEX.set(EncodingType.String, DECODE_STRING)
 DECODE_TYPE_INDEX.set(EncodingType.Any, DECODE_ANY)
 DECODE_TYPE_INDEX.set(EncodingType.Array, DECODE_ARRAY)
 DECODE_TYPE_INDEX.set(EncodingType.Object, DECODE_OBJECT)
+DECODE_TYPE_INDEX.set(EncodingType.Enum, DECODE_ENUM)
 
 export const encode = (
   buffer: ResizableBuffer, offset: number, encoding: Encoding, value: JSONValue

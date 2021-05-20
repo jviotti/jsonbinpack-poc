@@ -35,3 +35,17 @@ tap_1.default.test('should get a string encoding', function (test) {
     });
     test.end();
 });
+tap_1.default.test('should get an enum encoding', function (test) {
+    var schema = {
+        enum: ['foo']
+    };
+    var encoding = mapper_1.getEncoding(schema);
+    test.strictSame(encoding, {
+        type: 'enum',
+        encoding: 'BOUNDED_CHOICE_INDEX',
+        options: {
+            choices: ['foo']
+        }
+    });
+    test.end();
+});

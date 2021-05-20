@@ -63,3 +63,20 @@ tap.test('should get a string encoding', (test) => {
 
   test.end()
 })
+
+tap.test('should get an enum encoding', (test) => {
+  const schema: EncodingSchema = {
+    enum: [ 'foo' ]
+  }
+
+  const encoding: Encoding = getEncoding(schema)
+  test.strictSame(encoding, {
+    type: 'enum',
+    encoding: 'BOUNDED_CHOICE_INDEX',
+    options: {
+      choices: [ 'foo' ]
+    }
+  })
+
+  test.end()
+})
