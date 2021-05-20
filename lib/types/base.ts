@@ -51,6 +51,10 @@ import {
 } from './object/options'
 
 import {
+  EnumOptions
+} from './enum/options'
+
+import {
   BooleanEncodingNames
 } from './boolean/mapper'
 
@@ -82,6 +86,10 @@ import {
   ObjectEncodingNames
 } from './object/mapper'
 
+import {
+  EnumEncodingNames
+} from './enum/mapper'
+
 export interface DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
@@ -95,7 +103,8 @@ export enum EncodingType {
   String = 'string',
   Array = 'array',
   Object = 'object',
-  Any = 'any'
+  Any = 'any',
+  Enum = 'enum'
 }
 
 export type EncodingNames =
@@ -106,7 +115,8 @@ export type EncodingNames =
   StringEncodingNames |
   AnyEncodingNames |
   ArrayEncodingNames |
-  ObjectEncodingNames
+  ObjectEncodingNames |
+  EnumEncodingNames
 
 export interface BaseEncodingDefinition {
   readonly type: EncodingType;
@@ -119,5 +129,6 @@ export interface BaseEncodingDefinition {
     StringOptions |
     AnyOptions |
     ArrayOptions |
-    ObjectOptions;
+    ObjectOptions |
+    EnumOptions;
 }

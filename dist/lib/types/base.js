@@ -11,4 +11,5 @@ var EncodingType;
     EncodingType["Array"] = "array";
     EncodingType["Object"] = "object";
     EncodingType["Any"] = "any";
+    EncodingType["Enum"] = "enum";
 })(EncodingType = exports.EncodingType || (exports.EncodingType = {}));
