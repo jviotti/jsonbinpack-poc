@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  JSONValue
+} from './json'
+
 export interface BooleanEncodingSchema {
   readonly type: 'boolean';
 }
@@ -93,6 +97,10 @@ export interface ObjectEncodingSchema {
   readonly properties?: Record<string, EncodingSchema>;
 }
 
+export interface EnumEncodingSchema {
+  readonly enum: JSONValue[];
+}
+
 export type EncodingSchema =
   BooleanEncodingSchema |
   IntegerEncodingSchema |
@@ -101,4 +109,5 @@ export type EncodingSchema =
   StringEncodingSchema |
   AnyEncodingSchema |
   ArrayEncodingSchema |
-  ObjectEncodingSchema
+  ObjectEncodingSchema |
+  EnumEncodingSchema
