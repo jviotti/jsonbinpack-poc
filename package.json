@@ -30,5 +30,8 @@
     "tailwindcss": "^2.0.3",
     "tap": "^14.11.0",
     "uglify-js": "^3.12.8"
+  },
+  "dependencies": {
+    "ajv": "^8.5.0"
   }
 }
