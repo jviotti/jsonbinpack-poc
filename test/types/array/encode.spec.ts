@@ -229,6 +229,29 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
   test.end()
 })
 
+tap.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const encoding: BooleanEncoding = getBooleanEncoding({
+    type: 'boolean'
+  })
+
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
+    true, false, true
+  ], {
+    minimum: 3,
+    maximum: 3,
+    prefixEncodings: [],
+    encoding
+  })
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x01, 0x00, 0x01
+  ]))
+
+  test.is(bytesWritten, 3)
+  test.end()
+})
+
 tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
@@ -250,6 +273,29 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
   ]))
 
   test.is(bytesWritten, 4)
+  test.end()
+})
+
+tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const encoding: BooleanEncoding = getBooleanEncoding({
+    type: 'boolean'
+  })
+
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
+    true, false, true
+  ], {
+    minimum: 3,
+    maximum: 3,
+    prefixEncodings: [],
+    encoding
+  })
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x01, 0x00, 0x01
+  ]))
+
+  test.is(bytesWritten, 3)
   test.end()
 })
 

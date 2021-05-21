@@ -165,6 +165,25 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, t
     test.is(bytesWritten, 4);
     test.end();
 });
+tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', function (test) {
+    var encoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var bytesWritten = encode_1.BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
+        true, false, true
+    ], {
+        minimum: 3,
+        maximum: 3,
+        prefixEncodings: [],
+        encoding: encoding
+    });
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x01, 0x00, 0x01
+    ]));
+    test.is(bytesWritten, 3);
+    test.end();
+});
 tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var encoding = mapper_1.getBooleanEncoding({
         type: 'boolean'
@@ -183,6 +202,25 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, fa
         0x01, 0x00, 0x01
     ]));
     test.is(bytesWritten, 4);
+    test.end();
+});
+tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', function (test) {
+    var encoding = mapper_1.getBooleanEncoding({
+        type: 'boolean'
+    });
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var bytesWritten = encode_1.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
+        true, false, true
+    ], {
+        minimum: 3,
+        maximum: 3,
+        prefixEncodings: [],
+        encoding: encoding
+    });
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x01, 0x00, 0x01
+    ]));
+    test.is(bytesWritten, 3);
     test.end();
 });
 tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
