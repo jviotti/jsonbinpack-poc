@@ -25,7 +25,7 @@ import {
   ValidateFunction
 } from '../lib/jsonschema'
 
-tap.test('should compile and execute a schema', (test) => {
+tap.test('should compile a schema and evaluate a matching instance', (test) => {
   const validateFunction: ValidateFunction = compileSchema({
     type: 'object',
     required: [ 'foo' ],
@@ -54,5 +54,37 @@ tap.test('should compile and execute a schema', (test) => {
   }
 
   test.true(validateFunction(value))
+  test.end()
+})
+
+tap.test('should compile a schema and evaluate a non-matching instance', (test) => {
+  const validateFunction: ValidateFunction = compileSchema({
+    type: 'object',
+    required: [ 'foo' ],
+    additionalProperties: false,
+    properties: {
+      foo: {
+        type: 'string'
+      },
+      baz: {
+        type: 'object',
+        required: [ 'qux' ],
+        properties: {
+          qux: {
+            type: 'array'
+          }
+        }
+      }
+    }
+  })
+
+  const value: JSONValue = {
+    foo: 'bar',
+    baz: {
+      qux: '11'
+    }
+  }
+
+  test.false(validateFunction(value))
   test.end()
 })

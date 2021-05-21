@@ -98,10 +98,16 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
   assert(options.maximum >= options.minimum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
 
-  const lengthResult: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
-    minimum: options.minimum,
-    maximum: options.maximum
-  })
+  const lengthResult: IntegerResult =
+    options.maximum === options.minimum
+    ? {
+      bytes: 0,
+      value: options.maximum
+    }
+    : BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
 
   return decodeArray(
     buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
@@ -114,10 +120,16 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
 
-  const lengthResult: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, {
-    minimum: options.minimum,
-    maximum: options.maximum
-  })
+  const lengthResult: IntegerResult =
+    options.maximum === options.minimum
+    ? {
+      bytes: 0,
+      value: options.maximum
+    }
+    : BOUNDED__ENUM_VARINT(buffer, offset, {
+      minimum: options.minimum,
+      maximum: options.maximum
+    })
 
   return decodeArray(
     buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)

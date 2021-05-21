@@ -42,6 +42,40 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo
     test.is(bytesWritten, 10);
     test.end();
 });
+tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', function (test) {
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(9));
+    var bytesWritten = encode_1.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
+        'foo', true, 2000
+    ], {
+        prefixEncodings: [],
+        minimum: 3,
+        maximum: 3
+    });
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x00, 0x03, 0x66, 0x6f, 0x6f,
+        0x04,
+        0x07, 0xd0, 0x0f
+    ]));
+    test.is(bytesWritten, 9);
+    test.end();
+});
+tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', function (test) {
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(9));
+    var bytesWritten = encode_1.BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
+        'foo', true, 2000
+    ], {
+        prefixEncodings: [],
+        minimum: 3,
+        maximum: 3
+    });
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x00, 0x03, 0x66, 0x6f, 0x6f,
+        0x04,
+        0x07, 0xd0, 0x0f
+    ]));
+    test.is(bytesWritten, 9);
+    test.end();
+});
 tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [

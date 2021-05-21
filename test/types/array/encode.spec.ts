@@ -84,6 +84,46 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
   test.end()
 })
 
+tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
+  const bytesWritten: number = BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
+    'foo', true, 2000
+  ], {
+    prefixEncodings: [],
+    minimum: 3,
+    maximum: 3
+  })
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x04, // true
+    0x07, 0xd0, 0x0f // 2000
+  ]))
+
+  test.is(bytesWritten, 9)
+  test.end()
+})
+
+tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
+  const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
+    'foo', true, 2000
+  ], {
+    prefixEncodings: [],
+    minimum: 3,
+    maximum: 3
+  })
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x04, // true
+    0x07, 0xd0, 0x0f // 2000
+  ]))
+
+  test.is(bytesWritten, 9)
+  test.end()
+})
+
 tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
