@@ -14,20 +14,9 @@
  * limitations under the License.
  */
 
-import ResizableBuffer from '../../utils/resizable-buffer'
-
-import {
-  strict as assert
-} from 'assert'
-
 import {
   JSONNull
 } from '../../json'
-
-import {
-  IntegerResult,
-  BOUNDED_8BITS__ENUM_FIXED
-} from '../integer/decode'
 
 import {
   NoOptions
@@ -37,23 +26,18 @@ import {
   DecodeResult
 } from '../base'
 
+import ResizableBuffer from '../../utils/resizable-buffer'
+
 export interface NullResult extends DecodeResult {
   readonly value: JSONNull;
   readonly bytes: number;
 }
 
 export const NULL_8BITS__ENUM_FIXED = (
-  buffer: ResizableBuffer, offset: number, _options: NoOptions
+  _buffer: ResizableBuffer, _offset: number, _options: NoOptions
 ): NullResult => {
-  const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
-    minimum: 0,
-    maximum: 0
-  })
-
-  assert(result.value === 0)
-
   return {
     value: null,
-    bytes: result.bytes
+    bytes: 0
   }
 }

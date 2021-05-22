@@ -32,7 +32,7 @@ tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
   const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
   const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
 
-  test.is(bytesWritten, 1)
+  test.is(bytesWritten, 0)
   test.is(bytesWritten, result.bytes)
   test.is(result.value, null)
   test.end()
@@ -43,7 +43,7 @@ tap.test('NULL_8BITS__ENUM_FIXED with offset > 0', (test) => {
   const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 5, {})
   const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 5, {})
 
-  test.is(bytesWritten, 1)
+  test.is(bytesWritten, 0)
   test.is(bytesWritten, result.bytes)
   test.is(result.value, null)
   test.end()
