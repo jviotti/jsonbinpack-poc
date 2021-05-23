@@ -35,6 +35,11 @@ import {
   LARGE_BOUNDED_CHOICE_INDEX as DECODE_LARGE_BOUNDED_CHOICE_INDEX
 } from '../../lib/types/enum/decode'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../lib/context'
+
 tap.test('BOUNDED_CHOICE_INDEX', (test) => {
   const arbitrary = fc.integer(1, 20).chain((length: number) => {
     return fc.tuple(
@@ -47,6 +52,7 @@ tap.test('BOUNDED_CHOICE_INDEX', (test) => {
 
   fc.assert(fc.property(arbitrary, ([ index, array ]): boolean => {
     fc.pre(index < array.length)
+    const context: EncodingContext = getDefaultEncodingContext()
 
     const choices: JSONValue[] = array.map((json: string) => {
       return JSON.parse(json)
@@ -56,7 +62,7 @@ tap.test('BOUNDED_CHOICE_INDEX', (test) => {
     const bytesWritten: number =
       ENCODE_BOUNDED_CHOICE_INDEX(buffer, 0, choices[index], {
         choices
-      })
+      }, context)
     const result: EnumResult =
       DECODE_BOUNDED_CHOICE_INDEX(buffer, 0, {
         choices
@@ -83,6 +89,7 @@ tap.test('LARGE_BOUNDED_CHOICE_INDEX', (test) => {
 
   fc.assert(fc.property(arbitrary, ([ index, array ]): boolean => {
     fc.pre(index < array.length)
+    const context: EncodingContext = getDefaultEncodingContext()
 
     const choices: JSONValue[] = array.map((json: string) => {
       return JSON.parse(json)
@@ -92,7 +99,7 @@ tap.test('LARGE_BOUNDED_CHOICE_INDEX', (test) => {
     const bytesWritten: number =
       ENCODE_LARGE_BOUNDED_CHOICE_INDEX(buffer, 0, choices[index], {
         choices
-      })
+      }, context)
     const result: EnumResult =
       DECODE_LARGE_BOUNDED_CHOICE_INDEX(buffer, 0, {
         choices

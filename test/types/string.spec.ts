@@ -40,11 +40,17 @@ import {
   UINT8_MAX
 } from '../../lib/utils/limits'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../lib/context'
+
 import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
-  const bytesWritten: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {})
+  const bytesWritten: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {}, context)
   test.is(bytesWritten, 2)
   const result: StringResult = DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {})
   test.is(result.bytes, 2)
@@ -64,9 +70,10 @@ tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
 
   fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
     fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + UINT8_MAX + 1))
     const bytesWritten: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
-      buffer, offset, value, { minimum, maximum })
+      buffer, offset, value, { minimum, maximum }, context)
     const result: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
       buffer, offset, { minimum, maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
@@ -89,9 +96,10 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
 
   fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
     fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
-      ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum, maximum })
+      ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum, maximum }, context)
     const result: StringResult =
       DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum, maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
@@ -112,9 +120,10 @@ tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
   })
 
   fc.assert(fc.property(arbitrary, ([ offset, maximum, value ]): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + UINT8_MAX + 1))
     const bytesWritten: number =
-      ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, { maximum })
+      ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, { maximum }, context)
     const result: StringResult =
       DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, { maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
@@ -135,9 +144,10 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   })
 
   fc.assert(fc.property(arbitrary, ([ offset, maximum, value ]): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
-      ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum })
+      ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum }, context)
     const result: StringResult =
       DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { maximum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
@@ -158,9 +168,10 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   })
 
   fc.assert(fc.property(arbitrary, ([ offset, minimum, value ]): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
-      ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum })
+      ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum }, context)
     const result: StringResult =
       DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
@@ -175,9 +186,10 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
   fc.assert(fc.property(fc.nat(10), fc.string({ maxLength: 1000 }), (
     offset: number, value: string
   ): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
-      ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {})
+      ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {}, context)
     const result: StringResult =
       DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value

@@ -42,9 +42,15 @@ import {
   getStringEncoding
 } from '../../../lib/types/string/mapper'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../../lib/context'
+
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(16))
   const bytesWritten: number = ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -58,7 +64,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
       encoding: 'ANY__TYPE_PREFIX',
       options: {}
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x02, // length
@@ -73,6 +79,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
 })
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(16))
   const bytesWritten: number = ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -87,7 +94,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
       encoding: 'ANY__TYPE_PREFIX',
       options: {}
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x02, // length
@@ -102,6 +109,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
 })
 
 tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
   const bytesWritten: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -119,7 +127,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:
       bar: getAnyEncoding({}),
       qux: getAnyEncoding({})
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x04, // length
@@ -133,6 +141,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:
 })
 
 tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
   const bytesWritten: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
@@ -147,7 +156,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => 
       bar: getAnyEncoding({}),
       qux: getAnyEncoding({})
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x04, // length
@@ -159,6 +168,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => 
 })
 
 tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
   const bytesWritten: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -174,7 +184,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
         minimum: 0
       })
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // 1
@@ -186,6 +196,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
 })
 
 tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one required', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
   const bytesWritten: number = MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -202,7 +213,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
         minimum: 0
       })
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x04, 0x62, 0x61, 0x72, // "bar",
@@ -215,6 +226,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
 })
 
 tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one missing optional', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
   const bytesWritten: number = MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar'
@@ -230,7 +242,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
         minimum: 0
       })
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x04, 0x62, 0x61, 0x72, // "bar",
@@ -242,6 +254,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
 })
 
 tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(11))
   const bytesWritten: number = REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -261,7 +274,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
       encoding: 'ANY__TYPE_PREFIX',
       options: {}
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x04, 0x62, 0x61, 0x72, // "bar",
@@ -275,6 +288,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
 })
 
 tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
   const bytesWritten: number = REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar'
@@ -293,7 +307,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (te
       encoding: 'ANY__TYPE_PREFIX',
       options: {}
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x04, 0x62, 0x61, 0x72, // "bar",
@@ -305,6 +319,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (te
 })
 
 tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(13))
   const bytesWritten: number = OPTIONAL_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -324,7 +339,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
       encoding: 'ANY__TYPE_PREFIX',
       options: {}
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, 0x01, // bit map
@@ -339,6 +354,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
 })
 
 tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux:null}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(13))
   const bytesWritten: number = MIXED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
     foo: 'bar',
@@ -364,7 +380,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
         minimum: 0
       })
     }
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x04, 0x62, 0x61, 0x72, // "bar",

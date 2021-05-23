@@ -58,30 +58,34 @@ import {
   UNBOUNDED_SEMITYPED__LENGTH_PREFIX
 } from '../array/encode'
 
-const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number): number => {
+import {
+  EncodingContext
+} from '../../context'
+
+const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number, context: EncodingContext): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
     // TODO: Find a way to keep this automatically in sync with "Type"
     maximum: 10
-  })
+  }, context)
 }
 
 export const ANY__TYPE_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue, _options: NoOptions, context: EncodingContext
 ): number => {
   // Encode an object value
   if (Array.isArray(value)) {
-    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Array)
+    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Array, context)
     const valueBytes: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(
       buffer, offset + tagBytes, value, {
         prefixEncodings: []
-      })
+      }, context)
 
     return tagBytes + valueBytes
 
   // Encode an array value
   } else if (typeof value === 'object' && value !== null) {
-    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Object)
+    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Object, context)
     const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT(
       buffer, offset + tagBytes, value, {
         keyEncoding: {
@@ -94,23 +98,23 @@ export const ANY__TYPE_PREFIX = (
           encoding: 'ANY__TYPE_PREFIX',
           options: {}
         }
-      })
+      }, context)
 
     return tagBytes + valueBytes
 
   // Encode a null value (at the type level)
   } else if (value === null) {
-    return encodeTypeTag(buffer, offset, Type.Null)
+    return encodeTypeTag(buffer, offset, Type.Null, context)
 
   // Encode a boolean value (at the type level)
   } else if (typeof value === 'boolean') {
-    return encodeTypeTag(buffer, offset, value ? Type.True : Type.False)
+    return encodeTypeTag(buffer, offset, value ? Type.True : Type.False, context)
 
   // Encode a string value
   } else if (typeof value === 'string') {
-    const tagBytes: number = encodeTypeTag(buffer, offset, Type.String)
+    const tagBytes: number = encodeTypeTag(buffer, offset, Type.String, context)
     const valueBytes: number =
-      ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tagBytes, value, {})
+      ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tagBytes, value, {}, context)
     return tagBytes + valueBytes
 
   // Encode an integer value
@@ -120,29 +124,29 @@ export const ANY__TYPE_PREFIX = (
     if (absoluteValue <= UINT8_MAX) {
       const type: Type = isPositive
         ? Type.PositiveIntegerByte : Type.NegativeIntegerByte
-      const tagBytes: number = encodeTypeTag(buffer, offset, type)
+      const tagBytes: number = encodeTypeTag(buffer, offset, type, context)
       const valueBytes: number =
         BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes, absoluteValue, {
           minimum: UINT8_MIN,
           maximum: UINT8_MAX
-        })
+        }, context)
       return tagBytes + valueBytes
     }
 
     const type: Type = isPositive
       ? Type.PositiveInteger : Type.NegativeInteger
-    const tagBytes: number = encodeTypeTag(buffer, offset, type)
+    const tagBytes: number = encodeTypeTag(buffer, offset, type, context)
     const valueBytes: number =
       FLOOR__ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
         minimum: 0
-      })
+      }, context)
     return tagBytes + valueBytes
 
   // Encode an number value
   } else {
-    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number)
+    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number, context)
     const valueBytes: number =
-      DOUBLE__IEEE764_LE(buffer, offset + tagBytes, value, {})
+      DOUBLE__IEEE764_LE(buffer, offset + tagBytes, value, {}, context)
     return tagBytes + valueBytes
   }
 }

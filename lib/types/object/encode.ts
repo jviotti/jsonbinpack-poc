@@ -47,8 +47,12 @@ import {
   FLOOR__ENUM_VARINT
 } from '../integer/encode'
 
+import {
+  EncodingContext
+} from '../../context'
+
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions, context: EncodingContext
 ): number => {
   assert(Object.keys(value).length === options.requiredProperties.length)
 
@@ -56,21 +60,21 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   for (const key of options.requiredProperties) {
     const encoding: Encoding | undefined = options.propertyEncodings[key]
     assert(typeof encoding !== 'undefined')
-    cursor += encode(buffer, cursor, encoding, value[key])
+    cursor += encode(buffer, cursor, encoding, value[key], context)
   }
 
   return cursor - offset
 }
 
 export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: OptionalBoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: OptionalBoundedTypedOptions, context: EncodingContext
 ): number => {
   assert(Object.keys(value).length <= options.optionalProperties.length)
 
   const lengthBytes: number = FLOOR__ENUM_VARINT(
     buffer, offset, options.optionalProperties.length, {
       minimum: 0
-    })
+    }, context)
 
   const keys: string[] = []
   const bitset: boolean[] = []
@@ -87,7 +91,7 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
   for (const key of keys) {
     const encoding: Encoding | undefined = options.propertyEncodings[key]
     assert(typeof encoding !== 'undefined')
-    const bytesWritten: number = encode(buffer, cursor, encoding, value[key])
+    const bytesWritten: number = encode(buffer, cursor, encoding, value[key], context)
     cursor += bytesWritten
   }
 
@@ -95,7 +99,7 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
 }
 
 export const MIXED_BOUNDED_TYPED_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: BoundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: BoundedTypedOptions, context: EncodingContext
 ): number => {
   assert(Object.keys(value).length <=
     options.requiredProperties.length + options.optionalProperties.length)
@@ -114,33 +118,33 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties
-    })
+    }, context)
 
   return requiredBytes + NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset + requiredBytes, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
       optionalProperties: options.optionalProperties
-    })
+    }, context)
 }
 
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: TypedKeysOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: TypedKeysOptions, context: EncodingContext
 ): number => {
   let cursor: number = offset + FLOOR__ENUM_VARINT(
     buffer, offset, Object.keys(value).length, {
       minimum: 0
-    })
+    }, context)
 
   for (const [ key, objectValue ] of Object.entries(value)) {
-    cursor += encode(buffer, cursor, options.keyEncoding, key)
-    cursor += encode(buffer, cursor, options.encoding, objectValue)
+    cursor += encode(buffer, cursor, options.keyEncoding, key, context)
+    cursor += encode(buffer, cursor, options.encoding, objectValue, context)
   }
 
   return cursor - offset
 }
 
 export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredUnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredUnboundedTypedOptions, context: EncodingContext
 ): number => {
   assert(options.requiredProperties.length > 0)
 
@@ -156,16 +160,16 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties
-    })
+    }, context)
 
   return requiredBytes + ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
     keyEncoding: options.keyEncoding,
     encoding: options.encoding
-  })
+  }, context)
 }
 
 export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: OptionalUnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: OptionalUnboundedTypedOptions, context: EncodingContext
 ): number => {
   assert(Object.keys(options.propertyEncodings).length === options.optionalProperties.length)
   const optional: Set<string> = new Set<string>(options.optionalProperties)
@@ -180,16 +184,16 @@ export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
     buffer, offset, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
       optionalProperties: options.optionalProperties
-    })
+    }, context)
 
   return optionalBytes + ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + optionalBytes, rest, {
     keyEncoding: options.keyEncoding,
     encoding: options.encoding
-  })
+  }, context)
 }
 
 export const MIXED_UNBOUNDED_TYPED_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: UnboundedTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONObject, options: UnboundedTypedOptions, context: EncodingContext
 ): number => {
   const required: Set<string> = new Set<string>(options.requiredProperties)
   const optional: Set<string> = new Set<string>(options.optionalProperties)
@@ -213,17 +217,17 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties
-    })
+    }, context)
 
   const optionalBytes: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, offset + requiredBytes, optionalSubset, {
       propertyEncodings: options.propertyEncodings,
       optionalProperties: options.optionalProperties
-    })
+    }, context)
 
   return requiredBytes + optionalBytes + ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, offset + requiredBytes + optionalBytes, rest, {
       keyEncoding: options.keyEncoding,
       encoding: options.encoding
-    })
+    }, context)
 }

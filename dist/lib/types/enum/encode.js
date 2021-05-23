@@ -32,7 +32,7 @@ var assert_1 = require("assert");
 var util_1 = require("util");
 var encode_1 = require("../integer/encode");
 var limits_1 = require("../../utils/limits");
-var BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options) {
+var BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, context) {
     var e_1, _a;
     assert_1.strict(options.choices.length > 0);
     assert_1.strict(options.choices.length <= limits_1.UINT8_MAX);
@@ -58,10 +58,10 @@ var BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options) {
     return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, cursor, {
         minimum: 0,
         maximum: options.choices.length
-    });
+    }, context);
 };
 exports.BOUNDED_CHOICE_INDEX = BOUNDED_CHOICE_INDEX;
-var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options) {
+var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, context) {
     var e_2, _a;
     assert_1.strict(options.choices.length > 0);
     var cursor = -1;
@@ -86,6 +86,6 @@ var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options) {
     return encode_1.BOUNDED__ENUM_VARINT(buffer, offset, cursor, {
         minimum: 0,
         maximum: options.choices.length
-    });
+    }, context);
 };
 exports.LARGE_BOUNDED_CHOICE_INDEX = LARGE_BOUNDED_CHOICE_INDEX;

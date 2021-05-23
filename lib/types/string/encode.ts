@@ -44,6 +44,10 @@ import {
   FloorOptions
 } from './options'
 
+import {
+  EncodingContext
+} from '../../context'
+
 // TODO: Consider de-duplicating strings by supporting
 // new encodings that take an offset pointer instead
 // of a string value?
@@ -51,7 +55,7 @@ import {
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions, context: EncodingContext
 ): number => {
   assert(options.minimum >= UINT8_MIN)
   assert(options.maximum >= 0)
@@ -62,13 +66,13 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length + 1, {
     minimum: options.minimum,
     maximum: options.maximum + 1
-  })
+  }, context)
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
 
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions, context: EncodingContext
 ): number => {
   assert(options.minimum >= 0)
   assert(options.minimum <= options.maximum)
@@ -79,48 +83,48 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset, length + 1, {
     minimum: options.minimum,
     maximum: options.maximum + 1
-  })
+  }, context)
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
 
 export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(options.maximum <= UINT8_MAX - 1)
   return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, {
     minimum: 0,
     maximum: options.maximum
-  })
+  }, context)
 }
 
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions, context: EncodingContext
 ): number => {
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(options.maximum >= 0)
   assert(length <= options.maximum)
-  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset, length - 1, options)
+  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset, length - 1, options, context)
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: FloorOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, options: FloorOptions, context: EncodingContext
 ): number => {
   assert(options.minimum >= 0)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length >= options.minimum)
-  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length + 1, options)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length + 1, options, context)
   return buffer.write(value, offset + bytesWritten,
     length, STRING_ENCODING) + bytesWritten
 }
 
 export const ARBITRARY__PREFIX_LENGTH_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONString, _options: NoOptions, context: EncodingContext
 ): number => {
   return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
     minimum: 0
-  })
+  }, context)
 }

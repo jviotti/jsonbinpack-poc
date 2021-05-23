@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DOUBLE__IEEE764_LE = void 0;
-var DOUBLE__IEEE764_LE = function (buffer, offset, value, _options) {
+var DOUBLE__IEEE764_LE = function (buffer, offset, value, _options, _context) {
     return buffer.writeDoubleLE(value, offset) - offset;
 };
 exports.DOUBLE__IEEE764_LE = DOUBLE__IEEE764_LE;

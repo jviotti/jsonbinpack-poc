@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.decode = exports.encode = exports.compileEncodingSchema = void 0;
 var encoder_1 = require("./encoder");
 var mapper_1 = require("./mapper");
+var context_1 = require("./context");
 var resizable_buffer_1 = __importDefault(require("./utils/resizable-buffer"));
 var compileEncodingSchema = function (schema) {
     return mapper_1.getEncoding(schema);
@@ -13,7 +14,8 @@ var compileEncodingSchema = function (schema) {
 exports.compileEncodingSchema = compileEncodingSchema;
 var encode = function (encoding, value) {
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(0));
-    encoder_1.encode(buffer, 0, encoding, value);
+    var context = context_1.getDefaultEncodingContext();
+    encoder_1.encode(buffer, 0, encoding, value, context);
     return buffer.getBuffer();
 };
 exports.encode = encode;

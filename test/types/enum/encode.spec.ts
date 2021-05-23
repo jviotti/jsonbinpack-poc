@@ -21,13 +21,19 @@ import {
   LARGE_BOUNDED_CHOICE_INDEX
 } from '../../../lib/types/enum/encode'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../../lib/context'
+
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('BOUNDED_CHOICE_INDEX: should encode 1 of [ 1, 0, 0 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = BOUNDED_CHOICE_INDEX(buffer, 0, 1, {
     choices: [ 1, 0, 0 ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
@@ -35,10 +41,11 @@ tap.test('BOUNDED_CHOICE_INDEX: should encode 1 of [ 1, 0, 0 ]', (test) => {
 })
 
 tap.test('BOUNDED_CHOICE_INDEX: should encode 1 of [ 0, 0, 1 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = BOUNDED_CHOICE_INDEX(buffer, 0, 1, {
     choices: [ 0, 0, 1 ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
@@ -46,10 +53,11 @@ tap.test('BOUNDED_CHOICE_INDEX: should encode 1 of [ 0, 0, 1 ]', (test) => {
 })
 
 tap.test('BOUNDED_CHOICE_INDEX: should encode "bar" of [ foo, bar, bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = BOUNDED_CHOICE_INDEX(buffer, 0, 'bar', {
     choices: [ 'foo', 'bar', 'bar' ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
@@ -57,6 +65,7 @@ tap.test('BOUNDED_CHOICE_INDEX: should encode "bar" of [ foo, bar, bar ]', (test
 })
 
 tap.test('BOUNDED_CHOICE_INDEX: should encode handle objects', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = BOUNDED_CHOICE_INDEX(buffer, 0, {
     foo: 1
@@ -74,7 +83,7 @@ tap.test('BOUNDED_CHOICE_INDEX: should encode handle objects', (test) => {
         bar: 1
       }
     ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)
@@ -82,10 +91,11 @@ tap.test('BOUNDED_CHOICE_INDEX: should encode handle objects', (test) => {
 })
 
 tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode 1 of [ 1, 0, 0 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = LARGE_BOUNDED_CHOICE_INDEX(buffer, 0, 1, {
     choices: [ 1, 0, 0 ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
@@ -93,10 +103,11 @@ tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode 1 of [ 1, 0, 0 ]', (test) =>
 })
 
 tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode 1 of [ 0, 0, 1 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = LARGE_BOUNDED_CHOICE_INDEX(buffer, 0, 1, {
     choices: [ 0, 0, 1 ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x02 ]))
   test.is(bytesWritten, 1)
@@ -104,10 +115,11 @@ tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode 1 of [ 0, 0, 1 ]', (test) =>
 })
 
 tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode "bar" of [ foo, bar, bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = LARGE_BOUNDED_CHOICE_INDEX(buffer, 0, 'bar', {
     choices: [ 'foo', 'bar', 'bar' ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
@@ -115,6 +127,7 @@ tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode "bar" of [ foo, bar, bar ]',
 })
 
 tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode handle objects', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = LARGE_BOUNDED_CHOICE_INDEX(buffer, 0, {
     foo: 1
@@ -132,7 +145,7 @@ tap.test('LARGE_BOUNDED_CHOICE_INDEX: should encode handle objects', (test) => {
         bar: 1
       }
     ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)

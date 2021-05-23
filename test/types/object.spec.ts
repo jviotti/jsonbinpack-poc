@@ -70,6 +70,11 @@ import {
   getIntegerEncoding
 } from '../../lib/types/integer/mapper'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../lib/context'
+
 import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
@@ -92,9 +97,10 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
     fc.double(),
     fc.string({ maxLength: 10 })
   )), (offset: number, value: JSONObject): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
-      buffer, offset, value, options)
+      buffer, offset, value, options, context)
     const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
       buffer, offset, options)
     return bytesWritten > 0 && result.bytes === bytesWritten &&
@@ -107,6 +113,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
 })
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(16))
   const value: JSONObject = {
     foo: 'bar',
@@ -125,7 +132,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
         encoding: 'ANY__TYPE_PREFIX',
         options: {}
       }
-    })
+    }, context)
 
   const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, {
@@ -143,6 +150,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
 })
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(16))
   const value: JSONObject = {
     foo: 'bar',
@@ -162,7 +170,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
         encoding: 'ANY__TYPE_PREFIX',
         options: {}
       }
-    })
+    }, context)
 
   const result: ObjectResult = DECODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, {
@@ -180,6 +188,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
 })
 
 tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
   const value: JSONObject = {
     foo: 'bar',
@@ -202,7 +211,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =>
   }
 
   const bytesWritten: number = ENCODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT(
-    buffer, 0, value, options)
+    buffer, 0, value, options, context)
 
   const result: ObjectResult = DECODE_NON_REQUIRED_BOUNDED_TYPED_OBJECT(
     buffer, 0, options)
@@ -213,6 +222,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =>
 })
 
 tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
   const value: JSONObject = {
     foo: 'bar',
@@ -233,7 +243,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =
   }
 
   const bytesWritten: number = ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
-    buffer, 0, value, options)
+    buffer, 0, value, options, context)
 
   const result: ObjectResult = DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, 0, options)
@@ -244,6 +254,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =
 })
 
 tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
   const value: JSONObject = {
     foo: 'bar',
@@ -264,7 +275,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required'
     }
   }
 
-  const bytesWritten: number = ENCODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const bytesWritten: number = ENCODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context)
   const result: ObjectResult = DECODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
@@ -273,6 +284,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required'
 })
 
 tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optional', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
   const value: JSONObject = {
     foo: 'bar'
@@ -292,7 +304,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optiona
     }
   }
 
-  const bytesWritten: number = ENCODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const bytesWritten: number = ENCODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context)
   const result: ObjectResult = DECODE_MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
@@ -301,6 +313,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optiona
 })
 
 tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(11))
   const value: JSONObject = {
     foo: 'bar',
@@ -324,7 +337,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
     }
   }
 
-  const bytesWritten: number = ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const bytesWritten: number = ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options, context)
   const result: ObjectResult = DECODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
@@ -333,6 +346,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
 })
 
 tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
   const value: JSONObject = {
     foo: 'bar'
@@ -355,7 +369,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
     }
   }
 
-  const bytesWritten: number = ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options)
+  const bytesWritten: number = ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options, context)
   const result: ObjectResult = DECODE_REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
@@ -364,6 +378,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
 })
 
 tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(13))
   const value: JSONObject = {
     foo: 'bar',
@@ -388,7 +403,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
   }
 
   const bytesWritten: number = ENCODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT(
-    buffer, 0, value, options)
+    buffer, 0, value, options, context)
   const result: ObjectResult = DECODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT(
     buffer, 0, options)
 
@@ -398,6 +413,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
 })
 
 tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(13))
   const value: JSONObject = {
     foo: 'bar',
@@ -428,7 +444,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test
   }
 
   const bytesWritten: number = ENCODE_MIXED_UNBOUNDED_TYPED_OBJECT(
-    buffer, 0, value, options)
+    buffer, 0, value, options, context)
   const result: ObjectResult = DECODE_MIXED_UNBOUNDED_TYPED_OBJECT(
     buffer, 0, options)
 

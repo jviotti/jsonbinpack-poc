@@ -26,11 +26,13 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/number/encode");
 var decode_1 = require("../../lib/types/number/decode");
+var context_1 = require("../../lib/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('DOUBLE__IEEE764_LE', function (test) {
     fc.assert(fc.property(fc.nat(10), fc.double(), function (offset, value) {
+        var context = context_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(offset + 8));
-        var bytesWritten = encode_1.DOUBLE__IEEE764_LE(buffer, offset, value, {});
+        var bytesWritten = encode_1.DOUBLE__IEEE764_LE(buffer, offset, value, {}, context);
         var result = decode_1.DOUBLE__IEEE764_LE(buffer, offset, {});
         return bytesWritten === 8 && result.bytes === bytesWritten && result.value === value;
     }), {
