@@ -9,20 +9,26 @@ var BOUNDED__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    var length = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, options);
+    var length = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+        minimum: options.minimum,
+        maximum: options.maximum + 1
+    });
     return {
-        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-        bytes: length.bytes + length.value
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value - 1),
+        bytes: length.bytes + length.value - 1
     };
 };
 exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = BOUNDED__PREFIX_LENGTH_8BIT_FIXED;
 var BOUNDED__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
-    var length = decode_1.BOUNDED__ENUM_VARINT(buffer, offset, options);
+    var length = decode_1.BOUNDED__ENUM_VARINT(buffer, offset, {
+        minimum: options.minimum,
+        maximum: options.maximum + 1
+    });
     return {
-        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-        bytes: length.bytes + length.value
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value - 1),
+        bytes: length.bytes + length.value - 1
     };
 };
 exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = BOUNDED__PREFIX_LENGTH_ENUM_VARINT;
@@ -39,8 +45,8 @@ var ROOF__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
     var length = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, options);
     return {
-        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-        bytes: length.bytes + length.value
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value + 1),
+        bytes: length.bytes + length.value + 1
     };
 };
 exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = ROOF__PREFIX_LENGTH_ENUM_VARINT;
@@ -48,8 +54,8 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     var length = decode_1.FLOOR__ENUM_VARINT(buffer, offset, options);
     return {
-        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-        bytes: length.bytes + length.value
+        value: buffer.toString(STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value - 1),
+        bytes: length.bytes + length.value - 1
     };
 };
 exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = FLOOR__PREFIX_LENGTH_ENUM_VARINT;

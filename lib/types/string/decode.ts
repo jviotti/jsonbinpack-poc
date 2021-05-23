@@ -60,11 +60,14 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
-  const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, options)
+  const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+    minimum: options.minimum,
+    maximum: options.maximum + 1
+  })
   return {
     value: buffer.toString(
-      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-    bytes: length.bytes + length.value
+      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value - 1),
+    bytes: length.bytes + length.value - 1
   }
 }
 
@@ -73,11 +76,14 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
 ): StringResult => {
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
-  const length: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, options)
+  const length: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum,
+    maximum: options.maximum + 1
+  })
   return {
     value: buffer.toString(
-      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-    bytes: length.bytes + length.value
+      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value - 1),
+    bytes: length.bytes + length.value - 1
   }
 }
 
@@ -99,8 +105,8 @@ export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   const length: IntegerResult = ROOF__MIRROR_ENUM_VARINT(buffer, offset, options)
   return {
     value: buffer.toString(
-      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-    bytes: length.bytes + length.value
+      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value + 1),
+    bytes: length.bytes + length.value + 1
   }
 }
 
@@ -111,8 +117,8 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, options)
   return {
     value: buffer.toString(
-      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value),
-    bytes: length.bytes + length.value
+      STRING_ENCODING, offset + length.bytes, offset + length.bytes + length.value - 1),
+    bytes: length.bytes + length.value - 1
   }
 }
 

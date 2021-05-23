@@ -62,9 +62,9 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x02, // length
-    0x03, 0x66, 0x6f, 0x6f, // key length + 'foo'
-    0x00, 0x03, 0x62, 0x61, 0x72, // string tag + length + 'bar'
-    0x03, 0x62, 0x61, 0x7a, // key length + 'baz'
+    0x04, 0x66, 0x6f, 0x6f, // key length + 'foo'
+    0x00, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
+    0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
     0x09, 0x01 // positive integer type tag + 1
   ]))
 
@@ -91,9 +91,9 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x02, // length
-    0x00, 0x66, 0x6f, 0x6f, // key length + 'foo'
-    0x00, 0x03, 0x62, 0x61, 0x72, // string tag + length + 'bar'
-    0x00, 0x62, 0x61, 0x7a, // key length + 'baz'
+    0x01, 0x66, 0x6f, 0x6f, // key length + 'foo'
+    0x00, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
+    0x01, 0x62, 0x61, 0x7a, // key length + 'baz'
     0x09, 0x01 // positive integer type tag + 1
   ]))
 
@@ -125,7 +125,7 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:
     0x04, // length
     0b00000101, // bit set
     0x01, // 1
-    0x03, 0x62, 0x61, 0x72 // "bar"
+    0x04, 0x62, 0x61, 0x72 // "bar"
   ]))
 
   test.is(bytesWritten, 7)
@@ -178,7 +178,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // 1
-    0x03, 0x62, 0x61, 0x72 // "bar"
+    0x04, 0x62, 0x61, 0x72 // "bar"
   ]))
 
   test.is(bytesWritten, 5)
@@ -205,7 +205,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
   })
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x04, 0x62, 0x61, 0x72, // "bar",
     0x01, 0x01, // bit map
     0x01 // 1
   ]))
@@ -233,7 +233,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
   })
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x04, 0x62, 0x61, 0x72, // "bar",
     0x01, 0x00 // bit map
   ]))
 
@@ -264,9 +264,9 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
   })
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x04, 0x62, 0x61, 0x72, // "bar",
     0x01, // length
-    0x03, 0x62, 0x61, 0x7a, // key length + 'baz'
+    0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
     0x09, 0x01 // positive integer type tag + 1
   ]))
 
@@ -296,7 +296,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (te
   })
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x04, 0x62, 0x61, 0x72, // "bar",
     0x00 // length
   ]))
 
@@ -328,9 +328,9 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, 0x01, // bit map
-    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x04, 0x62, 0x61, 0x72, // "bar",
     0x01, // length
-    0x03, 0x62, 0x61, 0x7a, // key length + 'baz'
+    0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
     0x09, 0x01 // positive integer type tag + 1
   ]))
 
@@ -367,11 +367,11 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
   })
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, 0x62, 0x61, 0x72, // "bar",
+    0x04, 0x62, 0x61, 0x72, // "bar",
     0x01, 0x01, // bit map
     0x01, // 1
     0x01, // free form count
-    0x03, 0x71, 0x75, 0x78,
+    0x04, 0x71, 0x75, 0x78, // "qux"
     0x06 // null type tag
   ]))
 

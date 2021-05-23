@@ -27,9 +27,9 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x02,
-        0x03, 0x66, 0x6f, 0x6f,
-        0x00, 0x03, 0x62, 0x61, 0x72,
-        0x03, 0x62, 0x61, 0x7a,
+        0x04, 0x66, 0x6f, 0x6f,
+        0x00, 0x04, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x7a,
         0x09, 0x01
     ]));
     test.is(bytesWritten, 16);
@@ -53,9 +53,9 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x02,
-        0x00, 0x66, 0x6f, 0x6f,
-        0x00, 0x03, 0x62, 0x61, 0x72,
-        0x00, 0x62, 0x61, 0x7a,
+        0x01, 0x66, 0x6f, 0x6f,
+        0x00, 0x04, 0x62, 0x61, 0x72,
+        0x01, 0x62, 0x61, 0x7a,
         0x09, 0x01
     ]));
     test.is(bytesWritten, 16);
@@ -84,7 +84,7 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:
         0x04,
         5,
         0x01,
-        0x03, 0x62, 0x61, 0x72
+        0x04, 0x62, 0x61, 0x72
     ]));
     test.is(bytesWritten, 7);
     test.end();
@@ -131,7 +131,7 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
-        0x03, 0x62, 0x61, 0x72
+        0x04, 0x62, 0x61, 0x72
     ]));
     test.is(bytesWritten, 5);
     test.end();
@@ -155,7 +155,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         }
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x03, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x72,
         0x01, 0x01,
         0x01
     ]));
@@ -180,7 +180,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         }
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x03, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x72,
         0x01, 0x00
     ]));
     test.is(bytesWritten, 6);
@@ -208,9 +208,9 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         }
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x03, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x72,
         0x01,
-        0x03, 0x62, 0x61, 0x7a,
+        0x04, 0x62, 0x61, 0x7a,
         0x09, 0x01
     ]));
     test.is(bytesWritten, 11);
@@ -237,7 +237,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
         }
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x03, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x72,
         0x00
     ]));
     test.is(bytesWritten, 5);
@@ -266,9 +266,9 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01, 0x01,
-        0x03, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x72,
         0x01,
-        0x03, 0x62, 0x61, 0x7a,
+        0x04, 0x62, 0x61, 0x7a,
         0x09, 0x01
     ]));
     test.is(bytesWritten, 13);
@@ -302,11 +302,11 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
         }
     });
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x03, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x72,
         0x01, 0x01,
         0x01,
         0x01,
-        0x03, 0x71, 0x75, 0x78,
+        0x04, 0x71, 0x75, 0x78,
         0x06
     ]));
     test.is(bytesWritten, 13);

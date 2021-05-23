@@ -27,17 +27,17 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode true as 0x04', function (tes
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode "foo" as 0x00 0x03 + string', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode "foo" as 0x00 0x04 + string', function (test) {
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(5));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 'foo', {});
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 0x03, 0x66, 0x6f, 0x6f]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 0x04, 0x66, 0x6f, 0x6f]));
     test.is(bytesWritten, 5);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode " " as 0x00 0x01 0x20', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode " " as 0x00 0x02 0x20', function (test) {
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, ' ', {});
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 0x01, 0x20]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 0x02, 0x20]));
     test.is(bytesWritten, 3);
     test.end();
 });
@@ -101,9 +101,9 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', function
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
         0x02,
-        0x03, 0x66, 0x6f, 0x6f,
-        0x00, 0x03, 0x62, 0x61, 0x72,
-        0x03, 0x62, 0x61, 0x7a,
+        0x04, 0x66, 0x6f, 0x6f,
+        0x00, 0x04, 0x62, 0x61, 0x72,
+        0x04, 0x62, 0x61, 0x7a,
         0x09, 0x01
     ]));
     test.is(bytesWritten, 17);
@@ -119,7 +119,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', func
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x02,
         0x03,
-        0x00, 0x03, 0x66, 0x6f, 0x6f,
+        0x00, 0x04, 0x66, 0x6f, 0x6f,
         0x04,
         0x07, 0xd0, 0x0f
     ]));
