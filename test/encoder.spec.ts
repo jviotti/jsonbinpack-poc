@@ -28,9 +28,15 @@ import {
   JSONValue
 } from '../lib/json'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../lib/context'
+
 import ResizableBuffer from '../lib/utils/resizable-buffer'
 
 tap.test('should dynamically encode a boolean value', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const offset: number = 0
   const encoding: Encoding = {
@@ -40,7 +46,7 @@ tap.test('should dynamically encode a boolean value', (test) => {
   }
 
   const value: JSONValue = true
-  const bytesWritten: number = encode(buffer, offset, encoding, value)
+  const bytesWritten: number = encode(buffer, offset, encoding, value, context)
   test.is(bytesWritten, 1)
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01 ]))
 

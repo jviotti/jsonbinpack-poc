@@ -25,11 +25,17 @@ import {
   NULL_8BITS__ENUM_FIXED as DECODE_NULL_8BITS__ENUM_FIXED
 } from '../../lib/types/null/decode'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../lib/context'
+
 import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
+  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {}, context)
   const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 0, {})
 
   test.is(bytesWritten, 0)
@@ -39,8 +45,9 @@ tap.test('NULL_8BITS__ENUM_FIXED', (test) => {
 })
 
 tap.test('NULL_8BITS__ENUM_FIXED with offset > 0', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
-  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 5, {})
+  const bytesWritten: number = ENCODE_NULL_8BITS__ENUM_FIXED(buffer, 5, {}, context)
   const result: NullResult = DECODE_NULL_8BITS__ENUM_FIXED(buffer, 5, {})
 
   test.is(bytesWritten, 0)

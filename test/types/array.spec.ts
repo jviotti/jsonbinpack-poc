@@ -48,7 +48,13 @@ import {
 
 import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../lib/context'
+
 tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const value: JSONValue = [ 'foo', true, 2000 ]
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const options: SemiTypedBoundedOptions = {
@@ -58,7 +64,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 []
   }
 
   const bytesWritten: number =
-    ENCODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, value, options)
+    ENCODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, value, options, context)
   const result: ArrayResult =
     DECODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, options)
 
@@ -69,6 +75,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 []
 })
 
 tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const value: JSONValue = []
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const options: SemiTypedOptions = {
@@ -76,7 +83,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', (test) => {
   }
 
   const bytesWritten: number =
-    ENCODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, value, options)
+    ENCODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, value, options, context)
   const result: ArrayResult =
     DECODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, options)
 
@@ -95,13 +102,14 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', (test) => {
     fc.double(),
     fc.string({ maxLength: 10 })
   )), (value: JSONValue[]): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const offset: number = 0
 
     const bytesWritten: number =
       ENCODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
         prefixEncodings: []
-      })
+      }, context)
 
     const result: ArrayResult =
       DECODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, {
@@ -119,6 +127,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', (test) => {
 
 tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', (test) => {
   fc.assert(fc.property(fc.array(fc.integer()), (value: JSONNumber[]): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const offset: number = 0
 
@@ -130,7 +139,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', (test) => {
       ENCODE_UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {
         prefixEncodings: [],
         encoding
-      })
+      }, context)
 
     const result: ArrayResult =
       DECODE_UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, {

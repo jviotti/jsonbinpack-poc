@@ -33,6 +33,11 @@ import {
   JSONValue
 } from './json'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from './context'
+
 export {
   JSONValue
 } from './json'
@@ -53,7 +58,8 @@ export const compileEncodingSchema = (schema: EncodingSchema): Encoding => {
 
 export const encode = (encoding: Encoding, value: JSONValue): Buffer => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(0))
-  binpackEncode(buffer, 0, encoding, value)
+  const context: EncodingContext = getDefaultEncodingContext()
+  binpackEncode(buffer, 0, encoding, value, context)
   return buffer.getBuffer()
 }
 

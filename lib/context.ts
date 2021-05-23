@@ -14,31 +14,8 @@
  * limitations under the License.
  */
 
-import ResizableBuffer from '../../utils/resizable-buffer'
+export interface EncodingContext {}
 
-import {
-  JSONBoolean,
-  JSONNumber
-} from '../../json'
-
-import {
-  NoOptions
-} from './options'
-
-import {
-  BOUNDED_8BITS__ENUM_FIXED
-} from '../integer/encode'
-
-import {
-  EncodingContext
-} from '../../context'
-
-export const BOOLEAN_8BITS__ENUM_FIXED = (
-  buffer: ResizableBuffer, offset: number, value: JSONBoolean, _options: NoOptions, context: EncodingContext
-): number => {
-  const integer: JSONNumber = value ? 1 : 0
-  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, integer, {
-    minimum: 0,
-    maximum: 1
-  }, context)
+export const getDefaultEncodingContext = (): EncodingContext => {
+  return {}
 }

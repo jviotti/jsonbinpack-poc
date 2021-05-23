@@ -5,7 +5,7 @@ var assert_1 = require("assert");
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
 var limits_1 = require("../../utils/limits");
-var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, value, options) {
+var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, value, options, _context) {
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
     assert_1.strict(value >= options.minimum);
@@ -13,7 +13,7 @@ var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, value, options) {
     return buffer.writeUInt8(value - options.minimum, offset) - offset;
 };
 exports.BOUNDED_8BITS__ENUM_FIXED = BOUNDED_8BITS__ENUM_FIXED;
-var BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = function (buffer, offset, value, options) {
+var BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = function (buffer, offset, value, options, context) {
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value >= options.minimum);
     assert_1.strict(value <= options.maximum);
@@ -29,17 +29,17 @@ var BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = function (buffer, offset, value, option
     return exports.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value / absoluteMultiplier, {
         minimum: enumMinimum,
         maximum: enumMaximum
-    });
+    }, context);
 };
 exports.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = BOUNDED_MULTIPLE_8BITS__ENUM_FIXED;
-var BOUNDED__ENUM_VARINT = function (buffer, offset, value, options) {
+var BOUNDED__ENUM_VARINT = function (buffer, offset, value, options, _context) {
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value >= options.minimum);
     assert_1.strict(value <= options.maximum);
     return varint_1.varintEncode(buffer, offset, value - options.minimum);
 };
 exports.BOUNDED__ENUM_VARINT = BOUNDED__ENUM_VARINT;
-var BOUNDED_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options) {
+var BOUNDED_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options, context) {
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value >= options.minimum);
     assert_1.strict(value <= options.maximum);
@@ -52,15 +52,15 @@ var BOUNDED_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options) {
     return exports.BOUNDED__ENUM_VARINT(buffer, offset, value / absoluteMultiplier, {
         minimum: closestMinimumMultiple / absoluteMultiplier,
         maximum: closestMaximumMultiple / absoluteMultiplier
-    });
+    }, context);
 };
 exports.BOUNDED_MULTIPLE__ENUM_VARINT = BOUNDED_MULTIPLE__ENUM_VARINT;
-var FLOOR__ENUM_VARINT = function (buffer, offset, value, options) {
+var FLOOR__ENUM_VARINT = function (buffer, offset, value, options, _context) {
     assert_1.strict(value >= options.minimum);
     return varint_1.varintEncode(buffer, offset, value - options.minimum);
 };
 exports.FLOOR__ENUM_VARINT = FLOOR__ENUM_VARINT;
-var FLOOR_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options) {
+var FLOOR_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options, context) {
     assert_1.strict(value >= options.minimum);
     assert_1.strict(value % options.multiplier === 0);
     assert_1.strict(options.multiplier >= options.minimum);
@@ -68,15 +68,15 @@ var FLOOR_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options) {
     var closestMinimumMultiple = Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier;
     return exports.FLOOR__ENUM_VARINT(buffer, offset, value / absoluteMultiplier, {
         minimum: closestMinimumMultiple / absoluteMultiplier
-    });
+    }, context);
 };
 exports.FLOOR_MULTIPLE__ENUM_VARINT = FLOOR_MULTIPLE__ENUM_VARINT;
-var ROOF__MIRROR_ENUM_VARINT = function (buffer, offset, value, options) {
+var ROOF__MIRROR_ENUM_VARINT = function (buffer, offset, value, options, _context) {
     assert_1.strict(value <= options.maximum);
     return varint_1.varintEncode(buffer, offset, (-1 * value) + options.maximum);
 };
 exports.ROOF__MIRROR_ENUM_VARINT = ROOF__MIRROR_ENUM_VARINT;
-var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, options) {
+var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, options, context) {
     assert_1.strict(value <= options.maximum);
     assert_1.strict(value % options.multiplier === 0);
     assert_1.strict(options.maximum >= options.multiplier);
@@ -84,15 +84,15 @@ var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, options
     var closestMaximumMultiple = Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier;
     return exports.ROOF__MIRROR_ENUM_VARINT(buffer, offset, value / absoluteMultiplier, {
         maximum: closestMaximumMultiple / absoluteMultiplier
-    });
+    }, context);
 };
 exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
-var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value, _options) {
+var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value, _options, _context) {
     return varint_1.varintEncode(buffer, offset, zigzag_1.zigzagEncode(value));
 };
 exports.ARBITRARY__ZIGZAG_VARINT = ARBITRARY__ZIGZAG_VARINT;
-var ARBITRARY_MULTIPLE__ZIGZAG_VARINT = function (buffer, offset, value, options) {
+var ARBITRARY_MULTIPLE__ZIGZAG_VARINT = function (buffer, offset, value, options, context) {
     assert_1.strict(value % options.multiplier === 0);
-    return exports.ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(options.multiplier), {});
+    return exports.ARBITRARY__ZIGZAG_VARINT(buffer, offset, value / Math.abs(options.multiplier), {}, context);
 };
 exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = ARBITRARY_MULTIPLE__ZIGZAG_VARINT;

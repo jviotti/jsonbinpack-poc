@@ -27,6 +27,11 @@ import {
 } from '../../../lib/types/integer/mapper'
 
 import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../../lib/context'
+
+import {
   BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX,
   BOUNDED_SEMITYPED__LENGTH_PREFIX,
   FLOOR_SEMITYPED__LENGTH_PREFIX,
@@ -45,12 +50,13 @@ import {
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
     prefixEncodings: []
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -64,6 +70,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 
 })
 
 tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
@@ -71,7 +78,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
     prefixEncodings: [],
     minimum: 2,
     maximum: 3
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
@@ -85,6 +92,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
 })
 
 tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
   const bytesWritten: number = BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
@@ -92,7 +100,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
     prefixEncodings: [],
     minimum: 3,
     maximum: 3
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
@@ -105,6 +113,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
 })
 
 tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
   const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
@@ -112,7 +121,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
     prefixEncodings: [],
     minimum: 3,
     maximum: 3
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
@@ -125,6 +134,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
 })
 
 tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
@@ -132,7 +142,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
     prefixEncodings: [],
     minimum: 2,
     maximum: 3
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
@@ -146,13 +156,14 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
 })
 
 tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
     prefixEncodings: [],
     minimum: 3
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
@@ -166,13 +177,14 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', 
 })
 
 tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
     prefixEncodings: [],
     maximum: 3
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -186,13 +198,14 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000
 })
 
 tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
     'foo', true, 2000
   ], {
     prefixEncodings: [],
     maximum: 3
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
@@ -206,6 +219,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (
 })
 
 tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -218,7 +232,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
     maximum: 3,
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -230,6 +244,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
 })
 
 tap.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -242,7 +257,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', (test) => {
     maximum: 3,
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, 0x00, 0x01
@@ -253,6 +268,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', (test) => {
 })
 
 tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -265,7 +281,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
     maximum: 3,
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -277,6 +293,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
 })
 
 tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -289,7 +306,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', (test) => {
     maximum: 3,
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, 0x00, 0x01
@@ -300,6 +317,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', (test) => {
 })
 
 tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -311,7 +329,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
     maximum: 3,
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
@@ -323,6 +341,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
 })
 
 tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -334,7 +353,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]',
     maximum: 3,
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -346,6 +365,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]',
 })
 
 tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -357,7 +377,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
     minimum: 3,
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
@@ -369,6 +389,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
 })
 
 tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -379,7 +400,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', 
   ], {
     prefixEncodings: [],
     encoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -391,6 +412,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', 
 })
 
 tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -402,7 +424,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, ty
     minimum: 0,
     maximum: 3,
     prefixEncodings: [ encoding, encoding ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -414,6 +436,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, ty
 })
 
 tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -425,7 +448,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fa
     minimum: 0,
     maximum: 3,
     prefixEncodings: [ encoding, encoding ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -437,6 +460,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fa
 })
 
 tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -447,7 +471,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
   ], {
     minimum: 2,
     prefixEncodings: [ encoding, encoding ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
@@ -459,6 +483,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
 })
 
 tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -469,7 +494,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
   ], {
     maximum: 3,
     prefixEncodings: [ encoding, encoding ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
@@ -481,6 +506,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
 })
 
 tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -491,7 +517,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
   ], {
     maximum: 3,
     prefixEncodings: [ encoding, encoding ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -503,6 +529,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
 })
 
 tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const encoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -512,7 +539,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
     true, false, true
   ], {
     prefixEncodings: [ encoding, encoding ]
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -524,6 +551,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
 })
 
 tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -540,7 +568,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false,
     maximum: 3,
     prefixEncodings: [ booleanEncoding, booleanEncoding ],
     encoding: integerEncoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
@@ -553,6 +581,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false,
 })
 
 tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -569,7 +598,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
     maximum: 3,
     prefixEncodings: [ booleanEncoding, booleanEncoding ],
     encoding: integerEncoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
@@ -582,6 +611,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
 })
 
 tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -597,7 +627,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 
     maximum: 3,
     prefixEncodings: [ booleanEncoding, booleanEncoding ],
     encoding: integerEncoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
@@ -610,6 +640,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 
 })
 
 tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -625,7 +656,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fal
     maximum: 3,
     prefixEncodings: [ booleanEncoding, booleanEncoding ],
     encoding: integerEncoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
@@ -638,6 +669,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fal
 })
 
 tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -653,7 +685,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
     minimum: 2,
     prefixEncodings: [ booleanEncoding, booleanEncoding ],
     encoding: integerEncoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
@@ -666,6 +698,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
 })
 
 tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: BooleanEncoding = getBooleanEncoding({
     type: 'boolean'
   })
@@ -680,7 +713,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
   ], {
     prefixEncodings: [ booleanEncoding, booleanEncoding ],
     encoding: integerEncoding
-  })
+  }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length

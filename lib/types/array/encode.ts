@@ -55,20 +55,24 @@ import {
   ANY__TYPE_PREFIX
 } from '../any/encode'
 
+import {
+  EncodingContext
+} from '../../context'
+
 const encodeArray = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[],
-  prefixEncodings: Encoding[], defaultEncoding?: Encoding
+  prefixEncodings: Encoding[], context: EncodingContext, defaultEncoding?: Encoding
 ): number => {
   let cursor = offset
   for (const [ index, element ] of value.entries()) {
     const encoding: Encoding | undefined = prefixEncodings[index] ?? defaultEncoding
     if (typeof encoding === 'undefined') {
       const bytesWritten: number =
-        ANY__TYPE_PREFIX(buffer, cursor, element, {})
+        ANY__TYPE_PREFIX(buffer, cursor, element, {}, context)
       cursor += bytesWritten
     } else {
       const bytesWritten: number =
-        encode(buffer, cursor, encoding, element)
+        encode(buffer, cursor, encoding, element, context)
       cursor += bytesWritten
     }
   }
@@ -77,7 +81,7 @@ const encodeArray = (
 }
 
 export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -91,13 +95,13 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
     : BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
-      })
+      }, context)
 
-  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
 
 export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -111,13 +115,13 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
     : BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
-      })
+      }, context)
 
-  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
 
 export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedFloorOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedFloorOptions, context: EncodingContext
 ): number => {
   assert(options.minimum >= 0)
   assert(value.length >= options.minimum)
@@ -125,13 +129,13 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
   const lengthBytes: number =
     FLOOR__ENUM_VARINT(buffer, offset, value.length, {
       minimum: options.minimum
-    })
+    }, context)
 
-  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
 
 export const ROOF_SEMITYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -139,13 +143,13 @@ export const ROOF_SEMITYPED__LENGTH_PREFIX = (
   const lengthBytes: number =
     ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
       maximum: options.maximum
-    })
+    }, context)
 
-  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings)
+  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
 
 export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -155,20 +159,20 @@ export const ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = (
     minimum: 0,
     maximum: options.maximum,
     prefixEncodings: options.prefixEncodings
-  })
+  }, context)
 }
 
 export const UNBOUNDED_SEMITYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedOptions, context: EncodingContext
 ): number => {
   return FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
     prefixEncodings: options.prefixEncodings
-  })
+  }, context)
 }
 
 export const BOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedBoundedOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -181,14 +185,14 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
     : BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
-      })
+      }, context)
 
   return lengthBytes + encodeArray(
-    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
+    buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
 }
 
 export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedBoundedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedBoundedOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(options.minimum >= 0)
@@ -202,14 +206,14 @@ export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
     : BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
         minimum: options.minimum,
         maximum: options.maximum
-      })
+      }, context)
 
   return lengthBytes + encodeArray(
-    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
+    buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
 }
 
 export const ROOF_TYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedRoofOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -217,14 +221,14 @@ export const ROOF_TYPED__LENGTH_PREFIX = (
   const lengthBytes: number =
     ROOF__MIRROR_ENUM_VARINT(buffer, offset, value.length, {
       maximum: options.maximum
-    })
+    }, context)
 
   return lengthBytes + encodeArray(
-    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
+    buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
 }
 
 export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedRoofOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedRoofOptions, context: EncodingContext
 ): number => {
   assert(options.maximum >= 0)
   assert(value.length <= options.maximum)
@@ -235,11 +239,11 @@ export const ROOF_8BITS_TYPED__LENGTH_PREFIX = (
     maximum: options.maximum,
     prefixEncodings: options.prefixEncodings,
     encoding: options.encoding
-  })
+  }, context)
 }
 
 export const FLOOR_TYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedFloorOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedFloorOptions, context: EncodingContext
 ): number => {
   assert(options.minimum >= 0)
   assert(value.length >= options.minimum)
@@ -247,18 +251,18 @@ export const FLOOR_TYPED__LENGTH_PREFIX = (
   const lengthBytes: number =
     FLOOR__ENUM_VARINT(buffer, offset, value.length, {
       minimum: options.minimum
-    })
+    }, context)
 
   return lengthBytes + encodeArray(
-    buffer, offset + lengthBytes, value, options.prefixEncodings, options.encoding)
+    buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
 }
 
 export const UNBOUNDED_TYPED__LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedOptions, context: EncodingContext
 ): number => {
   return FLOOR_TYPED__LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
     encoding: options.encoding,
     prefixEncodings: options.prefixEncodings
-  })
+  }, context)
 }

@@ -41,8 +41,12 @@ import {
 
 import ResizableBuffer from '../../utils/resizable-buffer'
 
+import {
+  EncodingContext
+} from '../../context'
+
 export const BOUNDED_CHOICE_INDEX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue, options: ChoiceOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue, options: ChoiceOptions, context: EncodingContext
 ): number => {
   assert(options.choices.length > 0)
   assert(options.choices.length <= UINT8_MAX)
@@ -61,11 +65,11 @@ export const BOUNDED_CHOICE_INDEX = (
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, cursor, {
     minimum: 0,
     maximum: options.choices.length
-  })
+  }, context)
 }
 
 export const LARGE_BOUNDED_CHOICE_INDEX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue, options: ChoiceOptions
+  buffer: ResizableBuffer, offset: number, value: JSONValue, options: ChoiceOptions, context: EncodingContext
 ): number => {
   assert(options.choices.length > 0)
 
@@ -83,5 +87,5 @@ export const LARGE_BOUNDED_CHOICE_INDEX = (
   return BOUNDED__ENUM_VARINT(buffer, offset, cursor, {
     minimum: 0,
     maximum: options.choices.length
-  })
+  }, context)
 }

@@ -65,6 +65,10 @@ import {
 
 import ResizableBuffer from './utils/resizable-buffer'
 
+import {
+  EncodingContext
+} from './context'
+
 export {
   EncodingType,
   DecodeResult
@@ -126,7 +130,7 @@ DECODE_TYPE_INDEX.set(EncodingType.Object, DECODE_OBJECT)
 DECODE_TYPE_INDEX.set(EncodingType.Enum, DECODE_ENUM)
 
 export const encode = (
-  buffer: ResizableBuffer, offset: number, encoding: Encoding, value: JSONValue
+  buffer: ResizableBuffer, offset: number, encoding: Encoding, value: JSONValue, context: EncodingContext
 ): number => {
   const fns: object | undefined = ENCODE_TYPE_INDEX.get(encoding.type)
   assert(typeof fns !== 'undefined')
@@ -136,7 +140,7 @@ export const encode = (
   // from an encoding definition.
   // Maybe there is a way to do this in a type-safe manner?
   // @ts-ignore
-  return fns[encoding.encoding](buffer, offset, value, encoding.options)
+  return fns[encoding.encoding](buffer, offset, value, encoding.options, context)
 }
 
 export const decode = (

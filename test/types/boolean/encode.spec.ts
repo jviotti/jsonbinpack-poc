@@ -20,19 +20,26 @@ import {
   BOOLEAN_8BITS__ENUM_FIXED
 } from '../../../lib/types/boolean/encode'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../../lib/context'
+
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: should encode false as 0x00', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, false, {})
+  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, false, {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
   test.is(bytesWritten, 1)
   test.end()
 })
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: should encode true as 0x01', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, true, {})
+  const bytesWritten: number = BOOLEAN_8BITS__ENUM_FIXED(buffer, 0, true, {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x01 ]))
   test.is(bytesWritten, 1)
   test.end()

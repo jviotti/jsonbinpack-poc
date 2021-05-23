@@ -20,8 +20,12 @@ import {
   NoOptions
 } from './options'
 
+import {
+  EncodingContext
+} from '../../context'
+
 export const NULL_8BITS__ENUM_FIXED = (
-  _buffer: ResizableBuffer, _offset: number, _options: NoOptions
+  _buffer: ResizableBuffer, _offset: number, _options: NoOptions, _context: EncodingContext
 ): number => {
   return 0
 }

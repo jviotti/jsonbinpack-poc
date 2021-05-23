@@ -24,6 +24,10 @@ import {
   NoOptions
 } from './options'
 
+import {
+  EncodingContext
+} from '../../context'
+
 // TODO: Find out in which case we can safely do a 32-bit floating-point
 // numbers encoding
 // TODO: Otherwise encode integral and decimal parts as two different
@@ -33,7 +37,7 @@ import {
 // amount of digits?
 
 export const DOUBLE__IEEE764_LE = (
-  buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
 ): number => {
   return buffer.writeDoubleLE(value, offset) - offset
 }

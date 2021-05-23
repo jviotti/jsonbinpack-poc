@@ -62,10 +62,10 @@ DECODE_TYPE_INDEX.set(base_1.EncodingType.Any, DECODE_ANY);
 DECODE_TYPE_INDEX.set(base_1.EncodingType.Array, DECODE_ARRAY);
 DECODE_TYPE_INDEX.set(base_1.EncodingType.Object, DECODE_OBJECT);
 DECODE_TYPE_INDEX.set(base_1.EncodingType.Enum, DECODE_ENUM);
-var encode = function (buffer, offset, encoding, value) {
+var encode = function (buffer, offset, encoding, value, context) {
     var fns = ENCODE_TYPE_INDEX.get(encoding.type);
     assert_1.strict(typeof fns !== 'undefined');
-    return fns[encoding.encoding](buffer, offset, value, encoding.options);
+    return fns[encoding.encoding](buffer, offset, value, encoding.options, context);
 };
 exports.encode = encode;
 var decode = function (buffer, offset, encoding) {

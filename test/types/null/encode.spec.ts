@@ -22,9 +22,15 @@ import {
 
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
+import {
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../../lib/context'
+
 tap.test('NULL_8BITS__ENUM_FIXED: should encode null as 0x00', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(0))
-  const bytesWritten: number = NULL_8BITS__ENUM_FIXED(buffer, 0, {})
+  const bytesWritten: number = NULL_8BITS__ENUM_FIXED(buffer, 0, {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([]))
   test.is(bytesWritten, 0)
   test.end()
