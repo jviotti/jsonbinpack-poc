@@ -70,7 +70,7 @@ tap_1.default.test('should encode a string with maxLength = 255', function (test
     var result = mapper_1.getStringEncoding(schema);
     test.strictSame(result, {
         type: 'string',
-        encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+        encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
         options: {
             maximum: 255
         }

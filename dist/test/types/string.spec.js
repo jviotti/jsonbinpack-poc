@@ -54,7 +54,7 @@ tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', functio
     test.end();
 });
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
-    var arbitrary = fc.nat(limits_1.UINT8_MAX).chain(function (maximum) {
+    var arbitrary = fc.nat(limits_1.UINT8_MAX - 1).chain(function (maximum) {
         return fc.tuple(fc.nat(10), fc.nat(maximum), fc.constant(maximum), fc.string({ maxLength: maximum }));
     });
     fc.assert(fc.property(arbitrary, function (_a) {
@@ -86,7 +86,7 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test)
     test.end();
 });
 tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
-    var arbitrary = fc.nat(limits_1.UINT8_MAX).chain(function (maximum) {
+    var arbitrary = fc.nat(limits_1.UINT8_MAX - 1).chain(function (maximum) {
         return fc.tuple(fc.nat(10), fc.constant(maximum), fc.string({ maxLength: maximum }));
     });
     fc.assert(fc.property(arbitrary, function (_a) {

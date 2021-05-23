@@ -53,7 +53,7 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
 })
 
 tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
-  const arbitrary = fc.nat(UINT8_MAX).chain((maximum: number) => {
+  const arbitrary = fc.nat(UINT8_MAX - 1).chain((maximum: number) => {
     return fc.tuple(
       fc.nat(10),
       fc.nat(maximum),
@@ -103,7 +103,7 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
 })
 
 tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
-  const arbitrary = fc.nat(UINT8_MAX).chain((maximum: number) => {
+  const arbitrary = fc.nat(UINT8_MAX - 1).chain((maximum: number) => {
     return fc.tuple(
       fc.nat(10),
       fc.constant(maximum),

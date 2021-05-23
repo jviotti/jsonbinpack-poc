@@ -13,7 +13,7 @@ var getStringEncoding = function (schema) {
     if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
         return {
             type: base_1.EncodingType.String,
-            encoding: (schema.maxLength - schema.minLength <= limits_1.UINT8_MAX)
+            encoding: (schema.maxLength - schema.minLength <= limits_1.UINT8_MAX - 1)
                 ? 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' : 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
             options: {
                 minimum: schema.minLength,
@@ -33,7 +33,7 @@ var getStringEncoding = function (schema) {
     else if (typeof schema.minLength === 'undefined' && typeof schema.maxLength !== 'undefined') {
         return {
             type: base_1.EncodingType.String,
-            encoding: schema.maxLength <= limits_1.UINT8_MAX
+            encoding: schema.maxLength <= limits_1.UINT8_MAX - 1
                 ? 'ROOF__PREFIX_LENGTH_8BIT_FIXED' : 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
             options: {
                 maximum: schema.maxLength

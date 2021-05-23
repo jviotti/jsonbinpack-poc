@@ -46,18 +46,18 @@ tap.test('ANY__TYPE_PREFIX: should encode true as 0x04', (test) => {
   test.end()
 })
 
-tap.test('ANY__TYPE_PREFIX: should encode "foo" as 0x00 0x03 + string', (test) => {
+tap.test('ANY__TYPE_PREFIX: should encode "foo" as 0x00 0x04 + string', (test) => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, 'foo', {})
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x03, 0x66, 0x6f, 0x6f ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x04, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 5)
   test.end()
 })
 
-tap.test('ANY__TYPE_PREFIX: should encode " " as 0x00 0x01 0x20', (test) => {
+tap.test('ANY__TYPE_PREFIX: should encode " " as 0x00 0x02 0x20', (test) => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, ' ', {})
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x01, 0x20 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x02, 0x20 ]))
   test.is(bytesWritten, 3)
   test.end()
 })
@@ -129,9 +129,9 @@ tap.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', (test) => {
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // tag
     0x02, // length
-    0x03, 0x66, 0x6f, 0x6f, // key length + 'foo'
-    0x00, 0x03, 0x62, 0x61, 0x72, // string tag + length + 'bar'
-    0x03, 0x62, 0x61, 0x7a, // key length + 'baz'
+    0x04, 0x66, 0x6f, 0x6f, // key length + 'foo'
+    0x00, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
+    0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
     0x09, 0x01 // positive integer type tag + 1
   ]))
 
@@ -150,7 +150,7 @@ tap.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x02, // tag
     0x03, // array length
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))

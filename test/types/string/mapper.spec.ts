@@ -103,7 +103,7 @@ tap.test('should encode a string with maxLength = 255', (test) => {
   const result: StringEncoding = getStringEncoding(schema)
   test.strictSame(result, {
     type: 'string',
-    encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+    encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
     options: {
       maximum: 255
     }

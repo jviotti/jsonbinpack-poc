@@ -54,7 +54,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
@@ -75,7 +75,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
@@ -95,7 +95,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
   })
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
@@ -115,7 +115,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
   })
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
@@ -136,7 +136,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x01, // array length
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
@@ -156,7 +156,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', 
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
@@ -176,7 +176,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x03, // array length
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
@@ -196,7 +196,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x00, // array length
-    0x00, 0x03, 0x66, 0x6f, 0x6f, // "foo"
+    0x00, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x04, // true
     0x07, 0xd0, 0x0f // 2000
   ]))
