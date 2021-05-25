@@ -69,9 +69,9 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x02, // length
     0x04, 0x66, 0x6f, 0x6f, // key length + 'foo'
-    0x00, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
+    0x01, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
     0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
-    0x09, 0x01 // positive integer type tag + 1
+    0x0a, 0x01 // positive integer type tag + 1
   ]))
 
   test.is(bytesWritten, 16)
@@ -99,9 +99,9 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x02, // length
     0x01, 0x66, 0x6f, 0x6f, // key length + 'foo'
-    0x00, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
+    0x01, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
     0x01, 0x62, 0x61, 0x7a, // key length + 'baz'
-    0x09, 0x01 // positive integer type tag + 1
+    0x0a, 0x01 // positive integer type tag + 1
   ]))
 
   test.is(bytesWritten, 16)
@@ -280,7 +280,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
     0x04, 0x62, 0x61, 0x72, // "bar",
     0x01, // length
     0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
-    0x09, 0x01 // positive integer type tag + 1
+    0x0a, 0x01 // positive integer type tag + 1
   ]))
 
   test.is(bytesWritten, 11)
@@ -346,7 +346,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
     0x04, 0x62, 0x61, 0x72, // "bar",
     0x01, // length
     0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
-    0x09, 0x01 // positive integer type tag + 1
+    0x0a, 0x01 // positive integer type tag + 1
   ]))
 
   test.is(bytesWritten, 13)
@@ -388,7 +388,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
     0x01, // 1
     0x01, // free form count
     0x04, 0x71, 0x75, 0x78, // "qux"
-    0x06 // null type tag
+    0x07 // null type tag
   ]))
 
   test.is(bytesWritten, 13)

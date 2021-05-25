@@ -4,6 +4,7 @@ exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARI
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
 var limits_1 = require("../../utils/limits");
+var types_1 = require("../any/types");
 var STRING_ENCODING = 'utf8';
 var readSharedString = function (buffer, offset, prefix, length, delta) {
     var pointerOffset = offset + prefix.bytes + length.bytes;
@@ -24,7 +25,7 @@ var BOUNDED__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
         minimum: options.minimum,
         maximum: options.maximum + 1
     });
-    if (prefix.value === 0) {
+    if (prefix.value === types_1.Type.SharedString) {
         var length_1 = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + prefix.bytes, {
             minimum: options.minimum,
             maximum: options.maximum + 1
@@ -44,7 +45,7 @@ var BOUNDED__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
         minimum: options.minimum,
         maximum: options.maximum + 1
     });
-    if (prefix.value === 0) {
+    if (prefix.value === types_1.Type.SharedString) {
         var length_2 = decode_1.BOUNDED__ENUM_VARINT(buffer, offset + prefix.bytes, {
             minimum: options.minimum,
             maximum: options.maximum + 1

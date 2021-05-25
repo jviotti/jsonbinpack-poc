@@ -44,6 +44,10 @@ import {
 } from '../../utils/limits'
 
 import {
+  Type
+} from '../any/types'
+
+import {
   DecodeResult
 } from '../base'
 
@@ -81,7 +85,7 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
     maximum: options.maximum + 1
   })
 
-  if (prefix.value === 0) {
+  if (prefix.value === Type.SharedString) {
     const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(
       buffer, offset + prefix.bytes, {
         minimum: options.minimum,
@@ -108,7 +112,7 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
     maximum: options.maximum + 1
   })
 
-  if (prefix.value === 0) {
+  if (prefix.value === Type.SharedString) {
     const length: IntegerResult = BOUNDED__ENUM_VARINT(
       buffer, offset + prefix.bytes, {
         minimum: options.minimum,

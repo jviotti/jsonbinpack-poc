@@ -12,7 +12,7 @@ var encode_5 = require("../array/encode");
 var encodeTypeTag = function (buffer, offset, tag, context) {
     return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
         minimum: limits_1.UINT8_MIN,
-        maximum: 10
+        maximum: 11
     }, context);
 };
 var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {

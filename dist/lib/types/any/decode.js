@@ -12,7 +12,7 @@ var types_1 = require("./types");
 var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
     var tag = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
         minimum: limits_1.UINT8_MIN,
-        maximum: 10
+        maximum: 11
     });
     if (tag.value === types_1.Type.Array) {
         var result = decode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {

@@ -4,12 +4,13 @@ exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARI
 var assert_1 = require("assert");
 var encode_1 = require("../integer/encode");
 var limits_1 = require("../../utils/limits");
+var types_1 = require("../any/types");
 var STRING_ENCODING = 'utf8';
 var maybeWriteSharedPrefix = function (buffer, offset, value, context) {
     return context.strings.has(value)
-        ? encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, {
-            minimum: 0,
-            maximum: 0
+        ? encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, types_1.Type.SharedString, {
+            minimum: types_1.Type.SharedString,
+            maximum: types_1.Type.SharedString
         }, context)
         : 0;
 };

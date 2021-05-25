@@ -66,7 +66,7 @@ const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number, con
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
     // TODO: Find a way to keep this automatically in sync with "Type"
-    maximum: 10
+    maximum: 11
   }, context)
 }
 

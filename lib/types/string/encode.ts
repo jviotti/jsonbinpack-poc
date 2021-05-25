@@ -38,6 +38,10 @@ import {
 } from '../../utils/limits'
 
 import {
+  Type
+} from '../any/types'
+
+import {
   NoOptions,
   BoundedOptions,
   RoofOptions,
@@ -55,10 +59,9 @@ const maybeWriteSharedPrefix = (
   value: JSONString, context: EncodingContext
 ): number => {
   return context.strings.has(value)
-    // Write a zero-marker
-    ?  BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, {
-      minimum: 0,
-      maximum: 0
+    ?  BOUNDED_8BITS__ENUM_FIXED(buffer, offset, Type.SharedString, {
+      minimum: Type.SharedString,
+      maximum: Type.SharedString
     }, context)
     : 0
 }

@@ -75,7 +75,7 @@ export const ANY__TYPE_PREFIX = (
   const tag: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
     minimum: UINT8_MIN,
     // TODO: Find a way to keep this automatically in sync with "Type"
-    maximum: 10
+    maximum: 11
   })
 
   if (tag.value === Type.Array) {
