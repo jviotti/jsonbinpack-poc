@@ -36,6 +36,9 @@ import {
 // Maybe we can choose between this an IEEE764 depending on the
 // amount of digits?
 
+// TODO: Replace this with just a pair of 2 var ints (one zigzag and one not zigzag) that represent
+// the numbers before and after the period. This will likely be much better for cases like geojson
+
 export const DOUBLE__IEEE764_LE = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
 ): number => {
