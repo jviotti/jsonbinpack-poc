@@ -67,6 +67,29 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', func
     test.strictSame(result.value, ['foo', true, 2000]);
     test.end();
 });
+tap_1.default.test('ANY__TYPE_PREFIX: should handle shared strings', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(100));
+    var bytesWritten1 = encode_1.ANY__TYPE_PREFIX(buffer, 0, 'foo', {}, context);
+    var bytesWritten2 = encode_1.ANY__TYPE_PREFIX(buffer, bytesWritten1, 'foo', {}, context);
+    test.is(bytesWritten1, 5);
+    test.is(bytesWritten2, 4);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x01,
+        0x04, 0x66, 0x6f, 0x6f,
+        0x01,
+        0x00,
+        0x04,
+        0x06
+    ]));
+    var decode1 = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
+    test.is(decode1.bytes, bytesWritten1);
+    test.is(decode1.value, 'foo');
+    var decode2 = decode_1.ANY__TYPE_PREFIX(buffer, bytesWritten1, {});
+    test.is(decode2.bytes, bytesWritten2);
+    test.is(decode2.value, 'foo');
+    test.end();
+});
 tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
     fc.assert(fc.property(fc.nat(10), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 1000 })), function (offset, value) {
         var context = context_1.getDefaultEncodingContext();

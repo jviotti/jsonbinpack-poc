@@ -83,6 +83,36 @@ tap.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', (test) => {
   test.end()
 })
 
+tap.test('ANY__TYPE_PREFIX: should handle shared strings', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(100))
+
+  const bytesWritten1: number = ENCODE_ANY__TYPE_PREFIX(buffer, 0, 'foo', {}, context)
+  const bytesWritten2: number = ENCODE_ANY__TYPE_PREFIX(buffer, bytesWritten1, 'foo', {}, context)
+
+  test.is(bytesWritten1, 5)
+  test.is(bytesWritten2, 4)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x01, // string type tag
+    0x04, 0x66, 0x6f, 0x6f, // string length + foo
+    0x01, // string type tag
+    0x00, // Start of pointer
+    0x04, // string length
+    0x06 // Pointer (current = 8 - location = 2)
+  ]))
+
+  const decode1: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
+  test.is(decode1.bytes, bytesWritten1)
+  test.is(decode1.value, 'foo')
+
+  const decode2: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, bytesWritten1, {})
+  test.is(decode2.bytes, bytesWritten2)
+  test.is(decode2.value, 'foo')
+
+  test.end()
+})
+
 tap.test('ANY__TYPE_PREFIX: scalars', (test) => {
   fc.assert(fc.property(fc.nat(10), fc.oneof(
     fc.constant(null),
