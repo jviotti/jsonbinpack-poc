@@ -1,14 +1,13 @@
 include vendor/vendorpull/targets.mk
 
--include node_modules/@sourcemeta/typescript-config/targets.mk
-TYPESCRIPT_CONFIG_DIRECTORIES = lib test
-
 .PHONY: web build lint test
 .DEFAULT_GOAL = build
 
-build: tsc
+build:
+	./node_modules/.bin/tsc
 
 lint: eslint
+	./node_modules/.bin/eslint lib test
 
 test:
 	./node_modules/.bin/tap \
