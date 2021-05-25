@@ -26,7 +26,9 @@ import {
 } from '../../../lib/types/string/encode'
 
 import {
-  BoundedOptions
+  BoundedOptions,
+  RoofOptions,
+  FloorOptions
 } from '../../../lib/types/string/options'
 
 import {
@@ -35,37 +37,6 @@ import {
 } from '../../../lib/context'
 
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
-
-// TODO: Test this logic in the other strings
-tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
-  test
-) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
-  const options: BoundedOptions = {
-    minimum: 0,
-    maximum: 4
-  }
-
-  const bytesWritten1: number = BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
-    buffer, 0, 'foo', options, context)
-
-  const bytesWritten2: number = BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
-    buffer, bytesWritten1, 'foo', options, context)
-
-  test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x04, 0x66, 0x6f, 0x6f, // string length + foo
-    0x00, // Start of pointer
-    0x04, // string length
-    0x05 // Pointer (current = 6 - location = 1)
-  ]))
-
-  test.is(context.strings.get('foo'), 1)
-  test.is(bytesWritten1, 4)
-  test.is(bytesWritten2, 3)
-
-  test.end()
-})
 
 tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (
   test
@@ -165,5 +136,149 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode " "', (test) => {
     ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x02, 0x20 ]))
   test.is(bytesWritten, 2)
+  test.end()
+})
+
+tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const options: BoundedOptions = {
+    minimum: 0,
+    maximum: 4
+  }
+
+  const bytesWritten1: number = BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, 0, 'foo', options, context)
+
+  const bytesWritten2: number = BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, bytesWritten1, 'foo', options, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x04, 0x66, 0x6f, 0x6f, // string length + foo
+    0x00, // Start of pointer
+    0x04, // string length
+    0x05 // Pointer (current = 6 - location = 1)
+  ]))
+
+  test.is(context.strings.get('foo'), 1)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 3)
+
+  test.end()
+})
+
+tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const options: BoundedOptions = {
+    minimum: 0,
+    maximum: 4
+  }
+
+  const bytesWritten1: number = BOUNDED__PREFIX_LENGTH_ENUM_VARINT(
+    buffer, 0, 'foo', options, context)
+
+  const bytesWritten2: number = BOUNDED__PREFIX_LENGTH_ENUM_VARINT(
+    buffer, bytesWritten1, 'foo', options, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x04, 0x66, 0x6f, 0x6f, // string length + foo
+    0x00, // Start of pointer
+    0x04, // string length
+    0x05 // Pointer (current = 6 - location = 1)
+  ]))
+
+  test.is(context.strings.get('foo'), 1)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 3)
+
+  test.end()
+})
+
+tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const options: RoofOptions = {
+    maximum: 4
+  }
+
+  const bytesWritten1: number = ROOF__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, 0, 'foo', options, context)
+
+  const bytesWritten2: number = ROOF__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, bytesWritten1, 'foo', options, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x04, 0x66, 0x6f, 0x6f, // string length + foo
+    0x00, // Start of pointer
+    0x04, // string length
+    0x05 // Pointer (current = 6 - location = 1)
+  ]))
+
+  test.is(context.strings.get('foo'), 1)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 3)
+
+  test.end()
+})
+
+tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const options: FloorOptions = {
+    minimum: 3
+  }
+
+  const bytesWritten1: number = FLOOR__PREFIX_LENGTH_ENUM_VARINT(
+    buffer, 0, 'foo', options, context)
+
+  const bytesWritten2: number = FLOOR__PREFIX_LENGTH_ENUM_VARINT(
+    buffer, bytesWritten1, 'foo', options, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x01, 0x66, 0x6f, 0x6f, // string length + foo
+    0x00, // Start of pointer
+    0x01, // string length
+    0x05 // Pointer (current = 6 - location = 1)
+  ]))
+
+  test.is(context.strings.get('foo'), 1)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 3)
+
+  test.end()
+})
+
+tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+
+  const bytesWritten1: number = ARBITRARY__PREFIX_LENGTH_VARINT(
+    buffer, 0, 'foo', {}, context)
+
+  const bytesWritten2: number = ARBITRARY__PREFIX_LENGTH_VARINT(
+    buffer, bytesWritten1, 'foo', {}, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x04, 0x66, 0x6f, 0x6f, // string length + foo
+    0x00, // Start of pointer
+    0x04, // string length
+    0x05 // Pointer (current = 6 - location = 1)
+  ]))
+
+  test.is(context.strings.get('foo'), 1)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 3)
+
   test.end()
 })

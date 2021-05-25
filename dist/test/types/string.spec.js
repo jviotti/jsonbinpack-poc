@@ -115,8 +115,6 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum: maximum }, context);
         var result = decode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { maximum: maximum });
-        console.log(bytesWritten > 0, result.bytes === bytesWritten, result.value === value);
-        console.log(result.bytes, bytesWritten);
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
