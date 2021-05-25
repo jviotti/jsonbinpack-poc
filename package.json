@@ -7,7 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc",
+    "postinstall": "npm run tsc",
+    "lint": "eslint lib test",
+    "test": "tap --reporter=list --no-coverage --jobs=1 --no-timeout dist/test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
