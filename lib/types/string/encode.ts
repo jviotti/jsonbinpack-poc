@@ -48,10 +48,6 @@ import {
   EncodingContext
 } from '../../context'
 
-// TODO: Consider de-duplicating strings by supporting
-// new encodings that take an offset pointer instead
-// of a string value?
-
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
 const maybeWriteSharedPrefix = (
@@ -113,13 +109,16 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length >= options.minimum)
   assert(length <= options.maximum)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset, length + 1, {
+
+  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
+  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
     minimum: options.minimum,
     maximum: options.maximum + 1
   }, context)
-  const result: number =  buffer.write(value, offset + bytesWritten, length, STRING_ENCODING)
-  context.strings.set(value, offset + bytesWritten)
-  return result + bytesWritten
+
+  const result: number = writeMaybeSharedString(
+    buffer, offset + prefixBytes + bytesWritten, value, length, context)
+  return result + prefixBytes + bytesWritten
 }
 
 export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
@@ -133,6 +132,7 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
   }, context)
 }
 
+// TODO: Add support for string de-duplication
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions, context: EncodingContext
 ): number => {
@@ -141,7 +141,6 @@ export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   assert(length <= options.maximum)
   const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset, length - 1, options, context)
   const result: number =  buffer.write(value, offset + bytesWritten, length, STRING_ENCODING)
-  context.strings.set(value, offset + bytesWritten)
   return result + bytesWritten
 }
 
@@ -151,10 +150,11 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   assert(options.minimum >= 0)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length >= options.minimum)
-  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length + 1, options, context)
-  const result: number = buffer.write(value, offset + bytesWritten, length, STRING_ENCODING)
-  context.strings.set(value, offset + bytesWritten)
-  return result + bytesWritten
+  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
+  const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset + prefixBytes, length + 1, options, context)
+  const result: number = writeMaybeSharedString(
+    buffer, offset + prefixBytes + bytesWritten, value, length, context)
+  return result + prefixBytes + bytesWritten
 }
 
 export const ARBITRARY__PREFIX_LENGTH_VARINT = (

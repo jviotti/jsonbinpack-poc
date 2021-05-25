@@ -154,6 +154,7 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
       ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum }, context)
     const result: StringResult =
       DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { maximum })
+
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false

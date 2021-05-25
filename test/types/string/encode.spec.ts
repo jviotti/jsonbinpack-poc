@@ -36,7 +36,7 @@ import {
 
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
-// TODO: Add this logic to the other strings
+// TODO: Test this logic in the other strings
 tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
   test
 ) => {

@@ -47,13 +47,13 @@ var BOUNDED__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, option
     var length = Buffer.byteLength(value, STRING_ENCODING);
     assert_1.strict(length >= options.minimum);
     assert_1.strict(length <= options.maximum);
-    var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, offset, length + 1, {
+    var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
+    var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
         minimum: options.minimum,
         maximum: options.maximum + 1
     }, context);
-    var result = buffer.write(value, offset + bytesWritten, length, STRING_ENCODING);
-    context.strings.set(value, offset + bytesWritten);
-    return result + bytesWritten;
+    var result = writeMaybeSharedString(buffer, offset + prefixBytes + bytesWritten, value, length, context);
+    return result + prefixBytes + bytesWritten;
 };
 exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = BOUNDED__PREFIX_LENGTH_ENUM_VARINT;
 var ROOF__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, value, options, context) {
@@ -71,7 +71,6 @@ var ROOF__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, 
     assert_1.strict(length <= options.maximum);
     var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, length - 1, options, context);
     var result = buffer.write(value, offset + bytesWritten, length, STRING_ENCODING);
-    context.strings.set(value, offset + bytesWritten);
     return result + bytesWritten;
 };
 exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = ROOF__PREFIX_LENGTH_ENUM_VARINT;
@@ -79,10 +78,10 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options,
     assert_1.strict(options.minimum >= 0);
     var length = Buffer.byteLength(value, STRING_ENCODING);
     assert_1.strict(length >= options.minimum);
-    var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, offset, length + 1, options, context);
-    var result = buffer.write(value, offset + bytesWritten, length, STRING_ENCODING);
-    context.strings.set(value, offset + bytesWritten);
-    return result + bytesWritten;
+    var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
+    var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, offset + prefixBytes, length + 1, options, context);
+    var result = writeMaybeSharedString(buffer, offset + prefixBytes + bytesWritten, value, length, context);
+    return result + prefixBytes + bytesWritten;
 };
 exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = FLOOR__PREFIX_LENGTH_ENUM_VARINT;
 var ARBITRARY__PREFIX_LENGTH_VARINT = function (buffer, offset, value, _options, context) {
