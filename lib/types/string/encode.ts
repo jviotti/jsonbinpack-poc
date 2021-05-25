@@ -54,6 +54,36 @@ import {
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
+const maybeWriteSharedPrefix = (
+  buffer: ResizableBuffer, offset: number,
+  value: JSONString, context: EncodingContext
+): number => {
+  return context.strings.has(value)
+    // Write a zero-marker
+    ?  BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, {
+      minimum: 0,
+      maximum: 0
+    }, context)
+    : 0
+}
+
+const writeMaybeSharedString = (
+  buffer: ResizableBuffer, offset: number,
+  value: JSONString, length: number, context: EncodingContext
+): number => {
+  const stringOffset: number | undefined = context.strings.get(value)
+  if (typeof stringOffset === 'undefined') {
+    const bytesWritten: number = buffer.write(
+      value, offset, length, STRING_ENCODING)
+    context.strings.set(value, offset)
+    return bytesWritten
+  }
+
+  return FLOOR__ENUM_VARINT(buffer, offset, offset - stringOffset, {
+    minimum: 0
+  }, context)
+}
+
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions, context: EncodingContext
 ): number => {
@@ -63,12 +93,15 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   assert(options.maximum - options.minimum <= UINT8_MAX - 1)
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length <= options.maximum)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, length + 1, {
+
+  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
+  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset + prefixBytes, length + 1, {
     minimum: options.minimum,
     maximum: options.maximum + 1
   }, context)
-  return buffer.write(value, offset + bytesWritten,
-    length, STRING_ENCODING) + bytesWritten
+  const result: number = writeMaybeSharedString(
+    buffer, offset + prefixBytes + bytesWritten, value, length, context)
+  return result + prefixBytes + bytesWritten
 }
 
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
@@ -84,8 +117,9 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
     minimum: options.minimum,
     maximum: options.maximum + 1
   }, context)
-  return buffer.write(value, offset + bytesWritten,
-    length, STRING_ENCODING) + bytesWritten
+  const result: number =  buffer.write(value, offset + bytesWritten, length, STRING_ENCODING)
+  context.strings.set(value, offset + bytesWritten)
+  return result + bytesWritten
 }
 
 export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
@@ -106,8 +140,9 @@ export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   assert(options.maximum >= 0)
   assert(length <= options.maximum)
   const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset, length - 1, options, context)
-  return buffer.write(value, offset + bytesWritten,
-    length, STRING_ENCODING) + bytesWritten
+  const result: number =  buffer.write(value, offset + bytesWritten, length, STRING_ENCODING)
+  context.strings.set(value, offset + bytesWritten)
+  return result + bytesWritten
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
@@ -117,8 +152,9 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length >= options.minimum)
   const bytesWritten: number = FLOOR__ENUM_VARINT(buffer, offset, length + 1, options, context)
-  return buffer.write(value, offset + bytesWritten,
-    length, STRING_ENCODING) + bytesWritten
+  const result: number = buffer.write(value, offset + bytesWritten, length, STRING_ENCODING)
+  context.strings.set(value, offset + bytesWritten)
+  return result + bytesWritten
 }
 
 export const ARBITRARY__PREFIX_LENGTH_VARINT = (

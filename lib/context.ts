@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-export interface EncodingContext {}
+export interface EncodingContext {
+  // TODO: We should have a better data structure here
+  // that supports searching for any substring of a string
+  // in a bucket
+  readonly strings: Map<string, number>;
+}
 
 export const getDefaultEncodingContext = (): EncodingContext => {
-  return {}
+  return {
+    strings: new Map()
+  }
 }

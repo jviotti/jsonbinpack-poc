@@ -37,6 +37,10 @@ import {
 } from '../../lib/types/string/decode'
 
 import {
+  BoundedOptions
+} from '../../lib/types/string/options'
+
+import {
   UINT8_MAX
 } from '../../lib/utils/limits'
 
@@ -196,6 +200,40 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
   }), {
     verbose: false
   })
+
+  test.end()
+})
+
+tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
+  const options: BoundedOptions = {
+    minimum: 0,
+    maximum: 4
+  }
+
+  const bytesWritten1: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, 0, 'foo', options, context)
+
+  const bytesWritten2: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, bytesWritten1, 'foo', options, context)
+
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 3)
+
+  const decode1: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, 0, options)
+
+  test.is(decode1.bytes, bytesWritten1)
+  test.is(decode1.value, 'foo')
+
+  const decode2: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, decode1.bytes, options)
+
+  test.is(decode2.bytes, bytesWritten2)
+  test.is(decode2.value, 'foo')
 
   test.end()
 })

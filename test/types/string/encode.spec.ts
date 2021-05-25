@@ -17,6 +17,7 @@
 import tap from 'tap'
 
 import {
+  BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
   ROOF__PREFIX_LENGTH_8BIT_FIXED,
   ROOF__PREFIX_LENGTH_ENUM_VARINT,
@@ -25,11 +26,46 @@ import {
 } from '../../../lib/types/string/encode'
 
 import {
+  BoundedOptions
+} from '../../../lib/types/string/options'
+
+import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/context'
 
 import ResizableBuffer from '../../../lib/utils/resizable-buffer'
+
+// TODO: Add this logic to the other strings
+tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const options: BoundedOptions = {
+    minimum: 0,
+    maximum: 4
+  }
+
+  const bytesWritten1: number = BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, 0, 'foo', options, context)
+
+  const bytesWritten2: number = BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
+    buffer, bytesWritten1, 'foo', options, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x04, 0x66, 0x6f, 0x6f, // string length + foo
+    0x00, // Start of pointer
+    0x04, // string length
+    0x05 // Pointer (current = 6 - location = 1)
+  ]))
+
+  test.is(context.strings.get('foo'), 1)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 3)
+
+  test.end()
+})
 
 tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (
   test
