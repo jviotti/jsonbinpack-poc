@@ -69,6 +69,10 @@ exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = ROOF__PREFIX_LENGTH_8BIT_FIXED;
 var ROOF__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
     var prefix = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, options);
+    if (prefix.value === options.maximum) {
+        var length_3 = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset + prefix.bytes, options);
+        return readSharedString(buffer, offset, prefix, length_3, 1);
+    }
     return {
         value: buffer.toString(STRING_ENCODING, offset + prefix.bytes, offset + prefix.bytes + prefix.value + 1),
         bytes: prefix.bytes + prefix.value + 1
@@ -79,8 +83,8 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     var prefix = decode_1.FLOOR__ENUM_VARINT(buffer, offset, options);
     if (prefix.value === 0) {
-        var length_3 = decode_1.FLOOR__ENUM_VARINT(buffer, offset + prefix.bytes, options);
-        return readSharedString(buffer, offset, prefix, length_3, -1);
+        var length_4 = decode_1.FLOOR__ENUM_VARINT(buffer, offset + prefix.bytes, options);
+        return readSharedString(buffer, offset, prefix, length_4, -1);
     }
     return {
         value: buffer.toString(STRING_ENCODING, offset + prefix.bytes, offset + prefix.bytes + prefix.value - 1),

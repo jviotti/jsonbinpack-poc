@@ -141,6 +141,25 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode a shared strin
     test.is(bytesWritten2, 3);
     test.end();
 });
+tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var options = {
+        maximum: 4
+    };
+    var bytesWritten1 = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', options, context);
+    var bytesWritten2 = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, bytesWritten1, 'foo', options, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x02, 0x66, 0x6f, 0x6f,
+        0x00,
+        0x02,
+        0x05
+    ]));
+    test.is(context.strings.get('foo'), 1);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 3);
+    test.end();
+});
 tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', function (test) {
     var context = context_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));

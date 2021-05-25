@@ -69,9 +69,10 @@ var ROOF__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, 
     var length = Buffer.byteLength(value, STRING_ENCODING);
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(length <= options.maximum);
-    var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, length - 1, options, context);
-    var result = buffer.write(value, offset + bytesWritten, length, STRING_ENCODING);
-    return result + bytesWritten;
+    var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
+    var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset + prefixBytes, length - 1, options, context);
+    var result = writeMaybeSharedString(buffer, offset + prefixBytes + bytesWritten, value, length, context);
+    return result + prefixBytes + bytesWritten;
 };
 exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = ROOF__PREFIX_LENGTH_ENUM_VARINT;
 var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, context) {

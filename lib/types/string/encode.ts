@@ -132,16 +132,17 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
   }, context)
 }
 
-// TODO: Add support for string de-duplication
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions, context: EncodingContext
 ): number => {
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(options.maximum >= 0)
   assert(length <= options.maximum)
-  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset, length - 1, options, context)
-  const result: number =  buffer.write(value, offset + bytesWritten, length, STRING_ENCODING)
-  return result + bytesWritten
+  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
+  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset + prefixBytes, length - 1, options, context)
+  const result: number = writeMaybeSharedString(
+    buffer, offset + prefixBytes + bytesWritten, value, length, context)
+  return result + prefixBytes + bytesWritten
 }
 
 export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (

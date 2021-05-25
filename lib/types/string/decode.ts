@@ -136,12 +136,18 @@ export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
   })
 }
 
-// TODO: Add support for string de-duplication
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): StringResult => {
   assert(options.maximum >= 0)
   const prefix: IntegerResult = ROOF__MIRROR_ENUM_VARINT(buffer, offset, options)
+
+  if (prefix.value === options.maximum) {
+    const length: IntegerResult = ROOF__MIRROR_ENUM_VARINT(
+      buffer, offset + prefix.bytes, options)
+    return readSharedString(buffer, offset, prefix, length, 1)
+  }
+
   return {
     value: buffer.toString(
       STRING_ENCODING, offset + prefix.bytes, offset + prefix.bytes + prefix.value + 1),
