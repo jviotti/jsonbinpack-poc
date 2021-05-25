@@ -112,7 +112,11 @@ export const ANY__TYPE_PREFIX = (
 
   // Encode a string value
   } else if (typeof value === 'string') {
-    const tagBytes: number = encodeTypeTag(buffer, offset, Type.String, context)
+    // Exploit the fact that a shared string always starts with an impossible length
+    // marker (0) to avoid having to encode an additional tag
+    const tagBytes: number = context.strings.has(value)
+      ? 0
+      : encodeTypeTag(buffer, offset, Type.String, context)
     const valueBytes: number =
       ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tagBytes, value, {}, context)
     return tagBytes + valueBytes

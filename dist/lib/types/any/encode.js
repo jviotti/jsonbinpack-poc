@@ -46,7 +46,9 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         return encodeTypeTag(buffer, offset, value ? types_1.Type.True : types_1.Type.False, context);
     }
     else if (typeof value === 'string') {
-        var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.String, context);
+        var tagBytes = context.strings.has(value)
+            ? 0
+            : encodeTypeTag(buffer, offset, types_1.Type.String, context);
         var valueBytes = encode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tagBytes, value, {}, context);
         return tagBytes + valueBytes;
     }

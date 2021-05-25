@@ -59,6 +59,13 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: tag.bytes
         };
     }
+    else if (tag.value === types_1.Type.SharedString) {
+        var result = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
+        return {
+            value: result.value,
+            bytes: result.bytes
+        };
+    }
     else if (tag.value === types_1.Type.String) {
         var result = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tag.bytes, {});
         return {

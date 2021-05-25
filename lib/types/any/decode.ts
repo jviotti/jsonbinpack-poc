@@ -122,6 +122,13 @@ export const ANY__TYPE_PREFIX = (
       value: false,
       bytes: tag.bytes
     }
+  } else if (tag.value === Type.SharedString) {
+    const result: StringResult =
+      ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
+    return {
+      value: result.value,
+      bytes: result.bytes
+    }
   } else if (tag.value === Type.String) {
     const result: StringResult =
       ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tag.bytes, {})

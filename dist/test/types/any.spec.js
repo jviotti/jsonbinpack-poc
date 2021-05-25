@@ -73,14 +73,13 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle shared strings', function (t
     var bytesWritten1 = encode_1.ANY__TYPE_PREFIX(buffer, 0, 'foo', {}, context);
     var bytesWritten2 = encode_1.ANY__TYPE_PREFIX(buffer, bytesWritten1, 'foo', {}, context);
     test.is(bytesWritten1, 5);
-    test.is(bytesWritten2, 4);
+    test.is(bytesWritten2, 3);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
         0x04, 0x66, 0x6f, 0x6f,
-        0x01,
         0x00,
         0x04,
-        0x06
+        0x05
     ]));
     var decode1 = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
     test.is(decode1.bytes, bytesWritten1);
