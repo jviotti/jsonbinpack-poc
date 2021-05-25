@@ -168,3 +168,91 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: shared string', function 
     test.is(decode2.value, 'foo');
     test.end();
 });
+tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: shared string', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
+    var options = {
+        minimum: 0,
+        maximum: 4
+    };
+    var bytesWritten1 = encode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', options, context);
+    var bytesWritten2 = encode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, bytesWritten1, 'foo', options, context);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 3);
+    var decode1 = decode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, options);
+    test.is(decode1.bytes, bytesWritten1);
+    test.is(decode1.value, 'foo');
+    var decode2 = decode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, decode1.bytes, options);
+    test.is(decode2.bytes, bytesWritten2);
+    test.is(decode2.value, 'foo');
+    test.end();
+});
+tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: shared string', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
+    var options = {
+        maximum: 4
+    };
+    var bytesWritten1 = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', options, context);
+    var bytesWritten2 = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, bytesWritten1, 'foo', options, context);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 3);
+    var decode1 = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, options);
+    test.is(decode1.bytes, bytesWritten1);
+    test.is(decode1.value, 'foo');
+    var decode2 = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, decode1.bytes, options);
+    test.is(decode2.bytes, bytesWritten2);
+    test.is(decode2.value, 'foo');
+    test.end();
+});
+tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: shared string', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
+    var options = {
+        maximum: 4
+    };
+    var bytesWritten1 = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', options, context);
+    var bytesWritten2 = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, bytesWritten1, 'foo', options, context);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 3);
+    var decode1 = decode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, options);
+    test.is(decode1.bytes, bytesWritten1);
+    test.is(decode1.value, 'foo');
+    var decode2 = decode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, decode1.bytes, options);
+    test.is(decode2.bytes, bytesWritten2);
+    test.is(decode2.value, 'foo');
+    test.end();
+});
+tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: shared string', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
+    var options = {
+        minimum: 2
+    };
+    var bytesWritten1 = encode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', options, context);
+    var bytesWritten2 = encode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, bytesWritten1, 'foo', options, context);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 3);
+    var decode1 = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, options);
+    test.is(decode1.bytes, bytesWritten1);
+    test.is(decode1.value, 'foo');
+    var decode2 = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, decode1.bytes, options);
+    test.is(decode2.bytes, bytesWritten2);
+    test.is(decode2.value, 'foo');
+    test.end();
+});
+tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: shared string', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
+    var bytesWritten1 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, 'foo', {}, context);
+    var bytesWritten2 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, bytesWritten1, 'foo', {}, context);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 3);
+    var decode1 = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {});
+    test.is(decode1.bytes, bytesWritten1);
+    test.is(decode1.value, 'foo');
+    var decode2 = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, decode1.bytes, {});
+    test.is(decode2.bytes, bytesWritten2);
+    test.is(decode2.value, 'foo');
+    test.end();
+});

@@ -161,7 +161,7 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   assert(options.minimum >= 0)
   const prefix: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, options)
 
-  if (prefix.value === 0) {
+  if (prefix.value === options.minimum) {
     const length: IntegerResult = FLOOR__ENUM_VARINT(
       buffer, offset + prefix.bytes, options)
     return readSharedString(buffer, offset, prefix, length, -1)

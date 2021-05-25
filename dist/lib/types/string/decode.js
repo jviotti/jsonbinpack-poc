@@ -82,7 +82,7 @@ exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = ROOF__PREFIX_LENGTH_ENUM_VARINT;
 var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     var prefix = decode_1.FLOOR__ENUM_VARINT(buffer, offset, options);
-    if (prefix.value === 0) {
+    if (prefix.value === options.minimum) {
         var length_4 = decode_1.FLOOR__ENUM_VARINT(buffer, offset + prefix.bytes, options);
         return readSharedString(buffer, offset, prefix, length_4, -1);
     }
