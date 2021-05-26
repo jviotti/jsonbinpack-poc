@@ -1,21 +1,12 @@
-include vendor/vendorpull/targets.mk
+.PHONY: deps serve tsc all
 
-.PHONY: web build lint test
-.DEFAULT_GOAL = build
+assets/js/%.min.js: dist/web/%.js
+	./node_modules/.bin/browserify $< | ./node_modules/.bin/uglifyjs --compress --mangle > $@
 
-build:
-	./node_modules/.bin/tsc
+_sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
+	cp $< $@
 
-lint: eslint
-	./node_modules/.bin/eslint lib test
+_sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
+	cp $< $@
 
-test:
-	./node_modules/.bin/tap \
-		--reporter=list \
-		--no-coverage \
-		--jobs=1 \
-		--no-timeout \
-		'dist/test/**/*.spec.js'
-
-web:
-	make -C docs all serve
+all: assets/js/stats.min.js _sass/tailwindcss.scss _sass/codemirror.scss
