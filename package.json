@@ -10,7 +10,7 @@
     "tsc": "tsc",
     "postinstall": "npm run tsc",
     "lint": "eslint lib test web",
-    "test": "tap --reporter=list --no-coverage --jobs=1 --no-timeout dist/test/**/*.spec.js"
+    "test": "tap --reporter=list --no-coverage --jobs=1 --no-timeout 'dist/test/**/*.spec.js'"
   },
   "repository": {
     "type": "git",

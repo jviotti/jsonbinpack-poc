@@ -25,6 +25,11 @@ import {
 } from './options'
 
 import {
+  ARBITRARY__ZIGZAG_VARINT,
+  FLOOR__ENUM_VARINT
+} from '../integer/encode'
+
+import {
   EncodingContext
 } from '../../context'
 
@@ -43,4 +48,18 @@ export const DOUBLE__IEEE764_LE = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
 ): number => {
   return buffer.writeDoubleLE(value, offset) - offset
+}
+
+export const DOUBLE_VARINT_TUPLE = (
+  buffer: ResizableBuffer, offset: number, value: JSONNumber,
+  options: NoOptions, context: EncodingContext
+): number => {
+  const fragments: string[] = value.toString().split('.')
+  const integral: number = parseInt(fragments[0], 10)
+  const decimal: number = parseInt(fragments[1] ?? 0, 10)
+  const bytesWritten: number = ARBITRARY__ZIGZAG_VARINT(
+    buffer, offset, integral, options, context)
+  return bytesWritten + FLOOR__ENUM_VARINT(buffer, offset + bytesWritten, decimal, {
+    minimum: 0
+  }, context)
 }

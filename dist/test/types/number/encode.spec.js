@@ -15,3 +15,48 @@ tap_1.default.test('DOUBLE__IEEE764_LE: should encode 3.14 as 1f 85 eb 51 b8 1e 
     test.is(bytesWritten, 8);
     test.end();
 });
+tap_1.default.test('DOUBLE_VARINT_TUPLE: should encode a positive real number', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, 0, 3.14, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x06, 0x0e]));
+    console.log(buffer.getBuffer());
+    test.is(bytesWritten, 2);
+    test.end();
+});
+tap_1.default.test('DOUBLE_VARINT_TUPLE: should encode a positive integer', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, 0, 5, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x0a, 0x00]));
+    console.log(buffer.getBuffer());
+    test.is(bytesWritten, 2);
+    test.end();
+});
+tap_1.default.test('DOUBLE_VARINT_TUPLE: should encode a negative real number', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, 0, -3.14, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x05, 0x0e]));
+    console.log(buffer.getBuffer());
+    test.is(bytesWritten, 2);
+    test.end();
+});
+tap_1.default.test('DOUBLE_VARINT_TUPLE: should encode a negative integer', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, 0, -5, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x09, 0x00]));
+    console.log(buffer.getBuffer());
+    test.is(bytesWritten, 2);
+    test.end();
+});
+tap_1.default.test('DOUBLE_VARINT_TUPLE: should encode zero', function (test) {
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, 0, 0, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 0x00]));
+    console.log(buffer.getBuffer());
+    test.is(bytesWritten, 2);
+    test.end();
+});
