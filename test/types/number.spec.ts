@@ -66,3 +66,21 @@ tap.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', (test) => {
 
   test.end()
 })
+
+tap.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', (test) => {
+  const offset: number = 0
+
+  // This equals 23.49
+  const value: number = 234.9e-1
+
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+
+  test.is(bytesWritten, 3)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+
+  test.end()
+})
