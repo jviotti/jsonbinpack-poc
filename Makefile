@@ -1,4 +1,4 @@
-.PHONY: deps serve tsc all
+.PHONY: all
 
 assets/js/%.min.js: dist/web/%.js
 	./node_modules/.bin/browserify $< | ./node_modules/.bin/uglifyjs --compress --mangle > $@
