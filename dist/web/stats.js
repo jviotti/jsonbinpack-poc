@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var codemirror_1 = __importDefault(require("codemirror"));
-var jsontoolkit_1 = require("jsontoolkit");
+var jsonstats_1 = require("../lib/jsonstats");
 var EXAMPLE_JSON = {
     tags: [],
     tz: -25200,
@@ -116,7 +116,7 @@ var capitalize = function (text) {
 };
 var populate = function (contents) {
     var json = parseJSON(contents);
-    var stats = jsontoolkit_1.analyze(json);
+    var stats = jsonstats_1.analyze(json);
     ANALYZE_BYTESIZE.innerHTML = String(stats.byteSize);
     ANALYZE_DUPLICATED_KEYS.innerHTML =
         String(stats.duplicatedKeys);
@@ -146,7 +146,7 @@ var populate = function (contents) {
         String(stats.values.structural.count);
     ANALYZE_VALUES_STRUCTURAL_BYTESIZE.innerHTML =
         String(stats.values.structural.byteSize);
-    var summary = jsontoolkit_1.summarize(stats);
+    var summary = jsonstats_1.summarize(stats);
     SUMMARY_SIZE.innerHTML = summary.size;
     SUMMARY_NESTING_WEIGHT.innerHTML =
         String(summary.nestingWeight);
@@ -163,7 +163,7 @@ var populate = function (contents) {
         summary.booleanWeight.toFixed(precision);
     SUMMARY_STRUCTURAL_WEIGHT.innerHTML =
         summary.structuralWeight.toFixed(precision);
-    QUALIFIERS_CONTAINER.innerHTML = jsontoolkit_1.qualify(summary).map(capitalize).join(', ');
+    QUALIFIERS_CONTAINER.innerHTML = jsonstats_1.qualify(summary).map(capitalize).join(', ');
 };
 buttonElement.addEventListener('click', function () {
     var contents = code.getValue();

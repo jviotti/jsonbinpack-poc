@@ -22,7 +22,7 @@ import {
   summarize,
   analyze,
   qualify
-} from 'jsontoolkit'
+} from '../lib/jsonstats'
 
 import {
   JSONValue,

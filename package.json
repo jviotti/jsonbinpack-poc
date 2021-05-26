@@ -24,6 +24,7 @@
   "homepage": "https://github.com/jviotti/jsonbinpack#readme",
   "devDependencies": {
     "@types/codemirror": "^0.0.108",
+    "@types/lodash": "^4.14.170",
     "@types/node": "^15.6.1",
     "@types/tap": "^14.10.2",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
@@ -44,6 +45,7 @@
     "uglify-js": "^3.12.8"
   },
   "dependencies": {
-    "ajv": "^8.5.0"
+    "ajv": "^8.5.0",
+    "lodash": "^4.17.21"
   }
 }
