@@ -18,12 +18,14 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
-  DOUBLE__IEEE764_LE as ENCODE_DOUBLE__IEEE764_LE
+  DOUBLE__IEEE764_LE as ENCODE_DOUBLE__IEEE764_LE,
+  DOUBLE_VARINT_TRIPLET as ENCODE_DOUBLE_VARINT_TRIPLET
 } from '../../lib/types/number/encode'
 
 import {
   NumberResult,
-  DOUBLE__IEEE764_LE as DECODE_DOUBLE__IEEE764_LE
+  DOUBLE__IEEE764_LE as DECODE_DOUBLE__IEEE764_LE,
+  DOUBLE_VARINT_TRIPLET as DECODE_DOUBLE_VARINT_TRIPLET
 } from '../../lib/types/number/decode'
 
 import {
@@ -43,6 +45,24 @@ tap.test('DOUBLE__IEEE764_LE', (test) => {
   }), {
     verbose: false
   })
+
+  test.end()
+})
+
+tap.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', (test) => {
+  const offset: number = 0
+
+  // This equals 0.0000002980232223226409
+  const value: number = 2.980232223226409e-7
+
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const bytesWritten: number = ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+
+  test.is(bytesWritten, 10)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
 
   test.end()
 })

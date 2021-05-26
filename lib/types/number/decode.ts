@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  strict as assert
+} from 'assert'
+
 import ResizableBuffer from '../../utils/resizable-buffer'
 
 import {
@@ -28,6 +32,12 @@ import {
   DecodeResult
 } from '../base'
 
+import {
+  IntegerResult,
+  ARBITRARY__ZIGZAG_VARINT,
+  FLOOR__ENUM_VARINT
+} from '../integer/decode'
+
 export interface NumberResult extends DecodeResult {
   readonly value: JSONNumber;
   readonly bytes: number;
@@ -40,5 +50,30 @@ export const DOUBLE__IEEE764_LE = (
   return {
     value: result,
     bytes: 8
+  }
+}
+
+export const DOUBLE_VARINT_TRIPLET = (
+  buffer: ResizableBuffer, offset: number, options: NoOptions
+): NumberResult => {
+  const integral: IntegerResult =
+    ARBITRARY__ZIGZAG_VARINT(buffer, offset, options)
+  const decimal: IntegerResult =
+    FLOOR__ENUM_VARINT(buffer, offset + integral.bytes, {
+      minimum: 0
+    })
+  const exponent: IntegerResult =
+    FLOOR__ENUM_VARINT(buffer, offset + integral.bytes + decimal.bytes, {
+      minimum: 0
+    })
+
+  const result: number = exponent.value === 0
+    ? parseFloat(`${integral.value}.${decimal.value}`)
+    : parseFloat(`0.${'0'.repeat(exponent.value - 1)}${integral.value}${decimal.value}`)
+  assert(!isNaN(result))
+
+  return {
+    value: result,
+    bytes: integral.bytes + decimal.bytes + exponent.bytes
   }
 }

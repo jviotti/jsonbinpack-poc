@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  strict as assert
+} from 'assert'
+
 import ResizableBuffer from '../../utils/resizable-buffer'
 
 import {
@@ -33,33 +37,39 @@ import {
   EncodingContext
 } from '../../context'
 
-// TODO: Find out in which case we can safely do a 32-bit floating-point
-// numbers encoding
-// TODO: Otherwise encode integral and decimal parts as two different
-// integers. The first one can be zigzag + varint and the decimal one
-// always varint (as it can't be negative by definition)
-// Maybe we can choose between this an IEEE764 depending on the
-// amount of digits?
-
-// TODO: Replace this with just a pair of 2 var ints (one zigzag and one not zigzag) that represent
-// the numbers before and after the period. This will likely be much better for cases like geojson
-
 export const DOUBLE__IEEE764_LE = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
 ): number => {
   return buffer.writeDoubleLE(value, offset) - offset
 }
 
-export const DOUBLE_VARINT_TUPLE = (
+export const DOUBLE_VARINT_TRIPLET = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: NoOptions, context: EncodingContext
 ): number => {
+  // A probably very inefficient way of splitting a real number
+  // into an integral, decimal, and exponent part
   const fragments: string[] = value.toString().split('.')
   const integral: number = parseInt(fragments[0], 10)
-  const decimal: number = parseInt(fragments[1] ?? 0, 10)
-  const bytesWritten: number = ARBITRARY__ZIGZAG_VARINT(
+  const decimalFragments: string[] = (fragments[1] ?? '0').split('e-')
+  const decimal: number = parseInt(decimalFragments[0], 10)
+  const exponent: number = parseInt(decimalFragments[1] ?? 0, 10)
+
+  assert(!isNaN(integral))
+  assert(!isNaN(decimal))
+  assert(!isNaN(exponent))
+  assert(decimal >= 0)
+  assert(exponent >= 0)
+
+  const integralBytes: number = ARBITRARY__ZIGZAG_VARINT(
     buffer, offset, integral, options, context)
-  return bytesWritten + FLOOR__ENUM_VARINT(buffer, offset + bytesWritten, decimal, {
-    minimum: 0
-  }, context)
+  const decimalBytes: number = FLOOR__ENUM_VARINT(
+    buffer, offset + integralBytes, decimal, {
+      minimum: 0
+    }, context)
+  const exponentBytes: number = FLOOR__ENUM_VARINT(
+    buffer, offset + integralBytes + decimalBytes, exponent, {
+      minimum: 0
+    }, context)
+  return integralBytes + decimalBytes + exponentBytes
 }

@@ -18,7 +18,7 @@ import tap from 'tap'
 
 import {
   DOUBLE__IEEE764_LE,
-  DOUBLE_VARINT_TUPLE
+  DOUBLE_VARINT_TRIPLET
 } from '../../../lib/types/number/encode'
 
 import {
@@ -37,52 +37,57 @@ tap.test('DOUBLE__IEEE764_LE: should encode 3.14 as 1f 85 eb 51 b8 1e 09 40', (t
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TUPLE: should encode a positive real number', (test) => {
+tap.test('DOUBLE_VARINT_TRIPLET: should encode a positive real number', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
-  const bytesWritten: number = DOUBLE_VARINT_TUPLE(buffer, 0, 3.14, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x06, 0x0e ]))
-  console.log(buffer.getBuffer())
-  test.is(bytesWritten, 2)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = DOUBLE_VARINT_TRIPLET(buffer, 0, 3.14, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x06, 0x0e, 0x00 ]))
+  test.is(bytesWritten, 3)
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TUPLE: should encode a positive integer', (test) => {
+tap.test('DOUBLE_VARINT_TRIPLET: should encode a positive integer', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
-  const bytesWritten: number = DOUBLE_VARINT_TUPLE(buffer, 0, 5, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x0a, 0x00 ]))
-  console.log(buffer.getBuffer())
-  test.is(bytesWritten, 2)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = DOUBLE_VARINT_TRIPLET(buffer, 0, 5, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x0a, 0x00, 0x00 ]))
+  test.is(bytesWritten, 3)
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TUPLE: should encode a negative real number', (test) => {
+tap.test('DOUBLE_VARINT_TRIPLET: should encode a negative real number', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
-  const bytesWritten: number = DOUBLE_VARINT_TUPLE(buffer, 0, -3.14, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x05, 0x0e ]))
-  console.log(buffer.getBuffer())
-  test.is(bytesWritten, 2)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = DOUBLE_VARINT_TRIPLET(buffer, 0, -3.14, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x05, 0x0e, 0x00 ]))
+  test.is(bytesWritten, 3)
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TUPLE: should encode a negative integer', (test) => {
+tap.test('DOUBLE_VARINT_TRIPLET: should encode a negative integer', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
-  const bytesWritten: number = DOUBLE_VARINT_TUPLE(buffer, 0, -5, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x09, 0x00 ]))
-  console.log(buffer.getBuffer())
-  test.is(bytesWritten, 2)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = DOUBLE_VARINT_TRIPLET(buffer, 0, -5, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x09, 0x00, 0x00 ]))
+  test.is(bytesWritten, 3)
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TUPLE: should encode zero', (test) => {
+tap.test('DOUBLE_VARINT_TRIPLET: should encode zero', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
-  const bytesWritten: number = DOUBLE_VARINT_TUPLE(buffer, 0, 0, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x00 ]))
-  console.log(buffer.getBuffer())
-  test.is(bytesWritten, 2)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number = DOUBLE_VARINT_TRIPLET(buffer, 0, 0, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x00, 0x00 ]))
+  test.is(bytesWritten, 3)
+  test.end()
+})
+
+tap.test('DOUBLE_VARINT_TRIPLET: should encode a positive real number with an exponent', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const bytesWritten: number = DOUBLE_VARINT_TRIPLET(buffer, 0, 2.980232223226409e-7, {}, context)
+  test.strictSame(buffer.getBuffer(),
+    Buffer.from([ 0x04, 0xa9, 0xf4, 0xd9, 0xcb, 0xc1, 0xf0, 0xde, 0x01, 0x07 ]))
+  test.is(bytesWritten, 10)
   test.end()
 })

@@ -40,3 +40,15 @@ tap_1.default.test('DOUBLE__IEEE764_LE', function (test) {
     });
     test.end();
 });
+tap_1.default.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', function (test) {
+    var offset = 0;
+    var value = 2.980232223226409e-7;
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context);
+    var result = decode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, {});
+    test.is(bytesWritten, 10);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
