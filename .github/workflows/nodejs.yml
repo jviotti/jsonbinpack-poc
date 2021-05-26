@@ -25,4 +25,4 @@ jobs:
       run: npm test
 
     - name: Build project
-      run: make -C docs all
+      run: make all
