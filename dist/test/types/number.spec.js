@@ -64,3 +64,27 @@ tap_1.default.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', function (test) {
     test.is(result.value, value);
     test.end();
 });
+tap_1.default.test('DOUBLE_VARINT_TRIPLET: 0.32812444865703727', function (test) {
+    var offset = 0;
+    var value = 0.32812444865703727;
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context);
+    var result = decode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, {});
+    test.is(bytesWritten, 10);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('DOUBLE_VARINT_TRIPLET', function (test) {
+    fc.assert(fc.property(fc.nat(10), fc.double(), function (offset, value) {
+        var context = context_1.getDefaultEncodingContext();
+        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(offset + 8));
+        var bytesWritten = encode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context);
+        var result = decode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, {});
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});

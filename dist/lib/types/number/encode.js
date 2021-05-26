@@ -10,15 +10,22 @@ exports.DOUBLE__IEEE764_LE = DOUBLE__IEEE764_LE;
 var DOUBLE_VARINT_TRIPLET = function (buffer, offset, value, options, context) {
     var _a, _b;
     var fragments = value.toString().split('.');
-    var integral = parseInt(fragments[0], 10);
     var decimalFragments = ((_a = fragments[1]) !== null && _a !== void 0 ? _a : '0').split('e-');
-    var decimal = parseInt(decimalFragments[0], 10);
     var exponent = parseInt((_b = decimalFragments[1]) !== null && _b !== void 0 ? _b : 0, 10);
+    var decimal = parseInt(decimalFragments[0], 10);
+    if (decimal > Number.MAX_SAFE_INTEGER) {
+        fragments[0] = "" + fragments[0] + decimalFragments[0][0];
+        decimalFragments[0] = decimalFragments[0].slice(1);
+        decimal = parseInt(decimalFragments[0], 10);
+        exponent += 1;
+    }
+    var integral = parseInt(fragments[0], 10);
     assert_1.strict(!isNaN(integral));
     assert_1.strict(!isNaN(decimal));
     assert_1.strict(!isNaN(exponent));
     assert_1.strict(decimal >= 0);
     assert_1.strict(exponent >= 0);
+    console.log('XXXX', value, '=>', integral, decimal, exponent);
     var integralBytes = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, offset, integral, options, context);
     var decimalBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset + integralBytes, decimal, {
         minimum: 0

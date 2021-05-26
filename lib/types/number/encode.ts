@@ -50,16 +50,26 @@ export const DOUBLE_VARINT_TRIPLET = (
   // A probably very inefficient way of splitting a real number
   // into an integral, decimal, and exponent part
   const fragments: string[] = value.toString().split('.')
-  const integral: number = parseInt(fragments[0], 10)
   const decimalFragments: string[] = (fragments[1] ?? '0').split('e-')
-  const decimal: number = parseInt(decimalFragments[0], 10)
-  const exponent: number = parseInt(decimalFragments[1] ?? 0, 10)
+
+  let exponent: number = parseInt(decimalFragments[1] ?? 0, 10)
+  let decimal: number = parseInt(decimalFragments[0], 10)
+  if (decimal > Number.MAX_SAFE_INTEGER) {
+    fragments[0] = `${fragments[0]}${decimalFragments[0][0]}`
+    decimalFragments[0] = decimalFragments[0].slice(1)
+    decimal = parseInt(decimalFragments[0], 10)
+    exponent += 1
+  }
+
+  const integral: number = parseInt(fragments[0], 10)
 
   assert(!isNaN(integral))
   assert(!isNaN(decimal))
   assert(!isNaN(exponent))
   assert(decimal >= 0)
   assert(exponent >= 0)
+
+  console.log('XXXX', value, '=>', integral, decimal, exponent)
 
   const integralBytes: number = ARBITRARY__ZIGZAG_VARINT(
     buffer, offset, integral, options, context)

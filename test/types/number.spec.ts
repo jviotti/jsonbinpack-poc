@@ -84,3 +84,32 @@ tap.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', (test) => {
 
   test.end()
 })
+
+tap.test('DOUBLE_VARINT_TRIPLET: 0.32812444865703727', (test) => {
+  const offset: number = 0
+  const value: number = 0.32812444865703727
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const bytesWritten: number = ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+
+  test.is(bytesWritten, 10)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+
+  test.end()
+})
+
+// tap.test('DOUBLE_VARINT_TRIPLET', (test) => {
+  // fc.assert(fc.property(fc.nat(10), fc.double(), (offset: number, value: number): boolean => {
+    // const context: EncodingContext = getDefaultEncodingContext()
+    // const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
+    // const bytesWritten: number = ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
+    // const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+    // return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  // }), {
+    // verbose: false
+  // })
+
+  // test.end()
+// })
