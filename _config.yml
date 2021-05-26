@@ -10,3 +10,5 @@ sass:
 exclude:
   - node_modules
   - vendor
+include:
+  - dist/web
