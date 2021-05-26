@@ -27,6 +27,7 @@
     "outDir": "./dist"
   },
   "include": [
+    "./web/**/*.ts",
     "./lib/**/*.ts",
     "./test/**/*.ts"
   ]
