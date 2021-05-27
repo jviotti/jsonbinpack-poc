@@ -52,7 +52,7 @@ export const DOUBLE__IEEE764_LE = (
   }
 }
 
-export const DOUBLE_VARINT_TRIPLET = (
+export const DOUBLE_VARINT_TUPLE = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): NumberResult => {
   const integralResult: VarintDecodeResult = varintDecode(buffer, offset)

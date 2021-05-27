@@ -66,7 +66,7 @@ const stringPrefixCount = (value: string, prefix: string): number => {
   return count
 }
 
-export const DOUBLE_VARINT_TRIPLET = (
+export const DOUBLE_VARINT_TUPLE = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
   _options: NoOptions, _context: EncodingContext
 ): number => {

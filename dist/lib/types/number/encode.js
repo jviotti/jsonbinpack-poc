@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DOUBLE_VARINT_TRIPLET = exports.DOUBLE__IEEE764_LE = void 0;
+exports.DOUBLE_VARINT_TUPLE = exports.DOUBLE__IEEE764_LE = void 0;
 var assert_1 = require("assert");
 var from_exponential_1 = __importDefault(require("from-exponential"));
 var zigzag_1 = require("../../utils/zigzag");
@@ -46,7 +46,7 @@ var stringPrefixCount = function (value, prefix) {
     }
     return count;
 };
-var DOUBLE_VARINT_TRIPLET = function (buffer, offset, value, _options, _context) {
+var DOUBLE_VARINT_TUPLE = function (buffer, offset, value, _options, _context) {
     var valueString = from_exponential_1.default(value);
     var pointIndex = valueString.indexOf('.');
     var point = pointIndex === -1 ? 0 : pointIndex;
@@ -60,4 +60,4 @@ var DOUBLE_VARINT_TRIPLET = function (buffer, offset, value, _options, _context)
         : zigzag_1.zigzagEncode(BigInt(-zeroPrefix));
     return integralBytes + varint_1.varintEncode(buffer, offset + integralBytes, pointValue);
 };
-exports.DOUBLE_VARINT_TRIPLET = DOUBLE_VARINT_TRIPLET;
+exports.DOUBLE_VARINT_TUPLE = DOUBLE_VARINT_TUPLE;

@@ -19,13 +19,13 @@ import * as fc from 'fast-check'
 
 import {
   DOUBLE__IEEE764_LE as ENCODE_DOUBLE__IEEE764_LE,
-  DOUBLE_VARINT_TRIPLET as ENCODE_DOUBLE_VARINT_TRIPLET
+  DOUBLE_VARINT_TUPLE as ENCODE_DOUBLE_VARINT_TUPLE
 } from '../../lib/types/number/encode'
 
 import {
   NumberResult,
   DOUBLE__IEEE764_LE as DECODE_DOUBLE__IEEE764_LE,
-  DOUBLE_VARINT_TRIPLET as DECODE_DOUBLE_VARINT_TRIPLET
+  DOUBLE_VARINT_TUPLE as DECODE_DOUBLE_VARINT_TUPLE
 } from '../../lib/types/number/decode'
 
 import {
@@ -49,7 +49,7 @@ tap.test('DOUBLE__IEEE764_LE', (test) => {
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', (test) => {
+tap.test('DOUBLE_VARINT_TUPLE: 2.980232223226409e-7', (test) => {
   const offset: number = 0
 
   // This equals 0.0000002980232223226409
@@ -58,8 +58,8 @@ tap.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
   const bytesWritten: number =
-    ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
-  const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+    ENCODE_DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TUPLE(buffer, offset, {})
 
   test.is(bytesWritten, 9)
   test.is(result.bytes, bytesWritten)
@@ -68,7 +68,7 @@ tap.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', (test) => {
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', (test) => {
+tap.test('DOUBLE_VARINT_TUPLE: 234.9e-1', (test) => {
   const offset: number = 0
 
   // This equals 23.49
@@ -77,8 +77,8 @@ tap.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
   const bytesWritten: number =
-    ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
-  const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+    ENCODE_DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TUPLE(buffer, offset, {})
 
   test.is(bytesWritten, 3)
   test.is(result.bytes, bytesWritten)
@@ -87,15 +87,15 @@ tap.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', (test) => {
   test.end()
 })
 
-tap.test('DOUBLE_VARINT_TRIPLET: 0', (test) => {
+tap.test('DOUBLE_VARINT_TUPLE: 0', (test) => {
   const offset: number = 0
   const value: number = 0
 
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
   const bytesWritten: number =
-    ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
-  const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+    ENCODE_DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TUPLE(buffer, offset, {})
 
   test.is(bytesWritten, 2)
   test.is(result.bytes, bytesWritten)
