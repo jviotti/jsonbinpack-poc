@@ -56,11 +56,12 @@ tap.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', (test) => {
   const value: number = 2.980232223226409e-7
 
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
-  const bytesWritten: number = ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
+  const bytesWritten: number =
+    ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
   const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
 
-  test.is(bytesWritten, 10)
+  test.is(bytesWritten, 9)
   test.is(result.bytes, bytesWritten)
   test.is(result.value, value)
 
@@ -75,10 +76,28 @@ tap.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', (test) => {
 
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
-  const bytesWritten: number = ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
+  const bytesWritten: number =
+    ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
   const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
 
   test.is(bytesWritten, 3)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+
+  test.end()
+})
+
+tap.test('DOUBLE_VARINT_TRIPLET: 0', (test) => {
+  const offset: number = 0
+  const value: number = 0
+
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
+  const bytesWritten: number =
+    ENCODE_DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TRIPLET(buffer, offset, {})
+
+  test.is(bytesWritten, 2)
   test.is(result.bytes, bytesWritten)
   test.is(result.value, value)
 

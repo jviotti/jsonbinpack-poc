@@ -51,7 +51,7 @@ tap_1.default.test('DOUBLE_VARINT_TRIPLET: should encode zero', function (test) 
     var context = context_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
     var bytesWritten = encode_1.DOUBLE_VARINT_TRIPLET(buffer, 0, 0, {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 0x09]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 0x00]));
     test.is(bytesWritten, 2);
     test.end();
 });

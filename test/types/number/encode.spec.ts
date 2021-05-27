@@ -77,7 +77,7 @@ tap.test('DOUBLE_VARINT_TRIPLET: should encode zero', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
   const bytesWritten: number = DOUBLE_VARINT_TRIPLET(buffer, 0, 0, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x09 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0x00 ]))
   test.is(bytesWritten, 2)
   test.end()
 })
