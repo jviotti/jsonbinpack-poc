@@ -36,7 +36,7 @@ var BOUNDED__ENUM_VARINT = function (buffer, offset, value, options, _context) {
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(value >= options.minimum);
     assert_1.strict(value <= options.maximum);
-    return varint_1.varintEncode(buffer, offset, value - options.minimum);
+    return varint_1.varintEncode(buffer, offset, BigInt(value - options.minimum));
 };
 exports.BOUNDED__ENUM_VARINT = BOUNDED__ENUM_VARINT;
 var BOUNDED_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options, context) {
@@ -57,7 +57,7 @@ var BOUNDED_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options, co
 exports.BOUNDED_MULTIPLE__ENUM_VARINT = BOUNDED_MULTIPLE__ENUM_VARINT;
 var FLOOR__ENUM_VARINT = function (buffer, offset, value, options, _context) {
     assert_1.strict(value >= options.minimum);
-    return varint_1.varintEncode(buffer, offset, value - options.minimum);
+    return varint_1.varintEncode(buffer, offset, BigInt(value - options.minimum));
 };
 exports.FLOOR__ENUM_VARINT = FLOOR__ENUM_VARINT;
 var FLOOR_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options, context) {
@@ -73,7 +73,7 @@ var FLOOR_MULTIPLE__ENUM_VARINT = function (buffer, offset, value, options, cont
 exports.FLOOR_MULTIPLE__ENUM_VARINT = FLOOR_MULTIPLE__ENUM_VARINT;
 var ROOF__MIRROR_ENUM_VARINT = function (buffer, offset, value, options, _context) {
     assert_1.strict(value <= options.maximum);
-    return varint_1.varintEncode(buffer, offset, (-1 * value) + options.maximum);
+    return varint_1.varintEncode(buffer, offset, BigInt((-1 * value) + options.maximum));
 };
 exports.ROOF__MIRROR_ENUM_VARINT = ROOF__MIRROR_ENUM_VARINT;
 var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, options, context) {
@@ -88,7 +88,7 @@ var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, options
 };
 exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
 var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value, _options, _context) {
-    return varint_1.varintEncode(buffer, offset, zigzag_1.zigzagEncode(value));
+    return varint_1.varintEncode(buffer, offset, BigInt(zigzag_1.zigzagEncode(value)));
 };
 exports.ARBITRARY__ZIGZAG_VARINT = ARBITRARY__ZIGZAG_VARINT;
 var ARBITRARY_MULTIPLE__ZIGZAG_VARINT = function (buffer, offset, value, options, context) {

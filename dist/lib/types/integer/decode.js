@@ -30,7 +30,7 @@ var BOUNDED__ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= options.minimum);
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: result.value + options.minimum,
+        value: Number(result.value) + options.minimum,
         bytes: result.bytes
     };
 };
@@ -43,7 +43,7 @@ var BOUNDED_MULTIPLE__ENUM_VARINT = function (buffer, offset, options) {
     var closestMinimumMultiple = Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier;
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: (result.value * absoluteMultiplier) + closestMinimumMultiple,
+        value: (Number(result.value) * absoluteMultiplier) + closestMinimumMultiple,
         bytes: result.bytes
     };
 };
@@ -51,7 +51,7 @@ exports.BOUNDED_MULTIPLE__ENUM_VARINT = BOUNDED_MULTIPLE__ENUM_VARINT;
 var FLOOR__ENUM_VARINT = function (buffer, offset, options) {
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: result.value + options.minimum,
+        value: Number(result.value) + options.minimum,
         bytes: result.bytes
     };
 };
@@ -62,7 +62,7 @@ var FLOOR_MULTIPLE__ENUM_VARINT = function (buffer, offset, options) {
     var closestMinimumMultiple = Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier;
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: (result.value * absoluteMultiplier) + closestMinimumMultiple,
+        value: (Number(result.value) * absoluteMultiplier) + closestMinimumMultiple,
         bytes: result.bytes
     };
 };
@@ -70,7 +70,7 @@ exports.FLOOR_MULTIPLE__ENUM_VARINT = FLOOR_MULTIPLE__ENUM_VARINT;
 var ROOF__MIRROR_ENUM_VARINT = function (buffer, offset, options) {
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: -1 * (result.value - options.maximum),
+        value: -1 * (Number(result.value) - options.maximum),
         bytes: result.bytes
     };
 };
@@ -81,7 +81,7 @@ var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, options) {
     var closestMaximumMultiple = Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier;
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: -1 * ((result.value * absoluteMultiplier) - closestMaximumMultiple),
+        value: -1 * ((Number(result.value) * absoluteMultiplier) - closestMaximumMultiple),
         bytes: result.bytes
     };
 };
@@ -89,7 +89,7 @@ exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
 var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, _options) {
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: zigzag_1.zigzagDecode(result.value),
+        value: zigzag_1.zigzagDecode(Number(result.value)),
         bytes: result.bytes
     };
 };

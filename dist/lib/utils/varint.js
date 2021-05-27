@@ -6,7 +6,7 @@ var LEAST_SIGNIFICANT_BITS = BigInt(127);
 var SHIFT = BigInt(7);
 var ZERO = BigInt(0);
 var varintEncode = function (buffer, offset, value) {
-    var accumulator = BigInt(value);
+    var accumulator = value;
     var cursor = offset;
     while (accumulator > LEAST_SIGNIFICANT_BITS) {
         cursor = buffer.writeUInt8(Number((accumulator & LEAST_SIGNIFICANT_BITS) | MOST_SIGNIFICANT_BIT), cursor);
@@ -28,7 +28,7 @@ var varintDecode = function (buffer, offset) {
         }
     }
     return {
-        value: Number(result),
+        value: result,
         bytes: cursor - offset
     };
 };
