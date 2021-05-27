@@ -103,3 +103,17 @@ tap.test('DOUBLE_VARINT_TUPLE: 0', (test) => {
 
   test.end()
 })
+
+tap.test('DOUBLE_VARINT_TUPLE', (test) => {
+  fc.assert(fc.property(fc.nat(10), fc.double(), (offset: number, value: number): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 20))
+    const bytesWritten: number = ENCODE_DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context)
+    const result: NumberResult = DECODE_DOUBLE_VARINT_TUPLE(buffer, offset, {})
+    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
