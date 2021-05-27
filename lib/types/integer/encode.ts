@@ -181,7 +181,7 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
 export const ARBITRARY__ZIGZAG_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
 ): number => {
-  return varintEncode(buffer, offset, BigInt(zigzagEncode(value)))
+  return varintEncode(buffer, offset, zigzagEncode(BigInt(value)))
 }
 
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (

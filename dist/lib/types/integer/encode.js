@@ -88,7 +88,7 @@ var ROOF_MULTIPLE__MIRROR_ENUM_VARINT = function (buffer, offset, value, options
 };
 exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = ROOF_MULTIPLE__MIRROR_ENUM_VARINT;
 var ARBITRARY__ZIGZAG_VARINT = function (buffer, offset, value, _options, _context) {
-    return varint_1.varintEncode(buffer, offset, BigInt(zigzag_1.zigzagEncode(value)));
+    return varint_1.varintEncode(buffer, offset, zigzag_1.zigzagEncode(BigInt(value)));
 };
 exports.ARBITRARY__ZIGZAG_VARINT = ARBITRARY__ZIGZAG_VARINT;
 var ARBITRARY_MULTIPLE__ZIGZAG_VARINT = function (buffer, offset, value, options, context) {

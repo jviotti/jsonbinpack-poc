@@ -172,7 +172,7 @@ export const ARBITRARY__ZIGZAG_VARINT = (
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: zigzagDecode(Number(result.value)),
+    value: Number(zigzagDecode(result.value)),
     bytes: result.bytes
   }
 }
