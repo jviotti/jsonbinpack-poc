@@ -24,7 +24,7 @@ var DOUBLE_VARINT_TUPLE = function (buffer, offset, _options) {
             bytes: bytes
         };
     }
-    if (point < 0) {
+    else if (point < 0) {
         var zeroes = "0." + '0'.repeat(Math.abs(point) - 1);
         return {
             value: parseFloat(integralValue < 0

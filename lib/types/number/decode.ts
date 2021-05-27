@@ -68,9 +68,7 @@ export const DOUBLE_VARINT_TUPLE = (
       value: Number(integralValue),
       bytes
     }
-  }
-
-  if (point < 0) {
+  } else if (point < 0) {
     const zeroes: string = `0.${'0'.repeat(Math.abs(point) - 1)}`
     return {
       value: parseFloat(integralValue < 0
