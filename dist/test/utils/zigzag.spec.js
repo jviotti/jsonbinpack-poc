@@ -26,26 +26,26 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var zigzag_1 = require("../../lib/utils/zigzag");
 tap_1.default.test('should encode 0 as 0', function (test) {
-    test.is(zigzag_1.zigzagEncode(0), 0);
+    test.is(zigzag_1.zigzagEncode(BigInt(0)), BigInt(0));
     test.end();
 });
 tap_1.default.test('should encode -1 as 1', function (test) {
-    test.is(zigzag_1.zigzagEncode(-1), 1);
+    test.is(zigzag_1.zigzagEncode(BigInt(-1)), BigInt(1));
     test.end();
 });
 tap_1.default.test('should encode 1 as 2', function (test) {
-    test.is(zigzag_1.zigzagEncode(1), 2);
+    test.is(zigzag_1.zigzagEncode(BigInt(1)), BigInt(2));
     test.end();
 });
 tap_1.default.test('should encode -2 as 3', function (test) {
-    test.is(zigzag_1.zigzagEncode(-2), 3);
+    test.is(zigzag_1.zigzagEncode(BigInt(-2)), BigInt(3));
     test.end();
 });
 tap_1.default.test('a positive integer should result in an even integer', function (test) {
     fc.assert(fc.property(fc.integer({
         min: 0
     }), function (value) {
-        return zigzag_1.zigzagEncode(value) % 2 === 0;
+        return zigzag_1.zigzagEncode(BigInt(value)) % BigInt(2) === BigInt(0);
     }), {
         verbose: false
     });
@@ -55,7 +55,7 @@ tap_1.default.test('a negative integer should result in an odd integer', functio
     fc.assert(fc.property(fc.integer({
         max: -1
     }), function (value) {
-        return zigzag_1.zigzagEncode(value) % 2 === 1;
+        return zigzag_1.zigzagEncode(BigInt(value)) % BigInt(2) === BigInt(1);
     }), {
         verbose: false
     });
@@ -63,7 +63,7 @@ tap_1.default.test('a negative integer should result in an odd integer', functio
 });
 tap_1.default.test('encoding should result in a positive integer', function (test) {
     fc.assert(fc.property(fc.integer(), function (value) {
-        return zigzag_1.zigzagEncode(value) >= 0;
+        return zigzag_1.zigzagEncode(BigInt(value)) >= BigInt(0);
     }), {
         verbose: false
     });
@@ -71,7 +71,7 @@ tap_1.default.test('encoding should result in a positive integer', function (tes
 });
 tap_1.default.test('should decode a ZigZag encoded integer', function (test) {
     fc.assert(fc.property(fc.integer(), function (value) {
-        return zigzag_1.zigzagDecode(zigzag_1.zigzagEncode(value)) === value;
+        return zigzag_1.zigzagDecode(zigzag_1.zigzagEncode(BigInt(value))) === BigInt(value);
     }), {
         verbose: false
     });

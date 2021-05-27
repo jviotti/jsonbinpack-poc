@@ -23,22 +23,22 @@ import {
 } from '../../lib/utils/zigzag'
 
 tap.test('should encode 0 as 0', (test) => {
-  test.is(zigzagEncode(0), 0)
+  test.is(zigzagEncode(BigInt(0)), BigInt(0))
   test.end()
 })
 
 tap.test('should encode -1 as 1', (test) => {
-  test.is(zigzagEncode(-1), 1)
+  test.is(zigzagEncode(BigInt(-1)), BigInt(1))
   test.end()
 })
 
 tap.test('should encode 1 as 2', (test) => {
-  test.is(zigzagEncode(1), 2)
+  test.is(zigzagEncode(BigInt(1)), BigInt(2))
   test.end()
 })
 
 tap.test('should encode -2 as 3', (test) => {
-  test.is(zigzagEncode(-2), 3)
+  test.is(zigzagEncode(BigInt(-2)), BigInt(3))
   test.end()
 })
 
@@ -46,7 +46,7 @@ tap.test('a positive integer should result in an even integer', (test) => {
   fc.assert(fc.property(fc.integer({
     min: 0
   }), (value: number): boolean => {
-    return zigzagEncode(value) % 2 === 0
+    return zigzagEncode(BigInt(value)) % BigInt(2) === BigInt(0)
   }), {
     verbose: false
   })
@@ -58,7 +58,7 @@ tap.test('a negative integer should result in an odd integer', (test) => {
   fc.assert(fc.property(fc.integer({
     max: -1
   }), (value: number): boolean => {
-    return zigzagEncode(value) % 2 === 1
+    return zigzagEncode(BigInt(value)) % BigInt(2) === BigInt(1)
   }), {
     verbose: false
   })
@@ -68,7 +68,7 @@ tap.test('a negative integer should result in an odd integer', (test) => {
 
 tap.test('encoding should result in a positive integer', (test) => {
   fc.assert(fc.property(fc.integer(), (value: number): boolean => {
-    return zigzagEncode(value) >= 0
+    return zigzagEncode(BigInt(value)) >= BigInt(0)
   }), {
     verbose: false
   })
@@ -78,7 +78,7 @@ tap.test('encoding should result in a positive integer', (test) => {
 
 tap.test('should decode a ZigZag encoded integer', (test) => {
   fc.assert(fc.property(fc.integer(), (value: number): boolean => {
-    return zigzagDecode(zigzagEncode(value)) === value
+    return zigzagDecode(zigzagEncode(BigInt(value))) === BigInt(value)
   }), {
     verbose: false
   })

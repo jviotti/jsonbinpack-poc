@@ -40,27 +40,51 @@ tap_1.default.test('DOUBLE__IEEE764_LE', function (test) {
     });
     test.end();
 });
-tap_1.default.test('DOUBLE_VARINT_TRIPLET: 2.980232223226409e-7', function (test) {
+tap_1.default.test('DOUBLE_VARINT_TUPLE: 2.980232223226409e-7', function (test) {
     var offset = 0;
     var value = 2.980232223226409e-7;
     var context = context_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
-    var bytesWritten = encode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context);
-    var result = decode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, {});
-    test.is(bytesWritten, 10);
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(9));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
+    var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
+    test.is(bytesWritten, 9);
     test.is(result.bytes, bytesWritten);
     test.is(result.value, value);
     test.end();
 });
-tap_1.default.test('DOUBLE_VARINT_TRIPLET: 234.9e-1', function (test) {
+tap_1.default.test('DOUBLE_VARINT_TUPLE: 234.9e-1', function (test) {
     var offset = 0;
     var value = 234.9e-1;
     var context = context_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
-    var bytesWritten = encode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, value, {}, context);
-    var result = decode_1.DOUBLE_VARINT_TRIPLET(buffer, offset, {});
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
+    var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
     test.is(bytesWritten, 3);
     test.is(result.bytes, bytesWritten);
     test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('DOUBLE_VARINT_TUPLE: 0', function (test) {
+    var offset = 0;
+    var value = 0;
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
+    var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
+    test.is(bytesWritten, 2);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('DOUBLE_VARINT_TUPLE', function (test) {
+    fc.assert(fc.property(fc.nat(10), fc.double(), function (offset, value) {
+        var context = context_1.getDefaultEncodingContext();
+        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(offset + 20));
+        var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
+        var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
+        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
     test.end();
 });

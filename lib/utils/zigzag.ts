@@ -17,10 +17,12 @@
 // See Protocol Buffers' ZigZag encoding definition:
 // https://developers.google.com/protocol-buffers/docs/encoding
 
-export const zigzagEncode = (value: number): number => {
-  return value >= 0 ? value * 2 : (value * -2) - 1
+export const zigzagEncode = (value: bigint): bigint => {
+  return value >= BigInt(0)
+    ? value * BigInt(2) : (value * BigInt(-2)) - BigInt(1)
 }
 
-export const zigzagDecode = (value: number): number => {
-  return value % 2 === 0 ? value / 2 : (value + 1) / -2
+export const zigzagDecode = (value: bigint): bigint => {
+  return value % BigInt(2) === BigInt(0)
+    ? value / BigInt(2) : (value + BigInt(1)) / BigInt(-2)
 }

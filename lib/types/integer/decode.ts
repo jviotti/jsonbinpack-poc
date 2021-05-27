@@ -93,7 +93,7 @@ export const BOUNDED__ENUM_VARINT = (
 
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: result.value + options.minimum,
+    value: Number(result.value) + options.minimum,
     bytes: result.bytes
   }
 }
@@ -111,7 +111,7 @@ export const BOUNDED_MULTIPLE__ENUM_VARINT = (
 
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: (result.value * absoluteMultiplier) + closestMinimumMultiple,
+    value: (Number(result.value) * absoluteMultiplier) + closestMinimumMultiple,
     bytes: result.bytes
   }
 }
@@ -121,7 +121,7 @@ export const FLOOR__ENUM_VARINT = (
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: result.value + options.minimum,
+    value: Number(result.value) + options.minimum,
     bytes: result.bytes
   }
 }
@@ -137,7 +137,7 @@ export const FLOOR_MULTIPLE__ENUM_VARINT = (
 
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: (result.value * absoluteMultiplier) + closestMinimumMultiple,
+    value: (Number(result.value) * absoluteMultiplier) + closestMinimumMultiple,
     bytes: result.bytes
   }
 }
@@ -147,7 +147,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: -1 * (result.value - options.maximum),
+    value: -1 * (Number(result.value) - options.maximum),
     bytes: result.bytes
   }
 }
@@ -162,7 +162,7 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
     Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: -1 * ((result.value * absoluteMultiplier) - closestMaximumMultiple),
+    value: -1 * ((Number(result.value) * absoluteMultiplier) - closestMaximumMultiple),
     bytes: result.bytes
   }
 }
@@ -172,7 +172,7 @@ export const ARBITRARY__ZIGZAG_VARINT = (
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: zigzagDecode(result.value),
+    value: Number(zigzagDecode(result.value)),
     bytes: result.bytes
   }
 }

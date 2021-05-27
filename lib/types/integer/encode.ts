@@ -100,7 +100,7 @@ export const BOUNDED__ENUM_VARINT = (
   assert(value >= options.minimum)
   assert(value <= options.maximum)
 
-  return varintEncode(buffer, offset, value - options.minimum)
+  return varintEncode(buffer, offset, BigInt(value - options.minimum))
 }
 
 export const BOUNDED_MULTIPLE__ENUM_VARINT = (
@@ -132,7 +132,7 @@ export const FLOOR__ENUM_VARINT = (
   options: FloorOptions, _context: EncodingContext
 ): number => {
   assert(value >= options.minimum)
-  return varintEncode(buffer, offset, value - options.minimum)
+  return varintEncode(buffer, offset, BigInt(value - options.minimum))
 }
 
 export const FLOOR_MULTIPLE__ENUM_VARINT = (
@@ -158,7 +158,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
   options: RoofOptions, _context: EncodingContext
 ): number => {
   assert(value <= options.maximum)
-  return varintEncode(buffer, offset, (-1 * value) + options.maximum)
+  return varintEncode(buffer, offset, BigInt((-1 * value) + options.maximum))
 }
 
 export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
@@ -181,7 +181,7 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
 export const ARBITRARY__ZIGZAG_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
 ): number => {
-  return varintEncode(buffer, offset, zigzagEncode(value))
+  return varintEncode(buffer, offset, zigzagEncode(BigInt(value)))
 }
 
 export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (

@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import {
-  strict as assert
-} from 'assert'
-
 import ResizableBuffer from '../../utils/resizable-buffer'
 
 import {
@@ -33,10 +29,13 @@ import {
 } from '../base'
 
 import {
-  IntegerResult,
-  ARBITRARY__ZIGZAG_VARINT,
-  FLOOR__ENUM_VARINT
-} from '../integer/decode'
+  zigzagDecode
+} from '../../utils/zigzag'
+
+import {
+  varintDecode,
+  VarintDecodeResult
+} from '../../utils/varint'
 
 export interface NumberResult extends DecodeResult {
   readonly value: JSONNumber;
@@ -53,27 +52,28 @@ export const DOUBLE__IEEE764_LE = (
   }
 }
 
-export const DOUBLE_VARINT_TRIPLET = (
-  buffer: ResizableBuffer, offset: number, options: NoOptions
+export const DOUBLE_VARINT_TUPLE = (
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): NumberResult => {
-  const integral: IntegerResult =
-    ARBITRARY__ZIGZAG_VARINT(buffer, offset, options)
-  const decimal: IntegerResult =
-    FLOOR__ENUM_VARINT(buffer, offset + integral.bytes, {
-      minimum: 0
-    })
-  const exponent: IntegerResult =
-    FLOOR__ENUM_VARINT(buffer, offset + integral.bytes + decimal.bytes, {
-      minimum: 0
-    })
+  const integralResult: VarintDecodeResult = varintDecode(buffer, offset)
+  const pointResult: VarintDecodeResult =
+    varintDecode(buffer, offset + integralResult.bytes)
+  const integralValue: bigint = zigzagDecode(integralResult.value)
+  const integral: string = integralValue.toString()
+  const point: number = Number(zigzagDecode(pointResult.value))
+  const bytes: number = integralResult.bytes + pointResult.bytes
 
-  const result: number = exponent.value === 0
-    ? parseFloat(`${integral.value}.${decimal.value}`)
-    : parseFloat(`0.${'0'.repeat(exponent.value - 1)}${integral.value}${decimal.value}`)
-  assert(!isNaN(result))
+  if (point === 0) {
+    return {
+      value: Number(integralValue),
+      bytes
+    }
+  }
 
   return {
-    value: result,
-    bytes: integral.bytes + decimal.bytes + exponent.bytes
+    value: parseFloat(point < 0
+      ? `0.${'0'.repeat(Math.abs(point) - 1)}${integral}`
+      : integral.slice(0, point) + '.' + integral.slice(point)),
+    bytes
   }
 }

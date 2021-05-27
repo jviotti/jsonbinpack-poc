@@ -23,8 +23,8 @@ const LEAST_SIGNIFICANT_BITS: bigint = BigInt(0b01111111)
 const SHIFT: bigint = BigInt(7)
 const ZERO: bigint = BigInt(0)
 
-export const varintEncode = (buffer: ResizableBuffer, offset: number, value: number): number => {
-  let accumulator: bigint = BigInt(value)
+export const varintEncode = (buffer: ResizableBuffer, offset: number, value: bigint): number => {
+  let accumulator: bigint = value
   let cursor: number = offset
 
   while (accumulator > LEAST_SIGNIFICANT_BITS) {
@@ -38,7 +38,7 @@ export const varintEncode = (buffer: ResizableBuffer, offset: number, value: num
 }
 
 export interface VarintDecodeResult {
-  readonly value: number;
+  readonly value: bigint;
   readonly bytes: number;
 }
 
@@ -56,7 +56,7 @@ export const varintDecode = (buffer: ResizableBuffer, offset: number): VarintDec
   }
 
   return {
-    value: Number(result),
+    value: result,
     bytes: cursor - offset
   }
 }
