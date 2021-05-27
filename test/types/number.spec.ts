@@ -87,6 +87,30 @@ tap.test('DOUBLE_VARINT_TUPLE: 234.9e-1', (test) => {
   test.end()
 })
 
+tap.test('DOUBLE_VARINT_TUPLE: 234.9e-1', (test) => {
+  const offset: number = 0
+
+  // This equals
+  // -0.00000000000000000000000000000000000000000000000000000000000000
+  // 00000000000000000000000000000000000000000000000000000000000000000
+  // 00000000000000000000000000000000000000000000000000000000000000000
+  // 00000000000000000000000000000000000000000000000000000000000000000
+  // 0000000000000000000000000000000000000000000000000000000000000000005
+  const value: number = -5e-324
+
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
+  const bytesWritten: number =
+    ENCODE_DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context)
+  const result: NumberResult = DECODE_DOUBLE_VARINT_TUPLE(buffer, offset, {})
+
+  test.is(bytesWritten, 3)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+
+  test.end()
+})
+
 tap.test('DOUBLE_VARINT_TUPLE: 0', (test) => {
   const offset: number = 0
   const value: number = 0

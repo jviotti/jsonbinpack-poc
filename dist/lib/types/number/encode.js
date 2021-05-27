@@ -52,7 +52,8 @@ var DOUBLE_VARINT_TUPLE = function (buffer, offset, value, _options, _context) {
     var point = pointIndex === -1 ? 0 : pointIndex;
     assert_1.strict(point >= 0);
     var integralString = valueString.replace('.', '');
-    var zeroPrefix = stringPrefixCount(integralString, '0');
+    var zeroPrefix = stringPrefixCount(integralString.startsWith('-')
+        ? integralString.slice(1) : integralString, '0');
     assert_1.strict(zeroPrefix >= 0);
     var integralBytes = varint_1.varintEncode(buffer, offset, zigzag_1.zigzagEncode(BigInt(integralString)));
     var pointValue = zeroPrefix === 0 || zeroPrefix === integralString.length

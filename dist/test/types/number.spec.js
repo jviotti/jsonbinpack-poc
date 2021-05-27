@@ -64,6 +64,18 @@ tap_1.default.test('DOUBLE_VARINT_TUPLE: 234.9e-1', function (test) {
     test.is(result.value, value);
     test.end();
 });
+tap_1.default.test('DOUBLE_VARINT_TUPLE: 234.9e-1', function (test) {
+    var offset = 0;
+    var value = -5e-324;
+    var context = context_1.getDefaultEncodingContext();
+    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
+    var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
+    test.is(bytesWritten, 3);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
 tap_1.default.test('DOUBLE_VARINT_TUPLE: 0', function (test) {
     var offset = 0;
     var value = 0;

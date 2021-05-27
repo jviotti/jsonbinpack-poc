@@ -70,10 +70,18 @@ export const DOUBLE_VARINT_TUPLE = (
     }
   }
 
+  if (point < 0) {
+    const zeroes: string = `0.${'0'.repeat(Math.abs(point) - 1)}`
+    return {
+      value: parseFloat(integralValue < 0
+        ? `-${zeroes}${integral.slice(1)}`
+        : `${zeroes}${integral}`),
+      bytes
+    }
+  }
+
   return {
-    value: parseFloat(point < 0
-      ? `0.${'0'.repeat(Math.abs(point) - 1)}${integral}`
-      : integral.slice(0, point) + '.' + integral.slice(point)),
+    value: parseFloat(integral.slice(0, point) + '.' + integral.slice(point)),
     bytes
   }
 }

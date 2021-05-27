@@ -75,7 +75,8 @@ export const DOUBLE_VARINT_TUPLE = (
   const point: number = pointIndex === -1 ? 0 : pointIndex
   assert(point >= 0)
   const integralString: string = valueString.replace('.', '')
-  const zeroPrefix: number = stringPrefixCount(integralString, '0')
+  const zeroPrefix: number = stringPrefixCount(integralString.startsWith('-')
+    ? integralString.slice(1) : integralString, '0')
   assert(zeroPrefix >= 0)
   const integralBytes: number =
     varintEncode(buffer, offset, zigzagEncode(BigInt(integralString)))
