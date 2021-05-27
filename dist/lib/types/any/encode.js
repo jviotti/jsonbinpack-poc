@@ -75,7 +75,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
     }
     else {
         var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.Number, context);
-        var valueBytes = encode_3.DOUBLE__IEEE764_LE(buffer, offset + tagBytes, value, {}, context);
+        var valueBytes = encode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context);
         return tagBytes + valueBytes;
     }
 };

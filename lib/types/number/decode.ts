@@ -42,16 +42,6 @@ export interface NumberResult extends DecodeResult {
   readonly bytes: number;
 }
 
-export const DOUBLE__IEEE764_LE = (
-  buffer: ResizableBuffer, offset: number, _options: NoOptions
-): NumberResult => {
-  const result: number = buffer.readDoubleLE(offset)
-  return {
-    value: result,
-    bytes: 8
-  }
-}
-
 export const DOUBLE_VARINT_TUPLE = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): NumberResult => {

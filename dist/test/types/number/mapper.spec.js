@@ -12,7 +12,7 @@ tap_1.default.test('should encode a number simple value', function (test) {
     var result = mapper_1.getNumberEncoding(schema);
     test.strictSame(result, {
         type: 'number',
-        encoding: 'DOUBLE__IEEE764_LE',
+        encoding: 'DOUBLE_VARINT_TUPLE',
         options: {}
     });
     test.end();

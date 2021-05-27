@@ -47,7 +47,7 @@ import {
 } from '../string/encode'
 
 import {
-  DOUBLE__IEEE764_LE
+  DOUBLE_VARINT_TUPLE
 } from '../number/encode'
 
 import {
@@ -150,7 +150,7 @@ export const ANY__TYPE_PREFIX = (
   } else {
     const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number, context)
     const valueBytes: number =
-      DOUBLE__IEEE764_LE(buffer, offset + tagBytes, value, {}, context)
+      DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context)
     return tagBytes + valueBytes
   }
 }

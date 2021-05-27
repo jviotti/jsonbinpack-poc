@@ -14,15 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DOUBLE_VARINT_TUPLE = exports.DOUBLE__IEEE764_LE = void 0;
+exports.DOUBLE_VARINT_TUPLE = void 0;
 var assert_1 = require("assert");
 var from_exponential_1 = __importDefault(require("from-exponential"));
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
-var DOUBLE__IEEE764_LE = function (buffer, offset, value, _options, _context) {
-    return buffer.writeDoubleLE(value, offset) - offset;
-};
-exports.DOUBLE__IEEE764_LE = DOUBLE__IEEE764_LE;
 var stringPrefixCount = function (value, prefix) {
     var e_1, _a;
     var count = 0;

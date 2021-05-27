@@ -27,19 +27,19 @@ import {
   NoOptions
 } from './options'
 
-export interface DOUBLE__IEEE764_LE_ENCODING extends BaseEncodingDefinition {
+export interface DOUBLE_VARINT_TUPLE_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Number;
-  readonly encoding: 'DOUBLE__IEEE764_LE';
+  readonly encoding: 'DOUBLE_VARINT_TUPLE';
   readonly options: NoOptions;
 }
 
-export type NumberEncodingNames = 'DOUBLE__IEEE764_LE'
-export type NumberEncoding = DOUBLE__IEEE764_LE_ENCODING
+export type NumberEncodingNames = 'DOUBLE_VARINT_TUPLE'
+export type NumberEncoding = DOUBLE_VARINT_TUPLE_ENCODING
 
 export const getNumberEncoding = (_schema: NumberEncodingSchema): NumberEncoding => {
   return {
     type: EncodingType.Number,
-    encoding: 'DOUBLE__IEEE764_LE',
+    encoding: 'DOUBLE_VARINT_TUPLE',
     options: {}
   }
 }

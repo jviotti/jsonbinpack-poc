@@ -5,7 +5,7 @@ var base_1 = require("../base");
 var getNumberEncoding = function (_schema) {
     return {
         type: base_1.EncodingType.Number,
-        encoding: 'DOUBLE__IEEE764_LE',
+        encoding: 'DOUBLE_VARINT_TUPLE',
         options: {}
     };
 };
