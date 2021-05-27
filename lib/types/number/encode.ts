@@ -18,7 +18,16 @@ import {
   strict as assert
 } from 'assert'
 
+import fromExponential from 'from-exponential'
 import ResizableBuffer from '../../utils/resizable-buffer'
+
+import {
+  zigzagEncode
+} from '../../utils/zigzag'
+
+import {
+  varintEncode
+} from '../../utils/varint'
 
 import {
   JSONNumber
@@ -28,10 +37,10 @@ import {
   NoOptions
 } from './options'
 
-import {
-  ARBITRARY__ZIGZAG_VARINT,
-  FLOOR__ENUM_VARINT
-} from '../integer/encode'
+// import {
+  // ARBITRARY__ZIGZAG_VARINT,
+  // FLOOR__ENUM_VARINT
+// } from '../integer/encode'
 
 import {
   EncodingContext
@@ -43,33 +52,35 @@ export const DOUBLE__IEEE764_LE = (
   return buffer.writeDoubleLE(value, offset) - offset
 }
 
+const stringPrefixCount = (value: string, prefix: string): number => {
+  let count: number = 0
+
+  for (const character of value) {
+    if (character === prefix) {
+      count += 1
+    } else {
+      break
+    }
+  }
+
+  return count
+}
+
 export const DOUBLE_VARINT_TRIPLET = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: NoOptions, context: EncodingContext
+  _options: NoOptions, _context: EncodingContext
 ): number => {
-  // A probably very inefficient way of splitting a real number
-  // into an integral, decimal, and exponent part
-  const fragments: string[] = value.toString().split('.')
-  const integral: number = parseInt(fragments[0], 10)
-  const decimalFragments: string[] = (fragments[1] ?? '0').split('e-')
-  const decimal: number = parseInt(decimalFragments[0], 10)
-  const exponent: number = parseInt(decimalFragments[1] ?? 0, 10)
-
-  assert(!isNaN(integral))
-  assert(!isNaN(decimal))
-  assert(!isNaN(exponent))
-  assert(decimal >= 0)
-  assert(exponent >= 0)
-
-  const integralBytes: number = ARBITRARY__ZIGZAG_VARINT(
-    buffer, offset, integral, options, context)
-  const decimalBytes: number = FLOOR__ENUM_VARINT(
-    buffer, offset + integralBytes, decimal, {
-      minimum: 0
-    }, context)
-  const exponentBytes: number = FLOOR__ENUM_VARINT(
-    buffer, offset + integralBytes + decimalBytes, exponent, {
-      minimum: 0
-    }, context)
-  return integralBytes + decimalBytes + exponentBytes
+  const valueString: string = fromExponential(value)
+  const pointIndex: number = valueString.indexOf('.')
+  const point: number = pointIndex === -1 ? 0 : pointIndex
+  assert(point >= 0)
+  const integralString: string = valueString.replace('.', '')
+  const zeroPrefix: number = stringPrefixCount(integralString, '0')
+  assert(zeroPrefix >= 0)
+  const integralBytes: number =
+    varintEncode(buffer, offset, zigzagEncode(BigInt(integralString)))
+  const pointValue: bigint = zeroPrefix === 0 || zeroPrefix === integralString.length
+    ? zigzagEncode(BigInt(point))
+    : zigzagEncode(BigInt(-zeroPrefix))
+  return integralBytes + varintEncode(buffer, offset + integralBytes, pointValue)
 }
