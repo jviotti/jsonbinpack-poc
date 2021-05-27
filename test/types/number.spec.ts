@@ -18,13 +18,11 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
-  DOUBLE__IEEE764_LE as ENCODE_DOUBLE__IEEE764_LE,
   DOUBLE_VARINT_TUPLE as ENCODE_DOUBLE_VARINT_TUPLE
 } from '../../lib/types/number/encode'
 
 import {
   NumberResult,
-  DOUBLE__IEEE764_LE as DECODE_DOUBLE__IEEE764_LE,
   DOUBLE_VARINT_TUPLE as DECODE_DOUBLE_VARINT_TUPLE
 } from '../../lib/types/number/decode'
 
@@ -34,20 +32,6 @@ import {
 } from '../../lib/context'
 
 import ResizableBuffer from '../../lib/utils/resizable-buffer'
-
-tap.test('DOUBLE__IEEE764_LE', (test) => {
-  fc.assert(fc.property(fc.nat(10), fc.double(), (offset: number, value: number): boolean => {
-    const context: EncodingContext = getDefaultEncodingContext()
-    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
-    const bytesWritten: number = ENCODE_DOUBLE__IEEE764_LE(buffer, offset, value, {}, context)
-    const result: NumberResult = DECODE_DOUBLE__IEEE764_LE(buffer, offset, {})
-    return bytesWritten === 8 && result.bytes === bytesWritten && result.value === value
-  }), {
-    verbose: false
-  })
-
-  test.end()
-})
 
 tap.test('DOUBLE_VARINT_TUPLE: 2.980232223226409e-7', (test) => {
   const offset: number = 0

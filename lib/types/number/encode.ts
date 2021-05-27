@@ -37,20 +37,9 @@ import {
   NoOptions
 } from './options'
 
-// import {
-  // ARBITRARY__ZIGZAG_VARINT,
-  // FLOOR__ENUM_VARINT
-// } from '../integer/encode'
-
 import {
   EncodingContext
 } from '../../context'
-
-export const DOUBLE__IEEE764_LE = (
-  buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
-): number => {
-  return buffer.writeDoubleLE(value, offset) - offset
-}
 
 const stringPrefixCount = (value: string, prefix: string): number => {
   let count: number = 0

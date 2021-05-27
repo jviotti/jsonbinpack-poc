@@ -112,7 +112,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         };
     }
     else {
-        var result = decode_3.DOUBLE__IEEE764_LE(buffer, offset + tag.bytes, {});
+        var result = decode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {});
         return {
             value: result.value,
             bytes: tag.bytes + result.bytes

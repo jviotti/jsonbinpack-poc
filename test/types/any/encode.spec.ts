@@ -74,11 +74,11 @@ tap.test('ANY__TYPE_PREFIX: should encode " " as 0x01 0x02 0x20', (test) => {
 
 tap.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x04 + double', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, 3.14, {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x04, 0x1f, 0x85, 0xeb, 0x51, 0xb8, 0x1e, 0x09, 0x40 ]))
-  test.is(bytesWritten, 9)
+    0x04, 0xf4, 0x04, 0x02 ]))
+  test.is(bytesWritten, 4)
   test.end()
 })
 

@@ -1,16 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DOUBLE_VARINT_TUPLE = exports.DOUBLE__IEEE764_LE = void 0;
+exports.DOUBLE_VARINT_TUPLE = void 0;
 var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
-var DOUBLE__IEEE764_LE = function (buffer, offset, _options) {
-    var result = buffer.readDoubleLE(offset);
-    return {
-        value: result,
-        bytes: 8
-    };
-};
-exports.DOUBLE__IEEE764_LE = DOUBLE__IEEE764_LE;
 var DOUBLE_VARINT_TUPLE = function (buffer, offset, _options) {
     var integralResult = varint_1.varintDecode(buffer, offset);
     var pointResult = varint_1.varintDecode(buffer, offset + integralResult.bytes);

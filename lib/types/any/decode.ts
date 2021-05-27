@@ -47,7 +47,7 @@ import {
 
 import {
   NumberResult,
-  DOUBLE__IEEE764_LE
+  DOUBLE_VARINT_TUPLE
 } from '../number/decode'
 
 import {
@@ -176,7 +176,7 @@ export const ANY__TYPE_PREFIX = (
     }
   } else {
     const result: NumberResult =
-      DOUBLE__IEEE764_LE(buffer, offset + tag.bytes, {})
+      DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {})
     return {
       value: result.value,
       bytes: tag.bytes + result.bytes
