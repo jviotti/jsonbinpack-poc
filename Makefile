@@ -1,6 +1,9 @@
 .PHONY: all
 
-assets/js/%.min.js: dist/web/%.js
+assets/js:
+	mkdir $@
+
+assets/js/%.min.js: dist/web/%.js | assets/js
 	./node_modules/.bin/browserify $< | ./node_modules/.bin/uglifyjs --compress --mangle > $@
 
 _sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
