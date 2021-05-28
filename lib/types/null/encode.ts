@@ -24,8 +24,12 @@ import {
   EncodingContext
 } from '../../context'
 
+import {
+  JSONNull
+} from '../../json'
+
 export const NULL_8BITS__ENUM_FIXED = (
-  _buffer: ResizableBuffer, _offset: number, _options: NoOptions, _context: EncodingContext
+  _buffer: ResizableBuffer, _offset: number, _value: JSONNull, _options: NoOptions, _context: EncodingContext
 ): number => {
   return 0
 }
