@@ -55,6 +55,10 @@ import {
 } from './types/enum/mapper'
 
 import {
+  OneOfEncoding
+} from './types/oneof/mapper'
+
+import {
   EncodingType,
   DecodeResult
 } from './types/base'
@@ -83,6 +87,7 @@ import * as ENCODE_ANY from './types/any/encode'
 import * as ENCODE_ARRAY from './types/array/encode'
 import * as ENCODE_OBJECT from './types/object/encode'
 import * as ENCODE_ENUM from './types/enum/encode'
+import * as ENCODE_ONEOF from './types/oneof/encode'
 
 import * as DECODE_BOOLEAN from './types/boolean/decode'
 import * as DECODE_INTEGER from './types/integer/decode'
@@ -93,6 +98,7 @@ import * as DECODE_ANY from './types/any/decode'
 import * as DECODE_ARRAY from './types/array/decode'
 import * as DECODE_OBJECT from './types/object/decode'
 import * as DECODE_ENUM from './types/enum/decode'
+import * as DECODE_ONEOF from './types/oneof/decode'
 
 // The union of all possible encodings
 export type Encoding =
@@ -104,7 +110,8 @@ export type Encoding =
   AnyEncoding |
   ArrayEncoding |
   ObjectEncoding |
-  EnumEncoding
+  EnumEncoding |
+  OneOfEncoding
 
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
@@ -118,6 +125,7 @@ ENCODE_TYPE_INDEX.set(EncodingType.Any, ENCODE_ANY)
 ENCODE_TYPE_INDEX.set(EncodingType.Array, ENCODE_ARRAY)
 ENCODE_TYPE_INDEX.set(EncodingType.Object, ENCODE_OBJECT)
 ENCODE_TYPE_INDEX.set(EncodingType.Enum, ENCODE_ENUM)
+ENCODE_TYPE_INDEX.set(EncodingType.OneOf, ENCODE_ONEOF)
 
 DECODE_TYPE_INDEX.set(EncodingType.Boolean, DECODE_BOOLEAN)
 DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
@@ -128,9 +136,11 @@ DECODE_TYPE_INDEX.set(EncodingType.Any, DECODE_ANY)
 DECODE_TYPE_INDEX.set(EncodingType.Array, DECODE_ARRAY)
 DECODE_TYPE_INDEX.set(EncodingType.Object, DECODE_OBJECT)
 DECODE_TYPE_INDEX.set(EncodingType.Enum, DECODE_ENUM)
+DECODE_TYPE_INDEX.set(EncodingType.OneOf, DECODE_ONEOF)
 
 export const encode = (
-  buffer: ResizableBuffer, offset: number, encoding: Encoding, value: JSONValue, context: EncodingContext
+  buffer: ResizableBuffer, offset: number, encoding: Encoding,
+  value: JSONValue, context: EncodingContext
 ): number => {
   const fns: object | undefined = ENCODE_TYPE_INDEX.get(encoding.type)
   assert(typeof fns !== 'undefined')

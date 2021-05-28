@@ -10,9 +10,13 @@ var mapper_6 = require("./types/any/mapper");
 var mapper_7 = require("./types/array/mapper");
 var mapper_8 = require("./types/object/mapper");
 var mapper_9 = require("./types/enum/mapper");
+var mapper_10 = require("./types/oneof/mapper");
 var getEncoding = function (schema) {
     if ('enum' in schema) {
         return mapper_9.getEnumEncoding(schema);
+    }
+    else if ('oneOf' in schema) {
+        return mapper_10.getOneOfEncoding(schema);
     }
     else if (!('type' in schema)) {
         return mapper_6.getAnyEncoding(schema);
