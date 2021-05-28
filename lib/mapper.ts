@@ -58,9 +58,15 @@ import {
   getEnumEncoding
 } from './types/enum/mapper'
 
+import {
+  getOneOfEncoding
+} from './types/oneof/mapper'
+
 export const getEncoding = (schema: EncodingSchema): Encoding => {
   if ('enum' in schema) {
     return getEnumEncoding(schema)
+  } else if ('oneOf' in schema) {
+    return getOneOfEncoding(schema)
   } else if (!('type' in schema)) {
     return getAnyEncoding(schema)
   } else if (schema.type === 'boolean') {

@@ -101,6 +101,10 @@ export interface EnumEncodingSchema {
   readonly enum: JSONValue[];
 }
 
+export interface OneOfEncodingSchema {
+  readonly oneOf: EncodingSchema[];
+}
+
 export type EncodingSchema =
   BooleanEncodingSchema |
   IntegerEncodingSchema |
@@ -110,4 +114,5 @@ export type EncodingSchema =
   AnyEncodingSchema |
   ArrayEncodingSchema |
   ObjectEncodingSchema |
-  EnumEncodingSchema
+  EnumEncodingSchema |
+  OneOfEncodingSchema
