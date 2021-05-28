@@ -15,12 +15,14 @@
  */
 
 import Ajv, {
-  SchemaObject,
   ValidateFunction
 } from 'ajv/dist/2020'
 
+import {
+  EncodingSchema
+} from './encoding-schema'
+
 export {
-  SchemaObject,
   ValidateFunction
 } from 'ajv/dist/2020'
 
@@ -31,6 +33,6 @@ const ajv: Ajv = new Ajv({
   validateFormats: true
 })
 
-export const compileSchema = (schema: SchemaObject): ValidateFunction => {
+export const compileSchema = (schema: EncodingSchema): ValidateFunction => {
   return ajv.compile(schema)
 }
