@@ -18,6 +18,8 @@ import Ajv, {
   ValidateFunction
 } from 'ajv/dist/2020'
 
+import addFormats from 'ajv-formats'
+
 import {
   EncodingSchema
 } from './encoding-schema'
@@ -32,6 +34,11 @@ const ajv: Ajv = new Ajv({
   strictTuples: true,
   validateFormats: true
 })
+
+// The "format" keyword is not supported by
+// default on AJV unless we explicitly add it
+// through the "ajv-formats" plugin.
+addFormats(ajv)
 
 export const compileSchema = (schema: EncodingSchema): ValidateFunction => {
   return ajv.compile(schema)
