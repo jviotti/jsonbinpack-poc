@@ -28,7 +28,7 @@ import {
 
 import {
   NumberEncoding
-} from './types/number/mapper'
+} from './mapper/number'
 
 import {
   IntegerEncoding

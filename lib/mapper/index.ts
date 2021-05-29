@@ -32,7 +32,7 @@ import {
 
 import {
   getNumberEncoding
-} from '../types/number/mapper'
+} from './number'
 
 import {
   getIntegerEncoding

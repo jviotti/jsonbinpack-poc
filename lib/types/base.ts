@@ -68,7 +68,7 @@ import {
 
 import {
   NumberEncodingNames
-} from './number/mapper'
+} from '../mapper/number'
 
 import {
   IntegerEncodingNames

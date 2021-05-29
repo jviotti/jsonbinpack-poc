@@ -14,28 +14,32 @@
  * limitations under the License.
  */
 
-import tap from 'tap'
-
 import {
   NumberEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../encoding-schema'
 
 import {
-  NumberEncoding,
-  getNumberEncoding
-} from '../../../lib/types/number/mapper'
+  BaseEncodingDefinition,
+  EncodingType
+} from '../types/base'
 
-tap.test('should encode a number simple value', (test) => {
-  const schema: NumberEncodingSchema = {
-    type: 'number'
-  }
+import {
+  NoOptions
+} from '../types/number/options'
 
-  const result: NumberEncoding = getNumberEncoding(schema)
-  test.strictSame(result, {
-    type: 'number',
+export interface DOUBLE_VARINT_TUPLE_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.Number;
+  readonly encoding: 'DOUBLE_VARINT_TUPLE';
+  readonly options: NoOptions;
+}
+
+export type NumberEncodingNames = 'DOUBLE_VARINT_TUPLE'
+export type NumberEncoding = DOUBLE_VARINT_TUPLE_ENCODING
+
+export const getNumberEncoding = (_schema: NumberEncodingSchema): NumberEncoding => {
+  return {
+    type: EncodingType.Number,
     encoding: 'DOUBLE_VARINT_TUPLE',
     options: {}
-  })
-
-  test.end()
-})
+  }
+}
