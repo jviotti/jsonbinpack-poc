@@ -40,6 +40,7 @@ const ajv: Ajv = new Ajv({
 // through the "ajv-formats" plugin.
 addFormats(ajv)
 
+// TODO: Change this function into a generic "validate()" function instead
 export const compileSchema = (schema: EncodingSchema): ValidateFunction => {
   return ajv.compile(schema)
 }

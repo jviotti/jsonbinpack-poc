@@ -16,51 +16,51 @@
 
 import {
   Encoding
-} from './encoder'
+} from '../encoder'
 
 import {
   EncodingSchema
-} from './encoding-schema'
+} from '../encoding-schema'
 
 import {
   getBooleanEncoding
-} from './types/boolean/mapper'
+} from '../types/boolean/mapper'
 
 import {
   getNullEncoding
-} from './types/null/mapper'
+} from '../types/null/mapper'
 
 import {
   getNumberEncoding
-} from './types/number/mapper'
+} from '../types/number/mapper'
 
 import {
   getIntegerEncoding
-} from './types/integer/mapper'
+} from '../types/integer/mapper'
 
 import {
   getStringEncoding
-} from './types/string/mapper'
+} from '../types/string/mapper'
 
 import {
   getAnyEncoding
-} from './types/any/mapper'
+} from '../types/any/mapper'
 
 import {
   getArrayEncoding
-} from './types/array/mapper'
+} from '../types/array/mapper'
 
 import {
   getObjectEncoding
-} from './types/object/mapper'
+} from '../types/object/mapper'
 
 import {
   getEnumEncoding
-} from './types/enum/mapper'
+} from '../types/enum/mapper'
 
 import {
   getOneOfEncoding
-} from './types/oneof/mapper'
+} from '../types/oneof/mapper'
 
 export const getEncoding = (schema: EncodingSchema): Encoding => {
   if ('enum' in schema) {

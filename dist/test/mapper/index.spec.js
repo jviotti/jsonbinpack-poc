@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var mapper_1 = require("../lib/mapper");
+var mapper_1 = require("../../lib/mapper");
 tap_1.default.test('should get an integer encoding', function (test) {
     var schema = {
         type: 'integer',

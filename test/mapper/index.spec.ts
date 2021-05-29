@@ -18,15 +18,15 @@ import tap from 'tap'
 
 import {
   EncodingSchema
-} from '../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   Encoding
-} from '../lib/encoder'
+} from '../../lib/encoder'
 
 import {
   getEncoding
-} from '../lib/mapper'
+} from '../../lib/mapper'
 
 tap.test('should get an integer encoding', (test) => {
   const schema: EncodingSchema = {
