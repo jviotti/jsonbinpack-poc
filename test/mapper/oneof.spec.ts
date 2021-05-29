@@ -18,16 +18,16 @@ import tap from 'tap'
 
 import {
   OneOfEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   OneOfEncoding,
   getOneOfEncoding
-} from '../../../lib/types/oneof/mapper'
+} from '../../lib/mapper/oneof'
 
 import {
   getEncoding
-} from '../../../lib/mapper'
+} from '../../lib/mapper'
 
 tap.test('should encode a oneOf schema with multiple choices', (test) => {
   const schema: OneOfEncodingSchema = {

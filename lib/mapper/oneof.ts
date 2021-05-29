@@ -17,20 +17,20 @@
 import {
   EncodingSchema,
   OneOfEncodingSchema
-} from '../../encoding-schema'
+} from '../encoding-schema'
 
 import {
   BaseEncodingDefinition,
   EncodingType
-} from '../base'
+} from '../types/base'
 
 import {
   SchemasOptions
-} from './options'
+} from '../types/oneof/options'
 
 import {
   getEncoding
-} from '../../mapper'
+} from './index'
 
 export interface ONEOF_CHOICE_INDEX_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.OneOf;

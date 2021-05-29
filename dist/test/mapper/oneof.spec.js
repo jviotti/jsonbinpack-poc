@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var mapper_1 = require("../../../lib/types/oneof/mapper");
-var mapper_2 = require("../../../lib/mapper");
+var oneof_1 = require("../../lib/mapper/oneof");
+var mapper_1 = require("../../lib/mapper");
 tap_1.default.test('should encode a oneOf schema with multiple choices', function (test) {
     var schema = {
         oneOf: [
@@ -24,7 +24,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
             }
         ]
     };
-    var result = mapper_1.getOneOfEncoding(schema);
+    var result = oneof_1.getOneOfEncoding(schema);
     test.strictSame(result, {
         type: 'oneOf',
         encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -34,7 +34,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
                     schema: {
                         type: 'string'
                     },
-                    encoding: mapper_2.getEncoding({
+                    encoding: mapper_1.getEncoding({
                         type: 'string'
                     })
                 },
@@ -43,7 +43,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
                         type: 'integer',
                         maximum: 5
                     },
-                    encoding: mapper_2.getEncoding({
+                    encoding: mapper_1.getEncoding({
                         type: 'integer',
                         maximum: 5
                     })
@@ -55,7 +55,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
                             type: 'string'
                         }
                     },
-                    encoding: mapper_2.getEncoding({
+                    encoding: mapper_1.getEncoding({
                         type: 'array',
                         items: {
                             type: 'string'

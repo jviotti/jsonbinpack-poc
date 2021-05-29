@@ -96,7 +96,7 @@ import {
 
 import {
   OneOfEncodingNames
-} from './oneof/mapper'
+} from '../mapper/oneof'
 
 export interface DecodeResult {
   readonly value: JSONValue;

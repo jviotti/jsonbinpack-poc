@@ -37,7 +37,7 @@ import {
 import {
   OneOfEncoding,
   getOneOfEncoding
-} from '../../lib/types/oneof/mapper'
+} from '../../lib/mapper/oneof'
 
 import {
   OneOfEncodingSchema

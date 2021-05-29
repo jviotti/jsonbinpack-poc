@@ -60,7 +60,7 @@ import {
 
 import {
   getOneOfEncoding
-} from '../types/oneof/mapper'
+} from './oneof'
 
 export const getEncoding = (schema: EncodingSchema): Encoding => {
   if ('enum' in schema) {

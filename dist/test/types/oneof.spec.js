@@ -7,7 +7,7 @@ var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../lib/types/oneof/encode");
 var decode_1 = require("../../lib/types/oneof/decode");
 var context_1 = require("../../lib/context");
-var mapper_1 = require("../../lib/types/oneof/mapper");
+var oneof_1 = require("../../lib/mapper/oneof");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', function (test) {
     var context = context_1.getDefaultEncodingContext();
@@ -29,7 +29,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', function (t
             }
         ]
     };
-    var encoding = mapper_1.getOneOfEncoding(schema);
+    var encoding = oneof_1.getOneOfEncoding(schema);
     var options = encoding.options;
     var value = 'foobar';
     var bytesWritten = encode_1.ONEOF_CHOICE_INDEX_PREFIX(buffer, 0, value, options, context);
@@ -59,7 +59,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 2/3 number encoding', function (t
             }
         ]
     };
-    var encoding = mapper_1.getOneOfEncoding(schema);
+    var encoding = oneof_1.getOneOfEncoding(schema);
     var options = encoding.options;
     var value = 4;
     var bytesWritten = encode_1.ONEOF_CHOICE_INDEX_PREFIX(buffer, 0, value, options, context);
@@ -89,7 +89,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 3/3 array encoding', function (te
             }
         ]
     };
-    var encoding = mapper_1.getOneOfEncoding(schema);
+    var encoding = oneof_1.getOneOfEncoding(schema);
     var options = encoding.options;
     var value = ['foobar'];
     var bytesWritten = encode_1.ONEOF_CHOICE_INDEX_PREFIX(buffer, 0, value, options, context);

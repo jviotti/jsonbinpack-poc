@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOneOfEncoding = void 0;
-var base_1 = require("../base");
-var mapper_1 = require("../../mapper");
+var base_1 = require("../types/base");
+var index_1 = require("./index");
 var getOneOfEncoding = function (schema) {
     return {
         type: base_1.EncodingType.OneOf,
@@ -11,7 +11,7 @@ var getOneOfEncoding = function (schema) {
             schemas: schema.oneOf.map(function (item) {
                 return {
                     schema: item,
-                    encoding: mapper_1.getEncoding(item)
+                    encoding: index_1.getEncoding(item)
                 };
             })
         }

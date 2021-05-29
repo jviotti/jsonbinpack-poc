@@ -56,7 +56,7 @@ import {
 
 import {
   OneOfEncoding
-} from './types/oneof/mapper'
+} from './mapper/oneof'
 
 import {
   EncodingType,
