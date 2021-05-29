@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/encoder/null/encode");
 var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
-var context_1 = require("../../../lib/encoder/context");
+var encoder_1 = require("../../../lib/encoder");
 tap_1.default.test('NULL_8BITS__ENUM_FIXED: should encode null as 0x00', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(0));
     var bytesWritten = encode_1.NULL_8BITS__ENUM_FIXED(buffer, 0, null, {}, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([]));

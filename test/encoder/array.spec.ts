@@ -51,7 +51,7 @@ import ResizableBuffer from '../../lib/utils/resizable-buffer'
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from '../../lib/encoder/context'
+} from '../../lib/encoder'
 
 tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

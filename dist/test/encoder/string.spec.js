@@ -43,10 +43,10 @@ var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/encoder/string/encode");
 var decode_1 = require("../../lib/encoder/string/decode");
 var limits_1 = require("../../lib/utils/limits");
-var context_1 = require("../../lib/encoder/context");
+var encoder_1 = require("../../lib/encoder");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
     var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {}, context);
     test.is(bytesWritten, 2);
@@ -62,7 +62,7 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) 
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 4), offset = _b[0], minimum = _b[1], maximum = _b[2], value = _b[3];
         fc.pre(Buffer.byteLength(value, 'utf8') >= minimum);
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(offset + limits_1.UINT8_MAX + 1));
         var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, { minimum: minimum, maximum: maximum }, context);
         var result = decode_1.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, { minimum: minimum, maximum: maximum });
@@ -79,7 +79,7 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test)
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 4), offset = _b[0], minimum = _b[1], maximum = _b[2], value = _b[3];
         fc.pre(Buffer.byteLength(value, 'utf8') >= minimum);
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum: minimum, maximum: maximum }, context);
         var result = decode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum: minimum, maximum: maximum });
@@ -95,7 +95,7 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
     });
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 3), offset = _b[0], maximum = _b[1], value = _b[2];
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(offset + limits_1.UINT8_MAX + 1));
         var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, { maximum: maximum }, context);
         var result = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, { maximum: maximum });
@@ -111,7 +111,7 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     });
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 3), offset = _b[0], maximum = _b[1], value = _b[2];
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum: maximum }, context);
         var result = decode_1.ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { maximum: maximum });
@@ -127,7 +127,7 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     });
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 3), offset = _b[0], minimum = _b[1], value = _b[2];
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum: minimum }, context);
         var result = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum: minimum });
@@ -139,7 +139,7 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
 });
 tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', function (test) {
     fc.assert(fc.property(fc.nat(10), fc.string({ maxLength: 1000 }), function (offset, value) {
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {}, context);
         var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
@@ -150,7 +150,7 @@ tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', function (test) {
     test.end();
 });
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: shared string', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
     var options = {
         minimum: 0,
@@ -169,7 +169,7 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: shared string', function 
     test.end();
 });
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: shared string', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
     var options = {
         minimum: 0,
@@ -188,7 +188,7 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: shared string', function
     test.end();
 });
 tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: shared string', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
     var options = {
         maximum: 4
@@ -206,7 +206,7 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: shared string', function (te
     test.end();
 });
 tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: shared string', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
     var options = {
         maximum: 4
@@ -224,7 +224,7 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: shared string', function (t
     test.end();
 });
 tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: shared string', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
     var options = {
         minimum: 2
@@ -242,7 +242,7 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: shared string', function (
     test.end();
 });
 tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: shared string', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
     var bytesWritten1 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, 'foo', {}, context);
     var bytesWritten2 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, bytesWritten1, 'foo', {}, context);

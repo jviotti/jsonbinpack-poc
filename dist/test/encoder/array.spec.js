@@ -29,9 +29,9 @@ var integer_1 = require("../../lib/mapper/integer");
 var encode_1 = require("../../lib/encoder/array/encode");
 var decode_1 = require("../../lib/encoder/array/decode");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
-var context_1 = require("../../lib/encoder/context");
+var encoder_1 = require("../../lib/encoder");
 tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var value = ['foo', true, 2000];
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
     var options = {
@@ -47,7 +47,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 
     test.end();
 });
 tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var value = [];
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
     var options = {
@@ -62,7 +62,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', function (test
 });
 tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', function (test) {
     fc.assert(fc.property(fc.array(fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 10 }))), function (value) {
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var offset = 0;
         var bytesWritten = encode_1.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
@@ -80,7 +80,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', function (tes
 });
 tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', function (test) {
     fc.assert(fc.property(fc.array(fc.integer()), function (value) {
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var offset = 0;
         var encoding = integer_1.getIntegerEncoding({

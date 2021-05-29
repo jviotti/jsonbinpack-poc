@@ -51,7 +51,7 @@ import {
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from '../../lib/encoder/context'
+} from '../../lib/encoder'
 
 import ResizableBuffer from '../../lib/utils/resizable-buffer'
 

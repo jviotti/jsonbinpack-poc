@@ -27,10 +27,10 @@ var fc = __importStar(require("fast-check"));
 var util = __importStar(require("util"));
 var encode_1 = require("../../lib/encoder/any/encode");
 var decode_1 = require("../../lib/encoder/any/decode");
-var context_1 = require("../../lib/encoder/context");
+var encoder_1 = require("../../lib/encoder");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ANY__TYPE_PREFIX: should handle " "', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, ' ', {}, context);
     test.is(bytesWritten, 3);
@@ -40,7 +40,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle " "', function (test) {
     test.end();
 });
 tap_1.default.test('ANY__TYPE_PREFIX: should handle {"foo":"bar","baz":1}', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(100));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, {
         foo: 'bar',
@@ -56,7 +56,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle {"foo":"bar","baz":1}', func
     test.end();
 });
 tap_1.default.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(100));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, [
         'foo', true, 2000
@@ -68,7 +68,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', func
     test.end();
 });
 tap_1.default.test('ANY__TYPE_PREFIX: should handle shared strings', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(100));
     var bytesWritten1 = encode_1.ANY__TYPE_PREFIX(buffer, 0, 'foo', {}, context);
     var bytesWritten2 = encode_1.ANY__TYPE_PREFIX(buffer, bytesWritten1, 'foo', {}, context);
@@ -91,7 +91,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle shared strings', function (t
 });
 tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
     fc.assert(fc.property(fc.nat(10), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 1000 })), function (offset, value) {
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, offset, value, {}, context);
         var result = decode_1.ANY__TYPE_PREFIX(buffer, offset, {});
@@ -104,7 +104,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
 });
 tap_1.default.test('ANY__TYPE_PREFIX: JSON', function (test) {
     fc.assert(fc.property(fc.json(), function (json) {
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var value = JSON.parse(json);
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {}, context);
@@ -118,7 +118,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: JSON', function (test) {
 });
 tap_1.default.test('ANY__TYPE_PREFIX: JSON with small ResizableBuffer', function (test) {
     fc.assert(fc.property(fc.json(), function (json) {
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var value = JSON.parse(json);
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
         var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {}, context);
@@ -132,7 +132,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: JSON with small ResizableBuffer', function
 });
 tap_1.default.test('ANY__TYPE_PREFIX: JSON with 0 ResizableBuffer', function (test) {
     fc.assert(fc.property(fc.json(), function (json) {
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var value = JSON.parse(json);
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(0));
         var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {}, context);

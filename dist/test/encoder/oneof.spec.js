@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../lib/encoder/oneof/encode");
 var decode_1 = require("../../lib/encoder/oneof/decode");
-var context_1 = require("../../lib/encoder/context");
+var encoder_1 = require("../../lib/encoder");
 var oneof_1 = require("../../lib/mapper/oneof");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(8));
     var schema = {
         oneOf: [
@@ -40,7 +40,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', function (t
     test.end();
 });
 tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 2/3 number encoding', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
     var schema = {
         oneOf: [
@@ -70,7 +70,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 2/3 number encoding', function (t
     test.end();
 });
 tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 3/3 array encoding', function (test) {
-    var context = context_1.getDefaultEncodingContext();
+    var context = encoder_1.getDefaultEncodingContext();
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(9));
     var schema = {
         oneOf: [

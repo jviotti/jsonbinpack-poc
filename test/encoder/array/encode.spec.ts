@@ -29,7 +29,7 @@ import {
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from '../../../lib/encoder/context'
+} from '../../../lib/encoder'
 
 import {
   BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX,

@@ -44,7 +44,7 @@ var util = __importStar(require("util"));
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 var encode_1 = require("../../lib/encoder/enum/encode");
 var decode_1 = require("../../lib/encoder/enum/decode");
-var context_1 = require("../../lib/encoder/context");
+var encoder_1 = require("../../lib/encoder");
 tap_1.default.test('BOUNDED_CHOICE_INDEX', function (test) {
     var arbitrary = fc.integer(1, 20).chain(function (length) {
         return fc.tuple(fc.integer(0, length - 1), fc.array(fc.json(), {
@@ -55,7 +55,7 @@ tap_1.default.test('BOUNDED_CHOICE_INDEX', function (test) {
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 2), index = _b[0], array = _b[1];
         fc.pre(index < array.length);
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var choices = array.map(function (json) {
             return JSON.parse(json);
         });
@@ -83,7 +83,7 @@ tap_1.default.test('LARGE_BOUNDED_CHOICE_INDEX', function (test) {
     fc.assert(fc.property(arbitrary, function (_a) {
         var _b = __read(_a, 2), index = _b[0], array = _b[1];
         fc.pre(index < array.length);
-        var context = context_1.getDefaultEncodingContext();
+        var context = encoder_1.getDefaultEncodingContext();
         var choices = array.map(function (json) {
             return JSON.parse(json);
         });

@@ -25,7 +25,7 @@ import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from '../../../lib/encoder/context'
+} from '../../../lib/encoder'
 
 tap.test('NULL_8BITS__ENUM_FIXED: should encode null as 0x00', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

@@ -38,7 +38,7 @@ import {
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from '../../lib/encoder/context'
+} from '../../lib/encoder'
 
 tap.test('BOUNDED_CHOICE_INDEX', (test) => {
   const arbitrary = fc.integer(1, 20).chain((length: number) => {
