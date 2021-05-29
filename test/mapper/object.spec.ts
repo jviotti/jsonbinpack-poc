@@ -17,22 +17,22 @@
 import tap from 'tap'
 
 import {
-  ObjectEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  ObjectEncoding,
-  getObjectEncoding
-} from '../../lib/mapper/object'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode a bounded object with only required keys', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     required: [ 'foo', 'bar' ]
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -57,14 +57,14 @@ tap.test('should encode a bounded object with only required keys', (test) => {
 })
 
 tap.test('should encode a bounded object with required keys and empty properties', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     properties: {},
     required: [ 'foo', 'bar' ]
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -89,7 +89,7 @@ tap.test('should encode a bounded object with required keys and empty properties
 })
 
 tap.test('should encode a bounded object with partially defined required keys', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     required: [ 'foo', 'bar' ],
@@ -101,7 +101,7 @@ tap.test('should encode a bounded object with partially defined required keys', 
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -128,7 +128,7 @@ tap.test('should encode a bounded object with partially defined required keys', 
 })
 
 tap.test('should encode a bounded object with fully defined required keys', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     required: [ 'foo', 'bar' ],
@@ -143,7 +143,7 @@ tap.test('should encode a bounded object with fully defined required keys', (tes
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -170,12 +170,12 @@ tap.test('should encode a bounded object with fully defined required keys', (tes
 })
 
 tap.test('should encode a bounded object with no required nor optionals', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -189,7 +189,7 @@ tap.test('should encode a bounded object with no required nor optionals', (test)
 })
 
 tap.test('should encode a bounded object with optional properties', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     properties: {
@@ -200,7 +200,7 @@ tap.test('should encode a bounded object with optional properties', (test) => {
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -222,7 +222,7 @@ tap.test('should encode a bounded object with optional properties', (test) => {
 })
 
 tap.test('should encode a bounded object with more than one optional keys', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     properties: {
@@ -236,7 +236,7 @@ tap.test('should encode a bounded object with more than one optional keys', (tes
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -263,7 +263,7 @@ tap.test('should encode a bounded object with more than one optional keys', (tes
 })
 
 tap.test('should encode a bounded object with more than one optional keys and empty required', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     required: [],
@@ -278,7 +278,7 @@ tap.test('should encode a bounded object with more than one optional keys and em
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -305,7 +305,7 @@ tap.test('should encode a bounded object with more than one optional keys and em
 })
 
 tap.test('should encode a bounded object with an optional and a required property', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     required: [ 'bar' ],
@@ -317,7 +317,7 @@ tap.test('should encode a bounded object with an optional and a required propert
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
@@ -345,7 +345,7 @@ tap.test('should encode a bounded object with an optional and a required propert
 })
 
 tap.test('should encode a bounded object with an optional and a typed required property', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: false,
     required: [ 'bar' ],
@@ -360,7 +360,7 @@ tap.test('should encode a bounded object with an optional and a typed required p
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
@@ -388,11 +388,11 @@ tap.test('should encode a bounded object with an optional and a typed required p
 })
 
 tap.test('should encode a simple unbounded object', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object'
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -414,12 +414,12 @@ tap.test('should encode a simple unbounded object', (test) => {
 })
 
 tap.test('should encode a simple unbounded object with empty required', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     required: []
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -441,12 +441,12 @@ tap.test('should encode a simple unbounded object with empty required', (test) =
 })
 
 tap.test('should encode a simple unbounded object with additionalProperties: true', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: true
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -468,14 +468,14 @@ tap.test('should encode a simple unbounded object with additionalProperties: tru
 })
 
 tap.test('should encode a simple unbounded object with additionalProperties: schema', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: {
       type: 'string'
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -497,7 +497,7 @@ tap.test('should encode a simple unbounded object with additionalProperties: sch
 })
 
 tap.test('should encode a simple unbounded object with propertyNames', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     propertyNames: {
       type: 'string',
@@ -505,7 +505,7 @@ tap.test('should encode a simple unbounded object with propertyNames', (test) =>
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -529,7 +529,7 @@ tap.test('should encode a simple unbounded object with propertyNames', (test) =>
 })
 
 tap.test('should encode a simple unbounded object with propertyNames and additionalProperties: true', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: true,
     propertyNames: {
@@ -538,7 +538,7 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -562,7 +562,7 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
 })
 
 tap.test('should encode a simple unbounded object with propertyNames and additionalProperties: schema', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     additionalProperties: {
       type: 'string'
@@ -573,7 +573,7 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -597,12 +597,12 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
 })
 
 tap.test('should encode a simple unbounded object with a required property', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     required: [ 'foo' ]
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -632,7 +632,7 @@ tap.test('should encode a simple unbounded object with a required property', (te
 })
 
 tap.test('should encode a simple unbounded object with a required typed property', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     required: [ 'foo' ],
     properties: {
@@ -642,7 +642,7 @@ tap.test('should encode a simple unbounded object with a required typed property
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -672,7 +672,7 @@ tap.test('should encode a simple unbounded object with a required typed property
 })
 
 tap.test('should encode a simple unbounded object with two optional properties', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     properties: {
       foo: {
@@ -685,7 +685,7 @@ tap.test('should encode a simple unbounded object with two optional properties',
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
@@ -722,7 +722,7 @@ tap.test('should encode a simple unbounded object with two optional properties',
 })
 
 tap.test('should encode a complex unbounded object', (test) => {
-  const schema: ObjectEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'object',
     required: [ 'foo', 'bar' ],
     additionalProperties: {
@@ -743,7 +743,7 @@ tap.test('should encode a complex unbounded object', (test) => {
     }
   }
 
-  const result: ObjectEncoding = getObjectEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
     encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',

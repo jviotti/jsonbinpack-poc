@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var string_1 = require("../../lib/mapper/string");
+var mapper_1 = require("../../lib/mapper");
 tap_1.default.test('should encode a simple string', function (test) {
     var schema = {
         type: 'string'
     };
-    var result = string_1.getStringEncoding(schema);
+    var result = mapper_1.getEncoding(schema);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
@@ -22,7 +22,7 @@ tap_1.default.test('should encode a string with minLength', function (test) {
         type: 'string',
         minLength: 5
     };
-    var result = string_1.getStringEncoding(schema);
+    var result = mapper_1.getEncoding(schema);
     test.strictSame(result, {
         type: 'string',
         encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
@@ -37,7 +37,7 @@ tap_1.default.test('should encode a string with maxLength >= 255', function (tes
         type: 'string',
         maxLength: 256
     };
-    var result = string_1.getStringEncoding(schema);
+    var result = mapper_1.getEncoding(schema);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -52,7 +52,7 @@ tap_1.default.test('should encode a string with maxLength < 255', function (test
         type: 'string',
         maxLength: 254
     };
-    var result = string_1.getStringEncoding(schema);
+    var result = mapper_1.getEncoding(schema);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
@@ -67,7 +67,7 @@ tap_1.default.test('should encode a string with maxLength = 255', function (test
         type: 'string',
         maxLength: 255
     };
-    var result = string_1.getStringEncoding(schema);
+    var result = mapper_1.getEncoding(schema);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -83,7 +83,7 @@ tap_1.default.test('should encode a string with minLength and maxLength < 255', 
         minLength: 100,
         maxLength: 300
     };
-    var result = string_1.getStringEncoding(schema);
+    var result = mapper_1.getEncoding(schema);
     test.strictSame(result, {
         type: 'string',
         encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
@@ -100,7 +100,7 @@ tap_1.default.test('should encode a string with minLength and maxLength > 255', 
         minLength: 100,
         maxLength: 600
     };
-    var result = string_1.getStringEncoding(schema);
+    var result = mapper_1.getEncoding(schema);
     test.strictSame(result, {
         type: 'string',
         encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',

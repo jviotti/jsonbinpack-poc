@@ -17,20 +17,16 @@
 import tap from 'tap'
 
 import {
-  OneOfEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  OneOfEncoding,
-  getOneOfEncoding
-} from '../../lib/mapper/oneof'
-
-import {
+  Encoding,
   getEncoding
 } from '../../lib/mapper'
 
 tap.test('should encode a oneOf schema with multiple choices', (test) => {
-  const schema: OneOfEncodingSchema = {
+  const schema: EncodingSchema = {
     oneOf: [
       {
         type: 'string'
@@ -48,7 +44,7 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
     ]
   }
 
-  const result: OneOfEncoding = getOneOfEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',

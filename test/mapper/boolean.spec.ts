@@ -17,20 +17,20 @@
 import tap from 'tap'
 
 import {
-  BooleanEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  BooleanEncoding,
-  getBooleanEncoding
-} from '../../lib/mapper/boolean'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode a boolean value', (test) => {
-  const schema: BooleanEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'boolean'
   }
 
-  const result: BooleanEncoding = getBooleanEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'boolean',
     encoding: 'BOOLEAN_8BITS__ENUM_FIXED',

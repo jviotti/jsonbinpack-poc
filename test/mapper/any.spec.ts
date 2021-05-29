@@ -17,18 +17,18 @@
 import tap from 'tap'
 
 import {
-  AnyEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  AnyEncoding,
-  getAnyEncoding
-} from '../../lib/mapper/any'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode an any value', (test) => {
-  const schema: AnyEncodingSchema = {}
+  const schema: EncodingSchema = {}
 
-  const result: AnyEncoding = getAnyEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'any',
     encoding: 'ANY__TYPE_PREFIX',

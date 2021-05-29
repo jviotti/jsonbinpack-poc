@@ -17,20 +17,20 @@
 import tap from 'tap'
 
 import {
-  NumberEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  NumberEncoding,
-  getNumberEncoding
-} from '../../lib/mapper/number'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode a number simple value', (test) => {
-  const schema: NumberEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'number'
   }
 
-  const result: NumberEncoding = getNumberEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'number',
     encoding: 'DOUBLE_VARINT_TUPLE',

@@ -17,23 +17,23 @@
 import tap from 'tap'
 
 import {
-  IntegerEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  IntegerEncoding,
-  getIntegerEncoding
-} from '../../lib/mapper/integer'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 100,
     multipleOf: 5
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
@@ -48,14 +48,14 @@ tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier',
 })
 
 tap.test('should encode an integer with minimum, maximum, and multiplier', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 10000,
     multipleOf: 5
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
@@ -70,11 +70,11 @@ tap.test('should encode an integer with minimum, maximum, and multiplier', (test
 })
 
 tap.test('should encode an arbitrary integer', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer'
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ARBITRARY__ZIGZAG_VARINT',
@@ -85,12 +85,12 @@ tap.test('should encode an arbitrary integer', (test) => {
 })
 
 tap.test('should encode an arbitrary integer with multipleOf', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     multipleOf: 5
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
@@ -103,12 +103,12 @@ tap.test('should encode an arbitrary integer with multipleOf', (test) => {
 })
 
 tap.test('should encode an integer with minimum', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     minimum: 0
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'FLOOR__ENUM_VARINT',
@@ -121,13 +121,13 @@ tap.test('should encode an integer with minimum', (test) => {
 })
 
 tap.test('should encode an integer with minimum and multipleOf', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     minimum: 0,
     multipleOf: 5
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
@@ -141,12 +141,12 @@ tap.test('should encode an integer with minimum and multipleOf', (test) => {
 })
 
 tap.test('should encode an integer with maximum', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     maximum: 100
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ROOF__MIRROR_ENUM_VARINT',
@@ -159,13 +159,13 @@ tap.test('should encode an integer with maximum', (test) => {
 })
 
 tap.test('should encode an integer with maximum and multipleOf', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     maximum: 100,
     multipleOf: 5
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
@@ -179,13 +179,13 @@ tap.test('should encode an integer with maximum and multipleOf', (test) => {
 })
 
 tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 100
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_8BITS__ENUM_FIXED',
@@ -199,13 +199,13 @@ tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
 })
 
 tap.test('should encode an >8-bit integer with minimum and maximum', (test) => {
-  const schema: IntegerEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'integer',
     minimum: -100,
     maximum: 100000
   }
 
-  const result: IntegerEncoding = getIntegerEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED__ENUM_VARINT',

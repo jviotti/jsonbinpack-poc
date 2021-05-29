@@ -17,20 +17,20 @@
 import tap from 'tap'
 
 import {
-  ArrayEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  ArrayEncoding,
-  getArrayEncoding
-} from '../../lib/mapper/array'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode an arbitrary array', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array'
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -43,12 +43,12 @@ tap.test('should encode an arbitrary array', (test) => {
 })
 
 tap.test('should encode an arbitrary array with minItems', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     minItems: 10
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -62,12 +62,12 @@ tap.test('should encode an arbitrary array with minItems', (test) => {
 })
 
 tap.test('should encode an arbitrary array with maxItems = 256', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     maxItems: 256
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'ROOF_SEMITYPED__LENGTH_PREFIX',
@@ -81,12 +81,12 @@ tap.test('should encode an arbitrary array with maxItems = 256', (test) => {
 })
 
 tap.test('should encode an arbitrary array with maxItems = 255', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     maxItems: 255
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -100,12 +100,12 @@ tap.test('should encode an arbitrary array with maxItems = 255', (test) => {
 })
 
 tap.test('should encode an arbitrary array with maxItems < 255', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     maxItems: 10
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -119,13 +119,13 @@ tap.test('should encode an arbitrary array with maxItems < 255', (test) => {
 })
 
 tap.test('should encode an arbitrary array with maxItems - minItems < 255', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     maxItems: 10,
     minItems: 3
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -140,13 +140,13 @@ tap.test('should encode an arbitrary array with maxItems - minItems < 255', (tes
 })
 
 tap.test('should encode an arbitrary array with maxItems - minItems > 255', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     maxItems: 450,
     minItems: 30
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -161,7 +161,7 @@ tap.test('should encode an arbitrary array with maxItems - minItems > 255', (tes
 })
 
 tap.test('should encode an semi-typed scalar heterogeneous array', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     prefixItems: [
       {
@@ -174,7 +174,7 @@ tap.test('should encode an semi-typed scalar heterogeneous array', (test) => {
     ]
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -200,7 +200,7 @@ tap.test('should encode an semi-typed scalar heterogeneous array', (test) => {
 })
 
 tap.test('should encode an semi-typed array with minItems', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     minItems: 5,
     prefixItems: [
@@ -214,7 +214,7 @@ tap.test('should encode an semi-typed array with minItems', (test) => {
     ]
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -241,7 +241,7 @@ tap.test('should encode an semi-typed array with minItems', (test) => {
 })
 
 tap.test('should encode an semi + fully typed array with minItems', (test) => {
-  const schema: ArrayEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'array',
     minItems: 5,
     items: {
@@ -258,7 +258,7 @@ tap.test('should encode an semi + fully typed array with minItems', (test) => {
     ]
   }
 
-  const result: ArrayEncoding = getArrayEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'array',
     encoding: 'FLOOR_TYPED__LENGTH_PREFIX',

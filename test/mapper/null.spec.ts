@@ -17,20 +17,20 @@
 import tap from 'tap'
 
 import {
-  NullEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  NullEncoding,
-  getNullEncoding
-} from '../../lib/mapper/null'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode a null value', (test) => {
-  const schema: NullEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'null'
   }
 
-  const result: NullEncoding = getNullEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'null',
     encoding: 'NULL_8BITS__ENUM_FIXED',

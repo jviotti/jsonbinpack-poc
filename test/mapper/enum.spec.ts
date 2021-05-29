@@ -17,20 +17,20 @@
 import tap from 'tap'
 
 import {
-  EnumEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  EnumEncoding,
-  getEnumEncoding
-} from '../../lib/mapper/enum'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode an enum with one value', (test) => {
-  const schema: EnumEncodingSchema = {
+  const schema: EncodingSchema = {
     enum: [ 'foo' ]
   }
 
-  const result: EnumEncoding = getEnumEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'enum',
     encoding: 'BOUNDED_CHOICE_INDEX',

@@ -17,20 +17,20 @@
 import tap from 'tap'
 
 import {
-  StringEncodingSchema
+  EncodingSchema
 } from '../../lib/encoding-schema'
 
 import {
-  StringEncoding,
-  getStringEncoding
-} from '../../lib/mapper/string'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 tap.test('should encode a simple string', (test) => {
-  const schema: StringEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'string'
   }
 
-  const result: StringEncoding = getStringEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
@@ -41,12 +41,12 @@ tap.test('should encode a simple string', (test) => {
 })
 
 tap.test('should encode a string with minLength', (test) => {
-  const schema: StringEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'string',
     minLength: 5
   }
 
-  const result: StringEncoding = getStringEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'string',
     encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
@@ -59,12 +59,12 @@ tap.test('should encode a string with minLength', (test) => {
 })
 
 tap.test('should encode a string with maxLength >= 255', (test) => {
-  const schema: StringEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'string',
     maxLength: 256
   }
 
-  const result: StringEncoding = getStringEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -77,12 +77,12 @@ tap.test('should encode a string with maxLength >= 255', (test) => {
 })
 
 tap.test('should encode a string with maxLength < 255', (test) => {
-  const schema: StringEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'string',
     maxLength: 254
   }
 
-  const result: StringEncoding = getStringEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
@@ -95,12 +95,12 @@ tap.test('should encode a string with maxLength < 255', (test) => {
 })
 
 tap.test('should encode a string with maxLength = 255', (test) => {
-  const schema: StringEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'string',
     maxLength: 255
   }
 
-  const result: StringEncoding = getStringEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -115,13 +115,13 @@ tap.test('should encode a string with maxLength = 255', (test) => {
 tap.test('should encode a string with minLength and maxLength < 255', (
   test
 ) => {
-  const schema: StringEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'string',
     minLength: 100,
     maxLength: 300
   }
 
-  const result: StringEncoding = getStringEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
@@ -137,13 +137,13 @@ tap.test('should encode a string with minLength and maxLength < 255', (
 tap.test('should encode a string with minLength and maxLength > 255', (
   test
 ) => {
-  const schema: StringEncodingSchema = {
+  const schema: EncodingSchema = {
     type: 'string',
     minLength: 100,
     maxLength: 600
   }
 
-  const result: StringEncoding = getStringEncoding(schema)
+  const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',
