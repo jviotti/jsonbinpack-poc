@@ -53,7 +53,8 @@ tap.test('should encode 50399 as 0xDF 0x89 0x03', (test) => {
 })
 
 tap.test('should decode 0xAC 0x02 as 300', (test) => {
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.from([ 0xAC, 0x02 ]))
+  const buffer: ResizableBuffer =
+    new ResizableBuffer(Buffer.from([ 0xAC, 0x02 ]))
   const offset: number = 0
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   test.is(result.value, BigInt(300))
@@ -73,9 +74,11 @@ tap.test('should encode and decode 4294967294', (test) => {
 })
 
 tap.test('should encode and decode 696667952522107300000', (test) => {
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const buffer: ResizableBuffer =
+    new ResizableBuffer(Buffer.allocUnsafe(10))
   const offset: number = 0
-  const bytesWritten: number = varintEncode(buffer, offset, BigInt(696667952522107300000))
+  const bytesWritten: number =
+    varintEncode(buffer, offset, BigInt(696667952522107300000))
   test.is(bytesWritten, 10)
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   test.is(result.bytes, 10)

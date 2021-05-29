@@ -348,7 +348,7 @@ rules:
     - error
     - always
   max-len:
-    - error
+    - off
     - code: 80
       comments: 80
       ignoreComments: false

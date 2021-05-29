@@ -73,9 +73,14 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 1 of 
 
   test.is(bytesWritten, 8)
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, // OneOf index
-    0x07, // String length
-    0x66, 0x6f, 0x6f, 0x62, 0x61, 0x72 // "foobar"
+    // OneOf index
+    0x00,
+
+    // String length
+    0x07,
+
+    // "foobar"
+    0x66, 0x6f, 0x6f, 0x62, 0x61, 0x72
   ]))
   test.end()
 })
@@ -109,8 +114,11 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 2 of 
 
   test.is(bytesWritten, 2)
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, // OneOf index
-    0x01 // Integer value
+    // OneOf index
+    0x01,
+
+    // Integer value
+    0x01
   ]))
   test.end()
 })
@@ -144,10 +152,17 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 3 of 
 
   test.is(bytesWritten, 9)
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x02, // OneOf index
-    0x01, // Array length
-    0x07, // String length
-    0x66, 0x6f, 0x6f, 0x62, 0x61, 0x72 // "foobar"
+    // OneOf index
+    0x02,
+
+    // Array length
+    0x01,
+
+    // String length
+    0x07,
+
+    // "foobar"
+    0x66, 0x6f, 0x6f, 0x62, 0x61, 0x72
   ]))
   test.end()
 })

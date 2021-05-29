@@ -156,10 +156,17 @@ tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
     buffer, bytesWritten1, 'foo', options, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x04, 0x66, 0x6f, 0x6f, // String length + foo
-    0x00, // Start of pointer
-    0x04, // String length
-    0x05 // Pointer (current = 6 - location = 1)
+    // String length + foo
+    0x04, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x00,
+
+    // String length
+    0x04,
+
+    // Pointer (current = 6 - location = 1)
+    0x05
   ]))
 
   test.is(context.strings.get('foo'), 1)
@@ -186,10 +193,17 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
     buffer, bytesWritten1, 'foo', options, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x04, 0x66, 0x6f, 0x6f, // String length + foo
-    0x00, // Start of pointer
-    0x04, // String length
-    0x05 // Pointer (current = 6 - location = 1)
+    // String length + foo
+    0x04, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x00,
+
+    // String length
+    0x04,
+
+    // Pointer (current = 6 - location = 1)
+    0x05
   ]))
 
   test.is(context.strings.get('foo'), 1)
@@ -215,10 +229,17 @@ tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
     buffer, bytesWritten1, 'foo', options, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x04, 0x66, 0x6f, 0x6f, // String length + foo
-    0x00, // Start of pointer
-    0x04, // String length
-    0x05 // Pointer (current = 6 - location = 1)
+    // String length + foo
+    0x04, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x00,
+
+    // String length
+    0x04,
+
+    // Pointer (current = 6 - location = 1)
+    0x05
   ]))
 
   test.is(context.strings.get('foo'), 1)
@@ -244,10 +265,17 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
     buffer, bytesWritten1, 'foo', options, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x02, 0x66, 0x6f, 0x6f, // String length + foo
-    0x00, // Start of pointer
-    0x02, // String length
-    0x05 // Pointer (current = 6 - location = 1)
+    // String length + foo
+    0x02, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x00,
+
+    // String length
+    0x02,
+
+    // Pointer (current = 6 - location = 1)
+    0x05
   ]))
 
   test.is(context.strings.get('foo'), 1)
@@ -273,10 +301,17 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
     buffer, bytesWritten1, 'foo', options, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, 0x66, 0x6f, 0x6f, // String length + foo
-    0x00, // Start of pointer
-    0x01, // String length
-    0x05 // Pointer (current = 6 - location = 1)
+    // String length + foo
+    0x01, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x00,
+
+    // String length
+    0x01,
+
+    // Pointer (current = 6 - location = 1)
+    0x05
   ]))
 
   test.is(context.strings.get('foo'), 1)
@@ -299,10 +334,17 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode a shared string', (
     buffer, bytesWritten1, 'foo', {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x04, 0x66, 0x6f, 0x6f, // String length + foo
-    0x00, // Start of pointer
-    0x04, // String length
-    0x05 // Pointer (current = 6 - location = 1)
+    // String length + foo
+    0x04, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x00,
+
+    // String length
+    0x04,
+
+    // Pointer (current = 6 - location = 1)
+    0x05
   ]))
 
   test.is(context.strings.get('foo'), 1)
