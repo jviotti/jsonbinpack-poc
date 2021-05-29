@@ -72,7 +72,7 @@ import {
 
 import {
   IntegerEncodingNames
-} from './integer/mapper'
+} from '../mapper/integer'
 
 import {
   StringEncodingNames

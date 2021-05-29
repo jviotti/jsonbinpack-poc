@@ -32,7 +32,7 @@ import {
 
 import {
   IntegerEncoding
-} from './types/integer/mapper'
+} from './mapper/integer'
 
 import {
   StringEncoding

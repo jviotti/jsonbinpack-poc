@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var mapper_1 = require("../../../lib/types/integer/mapper");
+var integer_1 = require("../../lib/mapper/integer");
 tap_1.default.test('should encode an 8-bit integer with minimum, maximum, and multiplier', function (test) {
     var schema = {
         type: 'integer',
@@ -12,7 +12,7 @@ tap_1.default.test('should encode an 8-bit integer with minimum, maximum, and mu
         maximum: 100,
         multipleOf: 5
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
@@ -31,7 +31,7 @@ tap_1.default.test('should encode an integer with minimum, maximum, and multipli
         maximum: 10000,
         multipleOf: 5
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
@@ -47,7 +47,7 @@ tap_1.default.test('should encode an arbitrary integer', function (test) {
     var schema = {
         type: 'integer'
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ARBITRARY__ZIGZAG_VARINT',
@@ -60,7 +60,7 @@ tap_1.default.test('should encode an arbitrary integer with multipleOf', functio
         type: 'integer',
         multipleOf: 5
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
@@ -75,7 +75,7 @@ tap_1.default.test('should encode an integer with minimum', function (test) {
         type: 'integer',
         minimum: 0
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'FLOOR__ENUM_VARINT',
@@ -91,7 +91,7 @@ tap_1.default.test('should encode an integer with minimum and multipleOf', funct
         minimum: 0,
         multipleOf: 5
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
@@ -107,7 +107,7 @@ tap_1.default.test('should encode an integer with maximum', function (test) {
         type: 'integer',
         maximum: 100
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ROOF__MIRROR_ENUM_VARINT',
@@ -123,7 +123,7 @@ tap_1.default.test('should encode an integer with maximum and multipleOf', funct
         maximum: 100,
         multipleOf: 5
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
@@ -140,7 +140,7 @@ tap_1.default.test('should encode an 8-bit integer with minimum and maximum', fu
         minimum: -100,
         maximum: 100
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_8BITS__ENUM_FIXED',
@@ -157,7 +157,7 @@ tap_1.default.test('should encode an >8-bit integer with minimum and maximum', f
         minimum: -100,
         maximum: 100000
     };
-    var result = mapper_1.getIntegerEncoding(schema);
+    var result = integer_1.getIntegerEncoding(schema);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED__ENUM_VARINT',

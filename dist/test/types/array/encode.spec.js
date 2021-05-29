@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var boolean_1 = require("../../../lib/mapper/boolean");
-var mapper_1 = require("../../../lib/types/integer/mapper");
+var integer_1 = require("../../../lib/mapper/integer");
 var context_1 = require("../../../lib/context");
 var encode_1 = require("../../../lib/types/array/encode");
 var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
@@ -435,7 +435,7 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, ty
     var booleanEncoding = boolean_1.getBooleanEncoding({
         type: 'boolean'
     });
-    var integerEncoding = mapper_1.getIntegerEncoding({
+    var integerEncoding = integer_1.getIntegerEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -460,7 +460,7 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:tr
     var booleanEncoding = boolean_1.getBooleanEncoding({
         type: 'boolean'
     });
-    var integerEncoding = mapper_1.getIntegerEncoding({
+    var integerEncoding = integer_1.getIntegerEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -485,7 +485,7 @@ tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed
     var booleanEncoding = boolean_1.getBooleanEncoding({
         type: 'boolean'
     });
-    var integerEncoding = mapper_1.getIntegerEncoding({
+    var integerEncoding = integer_1.getIntegerEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -509,7 +509,7 @@ tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true,
     var booleanEncoding = boolean_1.getBooleanEncoding({
         type: 'boolean'
     });
-    var integerEncoding = mapper_1.getIntegerEncoding({
+    var integerEncoding = integer_1.getIntegerEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -533,7 +533,7 @@ tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, type
     var booleanEncoding = boolean_1.getBooleanEncoding({
         type: 'boolean'
     });
-    var integerEncoding = mapper_1.getIntegerEncoding({
+    var integerEncoding = integer_1.getIntegerEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -557,7 +557,7 @@ tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, 
     var booleanEncoding = boolean_1.getBooleanEncoding({
         type: 'boolean'
     });
-    var integerEncoding = mapper_1.getIntegerEncoding({
+    var integerEncoding = integer_1.getIntegerEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));

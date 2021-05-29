@@ -18,12 +18,12 @@ import tap from 'tap'
 
 import {
   IntegerEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   IntegerEncoding,
   getIntegerEncoding
-} from '../../../lib/types/integer/mapper'
+} from '../../lib/mapper/integer'
 
 tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier', (test) => {
   const schema: IntegerEncodingSchema = {

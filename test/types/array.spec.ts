@@ -26,7 +26,7 @@ import {
 import {
   getIntegerEncoding,
   IntegerEncoding
-} from '../../lib/types/integer/mapper'
+} from '../../lib/mapper/integer'
 
 import {
   SemiTypedOptions,

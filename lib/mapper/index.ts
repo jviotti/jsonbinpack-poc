@@ -36,7 +36,7 @@ import {
 
 import {
   getIntegerEncoding
-} from '../types/integer/mapper'
+} from './integer'
 
 import {
   getStringEncoding

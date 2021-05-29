@@ -24,7 +24,7 @@ import {
 import {
   IntegerEncoding,
   getIntegerEncoding
-} from '../../../lib/types/integer/mapper'
+} from '../../../lib/mapper/integer'
 
 import {
   EncodingContext,

@@ -20,16 +20,16 @@ import {
 
 import {
   IntegerEncodingSchema
-} from '../../encoding-schema'
+} from '../encoding-schema'
 
 import {
   BaseEncodingDefinition,
   EncodingType
-} from '../base'
+} from '../types/base'
 
 import {
   UINT8_MAX
-} from '../../utils/limits'
+} from '../utils/limits'
 
 import {
   NoOptions,
@@ -40,7 +40,7 @@ import {
   MultiplierOptions,
   BoundedOptions,
   BoundedMultiplierOptions
-} from './options'
+} from '../types/integer/options'
 
 export interface BOUNDED_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Integer;

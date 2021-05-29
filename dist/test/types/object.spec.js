@@ -30,7 +30,7 @@ var any_1 = require("../../lib/mapper/any");
 var encode_1 = require("../../lib/types/object/encode");
 var decode_1 = require("../../lib/types/object/decode");
 var mapper_1 = require("../../lib/types/string/mapper");
-var mapper_2 = require("../../lib/types/integer/mapper");
+var integer_1 = require("../../lib/mapper/integer");
 var context_1 = require("../../lib/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test) {
@@ -130,7 +130,7 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}',
             foo: mapper_1.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_2.getIntegerEncoding({
+            baz: integer_1.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
             }),
@@ -157,7 +157,7 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}'
             foo: mapper_1.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_2.getIntegerEncoding({
+            baz: integer_1.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
             })
@@ -183,7 +183,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one
             foo: mapper_1.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_2.getIntegerEncoding({
+            baz: integer_1.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
             })
@@ -208,7 +208,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missi
             foo: mapper_1.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_2.getIntegerEncoding({
+            baz: integer_1.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
             })
@@ -329,7 +329,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:nul
             foo: mapper_1.getStringEncoding({
                 type: 'string'
             }),
-            baz: mapper_2.getIntegerEncoding({
+            baz: integer_1.getIntegerEncoding({
                 type: 'integer',
                 minimum: 0
             })
