@@ -92,7 +92,7 @@ import {
 
 import {
   EnumEncodingNames
-} from './enum/mapper'
+} from '../mapper/enum'
 
 import {
   OneOfEncodingNames

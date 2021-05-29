@@ -18,12 +18,12 @@ import tap from 'tap'
 
 import {
   EnumEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   EnumEncoding,
   getEnumEncoding
-} from '../../../lib/types/enum/mapper'
+} from '../../lib/mapper/enum'
 
 tap.test('should encode an enum with one value', (test) => {
   const schema: EnumEncodingSchema = {

@@ -9,14 +9,14 @@ var mapper_4 = require("../types/string/mapper");
 var any_1 = require("./any");
 var array_1 = require("./array");
 var mapper_5 = require("../types/object/mapper");
-var mapper_6 = require("../types/enum/mapper");
-var mapper_7 = require("../types/oneof/mapper");
+var enum_1 = require("./enum");
+var mapper_6 = require("../types/oneof/mapper");
 var getEncoding = function (schema) {
     if ('enum' in schema) {
-        return mapper_6.getEnumEncoding(schema);
+        return enum_1.getEnumEncoding(schema);
     }
     else if ('oneOf' in schema) {
-        return mapper_7.getOneOfEncoding(schema);
+        return mapper_6.getOneOfEncoding(schema);
     }
     else if (!('type' in schema)) {
         return any_1.getAnyEncoding(schema);

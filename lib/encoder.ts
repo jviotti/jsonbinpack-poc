@@ -52,7 +52,7 @@ import {
 
 import {
   EnumEncoding
-} from './types/enum/mapper'
+} from './mapper/enum'
 
 import {
   OneOfEncoding

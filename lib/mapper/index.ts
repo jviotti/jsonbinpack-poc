@@ -56,7 +56,7 @@ import {
 
 import {
   getEnumEncoding
-} from '../types/enum/mapper'
+} from './enum'
 
 import {
   getOneOfEncoding
