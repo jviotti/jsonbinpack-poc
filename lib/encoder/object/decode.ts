@@ -21,13 +21,13 @@ import {
 } from 'assert'
 
 import {
-  JSONObject
-} from '../../json'
-
-import {
   BitsetResult,
   bitsetDecode
-} from '../../utils/bitset'
+} from './bitset'
+
+import {
+  JSONObject
+} from '../../json'
 
 import {
   IntegerResult,

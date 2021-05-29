@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import ResizableBuffer from './resizable-buffer'
+import ResizableBuffer from '../../utils/resizable-buffer'
 
 import {
   DecodeResult
-} from '../encoder'
+} from '../index'
 
 const getBytesToStoreBits = (bits: number): number => {
   return ((bits + 7) & (-8)) / 8

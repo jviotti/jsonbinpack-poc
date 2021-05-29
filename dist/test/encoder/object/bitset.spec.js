@@ -25,8 +25,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var util = __importStar(require("util"));
-var bitset_1 = require("../../lib/utils/bitset");
-var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
+var bitset_1 = require("../../../lib/encoder/object/bitset");
+var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
 tap_1.default.test('should encode [ true ] as 0000 0001', function (test) {
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
     var offset = 0;

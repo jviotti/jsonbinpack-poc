@@ -22,9 +22,9 @@ import {
   bitsetEncode,
   bitsetDecode,
   BitsetResult
-} from '../../lib/utils/bitset'
+} from '../../../lib/encoder/object/bitset'
 
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
+import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('should encode [ true ] as 0000 0001', (test) => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))

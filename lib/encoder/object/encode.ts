@@ -21,6 +21,10 @@ import {
 } from 'assert'
 
 import {
+  bitsetEncode
+} from './bitset'
+
+import {
   JSONObject
 } from '../../json'
 
@@ -31,10 +35,6 @@ import {
 import {
   Encoding
 } from '../../mapper'
-
-import {
-  bitsetEncode
-} from '../../utils/bitset'
 
 import {
   TypedKeysOptions,

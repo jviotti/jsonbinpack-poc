@@ -29,8 +29,8 @@ var __read = (this && this.__read) || function (o, n) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
+var bitset_1 = require("./bitset");
 var index_1 = require("../index");
-var bitset_1 = require("../../utils/bitset");
 var encode_1 = require("../integer/encode");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
     var e_1, _a;
