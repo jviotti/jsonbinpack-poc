@@ -19,10 +19,6 @@ import {
 } from 'assert'
 
 import {
-  StringEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -33,6 +29,10 @@ import {
 import {
   UINT8_MAX
 } from '../utils/limits'
+
+import {
+  StringEncodingSchema
+} from '../schema'
 
 import {
   NoOptions,

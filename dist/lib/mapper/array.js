@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getArrayEncoding = void 0;
-var limits_1 = require("../utils/limits");
 var encoding_type_1 = require("./encoding-type");
 var index_1 = require("./index");
+var limits_1 = require("../utils/limits");
 var getArrayEncoding = function (schema) {
     var _a;
     var encodingSchema = schema.items;

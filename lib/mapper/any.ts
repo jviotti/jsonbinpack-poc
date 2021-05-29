@@ -15,16 +15,16 @@
  */
 
 import {
-  AnyEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
 import {
   EncodingType
 } from './encoding-type'
+
+import {
+  AnyEncodingSchema
+} from '../schema'
 
 import {
   NoOptions

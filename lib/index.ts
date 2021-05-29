@@ -16,7 +16,7 @@
 
 import {
   EncodingSchema
-} from './encoding-schema'
+} from './schema'
 
 import {
   DecodeResult,
@@ -48,7 +48,7 @@ export {
 
 export {
   EncodingSchema
-} from './encoding-schema'
+} from './schema'
 
 import ResizableBuffer from './utils/resizable-buffer'
 

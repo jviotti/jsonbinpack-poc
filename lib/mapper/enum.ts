@@ -15,10 +15,6 @@
  */
 
 import {
-  EnumEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -33,6 +29,10 @@ import {
 import {
   UINT8_MAX
 } from '../utils/limits'
+
+import {
+  EnumEncodingSchema
+} from '../schema'
 
 export interface BOUNDED_CHOICE_INDEX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Enum;

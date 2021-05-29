@@ -15,10 +15,6 @@
  */
 
 import {
-  NullEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -29,6 +25,10 @@ import {
 import {
   NoOptions
 } from '../types/null/options'
+
+import {
+  NullEncodingSchema
+} from '../schema'
 
 export interface NULL_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Null;

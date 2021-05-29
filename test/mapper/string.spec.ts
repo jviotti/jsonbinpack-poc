@@ -18,7 +18,7 @@ import tap from 'tap'
 
 import {
   EncodingSchema
-} from '../../lib/encoding-schema'
+} from '../../lib/schema'
 
 import {
   Encoding,

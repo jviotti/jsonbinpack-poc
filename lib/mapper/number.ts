@@ -15,10 +15,6 @@
  */
 
 import {
-  NumberEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -29,6 +25,10 @@ import {
 import {
   NoOptions
 } from '../types/number/options'
+
+import {
+  NumberEncodingSchema
+} from '../schema'
 
 export interface DOUBLE_VARINT_TUPLE_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Number;

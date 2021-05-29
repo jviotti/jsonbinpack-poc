@@ -38,7 +38,7 @@ import {
 
 import {
   OneOfEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../../lib/schema'
 
 import {
   JSONValue

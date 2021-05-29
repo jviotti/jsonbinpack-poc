@@ -19,10 +19,6 @@ import {
 } from 'assert'
 
 import {
-  IntegerEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -44,6 +40,10 @@ import {
   BoundedOptions,
   BoundedMultiplierOptions
 } from '../types/integer/options'
+
+import {
+  IntegerEncodingSchema
+} from '../schema'
 
 export interface BOUNDED_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Integer;

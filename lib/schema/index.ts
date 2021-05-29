@@ -14,6 +14,109 @@
  * limitations under the License.
  */
 
+import {
+  JSONValue
+} from '../json'
+
 export {
   validateSchema
 } from './jsonschema'
+
+export interface BooleanEncodingSchema {
+  readonly type: 'boolean';
+}
+
+export interface IntegerEncodingSchema {
+  readonly type: 'integer';
+
+  // The exclusiveMinimum and exclusiveMaximum keywords
+  // should be transformed to minimum and maximum
+  readonly minimum?: number;
+  readonly maximum?: number;
+
+  readonly multipleOf?: number;
+}
+
+export interface NullEncodingSchema {
+  readonly type: 'null';
+}
+
+export interface NumberEncodingSchema {
+  readonly type: 'number';
+
+  /*
+   * For now we don't take these schema arguments into
+   * consideration, but we might in the future if we
+   * implement different real number encodings.
+   */
+
+  // The exclusiveMinimum and exclusiveMaximum keywords
+  // should be transformed to minimum and maximum
+  readonly minimum?: number;
+  readonly maximum?: number;
+
+  readonly multipleOf?: number;
+}
+
+export interface StringEncodingSchema {
+  readonly type: 'string';
+  readonly maxLength?: number;
+  readonly minLength?: number;
+
+  // See http://json-schema.org/draft/2020-12/json-schema-validation.html#rfc.section.7.3
+  // TODO: We can use these in the future to apply more clever encodings
+  readonly format?:
+    'date-time' | 'date' | 'time' | 'duration' |
+    'email' | 'idn-email' |
+    'hostname' | 'idn-hostname' |
+    'ipv4' | 'ipv6' |
+    'uri' | 'uri-reference' | 'iri' | 'iri-reference' | 'uuid' |
+    'uri-template' |
+    'json-pointer' | 'relative-json-pointer' |
+    'regex';
+
+  readonly pattern?: string;
+
+  // TODO: We can use these in the future to apply more clever encodings
+  readonly contentEncoding?: string;
+  readonly contentMediaType?: string;
+  readonly contentSchema?: EncodingSchema;
+}
+
+export interface AnyEncodingSchema {}
+
+export interface ArrayEncodingSchema {
+  readonly type: 'array';
+  readonly maxItems?: number;
+  readonly minItems?: number;
+  readonly items?: EncodingSchema;
+  readonly prefixItems?: EncodingSchema[];
+}
+
+export interface ObjectEncodingSchema {
+  readonly type: 'object';
+  readonly additionalProperties?: boolean | EncodingSchema;
+  readonly required?: string[];
+  readonly propertyNames?: StringEncodingSchema;
+  readonly properties?: Record<string, EncodingSchema>;
+}
+
+export interface EnumEncodingSchema {
+  readonly enum: JSONValue[];
+}
+
+export interface OneOfEncodingSchema {
+  readonly oneOf: EncodingSchema[];
+}
+
+export type EncodingSchema =
+  BooleanEncodingSchema |
+  IntegerEncodingSchema |
+  NullEncodingSchema |
+  NumberEncodingSchema |
+  StringEncodingSchema |
+  AnyEncodingSchema |
+  ArrayEncodingSchema |
+  ObjectEncodingSchema |
+  EnumEncodingSchema |
+  OneOfEncodingSchema

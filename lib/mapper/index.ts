@@ -15,10 +15,6 @@
  */
 
 import {
-  EncodingSchema
-} from '../encoding-schema'
-
-import {
   BooleanEncodingNames,
   BooleanEncoding,
   getBooleanEncoding
@@ -77,6 +73,10 @@ import {
   OneOfEncoding,
   getOneOfEncoding
 } from './oneof'
+
+import {
+  EncodingSchema
+} from '../schema'
 
 export {
   BooleanEncoding

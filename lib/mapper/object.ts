@@ -15,11 +15,6 @@
  */
 
 import {
-  EncodingSchema,
-  ObjectEncodingSchema
-} from '../encoding-schema'
-
-import {
   getStringEncoding,
   StringEncoding
 } from './string'
@@ -43,6 +38,11 @@ import {
   OptionalUnboundedTypedOptions,
   RequiredBoundedTypedOptions
 } from '../types/object/options'
+
+import {
+  EncodingSchema,
+  ObjectEncodingSchema
+} from '../schema'
 
 export interface REQUIRED_ONLY_BOUNDED_TYPED_OBJECT_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Object;

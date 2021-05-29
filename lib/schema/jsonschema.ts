@@ -22,7 +22,7 @@ import addFormats from 'ajv-formats'
 
 import {
   EncodingSchema
-} from '../encoding-schema'
+} from './index'
 
 import {
   JSONValue

@@ -15,10 +15,6 @@
  */
 
 import {
-  BooleanEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -29,6 +25,10 @@ import {
 import {
   NoOptions
 } from '../types/boolean/options'
+
+import {
+  BooleanEncodingSchema
+} from '../schema'
 
 export interface BOOLEAN_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Boolean;

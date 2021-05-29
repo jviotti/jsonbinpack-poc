@@ -15,17 +15,17 @@
  */
 
 import {
-  EncodingSchema,
-  OneOfEncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
 import {
   SchemasOptions
 } from '../types/oneof/options'
+
+import {
+  EncodingSchema,
+  OneOfEncodingSchema
+} from '../schema'
 
 import {
   EncodingType,

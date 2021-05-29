@@ -24,7 +24,7 @@ import {
 
 import {
   EncodingSchema
-} from '../../encoding-schema'
+} from '../../schema'
 
 interface SchemaDefinition {
   readonly schema: EncodingSchema;

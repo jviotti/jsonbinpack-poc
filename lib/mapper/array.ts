@@ -15,15 +15,6 @@
  */
 
 import {
-  UINT8_MAX
-} from '../utils/limits'
-
-import {
-  ArrayEncodingSchema,
-  EncodingSchema
-} from '../encoding-schema'
-
-import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -46,6 +37,15 @@ import {
   TypedRoofOptions,
   TypedBoundedOptions
 } from '../types/array/options'
+
+import {
+  UINT8_MAX
+} from '../utils/limits'
+
+import {
+  ArrayEncodingSchema,
+  EncodingSchema
+} from '../schema'
 
 export interface BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;

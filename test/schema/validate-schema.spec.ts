@@ -21,10 +21,7 @@ import {
 } from '../../lib/json'
 
 import {
-  EncodingSchema
-} from '../../lib/encoding-schema'
-
-import {
+  EncodingSchema,
   validateSchema
 } from '../../lib/schema'
 
