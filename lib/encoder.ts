@@ -40,7 +40,7 @@ import {
 
 import {
   AnyEncoding
-} from './types/any/mapper'
+} from './mapper/any'
 
 import {
   ArrayEncoding

@@ -14,32 +14,26 @@
  * limitations under the License.
  */
 
+import tap from 'tap'
+
 import {
   AnyEncodingSchema
-} from '../../encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
-  BaseEncodingDefinition,
-  EncodingType
-} from '../base'
+  AnyEncoding,
+  getAnyEncoding
+} from '../../lib/mapper/any'
 
-import {
-  NoOptions
-} from './options'
+tap.test('should encode an any value', (test) => {
+  const schema: AnyEncodingSchema = {}
 
-export interface ANY__TYPE_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Any;
-  readonly encoding: 'ANY__TYPE_PREFIX';
-  readonly options: NoOptions;
-}
-
-export type AnyEncodingNames = 'ANY__TYPE_PREFIX'
-export type AnyEncoding = ANY__TYPE_PREFIX_ENCODING
-
-export const getAnyEncoding = (_schema: AnyEncodingSchema): AnyEncoding => {
-  return {
-    type: EncodingType.Any,
+  const result: AnyEncoding = getAnyEncoding(schema)
+  test.strictSame(result, {
+    type: 'any',
     encoding: 'ANY__TYPE_PREFIX',
     options: {}
-  }
-}
+  })
+
+  test.end()
+})

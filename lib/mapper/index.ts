@@ -44,7 +44,7 @@ import {
 
 import {
   getAnyEncoding
-} from '../types/any/mapper'
+} from './any'
 
 import {
   getArrayEncoding

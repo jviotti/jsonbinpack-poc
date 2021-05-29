@@ -80,7 +80,7 @@ import {
 
 import {
   AnyEncodingNames
-} from './any/mapper'
+} from '../mapper/any'
 
 import {
   ArrayEncodingNames

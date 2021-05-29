@@ -32,7 +32,7 @@ import {
 
 import {
   getAnyEncoding
-} from '../../../lib/types/any/mapper'
+} from '../../../lib/mapper/any'
 
 import {
   getIntegerEncoding
