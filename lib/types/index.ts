@@ -19,49 +19,54 @@ import {
 } from 'assert'
 
 import {
-  Encoding,
-  EncodingType
-} from './mapper'
-
-import {
   DecodeResult
-} from './types/base'
-
-import {
-  JSONValue
-} from './json'
-
-import ResizableBuffer from './utils/resizable-buffer'
+} from './base'
 
 import {
   EncodingContext
-} from './types/context'
+} from './context'
+
+import {
+  Encoding,
+  EncodingType
+} from '../mapper'
+
+import {
+  JSONValue
+} from '../json'
+
+import ResizableBuffer from '../utils/resizable-buffer'
 
 export {
   DecodeResult
-} from './types/base'
+} from './base'
 
-import * as ENCODE_BOOLEAN from './types/boolean/encode'
-import * as ENCODE_INTEGER from './types/integer/encode'
-import * as ENCODE_NULL from './types/null/encode'
-import * as ENCODE_NUMBER from './types/number/encode'
-import * as ENCODE_STRING from './types/string/encode'
-import * as ENCODE_ANY from './types/any/encode'
-import * as ENCODE_ARRAY from './types/array/encode'
-import * as ENCODE_OBJECT from './types/object/encode'
-import * as ENCODE_ENUM from './types/enum/encode'
-import * as ENCODE_ONEOF from './types/oneof/encode'
+export {
+  EncodingContext,
+  getDefaultEncodingContext
+} from './context'
 
-import * as DECODE_BOOLEAN from './types/boolean/decode'
-import * as DECODE_INTEGER from './types/integer/decode'
-import * as DECODE_NULL from './types/null/decode'
-import * as DECODE_NUMBER from './types/number/decode'
-import * as DECODE_STRING from './types/string/decode'
-import * as DECODE_ANY from './types/any/decode'
-import * as DECODE_ARRAY from './types/array/decode'
-import * as DECODE_OBJECT from './types/object/decode'
-import * as DECODE_ENUM from './types/enum/decode'
-import * as DECODE_ONEOF from './types/oneof/decode'
+import * as ENCODE_BOOLEAN from './boolean/encode'
+import * as ENCODE_INTEGER from './integer/encode'
+import * as ENCODE_NULL from './null/encode'
+import * as ENCODE_NUMBER from './number/encode'
+import * as ENCODE_STRING from './string/encode'
+import * as ENCODE_ANY from './any/encode'
+import * as ENCODE_ARRAY from './array/encode'
+import * as ENCODE_OBJECT from './object/encode'
+import * as ENCODE_ENUM from './enum/encode'
+import * as ENCODE_ONEOF from './oneof/encode'
+
+import * as DECODE_BOOLEAN from './boolean/decode'
+import * as DECODE_INTEGER from './integer/decode'
+import * as DECODE_NULL from './null/decode'
+import * as DECODE_NUMBER from './number/decode'
+import * as DECODE_STRING from './string/decode'
+import * as DECODE_ANY from './any/decode'
+import * as DECODE_ARRAY from './array/decode'
+import * as DECODE_OBJECT from './object/decode'
+import * as DECODE_ENUM from './enum/decode'
+import * as DECODE_ONEOF from './oneof/decode'
 
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()

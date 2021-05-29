@@ -31,7 +31,7 @@ exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT =
 var assert_1 = require("assert");
 var bitset_1 = require("../../utils/bitset");
 var decode_1 = require("../integer/decode");
-var encoder_1 = require("../../encoder");
+var index_1 = require("../index");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_1, _a;
     var result = {};
@@ -41,7 +41,7 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
             var key = _c.value;
             var encoding = options.propertyEncodings[key];
             assert_1.strict(typeof encoding !== 'undefined');
-            var propertyResult = encoder_1.decode(buffer, cursor, encoding);
+            var propertyResult = index_1.decode(buffer, cursor, encoding);
             assert_1.strict(propertyResult.bytes >= 0);
             Reflect.set(result, key, propertyResult.value);
             cursor += propertyResult.bytes;
@@ -79,7 +79,7 @@ var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
             var key = options.optionalProperties[index];
             var encoding = options.propertyEncodings[key];
             assert_1.strict(typeof encoding !== 'undefined');
-            var propertyResult = encoder_1.decode(buffer, cursor, encoding);
+            var propertyResult = index_1.decode(buffer, cursor, encoding);
             assert_1.strict(propertyResult.bytes >= 0);
             Reflect.set(result, key, propertyResult.value);
             cursor += propertyResult.bytes;
@@ -122,11 +122,11 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, options) {
     var cursor = offset + result.bytes;
     var value = {};
     while (count < result.value) {
-        var keyResult = encoder_1.decode(buffer, cursor, options.keyEncoding);
+        var keyResult = index_1.decode(buffer, cursor, options.keyEncoding);
         assert_1.strict(typeof keyResult.value === 'string');
         assert_1.strict(keyResult.bytes >= 0);
         cursor += keyResult.bytes;
-        var valueResult = encoder_1.decode(buffer, cursor, options.encoding);
+        var valueResult = index_1.decode(buffer, cursor, options.encoding);
         assert_1.strict(valueResult.bytes >= 0);
         cursor += valueResult.bytes;
         Reflect.set(value, keyResult.value, valueResult.value);

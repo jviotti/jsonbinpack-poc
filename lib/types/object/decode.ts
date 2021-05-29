@@ -47,7 +47,7 @@ import {
 import {
   decode,
   DecodeResult
-} from '../../encoder'
+} from '../index'
 
 import {
   Encoding

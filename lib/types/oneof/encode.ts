@@ -42,7 +42,7 @@ import {
 
 import {
   encode
-} from '../../encoder'
+} from '../index'
 
 export const ONEOF_CHOICE_INDEX_PREFIX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue,

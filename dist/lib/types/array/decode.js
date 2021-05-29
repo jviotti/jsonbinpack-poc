@@ -4,7 +4,7 @@ exports.UNBOUNDED_TYPED__LENGTH_PREFIX = exports.FLOOR_TYPED__LENGTH_PREFIX = ex
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
 var decode_2 = require("../any/decode");
-var encoder_1 = require("../../encoder");
+var index_1 = require("../index");
 var limits_1 = require("../../utils/limits");
 var decodeArray = function (buffer, offset, bytesWritten, length, prefixEncodings, defaultEncoding) {
     var _a;
@@ -15,7 +15,7 @@ var decodeArray = function (buffer, offset, bytesWritten, length, prefixEncoding
         var encoding = (_a = prefixEncodings[index]) !== null && _a !== void 0 ? _a : defaultEncoding;
         var elementResult = typeof encoding === 'undefined'
             ? decode_2.ANY__TYPE_PREFIX(buffer, cursor, {})
-            : encoder_1.decode(buffer, cursor, encoding);
+            : index_1.decode(buffer, cursor, encoding);
         cursor += elementResult.bytes;
         result.push(elementResult.value);
         index += 1;

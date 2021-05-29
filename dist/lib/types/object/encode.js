@@ -29,7 +29,7 @@ var __read = (this && this.__read) || function (o, n) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
-var encoder_1 = require("../../encoder");
+var index_1 = require("../index");
 var bitset_1 = require("../../utils/bitset");
 var encode_1 = require("../integer/encode");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
@@ -41,7 +41,7 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, option
             var key = _c.value;
             var encoding = options.propertyEncodings[key];
             assert_1.strict(typeof encoding !== 'undefined');
-            cursor += encoder_1.encode(buffer, cursor, encoding, value[key], context);
+            cursor += index_1.encode(buffer, cursor, encoding, value[key], context);
         }
     }
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -86,7 +86,7 @@ var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options
             var key = keys_1_1.value;
             var encoding = options.propertyEncodings[key];
             assert_1.strict(typeof encoding !== 'undefined');
-            var bytesWritten = encoder_1.encode(buffer, cursor, encoding, value[key], context);
+            var bytesWritten = index_1.encode(buffer, cursor, encoding, value[key], context);
             cursor += bytesWritten;
         }
     }
@@ -150,8 +150,8 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options, cont
     try {
         for (var _b = __values(Object.entries(value)), _c = _b.next(); !_c.done; _c = _b.next()) {
             var _d = __read(_c.value, 2), key = _d[0], objectValue = _d[1];
-            cursor += encoder_1.encode(buffer, cursor, options.keyEncoding, key, context);
-            cursor += encoder_1.encode(buffer, cursor, options.encoding, objectValue, context);
+            cursor += index_1.encode(buffer, cursor, options.keyEncoding, key, context);
+            cursor += index_1.encode(buffer, cursor, options.encoding, objectValue, context);
         }
     }
     catch (e_6_1) { e_6 = { error: e_6_1 }; }

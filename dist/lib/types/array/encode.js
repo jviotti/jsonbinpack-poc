@@ -30,7 +30,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UNBOUNDED_TYPED__LENGTH_PREFIX = exports.FLOOR_TYPED__LENGTH_PREFIX = exports.ROOF_8BITS_TYPED__LENGTH_PREFIX = exports.ROOF_TYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED__LENGTH_PREFIX = exports.BOUNDED_TYPED__LENGTH_PREFIX = exports.UNBOUNDED_SEMITYPED__LENGTH_PREFIX = exports.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX = exports.ROOF_SEMITYPED__LENGTH_PREFIX = exports.FLOOR_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_SEMITYPED__LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
-var encoder_1 = require("../../encoder");
+var index_1 = require("../index");
 var encode_1 = require("../integer/encode");
 var encode_2 = require("../any/encode");
 var encodeArray = function (buffer, offset, value, prefixEncodings, context, defaultEncoding) {
@@ -46,7 +46,7 @@ var encodeArray = function (buffer, offset, value, prefixEncodings, context, def
                 cursor += bytesWritten;
             }
             else {
-                var bytesWritten = encoder_1.encode(buffer, cursor, encoding, element, context);
+                var bytesWritten = index_1.encode(buffer, cursor, encoding, element, context);
                 cursor += bytesWritten;
             }
         }

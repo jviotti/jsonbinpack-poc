@@ -19,12 +19,6 @@ import {
 } from './schema'
 
 import {
-  DecodeResult,
-  encode as binpackEncode,
-  decode as binpackDecode
-} from './encoder'
-
-import {
   Encoding,
   getEncoding
 } from './mapper'
@@ -35,8 +29,11 @@ import {
 
 import {
   EncodingContext,
-  getDefaultEncodingContext
-} from './types/context'
+  getDefaultEncodingContext,
+  DecodeResult,
+  encode as binpackEncode,
+  decode as binpackDecode
+} from './types'
 
 export {
   JSONValue

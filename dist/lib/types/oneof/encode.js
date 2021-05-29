@@ -31,7 +31,7 @@ exports.ONEOF_CHOICE_INDEX_PREFIX = void 0;
 var assert_1 = require("assert");
 var schema_1 = require("../../schema");
 var encode_1 = require("../integer/encode");
-var encoder_1 = require("../../encoder");
+var index_1 = require("../index");
 var ONEOF_CHOICE_INDEX_PREFIX = function (buffer, offset, value, options, context) {
     var e_1, _a;
     assert_1.strict(options.schemas.length > 0);
@@ -57,7 +57,7 @@ var ONEOF_CHOICE_INDEX_PREFIX = function (buffer, offset, value, options, contex
         minimum: 0,
         maximum: options.schemas.length
     }, context);
-    var bytesWritten = encoder_1.encode(buffer, offset + indexBytes, options.schemas[choiceIndex].encoding, value, context);
+    var bytesWritten = index_1.encode(buffer, offset + indexBytes, options.schemas[choiceIndex].encoding, value, context);
     return indexBytes + bytesWritten;
 };
 exports.ONEOF_CHOICE_INDEX_PREFIX = ONEOF_CHOICE_INDEX_PREFIX;

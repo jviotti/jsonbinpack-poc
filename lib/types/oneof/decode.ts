@@ -33,7 +33,7 @@ import {
 
 import {
   decode
-} from '../../encoder'
+} from '../index'
 
 import ResizableBuffer from '../../utils/resizable-buffer'
 

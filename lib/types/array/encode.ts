@@ -30,7 +30,7 @@ import {
 
 import {
   encode
-} from '../../encoder'
+} from '../index'
 
 import {
   Encoding
