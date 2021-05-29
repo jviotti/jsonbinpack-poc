@@ -46,9 +46,12 @@ import {
 
 import {
   decode,
-  Encoding,
   DecodeResult
 } from '../../encoder'
+
+import {
+  Encoding
+} from '../../mapper'
 
 export interface ObjectResult extends DecodeResult {
   readonly value: JSONObject;

@@ -26,7 +26,7 @@ import {
 
 import {
   Encoding
-} from '../../encoder'
+} from '../../mapper'
 
 export interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];

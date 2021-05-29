@@ -15,60 +15,66 @@
  */
 
 import {
-  Encoding
-} from '../encoder'
-
-import {
   EncodingSchema
 } from '../encoding-schema'
 
 import {
   BooleanEncodingNames,
+  BooleanEncoding,
   getBooleanEncoding
 } from './boolean'
 
 import {
   NullEncodingNames,
+  NullEncoding,
   getNullEncoding
 } from './null'
 
 import {
   NumberEncodingNames,
+  NumberEncoding,
   getNumberEncoding
 } from './number'
 
 import {
   IntegerEncodingNames,
+  IntegerEncoding,
   getIntegerEncoding
 } from './integer'
 
 import {
   StringEncodingNames,
+  StringEncoding,
   getStringEncoding
 } from './string'
 
 import {
   AnyEncodingNames,
+  AnyEncoding,
   getAnyEncoding
 } from './any'
 
 import {
   ArrayEncodingNames,
+  ArrayEncoding,
   getArrayEncoding
 } from './array'
 
 import {
   ObjectEncodingNames,
+  ObjectEncoding,
   getObjectEncoding
 } from './object'
 
 import {
   EnumEncodingNames,
+  EnumEncoding,
   getEnumEncoding
 } from './enum'
 
 import {
   OneOfEncodingNames,
+  OneOfEncoding,
   getOneOfEncoding
 } from './oneof'
 
@@ -83,6 +89,19 @@ export type EncodingNames =
   ObjectEncodingNames |
   EnumEncodingNames |
   OneOfEncodingNames
+
+// The union of all possible encodings
+export type Encoding =
+  BooleanEncoding |
+  NullEncoding |
+  NumberEncoding |
+  IntegerEncoding |
+  StringEncoding |
+  AnyEncoding |
+  ArrayEncoding |
+  ObjectEncoding |
+  EnumEncoding |
+  OneOfEncoding
 
 export const getEncoding = (schema: EncodingSchema): Encoding => {
   if ('enum' in schema) {

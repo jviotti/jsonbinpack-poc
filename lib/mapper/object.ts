@@ -25,12 +25,9 @@ import {
 } from './string'
 
 import {
+  Encoding,
   getEncoding
 } from './index'
-
-import {
-  Encoding
-} from '../encoder'
 
 import {
   BaseEncodingDefinition,

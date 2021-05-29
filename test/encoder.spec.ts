@@ -17,12 +17,15 @@
 import tap from 'tap'
 
 import {
-  Encoding,
   EncodingType,
   DecodeResult,
   encode,
   decode
 } from '../lib/encoder'
+
+import {
+  Encoding
+} from '../lib/mapper'
 
 import {
   JSONValue

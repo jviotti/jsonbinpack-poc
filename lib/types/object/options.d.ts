@@ -16,7 +16,7 @@
 
 import {
   Encoding
-} from '../../encoder'
+} from '../../mapper'
 
 import {
   StringEncoding

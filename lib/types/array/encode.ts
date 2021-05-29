@@ -29,9 +29,12 @@ import {
 } from '../../utils/limits'
 
 import {
-  encode,
-  Encoding
+  encode
 } from '../../encoder'
+
+import {
+  Encoding
+} from '../../mapper'
 
 import {
   SemiTypedOptions,

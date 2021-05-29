@@ -21,10 +21,7 @@ import {
 } from '../../lib/encoding-schema'
 
 import {
-  Encoding
-} from '../../lib/encoder'
-
-import {
+  Encoding,
   getEncoding
 } from '../../lib/mapper'
 

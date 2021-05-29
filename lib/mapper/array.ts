@@ -29,10 +29,7 @@ import {
 } from '../types/base'
 
 import {
-  Encoding
-} from '../encoder'
-
-import {
+  Encoding,
   getEncoding
 } from './index'
 

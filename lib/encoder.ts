@@ -19,44 +19,8 @@ import {
 } from 'assert'
 
 import {
-  BooleanEncoding
-} from './mapper/boolean'
-
-import {
-  NullEncoding
-} from './mapper/null'
-
-import {
-  NumberEncoding
-} from './mapper/number'
-
-import {
-  IntegerEncoding
-} from './mapper/integer'
-
-import {
-  StringEncoding
-} from './mapper/string'
-
-import {
-  AnyEncoding
-} from './mapper/any'
-
-import {
-  ArrayEncoding
-} from './mapper/array'
-
-import {
-  ObjectEncoding
-} from './mapper/object'
-
-import {
-  EnumEncoding
-} from './mapper/enum'
-
-import {
-  OneOfEncoding
-} from './mapper/oneof'
+  Encoding
+} from './mapper'
 
 import {
   EncodingType,
@@ -99,19 +63,6 @@ import * as DECODE_ARRAY from './types/array/decode'
 import * as DECODE_OBJECT from './types/object/decode'
 import * as DECODE_ENUM from './types/enum/decode'
 import * as DECODE_ONEOF from './types/oneof/decode'
-
-// The union of all possible encodings
-export type Encoding =
-  BooleanEncoding |
-  NullEncoding |
-  NumberEncoding |
-  IntegerEncoding |
-  StringEncoding |
-  AnyEncoding |
-  ArrayEncoding |
-  ObjectEncoding |
-  EnumEncoding |
-  OneOfEncoding
 
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()

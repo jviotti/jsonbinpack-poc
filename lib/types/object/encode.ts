@@ -25,9 +25,12 @@ import {
 } from '../../json'
 
 import {
-  encode,
-  Encoding
+  encode
 } from '../../encoder'
+
+import {
+  Encoding
+} from '../../mapper'
 
 import {
   bitsetEncode
