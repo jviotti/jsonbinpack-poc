@@ -64,7 +64,7 @@ import {
 import {
   StringEncoding,
   getStringEncoding
-} from '../../lib/types/string/mapper'
+} from '../../lib/mapper/string'
 
 import {
   getIntegerEncoding

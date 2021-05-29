@@ -12,7 +12,7 @@ var __values = (this && this.__values) || function(o) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getObjectEncoding = void 0;
-var mapper_1 = require("../types/string/mapper");
+var string_1 = require("./string");
 var index_1 = require("./index");
 var base_1 = require("../types/base");
 var parseAdditionalProperties = function (value) {
@@ -57,7 +57,7 @@ var getObjectEncoding = function (schema) {
         }
         finally { if (e_1) throw e_1.error; }
     }
-    var keyEncoding = mapper_1.getStringEncoding((_d = schema.propertyNames) !== null && _d !== void 0 ? _d : {
+    var keyEncoding = string_1.getStringEncoding((_d = schema.propertyNames) !== null && _d !== void 0 ? _d : {
         type: 'string'
     });
     if (additionalProperties === null) {

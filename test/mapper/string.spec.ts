@@ -18,12 +18,12 @@ import tap from 'tap'
 
 import {
   StringEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   StringEncoding,
   getStringEncoding
-} from '../../../lib/types/string/mapper'
+} from '../../lib/mapper/string'
 
 tap.test('should encode a simple string', (test) => {
   const schema: StringEncodingSchema = {

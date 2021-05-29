@@ -5,7 +5,7 @@ var boolean_1 = require("./boolean");
 var null_1 = require("./null");
 var number_1 = require("./number");
 var integer_1 = require("./integer");
-var mapper_1 = require("../types/string/mapper");
+var string_1 = require("./string");
 var any_1 = require("./any");
 var array_1 = require("./array");
 var object_1 = require("./object");
@@ -34,7 +34,7 @@ var getEncoding = function (schema) {
         return number_1.getNumberEncoding(schema);
     }
     else if (schema.type === 'string') {
-        return mapper_1.getStringEncoding(schema);
+        return string_1.getStringEncoding(schema);
     }
     else if (schema.type === 'array') {
         return array_1.getArrayEncoding(schema);

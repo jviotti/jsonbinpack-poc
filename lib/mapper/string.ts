@@ -20,23 +20,23 @@ import {
 
 import {
   StringEncodingSchema
-} from '../../encoding-schema'
+} from '../encoding-schema'
 
 import {
   BaseEncodingDefinition,
   EncodingType
-} from '../base'
+} from '../types/base'
 
 import {
   UINT8_MAX
-} from '../../utils/limits'
+} from '../utils/limits'
 
 import {
   NoOptions,
   BoundedOptions,
   RoofOptions,
   FloorOptions
-} from './options'
+} from '../types/string/options'
 
 export interface BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;

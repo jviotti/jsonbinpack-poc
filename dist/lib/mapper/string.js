@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStringEncoding = void 0;
 var assert_1 = require("assert");
-var base_1 = require("../base");
-var limits_1 = require("../../utils/limits");
+var base_1 = require("../types/base");
+var limits_1 = require("../utils/limits");
 var getStringEncoding = function (schema) {
     assert_1.strict(typeof schema.minLength === 'undefined' || schema.minLength >= 0);
     assert_1.strict(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0);

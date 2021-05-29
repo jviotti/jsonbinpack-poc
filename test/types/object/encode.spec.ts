@@ -40,7 +40,7 @@ import {
 
 import {
   getStringEncoding
-} from '../../../lib/types/string/mapper'
+} from '../../../lib/mapper/string'
 
 import {
   EncodingContext,

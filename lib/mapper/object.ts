@@ -22,7 +22,7 @@ import {
 import {
   getStringEncoding,
   StringEncoding
-} from '../types/string/mapper'
+} from './string'
 
 import {
   getEncoding

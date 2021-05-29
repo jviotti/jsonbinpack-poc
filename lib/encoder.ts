@@ -36,7 +36,7 @@ import {
 
 import {
   StringEncoding
-} from './types/string/mapper'
+} from './mapper/string'
 
 import {
   AnyEncoding

@@ -76,7 +76,7 @@ import {
 
 import {
   StringEncodingNames
-} from './string/mapper'
+} from '../mapper/string'
 
 import {
   AnyEncodingNames

@@ -20,7 +20,7 @@ import {
 
 import {
   StringEncoding
-} from '../string/mapper'
+} from '../../mapper/string'
 
 interface TypedPropertiesOptions {
   propertyEncodings: Record<string, Encoding>;
