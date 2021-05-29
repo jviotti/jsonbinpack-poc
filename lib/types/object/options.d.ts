@@ -15,12 +15,9 @@
  */
 
 import {
-  Encoding
-} from '../../mapper'
-
-import {
+  Encoding,
   StringEncoding
-} from '../../mapper/string'
+} from '../../mapper'
 
 interface TypedPropertiesOptions {
   propertyEncodings: Record<string, Encoding>;

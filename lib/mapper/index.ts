@@ -79,6 +79,46 @@ import {
 } from './oneof'
 
 export {
+  BooleanEncoding
+} from './boolean'
+
+export {
+  NullEncoding
+} from './null'
+
+export {
+  NumberEncoding
+} from './number'
+
+export {
+  IntegerEncoding
+} from './integer'
+
+export {
+  StringEncoding
+} from './string'
+
+export {
+  AnyEncoding
+} from './any'
+
+export {
+  ArrayEncoding
+} from './array'
+
+export {
+  ObjectEncoding
+} from './object'
+
+export {
+  EnumEncoding
+} from './enum'
+
+export {
+  OneOfEncoding
+} from './oneof'
+
+export {
   EncodingType
 } from './encoding-type'
 
