@@ -18,68 +18,7 @@ import {
   JSONValue
 } from '../json'
 
-import {
-  BooleanOptions
-} from './boolean/options'
-
-import {
-  NullOptions
-} from './null/options'
-
-import {
-  NumberOptions
-} from './number/options'
-
-import {
-  IntegerOptions
-} from './integer/options'
-
-import {
-  StringOptions
-} from './string/options'
-
-import {
-  AnyOptions
-} from './any/options'
-
-import {
-  ArrayOptions
-} from './array/options'
-
-import {
-  ObjectOptions
-} from './object/options'
-
-import {
-  EnumOptions
-} from './enum/options'
-
-import {
-  OneOfOptions
-} from './oneof/options'
-
-import {
-  EncodingNames,
-  EncodingType
-} from '../mapper'
-
 export interface DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
-}
-
-export interface BaseEncodingDefinition {
-  readonly type: EncodingType;
-  readonly encoding: EncodingNames;
-  readonly options:
-    BooleanOptions |
-    NullOptions |
-    NumberOptions |
-    IntegerOptions |
-    StringOptions |
-    AnyOptions |
-    ArrayOptions |
-    ObjectOptions |
-    EnumOptions |
-    OneOfOptions;
 }

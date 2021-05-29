@@ -32,7 +32,7 @@ import {
 
 import {
   BaseEncodingDefinition
-} from '../types/base'
+} from './base-encoding-definition'
 
 import {
   TypedKeysOptions,
