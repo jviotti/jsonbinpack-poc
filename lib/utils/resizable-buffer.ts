@@ -27,6 +27,7 @@ export default class ResizableBuffer {
     if (this.written + bytes > this.buffer.length) {
       this.buffer = Buffer.concat([
         this.buffer,
+
         // Allocate the required amount of bytes but also
         // add some extra room (twice the buffer size)
         // to minimize future allocations.

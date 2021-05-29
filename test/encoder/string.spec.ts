@@ -70,7 +70,9 @@ tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
       fc.nat(10),
       fc.nat(maximum),
       fc.constant(maximum),
-      fc.string({ maxLength: maximum })
+      fc.string({
+        maxLength: maximum
+      })
     )
   })
 
@@ -79,9 +81,13 @@ tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + UINT8_MAX + 1))
     const bytesWritten: number = ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
-      buffer, offset, value, { minimum, maximum }, context)
+      buffer, offset, value, {
+        minimum, maximum
+      }, context)
     const result: StringResult = DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED(
-      buffer, offset, { minimum, maximum })
+      buffer, offset, {
+        minimum, maximum
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -96,7 +102,9 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
       fc.nat(10),
       fc.nat(maximum),
       fc.constant(maximum),
-      fc.string({ maxLength: maximum })
+      fc.string({
+        maxLength: maximum
+      })
     )
   })
 
@@ -105,9 +113,13 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
-      ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum, maximum }, context)
+      ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
+        minimum, maximum
+      }, context)
     const result: StringResult =
-      DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum, maximum })
+      DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+        minimum, maximum
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -121,7 +133,9 @@ tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
     return fc.tuple(
       fc.nat(10),
       fc.constant(maximum),
-      fc.string({ maxLength: maximum })
+      fc.string({
+        maxLength: maximum
+      })
     )
   })
 
@@ -129,9 +143,13 @@ tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + UINT8_MAX + 1))
     const bytesWritten: number =
-      ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, { maximum }, context)
+      ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, {
+        maximum
+      }, context)
     const result: StringResult =
-      DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, { maximum })
+      DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, {
+        maximum
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -145,7 +163,9 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
     return fc.tuple(
       fc.nat(10),
       fc.constant(maximum),
-      fc.string({ maxLength: maximum })
+      fc.string({
+        maxLength: maximum
+      })
     )
   })
 
@@ -153,9 +173,13 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
-      ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { maximum }, context)
+      ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
+        maximum
+      }, context)
     const result: StringResult =
-      DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { maximum })
+      DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+        maximum
+      })
 
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
@@ -170,7 +194,9 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
     return fc.tuple(
       fc.nat(10),
       fc.constant(minimum),
-      fc.string({ minLength: minimum, maxLength: 2000 })
+      fc.string({
+        minLength: minimum, maxLength: 2000
+      })
     )
   })
 
@@ -178,9 +204,13 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const bytesWritten: number =
-      ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, { minimum }, context)
+      ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
+        minimum
+      }, context)
     const result: StringResult =
-      DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, { minimum })
+      DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+        minimum
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -190,7 +220,9 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
 })
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
-  fc.assert(fc.property(fc.nat(10), fc.string({ maxLength: 1000 }), (
+  fc.assert(fc.property(fc.nat(10), fc.string({
+    maxLength: 1000
+  }), (
     offset: number, value: string
   ): boolean => {
     const context: EncodingContext = getDefaultEncodingContext()

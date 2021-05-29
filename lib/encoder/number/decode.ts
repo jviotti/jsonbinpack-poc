@@ -69,7 +69,7 @@ export const DOUBLE_VARINT_TUPLE = (
   }
 
   return {
-    value: parseFloat(integral.slice(0, point) + '.' + integral.slice(point)),
+    value: parseFloat(`${integral.slice(0, point)}.${integral.slice(point)}`),
     bytes
   }
 }

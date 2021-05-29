@@ -35,6 +35,8 @@ import {
   decode as binpackDecode
 } from './encoder'
 
+import ResizableBuffer from './utils/resizable-buffer'
+
 export {
   JSONValue
 } from './json'
@@ -46,8 +48,6 @@ export {
 export {
   EncodingSchema
 } from './schema'
-
-import ResizableBuffer from './utils/resizable-buffer'
 
 export const compileEncodingSchema = (schema: EncodingSchema): Encoding => {
   return getEncoding(schema)

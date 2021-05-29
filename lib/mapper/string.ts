@@ -126,11 +126,10 @@ export const getStringEncoding = (schema: StringEncodingSchema): StringEncoding 
         maximum: schema.maxLength
       }
     }
-  } else {
-    return {
-      type: EncodingType.String,
-      encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-      options: {}
-    }
+  }
+  return {
+    type: EncodingType.String,
+    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+    options: {}
   }
 }

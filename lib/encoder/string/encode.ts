@@ -59,7 +59,7 @@ const maybeWriteSharedPrefix = (
   value: JSONString, context: EncodingContext
 ): number => {
   return context.strings.has(value)
-    ?  BOUNDED_8BITS__ENUM_FIXED(buffer, offset, Type.SharedString, {
+    ? BOUNDED_8BITS__ENUM_FIXED(buffer, offset, Type.SharedString, {
       minimum: Type.SharedString,
       maximum: Type.SharedString
     }, context)

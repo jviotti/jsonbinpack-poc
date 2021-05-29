@@ -61,7 +61,9 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', function (test
     test.end();
 });
 tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', function (test) {
-    fc.assert(fc.property(fc.array(fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 10 }))), function (value) {
+    fc.assert(fc.property(fc.array(fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({
+        maxLength: 10
+    }))), function (value) {
         var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var offset = 0;

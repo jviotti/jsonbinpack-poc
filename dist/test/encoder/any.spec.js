@@ -90,7 +90,9 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle shared strings', function (t
     test.end();
 });
 tap_1.default.test('ANY__TYPE_PREFIX: scalars', function (test) {
-    fc.assert(fc.property(fc.nat(10), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 1000 })), function (offset, value) {
+    fc.assert(fc.property(fc.nat(10), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({
+        maxLength: 1000
+    })), function (offset, value) {
         var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, offset, value, {}, context);

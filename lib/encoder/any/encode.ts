@@ -65,6 +65,7 @@ import {
 const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number, context: EncodingContext): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
+
     // TODO: Find a way to keep this automatically in sync with "Type"
     maximum: 11
   }, context)
@@ -147,10 +148,9 @@ export const ANY__TYPE_PREFIX = (
     return tagBytes + valueBytes
 
   // Encode an number value
-  } else {
-    const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number, context)
-    const valueBytes: number =
-      DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context)
-    return tagBytes + valueBytes
   }
+  const tagBytes: number = encodeTypeTag(buffer, offset, Type.Number, context)
+  const valueBytes: number =
+      DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context)
+  return tagBytes + valueBytes
 }

@@ -35,7 +35,7 @@ var getIntegerEncoding = function (schema) {
                 ? 'BOUNDED_8BITS__ENUM_FIXED' : 'BOUNDED__ENUM_VARINT',
             options: {
                 minimum: schema.minimum,
-                maximum: schema.maximum,
+                maximum: schema.maximum
             }
         };
     }
@@ -91,12 +91,10 @@ var getIntegerEncoding = function (schema) {
             }
         };
     }
-    else {
-        return {
-            type: encoding_type_1.EncodingType.Integer,
-            encoding: 'ARBITRARY__ZIGZAG_VARINT',
-            options: {}
-        };
-    }
+    return {
+        type: encoding_type_1.EncodingType.Integer,
+        encoding: 'ARBITRARY__ZIGZAG_VARINT',
+        options: {}
+    };
 };
 exports.getIntegerEncoding = getIntegerEncoding;

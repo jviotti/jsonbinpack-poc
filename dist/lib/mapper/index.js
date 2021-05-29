@@ -41,8 +41,6 @@ var getEncoding = function (schema) {
     else if (schema.type === 'array') {
         return array_1.getArrayEncoding(schema);
     }
-    else {
-        return object_1.getObjectEncoding(schema);
-    }
+    return object_1.getObjectEncoding(schema);
 };
 exports.getEncoding = getEncoding;

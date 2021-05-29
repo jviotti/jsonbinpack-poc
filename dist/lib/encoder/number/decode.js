@@ -26,7 +26,7 @@ var DOUBLE_VARINT_TUPLE = function (buffer, offset, _options) {
         };
     }
     return {
-        value: parseFloat(integral.slice(0, point) + '.' + integral.slice(point)),
+        value: parseFloat(integral.slice(0, point) + "." + integral.slice(point)),
         bytes: bytes
     };
 };

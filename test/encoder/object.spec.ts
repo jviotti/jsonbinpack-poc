@@ -95,7 +95,9 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
     fc.integer(),
     fc.float(),
     fc.double(),
-    fc.string({ maxLength: 10 })
+    fc.string({
+      maxLength: 10
+    })
   )), (offset: number, value: JSONObject): boolean => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))

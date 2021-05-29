@@ -66,14 +66,14 @@ export interface StringEncodingSchema {
   // See http://json-schema.org/draft/2020-12/json-schema-validation.html#rfc.section.7.3
   // TODO: We can use these in the future to apply more clever encodings
   readonly format?:
-    'date-time' | 'date' | 'time' | 'duration' |
-    'email' | 'idn-email' |
-    'hostname' | 'idn-hostname' |
-    'ipv4' | 'ipv6' |
-    'uri' | 'uri-reference' | 'iri' | 'iri-reference' | 'uuid' |
-    'uri-template' |
-    'json-pointer' | 'relative-json-pointer' |
-    'regex';
+  'date-time' | 'date' | 'time' | 'duration' |
+  'email' | 'idn-email' |
+  'hostname' | 'idn-hostname' |
+  'ipv4' | 'ipv6' |
+  'uri' | 'uri-reference' | 'iri' | 'iri-reference' | 'uuid' |
+  'uri-template' |
+  'json-pointer' | 'relative-json-pointer' |
+  'regex';
 
   readonly pattern?: string;
 

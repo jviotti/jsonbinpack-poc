@@ -69,6 +69,6 @@ export const ONEOF_CHOICE_INDEX_PREFIX = (
   // Proceed with encoding against the given choice
   const bytesWritten: number =
     encode(buffer, offset + indexBytes,
-    options.schemas[choiceIndex].encoding, value, context)
+      options.schemas[choiceIndex].encoding, value, context)
   return indexBytes + bytesWritten
 }

@@ -145,12 +145,12 @@ tap.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', (test) => {
   }, {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x02, // tag
-    0x02, // length
-    0x04, 0x66, 0x6f, 0x6f, // key length + 'foo'
-    0x01, 0x04, 0x62, 0x61, 0x72, // string tag + length + 'bar'
-    0x04, 0x62, 0x61, 0x7a, // key length + 'baz'
-    0x0a, 0x01 // positive integer type tag + 1
+    0x02, // Tag
+    0x02, // Length
+    0x04, 0x66, 0x6f, 0x6f, // Key length + 'foo'
+    0x01, 0x04, 0x62, 0x61, 0x72, // String tag + length + 'bar'
+    0x04, 0x62, 0x61, 0x7a, // Key length + 'baz'
+    0x0a, 0x01 // Positive integer type tag + 1
   ]))
 
   test.is(bytesWritten, 17)
@@ -167,10 +167,10 @@ tap.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   ], {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // tag
-    0x03, // array length
+    0x03, // Tag
+    0x03, // Array length
     0x01, 0x04, 0x66, 0x6f, 0x6f, // "foo"
-    0x05, // true
+    0x05, // True
     0x08, 0xd0, 0x0f // 2000
   ]))
 

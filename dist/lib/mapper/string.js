@@ -40,12 +40,10 @@ var getStringEncoding = function (schema) {
             }
         };
     }
-    else {
-        return {
-            type: encoding_type_1.EncodingType.String,
-            encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-            options: {}
-        };
-    }
+    return {
+        type: encoding_type_1.EncodingType.String,
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+    };
 };
 exports.getStringEncoding = getStringEncoding;

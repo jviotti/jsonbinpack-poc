@@ -32,7 +32,7 @@ var getObjectEncoding = function (schema) {
     var properties = (_c = schema.properties) !== null && _c !== void 0 ? _c : {};
     var optionalProperties = Object.keys(properties)
         .filter(function (key) {
-        return requiredProperties.indexOf(key) === -1;
+        return !requiredProperties.includes(key);
     }).sort(function (left, right) {
         return left.localeCompare(right);
     });
@@ -80,17 +80,15 @@ var getObjectEncoding = function (schema) {
                 }
             };
         }
-        else {
-            return {
-                type: index_1.EncodingType.Object,
-                encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
-                options: {
-                    propertyEncodings: propertyEncodings,
-                    optionalProperties: optionalProperties,
-                    requiredProperties: requiredProperties
-                }
-            };
-        }
+        return {
+            type: index_1.EncodingType.Object,
+            encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
+            options: {
+                propertyEncodings: propertyEncodings,
+                optionalProperties: optionalProperties,
+                requiredProperties: requiredProperties
+            }
+        };
     }
     if (requiredProperties.length > 0 && optionalProperties.length > 0) {
         return {

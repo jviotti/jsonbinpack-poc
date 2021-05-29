@@ -188,13 +188,12 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => 
           prefixEncodings
         }
       }
-    } else {
-      return {
-        type: EncodingType.Array,
-        encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
-        options: {
-          prefixEncodings
-        }
+    }
+    return {
+      type: EncodingType.Array,
+      encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+      options: {
+        prefixEncodings
       }
     }
   }
@@ -235,14 +234,13 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => 
         prefixEncodings
       }
     }
-  } else {
-    return {
-      type: EncodingType.Array,
-      encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
-      options: {
-        encoding: getEncoding(encodingSchema),
-        prefixEncodings
-      }
+  }
+  return {
+    type: EncodingType.Array,
+    encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
+    options: {
+      encoding: getEncoding(encodingSchema),
+      prefixEncodings
     }
   }
 }

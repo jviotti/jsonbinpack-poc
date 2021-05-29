@@ -77,6 +77,7 @@ export const ANY__TYPE_PREFIX = (
 ): AnyResult => {
   const tag: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
     minimum: UINT8_MIN,
+
     // TODO: Find a way to keep this automatically in sync with "Type"
     maximum: 11
   })
@@ -177,12 +178,11 @@ export const ANY__TYPE_PREFIX = (
       value: (result.value + 1) * -1,
       bytes: tag.bytes + result.bytes
     }
-  } else {
-    const result: NumberResult =
+  }
+  const result: NumberResult =
       DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {})
-    return {
-      value: result.value,
-      bytes: tag.bytes + result.bytes
-    }
+  return {
+    value: result.value,
+    bytes: tag.bytes + result.bytes
   }
 }

@@ -127,7 +127,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
   const properties: Record<string, EncodingSchema> = schema.properties ?? {}
   const optionalProperties: string[] = Object.keys(properties)
     .filter((key: string) => {
-      return requiredProperties.indexOf(key) === -1
+      return !requiredProperties.includes(key)
     }).sort((left: string, right: string) => {
       return left.localeCompare(right)
     })
@@ -169,15 +169,14 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
           optionalProperties
         }
       }
-    } else {
-      return {
-        type: EncodingType.Object,
-        encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
-        options: {
-          propertyEncodings,
-          optionalProperties,
-          requiredProperties
-        }
+    }
+    return {
+      type: EncodingType.Object,
+      encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
+      options: {
+        propertyEncodings,
+        optionalProperties,
+        requiredProperties
       }
     }
   }

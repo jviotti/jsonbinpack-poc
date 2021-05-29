@@ -162,7 +162,7 @@ export const getIntegerEncoding = (schema: IntegerEncodingSchema): IntegerEncodi
         ? 'BOUNDED_8BITS__ENUM_FIXED' : 'BOUNDED__ENUM_VARINT',
       options: {
         minimum: schema.minimum,
-        maximum: schema.maximum,
+        maximum: schema.maximum
       }
     }
   } else if (typeof schema.minimum !== 'undefined' &&
@@ -212,11 +212,10 @@ export const getIntegerEncoding = (schema: IntegerEncodingSchema): IntegerEncodi
         multiplier: schema.multipleOf
       }
     }
-  } else {
-    return {
-      type: EncodingType.Integer,
-      encoding: 'ARBITRARY__ZIGZAG_VARINT',
-      options: {}
-    }
+  }
+  return {
+    type: EncodingType.Integer,
+    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+    options: {}
   }
 }

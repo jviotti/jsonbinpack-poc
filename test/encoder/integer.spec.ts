@@ -70,9 +70,13 @@ tap.test('BOUNDED_8BITS__ENUM_FIXED', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 1))
     const bytesWritten: number =
-      ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value, { minimum, maximum }, context)
+      ENCODE_BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value, {
+        minimum, maximum
+      }, context)
     const result: IntegerResult =
-      DECODE_BOUNDED_8BITS__ENUM_FIXED(buffer, offset, { minimum, maximum })
+      DECODE_BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+        minimum, maximum
+      })
     return bytesWritten === 1 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -100,10 +104,14 @@ tap.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED', (test) => {
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 1))
     const bytesWritten: number =
       ENCODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(
-        buffer, offset, value, { minimum, maximum, multiplier }, context)
+        buffer, offset, value, {
+          minimum, maximum, multiplier
+        }, context)
     const result: IntegerResult =
       DECODE_BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(
-        buffer, offset, { minimum, maximum, multiplier })
+        buffer, offset, {
+          minimum, maximum, multiplier
+        })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -120,9 +128,13 @@ tap.test('BOUNDED__ENUM_VARINT', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number =
-      ENCODE_BOUNDED__ENUM_VARINT(buffer, offset, value, { minimum, maximum }, context)
+      ENCODE_BOUNDED__ENUM_VARINT(buffer, offset, value, {
+        minimum, maximum
+      }, context)
     const result: IntegerResult =
-      DECODE_BOUNDED__ENUM_VARINT(buffer, offset, { minimum, maximum })
+      DECODE_BOUNDED__ENUM_VARINT(buffer, offset, {
+        minimum, maximum
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -133,13 +145,19 @@ tap.test('BOUNDED__ENUM_VARINT', (test) => {
 
 tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
   const arbitrary = fc.integer().chain((minimum: number) => {
-    return fc.integer({ min: minimum }).chain((maximum: number) => {
+    return fc.integer({
+      min: minimum
+    }).chain((maximum: number) => {
       return fc.tuple(
         fc.nat(10),
         fc.constant(minimum),
         fc.constant(maximum),
-        fc.integer({ min: minimum, max: maximum }),
-        fc.integer({ min: minimum, max: maximum })
+        fc.integer({
+          min: minimum, max: maximum
+        }),
+        fc.integer({
+          min: minimum, max: maximum
+        })
       )
     })
   })
@@ -149,9 +167,13 @@ tap.test('BOUNDED_MULTIPLE__ENUM_VARINT', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number =
-      ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, offset, value, { minimum, maximum, multiplier }, context)
+      ENCODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, offset, value, {
+        minimum, maximum, multiplier
+      }, context)
     const result: IntegerResult =
-      DECODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, offset, { minimum, maximum, multiplier })
+      DECODE_BOUNDED_MULTIPLE__ENUM_VARINT(buffer, offset, {
+        minimum, maximum, multiplier
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -165,9 +187,13 @@ tap.test('FLOOR__ENUM_VARINT: should encode 696667952522107300000', (test) => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(60))
   const value: number = 696667952522107300000
   const bytesWritten: number =
-    ENCODE_FLOOR__ENUM_VARINT(buffer, 0, value, { minimum: 0 }, context)
+    ENCODE_FLOOR__ENUM_VARINT(buffer, 0, value, {
+      minimum: 0
+    }, context)
   const result: IntegerResult =
-    DECODE_FLOOR__ENUM_VARINT(buffer, 0, { minimum: 0 })
+    DECODE_FLOOR__ENUM_VARINT(buffer, 0, {
+      minimum: 0
+    })
 
   test.is(bytesWritten, result.bytes)
   test.is(result.value, value)
@@ -182,9 +208,13 @@ tap.test('FLOOR__ENUM_VARINT', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number =
-      ENCODE_FLOOR__ENUM_VARINT(buffer, offset, value, { minimum }, context)
+      ENCODE_FLOOR__ENUM_VARINT(buffer, offset, value, {
+        minimum
+      }, context)
     const result: IntegerResult =
-      DECODE_FLOOR__ENUM_VARINT(buffer, offset, { minimum })
+      DECODE_FLOOR__ENUM_VARINT(buffer, offset, {
+        minimum
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -198,8 +228,12 @@ tap.test('FLOOR_MULTIPLE__ENUM_VARINT', (test) => {
     return fc.tuple(
       fc.nat(10),
       fc.constant(minimum),
-      fc.integer({ min: minimum }),
-      fc.integer({ min: minimum })
+      fc.integer({
+        min: minimum
+      }),
+      fc.integer({
+        min: minimum
+      })
     )
   })
 
@@ -208,9 +242,13 @@ tap.test('FLOOR_MULTIPLE__ENUM_VARINT', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number =
-      ENCODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, offset, value, { minimum, multiplier }, context)
+      ENCODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, offset, value, {
+        minimum, multiplier
+      }, context)
     const result: IntegerResult =
-      DECODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, offset, { minimum, multiplier })
+      DECODE_FLOOR_MULTIPLE__ENUM_VARINT(buffer, offset, {
+        minimum, multiplier
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -227,9 +265,13 @@ tap.test('ROOF__MIRROR_ENUM_VARINT', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number =
-      ENCODE_ROOF__MIRROR_ENUM_VARINT(buffer, offset, value, { maximum }, context)
+      ENCODE_ROOF__MIRROR_ENUM_VARINT(buffer, offset, value, {
+        maximum
+      }, context)
     const result: IntegerResult =
-      DECODE_ROOF__MIRROR_ENUM_VARINT(buffer, offset, { maximum })
+      DECODE_ROOF__MIRROR_ENUM_VARINT(buffer, offset, {
+        maximum
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -243,8 +285,12 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', (test) => {
     return fc.tuple(
       fc.nat(10),
       fc.constant(maximum),
-      fc.integer({ max: maximum }),
-      fc.integer({ max: maximum })
+      fc.integer({
+        max: maximum
+      }),
+      fc.integer({
+        max: maximum
+      })
     )
   })
 
@@ -253,9 +299,13 @@ tap.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number =
-      ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, offset, value, { maximum, multiplier }, context)
+      ENCODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, offset, value, {
+        maximum, multiplier
+      }, context)
     const result: IntegerResult =
-      DECODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, offset, { maximum, multiplier })
+      DECODE_ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, offset, {
+        maximum, multiplier
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -288,9 +338,13 @@ tap.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT', (test) => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
     const bytesWritten: number =
-      ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, offset, value, { multiplier }, context)
+      ENCODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, offset, value, {
+        multiplier
+      }, context)
     const result: IntegerResult =
-      DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, offset, { multiplier })
+      DECODE_ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, offset, {
+        multiplier
+      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false

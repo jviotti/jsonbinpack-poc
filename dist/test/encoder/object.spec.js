@@ -44,7 +44,9 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test
             options: {}
         }
     };
-    fc.assert(fc.property(fc.nat(10), fc.dictionary(fc.string(), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({ maxLength: 10 }))), function (offset, value) {
+    fc.assert(fc.property(fc.nat(10), fc.dictionary(fc.string(), fc.oneof(fc.constant(null), fc.boolean(), fc.integer(), fc.float(), fc.double(), fc.string({
+        maxLength: 10
+    }))), function (offset, value) {
         var context = encoder_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset, value, options, context);

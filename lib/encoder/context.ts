@@ -15,6 +15,7 @@
  */
 
 export interface EncodingContext {
+
   // TODO: We should have a better data structure here
   // that supports searching for any substring of a string
   // in a bucket

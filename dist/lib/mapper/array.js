@@ -47,15 +47,13 @@ var getArrayEncoding = function (schema) {
                 }
             };
         }
-        else {
-            return {
-                type: encoding_type_1.EncodingType.Array,
-                encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
-                options: {
-                    prefixEncodings: prefixEncodings
-                }
-            };
-        }
+        return {
+            type: encoding_type_1.EncodingType.Array,
+            encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+            options: {
+                prefixEncodings: prefixEncodings
+            }
+        };
     }
     if (typeof schema.minItems !== 'undefined' &&
         typeof schema.maxItems !== 'undefined') {
@@ -96,15 +94,13 @@ var getArrayEncoding = function (schema) {
             }
         };
     }
-    else {
-        return {
-            type: encoding_type_1.EncodingType.Array,
-            encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
-            options: {
-                encoding: index_1.getEncoding(encodingSchema),
-                prefixEncodings: prefixEncodings
-            }
-        };
-    }
+    return {
+        type: encoding_type_1.EncodingType.Array,
+        encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
+        options: {
+            encoding: index_1.getEncoding(encodingSchema),
+            prefixEncodings: prefixEncodings
+        }
+    };
 };
 exports.getArrayEncoding = getArrayEncoding;

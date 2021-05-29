@@ -166,7 +166,6 @@ export const getEncoding = (schema: EncodingSchema): Encoding => {
     return getStringEncoding(schema)
   } else if (schema.type === 'array') {
     return getArrayEncoding(schema)
-  } else {
-    return getObjectEncoding(schema)
   }
+  return getObjectEncoding(schema)
 }

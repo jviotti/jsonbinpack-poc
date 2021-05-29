@@ -96,9 +96,9 @@ export const BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX = (
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
     : BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
-        minimum: options.minimum,
-        maximum: options.maximum
-      }, context)
+      minimum: options.minimum,
+      maximum: options.maximum
+    }, context)
 
   return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
@@ -116,9 +116,9 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
     : BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
-        minimum: options.minimum,
-        maximum: options.maximum
-      }, context)
+      minimum: options.minimum,
+      maximum: options.maximum
+    }, context)
 
   return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
@@ -186,9 +186,9 @@ export const BOUNDED_TYPED__LENGTH_PREFIX = (
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
     : BOUNDED__ENUM_VARINT(buffer, offset, value.length, {
-        minimum: options.minimum,
-        maximum: options.maximum
-      }, context)
+      minimum: options.minimum,
+      maximum: options.maximum
+    }, context)
 
   return lengthBytes + encodeArray(
     buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
@@ -207,9 +207,9 @@ export const BOUNDED_8BITS_TYPED__LENGTH_PREFIX = (
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
     : BOUNDED_8BITS__ENUM_FIXED(buffer, offset, value.length, {
-        minimum: options.minimum,
-        maximum: options.maximum
-      }, context)
+      minimum: options.minimum,
+      maximum: options.maximum
+    }, context)
 
   return lengthBytes + encodeArray(
     buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)

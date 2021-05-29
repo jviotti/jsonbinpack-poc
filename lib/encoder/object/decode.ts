@@ -144,7 +144,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
 
   let count: number = 0
   let cursor: number = offset + result.bytes
-  let value: JSONObject = {}
+  const value: JSONObject = {}
 
   while (count < result.value) {
     const keyResult: DecodeResult =

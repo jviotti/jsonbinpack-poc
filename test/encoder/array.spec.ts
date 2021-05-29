@@ -100,7 +100,9 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', (test) => {
     fc.integer(),
     fc.float(),
     fc.double(),
-    fc.string({ maxLength: 10 })
+    fc.string({
+      maxLength: 10
+    })
   )), (value: JSONValue[]): boolean => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))

@@ -117,7 +117,7 @@ export const BOUNDED_MULTIPLE__ENUM_VARINT = (
 }
 
 export const FLOOR__ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, options: FloorOptions,
+  buffer: ResizableBuffer, offset: number, options: FloorOptions
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {

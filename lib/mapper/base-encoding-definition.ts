@@ -63,14 +63,14 @@ export interface BaseEncodingDefinition {
   readonly type: EncodingType;
   readonly encoding: EncodingNames;
   readonly options:
-    BooleanOptions |
-    NullOptions |
-    NumberOptions |
-    IntegerOptions |
-    StringOptions |
-    AnyOptions |
-    ArrayOptions |
-    ObjectOptions |
-    EnumOptions |
-    OneOfOptions;
+  BooleanOptions |
+  NullOptions |
+  NumberOptions |
+  IntegerOptions |
+  StringOptions |
+  AnyOptions |
+  ArrayOptions |
+  ObjectOptions |
+  EnumOptions |
+  OneOfOptions;
 }
