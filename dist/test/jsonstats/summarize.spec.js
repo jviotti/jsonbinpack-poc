@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var jsonstats_1 = require("../../lib/jsonstats");
+var jsonstats_1 = require("../../contrib/jsonstats");
 tap_1.default.test('should summarize a string document', function (test) {
     var document = 'foo bar';
     var result = {

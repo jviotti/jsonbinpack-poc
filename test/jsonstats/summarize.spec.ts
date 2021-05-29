@@ -26,7 +26,7 @@ import {
   JSONStatsSummary,
   summarize,
   analyze
-} from '../../lib/jsonstats'
+} from '../../contrib/jsonstats'
 
 tap.test('should summarize a string document', (test) => {
   const document: JSONValue = 'foo bar'

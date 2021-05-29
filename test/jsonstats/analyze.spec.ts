@@ -23,7 +23,7 @@ import {
 import {
   JSONStats,
   analyze
-} from '../../lib/jsonstats'
+} from '../../contrib/jsonstats'
 
 tap.test('should analyze the survey test object', (test) => {
   const document: JSONObject = {

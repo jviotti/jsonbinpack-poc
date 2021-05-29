@@ -22,7 +22,7 @@ import {
   getJSONSize,
   getJSONType,
   getJSONTypeCategory
-} from './json'
+} from '../lib/json'
 
 interface CountSizeStats {
   count: number;

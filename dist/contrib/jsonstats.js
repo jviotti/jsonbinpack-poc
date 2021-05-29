@@ -53,7 +53,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.qualify = exports.summarize = exports.JSONStatsSizeQualifier = exports.analyze = void 0;
 var _ = __importStar(require("lodash"));
-var json_1 = require("./json");
+var json_1 = require("../lib/json");
 var DEFAULT_ACCUMULATOR = {
     byteSize: 0,
     maxNestingDepth: 0,

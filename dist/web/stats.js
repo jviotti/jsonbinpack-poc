@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var codemirror_1 = __importDefault(require("codemirror"));
-var jsonstats_1 = require("../lib/jsonstats");
+var jsonstats_1 = require("../contrib/jsonstats");
 var EXAMPLE_JSON = {
     tags: [],
     tz: -25200,

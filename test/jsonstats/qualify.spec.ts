@@ -24,7 +24,7 @@ import {
   summarize,
   analyze,
   qualify
-} from '../../lib/jsonstats'
+} from '../../contrib/jsonstats'
 
 tap.test('should qualify the survey test object', (test) => {
   const document: JSONObject = {
