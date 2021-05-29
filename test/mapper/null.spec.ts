@@ -18,12 +18,12 @@ import tap from 'tap'
 
 import {
   NullEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   NullEncoding,
   getNullEncoding
-} from '../../../lib/types/null/mapper'
+} from '../../lib/mapper/null'
 
 tap.test('should encode a null value', (test) => {
   const schema: NullEncodingSchema = {

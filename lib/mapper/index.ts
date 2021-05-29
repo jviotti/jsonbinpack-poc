@@ -28,7 +28,7 @@ import {
 
 import {
   getNullEncoding
-} from '../types/null/mapper'
+} from './null'
 
 import {
   getNumberEncoding

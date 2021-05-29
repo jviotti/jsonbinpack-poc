@@ -24,7 +24,7 @@ import {
 
 import {
   NullEncoding
-} from './types/null/mapper'
+} from './mapper/null'
 
 import {
   NumberEncoding

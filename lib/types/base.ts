@@ -64,7 +64,7 @@ import {
 
 import {
   NullEncodingNames
-} from './null/mapper'
+} from '../mapper/null'
 
 import {
   NumberEncodingNames
