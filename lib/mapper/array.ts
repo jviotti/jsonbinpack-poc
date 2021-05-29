@@ -16,25 +16,25 @@
 
 import {
   UINT8_MAX
-} from '../../utils/limits'
+} from '../utils/limits'
 
 import {
   ArrayEncodingSchema,
   EncodingSchema
-} from '../../encoding-schema'
+} from '../encoding-schema'
 
 import {
   BaseEncodingDefinition,
   EncodingType
-} from '../base'
+} from '../types/base'
 
 import {
   Encoding
-} from '../../encoder'
+} from '../encoder'
 
 import {
   getEncoding
-} from '../../mapper'
+} from './index'
 
 import {
   SemiTypedOptions,
@@ -45,7 +45,7 @@ import {
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions
-} from './options'
+} from '../types/array/options'
 
 export interface BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;

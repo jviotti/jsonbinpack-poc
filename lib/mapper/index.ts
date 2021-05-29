@@ -48,7 +48,7 @@ import {
 
 import {
   getArrayEncoding
-} from '../types/array/mapper'
+} from './array'
 
 import {
   getObjectEncoding

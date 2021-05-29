@@ -4,12 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var mapper_1 = require("../../../lib/types/array/mapper");
+var array_1 = require("../../lib/mapper/array");
 tap_1.default.test('should encode an arbitrary array', function (test) {
     var schema = {
         type: 'array'
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -24,7 +24,7 @@ tap_1.default.test('should encode an arbitrary array with minItems', function (t
         type: 'array',
         minItems: 10
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -40,7 +40,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 256', funct
         type: 'array',
         maxItems: 256
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'ROOF_SEMITYPED__LENGTH_PREFIX',
@@ -56,7 +56,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 255', funct
         type: 'array',
         maxItems: 255
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -72,7 +72,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems < 255', funct
         type: 'array',
         maxItems: 10
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -89,7 +89,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems < 
         maxItems: 10,
         minItems: 3
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -107,7 +107,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems > 
         maxItems: 450,
         minItems: 30
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -132,7 +132,7 @@ tap_1.default.test('should encode an semi-typed scalar heterogeneous array', fun
             }
         ]
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -169,7 +169,7 @@ tap_1.default.test('should encode an semi-typed array with minItems', function (
             }
         ]
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -210,7 +210,7 @@ tap_1.default.test('should encode an semi + fully typed array with minItems', fu
             }
         ]
     };
-    var result = mapper_1.getArrayEncoding(schema);
+    var result = array_1.getArrayEncoding(schema);
     test.strictSame(result, {
         type: 'array',
         encoding: 'FLOOR_TYPED__LENGTH_PREFIX',

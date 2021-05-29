@@ -7,16 +7,16 @@ var mapper_3 = require("../types/number/mapper");
 var mapper_4 = require("../types/integer/mapper");
 var mapper_5 = require("../types/string/mapper");
 var any_1 = require("./any");
-var mapper_6 = require("../types/array/mapper");
-var mapper_7 = require("../types/object/mapper");
-var mapper_8 = require("../types/enum/mapper");
-var mapper_9 = require("../types/oneof/mapper");
+var array_1 = require("./array");
+var mapper_6 = require("../types/object/mapper");
+var mapper_7 = require("../types/enum/mapper");
+var mapper_8 = require("../types/oneof/mapper");
 var getEncoding = function (schema) {
     if ('enum' in schema) {
-        return mapper_8.getEnumEncoding(schema);
+        return mapper_7.getEnumEncoding(schema);
     }
     else if ('oneOf' in schema) {
-        return mapper_9.getOneOfEncoding(schema);
+        return mapper_8.getOneOfEncoding(schema);
     }
     else if (!('type' in schema)) {
         return any_1.getAnyEncoding(schema);
@@ -37,10 +37,10 @@ var getEncoding = function (schema) {
         return mapper_5.getStringEncoding(schema);
     }
     else if (schema.type === 'array') {
-        return mapper_6.getArrayEncoding(schema);
+        return array_1.getArrayEncoding(schema);
     }
     else {
-        return mapper_7.getObjectEncoding(schema);
+        return mapper_6.getObjectEncoding(schema);
     }
 };
 exports.getEncoding = getEncoding;

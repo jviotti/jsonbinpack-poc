@@ -18,12 +18,12 @@ import tap from 'tap'
 
 import {
   ArrayEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   ArrayEncoding,
   getArrayEncoding
-} from '../../../lib/types/array/mapper'
+} from '../../lib/mapper/array'
 
 tap.test('should encode an arbitrary array', (test) => {
   const schema: ArrayEncodingSchema = {

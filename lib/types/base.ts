@@ -84,7 +84,7 @@ import {
 
 import {
   ArrayEncodingNames
-} from './array/mapper'
+} from '../mapper/array'
 
 import {
   ObjectEncodingNames

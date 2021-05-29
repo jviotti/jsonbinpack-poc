@@ -44,7 +44,7 @@ import {
 
 import {
   ArrayEncoding
-} from './types/array/mapper'
+} from './mapper/array'
 
 import {
   ObjectEncoding

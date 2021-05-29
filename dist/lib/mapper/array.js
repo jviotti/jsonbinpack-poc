@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getArrayEncoding = void 0;
-var limits_1 = require("../../utils/limits");
-var base_1 = require("../base");
-var mapper_1 = require("../../mapper");
+var limits_1 = require("../utils/limits");
+var base_1 = require("../types/base");
+var index_1 = require("./index");
 var getArrayEncoding = function (schema) {
     var _a;
     var encodingSchema = schema.items;
     var prefixEncodings = ((_a = schema.prefixItems) !== null && _a !== void 0 ? _a : []).map(function (subschema) {
-        return mapper_1.getEncoding(subschema);
+        return index_1.getEncoding(subschema);
     });
     if (typeof encodingSchema === 'undefined') {
         if (typeof schema.minItems !== 'undefined' &&
@@ -66,7 +66,7 @@ var getArrayEncoding = function (schema) {
             options: {
                 minimum: schema.minItems,
                 maximum: schema.maxItems,
-                encoding: mapper_1.getEncoding(encodingSchema),
+                encoding: index_1.getEncoding(encodingSchema),
                 prefixEncodings: prefixEncodings
             }
         };
@@ -79,7 +79,7 @@ var getArrayEncoding = function (schema) {
                 ? 'ROOF_8BITS_TYPED__LENGTH_PREFIX' : 'ROOF_TYPED__LENGTH_PREFIX',
             options: {
                 maximum: schema.maxItems,
-                encoding: mapper_1.getEncoding(encodingSchema),
+                encoding: index_1.getEncoding(encodingSchema),
                 prefixEncodings: prefixEncodings
             }
         };
@@ -91,7 +91,7 @@ var getArrayEncoding = function (schema) {
             encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
             options: {
                 minimum: schema.minItems,
-                encoding: mapper_1.getEncoding(encodingSchema),
+                encoding: index_1.getEncoding(encodingSchema),
                 prefixEncodings: prefixEncodings
             }
         };
@@ -101,7 +101,7 @@ var getArrayEncoding = function (schema) {
             type: base_1.EncodingType.Array,
             encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
             options: {
-                encoding: mapper_1.getEncoding(encodingSchema),
+                encoding: index_1.getEncoding(encodingSchema),
                 prefixEncodings: prefixEncodings
             }
         };
