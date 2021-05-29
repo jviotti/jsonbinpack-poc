@@ -28,7 +28,7 @@ import {
 
 import {
   EncodingType
-} from '../../../lib/types/base'
+} from '../../../lib/mapper'
 
 import {
   getAnyEncoding

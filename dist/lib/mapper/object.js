@@ -14,7 +14,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getObjectEncoding = void 0;
 var string_1 = require("./string");
 var index_1 = require("./index");
-var base_1 = require("../types/base");
 var parseAdditionalProperties = function (value) {
     if (typeof value === 'boolean' && !value) {
         return null;
@@ -63,7 +62,7 @@ var getObjectEncoding = function (schema) {
     if (additionalProperties === null) {
         if (optionalProperties.length === 0) {
             return {
-                type: base_1.EncodingType.Object,
+                type: index_1.EncodingType.Object,
                 encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
                 options: {
                     propertyEncodings: propertyEncodings,
@@ -73,7 +72,7 @@ var getObjectEncoding = function (schema) {
         }
         else if (requiredProperties.length === 0) {
             return {
-                type: base_1.EncodingType.Object,
+                type: index_1.EncodingType.Object,
                 encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
                 options: {
                     propertyEncodings: propertyEncodings,
@@ -83,7 +82,7 @@ var getObjectEncoding = function (schema) {
         }
         else {
             return {
-                type: base_1.EncodingType.Object,
+                type: index_1.EncodingType.Object,
                 encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
                 options: {
                     propertyEncodings: propertyEncodings,
@@ -95,7 +94,7 @@ var getObjectEncoding = function (schema) {
     }
     if (requiredProperties.length > 0 && optionalProperties.length > 0) {
         return {
-            type: base_1.EncodingType.Object,
+            type: index_1.EncodingType.Object,
             encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
             options: {
                 propertyEncodings: propertyEncodings,
@@ -108,7 +107,7 @@ var getObjectEncoding = function (schema) {
     }
     else if (requiredProperties.length > 0 && optionalProperties.length === 0) {
         return {
-            type: base_1.EncodingType.Object,
+            type: index_1.EncodingType.Object,
             encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
             options: {
                 encoding: additionalProperties,
@@ -120,7 +119,7 @@ var getObjectEncoding = function (schema) {
     }
     else if (requiredProperties.length === 0 && optionalProperties.length > 0) {
         return {
-            type: base_1.EncodingType.Object,
+            type: index_1.EncodingType.Object,
             encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
             options: {
                 encoding: additionalProperties,
@@ -131,7 +130,7 @@ var getObjectEncoding = function (schema) {
         };
     }
     return {
-        type: base_1.EncodingType.Object,
+        type: index_1.EncodingType.Object,
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
         options: {
             encoding: additionalProperties,

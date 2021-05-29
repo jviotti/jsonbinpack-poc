@@ -59,25 +59,13 @@ import {
 } from './oneof/options'
 
 import {
-  EncodingNames
+  EncodingNames,
+  EncodingType
 } from '../mapper'
 
 export interface DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
-}
-
-export enum EncodingType {
-  Boolean = 'boolean',
-  Integer = 'integer',
-  Null = 'null',
-  Number = 'number',
-  String = 'string',
-  Array = 'array',
-  Object = 'object',
-  Any = 'any',
-  Enum = 'enum',
-  OneOf = 'oneOf'
 }
 
 export interface BaseEncodingDefinition {

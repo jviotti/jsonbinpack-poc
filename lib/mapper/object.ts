@@ -26,12 +26,12 @@ import {
 
 import {
   Encoding,
+  EncodingType,
   getEncoding
 } from './index'
 
 import {
-  BaseEncodingDefinition,
-  EncodingType
+  BaseEncodingDefinition
 } from '../types/base'
 
 import {

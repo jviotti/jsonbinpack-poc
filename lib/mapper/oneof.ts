@@ -20,8 +20,7 @@ import {
 } from '../encoding-schema'
 
 import {
-  BaseEncodingDefinition,
-  EncodingType
+  BaseEncodingDefinition
 } from '../types/base'
 
 import {
@@ -29,6 +28,7 @@ import {
 } from '../types/oneof/options'
 
 import {
+  EncodingType,
   getEncoding
 } from './index'
 

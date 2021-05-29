@@ -25,7 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var util = __importStar(require("util"));
-var base_1 = require("../../lib/types/base");
+var mapper_1 = require("../../lib/mapper");
 var any_1 = require("../../lib/mapper/any");
 var encode_1 = require("../../lib/types/object/encode");
 var decode_1 = require("../../lib/types/object/decode");
@@ -39,7 +39,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test
             type: 'string'
         }),
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -69,7 +69,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', fun
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, {
         keyEncoding: keyEncoding,
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -77,7 +77,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', fun
     var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
         keyEncoding: keyEncoding,
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -100,7 +100,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, {
         keyEncoding: keyEncoding,
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -108,7 +108,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
     var result = decode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
         keyEncoding: keyEncoding,
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -238,7 +238,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}
             type: 'string'
         }),
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -266,7 +266,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', functio
             type: 'string'
         }),
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -295,7 +295,7 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}
             type: 'string'
         }),
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -321,7 +321,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:nul
             type: 'string'
         }),
         encoding: {
-            type: base_1.EncodingType.Any,
+            type: mapper_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         },

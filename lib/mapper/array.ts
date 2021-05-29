@@ -24,9 +24,12 @@ import {
 } from '../encoding-schema'
 
 import {
-  BaseEncodingDefinition,
-  EncodingType
+  BaseEncodingDefinition
 } from '../types/base'
+
+import {
+  EncodingType
+} from './encoding-type'
 
 import {
   Encoding,

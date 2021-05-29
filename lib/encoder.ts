@@ -19,11 +19,11 @@ import {
 } from 'assert'
 
 import {
-  Encoding
+  Encoding,
+  EncodingType
 } from './mapper'
 
 import {
-  EncodingType,
   DecodeResult
 } from './types/base'
 
@@ -38,7 +38,6 @@ import {
 } from './context'
 
 export {
-  EncodingType,
   DecodeResult
 } from './types/base'
 

@@ -17,13 +17,13 @@
 import tap from 'tap'
 
 import {
-  EncodingType,
   DecodeResult,
   encode,
   decode
 } from '../lib/encoder'
 
 import {
+  EncodingType,
   Encoding
 } from '../lib/mapper'
 
