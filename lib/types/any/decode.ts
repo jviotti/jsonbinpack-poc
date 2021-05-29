@@ -30,9 +30,12 @@ import {
 } from './options'
 
 import {
-  EncodingType,
   DecodeResult
 } from '../base'
+
+import {
+  EncodingType
+} from '../../mapper'
 
 import {
   IntegerResult,

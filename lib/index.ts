@@ -19,13 +19,13 @@ import {
 } from './encoding-schema'
 
 import {
-  Encoding,
   DecodeResult,
   encode as binpackEncode,
   decode as binpackDecode
 } from './encoder'
 
 import {
+  Encoding,
   getEncoding
 } from './mapper'
 
@@ -44,7 +44,7 @@ export {
 
 export {
   Encoding
-} from './encoder'
+} from './mapper'
 
 export {
   EncodingSchema

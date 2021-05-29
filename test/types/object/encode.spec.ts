@@ -28,19 +28,19 @@ import {
 
 import {
   EncodingType
-} from '../../../lib/types/base'
+} from '../../../lib/mapper'
 
 import {
   getAnyEncoding
-} from '../../../lib/types/any/mapper'
+} from '../../../lib/mapper/any'
 
 import {
   getIntegerEncoding
-} from '../../../lib/types/integer/mapper'
+} from '../../../lib/mapper/integer'
 
 import {
   getStringEncoding
-} from '../../../lib/types/string/mapper'
+} from '../../../lib/mapper/string'
 
 import {
   EncodingContext,

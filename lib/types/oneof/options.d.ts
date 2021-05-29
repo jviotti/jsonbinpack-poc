@@ -15,12 +15,12 @@
  */
 
 import {
-  NoOptions
-} from '../null/options'
+  Encoding
+} from '../../mapper'
 
 import {
-  Encoding
-} from '../../encoder'
+  NoOptions
+} from '../null/options'
 
 import {
   EncodingSchema

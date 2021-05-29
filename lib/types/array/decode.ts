@@ -37,9 +37,12 @@ import {
 } from '../any/decode'
 
 import {
-  decode,
-  Encoding
+  decode
 } from '../../encoder'
+
+import {
+  Encoding
+} from '../../mapper'
 
 import {
   UINT8_MAX

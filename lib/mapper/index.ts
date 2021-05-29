@@ -15,52 +15,137 @@
  */
 
 import {
-  Encoding
-} from '../encoder'
-
-import {
   EncodingSchema
 } from '../encoding-schema'
 
 import {
+  BooleanEncodingNames,
+  BooleanEncoding,
   getBooleanEncoding
-} from '../types/boolean/mapper'
+} from './boolean'
 
 import {
+  NullEncodingNames,
+  NullEncoding,
   getNullEncoding
-} from '../types/null/mapper'
+} from './null'
 
 import {
+  NumberEncodingNames,
+  NumberEncoding,
   getNumberEncoding
-} from '../types/number/mapper'
+} from './number'
 
 import {
+  IntegerEncodingNames,
+  IntegerEncoding,
   getIntegerEncoding
-} from '../types/integer/mapper'
+} from './integer'
 
 import {
+  StringEncodingNames,
+  StringEncoding,
   getStringEncoding
-} from '../types/string/mapper'
+} from './string'
 
 import {
+  AnyEncodingNames,
+  AnyEncoding,
   getAnyEncoding
-} from '../types/any/mapper'
+} from './any'
 
 import {
+  ArrayEncodingNames,
+  ArrayEncoding,
   getArrayEncoding
-} from '../types/array/mapper'
+} from './array'
 
 import {
+  ObjectEncodingNames,
+  ObjectEncoding,
   getObjectEncoding
-} from '../types/object/mapper'
+} from './object'
 
 import {
+  EnumEncodingNames,
+  EnumEncoding,
   getEnumEncoding
-} from '../types/enum/mapper'
+} from './enum'
 
 import {
+  OneOfEncodingNames,
+  OneOfEncoding,
   getOneOfEncoding
-} from '../types/oneof/mapper'
+} from './oneof'
+
+export {
+  BooleanEncoding
+} from './boolean'
+
+export {
+  NullEncoding
+} from './null'
+
+export {
+  NumberEncoding
+} from './number'
+
+export {
+  IntegerEncoding
+} from './integer'
+
+export {
+  StringEncoding
+} from './string'
+
+export {
+  AnyEncoding
+} from './any'
+
+export {
+  ArrayEncoding
+} from './array'
+
+export {
+  ObjectEncoding
+} from './object'
+
+export {
+  EnumEncoding
+} from './enum'
+
+export {
+  OneOfEncoding
+} from './oneof'
+
+export {
+  EncodingType
+} from './encoding-type'
+
+export type EncodingNames =
+  BooleanEncodingNames |
+  NullEncodingNames |
+  NumberEncodingNames |
+  IntegerEncodingNames |
+  StringEncodingNames |
+  AnyEncodingNames |
+  ArrayEncodingNames |
+  ObjectEncodingNames |
+  EnumEncodingNames |
+  OneOfEncodingNames
+
+// The union of all possible encodings
+export type Encoding =
+  BooleanEncoding |
+  NullEncoding |
+  NumberEncoding |
+  IntegerEncoding |
+  StringEncoding |
+  AnyEncoding |
+  ArrayEncoding |
+  ObjectEncoding |
+  EnumEncoding |
+  OneOfEncoding
 
 export const getEncoding = (schema: EncodingSchema): Encoding => {
   if ('enum' in schema) {

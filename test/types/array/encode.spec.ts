@@ -19,12 +19,12 @@ import tap from 'tap'
 import {
   BooleanEncoding,
   getBooleanEncoding
-} from '../../../lib/types/boolean/mapper'
+} from '../../../lib/mapper/boolean'
 
 import {
   IntegerEncoding,
   getIntegerEncoding
-} from '../../../lib/types/integer/mapper'
+} from '../../../lib/mapper/integer'
 
 import {
   EncodingContext,

@@ -25,7 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var util = __importStar(require("util"));
-var mapper_1 = require("../../lib/types/integer/mapper");
+var integer_1 = require("../../lib/mapper/integer");
 var encode_1 = require("../../lib/types/array/encode");
 var decode_1 = require("../../lib/types/array/decode");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
@@ -83,7 +83,7 @@ tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', function (tes
         var context = context_1.getDefaultEncodingContext();
         var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2048));
         var offset = 0;
-        var encoding = mapper_1.getIntegerEncoding({
+        var encoding = integer_1.getIntegerEncoding({
             type: 'integer'
         });
         var bytesWritten = encode_1.UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {
