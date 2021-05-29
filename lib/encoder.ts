@@ -48,7 +48,7 @@ import {
 
 import {
   ObjectEncoding
-} from './types/object/mapper'
+} from './mapper/object'
 
 import {
   EnumEncoding

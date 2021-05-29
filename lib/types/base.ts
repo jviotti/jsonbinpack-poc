@@ -88,7 +88,7 @@ import {
 
 import {
   ObjectEncodingNames
-} from './object/mapper'
+} from '../mapper/object'
 
 import {
   EnumEncodingNames

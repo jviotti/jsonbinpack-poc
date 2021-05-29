@@ -12,16 +12,16 @@ var __values = (this && this.__values) || function(o) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getObjectEncoding = void 0;
-var mapper_1 = require("../string/mapper");
-var mapper_2 = require("../../mapper");
-var base_1 = require("../base");
+var mapper_1 = require("../types/string/mapper");
+var index_1 = require("./index");
+var base_1 = require("../types/base");
 var parseAdditionalProperties = function (value) {
     if (typeof value === 'boolean' && !value) {
         return null;
     }
     var schema = (typeof value === 'undefined' || (typeof value === 'boolean' && value))
         ? {} : value;
-    return mapper_2.getEncoding(schema);
+    return index_1.getEncoding(schema);
 };
 var getObjectEncoding = function (schema) {
     var e_1, _a;
@@ -39,14 +39,14 @@ var getObjectEncoding = function (schema) {
     });
     var propertyEncodings = Object.keys(properties)
         .reduce(function (accumulator, key) {
-        accumulator[key] = mapper_2.getEncoding(properties[key]);
+        accumulator[key] = index_1.getEncoding(properties[key]);
         return accumulator;
     }, {});
     try {
         for (var _e = __values(requiredProperties.concat(optionalProperties)), _f = _e.next(); !_f.done; _f = _e.next()) {
             var key = _f.value;
             if (!(key in propertyEncodings)) {
-                propertyEncodings[key] = additionalProperties !== null && additionalProperties !== void 0 ? additionalProperties : mapper_2.getEncoding({});
+                propertyEncodings[key] = additionalProperties !== null && additionalProperties !== void 0 ? additionalProperties : index_1.getEncoding({});
             }
         }
     }

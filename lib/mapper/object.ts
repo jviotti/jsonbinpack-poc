@@ -17,25 +17,25 @@
 import {
   EncodingSchema,
   ObjectEncodingSchema
-} from '../../encoding-schema'
+} from '../encoding-schema'
 
 import {
   getStringEncoding,
   StringEncoding
-} from '../string/mapper'
+} from '../types/string/mapper'
 
 import {
   getEncoding
-} from '../../mapper'
+} from './index'
 
 import {
   Encoding
-} from '../../encoder'
+} from '../encoder'
 
 import {
   BaseEncodingDefinition,
   EncodingType
-} from '../base'
+} from '../types/base'
 
 import {
   TypedKeysOptions,
@@ -45,7 +45,7 @@ import {
   OptionalBoundedTypedOptions,
   OptionalUnboundedTypedOptions,
   RequiredBoundedTypedOptions
-} from './options'
+} from '../types/object/options'
 
 export interface REQUIRED_ONLY_BOUNDED_TYPED_OBJECT_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Object;

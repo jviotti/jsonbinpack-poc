@@ -18,12 +18,12 @@ import tap from 'tap'
 
 import {
   ObjectEncodingSchema
-} from '../../../lib/encoding-schema'
+} from '../../lib/encoding-schema'
 
 import {
   ObjectEncoding,
   getObjectEncoding
-} from '../../../lib/types/object/mapper'
+} from '../../lib/mapper/object'
 
 tap.test('should encode a bounded object with only required keys', (test) => {
   const schema: ObjectEncodingSchema = {

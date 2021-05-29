@@ -52,7 +52,7 @@ import {
 
 import {
   getObjectEncoding
-} from '../types/object/mapper'
+} from './object'
 
 import {
   getEnumEncoding

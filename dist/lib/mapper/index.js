@@ -8,15 +8,15 @@ var integer_1 = require("./integer");
 var mapper_1 = require("../types/string/mapper");
 var any_1 = require("./any");
 var array_1 = require("./array");
-var mapper_2 = require("../types/object/mapper");
+var object_1 = require("./object");
 var enum_1 = require("./enum");
-var mapper_3 = require("../types/oneof/mapper");
+var mapper_2 = require("../types/oneof/mapper");
 var getEncoding = function (schema) {
     if ('enum' in schema) {
         return enum_1.getEnumEncoding(schema);
     }
     else if ('oneOf' in schema) {
-        return mapper_3.getOneOfEncoding(schema);
+        return mapper_2.getOneOfEncoding(schema);
     }
     else if (!('type' in schema)) {
         return any_1.getAnyEncoding(schema);
@@ -40,7 +40,7 @@ var getEncoding = function (schema) {
         return array_1.getArrayEncoding(schema);
     }
     else {
-        return mapper_2.getObjectEncoding(schema);
+        return object_1.getObjectEncoding(schema);
     }
 };
 exports.getEncoding = getEncoding;
