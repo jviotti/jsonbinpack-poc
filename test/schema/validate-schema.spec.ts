@@ -18,15 +18,18 @@ import tap from 'tap'
 
 import {
   JSONValue
-} from '../lib/json'
+} from '../../lib/json'
 
 import {
-  compileSchema,
-  ValidateFunction
-} from '../lib/jsonschema'
+  EncodingSchema
+} from '../../lib/encoding-schema'
+
+import {
+  validateSchema
+} from '../../lib/schema'
 
 tap.test('should compile a schema and evaluate a matching instance', (test) => {
-  const validateFunction: ValidateFunction = compileSchema({
+  const schema: EncodingSchema = {
     type: 'object',
     required: [ 'foo' ],
     additionalProperties: false,
@@ -44,7 +47,7 @@ tap.test('should compile a schema and evaluate a matching instance', (test) => {
         }
       }
     }
-  })
+  }
 
   const value: JSONValue = {
     foo: 'bar',
@@ -53,12 +56,12 @@ tap.test('should compile a schema and evaluate a matching instance', (test) => {
     }
   }
 
-  test.true(validateFunction(value))
+  test.true(validateSchema(schema, value))
   test.end()
 })
 
 tap.test('should compile a schema and evaluate a non-matching instance', (test) => {
-  const validateFunction: ValidateFunction = compileSchema({
+  const schema: EncodingSchema = {
     type: 'object',
     required: [ 'foo' ],
     additionalProperties: false,
@@ -76,7 +79,7 @@ tap.test('should compile a schema and evaluate a non-matching instance', (test) 
         }
       }
     }
-  })
+  }
 
   const value: JSONValue = {
     foo: 'bar',
@@ -85,6 +88,6 @@ tap.test('should compile a schema and evaluate a non-matching instance', (test) 
     }
   }
 
-  test.false(validateFunction(value))
+  test.false(validateSchema(schema, value))
   test.end()
 })

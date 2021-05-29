@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var jsonschema_1 = require("../lib/jsonschema");
+var schema_1 = require("../../lib/schema");
 tap_1.default.test('should compile a schema and evaluate a matching instance', function (test) {
-    var validateFunction = jsonschema_1.compileSchema({
+    var schema = {
         type: 'object',
         required: ['foo'],
         additionalProperties: false,
@@ -24,18 +24,18 @@ tap_1.default.test('should compile a schema and evaluate a matching instance', f
                 }
             }
         }
-    });
+    };
     var value = {
         foo: 'bar',
         baz: {
             qux: [1, 2]
         }
     };
-    test.true(validateFunction(value));
+    test.true(schema_1.validateSchema(schema, value));
     test.end();
 });
 tap_1.default.test('should compile a schema and evaluate a non-matching instance', function (test) {
-    var validateFunction = jsonschema_1.compileSchema({
+    var schema = {
         type: 'object',
         required: ['foo'],
         additionalProperties: false,
@@ -53,13 +53,13 @@ tap_1.default.test('should compile a schema and evaluate a non-matching instance
                 }
             }
         }
-    });
+    };
     var value = {
         foo: 'bar',
         baz: {
             qux: '11'
         }
     };
-    test.false(validateFunction(value));
+    test.false(schema_1.validateSchema(schema, value));
     test.end();
 });

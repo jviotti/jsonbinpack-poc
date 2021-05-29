@@ -33,9 +33,8 @@ import {
 } from '../../json'
 
 import {
-  ValidateFunction,
-  compileSchema
-} from '../../jsonschema'
+  validateSchema
+} from '../../schema'
 
 import {
   BOUNDED__ENUM_VARINT
@@ -54,8 +53,7 @@ export const ONEOF_CHOICE_INDEX_PREFIX = (
   // Find which of the choices is the one that applies
   let choiceIndex: number = -1
   for (const [ index, definition ] of options.schemas.entries()) {
-    const schemaFunction: ValidateFunction = compileSchema(definition.schema)
-    if (schemaFunction(value)) {
+    if (validateSchema(definition.schema, value)) {
       choiceIndex = index
       break
     }

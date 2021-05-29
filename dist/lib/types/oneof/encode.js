@@ -29,7 +29,7 @@ var __read = (this && this.__read) || function (o, n) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ONEOF_CHOICE_INDEX_PREFIX = void 0;
 var assert_1 = require("assert");
-var jsonschema_1 = require("../../jsonschema");
+var schema_1 = require("../../schema");
 var encode_1 = require("../integer/encode");
 var encoder_1 = require("../../encoder");
 var ONEOF_CHOICE_INDEX_PREFIX = function (buffer, offset, value, options, context) {
@@ -39,8 +39,7 @@ var ONEOF_CHOICE_INDEX_PREFIX = function (buffer, offset, value, options, contex
     try {
         for (var _b = __values(options.schemas.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
             var _d = __read(_c.value, 2), index = _d[0], definition = _d[1];
-            var schemaFunction = jsonschema_1.compileSchema(definition.schema);
-            if (schemaFunction(value)) {
+            if (schema_1.validateSchema(definition.schema, value)) {
                 choiceIndex = index;
                 break;
             }

@@ -22,11 +22,11 @@ import addFormats from 'ajv-formats'
 
 import {
   EncodingSchema
-} from './encoding-schema'
+} from '../encoding-schema'
 
-export {
-  ValidateFunction
-} from 'ajv/dist/2020'
+import {
+  JSONValue
+} from '../json'
 
 const ajv: Ajv = new Ajv({
   strict: true,
@@ -40,7 +40,9 @@ const ajv: Ajv = new Ajv({
 // through the "ajv-formats" plugin.
 addFormats(ajv)
 
-// TODO: Change this function into a generic "validate()" function instead
-export const compileSchema = (schema: EncodingSchema): ValidateFunction => {
-  return ajv.compile(schema)
+export const validateSchema = (
+  schema: EncodingSchema, value: JSONValue
+): boolean => {
+  const validateFunction: ValidateFunction = ajv.compile(schema)
+  return validateFunction(value)
 }
