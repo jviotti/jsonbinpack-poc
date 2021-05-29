@@ -59,44 +59,8 @@ import {
 } from './oneof/options'
 
 import {
-  BooleanEncodingNames
-} from '../mapper/boolean'
-
-import {
-  NullEncodingNames
-} from '../mapper/null'
-
-import {
-  NumberEncodingNames
-} from '../mapper/number'
-
-import {
-  IntegerEncodingNames
-} from '../mapper/integer'
-
-import {
-  StringEncodingNames
-} from '../mapper/string'
-
-import {
-  AnyEncodingNames
-} from '../mapper/any'
-
-import {
-  ArrayEncodingNames
-} from '../mapper/array'
-
-import {
-  ObjectEncodingNames
-} from '../mapper/object'
-
-import {
-  EnumEncodingNames
-} from '../mapper/enum'
-
-import {
-  OneOfEncodingNames
-} from '../mapper/oneof'
+  EncodingNames
+} from '../mapper'
 
 export interface DecodeResult {
   readonly value: JSONValue;
@@ -115,18 +79,6 @@ export enum EncodingType {
   Enum = 'enum',
   OneOf = 'oneOf'
 }
-
-export type EncodingNames =
-  BooleanEncodingNames |
-  NullEncodingNames |
-  NumberEncodingNames |
-  IntegerEncodingNames |
-  StringEncodingNames |
-  AnyEncodingNames |
-  ArrayEncodingNames |
-  ObjectEncodingNames |
-  EnumEncodingNames |
-  OneOfEncodingNames
 
 export interface BaseEncodingDefinition {
   readonly type: EncodingType;
