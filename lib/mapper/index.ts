@@ -24,7 +24,7 @@ import {
 
 import {
   getBooleanEncoding
-} from '../types/boolean/mapper'
+} from './boolean'
 
 import {
   getNullEncoding

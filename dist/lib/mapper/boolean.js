@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBooleanEncoding = void 0;
-var base_1 = require("../base");
+var base_1 = require("../types/base");
 var getBooleanEncoding = function (_schema) {
     return {
         type: base_1.EncodingType.Boolean,

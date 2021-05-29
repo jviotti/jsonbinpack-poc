@@ -20,7 +20,7 @@ import {
 
 import {
   BooleanEncoding
-} from './types/boolean/mapper'
+} from './mapper/boolean'
 
 import {
   NullEncoding

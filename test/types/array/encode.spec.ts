@@ -19,7 +19,7 @@ import tap from 'tap'
 import {
   BooleanEncoding,
   getBooleanEncoding
-} from '../../../lib/types/boolean/mapper'
+} from '../../../lib/mapper/boolean'
 
 import {
   IntegerEncoding,

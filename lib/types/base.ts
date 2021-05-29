@@ -60,7 +60,7 @@ import {
 
 import {
   BooleanEncodingNames
-} from './boolean/mapper'
+} from '../mapper/boolean'
 
 import {
   NullEncodingNames
