@@ -60,7 +60,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 const encodeArray = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[],

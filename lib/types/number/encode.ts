@@ -39,7 +39,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 const stringPrefixCount = (value: string, prefix: string): number => {
   let count: number = 0

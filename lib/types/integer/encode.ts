@@ -49,7 +49,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 // Applicable if the difference between maximum and
 // minimum fits in an unsigned 8-bit integer

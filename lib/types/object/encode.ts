@@ -52,7 +52,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions, context: EncodingContext

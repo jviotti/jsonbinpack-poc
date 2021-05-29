@@ -60,7 +60,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number, context: EncodingContext): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {

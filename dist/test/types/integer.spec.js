@@ -43,7 +43,7 @@ var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/integer/encode");
 var decode_1 = require("../../lib/types/integer/decode");
 var limits_1 = require("../../lib/utils/limits");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED', function (test) {
     var arbitrary = fc.integer().chain(function (minimum) {

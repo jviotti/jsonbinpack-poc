@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../lib/types/null/encode");
 var decode_1 = require("../../lib/types/null/decode");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('NULL_8BITS__ENUM_FIXED', function (test) {
     var context = context_1.getDefaultEncodingContext();

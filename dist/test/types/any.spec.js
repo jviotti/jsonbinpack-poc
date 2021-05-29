@@ -27,7 +27,7 @@ var fc = __importStar(require("fast-check"));
 var util = __importStar(require("util"));
 var encode_1 = require("../../lib/types/any/encode");
 var decode_1 = require("../../lib/types/any/decode");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ANY__TYPE_PREFIX: should handle " "', function (test) {
     var context = context_1.getDefaultEncodingContext();

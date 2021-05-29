@@ -9,7 +9,7 @@ var mapper_1 = require("../../../lib/mapper");
 var any_1 = require("../../../lib/mapper/any");
 var integer_1 = require("../../../lib/mapper/integer");
 var string_1 = require("../../../lib/mapper/string");
-var context_1 = require("../../../lib/context");
+var context_1 = require("../../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', function (test) {
     var context = context_1.getDefaultEncodingContext();

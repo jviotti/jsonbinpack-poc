@@ -25,7 +25,7 @@ import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from '../../../lib/context'
+} from '../../../lib/types/context'
 
 import {
   SchemasOptions

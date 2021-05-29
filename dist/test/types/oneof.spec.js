@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../lib/types/oneof/encode");
 var decode_1 = require("../../lib/types/oneof/decode");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 var oneof_1 = require("../../lib/mapper/oneof");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', function (test) {

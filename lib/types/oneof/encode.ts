@@ -26,7 +26,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 import {
   JSONValue

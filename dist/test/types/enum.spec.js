@@ -44,7 +44,7 @@ var util = __importStar(require("util"));
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 var encode_1 = require("../../lib/types/enum/encode");
 var decode_1 = require("../../lib/types/enum/decode");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 tap_1.default.test('BOUNDED_CHOICE_INDEX', function (test) {
     var arbitrary = fc.integer(1, 20).chain(function (length) {
         return fc.tuple(fc.integer(0, length - 1), fc.array(fc.json(), {

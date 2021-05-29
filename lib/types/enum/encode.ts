@@ -43,7 +43,7 @@ import ResizableBuffer from '../../utils/resizable-buffer'
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 export const BOUNDED_CHOICE_INDEX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue, options: ChoiceOptions, context: EncodingContext

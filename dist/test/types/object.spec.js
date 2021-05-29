@@ -31,7 +31,7 @@ var encode_1 = require("../../lib/types/object/encode");
 var decode_1 = require("../../lib/types/object/decode");
 var string_1 = require("../../lib/mapper/string");
 var integer_1 = require("../../lib/mapper/integer");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test) {
     var options = {

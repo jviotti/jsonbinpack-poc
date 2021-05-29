@@ -43,7 +43,7 @@ var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/string/encode");
 var decode_1 = require("../../lib/types/string/decode");
 var limits_1 = require("../../lib/utils/limits");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', function (test) {
     var context = context_1.getDefaultEncodingContext();

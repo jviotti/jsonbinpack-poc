@@ -50,7 +50,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
 

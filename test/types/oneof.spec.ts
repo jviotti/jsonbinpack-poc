@@ -32,7 +32,7 @@ import {
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from '../../lib/context'
+} from '../../lib/types/context'
 
 import {
   OneOfEncoding,

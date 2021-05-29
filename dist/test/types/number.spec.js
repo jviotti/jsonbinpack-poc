@@ -26,7 +26,7 @@ var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/types/number/encode");
 var decode_1 = require("../../lib/types/number/decode");
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('DOUBLE_VARINT_TUPLE: 2.980232223226409e-7', function (test) {
     var offset = 0;

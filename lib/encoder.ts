@@ -35,7 +35,7 @@ import ResizableBuffer from './utils/resizable-buffer'
 
 import {
   EncodingContext
-} from './context'
+} from './types/context'
 
 export {
   DecodeResult

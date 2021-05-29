@@ -36,7 +36,7 @@ import {
 import {
   EncodingContext,
   getDefaultEncodingContext
-} from './context'
+} from './types/context'
 
 export {
   JSONValue

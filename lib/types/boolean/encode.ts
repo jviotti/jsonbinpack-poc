@@ -31,7 +31,7 @@ import {
 
 import {
   EncodingContext
-} from '../../context'
+} from '../context'
 
 export const BOOLEAN_8BITS__ENUM_FIXED = (
   buffer: ResizableBuffer, offset: number, value: JSONBoolean, _options: NoOptions, context: EncodingContext

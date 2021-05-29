@@ -29,7 +29,7 @@ var integer_1 = require("../../lib/mapper/integer");
 var encode_1 = require("../../lib/types/array/encode");
 var decode_1 = require("../../lib/types/array/decode");
 var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
-var context_1 = require("../../lib/context");
+var context_1 = require("../../lib/types/context");
 tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', function (test) {
     var context = context_1.getDefaultEncodingContext();
     var value = ['foo', true, 2000];

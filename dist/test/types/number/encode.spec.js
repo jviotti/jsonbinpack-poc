@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/types/number/encode");
-var context_1 = require("../../../lib/context");
+var context_1 = require("../../../lib/types/context");
 var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
 tap_1.default.test('DOUBLE_VARINT_TUPLE: should encode a positive real number', function (test) {
     var context = context_1.getDefaultEncodingContext();
