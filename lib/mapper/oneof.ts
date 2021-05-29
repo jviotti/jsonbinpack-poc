@@ -20,7 +20,7 @@ import {
 
 import {
   SchemasOptions
-} from '../types/oneof/options'
+} from '../encoder/oneof/options'
 
 import {
   EncodingSchema,

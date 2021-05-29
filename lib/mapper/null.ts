@@ -24,7 +24,7 @@ import {
 
 import {
   NoOptions
-} from '../types/null/options'
+} from '../encoder/null/options'
 
 import {
   NullEncodingSchema

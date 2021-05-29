@@ -33,7 +33,7 @@ import {
   DecodeResult,
   encode as binpackEncode,
   decode as binpackDecode
-} from './types'
+} from './encoder'
 
 export {
   JSONValue

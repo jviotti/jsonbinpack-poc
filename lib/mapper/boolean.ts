@@ -24,7 +24,7 @@ import {
 
 import {
   NoOptions
-} from '../types/boolean/options'
+} from '../encoder/boolean/options'
 
 import {
   BooleanEncodingSchema

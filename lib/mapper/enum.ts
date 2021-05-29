@@ -24,7 +24,7 @@ import {
 
 import {
   ChoiceOptions
-} from '../types/enum/options'
+} from '../encoder/enum/options'
 
 import {
   UINT8_MAX

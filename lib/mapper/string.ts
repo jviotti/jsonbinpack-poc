@@ -39,7 +39,7 @@ import {
   BoundedOptions,
   RoofOptions,
   FloorOptions
-} from '../types/string/options'
+} from '../encoder/string/options'
 
 export interface BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;

@@ -39,7 +39,7 @@ import {
   MultiplierOptions,
   BoundedOptions,
   BoundedMultiplierOptions
-} from '../types/integer/options'
+} from '../encoder/integer/options'
 
 import {
   IntegerEncodingSchema

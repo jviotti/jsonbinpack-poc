@@ -36,7 +36,7 @@ import {
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions
-} from '../types/array/options'
+} from '../encoder/array/options'
 
 import {
   UINT8_MAX

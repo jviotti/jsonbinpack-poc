@@ -24,7 +24,7 @@ import {
 
 import {
   NoOptions
-} from '../types/number/options'
+} from '../encoder/number/options'
 
 import {
   NumberEncodingSchema

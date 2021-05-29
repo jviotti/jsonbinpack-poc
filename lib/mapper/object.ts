@@ -37,7 +37,7 @@ import {
   OptionalBoundedTypedOptions,
   OptionalUnboundedTypedOptions,
   RequiredBoundedTypedOptions
-} from '../types/object/options'
+} from '../encoder/object/options'
 
 import {
   EncodingSchema,

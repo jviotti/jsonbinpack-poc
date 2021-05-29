@@ -16,43 +16,43 @@
 
 import {
   BooleanOptions
-} from '../types/boolean/options'
+} from '../encoder/boolean/options'
 
 import {
   NullOptions
-} from '../types/null/options'
+} from '../encoder/null/options'
 
 import {
   NumberOptions
-} from '../types/number/options'
+} from '../encoder/number/options'
 
 import {
   IntegerOptions
-} from '../types/integer/options'
+} from '../encoder/integer/options'
 
 import {
   StringOptions
-} from '../types/string/options'
+} from '../encoder/string/options'
 
 import {
   AnyOptions
-} from '../types/any/options'
+} from '../encoder/any/options'
 
 import {
   ArrayOptions
-} from '../types/array/options'
+} from '../encoder/array/options'
 
 import {
   ObjectOptions
-} from '../types/object/options'
+} from '../encoder/object/options'
 
 import {
   EnumOptions
-} from '../types/enum/options'
+} from '../encoder/enum/options'
 
 import {
   OneOfOptions
-} from '../types/oneof/options'
+} from '../encoder/oneof/options'
 
 import {
   EncodingNames,

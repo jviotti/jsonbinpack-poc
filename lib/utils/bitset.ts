@@ -18,7 +18,7 @@ import ResizableBuffer from './resizable-buffer'
 
 import {
   DecodeResult
-} from '../types/base'
+} from '../encoder'
 
 const getBytesToStoreBits = (bits: number): number => {
   return ((bits + 7) & (-8)) / 8

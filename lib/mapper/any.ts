@@ -28,7 +28,7 @@ import {
 
 import {
   NoOptions
-} from '../types/any/options'
+} from '../encoder/any/options'
 
 export interface ANY__TYPE_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Any;
