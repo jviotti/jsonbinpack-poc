@@ -17,6 +17,7 @@
 import tap from 'tap'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext,
   DecodeResult,
@@ -32,8 +33,6 @@ import {
 import {
   JSONValue
 } from '../../lib/json'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('should dynamically encode a boolean value', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

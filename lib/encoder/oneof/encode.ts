@@ -18,7 +18,7 @@ import {
   strict as assert
 } from 'assert'
 
-import ResizableBuffer from '../../utils/resizable-buffer'
+import ResizableBuffer from '../resizable-buffer'
 
 import {
   SchemasOptions

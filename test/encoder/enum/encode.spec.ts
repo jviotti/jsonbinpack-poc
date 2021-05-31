@@ -22,11 +22,10 @@ import {
 } from '../../../lib/encoder/enum/encode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
-
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('BOUNDED_CHOICE_INDEX: should encode 1 of [ 1, 0, 0 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

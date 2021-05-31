@@ -25,9 +25,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var varint_1 = require("../../../lib/encoder/integer/varint");
-var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
+var encoder_1 = require("../../../lib/encoder");
 tap_1.default.test('should encode 1 as 0x01', function (test) {
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var offset = 0;
     var bytesWritten = varint_1.varintEncode(buffer, offset, BigInt(1));
     test.strictSame(buffer.getBuffer(), Buffer.from([0x01]));
@@ -35,7 +35,7 @@ tap_1.default.test('should encode 1 as 0x01', function (test) {
     test.end();
 });
 tap_1.default.test('should encode 300 as 0xAC 0x02', function (test) {
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
     var offset = 0;
     var bytesWritten = varint_1.varintEncode(buffer, offset, BigInt(300));
     test.strictSame(buffer.getBuffer(), Buffer.from([0xAC, 0x02]));
@@ -43,7 +43,7 @@ tap_1.default.test('should encode 300 as 0xAC 0x02', function (test) {
     test.end();
 });
 tap_1.default.test('should encode 50399 as 0xDF 0x89 0x03', function (test) {
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var offset = 0;
     var bytesWritten = varint_1.varintEncode(buffer, offset, BigInt(50399));
     test.strictSame(buffer.getBuffer(), Buffer.from([0xDF, 0x89, 0x03]));
@@ -51,7 +51,7 @@ tap_1.default.test('should encode 50399 as 0xDF 0x89 0x03', function (test) {
     test.end();
 });
 tap_1.default.test('should decode 0xAC 0x02 as 300', function (test) {
-    var buffer = new resizable_buffer_1.default(Buffer.from([0xAC, 0x02]));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.from([0xAC, 0x02]));
     var offset = 0;
     var result = varint_1.varintDecode(buffer, offset);
     test.is(result.value, BigInt(300));
@@ -59,7 +59,7 @@ tap_1.default.test('should decode 0xAC 0x02 as 300', function (test) {
     test.end();
 });
 tap_1.default.test('should encode and decode 4294967294', function (test) {
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(5));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(5));
     var offset = 0;
     var bytesWritten = varint_1.varintEncode(buffer, offset, BigInt(4294967294));
     test.is(bytesWritten, 5);
@@ -69,7 +69,7 @@ tap_1.default.test('should encode and decode 4294967294', function (test) {
     test.end();
 });
 tap_1.default.test('should encode and decode 696667952522107300000', function (test) {
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var offset = 0;
     var bytesWritten = varint_1.varintEncode(buffer, offset, BigInt(696667952522107300000));
     test.is(bytesWritten, 10);
@@ -82,7 +82,7 @@ tap_1.default.test('should decode a varint encoded unsigned integer', function (
     fc.assert(fc.property(fc.integer({
         min: 0
     }), function (value) {
-        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
         var offset = 0;
         var bytesWritten = varint_1.varintEncode(buffer, offset, BigInt(value));
         var result = varint_1.varintDecode(buffer, offset);

@@ -47,11 +47,10 @@ import {
 } from '../../lib/utils/limits'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import ResizableBuffer from '../../utils/resizable-buffer'
+import ResizableBuffer from '../resizable-buffer'
 
 import {
   NoOptions

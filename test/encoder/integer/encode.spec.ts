@@ -30,11 +30,10 @@ import {
 } from '../../../lib/encoder/integer/encode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
-
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('BOUNDED_8BITS__ENUM_FIXED: should encode -5 (-5..-1) as 0x00', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

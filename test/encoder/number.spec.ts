@@ -27,11 +27,10 @@ import {
 } from '../../lib/encoder/number/decode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('DOUBLE_VARINT_TUPLE: 2.980232223226409e-7', (test) => {
   const offset: number = 0

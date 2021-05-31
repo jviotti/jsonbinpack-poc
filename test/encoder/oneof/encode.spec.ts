@@ -20,9 +20,8 @@ import {
   ONEOF_CHOICE_INDEX_PREFIX
 } from '../../../lib/encoder/oneof/encode'
 
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
-
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'

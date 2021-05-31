@@ -7,10 +7,9 @@ var tap_1 = __importDefault(require("tap"));
 var mapper_1 = require("../../../lib/mapper");
 var encoder_1 = require("../../../lib/encoder");
 var encode_1 = require("../../../lib/encoder/array/encode");
-var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
 tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -27,7 +26,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", t
 });
 tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -46,7 +45,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo
 });
 tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(9));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(9));
     var bytesWritten = encode_1.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -64,7 +63,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', funct
 });
 tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(9));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(9));
     var bytesWritten = encode_1.BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -82,7 +81,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', function (t
 });
 tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -101,7 +100,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", tru
 });
 tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -119,7 +118,7 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true,
 });
 tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -137,7 +136,7 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", 
 });
 tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(10));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {
@@ -158,7 +157,7 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, t
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -179,7 +178,7 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', function (test)
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -199,7 +198,7 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, fa
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -220,7 +219,7 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', function 
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -240,7 +239,7 @@ tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -260,7 +259,7 @@ tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -280,7 +279,7 @@ tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, tru
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -300,7 +299,7 @@ tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false,
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -319,7 +318,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ type
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -339,7 +338,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -359,7 +358,7 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, 
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -378,7 +377,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, t
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -397,7 +396,7 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:t
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -416,7 +415,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:tr
     var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, true
     ], {
@@ -437,7 +436,7 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, ty
     var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
@@ -462,7 +461,7 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:tr
     var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
@@ -487,7 +486,7 @@ tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed
     var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
@@ -511,7 +510,7 @@ tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true,
     var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
@@ -535,7 +534,7 @@ tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, type
     var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {
@@ -559,7 +558,7 @@ tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, 
     var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
         true, false, 5
     ], {

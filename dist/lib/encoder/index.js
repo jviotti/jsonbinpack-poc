@@ -18,8 +18,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decode = exports.encode = exports.EncodingType = exports.getDefaultEncodingContext = void 0;
+exports.decode = exports.encode = exports.EncodingType = exports.getDefaultEncodingContext = exports.ResizableBuffer = void 0;
 var assert_1 = require("assert");
 var encoding_type_1 = require("./encoding-type");
 var ENCODE_BOOLEAN = __importStar(require("./boolean/encode"));
@@ -42,6 +45,8 @@ var DECODE_ARRAY = __importStar(require("./array/decode"));
 var DECODE_OBJECT = __importStar(require("./object/decode"));
 var DECODE_ENUM = __importStar(require("./enum/decode"));
 var DECODE_ONEOF = __importStar(require("./oneof/decode"));
+var resizable_buffer_1 = require("./resizable-buffer");
+Object.defineProperty(exports, "ResizableBuffer", { enumerable: true, get: function () { return __importDefault(resizable_buffer_1).default; } });
 var context_1 = require("./context");
 Object.defineProperty(exports, "getDefaultEncodingContext", { enumerable: true, get: function () { return context_1.getDefaultEncodingContext; } });
 var encoding_type_2 = require("./encoding-type");

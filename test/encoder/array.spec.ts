@@ -46,9 +46,8 @@ import {
   BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX as DECODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX
 } from '../../lib/encoder/array/decode'
 
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
-
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'

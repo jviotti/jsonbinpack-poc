@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import ResizableBuffer from '../../utils/resizable-buffer'
+import {
+  strict as assert
+} from 'assert'
+
+import ResizableBuffer from '../resizable-buffer'
 
 import {
   JSONString
 } from '../../json'
-
-import {
-  strict as assert
-} from 'assert'
 
 import {
   IntegerResult,

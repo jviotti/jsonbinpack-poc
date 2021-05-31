@@ -35,7 +35,7 @@ import {
   decode
 } from '../index'
 
-import ResizableBuffer from '../../utils/resizable-buffer'
+import ResizableBuffer from '../resizable-buffer'
 
 export interface OneOfResult extends DecodeResult {
   readonly value: JSONValue;

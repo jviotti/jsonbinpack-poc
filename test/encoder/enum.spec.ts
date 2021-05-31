@@ -22,8 +22,6 @@ import {
   JSONValue
 } from '../../lib/json'
 
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
-
 import {
   BOUNDED_CHOICE_INDEX as ENCODE_BOUNDED_CHOICE_INDEX,
   LARGE_BOUNDED_CHOICE_INDEX as ENCODE_LARGE_BOUNDED_CHOICE_INDEX
@@ -36,6 +34,7 @@ import {
 } from '../../lib/encoder/enum/decode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'

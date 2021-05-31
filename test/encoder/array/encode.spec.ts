@@ -22,6 +22,7 @@ import {
 } from '../../../lib/mapper'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
@@ -41,8 +42,6 @@ import {
   FLOOR_TYPED__LENGTH_PREFIX,
   UNBOUNDED_TYPED__LENGTH_PREFIX
 } from '../../../lib/encoder/array/encode'
-
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

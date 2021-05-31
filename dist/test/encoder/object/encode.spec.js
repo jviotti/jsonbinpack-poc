@@ -8,10 +8,9 @@ var encode_1 = require("../../../lib/encoder/object/encode");
 var mapper_1 = require("../../../lib/mapper");
 var string_1 = require("../../../lib/mapper/string");
 var encoder_1 = require("../../../lib/encoder");
-var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(16));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(16));
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
@@ -37,7 +36,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar
 });
 tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(16));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(16));
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
@@ -64,7 +63,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",
 });
 tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(7));
     var bytesWritten = encode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
@@ -93,7 +92,7 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:
 });
 tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
     var bytesWritten = encode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
         propertyEncodings: {
@@ -117,7 +116,7 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', 
 });
 tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(5));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(5));
     var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
@@ -142,7 +141,7 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
 });
 tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one required', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(7));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(7));
     var bytesWritten = encode_1.MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
@@ -169,7 +168,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
 });
 tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one missing optional', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(6));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(6));
     var bytesWritten = encode_1.MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar'
     }, {
@@ -194,7 +193,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
 });
 tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",baz:1}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(11));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(11));
     var bytesWritten = encode_1.REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
@@ -225,7 +224,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
 });
 tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(5));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(5));
     var bytesWritten = encode_1.REQUIRED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar'
     }, {
@@ -253,7 +252,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
 });
 tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",baz:1}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(13));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(13));
     var bytesWritten = encode_1.OPTIONAL_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1
@@ -285,7 +284,7 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
 });
 tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux:null}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(13));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(13));
     var bytesWritten = encode_1.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, 0, {
         foo: 'bar',
         baz: 1,

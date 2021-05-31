@@ -6,10 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/encoder/integer/encode");
 var encoder_1 = require("../../../lib/encoder");
-var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
 tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode -5 (-5..-1) as 0x00', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, -5, {
         minimum: -5,
         maximum: -1
@@ -20,7 +19,7 @@ tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode -5 (-5..-1) as 0x00
 });
 tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 2 (-5..5) as 0x07', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 2, {
         minimum: -5,
         maximum: 5
@@ -31,7 +30,7 @@ tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 2 (-5..5) as 0x07',
 });
 tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..8) as 0x03', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, 0, 5, {
         minimum: 2,
         maximum: 8
@@ -42,7 +41,7 @@ tap_1.default.test('BOUNDED_8BITS__ENUM_FIXED: should encode 5 (2..8) as 0x03', 
 });
 tap_1.default.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 5 (1..19) / 5 as 0x00', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, 5, {
         minimum: 1,
         maximum: 19,
@@ -54,7 +53,7 @@ tap_1.default.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 5 (1..19) 
 });
 tap_1.default.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 15 (1..19) / 5 as 0x02', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED(buffer, 0, 15, {
         minimum: 1,
         maximum: 19,
@@ -66,7 +65,7 @@ tap_1.default.test('BOUNDED_MULTIPLE_8BITS__ENUM_FIXED: should encode 15 (1..19)
 });
 tap_1.default.test('BOUNDED__ENUM_VARINT: should encode -5 (-5..-1) as 0x00', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, -5, {
         minimum: -5,
         maximum: -1
@@ -77,7 +76,7 @@ tap_1.default.test('BOUNDED__ENUM_VARINT: should encode -5 (-5..-1) as 0x00', fu
 });
 tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 2 (-5..5) as 0x07', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, 2, {
         minimum: -5,
         maximum: 5
@@ -88,7 +87,7 @@ tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 2 (-5..5) as 0x07', func
 });
 tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED__ENUM_VARINT(buffer, 0, 5, {
         minimum: 2,
         maximum: 8
@@ -99,7 +98,7 @@ tap_1.default.test('BOUNDED__ENUM_VARINT: should encode 5 (2..8) as 0x03', funct
 });
 tap_1.default.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 5 (1..19) / 5 as 0x00', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 5, {
         minimum: 1,
         maximum: 19,
@@ -111,7 +110,7 @@ tap_1.default.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 5 (1..19) / 5 a
 });
 tap_1.default.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 15 (1..19) / 5 as 0x02', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.BOUNDED_MULTIPLE__ENUM_VARINT(buffer, 0, 15, {
         minimum: 1,
         maximum: 19,
@@ -123,7 +122,7 @@ tap_1.default.test('BOUNDED_MULTIPLE__ENUM_VARINT: should encode 15 (1..19) / 5 
 });
 tap_1.default.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, -3, {
         minimum: -10
     }, context);
@@ -133,7 +132,7 @@ tap_1.default.test('FLOOR__ENUM_VARINT: should encode -3 (-10..) as 0x07', funct
 });
 tap_1.default.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.FLOOR__ENUM_VARINT(buffer, 0, 5, {
         minimum: 2
     }, context);
@@ -143,7 +142,7 @@ tap_1.default.test('FLOOR__ENUM_VARINT: should encode 5 (2..) as 0x03', function
 });
 tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (5..) / 5 as 0x01', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, {
         minimum: 5,
         multiplier: 5
@@ -154,7 +153,7 @@ tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (5..) / 5 as 0
 });
 tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (2..) / 5 as 0x01', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.FLOOR_MULTIPLE__ENUM_VARINT(buffer, 0, 10, {
         minimum: 2,
         multiplier: 5
@@ -165,7 +164,7 @@ tap_1.default.test('FLOOR_MULTIPLE__ENUM_VARINT: should encode 10 (2..) / 5 as 0
 });
 tap_1.default.test('ROOF__MIRROR_ENUM_VARINT: should encode -3 (..-2) as 0x01', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, -3, {
         maximum: -2
     }, context);
@@ -175,7 +174,7 @@ tap_1.default.test('ROOF__MIRROR_ENUM_VARINT: should encode -3 (..-2) as 0x01', 
 });
 tap_1.default.test('ROOF__MIRROR_ENUM_VARINT: should encode 8 (..10) as 0x02', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ROOF__MIRROR_ENUM_VARINT(buffer, 0, 8, {
         maximum: 10
     }, context);
@@ -185,7 +184,7 @@ tap_1.default.test('ROOF__MIRROR_ENUM_VARINT: should encode 8 (..10) as 0x02', f
 });
 tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) / -5 as 0x02', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, -15, {
         maximum: -5,
         multiplier: -5
@@ -196,7 +195,7 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode -15 (..-5) 
 });
 tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 5 (..16) / 5 as 0x02', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 5, {
         maximum: 16,
         multiplier: 5
@@ -207,7 +206,7 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 5 (..16) / 
 });
 tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / 5 as 0x01', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, {
         maximum: 15,
         multiplier: 5
@@ -218,7 +217,7 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) /
 });
 tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) / -5 as 0x01', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ROOF_MULTIPLE__MIRROR_ENUM_VARINT(buffer, 0, 10, {
         maximum: 15,
         multiplier: -5
@@ -229,7 +228,7 @@ tap_1.default.test('ROOF_MULTIPLE__MIRROR_ENUM_VARINT: should encode 10 (..15) /
 });
 tap_1.default.test('ARBITRARY__ZIGZAG_VARINT: should encode -25200 as 0xdf 0x89 0x03', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, 0, -25200, {}, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([0xdf, 0x89, 0x03]));
     test.is(bytesWritten, 3);
@@ -237,7 +236,7 @@ tap_1.default.test('ARBITRARY__ZIGZAG_VARINT: should encode -25200 as 0xdf 0x89 
 });
 tap_1.default.test('ARBITRARY_MULTIPLE__ZIGZAG_VARINT: should encode 10 / 5  as 0x04', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ARBITRARY_MULTIPLE__ZIGZAG_VARINT(buffer, 0, 10, {
         multiplier: 5
     }, context);

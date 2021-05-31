@@ -39,7 +39,7 @@ import {
   UINT8_MAX
 } from '../../utils/limits'
 
-import ResizableBuffer from '../../utils/resizable-buffer'
+import ResizableBuffer from '../resizable-buffer'
 
 import {
   EncodingContext

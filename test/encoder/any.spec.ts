@@ -32,11 +32,10 @@ import {
 } from '../../lib/encoder/any/decode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('ANY__TYPE_PREFIX: should handle " "', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

@@ -21,11 +21,10 @@ import {
 } from '../../../lib/encoder/number/encode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
-
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('DOUBLE_VARINT_TUPLE: should encode a positive real number', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

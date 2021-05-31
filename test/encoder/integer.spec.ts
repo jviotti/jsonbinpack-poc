@@ -49,11 +49,10 @@ import {
 } from '../../lib/utils/limits'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('BOUNDED_8BITS__ENUM_FIXED', (test) => {
   const arbitrary = fc.integer().chain((minimum: number) => {

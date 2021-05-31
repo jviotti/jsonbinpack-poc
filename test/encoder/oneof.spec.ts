@@ -30,6 +30,7 @@ import {
 } from '../../lib/encoder/oneof/options'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
@@ -46,8 +47,6 @@ import {
 import {
   JSONValue
 } from '../../lib/json'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

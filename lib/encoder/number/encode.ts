@@ -19,7 +19,7 @@ import {
 } from 'assert'
 
 import fromExponential from 'from-exponential'
-import ResizableBuffer from '../../utils/resizable-buffer'
+import ResizableBuffer from '../resizable-buffer'
 
 import {
   zigzagEncode

@@ -27,12 +27,11 @@ var fc = __importStar(require("fast-check"));
 var encode_1 = require("../../lib/encoder/number/encode");
 var decode_1 = require("../../lib/encoder/number/decode");
 var encoder_1 = require("../../lib/encoder");
-var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('DOUBLE_VARINT_TUPLE: 2.980232223226409e-7', function (test) {
     var offset = 0;
     var value = 2.980232223226409e-7;
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(9));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(9));
     var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
     var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
     test.is(bytesWritten, 9);
@@ -44,7 +43,7 @@ tap_1.default.test('DOUBLE_VARINT_TUPLE: 234.9e-1', function (test) {
     var offset = 0;
     var value = 234.9e-1;
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
     var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
     test.is(bytesWritten, 3);
@@ -56,7 +55,7 @@ tap_1.default.test('DOUBLE_VARINT_TUPLE: 234.9e-1', function (test) {
     var offset = 0;
     var value = -5e-324;
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
     var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
     test.is(bytesWritten, 3);
@@ -68,7 +67,7 @@ tap_1.default.test('DOUBLE_VARINT_TUPLE: 0', function (test) {
     var offset = 0;
     var value = 0;
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(2));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
     var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
     var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
     test.is(bytesWritten, 2);
@@ -79,7 +78,7 @@ tap_1.default.test('DOUBLE_VARINT_TUPLE: 0', function (test) {
 tap_1.default.test('DOUBLE_VARINT_TUPLE', function (test) {
     fc.assert(fc.property(fc.nat(10), fc.double(), function (offset, value) {
         var context = encoder_1.getDefaultEncodingContext();
-        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(offset + 20));
+        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(offset + 20));
         var bytesWritten = encode_1.DOUBLE_VARINT_TUPLE(buffer, offset, value, {}, context);
         var result = decode_1.DOUBLE_VARINT_TUPLE(buffer, offset, {});
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;

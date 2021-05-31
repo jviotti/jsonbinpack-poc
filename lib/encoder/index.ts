@@ -38,7 +38,7 @@ import {
   EncodingType
 } from './encoding-type'
 
-import ResizableBuffer from '../utils/resizable-buffer'
+import ResizableBuffer from './resizable-buffer'
 
 import * as ENCODE_BOOLEAN from './boolean/encode'
 import * as ENCODE_INTEGER from './integer/encode'
@@ -61,6 +61,10 @@ import * as DECODE_ARRAY from './array/decode'
 import * as DECODE_OBJECT from './object/decode'
 import * as DECODE_ENUM from './enum/decode'
 import * as DECODE_ONEOF from './oneof/decode'
+
+export {
+  default as ResizableBuffer
+} from './resizable-buffer'
 
 export {
   DecodeResult

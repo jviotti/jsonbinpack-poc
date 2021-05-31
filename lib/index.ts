@@ -31,11 +31,10 @@ import {
   EncodingContext,
   getDefaultEncodingContext,
   DecodeResult,
+  ResizableBuffer,
   encode as binpackEncode,
   decode as binpackDecode
 } from './encoder'
-
-import ResizableBuffer from './utils/resizable-buffer'
 
 export {
   JSONValue

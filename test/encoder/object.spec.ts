@@ -63,12 +63,11 @@ import {
 } from '../../lib/mapper/string'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext,
   EncodingType
 } from '../../lib/encoder'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
   const options: TypedKeysOptions = {

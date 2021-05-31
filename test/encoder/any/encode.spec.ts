@@ -21,11 +21,10 @@ import {
 } from '../../../lib/encoder/any/encode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
-
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('ANY__TYPE_PREFIX: should encode null as 0x07', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

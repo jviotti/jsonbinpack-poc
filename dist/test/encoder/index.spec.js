@@ -5,10 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encoder_1 = require("../../lib/encoder");
-var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 tap_1.default.test('should dynamically encode a boolean value', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var offset = 0;
     var encoding = {
         type: encoder_1.EncodingType.Boolean,

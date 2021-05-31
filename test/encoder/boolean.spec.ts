@@ -30,11 +30,10 @@ import {
 } from '../../lib/encoder/boolean/decode'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
-
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
 
 tap.test('BOOLEAN_8BITS__ENUM_FIXED: false', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

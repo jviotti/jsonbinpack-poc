@@ -41,7 +41,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var util = __importStar(require("util"));
-var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
 var encode_1 = require("../../lib/encoder/enum/encode");
 var decode_1 = require("../../lib/encoder/enum/decode");
 var encoder_1 = require("../../lib/encoder");
@@ -59,7 +58,7 @@ tap_1.default.test('BOUNDED_CHOICE_INDEX', function (test) {
         var choices = array.map(function (json) {
             return JSON.parse(json);
         });
-        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
         var bytesWritten = encode_1.BOUNDED_CHOICE_INDEX(buffer, 0, choices[index], {
             choices: choices
         }, context);
@@ -87,7 +86,7 @@ tap_1.default.test('LARGE_BOUNDED_CHOICE_INDEX', function (test) {
         var choices = array.map(function (json) {
             return JSON.parse(json);
         });
-        var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
+        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
         var bytesWritten = encode_1.LARGE_BOUNDED_CHOICE_INDEX(buffer, 0, choices[index], {
             choices: choices
         }, context);

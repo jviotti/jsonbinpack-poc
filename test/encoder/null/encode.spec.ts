@@ -20,9 +20,8 @@ import {
   NULL_8BITS__ENUM_FIXED
 } from '../../../lib/encoder/null/encode'
 
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
-
 import {
+  ResizableBuffer,
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'

@@ -35,12 +35,11 @@ import {
 } from '../../../lib/mapper/string'
 
 import {
+  ResizableBuffer,
   EncodingContext,
   EncodingType,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
-
-import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

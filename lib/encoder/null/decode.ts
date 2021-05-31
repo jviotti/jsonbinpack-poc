@@ -26,7 +26,7 @@ import {
   DecodeResult
 } from '../base'
 
-import ResizableBuffer from '../../utils/resizable-buffer'
+import ResizableBuffer from '../resizable-buffer'
 
 export interface NullResult extends DecodeResult {
   readonly value: JSONNull;
