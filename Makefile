@@ -12,4 +12,4 @@ _sass/tailwind.scss: node_modules/tailwindcss/tailwind.css postcss.config.js
 _sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
 	cp $< $@
 
-all: assets/js/stats.min.js _sass/tailwindcss.scss _sass/codemirror.scss
+all: assets/js/stats.min.js _sass/tailwind.scss _sass/codemirror.scss
