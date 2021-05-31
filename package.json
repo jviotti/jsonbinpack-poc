@@ -1,7 +1,7 @@
 {
   "name": "jsonbinpack",
   "version": "1.0.0",
-  "description": "A space-efficient schema-driven JSON serialization format based on JSON Schema",
+  "description": "A space-efficient schema-driven binary JSON serialization format based on JSON Schema",
   "main": "dist/lib/index.js",
   "scripts": {
     "tsc": "tsc",
@@ -9,6 +9,16 @@
     "lint": "eslint lib test web contrib",
     "test": "tap --reporter=list --no-coverage --jobs=1 --no-timeout 'dist/test/**/*.spec.js'"
   },
+  "keywords": [
+    "json",
+    "schema-driven",
+    "json-schema",
+    "schema",
+    "serialization",
+    "binary",
+    "space-efficient",
+    "deserialization"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jviotti/jsonbinpack.git"
