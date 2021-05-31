@@ -1,11 +1,8 @@
 {
   "name": "jsonbinpack",
   "version": "1.0.0",
-  "description": "A schema-driven JSON serialization format based on JSON Schema",
+  "description": "A space-efficient schema-driven JSON serialization format based on JSON Schema",
   "main": "dist/lib/index.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
     "tsc": "tsc",
     "postinstall": "npm run tsc",
@@ -21,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/jviotti/jsonbinpack/issues"
   },
-  "homepage": "https://github.com/jviotti/jsonbinpack#readme",
+  "homepage": "https://www.jsonbinpack.org",
   "devDependencies": {
     "@types/codemirror": "^0.0.108",
     "@types/lodash": "^4.14.170",
