@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/encoder/object/encode");
-var mapper_1 = require("../../../lib/mapper");
 var any_1 = require("../../../lib/mapper/any");
 var integer_1 = require("../../../lib/mapper/integer");
 var string_1 = require("../../../lib/mapper/string");
@@ -22,7 +21,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar
             type: 'string'
         }),
         encoding: {
-            type: mapper_1.EncodingType.Any,
+            type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -49,7 +48,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",
             minLength: 3
         }),
         encoding: {
-            type: mapper_1.EncodingType.Any,
+            type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -211,7 +210,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
             type: 'string'
         }),
         encoding: {
-            type: mapper_1.EncodingType.Any,
+            type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -241,7 +240,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
             type: 'string'
         }),
         encoding: {
-            type: mapper_1.EncodingType.Any,
+            type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -270,7 +269,7 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
             type: 'string'
         }),
         encoding: {
-            type: mapper_1.EncodingType.Any,
+            type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         }
@@ -299,7 +298,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
             type: 'string'
         }),
         encoding: {
-            type: mapper_1.EncodingType.Any,
+            type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
             options: {}
         },

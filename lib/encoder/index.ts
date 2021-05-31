@@ -27,13 +27,16 @@ import {
 } from './context'
 
 import {
-  Encoding,
-  EncodingType
+  Encoding
 } from '../mapper'
 
 import {
   JSONValue
 } from '../json'
+
+import {
+  EncodingType
+} from './encoding-type'
 
 import ResizableBuffer from '../utils/resizable-buffer'
 
@@ -67,6 +70,10 @@ export {
   EncodingContext,
   getDefaultEncodingContext
 } from './context'
+
+export {
+  EncodingType
+} from './encoding-type'
 
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()

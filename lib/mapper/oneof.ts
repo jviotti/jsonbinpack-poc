@@ -28,9 +28,12 @@ import {
 } from '../schema'
 
 import {
-  EncodingType,
   getEncoding
 } from './index'
+
+import {
+  EncodingType
+} from '../encoder'
 
 export interface ONEOF_CHOICE_INDEX_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.OneOf;

@@ -35,7 +35,7 @@ import {
 
 import {
   EncodingType
-} from '../../mapper'
+} from '../encoding-type'
 
 import {
   BOUNDED_8BITS__ENUM_FIXED,

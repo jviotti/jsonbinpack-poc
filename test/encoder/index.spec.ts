@@ -20,12 +20,12 @@ import {
   EncodingContext,
   getDefaultEncodingContext,
   DecodeResult,
+  EncodingType,
   encode,
   decode
 } from '../../lib/encoder'
 
 import {
-  EncodingType,
   Encoding
 } from '../../lib/mapper'
 

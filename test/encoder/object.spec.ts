@@ -23,10 +23,6 @@ import {
 } from '../../lib/json'
 
 import {
-  EncodingType
-} from '../../lib/mapper'
-
-import {
   getAnyEncoding
 } from '../../lib/mapper/any'
 
@@ -72,7 +68,8 @@ import {
 
 import {
   EncodingContext,
-  getDefaultEncodingContext
+  getDefaultEncodingContext,
+  EncodingType
 } from '../../lib/encoder'
 
 import ResizableBuffer from '../../lib/utils/resizable-buffer'

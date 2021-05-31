@@ -55,9 +55,12 @@ import {
 } from '../encoder/oneof/options'
 
 import {
-  EncodingNames,
-  EncodingType
+  EncodingNames
 } from './index'
+
+import {
+  EncodingType
+} from '../encoder'
 
 export interface BaseEncodingDefinition {
   readonly type: EncodingType;

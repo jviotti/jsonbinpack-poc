@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ANY__TYPE_PREFIX = void 0;
 var limits_1 = require("../../utils/limits");
 var types_1 = require("./types");
-var mapper_1 = require("../../mapper");
+var encoding_type_1 = require("../encoding-type");
 var encode_1 = require("../integer/encode");
 var encode_2 = require("../string/encode");
 var encode_3 = require("../number/encode");
@@ -27,12 +27,12 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         var tagBytes_2 = encodeTypeTag(buffer, offset, types_1.Type.Object, context);
         var valueBytes_2 = encode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tagBytes_2, value, {
             keyEncoding: {
-                type: mapper_1.EncodingType.String,
+                type: encoding_type_1.EncodingType.String,
                 encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
                 options: {}
             },
             encoding: {
-                type: mapper_1.EncodingType.Any,
+                type: encoding_type_1.EncodingType.Any,
                 encoding: 'ANY__TYPE_PREFIX',
                 options: {}
             }

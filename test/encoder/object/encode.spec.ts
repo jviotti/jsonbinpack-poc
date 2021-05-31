@@ -27,10 +27,6 @@ import {
 } from '../../../lib/encoder/object/encode'
 
 import {
-  EncodingType
-} from '../../../lib/mapper'
-
-import {
   getAnyEncoding
 } from '../../../lib/mapper/any'
 
@@ -44,6 +40,7 @@ import {
 
 import {
   EncodingContext,
+  EncodingType,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
 

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIntegerEncoding = void 0;
 var assert_1 = require("assert");
-var encoding_type_1 = require("./encoding-type");
+var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
 var getIntegerEncoding = function (schema) {
     assert_1.strict(typeof schema.minimum === 'undefined' ||
@@ -16,7 +16,7 @@ var getIntegerEncoding = function (schema) {
         var enumMinimum = closestMinimumMultiple / absoluteMultiplier;
         var enumMaximum = closestMaximumMultiple / absoluteMultiplier;
         return {
-            type: encoding_type_1.EncodingType.Integer,
+            type: encoder_1.EncodingType.Integer,
             encoding: enumMaximum - enumMinimum <= limits_1.UINT8_MAX
                 ? 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED'
                 : 'BOUNDED_MULTIPLE__ENUM_VARINT',
@@ -30,7 +30,7 @@ var getIntegerEncoding = function (schema) {
     else if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
         return {
-            type: encoding_type_1.EncodingType.Integer,
+            type: encoder_1.EncodingType.Integer,
             encoding: (schema.maximum - schema.minimum <= limits_1.UINT8_MAX)
                 ? 'BOUNDED_8BITS__ENUM_FIXED' : 'BOUNDED__ENUM_VARINT',
             options: {
@@ -42,7 +42,7 @@ var getIntegerEncoding = function (schema) {
     else if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
         return {
-            type: encoding_type_1.EncodingType.Integer,
+            type: encoder_1.EncodingType.Integer,
             encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
             options: {
                 minimum: schema.minimum,
@@ -53,7 +53,7 @@ var getIntegerEncoding = function (schema) {
     else if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum === 'undefined' && !('multipleOf' in schema)) {
         return {
-            type: encoding_type_1.EncodingType.Integer,
+            type: encoder_1.EncodingType.Integer,
             encoding: 'FLOOR__ENUM_VARINT',
             options: {
                 minimum: schema.minimum
@@ -63,7 +63,7 @@ var getIntegerEncoding = function (schema) {
     else if (typeof schema.minimum === 'undefined' &&
         typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
         return {
-            type: encoding_type_1.EncodingType.Integer,
+            type: encoder_1.EncodingType.Integer,
             encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
             options: {
                 maximum: schema.maximum,
@@ -74,7 +74,7 @@ var getIntegerEncoding = function (schema) {
     else if (typeof schema.minimum === 'undefined' &&
         typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
         return {
-            type: encoding_type_1.EncodingType.Integer,
+            type: encoder_1.EncodingType.Integer,
             encoding: 'ROOF__MIRROR_ENUM_VARINT',
             options: {
                 maximum: schema.maximum
@@ -84,7 +84,7 @@ var getIntegerEncoding = function (schema) {
     else if (typeof schema.minimum === 'undefined' &&
         typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
         return {
-            type: encoding_type_1.EncodingType.Integer,
+            type: encoder_1.EncodingType.Integer,
             encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
             options: {
                 multiplier: schema.multipleOf
@@ -92,7 +92,7 @@ var getIntegerEncoding = function (schema) {
         };
     }
     return {
-        type: encoding_type_1.EncodingType.Integer,
+        type: encoder_1.EncodingType.Integer,
         encoding: 'ARBITRARY__ZIGZAG_VARINT',
         options: {}
     };

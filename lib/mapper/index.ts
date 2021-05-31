@@ -118,10 +118,6 @@ export {
   OneOfEncoding
 } from './oneof'
 
-export {
-  EncodingType
-} from './encoding-type'
-
 export type EncodingNames =
   BooleanEncodingNames |
   NullEncodingNames |

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ANY__TYPE_PREFIX = void 0;
 var limits_1 = require("../../utils/limits");
-var mapper_1 = require("../../mapper");
+var encoding_type_1 = require("../encoding-type");
 var decode_1 = require("../integer/decode");
 var decode_2 = require("../string/decode");
 var decode_3 = require("../number/decode");
@@ -26,12 +26,12 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
     else if (tag.value === types_1.Type.Object) {
         var result_2 = decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
             keyEncoding: {
-                type: mapper_1.EncodingType.String,
+                type: encoding_type_1.EncodingType.String,
                 encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
                 options: {}
             },
             encoding: {
-                type: mapper_1.EncodingType.Any,
+                type: encoding_type_1.EncodingType.Any,
                 encoding: 'ANY__TYPE_PREFIX',
                 options: {}
             }

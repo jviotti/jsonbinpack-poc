@@ -20,7 +20,7 @@ import {
 
 import {
   EncodingType
-} from './encoding-type'
+} from '../encoder'
 
 import {
   AnyEncodingSchema

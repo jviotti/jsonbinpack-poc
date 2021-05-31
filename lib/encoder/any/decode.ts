@@ -35,7 +35,7 @@ import {
 
 import {
   EncodingType
-} from '../../mapper'
+} from '../encoding-type'
 
 import {
   IntegerResult,
