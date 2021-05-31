@@ -1,2 +1,5 @@
-# jsonbinpack
-A schema-driven JSON serialization format based on JSON Schema
+jsonbinpack
+===========
+
+A space-efficient schema-driven binary JSON serialization format based on JSON
+Schema.
