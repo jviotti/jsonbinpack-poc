@@ -17,43 +17,45 @@
 import tap from 'tap'
 
 import {
+  readdirSync,
+  readFileSync,
+  writeFileSync
+} from 'fs'
+
+import {
+  resolve
+} from 'path'
+
+import {
+  JSONValue,
+  EncodingSchema,
   compileEncodingSchema,
   encode,
   decode,
-  JSONValue,
   Encoding
 } from '../lib'
 
-tap.test('should encode and decode a test object', (test) => {
-  const encoding: Encoding = compileEncodingSchema({
-    type: 'object',
-    required: [ 'foo' ],
-    additionalProperties: false,
-    properties: {
-      foo: {
-        type: 'string'
-      },
-      baz: {
-        type: 'object',
-        required: [ 'qux' ],
-        properties: {
-          qux: {
-            type: 'array'
-          }
-        }
-      }
-    }
+const TEST_DIRECTORY: string = resolve(__dirname, 'jsonbinpack')
+const SRC_TEST_DIRECTORY: string = resolve(__dirname, '..', '..', 'test', 'jsonbinpack')
+
+for (const testCase of readdirSync(TEST_DIRECTORY)) {
+  tap.test(testCase, (test) => {
+    const testCasePath: string = resolve(TEST_DIRECTORY, testCase)
+    const schema: EncodingSchema = JSON.parse(readFileSync(resolve(testCasePath, 'schema.json'), 'utf8'))
+    const value: JSONValue = JSON.parse(readFileSync(resolve(testCasePath, 'document.json'), 'utf8'))
+    const encoding: Encoding = compileEncodingSchema(schema)
+
+    // Record the encoding schema for debugging purposes
+    writeFileSync(
+      resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'),
+      JSON.stringify(encoding, null, 2), 'utf8')
+    writeFileSync(
+      resolve(TEST_DIRECTORY, testCase, 'encoding.json'),
+      JSON.stringify(encoding, null, 2), 'utf8')
+
+    const buffer: Buffer = encode(encoding, value)
+    const result: JSONValue = decode(encoding, buffer)
+    test.strictSame(value, result)
+    test.end()
   })
-
-  const value: JSONValue = {
-    foo: 'bar',
-    baz: {
-      qux: [ 1, 2 ]
-    }
-  }
-
-  const buffer: Buffer = encode(encoding, value)
-  const result: JSONValue = decode(encoding, buffer)
-  test.strictSame(value, result)
-  test.end()
-})
+}

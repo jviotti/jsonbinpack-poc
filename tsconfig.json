@@ -30,6 +30,7 @@
     "./web/**/*.ts",
     "./contrib/**/*.ts",
     "./lib/**/*.ts",
-    "./test/**/*.ts"
+    "./test/**/*.ts",
+    "./test/**/*.json"
   ]
 }
