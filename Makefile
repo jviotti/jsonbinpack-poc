@@ -6,8 +6,8 @@ assets/js:
 assets/js/%.min.js: dist/web/%.js | assets/js
 	./node_modules/.bin/browserify $< | ./node_modules/.bin/uglifyjs --compress --mangle > $@
 
-_sass/tailwindcss.scss: node_modules/tailwindcss/dist/tailwind.css
-	cp $< $@
+_sass/tailwind.scss: node_modules/tailwindcss/tailwind.css postcss.config.js
+	./node_modules/.bin/postcss $< --output $@
 
 _sass/codemirror.scss: node_modules/codemirror/lib/codemirror.css
 	cp $< $@
