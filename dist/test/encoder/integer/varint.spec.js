@@ -24,8 +24,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
-var varint_1 = require("../../lib/utils/varint");
-var resizable_buffer_1 = __importDefault(require("../../lib/utils/resizable-buffer"));
+var varint_1 = require("../../../lib/encoder/integer/varint");
+var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
 tap_1.default.test('should encode 1 as 0x01', function (test) {
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(1));
     var offset = 0;

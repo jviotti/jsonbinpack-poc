@@ -21,9 +21,9 @@ import {
   varintEncode,
   varintDecode,
   VarintDecodeResult
-} from '../../lib/utils/varint'
+} from '../../../lib/encoder/integer/varint'
 
-import ResizableBuffer from '../../lib/utils/resizable-buffer'
+import ResizableBuffer from '../../../lib/utils/resizable-buffer'
 
 tap.test('should encode 1 as 0x01', (test) => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))

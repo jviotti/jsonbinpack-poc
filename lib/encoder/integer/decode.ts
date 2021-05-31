@@ -25,11 +25,6 @@ import {
 } from '../../json'
 
 import {
-  varintDecode,
-  VarintDecodeResult
-} from '../../utils/varint'
-
-import {
   UINT8_MAX
 } from '../../utils/limits'
 
@@ -51,6 +46,11 @@ import {
 import {
   zigzagDecode
 } from './zigzag'
+
+import {
+  varintDecode,
+  VarintDecodeResult
+} from './varint'
 
 export interface IntegerResult extends DecodeResult {
   readonly value: JSONNumber;

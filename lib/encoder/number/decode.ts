@@ -35,7 +35,7 @@ import {
 import {
   varintDecode,
   VarintDecodeResult
-} from '../../utils/varint'
+} from '../integer/varint'
 
 export interface NumberResult extends DecodeResult {
   readonly value: JSONNumber;

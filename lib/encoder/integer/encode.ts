@@ -25,10 +25,6 @@ import {
 } from '../../json'
 
 import {
-  varintEncode
-} from '../../utils/varint'
-
-import {
   UINT8_MAX
 } from '../../utils/limits'
 
@@ -50,6 +46,10 @@ import {
 import {
   zigzagEncode
 } from './zigzag'
+
+import {
+  varintEncode
+} from './varint'
 
 // Applicable if the difference between maximum and
 // minimum fits in an unsigned 8-bit integer

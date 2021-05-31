@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import ResizableBuffer from './resizable-buffer'
+import ResizableBuffer from '../../utils/resizable-buffer'
 
 // Inspired by https://github.com/jacekv/varintjs/blob/master/varint.js
 

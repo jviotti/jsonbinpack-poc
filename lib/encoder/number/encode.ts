@@ -27,7 +27,7 @@ import {
 
 import {
   varintEncode
-} from '../../utils/varint'
+} from '../integer/varint'
 
 import {
   JSONNumber

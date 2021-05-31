@@ -18,7 +18,7 @@ exports.DOUBLE_VARINT_TUPLE = void 0;
 var assert_1 = require("assert");
 var from_exponential_1 = __importDefault(require("from-exponential"));
 var zigzag_1 = require("../integer/zigzag");
-var varint_1 = require("../../utils/varint");
+var varint_1 = require("../integer/varint");
 var stringPrefixCount = function (value, prefix) {
     var e_1, _a;
     var count = 0;
