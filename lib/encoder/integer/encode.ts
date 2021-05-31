@@ -25,10 +25,6 @@ import {
 } from '../../json'
 
 import {
-  zigzagEncode
-} from '../../utils/zigzag'
-
-import {
   varintEncode
 } from '../../utils/varint'
 
@@ -50,6 +46,10 @@ import {
 import {
   EncodingContext
 } from '../context'
+
+import {
+  zigzagEncode
+} from './zigzag'
 
 // Applicable if the difference between maximum and
 // minimum fits in an unsigned 8-bit integer

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DOUBLE_VARINT_TUPLE = void 0;
-var zigzag_1 = require("../../utils/zigzag");
+var zigzag_1 = require("../integer/zigzag");
 var varint_1 = require("../../utils/varint");
 var DOUBLE_VARINT_TUPLE = function (buffer, offset, _options) {
     var integralResult = varint_1.varintDecode(buffer, offset);

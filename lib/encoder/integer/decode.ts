@@ -25,10 +25,6 @@ import {
 } from '../../json'
 
 import {
-  zigzagDecode
-} from '../../utils/zigzag'
-
-import {
   varintDecode,
   VarintDecodeResult
 } from '../../utils/varint'
@@ -51,6 +47,10 @@ import {
   BoundedOptions,
   BoundedMultiplierOptions
 } from './options'
+
+import {
+  zigzagDecode
+} from './zigzag'
 
 export interface IntegerResult extends DecodeResult {
   readonly value: JSONNumber;

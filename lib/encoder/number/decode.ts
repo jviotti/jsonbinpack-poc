@@ -30,7 +30,7 @@ import {
 
 import {
   zigzagDecode
-} from '../../utils/zigzag'
+} from '../integer/zigzag'
 
 import {
   varintDecode,

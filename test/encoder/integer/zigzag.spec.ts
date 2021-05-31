@@ -20,7 +20,7 @@ import * as fc from 'fast-check'
 import {
   zigzagEncode,
   zigzagDecode
-} from '../../lib/utils/zigzag'
+} from '../../../lib/encoder/integer/zigzag'
 
 tap.test('should encode 0 as 0', (test) => {
   test.is(zigzagEncode(BigInt(0)), BigInt(0))

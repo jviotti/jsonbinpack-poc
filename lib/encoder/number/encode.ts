@@ -23,7 +23,7 @@ import ResizableBuffer from '../../utils/resizable-buffer'
 
 import {
   zigzagEncode
-} from '../../utils/zigzag'
+} from '../integer/zigzag'
 
 import {
   varintEncode

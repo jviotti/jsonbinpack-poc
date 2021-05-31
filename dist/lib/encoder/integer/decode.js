@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ARBITRARY_MULTIPLE__ZIGZAG_VARINT = exports.ARBITRARY__ZIGZAG_VARINT = exports.ROOF_MULTIPLE__MIRROR_ENUM_VARINT = exports.ROOF__MIRROR_ENUM_VARINT = exports.FLOOR_MULTIPLE__ENUM_VARINT = exports.FLOOR__ENUM_VARINT = exports.BOUNDED_MULTIPLE__ENUM_VARINT = exports.BOUNDED__ENUM_VARINT = exports.BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = exports.BOUNDED_8BITS__ENUM_FIXED = void 0;
 var assert_1 = require("assert");
-var zigzag_1 = require("../../utils/zigzag");
 var varint_1 = require("../../utils/varint");
 var limits_1 = require("../../utils/limits");
+var zigzag_1 = require("./zigzag");
 var BOUNDED_8BITS__ENUM_FIXED = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
