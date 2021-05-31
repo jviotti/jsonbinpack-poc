@@ -17,14 +17,9 @@
 import tap from 'tap'
 
 import {
-  BooleanEncoding,
-  getBooleanEncoding
-} from '../../../lib/mapper/boolean'
-
-import {
-  IntegerEncoding,
-  getIntegerEncoding
-} from '../../../lib/mapper/integer'
+  Encoding,
+  getEncoding
+} from '../../../lib/mapper'
 
 import {
   EncodingContext,
@@ -220,7 +215,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (
 
 tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -245,7 +240,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
 
 tap.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -269,7 +264,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', (test) => {
 
 tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -294,7 +289,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
 
 tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -318,7 +313,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', (test) => {
 
 tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -342,7 +337,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
 
 tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -366,7 +361,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]',
 
 tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -390,7 +385,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
 
 tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -413,7 +408,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', 
 
 tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -437,7 +432,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, ty
 
 tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -461,7 +456,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fa
 
 tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -484,7 +479,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
 
 tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -507,7 +502,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
 
 tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -530,7 +525,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
 
 tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: BooleanEncoding = getBooleanEncoding({
+  const encoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
@@ -552,11 +547,11 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
 
 tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+  const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
-  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+  const integerEncoding: Encoding = getEncoding({
     type: 'integer'
   })
 
@@ -582,11 +577,11 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false,
 
 tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+  const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
-  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+  const integerEncoding: Encoding = getEncoding({
     type: 'integer'
   })
 
@@ -612,11 +607,11 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
 
 tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+  const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
-  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+  const integerEncoding: Encoding = getEncoding({
     type: 'integer'
   })
 
@@ -641,11 +636,11 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 
 
 tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+  const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
-  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+  const integerEncoding: Encoding = getEncoding({
     type: 'integer'
   })
 
@@ -670,11 +665,11 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fal
 
 tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+  const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
-  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+  const integerEncoding: Encoding = getEncoding({
     type: 'integer'
   })
 
@@ -699,11 +694,11 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
 
 tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const booleanEncoding: BooleanEncoding = getBooleanEncoding({
+  const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
   })
 
-  const integerEncoding: IntegerEncoding = getIntegerEncoding({
+  const integerEncoding: Encoding = getEncoding({
     type: 'integer'
   })
 

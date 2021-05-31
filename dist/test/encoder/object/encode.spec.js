@@ -5,8 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/encoder/object/encode");
-var any_1 = require("../../../lib/mapper/any");
-var integer_1 = require("../../../lib/mapper/integer");
+var mapper_1 = require("../../../lib/mapper");
 var string_1 = require("../../../lib/mapper/string");
 var encoder_1 = require("../../../lib/encoder");
 var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
@@ -72,15 +71,15 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:
     }, {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             }),
-            baz: integer_1.getIntegerEncoding({
+            baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
             }),
-            bar: any_1.getAnyEncoding({}),
-            qux: any_1.getAnyEncoding({})
+            bar: mapper_1.getEncoding({}),
+            qux: mapper_1.getEncoding({})
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -98,15 +97,15 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', 
     var bytesWritten = encode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
         optionalProperties: ['baz', 'bar', 'foo', 'qux'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             }),
-            baz: integer_1.getIntegerEncoding({
+            baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
             }),
-            bar: any_1.getAnyEncoding({}),
-            qux: any_1.getAnyEncoding({})
+            bar: mapper_1.getEncoding({}),
+            qux: mapper_1.getEncoding({})
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -125,10 +124,10 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
     }, {
         requiredProperties: ['baz', 'foo'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             }),
-            baz: integer_1.getIntegerEncoding({
+            baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
             })
@@ -151,10 +150,10 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         requiredProperties: ['foo'],
         optionalProperties: ['baz'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             }),
-            baz: integer_1.getIntegerEncoding({
+            baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
             })
@@ -177,10 +176,10 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         requiredProperties: ['foo'],
         optionalProperties: ['baz'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             }),
-            baz: integer_1.getIntegerEncoding({
+            baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
             })
@@ -202,7 +201,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
     }, {
         requiredProperties: ['foo'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             })
         },
@@ -232,7 +231,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
     }, {
         requiredProperties: ['foo'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             })
         },
@@ -261,7 +260,7 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
     }, {
         optionalProperties: ['foo'],
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             })
         },
@@ -303,10 +302,10 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
             options: {}
         },
         propertyEncodings: {
-            foo: string_1.getStringEncoding({
+            foo: mapper_1.getEncoding({
                 type: 'string'
             }),
-            baz: integer_1.getIntegerEncoding({
+            baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
             })

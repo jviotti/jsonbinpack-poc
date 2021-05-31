@@ -27,12 +27,8 @@ import {
 } from '../../../lib/encoder/object/encode'
 
 import {
-  getAnyEncoding
-} from '../../../lib/mapper/any'
-
-import {
-  getIntegerEncoding
-} from '../../../lib/mapper/integer'
+  getEncoding
+} from '../../../lib/mapper'
 
 import {
   getStringEncoding
@@ -132,15 +128,15 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:
   }, {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       }),
-      baz: getIntegerEncoding({
+      baz: getEncoding({
         type: 'integer',
         minimum: 0
       }),
-      bar: getAnyEncoding({}),
-      qux: getAnyEncoding({})
+      bar: getEncoding({}),
+      qux: getEncoding({})
     }
   }, context)
 
@@ -168,15 +164,15 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => 
   const bytesWritten: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
     optionalProperties: [ 'baz', 'bar', 'foo', 'qux' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       }),
-      baz: getIntegerEncoding({
+      baz: getEncoding({
         type: 'integer',
         minimum: 0
       }),
-      bar: getAnyEncoding({}),
-      qux: getAnyEncoding({})
+      bar: getEncoding({}),
+      qux: getEncoding({})
     }
   }, context)
 
@@ -201,10 +197,10 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
   }, {
     requiredProperties: [ 'baz', 'foo' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       }),
-      baz: getIntegerEncoding({
+      baz: getEncoding({
         type: 'integer',
         minimum: 0
       })
@@ -233,10 +229,10 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
     requiredProperties: [ 'foo' ],
     optionalProperties: [ 'baz' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       }),
-      baz: getIntegerEncoding({
+      baz: getEncoding({
         type: 'integer',
         minimum: 0
       })
@@ -267,10 +263,10 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
     requiredProperties: [ 'foo' ],
     optionalProperties: [ 'baz' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       }),
-      baz: getIntegerEncoding({
+      baz: getEncoding({
         type: 'integer',
         minimum: 0
       })
@@ -298,7 +294,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
   }, {
     requiredProperties: [ 'foo' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       })
     },
@@ -338,7 +334,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (te
   }, {
     requiredProperties: [ 'foo' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       })
     },
@@ -373,7 +369,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
   }, {
     optionalProperties: [ 'foo' ],
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       })
     },
@@ -427,10 +423,10 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
       options: {}
     },
     propertyEncodings: {
-      foo: getStringEncoding({
+      foo: getEncoding({
         type: 'string'
       }),
-      baz: getIntegerEncoding({
+      baz: getEncoding({
         type: 'integer',
         minimum: 0
       })

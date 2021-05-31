@@ -4,8 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var boolean_1 = require("../../../lib/mapper/boolean");
-var integer_1 = require("../../../lib/mapper/integer");
+var mapper_1 = require("../../../lib/mapper");
 var encoder_1 = require("../../../lib/encoder");
 var encode_1 = require("../../../lib/encoder/array/encode");
 var resizable_buffer_1 = __importDefault(require("../../../lib/utils/resizable-buffer"));
@@ -156,7 +155,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 
 });
 tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -177,7 +176,7 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, t
 });
 tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
@@ -197,7 +196,7 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', function (test)
 });
 tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -218,7 +217,7 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, fa
 });
 tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(3));
@@ -238,7 +237,7 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', function 
 });
 tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -258,7 +257,7 @@ tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true
 });
 tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -278,7 +277,7 @@ tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false
 });
 tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -298,7 +297,7 @@ tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, tru
 });
 tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -317,7 +316,7 @@ tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false,
 });
 tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -337,7 +336,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ type
 });
 tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -357,7 +356,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true
 });
 tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -376,7 +375,7 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, 
 });
 tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -395,7 +394,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, t
 });
 tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -414,7 +413,7 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:t
 });
 tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var encoding = boolean_1.getBooleanEncoding({
+    var encoding = mapper_1.getEncoding({
         type: 'boolean'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -432,10 +431,10 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:tr
 });
 tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var booleanEncoding = boolean_1.getBooleanEncoding({
+    var booleanEncoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var integerEncoding = integer_1.getIntegerEncoding({
+    var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -457,10 +456,10 @@ tap_1.default.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, ty
 });
 tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var booleanEncoding = boolean_1.getBooleanEncoding({
+    var booleanEncoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var integerEncoding = integer_1.getIntegerEncoding({
+    var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -482,10 +481,10 @@ tap_1.default.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:tr
 });
 tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var booleanEncoding = boolean_1.getBooleanEncoding({
+    var booleanEncoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var integerEncoding = integer_1.getIntegerEncoding({
+    var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -506,10 +505,10 @@ tap_1.default.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed
 });
 tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var booleanEncoding = boolean_1.getBooleanEncoding({
+    var booleanEncoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var integerEncoding = integer_1.getIntegerEncoding({
+    var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -530,10 +529,10 @@ tap_1.default.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true,
 });
 tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var booleanEncoding = boolean_1.getBooleanEncoding({
+    var booleanEncoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var integerEncoding = integer_1.getIntegerEncoding({
+    var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));
@@ -554,10 +553,10 @@ tap_1.default.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, type
 });
 tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var booleanEncoding = boolean_1.getBooleanEncoding({
+    var booleanEncoding = mapper_1.getEncoding({
         type: 'boolean'
     });
-    var integerEncoding = integer_1.getIntegerEncoding({
+    var integerEncoding = mapper_1.getEncoding({
         type: 'integer'
     });
     var buffer = new resizable_buffer_1.default(Buffer.allocUnsafe(4));

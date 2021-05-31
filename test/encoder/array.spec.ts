@@ -24,9 +24,9 @@ import {
 } from '../../lib/json'
 
 import {
-  getIntegerEncoding,
-  IntegerEncoding
-} from '../../lib/mapper/integer'
+  Encoding,
+  getEncoding
+} from '../../lib/mapper'
 
 import {
   SemiTypedOptions,
@@ -133,7 +133,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', (test) => {
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
     const offset: number = 0
 
-    const encoding: IntegerEncoding = getIntegerEncoding({
+    const encoding: Encoding = getEncoding({
       type: 'integer'
     })
 
