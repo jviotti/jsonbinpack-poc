@@ -159,8 +159,9 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
       return left.localeCompare(right)
     })
 
-  const allProperties: string[] =
-    booleanRequiredProperties.concat(requiredProperties).concat(optionalProperties)
+  const allRequiredProperties: string[] =
+    booleanRequiredProperties.concat(requiredProperties)
+  const allProperties: string[] = allRequiredProperties.concat(optionalProperties)
   for (const key of allProperties) {
     if (!(key in propertyEncodings)) {
       propertyEncodings[key] = additionalProperties ?? getEncoding({})
@@ -184,7 +185,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
           booleanRequiredProperties
         }
       }
-    } else if (requiredProperties.length === 0) {
+    } else if (allRequiredProperties.length === 0) {
       return {
         type: EncodingType.Object,
         encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -206,7 +207,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
     }
   }
 
-  if (requiredProperties.length > 0 && optionalProperties.length > 0) {
+  if (allRequiredProperties.length > 0 && optionalProperties.length > 0) {
     return {
       type: EncodingType.Object,
       encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
@@ -219,7 +220,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
         encoding: additionalProperties
       }
     }
-  } else if (requiredProperties.length > 0 && optionalProperties.length === 0) {
+  } else if (allRequiredProperties.length > 0 && optionalProperties.length === 0) {
     return {
       type: EncodingType.Object,
       encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -231,7 +232,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
         booleanRequiredProperties
       }
     }
-  } else if (requiredProperties.length === 0 && optionalProperties.length > 0) {
+  } else if (allRequiredProperties.length === 0 && optionalProperties.length > 0) {
     return {
       type: EncodingType.Object,
       encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
