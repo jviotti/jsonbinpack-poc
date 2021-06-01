@@ -751,3 +751,32 @@ tap_1.default.test('should encode a bounded object with only boolean required ke
     });
     test.end();
 });
+tap_1.default.test('should encode a bounded property with a single boolean', function (test) {
+    var schema = {
+        type: 'object',
+        required: ['jsx'],
+        additionalProperties: false,
+        properties: {
+            jsx: {
+                type: 'boolean'
+            }
+        }
+    };
+    var result = mapper_1.getEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+        options: {
+            booleanRequiredProperties: ['jsx'],
+            propertyEncodings: {
+                jsx: {
+                    type: 'boolean',
+                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+                    options: {}
+                }
+            },
+            requiredProperties: []
+        }
+    });
+    test.end();
+});

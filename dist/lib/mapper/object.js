@@ -66,7 +66,8 @@ var getObjectEncoding = function (schema) {
     }).sort(function (left, right) {
         return left.localeCompare(right);
     });
-    var allProperties = booleanRequiredProperties.concat(requiredProperties).concat(optionalProperties);
+    var allRequiredProperties = booleanRequiredProperties.concat(requiredProperties);
+    var allProperties = allRequiredProperties.concat(optionalProperties);
     try {
         for (var allProperties_1 = __values(allProperties), allProperties_1_1 = allProperties_1.next(); !allProperties_1_1.done; allProperties_1_1 = allProperties_1.next()) {
             var key = allProperties_1_1.value;
@@ -97,7 +98,7 @@ var getObjectEncoding = function (schema) {
                 }
             };
         }
-        else if (requiredProperties.length === 0) {
+        else if (allRequiredProperties.length === 0) {
             return {
                 type: encoder_1.EncodingType.Object,
                 encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -118,7 +119,7 @@ var getObjectEncoding = function (schema) {
             }
         };
     }
-    if (requiredProperties.length > 0 && optionalProperties.length > 0) {
+    if (allRequiredProperties.length > 0 && optionalProperties.length > 0) {
         return {
             type: encoder_1.EncodingType.Object,
             encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
@@ -132,7 +133,7 @@ var getObjectEncoding = function (schema) {
             }
         };
     }
-    else if (requiredProperties.length > 0 && optionalProperties.length === 0) {
+    else if (allRequiredProperties.length > 0 && optionalProperties.length === 0) {
         return {
             type: encoder_1.EncodingType.Object,
             encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -145,7 +146,7 @@ var getObjectEncoding = function (schema) {
             }
         };
     }
-    else if (requiredProperties.length === 0 && optionalProperties.length > 0) {
+    else if (allRequiredProperties.length === 0 && optionalProperties.length > 0) {
         return {
             type: encoder_1.EncodingType.Object,
             encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',

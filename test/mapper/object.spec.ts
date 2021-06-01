@@ -836,3 +836,35 @@ tap.test('should encode a bounded object with only boolean required keys', (test
 
   test.end()
 })
+
+tap.test('should encode a bounded property with a single boolean', (test) => {
+  const schema: EncodingSchema = {
+    type: 'object',
+    required: [ 'jsx' ],
+    additionalProperties: false,
+    properties: {
+      jsx: {
+        type: 'boolean'
+      }
+    }
+  }
+
+  const result: Encoding = getEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    options: {
+      booleanRequiredProperties: [ 'jsx' ],
+      propertyEncodings: {
+        jsx: {
+          type: 'boolean',
+          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+          options: {}
+        }
+      },
+      requiredProperties: []
+    }
+  })
+
+  test.end()
+})
