@@ -122,26 +122,46 @@ const parseAdditionalProperties = (
 export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding => {
   const additionalProperties: Encoding | null =
     parseAdditionalProperties(schema.additionalProperties)
-  const requiredProperties: string[] =
-    (schema.required ?? []).sort((left: string, right: string) => {
-      return left.localeCompare(right)
-    })
 
   const properties: Record<string, EncodingSchema> = schema.properties ?? {}
-  const optionalProperties: string[] = Object.keys(properties)
-    .filter((key: string) => {
-      return !requiredProperties.includes(key)
-    }).sort((left: string, right: string) => {
-      return left.localeCompare(right)
-    })
-
   const propertyEncodings: Record<string, Encoding> = Object.keys(properties)
     .reduce((accumulator: Record<string, Encoding>, key: string) => {
       accumulator[key] = getEncoding(properties[key])
       return accumulator
     }, {})
 
-  for (const key of requiredProperties.concat(optionalProperties)) {
+  const unsortedRequiredBooleanProperties: string[] = []
+  const nonBooleanRequiredProperties: string[] = []
+
+  for (const key of schema.required ?? []) {
+    const encoding: Encoding | null = propertyEncodings[key] ?? additionalProperties ?? null
+    if (encoding !== null && encoding.type === EncodingType.Boolean) {
+      unsortedRequiredBooleanProperties.push(key)
+    } else {
+      nonBooleanRequiredProperties.push(key)
+    }
+  }
+
+  const booleanRequiredProperties: string[] =
+    unsortedRequiredBooleanProperties.sort((left: string, right: string) => {
+      return left.localeCompare(right)
+    })
+
+  const requiredProperties: string[] =
+    nonBooleanRequiredProperties.sort((left: string, right: string) => {
+      return left.localeCompare(right)
+    })
+
+  const optionalProperties: string[] = Object.keys(properties)
+    .filter((key: string) => {
+      return !requiredProperties.includes(key) && !booleanRequiredProperties.includes(key)
+    }).sort((left: string, right: string) => {
+      return left.localeCompare(right)
+    })
+
+  const allProperties: string[] =
+    booleanRequiredProperties.concat(requiredProperties).concat(optionalProperties)
+  for (const key of allProperties) {
     if (!(key in propertyEncodings)) {
       propertyEncodings[key] = additionalProperties ?? getEncoding({})
     }
@@ -160,7 +180,8 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
         options: {
           propertyEncodings,
-          requiredProperties
+          requiredProperties,
+          booleanRequiredProperties
         }
       }
     } else if (requiredProperties.length === 0) {
@@ -179,7 +200,8 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
       options: {
         propertyEncodings,
         optionalProperties,
-        requiredProperties
+        requiredProperties,
+        booleanRequiredProperties
       }
     }
   }
@@ -192,6 +214,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
         propertyEncodings,
         optionalProperties,
         requiredProperties,
+        booleanRequiredProperties,
         keyEncoding,
         encoding: additionalProperties
       }
@@ -204,7 +227,8 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
         encoding: additionalProperties,
         propertyEncodings,
         keyEncoding,
-        requiredProperties
+        requiredProperties,
+        booleanRequiredProperties
       }
     }
   } else if (requiredProperties.length === 0 && optionalProperties.length > 0) {

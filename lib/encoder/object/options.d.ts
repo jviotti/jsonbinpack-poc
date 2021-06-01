@@ -28,6 +28,7 @@ interface HomogeneousPropertiesOptions {
 }
 
 export interface RequiredBoundedTypedOptions extends TypedPropertiesOptions {
+  booleanRequiredProperties: string[];
   requiredProperties: string[];
 }
 

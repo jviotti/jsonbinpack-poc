@@ -37,6 +37,7 @@ tap.test('should encode a bounded object with only required keys', (test) => {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
     options: {
+      booleanRequiredProperties: [],
       propertyEncodings: {
         foo: {
           type: 'any',
@@ -69,6 +70,7 @@ tap.test('should encode a bounded object with required keys and empty properties
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
     options: {
+      booleanRequiredProperties: [],
       propertyEncodings: {
         foo: {
           type: 'any',
@@ -106,6 +108,7 @@ tap.test('should encode a bounded object with partially defined required keys', 
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
     options: {
+      booleanRequiredProperties: [],
       propertyEncodings: {
         foo: {
           type: 'string',
@@ -148,6 +151,7 @@ tap.test('should encode a bounded object with fully defined required keys', (tes
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
     options: {
+      booleanRequiredProperties: [],
       propertyEncodings: {
         foo: {
           type: 'string',
@@ -180,6 +184,7 @@ tap.test('should encode a bounded object with no required nor optionals', (test)
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
     options: {
+      booleanRequiredProperties: [],
       propertyEncodings: {},
       requiredProperties: []
     }
@@ -337,6 +342,7 @@ tap.test('should encode a bounded object with an optional and a required propert
         }
       },
       optionalProperties: [ 'foo' ],
+      booleanRequiredProperties: [],
       requiredProperties: [ 'bar' ]
     }
   })
@@ -380,6 +386,7 @@ tap.test('should encode a bounded object with an optional and a typed required p
         }
       },
       optionalProperties: [ 'foo' ],
+      booleanRequiredProperties: [],
       requiredProperties: [ 'bar' ]
     }
   })
@@ -608,6 +615,7 @@ tap.test('should encode a simple unbounded object with a required property', (te
     encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
     options: {
       requiredProperties: [ 'foo' ],
+      booleanRequiredProperties: [],
       propertyEncodings: {
         foo: {
           type: 'any',
@@ -648,6 +656,7 @@ tap.test('should encode a simple unbounded object with a required typed property
     encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
     options: {
       requiredProperties: [ 'foo' ],
+      booleanRequiredProperties: [],
       propertyEncodings: {
         foo: {
           type: 'string',
@@ -750,6 +759,7 @@ tap.test('should encode a complex unbounded object', (test) => {
     options: {
       optionalProperties: [ 'baz' ],
       requiredProperties: [ 'bar', 'foo' ],
+      booleanRequiredProperties: [],
       propertyEncodings: {
         foo: {
           type: 'integer',
@@ -781,6 +791,46 @@ tap.test('should encode a complex unbounded object', (test) => {
         encoding: 'ARBITRARY__ZIGZAG_VARINT',
         options: {}
       }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded object with only boolean required keys', (test) => {
+  const schema: EncodingSchema = {
+    type: 'object',
+    additionalProperties: false,
+    required: [ 'foo', 'bar' ],
+    properties: {
+      foo: {
+        type: 'boolean'
+      },
+      bar: {
+        type: 'boolean'
+      }
+    }
+  }
+
+  const result: Encoding = getEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    options: {
+      booleanRequiredProperties: [ 'bar', 'foo' ],
+      propertyEncodings: {
+        foo: {
+          type: 'boolean',
+          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+          options: {}
+        },
+        bar: {
+          type: 'boolean',
+          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+          options: {}
+        }
+      },
+      requiredProperties: []
     }
   })
 

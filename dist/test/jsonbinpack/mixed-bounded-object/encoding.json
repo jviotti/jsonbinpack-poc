@@ -33,7 +33,8 @@
           },
           "requiredProperties": [
             "qux"
-          ]
+          ],
+          "booleanRequiredProperties": []
         }
       }
     },
@@ -42,6 +43,7 @@
     ],
     "requiredProperties": [
       "foo"
-    ]
+    ],
+    "booleanRequiredProperties": []
   }
 }

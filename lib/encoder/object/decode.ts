@@ -53,6 +53,10 @@ import {
   Encoding
 } from '../../mapper'
 
+import {
+  BYTE_BITS
+} from '../../utils/limits'
+
 export interface ObjectResult extends DecodeResult {
   readonly value: JSONObject;
   readonly bytes: number;
@@ -62,8 +66,15 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, options: RequiredBoundedTypedOptions
 ): ObjectResult => {
   const result: JSONObject = {}
-  let cursor: number = offset
-  for (const key of options.requiredProperties) {
+
+  const booleanBits: number = Math.min(options.booleanRequiredProperties.length, BYTE_BITS)
+  const booleanResult: BitsetResult = bitsetDecode(buffer, offset, booleanBits)
+  for (const [ index, bit ] of booleanResult.value.entries()) {
+    Reflect.set(result, options.booleanRequiredProperties[index], bit)
+  }
+
+  let cursor: number = offset + booleanResult.bytes
+  for (const key of options.booleanRequiredProperties.slice(BYTE_BITS).concat(options.requiredProperties)) {
     const encoding: Encoding | undefined = options.propertyEncodings[key]
     assert(typeof encoding !== 'undefined')
     const propertyResult: DecodeResult = decode(buffer, cursor, encoding)
@@ -118,7 +129,8 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
   const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties
     })
 
   const optionalResult: ObjectResult = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
@@ -173,7 +185,8 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
   const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties
     })
 
   const arbitraryResult: ObjectResult = ARBITRARY_TYPED_KEYS_OBJECT(
@@ -215,7 +228,8 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
   const requiredResult: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties
     })
 
   const optionalResult: ObjectResult = NON_REQUIRED_BOUNDED_TYPED_OBJECT(
