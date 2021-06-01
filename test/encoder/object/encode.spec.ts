@@ -187,6 +187,20 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', (test) => 
   test.end()
 })
 
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode a bounded empty object', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const bytesWritten: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
+    propertyEncodings: {},
+    requiredProperties: [],
+    booleanRequiredProperties: []
+  }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([]))
+  test.is(bytesWritten, 0)
+  test.end()
+})
+
 tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(5))
