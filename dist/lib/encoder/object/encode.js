@@ -123,10 +123,12 @@ exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = NON_REQUIRED_BOUNDED_TYPED_OBJECT;
 var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
     var e_5, _a, e_6, _b;
     assert_1.strict(Object.keys(value).length <=
-        options.requiredProperties.length + options.optionalProperties.length);
+        options.booleanRequiredProperties.length +
+            options.requiredProperties.length +
+            options.optionalProperties.length);
     var requiredSubset = {};
     try {
-        for (var _c = __values(options.requiredProperties), _d = _c.next(); !_d.done; _d = _c.next()) {
+        for (var _c = __values(options.booleanRequiredProperties.concat(options.requiredProperties)), _d = _c.next(); !_d.done; _d = _c.next()) {
             var key = _d.value;
             Reflect.set(requiredSubset, key, value[key]);
         }
@@ -187,8 +189,8 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options, cont
 exports.ARBITRARY_TYPED_KEYS_OBJECT = ARBITRARY_TYPED_KEYS_OBJECT;
 var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
     var e_8, _a;
-    assert_1.strict(options.requiredProperties.length > 0);
-    var required = new Set(options.requiredProperties);
+    assert_1.strict(options.booleanRequiredProperties.length + options.requiredProperties.length > 0);
+    var required = new Set(options.booleanRequiredProperties.concat(options.requiredProperties));
     var requiredSubset = {};
     var rest = {};
     try {
@@ -246,7 +248,7 @@ var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, 
 exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = OPTIONAL_UNBOUNDED_TYPED_OBJECT;
 var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
     var e_10, _a;
-    var required = new Set(options.requiredProperties);
+    var required = new Set(options.booleanRequiredProperties.concat(options.requiredProperties));
     var optional = new Set(options.optionalProperties);
     var requiredSubset = {};
     var optionalSubset = {};

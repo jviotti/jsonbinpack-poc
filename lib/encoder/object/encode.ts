@@ -119,10 +119,12 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: BoundedTypedOptions, context: EncodingContext
 ): number => {
   assert(Object.keys(value).length <=
-    options.requiredProperties.length + options.optionalProperties.length)
+    options.booleanRequiredProperties.length +
+    options.requiredProperties.length +
+    options.optionalProperties.length)
 
   const requiredSubset: JSONObject = {}
-  for (const key of options.requiredProperties) {
+  for (const key of options.booleanRequiredProperties.concat(options.requiredProperties)) {
     Reflect.set(requiredSubset, key, value[key])
   }
 
@@ -164,9 +166,10 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
 export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredUnboundedTypedOptions, context: EncodingContext
 ): number => {
-  assert(options.requiredProperties.length > 0)
+  assert(options.booleanRequiredProperties.length + options.requiredProperties.length > 0)
 
-  const required: Set<string> = new Set<string>(options.requiredProperties)
+  const required: Set<string> =
+    new Set<string>(options.booleanRequiredProperties.concat(options.requiredProperties))
   const requiredSubset: JSONObject = {}
   const rest: JSONObject = {}
 
@@ -214,7 +217,8 @@ export const OPTIONAL_UNBOUNDED_TYPED_OBJECT = (
 export const MIXED_UNBOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: UnboundedTypedOptions, context: EncodingContext
 ): number => {
-  const required: Set<string> = new Set<string>(options.requiredProperties)
+  const required: Set<string> =
+    new Set<string>(options.booleanRequiredProperties.concat(options.requiredProperties))
   const optional: Set<string> = new Set<string>(options.optionalProperties)
 
   const requiredSubset: JSONObject = {}
