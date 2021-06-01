@@ -780,3 +780,20 @@ tap_1.default.test('should encode a bounded property with a single boolean', fun
     });
     test.end();
 });
+tap_1.default.test('should encode a bounded empty object', function (test) {
+    var schema = {
+        type: 'object',
+        additionalProperties: false
+    };
+    var result = mapper_1.getEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+        options: {
+            propertyEncodings: {},
+            requiredProperties: [],
+            booleanRequiredProperties: []
+        }
+    });
+    test.end();
+});

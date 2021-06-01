@@ -868,3 +868,23 @@ tap.test('should encode a bounded property with a single boolean', (test) => {
 
   test.end()
 })
+
+tap.test('should encode a bounded empty object', (test) => {
+  const schema: EncodingSchema = {
+    type: 'object',
+    additionalProperties: false
+  }
+
+  const result: Encoding = getEncoding(schema)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    options: {
+      propertyEncodings: {},
+      requiredProperties: [],
+      booleanRequiredProperties: []
+    }
+  })
+
+  test.end()
+})

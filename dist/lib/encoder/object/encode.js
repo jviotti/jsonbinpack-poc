@@ -34,7 +34,8 @@ var index_1 = require("../index");
 var encode_1 = require("../integer/encode");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
     var e_1, _a, e_2, _b;
-    assert_1.strict(Object.keys(value).length === options.requiredProperties.length + options.booleanRequiredProperties.length);
+    assert_1.strict(Object.keys(value).length ===
+        options.requiredProperties.length + options.booleanRequiredProperties.length);
     var booleanBits = [];
     try {
         for (var _c = __values(options.booleanRequiredProperties), _d = _c.next(); !_d.done; _d = _c.next()) {

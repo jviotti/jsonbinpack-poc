@@ -57,9 +57,11 @@ import {
 } from '../context'
 
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
-  buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions, context: EncodingContext
+  buffer: ResizableBuffer, offset: number, value: JSONObject,
+  options: RequiredBoundedTypedOptions, context: EncodingContext
 ): number => {
-  assert(Object.keys(value).length === options.requiredProperties.length + options.booleanRequiredProperties.length)
+  assert(Object.keys(value).length ===
+    options.requiredProperties.length + options.booleanRequiredProperties.length)
 
   const booleanBits: boolean[] = []
   for (const key of options.booleanRequiredProperties) {

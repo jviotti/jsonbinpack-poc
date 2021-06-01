@@ -114,6 +114,18 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', 
     test.is(bytesWritten, 2);
     test.end();
 });
+tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode a bounded empty object', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {}, {
+        propertyEncodings: {},
+        requiredProperties: [],
+        booleanRequiredProperties: []
+    }, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([]));
+    test.is(bytesWritten, 0);
+    test.end();
+});
 tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1}', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(5));
