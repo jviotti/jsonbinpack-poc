@@ -56,17 +56,13 @@ import {
   EncodingContext
 } from '../context'
 
-import {
-  BYTE_BITS
-} from '../../utils/limits'
-
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions, context: EncodingContext
 ): number => {
   assert(Object.keys(value).length === options.requiredProperties.length + options.booleanRequiredProperties.length)
 
   const booleanBits: boolean[] = []
-  for (const key of options.booleanRequiredProperties.slice(0, BYTE_BITS)) {
+  for (const key of options.booleanRequiredProperties) {
     const bit: JSONValue = value[key]
     assert(typeof bit === 'boolean')
     assert(typeof options.propertyEncodings[key] !== 'undefined')
@@ -76,7 +72,7 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   const booleanBytes: number = bitsetEncode(buffer, offset, booleanBits)
 
   let cursor: number = offset + booleanBytes
-  for (const key of options.booleanRequiredProperties.slice(BYTE_BITS).concat(options.requiredProperties)) {
+  for (const key of options.requiredProperties) {
     const encoding: Encoding | undefined = options.propertyEncodings[key]
     assert(typeof encoding !== 'undefined')
     cursor += encode(buffer, cursor, encoding, value[key], context)
