@@ -53,10 +53,6 @@ import {
   Encoding
 } from '../../mapper'
 
-import {
-  BYTE_BITS
-} from '../../utils/limits'
-
 export interface ObjectResult extends DecodeResult {
   readonly value: JSONObject;
   readonly bytes: number;
@@ -67,14 +63,14 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
 ): ObjectResult => {
   const result: JSONObject = {}
 
-  const booleanBits: number = Math.min(options.booleanRequiredProperties.length, BYTE_BITS)
-  const booleanResult: BitsetResult = bitsetDecode(buffer, offset, booleanBits)
+  const booleanResult: BitsetResult =
+    bitsetDecode(buffer, offset, options.booleanRequiredProperties.length)
   for (const [ index, bit ] of booleanResult.value.entries()) {
     Reflect.set(result, options.booleanRequiredProperties[index], bit)
   }
 
   let cursor: number = offset + booleanResult.bytes
-  for (const key of options.booleanRequiredProperties.slice(BYTE_BITS).concat(options.requiredProperties)) {
+  for (const key of options.requiredProperties) {
     const encoding: Encoding | undefined = options.propertyEncodings[key]
     assert(typeof encoding !== 'undefined')
     const propertyResult: DecodeResult = decode(buffer, cursor, encoding)

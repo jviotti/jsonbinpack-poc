@@ -32,13 +32,12 @@ var assert_1 = require("assert");
 var bitset_1 = require("./bitset");
 var index_1 = require("../index");
 var encode_1 = require("../integer/encode");
-var limits_1 = require("../../utils/limits");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
     var e_1, _a, e_2, _b;
     assert_1.strict(Object.keys(value).length === options.requiredProperties.length + options.booleanRequiredProperties.length);
     var booleanBits = [];
     try {
-        for (var _c = __values(options.booleanRequiredProperties.slice(0, limits_1.BYTE_BITS)), _d = _c.next(); !_d.done; _d = _c.next()) {
+        for (var _c = __values(options.booleanRequiredProperties), _d = _c.next(); !_d.done; _d = _c.next()) {
             var key = _d.value;
             var bit = value[key];
             assert_1.strict(typeof bit === 'boolean');
@@ -57,7 +56,7 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, option
     var booleanBytes = bitset_1.bitsetEncode(buffer, offset, booleanBits);
     var cursor = offset + booleanBytes;
     try {
-        for (var _e = __values(options.booleanRequiredProperties.slice(limits_1.BYTE_BITS).concat(options.requiredProperties)), _f = _e.next(); !_f.done; _f = _e.next()) {
+        for (var _e = __values(options.requiredProperties), _f = _e.next(); !_f.done; _f = _e.next()) {
             var key = _f.value;
             var encoding = options.propertyEncodings[key];
             assert_1.strict(typeof encoding !== 'undefined');
