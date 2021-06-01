@@ -32,30 +32,50 @@ var assert_1 = require("assert");
 var bitset_1 = require("./bitset");
 var index_1 = require("../index");
 var encode_1 = require("../integer/encode");
+var limits_1 = require("../../utils/limits");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
-    var e_1, _a;
-    assert_1.strict(Object.keys(value).length === options.requiredProperties.length);
-    var cursor = offset;
+    var e_1, _a, e_2, _b;
+    assert_1.strict(Object.keys(value).length === options.requiredProperties.length + options.booleanRequiredProperties.length);
+    var booleanBits = [];
     try {
-        for (var _b = __values(options.requiredProperties), _c = _b.next(); !_c.done; _c = _b.next()) {
-            var key = _c.value;
-            var encoding = options.propertyEncodings[key];
-            assert_1.strict(typeof encoding !== 'undefined');
-            cursor += index_1.encode(buffer, cursor, encoding, value[key], context);
+        for (var _c = __values(options.booleanRequiredProperties.slice(0, limits_1.BYTE_BITS)), _d = _c.next(); !_d.done; _d = _c.next()) {
+            var key = _d.value;
+            var bit = value[key];
+            assert_1.strict(typeof bit === 'boolean');
+            assert_1.strict(typeof options.propertyEncodings[key] !== 'undefined');
+            assert_1.strict(options.propertyEncodings[key].type === index_1.EncodingType.Boolean);
+            booleanBits.push(bit);
         }
     }
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
         }
         finally { if (e_1) throw e_1.error; }
+    }
+    var booleanBytes = bitset_1.bitsetEncode(buffer, offset, booleanBits);
+    var cursor = offset + booleanBytes;
+    try {
+        for (var _e = __values(options.booleanRequiredProperties.slice(limits_1.BYTE_BITS).concat(options.requiredProperties)), _f = _e.next(); !_f.done; _f = _e.next()) {
+            var key = _f.value;
+            var encoding = options.propertyEncodings[key];
+            assert_1.strict(typeof encoding !== 'undefined');
+            cursor += index_1.encode(buffer, cursor, encoding, value[key], context);
+        }
+    }
+    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+    finally {
+        try {
+            if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
+        }
+        finally { if (e_2) throw e_2.error; }
     }
     return cursor - offset;
 };
 exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT;
 var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
-    var e_2, _a, e_3, _b;
+    var e_3, _a, e_4, _b;
     assert_1.strict(Object.keys(value).length <= options.optionalProperties.length);
     var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, options.optionalProperties.length, {
         minimum: 0
@@ -72,12 +92,12 @@ var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options
             }
         }
     }
-    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+    catch (e_3_1) { e_3 = { error: e_3_1 }; }
     finally {
         try {
             if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
         }
-        finally { if (e_2) throw e_2.error; }
+        finally { if (e_3) throw e_3.error; }
     }
     var bitsetBytes = bitset_1.bitsetEncode(buffer, offset + lengthBytes, bitset);
     var cursor = offset + lengthBytes + bitsetBytes;
@@ -90,18 +110,18 @@ var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options
             cursor += bytesWritten;
         }
     }
-    catch (e_3_1) { e_3 = { error: e_3_1 }; }
+    catch (e_4_1) { e_4 = { error: e_4_1 }; }
     finally {
         try {
             if (keys_1_1 && !keys_1_1.done && (_b = keys_1.return)) _b.call(keys_1);
         }
-        finally { if (e_3) throw e_3.error; }
+        finally { if (e_4) throw e_4.error; }
     }
     return cursor - offset;
 };
 exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = NON_REQUIRED_BOUNDED_TYPED_OBJECT;
 var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
-    var e_4, _a, e_5, _b;
+    var e_5, _a, e_6, _b;
     assert_1.strict(Object.keys(value).length <=
         options.requiredProperties.length + options.optionalProperties.length);
     var requiredSubset = {};
@@ -111,12 +131,12 @@ var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, conte
             Reflect.set(requiredSubset, key, value[key]);
         }
     }
-    catch (e_4_1) { e_4 = { error: e_4_1 }; }
+    catch (e_5_1) { e_5 = { error: e_5_1 }; }
     finally {
         try {
             if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
         }
-        finally { if (e_4) throw e_4.error; }
+        finally { if (e_5) throw e_5.error; }
     }
     var optionalSubset = {};
     try {
@@ -125,16 +145,17 @@ var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, conte
             Reflect.set(optionalSubset, key, value[key]);
         }
     }
-    catch (e_5_1) { e_5 = { error: e_5_1 }; }
+    catch (e_6_1) { e_6 = { error: e_6_1 }; }
     finally {
         try {
             if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
         }
-        finally { if (e_5) throw e_5.error; }
+        finally { if (e_6) throw e_6.error; }
     }
     var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset, requiredSubset, {
         propertyEncodings: options.propertyEncodings,
-        requiredProperties: options.requiredProperties
+        requiredProperties: options.requiredProperties,
+        booleanRequiredProperties: options.booleanRequiredProperties
     }, context);
     return requiredBytes + exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset + requiredBytes, optionalSubset, {
         propertyEncodings: options.propertyEncodings,
@@ -143,7 +164,7 @@ var MIXED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, conte
 };
 exports.MIXED_BOUNDED_TYPED_OBJECT = MIXED_BOUNDED_TYPED_OBJECT;
 var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options, context) {
-    var e_6, _a;
+    var e_7, _a;
     var cursor = offset + encode_1.FLOOR__ENUM_VARINT(buffer, offset, Object.keys(value).length, {
         minimum: 0
     }, context);
@@ -154,18 +175,18 @@ var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options, cont
             cursor += index_1.encode(buffer, cursor, options.encoding, objectValue, context);
         }
     }
-    catch (e_6_1) { e_6 = { error: e_6_1 }; }
+    catch (e_7_1) { e_7 = { error: e_7_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_6) throw e_6.error; }
+        finally { if (e_7) throw e_7.error; }
     }
     return cursor - offset;
 };
 exports.ARBITRARY_TYPED_KEYS_OBJECT = ARBITRARY_TYPED_KEYS_OBJECT;
 var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
-    var e_7, _a;
+    var e_8, _a;
     assert_1.strict(options.requiredProperties.length > 0);
     var required = new Set(options.requiredProperties);
     var requiredSubset = {};
@@ -176,16 +197,17 @@ var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, 
             Reflect.set(required.has(key) ? requiredSubset : rest, key, value[key]);
         }
     }
-    catch (e_7_1) { e_7 = { error: e_7_1 }; }
+    catch (e_8_1) { e_8 = { error: e_8_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_7) throw e_7.error; }
+        finally { if (e_8) throw e_8.error; }
     }
     var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset, requiredSubset, {
         propertyEncodings: options.propertyEncodings,
-        requiredProperties: options.requiredProperties
+        requiredProperties: options.requiredProperties,
+        booleanRequiredProperties: options.booleanRequiredProperties
     }, context);
     return requiredBytes + exports.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
         keyEncoding: options.keyEncoding,
@@ -194,7 +216,7 @@ var REQUIRED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, 
 };
 exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = REQUIRED_UNBOUNDED_TYPED_OBJECT;
 var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
-    var e_8, _a;
+    var e_9, _a;
     assert_1.strict(Object.keys(options.propertyEncodings).length === options.optionalProperties.length);
     var optional = new Set(options.optionalProperties);
     var optionalSubset = {};
@@ -205,12 +227,12 @@ var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, 
             Reflect.set(optional.has(key) ? optionalSubset : rest, key, value[key]);
         }
     }
-    catch (e_8_1) { e_8 = { error: e_8_1 }; }
+    catch (e_9_1) { e_9 = { error: e_9_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_8) throw e_8.error; }
+        finally { if (e_9) throw e_9.error; }
     }
     var optionalBytes = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset, optionalSubset, {
         propertyEncodings: options.propertyEncodings,
@@ -223,7 +245,7 @@ var OPTIONAL_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, 
 };
 exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = OPTIONAL_UNBOUNDED_TYPED_OBJECT;
 var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
-    var e_9, _a;
+    var e_10, _a;
     var required = new Set(options.requiredProperties);
     var optional = new Set(options.optionalProperties);
     var requiredSubset = {};
@@ -243,16 +265,17 @@ var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, con
             }
         }
     }
-    catch (e_9_1) { e_9 = { error: e_9_1 }; }
+    catch (e_10_1) { e_10 = { error: e_10_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_9) throw e_9.error; }
+        finally { if (e_10) throw e_10.error; }
     }
     var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset, requiredSubset, {
         propertyEncodings: options.propertyEncodings,
-        requiredProperties: options.requiredProperties
+        requiredProperties: options.requiredProperties,
+        booleanRequiredProperties: options.booleanRequiredProperties
     }, context);
     var optionalBytes = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, offset + requiredBytes, optionalSubset, {
         propertyEncodings: options.propertyEncodings,

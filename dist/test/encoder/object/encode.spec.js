@@ -122,6 +122,7 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
         baz: 1
     }, {
         requiredProperties: ['baz', 'foo'],
+        booleanRequiredProperties: [],
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
@@ -139,6 +140,163 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
     test.is(bytesWritten, 5);
     test.end();
 });
+tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1,baz:true,qux:false}', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(6));
+    var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: 'bar',
+        bar: 1,
+        baz: true,
+        qux: false
+    }, {
+        requiredProperties: ['bar', 'foo'],
+        booleanRequiredProperties: ['baz', 'qux'],
+        propertyEncodings: {
+            foo: mapper_1.getEncoding({
+                type: 'string'
+            }),
+            bar: mapper_1.getEncoding({
+                type: 'integer',
+                minimum: 0
+            }),
+            baz: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            qux: mapper_1.getEncoding({
+                type: 'boolean'
+            })
+        }
+    }, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        1,
+        0x01,
+        0x04, 0x62, 0x61, 0x72
+    ]));
+    test.is(bytesWritten, 6);
+    test.end();
+});
+tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode three boolean properties', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: true,
+        bar: false,
+        baz: true
+    }, {
+        requiredProperties: [],
+        booleanRequiredProperties: ['foo', 'bar', 'baz'],
+        propertyEncodings: {
+            foo: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            bar: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            baz: mapper_1.getEncoding({
+                type: 'boolean'
+            })
+        }
+    }, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([5]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
+tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode eight boolean properties', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: true,
+        bar: false,
+        baz: true,
+        qux: true,
+        xxx: false,
+        yyy: false,
+        zzz: true,
+        qqq: true
+    }, {
+        requiredProperties: [],
+        booleanRequiredProperties: ['foo', 'bar', 'baz', 'qux', 'xxx', 'yyy', 'zzz', 'qqq'],
+        propertyEncodings: {
+            foo: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            bar: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            baz: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            qux: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            xxx: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            yyy: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            zzz: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            qqq: mapper_1.getEncoding({
+                type: 'boolean'
+            })
+        }
+    }, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([205]));
+    test.is(bytesWritten, 1);
+    test.end();
+});
+tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode nine boolean properties', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
+    var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+        foo: true,
+        bar: false,
+        baz: true,
+        qux: true,
+        xxx: false,
+        yyy: false,
+        zzz: true,
+        qqq: true,
+        ppp: false
+    }, {
+        requiredProperties: [],
+        booleanRequiredProperties: ['foo', 'bar', 'baz', 'qux', 'xxx', 'yyy', 'zzz', 'qqq', 'ppp'],
+        propertyEncodings: {
+            foo: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            bar: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            baz: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            qux: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            xxx: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            yyy: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            zzz: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            qqq: mapper_1.getEncoding({
+                type: 'boolean'
+            }),
+            ppp: mapper_1.getEncoding({
+                type: 'boolean'
+            })
+        }
+    }, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([205, 0x00]));
+    test.is(bytesWritten, 2);
+    test.end();
+});
 tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one required', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(7));
@@ -147,6 +305,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         baz: 1
     }, {
         requiredProperties: ['foo'],
+        booleanRequiredProperties: [],
         optionalProperties: ['baz'],
         propertyEncodings: {
             foo: mapper_1.getEncoding({
@@ -173,6 +332,7 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         foo: 'bar'
     }, {
         requiredProperties: ['foo'],
+        booleanRequiredProperties: [],
         optionalProperties: ['baz'],
         propertyEncodings: {
             foo: mapper_1.getEncoding({
@@ -199,6 +359,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         baz: 1
     }, {
         requiredProperties: ['foo'],
+        booleanRequiredProperties: [],
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
@@ -229,6 +390,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
         foo: 'bar'
     }, {
         requiredProperties: ['foo'],
+        booleanRequiredProperties: [],
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
@@ -291,6 +453,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
         qux: null
     }, {
         requiredProperties: ['foo'],
+        booleanRequiredProperties: [],
         optionalProperties: ['baz'],
         keyEncoding: string_1.getStringEncoding({
             type: 'string'

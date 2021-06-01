@@ -195,6 +195,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
     baz: 1
   }, {
     requiredProperties: [ 'baz', 'foo' ],
+    booleanRequiredProperties: [],
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
@@ -218,6 +219,177 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz
   test.end()
 })
 
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1,baz:true,qux:false}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
+  const bytesWritten: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: 'bar',
+    bar: 1,
+    baz: true,
+    qux: false
+  }, {
+    requiredProperties: [ 'bar', 'foo' ],
+    booleanRequiredProperties: [ 'baz', 'qux' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'string'
+      }),
+      bar: getEncoding({
+        type: 'integer',
+        minimum: 0
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      }),
+      qux: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    // Bitset
+    0b00000001,
+
+    // 1
+    0x01,
+
+    // "bar"
+    0x04, 0x62, 0x61, 0x72
+  ]))
+
+  test.is(bytesWritten, 6)
+  test.end()
+})
+
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode three boolean properties', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const bytesWritten: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: true,
+    bar: false,
+    baz: true
+  }, {
+    requiredProperties: [],
+    booleanRequiredProperties: [ 'foo', 'bar', 'baz' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'boolean'
+      }),
+      bar: getEncoding({
+        type: 'boolean'
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0b00000101 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode eight boolean properties', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const bytesWritten: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: true,
+    bar: false,
+    baz: true,
+    qux: true,
+    xxx: false,
+    yyy: false,
+    zzz: true,
+    qqq: true
+  }, {
+    requiredProperties: [],
+    booleanRequiredProperties: [ 'foo', 'bar', 'baz', 'qux', 'xxx', 'yyy', 'zzz', 'qqq' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'boolean'
+      }),
+      bar: getEncoding({
+        type: 'boolean'
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      }),
+      qux: getEncoding({
+        type: 'boolean'
+      }),
+      xxx: getEncoding({
+        type: 'boolean'
+      }),
+      yyy: getEncoding({
+        type: 'boolean'
+      }),
+      zzz: getEncoding({
+        type: 'boolean'
+      }),
+      qqq: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0b11001101 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode nine boolean properties', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
+  const bytesWritten: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, {
+    foo: true,
+    bar: false,
+    baz: true,
+    qux: true,
+    xxx: false,
+    yyy: false,
+    zzz: true,
+    qqq: true,
+    ppp: false
+  }, {
+    requiredProperties: [],
+    booleanRequiredProperties: [ 'foo', 'bar', 'baz', 'qux', 'xxx', 'yyy', 'zzz', 'qqq', 'ppp' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'boolean'
+      }),
+      bar: getEncoding({
+        type: 'boolean'
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      }),
+      qux: getEncoding({
+        type: 'boolean'
+      }),
+      xxx: getEncoding({
+        type: 'boolean'
+      }),
+      yyy: getEncoding({
+        type: 'boolean'
+      }),
+      zzz: getEncoding({
+        type: 'boolean'
+      }),
+      qqq: getEncoding({
+        type: 'boolean'
+      }),
+      ppp: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0b11001101, 0x00 ]))
+  test.is(bytesWritten, 2)
+  test.end()
+})
+
 tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with one required', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
@@ -226,6 +398,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
     baz: 1
   }, {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     optionalProperties: [ 'baz' ],
     propertyEncodings: {
       foo: getEncoding({
@@ -260,6 +433,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",baz:1} with
     foo: 'bar'
   }, {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     optionalProperties: [ 'baz' ],
     propertyEncodings: {
       foo: getEncoding({
@@ -292,6 +466,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
     baz: 1
   }, {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
@@ -332,6 +507,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (te
     foo: 'bar'
   }, {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
@@ -412,6 +588,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
     qux: null
   }, {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     optionalProperties: [ 'baz' ],
     keyEncoding: getStringEncoding({
       type: 'string'

@@ -25,11 +25,13 @@ import {
 } from './bitset'
 
 import {
-  JSONObject
+  JSONObject,
+  JSONValue
 } from '../../json'
 
 import {
-  encode
+  encode,
+  EncodingType
 } from '../index'
 
 import {
@@ -54,13 +56,27 @@ import {
   EncodingContext
 } from '../context'
 
+import {
+  BYTE_BITS
+} from '../../utils/limits'
+
 export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: RequiredBoundedTypedOptions, context: EncodingContext
 ): number => {
-  assert(Object.keys(value).length === options.requiredProperties.length)
+  assert(Object.keys(value).length === options.requiredProperties.length + options.booleanRequiredProperties.length)
 
-  let cursor: number = offset
-  for (const key of options.requiredProperties) {
+  const booleanBits: boolean[] = []
+  for (const key of options.booleanRequiredProperties.slice(0, BYTE_BITS)) {
+    const bit: JSONValue = value[key]
+    assert(typeof bit === 'boolean')
+    assert(typeof options.propertyEncodings[key] !== 'undefined')
+    assert(options.propertyEncodings[key].type === EncodingType.Boolean)
+    booleanBits.push(bit)
+  }
+  const booleanBytes: number = bitsetEncode(buffer, offset, booleanBits)
+
+  let cursor: number = offset + booleanBytes
+  for (const key of options.booleanRequiredProperties.slice(BYTE_BITS).concat(options.requiredProperties)) {
     const encoding: Encoding | undefined = options.propertyEncodings[key]
     assert(typeof encoding !== 'undefined')
     cursor += encode(buffer, cursor, encoding, value[key], context)
@@ -120,7 +136,8 @@ export const MIXED_BOUNDED_TYPED_OBJECT = (
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties
     }, context)
 
   return requiredBytes + NON_REQUIRED_BOUNDED_TYPED_OBJECT(
@@ -162,7 +179,8 @@ export const REQUIRED_UNBOUNDED_TYPED_OBJECT = (
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties
     }, context)
 
   return requiredBytes + ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + requiredBytes, rest, {
@@ -219,7 +237,8 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, offset, requiredSubset, {
       propertyEncodings: options.propertyEncodings,
-      requiredProperties: options.requiredProperties
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties
     }, context)
 
   const optionalBytes: number = NON_REQUIRED_BOUNDED_TYPED_OBJECT(

@@ -225,6 +225,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =
 
   const options: RequiredBoundedTypedOptions = {
     requiredProperties: [ 'baz', 'foo' ],
+    booleanRequiredProperties: [],
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
@@ -257,6 +258,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required'
 
   const options: BoundedTypedOptions = {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     optionalProperties: [ 'baz' ],
     propertyEncodings: {
       foo: getEncoding({
@@ -286,6 +288,7 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optiona
 
   const options: BoundedTypedOptions = {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     optionalProperties: [ 'baz' ],
     propertyEncodings: {
       foo: getEncoding({
@@ -316,6 +319,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
 
   const options: RequiredUnboundedTypedOptions = {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
@@ -348,6 +352,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
 
   const options: RequiredUnboundedTypedOptions = {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
@@ -417,6 +422,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test
 
   const options: UnboundedTypedOptions = {
     requiredProperties: [ 'foo' ],
+    booleanRequiredProperties: [],
     optionalProperties: [ 'baz' ],
     keyEncoding: getStringEncoding({
       type: 'string'
@@ -440,6 +446,199 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test
   const bytesWritten: number = ENCODE_MIXED_UNBOUNDED_TYPED_OBJECT(
     buffer, 0, value, options, context)
   const result: ObjectResult = DECODE_MIXED_UNBOUNDED_TYPED_OBJECT(
+    buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1,baz:true,qux:false}', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(6))
+  const value: JSONObject = {
+    foo: 'bar',
+    bar: 1,
+    baz: true,
+    qux: false
+  }
+
+  const options: RequiredBoundedTypedOptions = {
+    requiredProperties: [ 'bar', 'foo' ],
+    booleanRequiredProperties: [ 'baz', 'qux' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'string'
+      }),
+      bar: getEncoding({
+        type: 'integer',
+        minimum: 0
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      }),
+      qux: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, 0, value, options, context)
+
+  const result: ObjectResult = DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: three boolean properties', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const value: JSONObject = {
+    foo: true,
+    bar: false,
+    baz: true
+  }
+
+  const options: RequiredBoundedTypedOptions = {
+    requiredProperties: [],
+    booleanRequiredProperties: [ 'foo', 'bar', 'baz' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'boolean'
+      }),
+      bar: getEncoding({
+        type: 'boolean'
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, 0, value, options, context)
+
+  const result: ObjectResult = DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: eight boolean properties', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const value: JSONObject = {
+    foo: true,
+    bar: false,
+    baz: true,
+    qux: true,
+    xxx: false,
+    yyy: false,
+    zzz: true,
+    qqq: true
+  }
+
+  const options: RequiredBoundedTypedOptions = {
+    requiredProperties: [],
+    booleanRequiredProperties: [ 'foo', 'bar', 'baz', 'qux', 'xxx', 'yyy', 'zzz', 'qqq' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'boolean'
+      }),
+      bar: getEncoding({
+        type: 'boolean'
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      }),
+      qux: getEncoding({
+        type: 'boolean'
+      }),
+      xxx: getEncoding({
+        type: 'boolean'
+      }),
+      yyy: getEncoding({
+        type: 'boolean'
+      }),
+      zzz: getEncoding({
+        type: 'boolean'
+      }),
+      qqq: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, 0, value, options, context)
+
+  const result: ObjectResult = DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: nine boolean properties', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
+  const value: JSONObject = {
+    foo: true,
+    bar: false,
+    baz: true,
+    qux: true,
+    xxx: false,
+    yyy: false,
+    zzz: true,
+    qqq: true,
+    ppp: false
+  }
+
+  const options: RequiredBoundedTypedOptions = {
+    requiredProperties: [],
+    booleanRequiredProperties: [ 'foo', 'bar', 'baz', 'qux', 'xxx', 'yyy', 'zzz', 'qqq', 'ppp' ],
+    propertyEncodings: {
+      foo: getEncoding({
+        type: 'boolean'
+      }),
+      bar: getEncoding({
+        type: 'boolean'
+      }),
+      baz: getEncoding({
+        type: 'boolean'
+      }),
+      qux: getEncoding({
+        type: 'boolean'
+      }),
+      xxx: getEncoding({
+        type: 'boolean'
+      }),
+      yyy: getEncoding({
+        type: 'boolean'
+      }),
+      zzz: getEncoding({
+        type: 'boolean'
+      }),
+      qqq: getEncoding({
+        type: 'boolean'
+      }),
+      ppp: getEncoding({
+        type: 'boolean'
+      })
+    }
+  }
+
+  const bytesWritten: number = ENCODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, 0, value, options, context)
+
+  const result: ObjectResult = DECODE_REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
     buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
