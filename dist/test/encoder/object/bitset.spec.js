@@ -54,6 +54,65 @@ tap_1.default.test('should encode [ false, false, true, false, true, true, false
     test.is(bytesWritten, 2);
     test.end();
 });
+tap_1.default.test('should encode [ false, false, false, false, false, false, false, false, true ] as 0000 0000 0000 0001', function (test) {
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
+    var offset = 0;
+    var bits = [false, false, false, false, false, false, false, false, true];
+    var bytesWritten = bitset_1.bitsetEncode(buffer, offset, bits);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x00, 1]));
+    test.is(bytesWritten, 2);
+    test.end();
+});
+tap_1.default.test('should encode [ true x 255 ]', function (test) {
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(32));
+    var offset = 0;
+    var bits = Array(255).fill(true);
+    var bytesWritten = bitset_1.bitsetEncode(buffer, offset, bits);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        127
+    ]));
+    test.is(bytesWritten, 32);
+    test.end();
+});
+tap_1.default.test('should decode 0000 0000 0000 0001 as [ false, false, false, false, false, false, false, false, true ]', function (test) {
+    var offset = 0;
+    var buffer = new encoder_1.ResizableBuffer(Buffer.from([0x00, 0xb00000001]));
+    var result = bitset_1.bitsetDecode(buffer, offset, 9);
+    test.strictSame(result.value, [false, false, false, false, false, false, false, false, true]);
+    test.is(result.bytes, 2);
+    test.end();
+});
 tap_1.default.test('should decode 0000 0001 as [ true ]', function (test) {
     var offset = 0;
     var buffer = new encoder_1.ResizableBuffer(Buffer.from([1]));
@@ -71,7 +130,10 @@ tap_1.default.test('should decode 0001 0100 as [ false, false, true, false, true
     test.end();
 });
 tap_1.default.test('should encode/decode random arrays of booleans', function (test) {
-    fc.assert(fc.property(fc.array(fc.boolean()), function (value) {
+    fc.assert(fc.property(fc.array(fc.boolean(), {
+        minLength: 0,
+        maxLength: 255
+    }), function (value) {
         var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(value.length));
         var offset = 0;
         var bytesWritten = bitset_1.bitsetEncode(buffer, offset, value);

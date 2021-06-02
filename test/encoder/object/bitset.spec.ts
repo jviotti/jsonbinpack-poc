@@ -58,6 +58,68 @@ tap.test('should encode [ false, false, true, false, true, true, false, true, tr
   test.end()
 })
 
+tap.test('should encode [ false, false, false, false, false, false, false, false, true ] as 0000 0000 0000 0001', (test) => {
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
+  const offset: number = 0
+  const bits: boolean[] = [ false, false, false, false, false, false, false, false, true ]
+  const bytesWritten: number = bitsetEncode(buffer, offset, bits)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00, 0b00000001 ]))
+  test.is(bytesWritten, 2)
+  test.end()
+})
+
+tap.test('should encode [ true x 255 ]', (test) => {
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(32))
+  const offset: number = 0
+  const bits: boolean[] = Array(255).fill(true)
+  const bytesWritten: number = bitsetEncode(buffer, offset, bits)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b01111111
+  ]))
+  test.is(bytesWritten, 32)
+  test.end()
+})
+
+tap.test('should decode 0000 0000 0000 0001 as [ false, false, false, false, false, false, false, false, true ]', (test) => {
+  const offset: number = 0
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.from([ 0x00, 0xb00000001 ]))
+  const result: BitsetResult = bitsetDecode(buffer, offset, 9)
+  test.strictSame(result.value, [ false, false, false, false, false, false, false, false, true ])
+  test.is(result.bytes, 2)
+  test.end()
+})
+
 tap.test('should decode 0000 0001 as [ true ]', (test) => {
   const offset: number = 0
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.from([ 0b00000001 ]))
@@ -77,7 +139,10 @@ tap.test('should decode 0001 0100 as [ false, false, true, false, true ]', (test
 })
 
 tap.test('should encode/decode random arrays of booleans', (test) => {
-  fc.assert(fc.property(fc.array(fc.boolean()), (value: boolean[]): boolean => {
+  fc.assert(fc.property(fc.array(fc.boolean(), {
+    minLength: 0,
+    maxLength: 255
+  }), (value: boolean[]): boolean => {
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(value.length))
     const offset: number = 0
     const bytesWritten: number = bitsetEncode(buffer, offset, value)
