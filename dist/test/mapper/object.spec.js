@@ -797,3 +797,81 @@ tap_1.default.test('should encode a bounded empty object', function (test) {
     });
     test.end();
 });
+tap_1.default.test('should encode an unbounded object with bounded integers', function (test) {
+    var schema = {
+        type: 'object',
+        additionalProperties: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 2
+        },
+        required: ['foo', 'bar', 'baz', 'name', 'qux'],
+        properties: {
+            name: {
+                type: 'string'
+            }
+        }
+    };
+    var result = mapper_1.getEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+        options: {
+            encoding: {
+                type: 'integer',
+                encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                options: {
+                    minimum: 0,
+                    maximum: 2
+                }
+            },
+            propertyEncodings: {
+                name: {
+                    type: 'string',
+                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                    options: {}
+                },
+                foo: {
+                    type: 'integer',
+                    encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                    options: {
+                        minimum: 0,
+                        maximum: 2
+                    }
+                },
+                bar: {
+                    type: 'integer',
+                    encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                    options: {
+                        minimum: 0,
+                        maximum: 2
+                    }
+                },
+                baz: {
+                    type: 'integer',
+                    encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                    options: {
+                        minimum: 0,
+                        maximum: 2
+                    }
+                },
+                qux: {
+                    type: 'integer',
+                    encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                    options: {
+                        minimum: 0,
+                        maximum: 2
+                    }
+                }
+            },
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            },
+            booleanRequiredProperties: [],
+            requiredProperties: ['bar', 'baz', 'foo', 'name', 'qux']
+        }
+    });
+    test.end();
+});
