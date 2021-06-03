@@ -28,6 +28,7 @@ var __read = (this && this.__read) || function (o, n) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bitsetDecode = exports.bitsetEncode = void 0;
+var limits_1 = require("../../utils/limits");
 var getBytesToStoreBits = function (bits) {
     return ((bits + 7) & (-8)) / 8;
 };
@@ -37,23 +38,30 @@ var bitsetEncode = function (buffer, offset, bits) {
         return 0;
     }
     var bytes = getBytesToStoreBits(bits.length);
-    var result = 0;
-    try {
-        for (var _b = __values(bits.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
-            var _d = __read(_c.value, 2), index = _d[0], bit = _d[1];
-            if (bit) {
-                result |= (1 << index);
+    var written = 0;
+    while (written < bytes) {
+        var chunkIndex = written * limits_1.BYTE_BITS;
+        var chunk = bits.slice(chunkIndex, chunkIndex + limits_1.BYTE_BITS);
+        var result = 0;
+        try {
+            for (var _b = (e_1 = void 0, __values(chunk.entries())), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var _d = __read(_c.value, 2), index = _d[0], bit = _d[1];
+                if (bit) {
+                    result |= (1 << index);
+                }
             }
         }
-    }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-    finally {
-        try {
-            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_1) throw e_1.error; }
         }
-        finally { if (e_1) throw e_1.error; }
+        var currentOffset = offset + written;
+        written += buffer.writeUInt8(result >>> 0, currentOffset) - currentOffset;
     }
-    return buffer.writeUIntLE(result >>> 0, offset, bytes) - offset;
+    return written;
 };
 exports.bitsetEncode = bitsetEncode;
 var bitsetDecode = function (buffer, offset, length) {
@@ -64,10 +72,16 @@ var bitsetDecode = function (buffer, offset, length) {
         };
     }
     var bytes = getBytesToStoreBits(length);
-    var value = buffer.readUIntLE(offset, bytes);
     var result = [];
-    while (result.length < length) {
-        result.push(Boolean((1 << result.length) & value));
+    var cursor = 0;
+    while (cursor < bytes) {
+        var value = buffer.readUInt8(offset + cursor);
+        var bit = 0;
+        while (result.length < length && bit < limits_1.BYTE_BITS) {
+            result.push(Boolean((1 << (result.length % limits_1.BYTE_BITS)) & value));
+            bit += 1;
+        }
+        cursor += 1;
     }
     return {
         value: result,

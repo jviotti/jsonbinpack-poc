@@ -20,6 +20,10 @@ import {
   DecodeResult
 } from '../index'
 
+import {
+  BYTE_BITS
+} from '../../utils/limits'
+
 const getBytesToStoreBits = (bits: number): number => {
   return ((bits + 7) & (-8)) / 8
 }
@@ -32,14 +36,23 @@ export const bitsetEncode = (
   }
 
   const bytes: number = getBytesToStoreBits(bits.length)
-  let result: number = 0
-  for (const [ index, bit ] of bits.entries()) {
-    if (bit) {
-      result |= (1 << index)
+  let written: number = 0
+  while (written < bytes) {
+    const chunkIndex: number = written * BYTE_BITS
+    const chunk: boolean[] = bits.slice(chunkIndex, chunkIndex + BYTE_BITS)
+
+    let result: number = 0
+    for (const [ index, bit ] of chunk.entries()) {
+      if (bit) {
+        result |= (1 << index)
+      }
     }
+
+    const currentOffset: number = offset + written
+    written += buffer.writeUInt8(result >>> 0, currentOffset) - currentOffset
   }
 
-  return buffer.writeUIntLE(result >>> 0, offset, bytes) - offset
+  return written
 }
 
 export interface BitsetResult extends DecodeResult {
@@ -57,11 +70,19 @@ export const bitsetDecode = (
   }
 
   const bytes: number = getBytesToStoreBits(length)
-  const value: number = buffer.readUIntLE(offset, bytes)
   const result: boolean[] = []
 
-  while (result.length < length) {
-    result.push(Boolean((1 << result.length) & value))
+  let cursor: number = 0
+  while (cursor < bytes) {
+    const value: number = buffer.readUInt8(offset + cursor)
+
+    let bit: number = 0
+    while (result.length < length && bit < BYTE_BITS) {
+      result.push(Boolean((1 << (result.length % BYTE_BITS)) & value))
+      bit += 1
+    }
+
+    cursor += 1
   }
 
   return {
