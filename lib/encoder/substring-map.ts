@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-import SubstringMap from './substring-map'
+// TODO: We should have a better data structure here
+// that supports searching for any substring of a string
+// in a bucket
 
-export interface EncodingContext {
-  readonly strings: SubstringMap;
-}
+export default class SubstringMap {
+  private data: Map<string, number>;
 
-export const getDefaultEncodingContext = (): EncodingContext => {
-  return {
-    strings: new SubstringMap()
+  constructor () {
+    this.data = new Map()
+  }
+
+  public has (value: string): boolean {
+    return this.data.has(value)
+  }
+
+  public get (value: string): number | undefined {
+    return this.data.get(value)
+  }
+
+  public set (value: string, offset: number): void {
+    this.data.set(value, offset)
   }
 }
