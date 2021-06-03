@@ -26,6 +26,11 @@ import {
 } from './bitset'
 
 import {
+  IntegerListResult,
+  integerListDecode
+} from './integer-list'
+
+import {
   JSONObject
 } from '../../json'
 
@@ -41,7 +46,8 @@ import {
   UnboundedTypedOptions,
   TypedKeysOptions,
   OptionalBoundedTypedOptions,
-  RequiredBoundedTypedOptions
+  RequiredBoundedTypedOptions,
+  PackedUnboundedOptions
 } from './options'
 
 import {
@@ -243,5 +249,34 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
   return {
     bytes: requiredResult.bytes + optionalResult.bytes + arbitraryResult.bytes,
     value: Object.assign(requiredResult.value, optionalResult.value, arbitraryResult.value)
+  }
+}
+
+export const PACKED_UNBOUNDED_OBJECT = (
+  buffer: ResizableBuffer, offset: number, options: PackedUnboundedOptions
+): ObjectResult => {
+  const packedResult: IntegerListResult = integerListDecode(buffer, offset, {
+    minimum: options.packedEncoding.options.minimum,
+    maximum: options.packedEncoding.options.maximum
+  })
+
+  const result: JSONObject = {}
+  for (const [ index, key ] of options.packedRequiredProperties.entries()) {
+    Reflect.set(result, key, packedResult.value[index])
+  }
+
+  const rest: ObjectResult = MIXED_UNBOUNDED_TYPED_OBJECT(
+    buffer, offset + packedResult.bytes, {
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties,
+      optionalProperties: options.optionalProperties,
+      keyEncoding: options.keyEncoding,
+      encoding: options.packedEncoding,
+      propertyEncodings: options.propertyEncodings
+    })
+
+  return {
+    value: Object.assign(result, rest.value),
+    bytes: packedResult.bytes + rest.bytes
   }
 }

@@ -293,7 +293,7 @@ exports.MIXED_UNBOUNDED_TYPED_OBJECT = MIXED_UNBOUNDED_TYPED_OBJECT;
 var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, value, options, context) {
     var e_11, _a;
     var packedValues = [];
-    var unpackedSubset = value;
+    var unpackedSubset = Object.assign({}, value);
     try {
         for (var _b = __values(options.packedRequiredProperties), _c = _b.next(); !_c.done; _c = _b.next()) {
             var key = _c.value;

@@ -266,7 +266,7 @@ export const PACKED_UNBOUNDED_OBJECT = (
   options: PackedUnboundedOptions, context: EncodingContext
 ): number => {
   const packedValues: number[] = []
-  const unpackedSubset: JSONObject = value
+  const unpackedSubset: JSONObject = Object.assign({}, value)
 
   for (const key of options.packedRequiredProperties) {
     const integer: JSONValue = value[key]
