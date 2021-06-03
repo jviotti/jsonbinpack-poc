@@ -897,10 +897,22 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
       minimum: 0,
       maximum: 2
     },
-    required: [ 'foo', 'bar', 'baz', 'name', 'qux' ],
+    required: [ 'foo', 'bar', 'baz', 'name', 'qux', 'extra', 'flag' ],
     properties: {
       name: {
         type: 'string'
+      },
+      age: {
+        type: 'integer',
+        minimum: 0
+      },
+      extra: {
+        type: 'integer',
+        minimum: 0,
+        maximum: 2
+      },
+      flag: {
+        type: 'boolean'
       }
     }
   }
@@ -908,9 +920,10 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
   const result: Encoding = getEncoding(schema)
   test.strictSame(result, {
     type: 'object',
-    encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
+    encoding: 'PACKED_UNBOUNDED_OBJECT',
     options: {
-      encoding: {
+      packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
+      packedEncoding: {
         type: 'integer',
         encoding: 'BOUNDED_8BITS__ENUM_FIXED',
         options: {
@@ -924,46 +937,27 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
           encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
           options: {}
         },
-        foo: {
+        age: {
           type: 'integer',
-          encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+          encoding: 'FLOOR__ENUM_VARINT',
           options: {
-            minimum: 0,
-            maximum: 2
+            minimum: 0
           }
         },
-        bar: {
-          type: 'integer',
-          encoding: 'BOUNDED_8BITS__ENUM_FIXED',
-          options: {
-            minimum: 0,
-            maximum: 2
-          }
-        },
-        baz: {
-          type: 'integer',
-          encoding: 'BOUNDED_8BITS__ENUM_FIXED',
-          options: {
-            minimum: 0,
-            maximum: 2
-          }
-        },
-        qux: {
-          type: 'integer',
-          encoding: 'BOUNDED_8BITS__ENUM_FIXED',
-          options: {
-            minimum: 0,
-            maximum: 2
-          }
+        flag: {
+          type: 'boolean',
+          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+          options: {}
         }
       },
+      optionalProperties: [ 'age' ],
+      requiredProperties: [ 'name' ],
+      booleanRequiredProperties: [ 'flag' ],
       keyEncoding: {
         type: 'string',
         encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
         options: {}
-      },
-      booleanRequiredProperties: [],
-      requiredProperties: [ 'bar', 'baz', 'foo', 'name', 'qux' ]
+      }
     }
   })
 
