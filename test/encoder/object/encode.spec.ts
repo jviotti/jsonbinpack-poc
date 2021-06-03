@@ -23,7 +23,8 @@ import {
   MIXED_BOUNDED_TYPED_OBJECT,
   REQUIRED_UNBOUNDED_TYPED_OBJECT,
   OPTIONAL_UNBOUNDED_TYPED_OBJECT,
-  MIXED_UNBOUNDED_TYPED_OBJECT
+  MIXED_UNBOUNDED_TYPED_OBJECT,
+  PACKED_UNBOUNDED_OBJECT
 } from '../../../lib/encoder/object/encode'
 
 import {
@@ -644,5 +645,66 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
   ]))
 
   test.is(bytesWritten, 13)
+  test.end()
+})
+
+tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(20))
+  const bytesWritten: number = PACKED_UNBOUNDED_OBJECT(buffer, 0, {
+    foo: 1,
+    bar: 2,
+    baz: 0,
+    qux: 2,
+    extra: 1,
+    name: 'john',
+    flag: true,
+    random: 1
+  }, {
+    packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
+    packedEncoding: {
+      type: EncodingType.Integer,
+      encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+      options: {
+        minimum: 0,
+        maximum: 2
+      }
+    },
+    propertyEncodings: {
+      name: getEncoding({
+        type: 'string'
+      }),
+      age: getEncoding({
+        type: 'integer',
+        minimum: 0
+      }),
+      flag: getEncoding({
+        type: 'boolean'
+      })
+    },
+    optionalProperties: [ 'age' ],
+    requiredProperties: [ 'name' ],
+    booleanRequiredProperties: [ 'flag' ],
+    keyEncoding: getStringEncoding({
+      type: 'string'
+    })
+  }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x05, // Amount of packed integers
+    0b10100001, // REVERSE(10 (bar) 00 (baz) 01 (extra) 01 (foo))
+    0b00000001, // REVERSE(10 (qux) 000000)
+    0x01, // true (flag)
+    0x05, // string length (4)
+    0x6a, 0x6f, 0x68, 0x6e, // 'john'
+    0x01, // Optional bitset length = 1
+    0x00, // Optional properties bitset = 0
+    0x01, // Extra properties length = 1
+    0x07, // string length (6)
+    0x72, 0x61, 0x6e, 0x64, 0x6f, 0x6d, // 'random'
+    0x01 // 1 (random)
+  ]))
+
+  test.is(bytesWritten, 20)
   test.end()
 })

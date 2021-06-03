@@ -496,3 +496,61 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
     test.is(bytesWritten, 13);
     test.end();
 });
+tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(20));
+    var bytesWritten = encode_1.PACKED_UNBOUNDED_OBJECT(buffer, 0, {
+        foo: 1,
+        bar: 2,
+        baz: 0,
+        qux: 2,
+        extra: 1,
+        name: 'john',
+        flag: true,
+        random: 1
+    }, {
+        packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
+        packedEncoding: {
+            type: encoder_1.EncodingType.Integer,
+            encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+            options: {
+                minimum: 0,
+                maximum: 2
+            }
+        },
+        propertyEncodings: {
+            name: mapper_1.getEncoding({
+                type: 'string'
+            }),
+            age: mapper_1.getEncoding({
+                type: 'integer',
+                minimum: 0
+            }),
+            flag: mapper_1.getEncoding({
+                type: 'boolean'
+            })
+        },
+        optionalProperties: ['age'],
+        requiredProperties: ['name'],
+        booleanRequiredProperties: ['flag'],
+        keyEncoding: string_1.getStringEncoding({
+            type: 'string'
+        })
+    }, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x05,
+        161,
+        1,
+        0x01,
+        0x05,
+        0x6a, 0x6f, 0x68, 0x6e,
+        0x01,
+        0x00,
+        0x01,
+        0x07,
+        0x72, 0x61, 0x6e, 0x64, 0x6f, 0x6d,
+        0x01
+    ]));
+    test.is(bytesWritten, 20);
+    test.end();
+});
