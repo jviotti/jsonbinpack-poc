@@ -12,6 +12,7 @@ var __values = (this && this.__values) || function(o) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getObjectEncoding = void 0;
+var util_1 = require("util");
 var string_1 = require("./string");
 var index_1 = require("./index");
 var encoder_1 = require("../encoder");
@@ -24,10 +25,10 @@ var parseAdditionalProperties = function (value) {
     return index_1.getEncoding(schema);
 };
 var getObjectEncoding = function (schema) {
-    var e_1, _a, e_2, _b;
-    var _c, _d, _e, _f, _g;
+    var e_1, _a, e_2, _b, e_3, _c;
+    var _d, _e, _f, _g, _h, _j, _k;
     var additionalProperties = parseAdditionalProperties(schema.additionalProperties);
-    var properties = (_c = schema.properties) !== null && _c !== void 0 ? _c : {};
+    var properties = (_d = schema.properties) !== null && _d !== void 0 ? _d : {};
     var propertyEncodings = Object.keys(properties)
         .reduce(function (accumulator, key) {
         accumulator[key] = index_1.getEncoding(properties[key]);
@@ -36,9 +37,9 @@ var getObjectEncoding = function (schema) {
     var unsortedRequiredBooleanProperties = [];
     var nonBooleanRequiredProperties = [];
     try {
-        for (var _h = __values((_d = schema.required) !== null && _d !== void 0 ? _d : []), _j = _h.next(); !_j.done; _j = _h.next()) {
-            var key = _j.value;
-            var encoding = (_f = (_e = propertyEncodings[key]) !== null && _e !== void 0 ? _e : additionalProperties) !== null && _f !== void 0 ? _f : null;
+        for (var _l = __values((_e = schema.required) !== null && _e !== void 0 ? _e : []), _m = _l.next(); !_m.done; _m = _l.next()) {
+            var key = _m.value;
+            var encoding = (_g = (_f = propertyEncodings[key]) !== null && _f !== void 0 ? _f : additionalProperties) !== null && _g !== void 0 ? _g : null;
             if (encoding !== null && encoding.type === encoder_1.EncodingType.Boolean) {
                 unsortedRequiredBooleanProperties.push(key);
             }
@@ -50,7 +51,7 @@ var getObjectEncoding = function (schema) {
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (_j && !_j.done && (_a = _h.return)) _a.call(_h);
+            if (_m && !_m.done && (_a = _l.return)) _a.call(_l);
         }
         finally { if (e_1) throw e_1.error; }
     }
@@ -83,7 +84,7 @@ var getObjectEncoding = function (schema) {
         }
         finally { if (e_2) throw e_2.error; }
     }
-    var keyEncoding = string_1.getStringEncoding((_g = schema.propertyNames) !== null && _g !== void 0 ? _g : {
+    var keyEncoding = string_1.getStringEncoding((_h = schema.propertyNames) !== null && _h !== void 0 ? _h : {
         type: 'string'
     });
     if (additionalProperties === null) {
@@ -116,6 +117,61 @@ var getObjectEncoding = function (schema) {
                 optionalProperties: optionalProperties,
                 requiredProperties: requiredProperties,
                 booleanRequiredProperties: booleanRequiredProperties
+            }
+        };
+    }
+    if (additionalProperties !== null &&
+        requiredProperties.length > 0 &&
+        additionalProperties.type === encoder_1.EncodingType.Integer &&
+        additionalProperties.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
+        var propertiesDefinition = (_j = schema.properties) !== null && _j !== void 0 ? _j : {};
+        var packedRequiredProperties_1 = [];
+        var unpackedRequiredProperties = [];
+        try {
+            for (var _o = __values((_k = schema.required) !== null && _k !== void 0 ? _k : []), _p = _o.next(); !_p.done; _p = _o.next()) {
+                var key = _p.value;
+                if (booleanRequiredProperties.includes(key)) {
+                    continue;
+                }
+                if (!(key in propertiesDefinition)) {
+                    packedRequiredProperties_1.push(key);
+                }
+                else if (util_1.isDeepStrictEqual(additionalProperties, index_1.getEncoding(propertiesDefinition[key]))) {
+                    packedRequiredProperties_1.push(key);
+                }
+                else {
+                    unpackedRequiredProperties.push(key);
+                }
+            }
+        }
+        catch (e_3_1) { e_3 = { error: e_3_1 }; }
+        finally {
+            try {
+                if (_p && !_p.done && (_c = _o.return)) _c.call(_o);
+            }
+            finally { if (e_3) throw e_3.error; }
+        }
+        var packedPropertyEncodings = Object.keys(propertyEncodings).reduce(function (accumulator, key) {
+            if (!packedRequiredProperties_1.includes(key)) {
+                accumulator[key] = propertyEncodings[key];
+            }
+            return accumulator;
+        }, {});
+        return {
+            type: encoder_1.EncodingType.Object,
+            encoding: 'PACKED_UNBOUNDED_OBJECT',
+            options: {
+                packedEncoding: additionalProperties,
+                packedRequiredProperties: packedRequiredProperties_1.sort(function (left, right) {
+                    return left.localeCompare(right);
+                }),
+                propertyEncodings: packedPropertyEncodings,
+                optionalProperties: optionalProperties,
+                requiredProperties: unpackedRequiredProperties.sort(function (left, right) {
+                    return left.localeCompare(right);
+                }),
+                booleanRequiredProperties: booleanRequiredProperties,
+                keyEncoding: keyEncoding
             }
         };
     }

@@ -511,3 +511,51 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: nine boolean properties'
     test.strictSame(result.value, value);
     test.end();
 });
+tap_1.default.test('PACKED_UNBOUNDED_OBJECT: complex object', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(20));
+    var value = {
+        foo: 1,
+        bar: 2,
+        baz: 0,
+        qux: 2,
+        extra: 1,
+        name: 'john',
+        flag: true,
+        random: 1
+    };
+    var options = {
+        packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
+        packedEncoding: {
+            type: encoder_1.EncodingType.Integer,
+            encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+            options: {
+                minimum: 0,
+                maximum: 2
+            }
+        },
+        propertyEncodings: {
+            name: mapper_1.getEncoding({
+                type: 'string'
+            }),
+            age: mapper_1.getEncoding({
+                type: 'integer',
+                minimum: 0
+            }),
+            flag: mapper_1.getEncoding({
+                type: 'boolean'
+            })
+        },
+        optionalProperties: ['age'],
+        requiredProperties: ['name'],
+        booleanRequiredProperties: ['flag'],
+        keyEncoding: string_1.getStringEncoding({
+            type: 'string'
+        })
+    };
+    var bytesWritten = encode_1.PACKED_UNBOUNDED_OBJECT(buffer, 0, value, options, context);
+    var result = decode_1.PACKED_UNBOUNDED_OBJECT(buffer, 0, options);
+    test.is(bytesWritten, result.bytes);
+    test.strictSame(result.value, value);
+    test.end();
+});

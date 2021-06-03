@@ -27,9 +27,10 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
+exports.PACKED_UNBOUNDED_OBJECT = exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var bitset_1 = require("./bitset");
+var integer_list_1 = require("./integer-list");
 var index_1 = require("../index");
 var encode_1 = require("../integer/encode");
 var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
@@ -289,3 +290,37 @@ var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, con
     }, context);
 };
 exports.MIXED_UNBOUNDED_TYPED_OBJECT = MIXED_UNBOUNDED_TYPED_OBJECT;
+var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, value, options, context) {
+    var e_11, _a;
+    var packedValues = [];
+    var unpackedSubset = Object.assign({}, value);
+    try {
+        for (var _b = __values(options.packedRequiredProperties), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var key = _c.value;
+            var integer = value[key];
+            assert_1.strict(typeof integer === 'number');
+            packedValues.push(integer);
+            Reflect.deleteProperty(unpackedSubset, key);
+        }
+    }
+    catch (e_11_1) { e_11 = { error: e_11_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_11) throw e_11.error; }
+    }
+    var packedBytes = integer_list_1.integerListEncode(buffer, offset, packedValues, {
+        minimum: options.packedEncoding.options.minimum,
+        maximum: options.packedEncoding.options.maximum
+    }, context);
+    return packedBytes + exports.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, offset + packedBytes, unpackedSubset, {
+        requiredProperties: options.requiredProperties,
+        booleanRequiredProperties: options.booleanRequiredProperties,
+        optionalProperties: options.optionalProperties,
+        keyEncoding: options.keyEncoding,
+        encoding: options.packedEncoding,
+        propertyEncodings: options.propertyEncodings
+    }, context);
+};
+exports.PACKED_UNBOUNDED_OBJECT = PACKED_UNBOUNDED_OBJECT;

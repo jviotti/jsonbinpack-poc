@@ -797,3 +797,75 @@ tap_1.default.test('should encode a bounded empty object', function (test) {
     });
     test.end();
 });
+tap_1.default.test('should encode an unbounded object with bounded integers', function (test) {
+    var schema = {
+        type: 'object',
+        additionalProperties: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 2
+        },
+        required: ['foo', 'bar', 'baz', 'name', 'qux', 'extra', 'flag'],
+        properties: {
+            name: {
+                type: 'string'
+            },
+            age: {
+                type: 'integer',
+                minimum: 0
+            },
+            extra: {
+                type: 'integer',
+                minimum: 0,
+                maximum: 2
+            },
+            flag: {
+                type: 'boolean'
+            }
+        }
+    };
+    var result = mapper_1.getEncoding(schema);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'PACKED_UNBOUNDED_OBJECT',
+        options: {
+            packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
+            packedEncoding: {
+                type: 'integer',
+                encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                options: {
+                    minimum: 0,
+                    maximum: 2
+                }
+            },
+            propertyEncodings: {
+                name: {
+                    type: 'string',
+                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                    options: {}
+                },
+                age: {
+                    type: 'integer',
+                    encoding: 'FLOOR__ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
+                },
+                flag: {
+                    type: 'boolean',
+                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+                    options: {}
+                }
+            },
+            optionalProperties: ['age'],
+            requiredProperties: ['name'],
+            booleanRequiredProperties: ['flag'],
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});

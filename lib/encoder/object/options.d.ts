@@ -19,6 +19,10 @@ import {
   StringEncoding
 } from '../../mapper'
 
+import {
+  BOUNDED_8BITS__ENUM_FIXED_ENCODING
+} from '../../mapper/integer'
+
 interface TypedPropertiesOptions {
   propertyEncodings: Record<string, Encoding>;
 }
@@ -52,6 +56,12 @@ export interface OptionalUnboundedTypedOptions extends
 export interface UnboundedTypedOptions extends
   BoundedTypedOptions, TypedKeysOptions, HomogeneousPropertiesOptions {}
 
+export interface PackedUnboundedOptions extends BoundedTypedOptions {
+  packedRequiredProperties: string[];
+  packedEncoding: BOUNDED_8BITS__ENUM_FIXED_ENCODING;
+  keyEncoding: StringEncoding;
+}
+
 export type ObjectOptions =
   RequiredBoundedTypedOptions |
   OptionalBoundedTypedOptions |
@@ -59,4 +69,5 @@ export type ObjectOptions =
   TypedKeysOptions |
   OptionalUnboundedTypedOptions |
   RequiredUnboundedTypedOptions |
-  UnboundedTypedOptions
+  UnboundedTypedOptions |
+  PackedUnboundedOptions

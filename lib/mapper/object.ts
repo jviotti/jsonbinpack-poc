@@ -15,6 +15,10 @@
  */
 
 import {
+  isDeepStrictEqual
+} from 'util'
+
+import {
   getStringEncoding,
   StringEncoding
 } from './string'
@@ -39,7 +43,8 @@ import {
   RequiredUnboundedTypedOptions,
   OptionalBoundedTypedOptions,
   OptionalUnboundedTypedOptions,
-  RequiredBoundedTypedOptions
+  RequiredBoundedTypedOptions,
+  PackedUnboundedOptions
 } from '../encoder/object/options'
 
 import {
@@ -89,6 +94,12 @@ export interface MIXED_UNBOUNDED_TYPED_OBJECT_ENCODING extends BaseEncodingDefin
   readonly options: UnboundedTypedOptions;
 }
 
+export interface PACKED_UNBOUNDED_OBJECT_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.Object;
+  readonly encoding: 'PACKED_UNBOUNDED_OBJECT';
+  readonly options: PackedUnboundedOptions;
+}
+
 export type ObjectEncodingNames =
   'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' |
   'NON_REQUIRED_BOUNDED_TYPED_OBJECT' |
@@ -96,7 +107,8 @@ export type ObjectEncodingNames =
   'ARBITRARY_TYPED_KEYS_OBJECT' |
   'REQUIRED_UNBOUNDED_TYPED_OBJECT' |
   'OPTIONAL_UNBOUNDED_TYPED_OBJECT' |
-  'MIXED_UNBOUNDED_TYPED_OBJECT'
+  'MIXED_UNBOUNDED_TYPED_OBJECT' |
+  'PACKED_UNBOUNDED_OBJECT'
 export type ObjectEncoding =
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT_ENCODING |
   NON_REQUIRED_BOUNDED_TYPED_OBJECT_ENCODING |
@@ -104,7 +116,8 @@ export type ObjectEncoding =
   ARBITRARY_TYPED_KEYS_OBJECT_ENCODING |
   REQUIRED_UNBOUNDED_TYPED_OBJECT_ENCODING |
   OPTIONAL_UNBOUNDED_TYPED_OBJECT_ENCODING |
-  MIXED_UNBOUNDED_TYPED_OBJECT_ENCODING
+  MIXED_UNBOUNDED_TYPED_OBJECT_ENCODING |
+  PACKED_UNBOUNDED_OBJECT_ENCODING
 
 const parseAdditionalProperties = (
   value: undefined | boolean | EncodingSchema
@@ -203,6 +216,60 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
         optionalProperties,
         requiredProperties,
         booleanRequiredProperties
+      }
+    }
+  }
+
+  if (additionalProperties !== null &&
+    requiredProperties.length > 0 &&
+    additionalProperties.type === EncodingType.Integer &&
+    additionalProperties.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
+
+    const propertiesDefinition: Record<string, EncodingSchema> =
+      schema.properties ?? {}
+    const packedRequiredProperties: string[] = []
+    const unpackedRequiredProperties: string[] = []
+    for (const key of schema.required ?? []) {
+      if (booleanRequiredProperties.includes(key)) {
+        continue
+      }
+
+      if (!(key in propertiesDefinition)) {
+        packedRequiredProperties.push(key)
+      } else if (isDeepStrictEqual(additionalProperties,
+        getEncoding(propertiesDefinition[key]))) {
+        packedRequiredProperties.push(key)
+      } else {
+        unpackedRequiredProperties.push(key)
+      }
+    }
+
+    const packedPropertyEncodings: Record<string, Encoding> =
+      Object.keys(propertyEncodings).reduce((accumulator: Record<string, Encoding>, key: string) => {
+        if (!packedRequiredProperties.includes(key)) {
+          accumulator[key] = propertyEncodings[key]
+        }
+
+        return accumulator
+      }, {})
+
+    return {
+      type: EncodingType.Object,
+      encoding: 'PACKED_UNBOUNDED_OBJECT',
+      options: {
+        packedEncoding: additionalProperties,
+        packedRequiredProperties: packedRequiredProperties.sort(
+          (left: string, right: string) => {
+            return left.localeCompare(right)
+          }),
+        propertyEncodings: packedPropertyEncodings,
+        optionalProperties,
+        requiredProperties: unpackedRequiredProperties.sort(
+          (left: string, right: string) => {
+            return left.localeCompare(right)
+          }),
+        booleanRequiredProperties,
+        keyEncoding
       }
     }
   }
