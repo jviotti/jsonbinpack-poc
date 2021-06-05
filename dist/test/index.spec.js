@@ -26,7 +26,7 @@ var _loop_1 = function (testCase) {
         var testCasePath = path_1.resolve(TEST_DIRECTORY, testCase);
         var schema = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'schema.json'), 'utf8'));
         var value = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'document.json'), 'utf8'));
-        var encoding = lib_1.compileEncodingSchema(schema);
+        var encoding = lib_1.compileSchema(schema);
         fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
         fs_1.writeFileSync(path_1.resolve(TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
         var buffer = lib_1.encode(encoding, value);
