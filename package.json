@@ -55,6 +55,7 @@
     "uglify-js": "^3.12.8"
   },
   "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.7",
     "ajv": "^8.5.0",
     "ajv-formats": "^2.1.0",
     "from-exponential": "^1.1.0",
