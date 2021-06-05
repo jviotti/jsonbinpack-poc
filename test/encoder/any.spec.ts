@@ -82,6 +82,24 @@ tap.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', (test) => {
   test.end()
 })
 
+tap.skip('ANY__TYPE_PREFIX: should encode { "": -11492746249590654 }', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(12))
+  const bytesWritten: number = ENCODE_ANY__TYPE_PREFIX(buffer, 0, {
+    '': -11492746249590654
+  }, {}, context)
+
+  test.is(bytesWritten, 12)
+  const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
+
+  test.is(result.bytes, 12)
+  test.strictSame(result.value, {
+    '': -11492746249590654
+  })
+
+  test.end()
+})
+
 tap.test('ANY__TYPE_PREFIX: should handle shared strings', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(100))

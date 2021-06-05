@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  strict as assert
+} from 'assert'
+
 import ResizableBuffer from '../resizable-buffer'
 
 import {
@@ -126,6 +130,7 @@ export const ANY__TYPE_PREFIX = (
   } else if (Number.isInteger(value)) {
     const isPositive: boolean = value >= 0
     const absoluteValue: number = isPositive ? value : Math.abs(value) - 1
+
     if (absoluteValue <= UINT8_MAX) {
       const type: Type = isPositive
         ? Type.PositiveIntegerByte : Type.NegativeIntegerByte
@@ -140,6 +145,12 @@ export const ANY__TYPE_PREFIX = (
 
     const type: Type = isPositive
       ? Type.PositiveInteger : Type.NegativeInteger
+
+    // This assertion means that we have an integer that cannot
+    // be correctly represented in JavaScript. We will leave this
+    // problem aside until we switch over to C++
+    assert(type === Type.PositiveInteger || -(absoluteValue + 1) === value)
+
     const tagBytes: number = encodeTypeTag(buffer, offset, type, context)
     const valueBytes: number =
       FLOOR__ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
