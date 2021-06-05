@@ -48,7 +48,7 @@ export {
   EncodingSchema
 } from './schema'
 
-export const compileEncodingSchema = (schema: EncodingSchema): Encoding => {
+export const compileSchema = (schema: EncodingSchema): Encoding => {
   return getEncoding(schema)
 }
 

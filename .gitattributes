@@ -1,1 +1,2 @@
 /dist/** linguist-generated=true
+*.bin binary diff=hex

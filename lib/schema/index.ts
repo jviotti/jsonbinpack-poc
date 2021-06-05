@@ -22,6 +22,11 @@ export {
   validateSchema
 } from './jsonschema'
 
+export {
+  JSONSchema,
+  dereferenceSchema
+} from './deref'
+
 export interface BooleanEncodingSchema {
   readonly type: 'boolean';
 }

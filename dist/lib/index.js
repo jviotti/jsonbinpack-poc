@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decode = exports.encode = exports.compileEncodingSchema = void 0;
+exports.decode = exports.encode = exports.compileSchema = void 0;
 var mapper_1 = require("./mapper");
 var encoder_1 = require("./encoder");
-var compileEncodingSchema = function (schema) {
+var compileSchema = function (schema) {
     return mapper_1.getEncoding(schema);
 };
-exports.compileEncodingSchema = compileEncodingSchema;
+exports.compileSchema = compileSchema;
 var encode = function (encoding, value) {
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(0));
     var context = encoder_1.getDefaultEncodingContext();
