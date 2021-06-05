@@ -55,6 +55,13 @@ for (const testCase of readdirSync(TEST_DIRECTORY)) {
 
     const buffer: Buffer = encode(encoding, value)
     const result: JSONValue = decode(encoding, buffer)
+
+    // Record the buffer for debugging purposes too
+    writeFileSync(resolve(SRC_TEST_DIRECTORY, testCase, 'output.bin'), buffer)
+
+    // Record the buffer size for debugging purposes
+    writeFileSync(resolve(SRC_TEST_DIRECTORY, testCase, 'size'), String(buffer.length), 'utf8')
+
     test.strictSame(value, result)
     test.end()
   })
