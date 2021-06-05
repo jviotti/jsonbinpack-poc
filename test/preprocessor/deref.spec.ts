@@ -19,7 +19,7 @@ import tap from 'tap'
 import {
   JSONSchema,
   dereferenceSchema
-} from '../../lib/schema/deref'
+} from '../../lib/preprocessor/deref'
 
 tap.test('should de-reference a simple schema', async (test) => {
   const schema: JSONSchema = {
