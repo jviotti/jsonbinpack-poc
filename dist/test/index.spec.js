@@ -18,6 +18,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fs_1 = require("fs");
 var path_1 = require("path");
+var fast_json_stable_stringify_1 = __importDefault(require("fast-json-stable-stringify"));
 var lib_1 = require("../lib");
 var TEST_DIRECTORY = path_1.resolve(__dirname, 'jsonbinpack');
 var SRC_TEST_DIRECTORY = path_1.resolve(__dirname, '..', '..', 'test', 'jsonbinpack');
@@ -27,8 +28,8 @@ var _loop_1 = function (testCase) {
         var schema = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'schema.json'), 'utf8'));
         var value = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'document.json'), 'utf8'));
         var encoding = lib_1.compileSchema(schema);
-        fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
-        fs_1.writeFileSync(path_1.resolve(TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
+        fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(JSON.parse(fast_json_stable_stringify_1.default(encoding)), null, 2), 'utf8');
+        fs_1.writeFileSync(path_1.resolve(TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(JSON.parse(fast_json_stable_stringify_1.default(encoding)), null, 2), 'utf8');
         var buffer = lib_1.encode(encoding, value);
         var result = lib_1.decode(encoding, buffer);
         fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'output.bin'), buffer);

@@ -1,49 +1,49 @@
 {
-  "type": "object",
   "encoding": "MIXED_BOUNDED_TYPED_OBJECT",
   "options": {
-    "propertyEncodings": {
-      "foo": {
-        "type": "string",
-        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
-        "options": {}
-      },
-      "baz": {
-        "type": "object",
-        "encoding": "REQUIRED_UNBOUNDED_TYPED_OBJECT",
-        "options": {
-          "encoding": {
-            "type": "any",
-            "encoding": "ANY__TYPE_PREFIX",
-            "options": {}
-          },
-          "propertyEncodings": {
-            "qux": {
-              "type": "array",
-              "encoding": "UNBOUNDED_SEMITYPED__LENGTH_PREFIX",
-              "options": {
-                "prefixEncodings": []
-              }
-            }
-          },
-          "keyEncoding": {
-            "type": "string",
-            "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
-            "options": {}
-          },
-          "requiredProperties": [
-            "qux"
-          ],
-          "booleanRequiredProperties": []
-        }
-      }
-    },
+    "booleanRequiredProperties": [],
     "optionalProperties": [
       "baz"
     ],
+    "propertyEncodings": {
+      "baz": {
+        "encoding": "REQUIRED_UNBOUNDED_TYPED_OBJECT",
+        "options": {
+          "booleanRequiredProperties": [],
+          "encoding": {
+            "encoding": "ANY__TYPE_PREFIX",
+            "options": {},
+            "type": "any"
+          },
+          "keyEncoding": {
+            "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+            "options": {},
+            "type": "string"
+          },
+          "propertyEncodings": {
+            "qux": {
+              "encoding": "UNBOUNDED_SEMITYPED__LENGTH_PREFIX",
+              "options": {
+                "prefixEncodings": []
+              },
+              "type": "array"
+            }
+          },
+          "requiredProperties": [
+            "qux"
+          ]
+        },
+        "type": "object"
+      },
+      "foo": {
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {},
+        "type": "string"
+      }
+    },
     "requiredProperties": [
       "foo"
-    ],
-    "booleanRequiredProperties": []
-  }
+    ]
+  },
+  "type": "object"
 }

@@ -26,6 +26,8 @@ import {
   resolve
 } from 'path'
 
+import stringify from 'fast-json-stable-stringify'
+
 import {
   JSONValue,
   EncodingSchema,
@@ -48,10 +50,10 @@ for (const testCase of readdirSync(TEST_DIRECTORY)) {
     // Record the encoding schema for debugging purposes
     writeFileSync(
       resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'),
-      JSON.stringify(encoding, null, 2), 'utf8')
+      JSON.stringify(JSON.parse(stringify(encoding)), null, 2), 'utf8')
     writeFileSync(
       resolve(TEST_DIRECTORY, testCase, 'encoding.json'),
-      JSON.stringify(encoding, null, 2), 'utf8')
+      JSON.stringify(JSON.parse(stringify(encoding)), null, 2), 'utf8')
 
     const buffer: Buffer = encode(encoding, value)
     const result: JSONValue = decode(encoding, buffer)

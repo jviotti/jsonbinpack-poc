@@ -1,68 +1,53 @@
 {
-  "type": "object",
   "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
   "options": {
+    "booleanRequiredProperties": [],
     "propertyEncodings": {
-      "tags": {
-        "type": "array",
-        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
-        "options": {
-          "encoding": {
-            "type": "string",
-            "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
-            "options": {}
-          },
-          "prefixEncodings": []
-        }
-      },
-      "tz": {
-        "type": "integer",
-        "encoding": "ARBITRARY__ZIGZAG_VARINT",
-        "options": {}
-      },
-      "days": {
-        "type": "array",
-        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
-        "options": {
-          "encoding": {
-            "type": "integer",
-            "encoding": "BOUNDED_8BITS__ENUM_FIXED",
-            "options": {
-              "minimum": 0,
-              "maximum": 6
-            }
-          },
-          "prefixEncodings": []
-        }
-      },
       "coord": {
-        "type": "array",
         "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
         "options": {
           "encoding": {
-            "type": "number",
             "encoding": "DOUBLE_VARINT_TUPLE",
-            "options": {}
+            "options": {},
+            "type": "number"
           },
           "prefixEncodings": []
-        }
+        },
+        "type": "array"
       },
       "data": {
-        "type": "array",
         "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
         "options": {
           "encoding": {
-            "type": "oneOf",
             "encoding": "ONEOF_CHOICE_INDEX_PREFIX",
             "options": {
               "schemas": [
                 {
+                  "encoding": {
+                    "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+                    "options": {
+                      "booleanRequiredProperties": [
+                        "staff"
+                      ],
+                      "propertyEncodings": {
+                        "name": {
+                          "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                          "options": {},
+                          "type": "string"
+                        },
+                        "staff": {
+                          "encoding": "BOOLEAN_8BITS__ENUM_FIXED",
+                          "options": {},
+                          "type": "boolean"
+                        }
+                      },
+                      "requiredProperties": [
+                        "name"
+                      ]
+                    },
+                    "type": "object"
+                  },
                   "schema": {
-                    "type": "object",
-                    "required": [
-                      "name",
-                      "staff"
-                    ],
                     "additionalProperties": false,
                     "properties": {
                       "name": {
@@ -71,126 +56,141 @@
                       "staff": {
                         "type": "boolean"
                       }
-                    }
-                  },
-                  "encoding": {
-                    "type": "object",
-                    "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
-                    "options": {
-                      "propertyEncodings": {
-                        "name": {
-                          "type": "string",
-                          "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
-                          "options": {}
-                        },
-                        "staff": {
-                          "type": "boolean",
-                          "encoding": "BOOLEAN_8BITS__ENUM_FIXED",
-                          "options": {}
-                        }
-                      },
-                      "requiredProperties": [
-                        "name"
-                      ],
-                      "booleanRequiredProperties": [
-                        "staff"
-                      ]
-                    }
+                    },
+                    "required": [
+                      "name",
+                      "staff"
+                    ],
+                    "type": "object"
                   }
                 },
                 {
-                  "schema": {
-                    "type": "object",
-                    "required": [
-                      "name",
-                      "staff",
-                      "extra"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                      "name": {
-                        "type": "null"
-                      },
-                      "staff": {
-                        "type": "boolean"
-                      },
-                      "extra": {
-                        "type": "object",
-                        "required": [
-                          "info"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "info": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  },
                   "encoding": {
-                    "type": "object",
                     "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
                     "options": {
+                      "booleanRequiredProperties": [
+                        "staff"
+                      ],
                       "propertyEncodings": {
-                        "name": {
-                          "type": "null",
-                          "encoding": "NULL_8BITS__ENUM_FIXED",
-                          "options": {}
-                        },
-                        "staff": {
-                          "type": "boolean",
-                          "encoding": "BOOLEAN_8BITS__ENUM_FIXED",
-                          "options": {}
-                        },
                         "extra": {
-                          "type": "object",
                           "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
                           "options": {
+                            "booleanRequiredProperties": [],
                             "propertyEncodings": {
                               "info": {
-                                "type": "string",
                                 "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
-                                "options": {}
+                                "options": {},
+                                "type": "string"
                               }
                             },
                             "requiredProperties": [
                               "info"
-                            ],
-                            "booleanRequiredProperties": []
-                          }
+                            ]
+                          },
+                          "type": "object"
+                        },
+                        "name": {
+                          "encoding": "NULL_8BITS__ENUM_FIXED",
+                          "options": {},
+                          "type": "null"
+                        },
+                        "staff": {
+                          "encoding": "BOOLEAN_8BITS__ENUM_FIXED",
+                          "options": {},
+                          "type": "boolean"
                         }
                       },
                       "requiredProperties": [
                         "extra",
                         "name"
-                      ],
-                      "booleanRequiredProperties": [
-                        "staff"
                       ]
-                    }
+                    },
+                    "type": "object"
+                  },
+                  "schema": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "extra": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "info": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "info"
+                        ],
+                        "type": "object"
+                      },
+                      "name": {
+                        "type": "null"
+                      },
+                      "staff": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "staff",
+                      "extra"
+                    ],
+                    "type": "object"
                   }
                 },
                 {
-                  "schema": {
-                    "type": "object",
-                    "additionalProperties": false
-                  },
                   "encoding": {
-                    "type": "object",
                     "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
                     "options": {
+                      "booleanRequiredProperties": [],
                       "propertyEncodings": {},
-                      "requiredProperties": [],
-                      "booleanRequiredProperties": []
-                    }
+                      "requiredProperties": []
+                    },
+                    "type": "object"
+                  },
+                  "schema": {
+                    "additionalProperties": false,
+                    "type": "object"
                   }
                 }
               ]
-            }
+            },
+            "type": "oneOf"
           },
           "prefixEncodings": []
-        }
+        },
+        "type": "array"
+      },
+      "days": {
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "encoding": "BOUNDED_8BITS__ENUM_FIXED",
+            "options": {
+              "maximum": 6,
+              "minimum": 0
+            },
+            "type": "integer"
+          },
+          "prefixEncodings": []
+        },
+        "type": "array"
+      },
+      "tags": {
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+            "options": {},
+            "type": "string"
+          },
+          "prefixEncodings": []
+        },
+        "type": "array"
+      },
+      "tz": {
+        "encoding": "ARBITRARY__ZIGZAG_VARINT",
+        "options": {},
+        "type": "integer"
       }
     },
     "requiredProperties": [
@@ -199,7 +199,7 @@
       "days",
       "tags",
       "tz"
-    ],
-    "booleanRequiredProperties": []
-  }
+    ]
+  },
+  "type": "object"
 }
