@@ -43,19 +43,6 @@ export interface NullEncodingSchema {
 
 export interface NumberEncodingSchema {
   readonly type: 'number';
-
-  /*
-   * For now we don't take these schema arguments into
-   * consideration, but we might in the future if we
-   * implement different real number encodings.
-   */
-
-  // The exclusiveMinimum and exclusiveMaximum keywords
-  // should be transformed to minimum and maximum
-  readonly minimum?: number;
-  readonly maximum?: number;
-
-  readonly multipleOf?: number;
 }
 
 export interface StringEncodingSchema {
@@ -74,8 +61,6 @@ export interface StringEncodingSchema {
   'uri-template' |
   'json-pointer' | 'relative-json-pointer' |
   'regex';
-
-  readonly pattern?: string;
 
   // TODO: We can use these in the future to apply more clever encodings
   readonly contentEncoding?: string;
