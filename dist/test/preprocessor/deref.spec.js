@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
-var deref_1 = require("../../lib/schema/deref");
+var deref_1 = require("../../lib/preprocessor/deref");
 tap_1.default.test('should de-reference a simple schema', function (test) { return __awaiter(void 0, void 0, void 0, function () {
     var schema, result;
     return __generator(this, function (_a) {
