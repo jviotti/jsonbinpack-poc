@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-export enum EncodingType {
-  Boolean = 'boolean',
-  Integer = 'integer',
-  Null = 'null',
-  Number = 'number',
-  String = 'string',
-  Array = 'array',
-  Object = 'object',
-  Any = 'any',
-  Enum = 'enum',
-  OneOf = 'oneOf',
-  Const = 'const'
+import ResizableBuffer from '../resizable-buffer'
+
+import {
+  StaticOptions
+} from './options'
+
+import {
+  EncodingContext
+} from '../context'
+
+import {
+  JSONValue
+} from '../../json'
+
+export const CONST_NONE = (
+  _buffer: ResizableBuffer, _offset: number, _value: JSONValue,
+  _options: StaticOptions, _context: EncodingContext
+): number => {
+  return 0
 }

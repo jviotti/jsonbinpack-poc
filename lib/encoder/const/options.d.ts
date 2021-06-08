@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-export enum EncodingType {
-  Boolean = 'boolean',
-  Integer = 'integer',
-  Null = 'null',
-  Number = 'number',
-  String = 'string',
-  Array = 'array',
-  Object = 'object',
-  Any = 'any',
-  Enum = 'enum',
-  OneOf = 'oneOf',
-  Const = 'const'
+import {
+  JSONValue
+} from '../../json'
+
+export interface StaticOptions {
+  readonly value: JSONValue;
 }
+
+export type ConstOptions = StaticOptions

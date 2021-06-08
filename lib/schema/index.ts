@@ -94,6 +94,10 @@ export interface OneOfEncodingSchema {
   readonly oneOf: EncodingSchema[];
 }
 
+export interface ConstEncodingSchema {
+  readonly const: JSONValue;
+}
+
 export type EncodingSchema =
   BooleanEncodingSchema |
   IntegerEncodingSchema |
@@ -104,4 +108,5 @@ export type EncodingSchema =
   ArrayEncodingSchema |
   ObjectEncodingSchema |
   EnumEncodingSchema |
-  OneOfEncodingSchema
+  OneOfEncodingSchema |
+  ConstEncodingSchema

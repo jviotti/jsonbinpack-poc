@@ -75,6 +75,12 @@ import {
 } from './oneof'
 
 import {
+  ConstEncodingNames,
+  ConstEncoding,
+  getConstEncoding
+} from './const'
+
+import {
   EncodingSchema
 } from '../schema'
 
@@ -118,6 +124,10 @@ export {
   OneOfEncoding
 } from './oneof'
 
+export {
+  ConstEncoding
+} from './const'
+
 export type EncodingNames =
   BooleanEncodingNames |
   NullEncodingNames |
@@ -128,7 +138,8 @@ export type EncodingNames =
   ArrayEncodingNames |
   ObjectEncodingNames |
   EnumEncodingNames |
-  OneOfEncodingNames
+  OneOfEncodingNames |
+  ConstEncodingNames
 
 // The union of all possible encodings
 export type Encoding =
@@ -141,11 +152,14 @@ export type Encoding =
   ArrayEncoding |
   ObjectEncoding |
   EnumEncoding |
-  OneOfEncoding
+  OneOfEncoding |
+  ConstEncoding
 
 export const getEncoding = (schema: EncodingSchema): Encoding => {
   if ('enum' in schema) {
     return getEnumEncoding(schema)
+  } else if ('const' in schema) {
+    return getConstEncoding(schema)
   } else if ('oneOf' in schema) {
     return getOneOfEncoding(schema)
   } else if (!('type' in schema)) {
