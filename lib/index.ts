@@ -15,10 +15,6 @@
  */
 
 import {
-  EncodingSchema
-} from './schema'
-
-import {
   Encoding,
   getEncoding
 } from './mapper'
@@ -36,6 +32,11 @@ import {
   decode as binpackDecode
 } from './encoder'
 
+import {
+  JSONSchema,
+  preprocessSchema
+} from './preprocessor'
+
 export {
   JSONValue
 } from './json'
@@ -45,11 +46,11 @@ export {
 } from './mapper'
 
 export {
-  EncodingSchema
-} from './schema'
+  JSONSchema
+} from './preprocessor'
 
-export const compileSchema = (schema: EncodingSchema): Encoding => {
-  return getEncoding(schema)
+export const compileSchema = async (schema: JSONSchema): Promise<Encoding> => {
+  return getEncoding(await preprocessSchema(schema))
 }
 
 export const encode = (encoding: Encoding, value: JSONValue): Buffer => {

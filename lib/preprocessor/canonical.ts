@@ -15,12 +15,17 @@
  */
 
 import {
-  pick
+  pick,
+  omit,
+  merge,
+  cloneDeep
 } from 'lodash'
 
 import {
-  JSONSchema
-} from './deref'
+  JSONValue,
+  JSONObject,
+  JSONBoolean
+} from '../json'
 
 import {
   EncodingSchema,
@@ -45,9 +50,42 @@ const SCHEMA_ARRAY_KEYS: Array<keyof ArrayEncodingSchema> =
 const SCHEMA_OBJECT_KEYS: Array<keyof ObjectEncodingSchema> =
   [ 'type', 'additionalProperties', 'required', 'propertyNames', 'properties' ]
 
-export const canonicalizeSchema = (schema: JSONSchema): EncodingSchema => {
-  if (typeof schema.allOf !== 'undefined') {
-    return canonicalizeSchema(Object.assign({}, ...schema.allOf))
+export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSchema => {
+  // We can assume this is a truthy schema as otherwise nothing
+  // will match, and therefore nothing could have been encoded
+  if (typeof schema === 'boolean') {
+    return {}
+  }
+
+  if (typeof schema.const !== 'undefined') {
+    return {
+      const: schema.const
+    }
+  } else if (Array.isArray(schema.enum)) {
+    return {
+      enum: schema.enum
+    }
+  }
+
+  if (Array.isArray(schema.allOf)) {
+    return canonicalizeSchema(merge({}, ...schema.allOf))
+  } else if (Array.isArray(schema.oneOf)) {
+    return {
+      oneOf: schema.oneOf.map((choice: JSONValue) => {
+        return canonicalizeSchema(merge(cloneDeep(choice), omit(schema, [ 'oneOf' ])))
+      })
+    }
+  }
+
+  if (Array.isArray(schema.type)) {
+    return {
+      oneOf: schema.type.map((type: JSONValue) => {
+        return canonicalizeSchema({
+          ...schema,
+          type
+        })
+      })
+    }
   }
 
   switch (schema.type) {
