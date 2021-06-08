@@ -35,6 +35,14 @@ import {
   Encoding
 } from '../lib'
 
+import {
+  validateSchema
+} from '../lib/schema'
+
+import {
+  preprocessSchema
+} from '../lib/preprocessor'
+
 const TEST_DIRECTORY: string = resolve(__dirname, 'jsonbinpack')
 const SRC_TEST_DIRECTORY: string = resolve(__dirname, '..', '..', 'test', 'jsonbinpack')
 
@@ -43,6 +51,9 @@ for (const testCase of readdirSync(TEST_DIRECTORY)) {
     const testCasePath: string = resolve(TEST_DIRECTORY, testCase)
     const schema: JSONSchema = JSON.parse(readFileSync(resolve(testCasePath, 'schema.json'), 'utf8'))
     const value: JSONValue = JSON.parse(readFileSync(resolve(testCasePath, 'document.json'), 'utf8'))
+
+    test.true(validateSchema(await preprocessSchema(schema), value))
+
     const encoding: Encoding = await compileSchema(schema)
 
     // Record the encoding schema for debugging purposes

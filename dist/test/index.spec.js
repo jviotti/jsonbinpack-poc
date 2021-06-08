@@ -55,20 +55,27 @@ var tap_1 = __importDefault(require("tap"));
 var fs_1 = require("fs");
 var path_1 = require("path");
 var lib_1 = require("../lib");
+var schema_1 = require("../lib/schema");
+var preprocessor_1 = require("../lib/preprocessor");
 var TEST_DIRECTORY = path_1.resolve(__dirname, 'jsonbinpack');
 var SRC_TEST_DIRECTORY = path_1.resolve(__dirname, '..', '..', 'test', 'jsonbinpack');
 var _loop_1 = function (testCase) {
     tap_1.default.test(testCase, function (test) { return __awaiter(void 0, void 0, void 0, function () {
-        var testCasePath, schema, value, encoding, buffer, result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var testCasePath, schema, value, _a, _b, _c, encoding, buffer, result;
+        return __generator(this, function (_d) {
+            switch (_d.label) {
                 case 0:
                     testCasePath = path_1.resolve(TEST_DIRECTORY, testCase);
                     schema = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'schema.json'), 'utf8'));
                     value = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'document.json'), 'utf8'));
-                    return [4, lib_1.compileSchema(schema)];
+                    _b = (_a = test).true;
+                    _c = schema_1.validateSchema;
+                    return [4, preprocessor_1.preprocessSchema(schema)];
                 case 1:
-                    encoding = _a.sent();
+                    _b.apply(_a, [_c.apply(void 0, [_d.sent(), value])]);
+                    return [4, lib_1.compileSchema(schema)];
+                case 2:
+                    encoding = _d.sent();
                     fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
                     fs_1.writeFileSync(path_1.resolve(TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
                     buffer = lib_1.encode(encoding, value);
