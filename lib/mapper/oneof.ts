@@ -28,6 +28,7 @@ import {
 } from '../schema'
 
 import {
+  getStates,
   getEncoding
 } from './index'
 
@@ -43,6 +44,12 @@ export interface ONEOF_CHOICE_INDEX_PREFIX_ENCODING extends BaseEncodingDefiniti
 
 export type OneOfEncodingNames = 'ONEOF_CHOICE_INDEX_PREFIX'
 export type OneOfEncoding = ONEOF_CHOICE_INDEX_PREFIX_ENCODING
+
+export const getOneOfStates = (schema: OneOfEncodingSchema): number => {
+  return schema.oneOf.reduce((accumulator: number, choice: EncodingSchema) => {
+    return accumulator * getStates(choice)
+  }, 1)
+}
 
 export const getOneOfEncoding = (schema: OneOfEncodingSchema): OneOfEncoding => {
   return {

@@ -10,6 +10,7 @@ tap_1.default.test('should encode a number simple value', function (test) {
         type: 'number'
     };
     var result = mapper_1.getEncoding(schema);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'number',
         encoding: 'DOUBLE_VARINT_TUPLE',

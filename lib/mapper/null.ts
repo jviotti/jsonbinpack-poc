@@ -39,6 +39,10 @@ export interface NULL_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefinition 
 export type NullEncodingNames = 'NULL_8BITS__ENUM_FIXED'
 export type NullEncoding = NULL_8BITS__ENUM_FIXED_ENCODING
 
+export const getNullStates = (_schema: NullEncodingSchema): number => {
+  return 1
+}
+
 export const getNullEncoding = (_schema: NullEncodingSchema): NullEncoding => {
   return {
     type: EncodingType.Null,

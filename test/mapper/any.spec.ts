@@ -22,6 +22,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from '../../lib/mapper'
 
@@ -29,6 +30,7 @@ tap.test('should encode an any value', (test) => {
   const schema: EncodingSchema = {}
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'any',
     encoding: 'ANY__TYPE_PREFIX',

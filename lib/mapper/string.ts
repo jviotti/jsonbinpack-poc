@@ -92,6 +92,20 @@ export type StringEncoding =
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING
 
+export const getStringStates = (schema: StringEncodingSchema): number => {
+  const encoding: StringEncoding = getStringEncoding(schema)
+
+  if (encoding.encoding === 'ROOF__PREFIX_LENGTH_8BIT_FIXED' ||
+    encoding.encoding === 'ROOF__PREFIX_LENGTH_ENUM_VARINT') {
+    return encoding.options.maximum + 1
+  } else if (encoding.encoding === 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' ||
+    encoding.encoding === 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT') {
+    return encoding.options.maximum - encoding.options.minimum + 1
+  }
+
+  return Infinity
+}
+
 export const getStringEncoding = (schema: StringEncodingSchema): StringEncoding => {
   assert(typeof schema.minLength === 'undefined' || schema.minLength >= 0)
   assert(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0)

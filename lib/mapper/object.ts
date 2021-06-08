@@ -25,6 +25,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from './index'
 
@@ -130,6 +131,33 @@ const parseAdditionalProperties = (
     (typeof value === 'undefined' || (typeof value === 'boolean' && value))
       ? {} : value
   return getEncoding(schema)
+}
+
+// TODO: This definition can probably be greatly improved once we
+// support the maxProperties JSON Schema keyword.
+export const getObjectStates = (schema: ObjectEncodingSchema): number => {
+  const encoding: ObjectEncoding = getObjectEncoding(schema)
+  if (encoding.encoding === 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' ||
+    encoding.encoding === 'NON_REQUIRED_BOUNDED_TYPED_OBJECT' ||
+    encoding.encoding === 'MIXED_BOUNDED_TYPED_OBJECT') {
+    return Object.keys(encoding.options.propertyEncodings).reduce(
+      (accumulator: number, property: string): number => {
+      const propertyEncoding: Encoding =
+          encoding.options.propertyEncodings[property]
+      const propertyStates: number = getStates(propertyEncoding)
+
+      if ('optionalProperties' in encoding.options &&
+        Array.isArray(encoding.options.optionalProperties) &&
+        encoding.options.optionalProperties.includes(property)) {
+        // As non being present (optional) counts as yet another state
+        return accumulator * (propertyStates + 1)
+      }
+
+      return accumulator * propertyStates
+    }, 1)
+  }
+
+  return Infinity
 }
 
 export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding => {

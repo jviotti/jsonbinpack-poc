@@ -1,9 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStringEncoding = void 0;
+exports.getStringEncoding = exports.getStringStates = void 0;
 var assert_1 = require("assert");
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
+var getStringStates = function (schema) {
+    var encoding = exports.getStringEncoding(schema);
+    if (encoding.encoding === 'ROOF__PREFIX_LENGTH_8BIT_FIXED' ||
+        encoding.encoding === 'ROOF__PREFIX_LENGTH_ENUM_VARINT') {
+        return encoding.options.maximum + 1;
+    }
+    else if (encoding.encoding === 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' ||
+        encoding.encoding === 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT') {
+        return encoding.options.maximum - encoding.options.minimum + 1;
+    }
+    return Infinity;
+};
+exports.getStringStates = getStringStates;
 var getStringEncoding = function (schema) {
     assert_1.strict(typeof schema.minLength === 'undefined' || schema.minLength >= 0);
     assert_1.strict(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0);

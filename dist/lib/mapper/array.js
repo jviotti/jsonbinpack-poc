@@ -1,9 +1,40 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getArrayEncoding = void 0;
+exports.getArrayEncoding = exports.getArrayStates = void 0;
 var encoder_1 = require("../encoder");
 var index_1 = require("./index");
 var limits_1 = require("../utils/limits");
+var getArrayStates = function (schema) {
+    var _a;
+    var encoding = exports.getArrayEncoding(schema);
+    if (encoding.encoding === 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' ||
+        encoding.encoding === 'BOUNDED_TYPED__LENGTH_PREFIX' ||
+        encoding.encoding === 'ROOF_8BITS_TYPED__LENGTH_PREFIX' ||
+        encoding.encoding === 'ROOF_TYPED__LENGTH_PREFIX' ||
+        encoding.encoding === 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' ||
+        encoding.encoding === 'BOUNDED_SEMITYPED__LENGTH_PREFIX' ||
+        encoding.encoding === 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' ||
+        encoding.encoding === 'ROOF_SEMITYPED__LENGTH_PREFIX') {
+        var index = 0;
+        var result = 1;
+        while (index < encoding.options.maximum) {
+            var itemEncoding = (_a = encoding.options.prefixEncodings[index]) !== null && _a !== void 0 ? _a : null;
+            if (itemEncoding !== null) {
+                result = result * index_1.getStates(itemEncoding);
+            }
+            else if ('encoding' in encoding.options) {
+                result = result * index_1.getStates(encoding.options.encoding);
+            }
+            else {
+                return Infinity;
+            }
+            index += 1;
+        }
+        return result;
+    }
+    return Infinity;
+};
+exports.getArrayStates = getArrayStates;
 var getArrayEncoding = function (schema) {
     var _a;
     var encodingSchema = schema.items;

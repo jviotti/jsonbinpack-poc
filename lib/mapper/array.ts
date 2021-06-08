@@ -24,6 +24,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from './index'
 
@@ -146,6 +147,39 @@ export type ArrayEncoding =
   ROOF_8BITS_TYPED__LENGTH_PREFIX_ENCODING |
   ROOF_TYPED__LENGTH_PREFIX_ENCODING |
   UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
+
+export const getArrayStates = (schema: ArrayEncodingSchema): number => {
+  const encoding: ArrayEncoding = getArrayEncoding(schema)
+  if (encoding.encoding === 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' ||
+    encoding.encoding === 'BOUNDED_TYPED__LENGTH_PREFIX' ||
+    encoding.encoding === 'ROOF_8BITS_TYPED__LENGTH_PREFIX' ||
+    encoding.encoding === 'ROOF_TYPED__LENGTH_PREFIX' ||
+    encoding.encoding === 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' ||
+    encoding.encoding === 'BOUNDED_SEMITYPED__LENGTH_PREFIX' ||
+    encoding.encoding === 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' ||
+    encoding.encoding === 'ROOF_SEMITYPED__LENGTH_PREFIX') {
+    let index: number = 0
+    let result: number = 1
+
+    while (index < encoding.options.maximum) {
+      const itemEncoding: Encoding | null =
+        encoding.options.prefixEncodings[index] ?? null
+      if (itemEncoding !== null) {
+        result = result * getStates(itemEncoding)
+      } else if ('encoding' in encoding.options) {
+        result = result * getStates(encoding.options.encoding)
+      } else {
+        return Infinity
+      }
+
+      index += 1
+    }
+
+    return result
+  }
+
+  return Infinity
+}
 
 export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => {
   const encodingSchema: EncodingSchema | undefined = schema.items

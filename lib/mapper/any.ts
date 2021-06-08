@@ -39,6 +39,11 @@ export interface ANY__TYPE_PREFIX_ENCODING extends BaseEncodingDefinition {
 export type AnyEncodingNames = 'ANY__TYPE_PREFIX'
 export type AnyEncoding = ANY__TYPE_PREFIX_ENCODING
 
+// It could literally be anything
+export const getAnyStates = (_schema: AnyEncodingSchema): number => {
+  return Infinity
+}
+
 export const getAnyEncoding = (_schema: AnyEncodingSchema): AnyEncoding => {
   return {
     type: EncodingType.Any,

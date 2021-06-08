@@ -22,6 +22,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from '../../lib/mapper'
 
@@ -31,6 +32,7 @@ tap.test('should encode a boolean value', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 2)
   test.strictSame(result, {
     type: 'boolean',
     encoding: 'BOOLEAN_8BITS__ENUM_FIXED',

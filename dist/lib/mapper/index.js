@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEncoding = void 0;
+exports.getStates = exports.getEncoding = void 0;
 var boolean_1 = require("./boolean");
 var null_1 = require("./null");
 var number_1 = require("./number");
@@ -46,3 +46,37 @@ var getEncoding = function (schema) {
     return object_1.getObjectEncoding(schema);
 };
 exports.getEncoding = getEncoding;
+var getStates = function (schema) {
+    if ('enum' in schema) {
+        return enum_1.getEnumStates(schema);
+    }
+    else if ('const' in schema) {
+        return const_1.getConstStates(schema);
+    }
+    else if ('oneOf' in schema) {
+        return oneof_1.getOneOfStates(schema);
+    }
+    else if (!('type' in schema)) {
+        return any_1.getAnyStates(schema);
+    }
+    else if (schema.type === 'boolean') {
+        return boolean_1.getBooleanStates(schema);
+    }
+    else if (schema.type === 'integer') {
+        return integer_1.getIntegerStates(schema);
+    }
+    else if (schema.type === 'null') {
+        return null_1.getNullStates(schema);
+    }
+    else if (schema.type === 'number') {
+        return number_1.getNumberStates(schema);
+    }
+    else if (schema.type === 'string') {
+        return string_1.getStringStates(schema);
+    }
+    else if (schema.type === 'array') {
+        return array_1.getArrayStates(schema);
+    }
+    return object_1.getObjectStates(schema);
+};
+exports.getStates = getStates;
