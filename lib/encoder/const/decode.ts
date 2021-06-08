@@ -14,16 +14,30 @@
  * limitations under the License.
  */
 
-export enum EncodingType {
-  Boolean = 'boolean',
-  Integer = 'integer',
-  Null = 'null',
-  Number = 'number',
-  String = 'string',
-  Array = 'array',
-  Object = 'object',
-  Any = 'any',
-  Enum = 'enum',
-  OneOf = 'oneOf',
-  Const = 'const'
+import {
+  JSONValue
+} from '../../json'
+
+import {
+  StaticOptions
+} from './options'
+
+import {
+  DecodeResult
+} from '../base'
+
+import ResizableBuffer from '../resizable-buffer'
+
+export interface ConstResult extends DecodeResult {
+  readonly value: JSONValue;
+  readonly bytes: number;
+}
+
+export const CONST_NONE = (
+  _buffer: ResizableBuffer, _offset: number, options: StaticOptions
+): ConstResult => {
+  return {
+    value: options.value,
+    bytes: 0
+  }
 }

@@ -50,6 +50,7 @@ import * as ENCODE_ARRAY from './array/encode'
 import * as ENCODE_OBJECT from './object/encode'
 import * as ENCODE_ENUM from './enum/encode'
 import * as ENCODE_ONEOF from './oneof/encode'
+import * as ENCODE_CONST from './const/encode'
 
 import * as DECODE_BOOLEAN from './boolean/decode'
 import * as DECODE_INTEGER from './integer/decode'
@@ -61,6 +62,7 @@ import * as DECODE_ARRAY from './array/decode'
 import * as DECODE_OBJECT from './object/decode'
 import * as DECODE_ENUM from './enum/decode'
 import * as DECODE_ONEOF from './oneof/decode'
+import * as DECODE_CONST from './const/decode'
 
 export {
   default as ResizableBuffer
@@ -92,6 +94,7 @@ ENCODE_TYPE_INDEX.set(EncodingType.Array, ENCODE_ARRAY)
 ENCODE_TYPE_INDEX.set(EncodingType.Object, ENCODE_OBJECT)
 ENCODE_TYPE_INDEX.set(EncodingType.Enum, ENCODE_ENUM)
 ENCODE_TYPE_INDEX.set(EncodingType.OneOf, ENCODE_ONEOF)
+ENCODE_TYPE_INDEX.set(EncodingType.Const, ENCODE_CONST)
 
 DECODE_TYPE_INDEX.set(EncodingType.Boolean, DECODE_BOOLEAN)
 DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
@@ -103,6 +106,7 @@ DECODE_TYPE_INDEX.set(EncodingType.Array, DECODE_ARRAY)
 DECODE_TYPE_INDEX.set(EncodingType.Object, DECODE_OBJECT)
 DECODE_TYPE_INDEX.set(EncodingType.Enum, DECODE_ENUM)
 DECODE_TYPE_INDEX.set(EncodingType.OneOf, DECODE_ONEOF)
+DECODE_TYPE_INDEX.set(EncodingType.Const, DECODE_CONST)
 
 export const encode = (
   buffer: ResizableBuffer, offset: number, encoding: Encoding,

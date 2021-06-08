@@ -14,16 +14,25 @@
  * limitations under the License.
  */
 
-export enum EncodingType {
-  Boolean = 'boolean',
-  Integer = 'integer',
-  Null = 'null',
-  Number = 'number',
-  String = 'string',
-  Array = 'array',
-  Object = 'object',
-  Any = 'any',
-  Enum = 'enum',
-  OneOf = 'oneOf',
-  Const = 'const'
-}
+import tap from 'tap'
+
+import {
+  CONST_NONE
+} from '../../../lib/encoder/const/encode'
+
+import {
+  ResizableBuffer,
+  EncodingContext,
+  getDefaultEncodingContext
+} from '../../../lib/encoder'
+
+tap.test('CONST_NONE: should encode false as nothing', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const bytesWritten: number = CONST_NONE(buffer, 0, false, {
+    value: false
+  }, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([]))
+  test.is(bytesWritten, 0)
+  test.end()
+})
