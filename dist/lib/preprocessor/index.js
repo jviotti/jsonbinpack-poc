@@ -36,31 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decode = exports.encode = exports.compileSchema = void 0;
-var mapper_1 = require("./mapper");
-var encoder_1 = require("./encoder");
-var preprocessor_1 = require("./preprocessor");
-var compileSchema = function (schema) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = mapper_1.getEncoding;
-                return [4, preprocessor_1.preprocessSchema(schema)];
-            case 1: return [2, _a.apply(void 0, [_b.sent()])];
+exports.preprocessSchema = void 0;
+var deref_1 = require("./deref");
+var canonical_1 = require("./canonical");
+var preprocessSchema = function (schema) { return __awaiter(void 0, void 0, void 0, function () {
+    var localSchema, castedSchema;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, deref_1.dereferenceSchema(schema)];
+            case 1:
+                localSchema = _a.sent();
+                castedSchema = localSchema;
+                return [2, canonical_1.canonicalizeSchema(castedSchema)];
         }
     });
 }); };
-exports.compileSchema = compileSchema;
-var encode = function (encoding, value) {
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(0));
-    var context = encoder_1.getDefaultEncodingContext();
-    encoder_1.encode(buffer, 0, encoding, value, context);
-    return buffer.getBuffer();
-};
-exports.encode = encode;
-var decode = function (encoding, buffer) {
-    var result = encoder_1.decode(new encoder_1.ResizableBuffer(buffer), 0, encoding);
-    return result.value;
-};
-exports.decode = decode;
+exports.preprocessSchema = preprocessSchema;

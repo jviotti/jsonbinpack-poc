@@ -28,7 +28,7 @@ import {
 
 import {
   JSONValue,
-  EncodingSchema,
+  JSONSchema,
   compileSchema,
   encode,
   decode,
@@ -39,11 +39,11 @@ const TEST_DIRECTORY: string = resolve(__dirname, 'jsonbinpack')
 const SRC_TEST_DIRECTORY: string = resolve(__dirname, '..', '..', 'test', 'jsonbinpack')
 
 for (const testCase of readdirSync(TEST_DIRECTORY)) {
-  tap.test(testCase, (test) => {
+  tap.test(testCase, async (test) => {
     const testCasePath: string = resolve(TEST_DIRECTORY, testCase)
-    const schema: EncodingSchema = JSON.parse(readFileSync(resolve(testCasePath, 'schema.json'), 'utf8'))
+    const schema: JSONSchema = JSON.parse(readFileSync(resolve(testCasePath, 'schema.json'), 'utf8'))
     const value: JSONValue = JSON.parse(readFileSync(resolve(testCasePath, 'document.json'), 'utf8'))
-    const encoding: Encoding = compileSchema(schema)
+    const encoding: Encoding = await compileSchema(schema)
 
     // Record the encoding schema for debugging purposes
     writeFileSync(
