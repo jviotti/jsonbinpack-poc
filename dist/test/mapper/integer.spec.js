@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
+var lodash_1 = require("lodash");
 var mapper_1 = require("../../lib/mapper");
 tap_1.default.test('should encode an 8-bit integer with minimum, maximum, and multiplier', function (test) {
     var schema = {
@@ -13,7 +14,7 @@ tap_1.default.test('should encode an 8-bit integer with minimum, maximum, and mu
         multipleOf: 5
     };
     var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), 41);
+    test.strictSame(mapper_1.getStates(schema), lodash_1.range(-100, 105, 5));
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
@@ -149,7 +150,7 @@ tap_1.default.test('should encode an 8-bit integer with minimum and maximum', fu
         maximum: 100
     };
     var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), 201);
+    test.strictSame(mapper_1.getStates(schema), lodash_1.range(-100, 101));
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_8BITS__ENUM_FIXED',

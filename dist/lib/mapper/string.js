@@ -4,16 +4,7 @@ exports.getStringEncoding = exports.getStringStates = void 0;
 var assert_1 = require("assert");
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
-var getStringStates = function (schema) {
-    var encoding = exports.getStringEncoding(schema);
-    if (encoding.encoding === 'ROOF__PREFIX_LENGTH_8BIT_FIXED' ||
-        encoding.encoding === 'ROOF__PREFIX_LENGTH_ENUM_VARINT') {
-        return encoding.options.maximum + 1;
-    }
-    else if (encoding.encoding === 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' ||
-        encoding.encoding === 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT') {
-        return encoding.options.maximum - encoding.options.minimum + 1;
-    }
+var getStringStates = function (_schema) {
     return Infinity;
 };
 exports.getStringStates = getStringStates;

@@ -32,7 +32,7 @@ tap.test('should encode an enum with one value', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 1)
+  test.strictSame(getStates(schema), [ 'foo' ])
   test.strictSame(result, {
     type: 'enum',
     encoding: 'BOUNDED_CHOICE_INDEX',

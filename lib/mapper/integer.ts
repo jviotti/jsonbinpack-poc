@@ -19,6 +19,10 @@ import {
 } from 'assert'
 
 import {
+  range
+} from 'lodash'
+
+import {
   JSONValue
 } from '../json'
 
@@ -137,7 +141,12 @@ export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONVa
 
   if (encoding.encoding === 'BOUNDED__ENUM_VARINT' ||
     encoding.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
-    return encoding.options.maximum - encoding.options.minimum + 1
+    // It is pointless to calculate the exact amount of states after a certain point
+    if (encoding.options.maximum - encoding.options.minimum > UINT8_MAX) {
+      return encoding.options.maximum - encoding.options.minimum + 1
+    }
+
+    return range(encoding.options.minimum, encoding.options.maximum + 1)
   } else if (encoding.encoding === 'BOUNDED_MULTIPLE__ENUM_VARINT' ||
     encoding.encoding === 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED') {
 
@@ -150,7 +159,14 @@ export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONVa
     const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
     const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
 
-    return enumMaximum - enumMinimum + 1
+    // It is pointless to calculate the exact amount of states after a certain point
+    if (enumMaximum - enumMinimum > UINT8_MAX) {
+      return enumMaximum - enumMinimum + 1
+    }
+
+    return range(enumMinimum, enumMaximum + 1).map((value: number) => {
+      return value * absoluteMultiplier
+    })
   }
 
   return Infinity

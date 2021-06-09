@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNullEncoding = exports.getNullStates = void 0;
 var encoder_1 = require("../encoder");
 var getNullStates = function (_schema) {
-    return 1;
+    return [null];
 };
 exports.getNullStates = getNullStates;
 var getNullEncoding = function (_schema) {
