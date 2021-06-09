@@ -18,6 +18,7 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  RFC3339_DATE_INTEGER_TRIPLET as ENCODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED as ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT as ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
   ROOF__PREFIX_LENGTH_8BIT_FIXED as ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
@@ -28,6 +29,7 @@ import {
 
 import {
   StringResult,
+  RFC3339_DATE_INTEGER_TRIPLET as DECODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED as DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT as DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
   ROOF__PREFIX_LENGTH_8BIT_FIXED as DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
@@ -51,6 +53,18 @@ import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
+
+tap.test('RFC3339_DATE_INTEGER_TRIPLET: should handle "2014-10-01"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const bytesWritten: number =
+    ENCODE_RFC3339_DATE_INTEGER_TRIPLET(buffer, 0, '2014-10-01', {}, context)
+  test.is(bytesWritten, 4)
+  const result: StringResult = DECODE_RFC3339_DATE_INTEGER_TRIPLET(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, '2014-10-01')
+  test.end()
+})
 
 tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

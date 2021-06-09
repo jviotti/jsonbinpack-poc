@@ -44,6 +44,16 @@ var encode_1 = require("../../lib/encoder/string/encode");
 var decode_1 = require("../../lib/encoder/string/decode");
 var limits_1 = require("../../lib/utils/limits");
 var encoder_1 = require("../../lib/encoder");
+tap_1.default.test('RFC3339_DATE_INTEGER_TRIPLET: should handle "2014-10-01"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var bytesWritten = encode_1.RFC3339_DATE_INTEGER_TRIPLET(buffer, 0, '2014-10-01', {}, context);
+    test.is(bytesWritten, 4);
+    var result = decode_1.RFC3339_DATE_INTEGER_TRIPLET(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, '2014-10-01');
+    test.end();
+});
 tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2048));

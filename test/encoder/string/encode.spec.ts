@@ -17,6 +17,7 @@
 import tap from 'tap'
 
 import {
+  RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
   ROOF__PREFIX_LENGTH_8BIT_FIXED,
@@ -36,6 +37,16 @@ import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
+
+tap.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const bytesWritten: number =
+    RFC3339_DATE_INTEGER_TRIPLET(buffer, 0, '2014-10-01', {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0xde, 0x07, 0x0a, 0x01 ]))
+  test.is(bytesWritten, 4)
+  test.end()
+})
 
 tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (
   test

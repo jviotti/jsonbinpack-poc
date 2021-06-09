@@ -83,6 +83,27 @@ const writeMaybeSharedString = (
   }, context)
 }
 
+export const RFC3339_DATE_INTEGER_TRIPLET = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  _options: NoOptions, _context: EncodingContext
+): number => {
+  const date: number[] = []
+  for (const fragment of value.split('-')) {
+    date.push(parseInt(fragment, 10))
+  }
+
+  assert(date.length === 3)
+
+  // As according to RFC3339: Internet Protocols MUST generate four digit years in dates.
+  assert(date[0] >= 0 && date[0] <= 9999)
+  assert(date[1] >= 1 && date[1] <= 12)
+  assert(date[2] >= 1 && date[2] <= 31)
+
+  const monthOffset: number = buffer.writeUInt16LE(date[0], offset)
+  const dayOffset: number = buffer.writeUInt8(date[1], monthOffset)
+  return buffer.writeUInt8(date[2], dayOffset) - offset
+}
+
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions, context: EncodingContext
 ): number => {

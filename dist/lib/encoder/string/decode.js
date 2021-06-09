@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = void 0;
+exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = void 0;
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
 var limits_1 = require("../../utils/limits");
@@ -17,6 +17,22 @@ var readSharedString = function (buffer, offset, prefix, length, delta) {
         bytes: prefix.bytes + length.bytes + pointer.bytes
     };
 };
+var RFC3339_DATE_INTEGER_TRIPLET = function (buffer, offset, _options) {
+    var year = buffer.readUInt16LE(offset);
+    var month = buffer.readUInt8(offset + 2);
+    var day = buffer.readUInt8(offset + 3);
+    assert_1.strict(year <= 9999);
+    assert_1.strict(month >= 1 && month <= 12);
+    assert_1.strict(day >= 1 && day <= 31);
+    var yearString = String(year).padStart(4, '0');
+    var monthString = String(month).padStart(2, '0');
+    var dayString = String(day).padStart(2, '0');
+    return {
+        value: yearString + "-" + monthString + "-" + dayString,
+        bytes: 4
+    };
+};
+exports.RFC3339_DATE_INTEGER_TRIPLET = RFC3339_DATE_INTEGER_TRIPLET;
 var BOUNDED__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);

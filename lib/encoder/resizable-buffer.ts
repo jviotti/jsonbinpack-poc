@@ -47,6 +47,13 @@ export default class ResizableBuffer {
     return cursor
   }
 
+  public writeUInt16LE (value: number, offset: number): number {
+    this.grow(2)
+    const cursor: number = this.buffer.writeUInt16LE(value, offset)
+    this.written = Math.max(this.written, cursor)
+    return cursor
+  }
+
   public writeUIntLE (value: number, offset: number, byteLength: number): number {
     this.grow(byteLength)
     const cursor: number = this.buffer.writeUIntLE(value, offset, byteLength)
@@ -70,6 +77,10 @@ export default class ResizableBuffer {
 
   public readUInt8 (offset: number): number {
     return this.buffer.readUInt8(offset)
+  }
+
+  public readUInt16LE (offset: number): number {
+    return this.buffer.readUInt16LE(offset)
   }
 
   public readUIntLE (offset: number, byteLength: number): number {

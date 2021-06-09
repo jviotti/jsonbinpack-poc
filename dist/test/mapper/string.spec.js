@@ -5,6 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var mapper_1 = require("../../lib/mapper");
+tap_1.default.test('should encode string with format: date', function (test) {
+    var schema = {
+        type: 'string',
+        format: 'date'
+    };
+    var result = mapper_1.getEncoding(schema);
+    test.is(mapper_1.getStates(schema), Infinity);
+    test.strictSame(result, {
+        type: 'string',
+        encoding: 'RFC3339_DATE_INTEGER_TRIPLET',
+        options: {}
+    });
+    test.end();
+});
 tap_1.default.test('should encode a simple string', function (test) {
     var schema = {
         type: 'string'
