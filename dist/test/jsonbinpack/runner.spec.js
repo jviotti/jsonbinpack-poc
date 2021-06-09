@@ -54,18 +54,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fs_1 = require("fs");
 var path_1 = require("path");
-var lib_1 = require("../lib");
-var schema_1 = require("../lib/schema");
-var preprocessor_1 = require("../lib/preprocessor");
-var TEST_DIRECTORY = path_1.resolve(__dirname, 'jsonbinpack');
-var SRC_TEST_DIRECTORY = path_1.resolve(__dirname, '..', '..', 'test', 'jsonbinpack');
+var lib_1 = require("../../lib");
+var schema_1 = require("../../lib/schema");
+var preprocessor_1 = require("../../lib/preprocessor");
+var TEST_DIRECTORY = __dirname;
+var SRC_TEST_DIRECTORY = path_1.resolve(__dirname, '..', '..', '..', 'test', 'jsonbinpack');
 var _loop_1 = function (testCase) {
+    var testCasePath = path_1.resolve(TEST_DIRECTORY, testCase);
+    if (!fs_1.statSync(testCasePath).isDirectory()) {
+        return "continue";
+    }
     tap_1.default.test(testCase, function (test) { return __awaiter(void 0, void 0, void 0, function () {
-        var testCasePath, schema, value, _a, _b, _c, encoding, buffer, result;
+        var schema, value, _a, _b, _c, encoding, buffer, result;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
-                    testCasePath = path_1.resolve(TEST_DIRECTORY, testCase);
                     schema = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'schema.json'), 'utf8'));
                     value = JSON.parse(fs_1.readFileSync(path_1.resolve(testCasePath, 'document.json'), 'utf8'));
                     _b = (_a = test).true;
