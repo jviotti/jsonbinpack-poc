@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBooleanEncoding = exports.getBooleanStates = void 0;
 var encoder_1 = require("../encoder");
 var getBooleanStates = function (_schema) {
-    return 2;
+    return [false, true];
 };
 exports.getBooleanStates = getBooleanStates;
 var getBooleanEncoding = function (_schema) {

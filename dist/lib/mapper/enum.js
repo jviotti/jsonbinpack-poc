@@ -4,7 +4,7 @@ exports.getEnumEncoding = exports.getEnumStates = void 0;
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
 var getEnumStates = function (schema) {
-    return schema.enum.length;
+    return schema.enum;
 };
 exports.getEnumStates = getEnumStates;
 var getEnumEncoding = function (schema) {

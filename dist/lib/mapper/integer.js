@@ -2,22 +2,31 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIntegerEncoding = exports.getIntegerStates = void 0;
 var assert_1 = require("assert");
+var lodash_1 = require("lodash");
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
 var getIntegerStates = function (schema) {
     var encoding = exports.getIntegerEncoding(schema);
     if (encoding.encoding === 'BOUNDED__ENUM_VARINT' ||
         encoding.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
-        return encoding.options.maximum - encoding.options.minimum + 1;
+        if (encoding.options.maximum - encoding.options.minimum > limits_1.UINT8_MAX) {
+            return encoding.options.maximum - encoding.options.minimum + 1;
+        }
+        return lodash_1.range(encoding.options.minimum, encoding.options.maximum + 1);
     }
     else if (encoding.encoding === 'BOUNDED_MULTIPLE__ENUM_VARINT' ||
         encoding.encoding === 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED') {
-        var absoluteMultiplier = Math.abs(encoding.options.multiplier);
-        var closestMinimumMultiple = Math.ceil(encoding.options.minimum / absoluteMultiplier) * absoluteMultiplier;
-        var closestMaximumMultiple = Math.ceil(encoding.options.maximum / -absoluteMultiplier) * -absoluteMultiplier;
-        var enumMinimum = closestMinimumMultiple / absoluteMultiplier;
-        var enumMaximum = closestMaximumMultiple / absoluteMultiplier;
-        return enumMaximum - enumMinimum + 1;
+        var absoluteMultiplier_1 = Math.abs(encoding.options.multiplier);
+        var closestMinimumMultiple = Math.ceil(encoding.options.minimum / absoluteMultiplier_1) * absoluteMultiplier_1;
+        var closestMaximumMultiple = Math.ceil(encoding.options.maximum / -absoluteMultiplier_1) * -absoluteMultiplier_1;
+        var enumMinimum = closestMinimumMultiple / absoluteMultiplier_1;
+        var enumMaximum = closestMaximumMultiple / absoluteMultiplier_1;
+        if (enumMaximum - enumMinimum > limits_1.UINT8_MAX) {
+            return enumMaximum - enumMinimum + 1;
+        }
+        return lodash_1.range(enumMinimum, enumMaximum + 1).map(function (value) {
+            return value * absoluteMultiplier_1;
+        });
     }
     return Infinity;
 };

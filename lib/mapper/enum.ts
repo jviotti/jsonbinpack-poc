@@ -54,7 +54,7 @@ export type EnumEncodingNames = 'BOUNDED_CHOICE_INDEX' | 'LARGE_BOUNDED_CHOICE_I
 export type EnumEncoding = BOUNDED_CHOICE_INDEX_ENCODING | LARGE_BOUNDED_CHOICE_INDEX_ENCODING
 
 export const getEnumStates = (schema: EnumEncodingSchema): number | JSONValue[] => {
-  return schema.enum.length
+  return schema.enum
 }
 
 export const getEnumEncoding = (schema: EnumEncodingSchema): EnumEncoding => {

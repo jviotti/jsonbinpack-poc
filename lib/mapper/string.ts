@@ -104,17 +104,7 @@ export type StringEncoding =
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING
 
-export const getStringStates = (schema: StringEncodingSchema): number | JSONValue[] => {
-  const encoding: StringEncoding = getStringEncoding(schema)
-
-  if (encoding.encoding === 'ROOF__PREFIX_LENGTH_8BIT_FIXED' ||
-    encoding.encoding === 'ROOF__PREFIX_LENGTH_ENUM_VARINT') {
-    return encoding.options.maximum + 1
-  } else if (encoding.encoding === 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' ||
-    encoding.encoding === 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT') {
-    return encoding.options.maximum - encoding.options.minimum + 1
-  }
-
+export const getStringStates = (_schema: StringEncodingSchema): number | JSONValue[] => {
   return Infinity
 }
 

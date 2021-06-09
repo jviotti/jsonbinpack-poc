@@ -32,7 +32,7 @@ tap.test('should encode a null value', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 1)
+  test.strictSame(getStates(schema), [ null ])
   test.strictSame(result, {
     type: 'null',
     encoding: 'NULL_8BITS__ENUM_FIXED',

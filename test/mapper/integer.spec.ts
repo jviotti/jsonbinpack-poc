@@ -17,6 +17,10 @@
 import tap from 'tap'
 
 import {
+  range
+} from 'lodash'
+
+import {
   EncodingSchema
 } from '../../lib/schema'
 
@@ -35,7 +39,7 @@ tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier',
   }
 
   const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 41)
+  test.strictSame(getStates(schema), range(-100, 105, 5))
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
@@ -195,7 +199,7 @@ tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 201)
+  test.strictSame(getStates(schema), range(-100, 101))
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_8BITS__ENUM_FIXED',

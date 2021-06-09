@@ -44,7 +44,7 @@ export type NullEncodingNames = 'NULL_8BITS__ENUM_FIXED'
 export type NullEncoding = NULL_8BITS__ENUM_FIXED_ENCODING
 
 export const getNullStates = (_schema: NullEncodingSchema): number | JSONValue[] => {
-  return 1
+  return [ null ]
 }
 
 export const getNullEncoding = (_schema: NullEncodingSchema): NullEncoding => {
