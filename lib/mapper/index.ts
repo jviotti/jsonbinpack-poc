@@ -15,6 +15,10 @@
  */
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   BooleanEncodingNames,
   BooleanEncoding,
   getBooleanStates,
@@ -191,7 +195,7 @@ export const getEncoding = (schema: EncodingSchema): Encoding => {
   return getObjectEncoding(schema)
 }
 
-export const getStates = (schema: EncodingSchema): number => {
+export const getStates = (schema: EncodingSchema): number | JSONValue[] => {
   if ('enum' in schema) {
     return getEnumStates(schema)
   } else if ('const' in schema) {

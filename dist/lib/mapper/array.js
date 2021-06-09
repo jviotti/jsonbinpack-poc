@@ -20,10 +20,12 @@ var getArrayStates = function (schema) {
         while (index < encoding.options.maximum) {
             var itemEncoding = (_a = encoding.options.prefixEncodings[index]) !== null && _a !== void 0 ? _a : null;
             if (itemEncoding !== null) {
-                result = result * index_1.getStates(itemEncoding);
+                var states = index_1.getStates(itemEncoding);
+                result = result * (Array.isArray(states) ? states.length : states);
             }
             else if ('encoding' in encoding.options) {
-                result = result * index_1.getStates(encoding.options.encoding);
+                var states = index_1.getStates(encoding.options.encoding);
+                result = result * (Array.isArray(states) ? states.length : states);
             }
             else {
                 return Infinity;

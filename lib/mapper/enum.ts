@@ -15,6 +15,10 @@
  */
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -49,7 +53,7 @@ export interface LARGE_BOUNDED_CHOICE_INDEX_ENCODING extends BaseEncodingDefinit
 export type EnumEncodingNames = 'BOUNDED_CHOICE_INDEX' | 'LARGE_BOUNDED_CHOICE_INDEX'
 export type EnumEncoding = BOUNDED_CHOICE_INDEX_ENCODING | LARGE_BOUNDED_CHOICE_INDEX_ENCODING
 
-export const getEnumStates = (schema: EnumEncodingSchema): number => {
+export const getEnumStates = (schema: EnumEncodingSchema): number | JSONValue[] => {
   return schema.enum.length
 }
 

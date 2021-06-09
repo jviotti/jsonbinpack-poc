@@ -19,6 +19,10 @@ import {
 } from 'assert'
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -100,7 +104,7 @@ export type StringEncoding =
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING
 
-export const getStringStates = (schema: StringEncodingSchema): number => {
+export const getStringStates = (schema: StringEncodingSchema): number | JSONValue[] => {
   const encoding: StringEncoding = getStringEncoding(schema)
 
   if (encoding.encoding === 'ROOF__PREFIX_LENGTH_8BIT_FIXED' ||

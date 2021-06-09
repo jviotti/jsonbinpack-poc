@@ -31,7 +31,8 @@ var getObjectStates = function (schema) {
         encoding.encoding === 'MIXED_BOUNDED_TYPED_OBJECT') {
         return Object.keys(encoding.options.propertyEncodings).reduce(function (accumulator, property) {
             var propertyEncoding = encoding.options.propertyEncodings[property];
-            var propertyStates = index_1.getStates(propertyEncoding);
+            var states = index_1.getStates(propertyEncoding);
+            var propertyStates = Array.isArray(states) ? states.length : states;
             if ('optionalProperties' in encoding.options &&
                 Array.isArray(encoding.options.optionalProperties) &&
                 encoding.options.optionalProperties.includes(property)) {

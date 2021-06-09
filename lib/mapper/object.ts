@@ -19,6 +19,10 @@ import {
 } from 'util'
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   getStringEncoding,
   StringEncoding
 } from './string'
@@ -135,7 +139,7 @@ const parseAdditionalProperties = (
 
 // TODO: This definition can probably be greatly improved once we
 // support the maxProperties JSON Schema keyword.
-export const getObjectStates = (schema: ObjectEncodingSchema): number => {
+export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValue[] => {
   const encoding: ObjectEncoding = getObjectEncoding(schema)
   if (encoding.encoding === 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' ||
     encoding.encoding === 'NON_REQUIRED_BOUNDED_TYPED_OBJECT' ||
@@ -144,7 +148,8 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number => {
       (accumulator: number, property: string): number => {
       const propertyEncoding: Encoding =
           encoding.options.propertyEncodings[property]
-      const propertyStates: number = getStates(propertyEncoding)
+      const states: number | JSONValue[] = getStates(propertyEncoding)
+      const propertyStates: number = Array.isArray(states) ? states.length : states
 
       if ('optionalProperties' in encoding.options &&
         Array.isArray(encoding.options.optionalProperties) &&
