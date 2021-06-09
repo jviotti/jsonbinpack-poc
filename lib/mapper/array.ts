@@ -15,6 +15,10 @@
  */
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -148,7 +152,7 @@ export type ArrayEncoding =
   ROOF_TYPED__LENGTH_PREFIX_ENCODING |
   UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
 
-export const getArrayStates = (schema: ArrayEncodingSchema): number => {
+export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[] => {
   const encoding: ArrayEncoding = getArrayEncoding(schema)
   if (encoding.encoding === 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' ||
     encoding.encoding === 'BOUNDED_TYPED__LENGTH_PREFIX' ||
@@ -165,9 +169,11 @@ export const getArrayStates = (schema: ArrayEncodingSchema): number => {
       const itemEncoding: Encoding | null =
         encoding.options.prefixEncodings[index] ?? null
       if (itemEncoding !== null) {
-        result = result * getStates(itemEncoding)
+        const states: number | JSONValue[] = getStates(itemEncoding)
+        result = result * (Array.isArray(states) ? states.length : states)
       } else if ('encoding' in encoding.options) {
-        result = result * getStates(encoding.options.encoding)
+        const states: number | JSONValue[] = getStates(encoding.options.encoding)
+        result = result * (Array.isArray(states) ? states.length : states)
       } else {
         return Infinity
       }

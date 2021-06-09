@@ -19,6 +19,10 @@ import {
 } from 'assert'
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -128,7 +132,7 @@ export type IntegerEncoding =
   ARBITRARY__ZIGZAG_VARINT_ENCODING |
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT_ENCODING
 
-export const getIntegerStates = (schema: IntegerEncodingSchema): number => {
+export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONValue[] => {
   const encoding: IntegerEncoding = getIntegerEncoding(schema)
 
   if (encoding.encoding === 'BOUNDED__ENUM_VARINT' ||

@@ -15,6 +15,10 @@
  */
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -40,7 +44,7 @@ export type AnyEncodingNames = 'ANY__TYPE_PREFIX'
 export type AnyEncoding = ANY__TYPE_PREFIX_ENCODING
 
 // It could literally be anything
-export const getAnyStates = (_schema: AnyEncodingSchema): number => {
+export const getAnyStates = (_schema: AnyEncodingSchema): number | JSONValue[] => {
   return Infinity
 }
 

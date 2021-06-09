@@ -15,6 +15,10 @@
  */
 
 import {
+  JSONValue
+} from '../json'
+
+import {
   BaseEncodingDefinition
 } from './base-encoding-definition'
 
@@ -39,7 +43,7 @@ export interface BOOLEAN_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefiniti
 export type BooleanEncodingNames = 'BOOLEAN_8BITS__ENUM_FIXED'
 export type BooleanEncoding = BOOLEAN_8BITS__ENUM_FIXED_ENCODING
 
-export const getBooleanStates = (_schema: BooleanEncodingSchema): number => {
+export const getBooleanStates = (_schema: BooleanEncodingSchema): number | JSONValue[] => {
   return 2
 }
 

@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOneOfEncoding = exports.getOneOfStates = void 0;
-var index_1 = require("./index");
 var encoder_1 = require("../encoder");
+var index_1 = require("./index");
 var getOneOfStates = function (schema) {
     return schema.oneOf.reduce(function (accumulator, choice) {
-        return accumulator * index_1.getStates(choice);
+        var states = index_1.getStates(choice);
+        return accumulator * (Array.isArray(states) ? states.length : states);
     }, 1);
 };
 exports.getOneOfStates = getOneOfStates;

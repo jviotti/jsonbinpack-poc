@@ -15,8 +15,8 @@
  */
 
 import {
-  BaseEncodingDefinition
-} from './base-encoding-definition'
+  JSONValue
+} from '../json'
 
 import {
   SchemasOptions
@@ -28,13 +28,17 @@ import {
 } from '../schema'
 
 import {
+  EncodingType
+} from '../encoder'
+
+import {
+  BaseEncodingDefinition
+} from './base-encoding-definition'
+
+import {
   getStates,
   getEncoding
 } from './index'
-
-import {
-  EncodingType
-} from '../encoder'
 
 export interface ONEOF_CHOICE_INDEX_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.OneOf;
@@ -45,9 +49,10 @@ export interface ONEOF_CHOICE_INDEX_PREFIX_ENCODING extends BaseEncodingDefiniti
 export type OneOfEncodingNames = 'ONEOF_CHOICE_INDEX_PREFIX'
 export type OneOfEncoding = ONEOF_CHOICE_INDEX_PREFIX_ENCODING
 
-export const getOneOfStates = (schema: OneOfEncodingSchema): number => {
+export const getOneOfStates = (schema: OneOfEncodingSchema): number | JSONValue[] => {
   return schema.oneOf.reduce((accumulator: number, choice: EncodingSchema) => {
-    return accumulator * getStates(choice)
+    const states: number | JSONValue[] = getStates(choice)
+    return accumulator * (Array.isArray(states) ? states.length : states)
   }, 1)
 }
 
