@@ -49,6 +49,10 @@ export interface LARGE_BOUNDED_CHOICE_INDEX_ENCODING extends BaseEncodingDefinit
 export type EnumEncodingNames = 'BOUNDED_CHOICE_INDEX' | 'LARGE_BOUNDED_CHOICE_INDEX'
 export type EnumEncoding = BOUNDED_CHOICE_INDEX_ENCODING | LARGE_BOUNDED_CHOICE_INDEX_ENCODING
 
+export const getEnumStates = (schema: EnumEncodingSchema): number => {
+  return schema.enum.length
+}
+
 export const getEnumEncoding = (schema: EnumEncodingSchema): EnumEncoding => {
   return {
     type: EncodingType.Enum,

@@ -17,66 +17,77 @@
 import {
   BooleanEncodingNames,
   BooleanEncoding,
+  getBooleanStates,
   getBooleanEncoding
 } from './boolean'
 
 import {
   NullEncodingNames,
   NullEncoding,
+  getNullStates,
   getNullEncoding
 } from './null'
 
 import {
   NumberEncodingNames,
   NumberEncoding,
+  getNumberStates,
   getNumberEncoding
 } from './number'
 
 import {
   IntegerEncodingNames,
   IntegerEncoding,
+  getIntegerStates,
   getIntegerEncoding
 } from './integer'
 
 import {
   StringEncodingNames,
   StringEncoding,
+  getStringStates,
   getStringEncoding
 } from './string'
 
 import {
   AnyEncodingNames,
   AnyEncoding,
+  getAnyStates,
   getAnyEncoding
 } from './any'
 
 import {
   ArrayEncodingNames,
   ArrayEncoding,
+  getArrayStates,
   getArrayEncoding
 } from './array'
 
 import {
   ObjectEncodingNames,
   ObjectEncoding,
+  getObjectStates,
   getObjectEncoding
 } from './object'
 
 import {
   EnumEncodingNames,
   EnumEncoding,
+  getEnumStates,
   getEnumEncoding
 } from './enum'
 
 import {
   OneOfEncodingNames,
   OneOfEncoding,
+  getOneOfStates,
   getOneOfEncoding
 } from './oneof'
 
 import {
   ConstEncodingNames,
   ConstEncoding,
+  getConstStates,
   getConstEncoding
 } from './const'
 
@@ -178,4 +189,30 @@ export const getEncoding = (schema: EncodingSchema): Encoding => {
     return getArrayEncoding(schema)
   }
   return getObjectEncoding(schema)
+}
+
+export const getStates = (schema: EncodingSchema): number => {
+  if ('enum' in schema) {
+    return getEnumStates(schema)
+  } else if ('const' in schema) {
+    return getConstStates(schema)
+  } else if ('oneOf' in schema) {
+    return getOneOfStates(schema)
+  } else if (!('type' in schema)) {
+    return getAnyStates(schema)
+  } else if (schema.type === 'boolean') {
+    return getBooleanStates(schema)
+  } else if (schema.type === 'integer') {
+    return getIntegerStates(schema)
+  } else if (schema.type === 'null') {
+    return getNullStates(schema)
+  } else if (schema.type === 'number') {
+    return getNumberStates(schema)
+  } else if (schema.type === 'string') {
+    return getStringStates(schema)
+  } else if (schema.type === 'array') {
+    return getArrayStates(schema)
+  }
+
+  return getObjectStates(schema)
 }

@@ -10,6 +10,7 @@ tap_1.default.test('should encode an enum with one value', function (test) {
         enum: ['foo']
     };
     var result = mapper_1.getEncoding(schema);
+    test.is(mapper_1.getStates(schema), 1);
     test.strictSame(result, {
         type: 'enum',
         encoding: 'BOUNDED_CHOICE_INDEX',

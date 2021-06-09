@@ -128,6 +128,30 @@ export type IntegerEncoding =
   ARBITRARY__ZIGZAG_VARINT_ENCODING |
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT_ENCODING
 
+export const getIntegerStates = (schema: IntegerEncodingSchema): number => {
+  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+
+  if (encoding.encoding === 'BOUNDED__ENUM_VARINT' ||
+    encoding.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
+    return encoding.options.maximum - encoding.options.minimum + 1
+  } else if (encoding.encoding === 'BOUNDED_MULTIPLE__ENUM_VARINT' ||
+    encoding.encoding === 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED') {
+
+    // TODO: De-duplicate this logic on encoder/integer/encode
+    const absoluteMultiplier: number = Math.abs(encoding.options.multiplier)
+    const closestMinimumMultiple: number =
+      Math.ceil(encoding.options.minimum / absoluteMultiplier) * absoluteMultiplier
+    const closestMaximumMultiple: number =
+      Math.ceil(encoding.options.maximum / -absoluteMultiplier) * -absoluteMultiplier
+    const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
+    const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
+
+    return enumMaximum - enumMinimum + 1
+  }
+
+  return Infinity
+}
+
 export const getIntegerEncoding = (schema: IntegerEncodingSchema): IntegerEncoding => {
   assert(typeof schema.minimum === 'undefined' ||
     typeof schema.maximum === 'undefined' ||

@@ -22,6 +22,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from '../../lib/mapper'
 
@@ -45,6 +46,7 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -80,6 +82,59 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
             items: {
               type: 'string'
             }
+          })
+        }
+      ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a oneOf schema with multiple boolean choices', (test) => {
+  const schema: EncodingSchema = {
+    oneOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'boolean'
+      }
+    ]
+  }
+
+  const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 8)
+  test.strictSame(result, {
+    type: 'oneOf',
+    encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
+    options: {
+      schemas: [
+        {
+          schema: {
+            type: 'boolean'
+          },
+          encoding: getEncoding({
+            type: 'boolean'
+          })
+        },
+        {
+          schema: {
+            type: 'boolean'
+          },
+          encoding: getEncoding({
+            type: 'boolean'
+          })
+        },
+        {
+          schema: {
+            type: 'boolean'
+          },
+          encoding: getEncoding({
+            type: 'boolean'
           })
         }
       ]

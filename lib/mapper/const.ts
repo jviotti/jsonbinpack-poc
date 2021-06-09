@@ -39,6 +39,10 @@ export interface CONST_NONE_ENCODING extends BaseEncodingDefinition {
 export type ConstEncodingNames = 'CONST_NONE'
 export type ConstEncoding = CONST_NONE_ENCODING
 
+export const getConstStates = (_schema: ConstEncodingSchema): number => {
+  return 1
+}
+
 export const getConstEncoding = (schema: ConstEncodingSchema): ConstEncoding => {
   return {
     type: EncodingType.Const,

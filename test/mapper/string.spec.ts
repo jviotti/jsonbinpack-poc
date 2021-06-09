@@ -22,6 +22,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from '../../lib/mapper'
 
@@ -31,6 +32,7 @@ tap.test('should encode a simple string', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
@@ -47,6 +49,7 @@ tap.test('should encode a string with minLength', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
@@ -65,6 +68,7 @@ tap.test('should encode a string with maxLength >= 255', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 257)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -83,6 +87,7 @@ tap.test('should encode a string with maxLength < 255', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 255)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
@@ -101,6 +106,7 @@ tap.test('should encode a string with maxLength = 255', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 256)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -122,6 +128,7 @@ tap.test('should encode a string with minLength and maxLength < 255', (
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 201)
   test.strictSame(result, {
     type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
@@ -144,6 +151,7 @@ tap.test('should encode a string with minLength and maxLength > 255', (
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 501)
   test.strictSame(result, {
     type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',

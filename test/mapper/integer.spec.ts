@@ -22,6 +22,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from '../../lib/mapper'
 
@@ -34,6 +35,7 @@ tap.test('should encode an 8-bit integer with minimum, maximum, and multiplier',
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 41)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
@@ -56,6 +58,7 @@ tap.test('should encode an integer with minimum, maximum, and multiplier', (test
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 2021)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
@@ -75,6 +78,7 @@ tap.test('should encode an arbitrary integer', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ARBITRARY__ZIGZAG_VARINT',
@@ -91,6 +95,7 @@ tap.test('should encode an arbitrary integer with multipleOf', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
@@ -109,6 +114,7 @@ tap.test('should encode an integer with minimum', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'FLOOR__ENUM_VARINT',
@@ -128,6 +134,7 @@ tap.test('should encode an integer with minimum and multipleOf', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
@@ -147,6 +154,7 @@ tap.test('should encode an integer with maximum', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ROOF__MIRROR_ENUM_VARINT',
@@ -166,6 +174,7 @@ tap.test('should encode an integer with maximum and multipleOf', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
@@ -186,6 +195,7 @@ tap.test('should encode an 8-bit integer with minimum and maximum', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 201)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED_8BITS__ENUM_FIXED',
@@ -206,6 +216,7 @@ tap.test('should encode an >8-bit integer with minimum and maximum', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), 100101)
   test.strictSame(result, {
     type: 'integer',
     encoding: 'BOUNDED__ENUM_VARINT',

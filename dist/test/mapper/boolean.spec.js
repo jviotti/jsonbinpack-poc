@@ -10,6 +10,7 @@ tap_1.default.test('should encode a boolean value', function (test) {
         type: 'boolean'
     };
     var result = mapper_1.getEncoding(schema);
+    test.is(mapper_1.getStates(schema), 2);
     test.strictSame(result, {
         type: 'boolean',
         encoding: 'BOOLEAN_8BITS__ENUM_FIXED',

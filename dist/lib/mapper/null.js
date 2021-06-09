@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNullEncoding = void 0;
+exports.getNullEncoding = exports.getNullStates = void 0;
 var encoder_1 = require("../encoder");
+var getNullStates = function (_schema) {
+    return 1;
+};
+exports.getNullStates = getNullStates;
 var getNullEncoding = function (_schema) {
     return {
         type: encoder_1.EncodingType.Null,

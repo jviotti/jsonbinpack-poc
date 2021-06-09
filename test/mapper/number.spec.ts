@@ -22,6 +22,7 @@ import {
 
 import {
   Encoding,
+  getStates,
   getEncoding
 } from '../../lib/mapper'
 
@@ -31,6 +32,7 @@ tap.test('should encode a number simple value', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'number',
     encoding: 'DOUBLE_VARINT_TUPLE',

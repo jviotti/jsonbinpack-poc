@@ -39,6 +39,10 @@ export interface BOOLEAN_8BITS__ENUM_FIXED_ENCODING extends BaseEncodingDefiniti
 export type BooleanEncodingNames = 'BOOLEAN_8BITS__ENUM_FIXED'
 export type BooleanEncoding = BOOLEAN_8BITS__ENUM_FIXED_ENCODING
 
+export const getBooleanStates = (_schema: BooleanEncodingSchema): number => {
+  return 2
+}
+
 export const getBooleanEncoding = (_schema: BooleanEncodingSchema): BooleanEncoding => {
   return {
     type: EncodingType.Boolean,

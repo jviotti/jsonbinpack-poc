@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getObjectEncoding = void 0;
+exports.getObjectEncoding = exports.getObjectStates = void 0;
 var util_1 = require("util");
 var string_1 = require("./string");
 var index_1 = require("./index");
@@ -24,6 +24,25 @@ var parseAdditionalProperties = function (value) {
         ? {} : value;
     return index_1.getEncoding(schema);
 };
+var getObjectStates = function (schema) {
+    var encoding = exports.getObjectEncoding(schema);
+    if (encoding.encoding === 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' ||
+        encoding.encoding === 'NON_REQUIRED_BOUNDED_TYPED_OBJECT' ||
+        encoding.encoding === 'MIXED_BOUNDED_TYPED_OBJECT') {
+        return Object.keys(encoding.options.propertyEncodings).reduce(function (accumulator, property) {
+            var propertyEncoding = encoding.options.propertyEncodings[property];
+            var propertyStates = index_1.getStates(propertyEncoding);
+            if ('optionalProperties' in encoding.options &&
+                Array.isArray(encoding.options.optionalProperties) &&
+                encoding.options.optionalProperties.includes(property)) {
+                return accumulator * (propertyStates + 1);
+            }
+            return accumulator * propertyStates;
+        }, 1);
+    }
+    return Infinity;
+};
+exports.getObjectStates = getObjectStates;
 var getObjectEncoding = function (schema) {
     var e_1, _a, e_2, _b, e_3, _c;
     var _d, _e, _f, _g, _h, _j, _k;

@@ -1,8 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEnumEncoding = void 0;
+exports.getEnumEncoding = exports.getEnumStates = void 0;
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
+var getEnumStates = function (schema) {
+    return schema.enum.length;
+};
+exports.getEnumStates = getEnumStates;
 var getEnumEncoding = function (schema) {
     return {
         type: encoder_1.EncodingType.Enum,
