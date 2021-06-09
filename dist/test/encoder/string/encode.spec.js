@@ -6,6 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/encoder/string/encode");
 var encoder_1 = require("../../../lib/encoder");
+tap_1.default.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var bytesWritten = encode_1.RFC3339_DATE_INTEGER_TRIPLET(buffer, 0, '2014-10-01', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0xde, 0x07, 0x0a, 0x01]));
+    test.is(bytesWritten, 4);
+    test.end();
+});
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));

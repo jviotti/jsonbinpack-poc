@@ -74,6 +74,27 @@ const readSharedString = (
   }
 }
 
+export const RFC3339_DATE_INTEGER_TRIPLET = (
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
+): StringResult => {
+  const year: number = buffer.readUInt16LE(offset)
+  const month: number = buffer.readUInt8(offset + 2)
+  const day: number = buffer.readUInt8(offset + 3)
+
+  assert(year <= 9999)
+  assert(month >= 1 && month <= 12)
+  assert(day >= 1 && day <= 31)
+
+  const yearString: string = String(year).padStart(4, '0')
+  const monthString: string = String(month).padStart(2, '0')
+  const dayString: string = String(day).padStart(2, '0')
+
+  return {
+    value: `${yearString}-${monthString}-${dayString}`,
+    bytes: 4
+  }
+}
+
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): StringResult => {

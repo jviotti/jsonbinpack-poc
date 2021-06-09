@@ -41,6 +41,12 @@ import {
   FloorOptions
 } from '../encoder/string/options'
 
+export interface RFC3339_DATE_INTEGER_TRIPLET_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.String;
+  readonly encoding: 'RFC3339_DATE_INTEGER_TRIPLET';
+  readonly options: NoOptions;
+}
+
 export interface BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
   readonly encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED';
@@ -78,6 +84,7 @@ export interface ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING extends BaseEncodingDe
 }
 
 export type StringEncodingNames =
+  'RFC3339_DATE_INTEGER_TRIPLET' |
   'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' |
   'BOUNDED__PREFIX_LENGTH_ENUM_VARINT' |
   'ROOF__PREFIX_LENGTH_8BIT_FIXED' |
@@ -85,6 +92,7 @@ export type StringEncodingNames =
   'FLOOR__PREFIX_LENGTH_ENUM_VARINT' |
   'ARBITRARY__PREFIX_LENGTH_VARINT'
 export type StringEncoding =
+  RFC3339_DATE_INTEGER_TRIPLET_ENCODING |
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ROOF__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
@@ -107,6 +115,14 @@ export const getStringStates = (schema: StringEncodingSchema): number => {
 }
 
 export const getStringEncoding = (schema: StringEncodingSchema): StringEncoding => {
+  if (schema.format === 'date') {
+    return {
+      type: EncodingType.String,
+      encoding: 'RFC3339_DATE_INTEGER_TRIPLET',
+      options: {}
+    }
+  }
+
   assert(typeof schema.minLength === 'undefined' || schema.minLength >= 0)
   assert(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0)
   assert(typeof schema.minLength === 'undefined' ||

@@ -22,6 +22,12 @@ var ResizableBuffer = (function () {
         this.written = Math.max(this.written, cursor);
         return cursor;
     };
+    ResizableBuffer.prototype.writeUInt16LE = function (value, offset) {
+        this.grow(2);
+        var cursor = this.buffer.writeUInt16LE(value, offset);
+        this.written = Math.max(this.written, cursor);
+        return cursor;
+    };
     ResizableBuffer.prototype.writeUIntLE = function (value, offset, byteLength) {
         this.grow(byteLength);
         var cursor = this.buffer.writeUIntLE(value, offset, byteLength);
@@ -42,6 +48,9 @@ var ResizableBuffer = (function () {
     };
     ResizableBuffer.prototype.readUInt8 = function (offset) {
         return this.buffer.readUInt8(offset);
+    };
+    ResizableBuffer.prototype.readUInt16LE = function (offset) {
+        return this.buffer.readUInt16LE(offset);
     };
     ResizableBuffer.prototype.readUIntLE = function (offset, byteLength) {
         return this.buffer.readUIntLE(offset, byteLength);

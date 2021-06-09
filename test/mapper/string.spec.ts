@@ -26,6 +26,23 @@ import {
   getEncoding
 } from '../../lib/mapper'
 
+tap.test('should encode string with format: date', (test) => {
+  const schema: EncodingSchema = {
+    type: 'string',
+    format: 'date'
+  }
+
+  const result: Encoding = getEncoding(schema)
+  test.is(getStates(schema), Infinity)
+  test.strictSame(result, {
+    type: 'string',
+    encoding: 'RFC3339_DATE_INTEGER_TRIPLET',
+    options: {}
+  })
+
+  test.end()
+})
+
 tap.test('should encode a simple string', (test) => {
   const schema: EncodingSchema = {
     type: 'string'

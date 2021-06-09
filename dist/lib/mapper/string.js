@@ -18,6 +18,13 @@ var getStringStates = function (schema) {
 };
 exports.getStringStates = getStringStates;
 var getStringEncoding = function (schema) {
+    if (schema.format === 'date') {
+        return {
+            type: encoder_1.EncodingType.String,
+            encoding: 'RFC3339_DATE_INTEGER_TRIPLET',
+            options: {}
+        };
+    }
     assert_1.strict(typeof schema.minLength === 'undefined' || schema.minLength >= 0);
     assert_1.strict(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0);
     assert_1.strict(typeof schema.minLength === 'undefined' ||
