@@ -18,6 +18,8 @@ import {
   pick,
   omit,
   merge,
+  uniqWith,
+  isEqual,
   cloneDeep
 } from 'lodash'
 
@@ -70,10 +72,18 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
   if (Array.isArray(schema.allOf)) {
     return canonicalizeSchema(merge({}, ...schema.allOf))
   } else if (Array.isArray(schema.oneOf)) {
+    const branches: EncodingSchema[] = schema.oneOf.map((choice: JSONValue) => {
+      return canonicalizeSchema(merge(cloneDeep(choice), omit(schema, [ 'oneOf' ])))
+    })
+
+    // Attempt to collapse the oneOf as much as possible
+    const uniqueBranches: EncodingSchema[] = uniqWith(branches, isEqual)
+    if (uniqueBranches.length === 1) {
+      return uniqueBranches[0]
+    }
+
     return {
-      oneOf: schema.oneOf.map((choice: JSONValue) => {
-        return canonicalizeSchema(merge(cloneDeep(choice), omit(schema, [ 'oneOf' ])))
-      })
+      oneOf: uniqueBranches
     }
   }
 

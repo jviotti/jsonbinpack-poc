@@ -6,8 +6,8 @@ var index_1 = require("./index");
 var getOneOfStates = function (schema, level) {
     return schema.oneOf.reduce(function (accumulator, choice) {
         var states = index_1.getStates(choice, level + 1);
-        return accumulator * (Array.isArray(states) ? states.length : states);
-    }, 1);
+        return accumulator + (Array.isArray(states) ? states.length : states);
+    }, 0);
 };
 exports.getOneOfStates = getOneOfStates;
 var getOneOfEncoding = function (schema, level) {
