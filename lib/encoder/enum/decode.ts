@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  strict as assert
+} from 'assert'
+
 import ResizableBuffer from '../resizable-buffer'
 
 import {
@@ -37,6 +41,29 @@ import {
 export interface EnumResult extends DecodeResult {
   readonly value: JSONValue;
   readonly bytes: number;
+}
+
+export const TOP_LEVEL_8BIT_CHOICE_INDEX = (
+  buffer: ResizableBuffer, offset: number, options: ChoiceOptions
+): EnumResult => {
+  assert(offset === 0)
+
+  if (buffer.getSize() === 0) {
+    return {
+      value: options.choices[0],
+      bytes: 0
+    }
+  }
+
+  const result: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+    minimum: 1,
+    maximum: options.choices.length
+  })
+
+  return {
+    value: options.choices[result.value],
+    bytes: result.bytes
+  }
 }
 
 export const BOUNDED_CHOICE_INDEX = (

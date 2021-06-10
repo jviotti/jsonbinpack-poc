@@ -44,6 +44,51 @@ var util = __importStar(require("util"));
 var encode_1 = require("../../lib/encoder/enum/encode");
 var decode_1 = require("../../lib/encoder/enum/decode");
 var encoder_1 = require("../../lib/encoder");
+tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 1, 0, 0 ]', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var offset = 0;
+    var value = 1;
+    var options = {
+        choices: [1, 0, 0]
+    };
+    var bytesWritten = encode_1.TOP_LEVEL_8BIT_CHOICE_INDEX(buffer, offset, value, options, context);
+    test.is(bytesWritten, 0);
+    var result = decode_1.TOP_LEVEL_8BIT_CHOICE_INDEX(buffer, offset, options);
+    test.is(result.value, value);
+    test.is(result.bytes, bytesWritten);
+    test.end();
+});
+tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 1, 0 ]', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var offset = 0;
+    var value = 1;
+    var options = {
+        choices: [0, 1, 0]
+    };
+    var bytesWritten = encode_1.TOP_LEVEL_8BIT_CHOICE_INDEX(buffer, offset, value, options, context);
+    test.is(bytesWritten, 1);
+    var result = decode_1.TOP_LEVEL_8BIT_CHOICE_INDEX(buffer, offset, options);
+    test.is(result.value, value);
+    test.is(result.bytes, bytesWritten);
+    test.end();
+});
+tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 0, 1 ]', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var offset = 0;
+    var value = 1;
+    var options = {
+        choices: [0, 0, 1]
+    };
+    var bytesWritten = encode_1.TOP_LEVEL_8BIT_CHOICE_INDEX(buffer, offset, value, options, context);
+    test.is(bytesWritten, 1);
+    var result = decode_1.TOP_LEVEL_8BIT_CHOICE_INDEX(buffer, offset, options);
+    test.is(result.value, value);
+    test.is(result.bytes, bytesWritten);
+    test.end();
+});
 tap_1.default.test('BOUNDED_CHOICE_INDEX', function (test) {
     var arbitrary = fc.integer(1, 20).chain(function (length) {
         return fc.tuple(fc.integer(0, length - 1), fc.array(fc.json(), {

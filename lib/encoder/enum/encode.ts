@@ -45,6 +45,39 @@ import {
   EncodingContext
 } from '../context'
 
+export const TOP_LEVEL_8BIT_CHOICE_INDEX = (
+  buffer: ResizableBuffer, offset: number, value: JSONValue,
+  options: ChoiceOptions, context: EncodingContext
+): number => {
+  assert(options.choices.length > 0)
+  assert(options.choices.length <= UINT8_MAX)
+
+  // Otherwise its not top-level
+  assert(buffer.getSize() === 0)
+  assert(offset === 0)
+
+  let cursor: number = -1
+  for (const [ index, choice ] of options.choices.entries()) {
+    if (isDeepStrictEqual(value, choice)) {
+      cursor = index
+      break
+    }
+  }
+
+  assert(cursor !== -1)
+  assert(cursor >= 0 && cursor < options.choices.length)
+
+  // No data in a top-level enum means that the first choice applied
+  if (cursor === 0) {
+    return 0
+  }
+
+  return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, cursor, {
+    minimum: 1,
+    maximum: options.choices.length
+  }, context)
+}
+
 export const BOUNDED_CHOICE_INDEX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue, options: ChoiceOptions, context: EncodingContext
 ): number => {
