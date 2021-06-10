@@ -313,7 +313,16 @@ tap.test('should encode an a bounded array with bounded items', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 4)
+
+  test.strictSame(getStates(schema), [
+    [ false ],
+    [ true ],
+    [ false, false ],
+    [ false, true ],
+    [ true, false ],
+    [ true, true ]
+  ])
+
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
@@ -346,7 +355,16 @@ tap.test('should encode an a bounded array with total prefix items', (test) => {
   }
 
   const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 4)
+
+  test.strictSame(getStates(schema), [
+    [ false ],
+    [ true ],
+    [ false, false ],
+    [ false, true ],
+    [ true, false ],
+    [ true, true ]
+  ])
+
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',

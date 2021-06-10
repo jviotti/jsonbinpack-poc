@@ -261,7 +261,14 @@ tap_1.default.test('should encode an a bounded array with bounded items', functi
         }
     };
     var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), 4);
+    test.strictSame(mapper_1.getStates(schema), [
+        [false],
+        [true],
+        [false, false],
+        [false, true],
+        [true, false],
+        [true, true]
+    ]);
     test.strictSame(result, {
         type: 'array',
         encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
@@ -291,7 +298,14 @@ tap_1.default.test('should encode an a bounded array with total prefix items', f
         ]
     };
     var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), 4);
+    test.strictSame(mapper_1.getStates(schema), [
+        [false],
+        [true],
+        [false, false],
+        [false, true],
+        [true, false],
+        [true, true]
+    ]);
     test.strictSame(result, {
         type: 'array',
         encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
