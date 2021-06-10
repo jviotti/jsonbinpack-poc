@@ -107,7 +107,7 @@ tap.test('should encode a oneOf schema with multiple boolean choices', (test) =>
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 6)
+  test.strictSame(getStates(schema, 0), [ false, true ])
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -135,6 +135,99 @@ tap.test('should encode a oneOf schema with multiple boolean choices', (test) =>
           },
           encoding: getEncoding({
             type: 'boolean'
+          }, 1)
+        }
+      ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a oneOf schema with multiple bounded choices', (test) => {
+  const schema: EncodingSchema = {
+    oneOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'integer',
+        minimum: 0,
+        maximum: 3
+      }
+    ]
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.strictSame(getStates(schema, 0), [
+    false, true,
+    0, 1, 2, 3
+  ])
+  test.strictSame(result, {
+    type: 'oneOf',
+    encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
+    options: {
+      schemas: [
+        {
+          schema: {
+            type: 'boolean'
+          },
+          encoding: getEncoding({
+            type: 'boolean'
+          }, 1)
+        },
+        {
+          schema: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 3
+          },
+          encoding: getEncoding({
+            type: 'integer',
+            minimum: 0,
+            maximum: 3
+          }, 1)
+        }
+      ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a oneOf schema with one bounded and one unbounded choice', (test) => {
+  const schema: EncodingSchema = {
+    oneOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'integer'
+      }
+    ]
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
+  test.strictSame(result, {
+    type: 'oneOf',
+    encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
+    options: {
+      schemas: [
+        {
+          schema: {
+            type: 'boolean'
+          },
+          encoding: getEncoding({
+            type: 'boolean'
+          }, 1)
+        },
+        {
+          schema: {
+            type: 'integer'
+          },
+          encoding: getEncoding({
+            type: 'integer'
           }, 1)
         }
       ]
