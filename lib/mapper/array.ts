@@ -15,6 +15,10 @@
  */
 
 import {
+  range
+} from 'lodash'
+
+import {
   JSONValue
 } from '../json'
 
@@ -46,6 +50,10 @@ import {
 import {
   UINT8_MAX
 } from '../utils/limits'
+
+import {
+  generatePermutations
+} from '../utils/permutation'
 
 import {
   ArrayEncodingSchema,
@@ -153,36 +161,34 @@ export type ArrayEncoding =
   UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
 
 export const getArrayStates = (schema: ArrayEncodingSchema, level: number): number | JSONValue[] => {
-  const encoding: ArrayEncoding = getArrayEncoding(schema, level)
-  if (encoding.encoding === 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' ||
-    encoding.encoding === 'BOUNDED_TYPED__LENGTH_PREFIX' ||
-    encoding.encoding === 'ROOF_8BITS_TYPED__LENGTH_PREFIX' ||
-    encoding.encoding === 'ROOF_TYPED__LENGTH_PREFIX' ||
-    encoding.encoding === 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' ||
-    encoding.encoding === 'BOUNDED_SEMITYPED__LENGTH_PREFIX' ||
-    encoding.encoding === 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' ||
-    encoding.encoding === 'ROOF_SEMITYPED__LENGTH_PREFIX') {
-    let index: number = 0
-    let result: number = 1
-
-    while (index < encoding.options.maximum) {
-      const itemEncoding: Encoding | null =
-        encoding.options.prefixEncodings[index] ?? null
-      if (itemEncoding !== null) {
-        const states: number | JSONValue[] = getStates(itemEncoding, level + 1)
-        result = result * (Array.isArray(states) ? states.length : states)
-      } else if ('encoding' in encoding.options) {
+  if (typeof schema.maxItems === 'number' &&
+    (typeof schema.items !== 'undefined' || typeof schema.prefixItems !== 'undefined')) {
+    const choices: number | JSONValue[][] =
+      range(0, schema.maxItems).reduce((accumulator: number | JSONValue[][], index: number) => {
         const states: number | JSONValue[] =
-          getStates(encoding.options.encoding, level + 1)
-        result = result * (Array.isArray(states) ? states.length : states)
-      } else {
-        return Infinity
-      }
+          getStates((schema.prefixItems ?? [])[index] ?? schema.items ?? {}, level)
 
-      index += 1
+        if (Array.isArray(accumulator) && Array.isArray(states)) {
+          accumulator.push(states)
+        } else if (typeof accumulator !== 'number' && !Array.isArray(states)) {
+          return states + accumulator.reduce((subaccumulator: number, choice: JSONValue[]) => {
+            return subaccumulator + choice.length
+          }, 0)
+        } else if (!Array.isArray(accumulator)) {
+          return accumulator + (Array.isArray(states) ? states.length : states)
+        }
+
+        return accumulator
+      }, [])
+
+    if (typeof choices === 'number') {
+      return choices
     }
 
-    return result
+    return range(schema.minItems ?? 0, schema.maxItems + 1)
+      .reduce((accumulator: JSONValue[][], maximum: number) => {
+        return accumulator.concat(generatePermutations(...choices.slice(0, maximum)))
+      }, [])
   }
 
   return Infinity

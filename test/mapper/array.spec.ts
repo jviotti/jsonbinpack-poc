@@ -168,7 +168,7 @@ tap.test('should encode an arbitrary array with maxItems - minItems > 255', (tes
   test.end()
 })
 
-tap.test('should encode an semi-typed scalar heterogeneous array', (test) => {
+tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
     prefixItems: [
@@ -208,7 +208,7 @@ tap.test('should encode an semi-typed scalar heterogeneous array', (test) => {
   test.end()
 })
 
-tap.test('should encode an semi-typed array with minItems', (test) => {
+tap.test('should encode a semi-typed array with minItems', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
     minItems: 5,
@@ -250,7 +250,7 @@ tap.test('should encode an semi-typed array with minItems', (test) => {
   test.end()
 })
 
-tap.test('should encode an semi + fully typed array with minItems', (test) => {
+tap.test('should encode a semi + fully typed array with minItems', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
     minItems: 5,
@@ -302,7 +302,7 @@ tap.test('should encode an semi + fully typed array with minItems', (test) => {
   test.end()
 })
 
-tap.test('should encode an a bounded array with bounded items', (test) => {
+tap.test('should encode a bounded array with bounded boolean items', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
     maxItems: 2,
@@ -313,7 +313,14 @@ tap.test('should encode an a bounded array with bounded items', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 4)
+  test.strictSame(getStates(schema, 0), [
+    [ false ],
+    [ true ],
+    [ false, false ],
+    [ false, true ],
+    [ true, false ],
+    [ true, true ]
+  ])
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
@@ -330,7 +337,86 @@ tap.test('should encode an a bounded array with bounded items', (test) => {
   test.end()
 })
 
-tap.test('should encode an a bounded array with total prefix items', (test) => {
+tap.test('should encode a bounded array with bounded integer items', (test) => {
+  const schema: EncodingSchema = {
+    type: 'array',
+    maxItems: 2,
+    minItems: 1,
+    items: {
+      type: 'integer',
+      maximum: 3,
+      minimum: 1
+    }
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.strictSame(getStates(schema, 0), [
+    [ 1 ],
+    [ 2 ],
+    [ 3 ],
+    [ 1, 1 ],
+    [ 1, 2 ],
+    [ 1, 3 ],
+    [ 2, 1 ],
+    [ 2, 2 ],
+    [ 2, 3 ],
+    [ 3, 1 ],
+    [ 3, 2 ],
+    [ 3, 3 ]
+  ])
+  test.strictSame(result, {
+    type: 'array',
+    encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+    options: {
+      minimum: 1,
+      maximum: 2,
+      encoding: getEncoding({
+        type: 'integer',
+        maximum: 3,
+        minimum: 1
+      }, 1),
+      prefixEncodings: []
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded roofed array with bounded boolean items', (test) => {
+  const schema: EncodingSchema = {
+    type: 'array',
+    maxItems: 2,
+    items: {
+      type: 'boolean'
+    }
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.strictSame(getStates(schema, 0), [
+    [],
+    [ false ],
+    [ true ],
+    [ false, false ],
+    [ false, true ],
+    [ true, false ],
+    [ true, true ]
+  ])
+  test.strictSame(result, {
+    type: 'array',
+    encoding: 'ROOF_8BITS_TYPED__LENGTH_PREFIX',
+    options: {
+      maximum: 2,
+      encoding: getEncoding({
+        type: 'boolean'
+      }, 1),
+      prefixEncodings: []
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded array with total prefix items', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
     maxItems: 2,
@@ -346,13 +432,86 @@ tap.test('should encode an a bounded array with total prefix items', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 4)
+  test.strictSame(getStates(schema, 0), [
+    [ false ],
+    [ true ],
+    [ false, false ],
+    [ false, true ],
+    [ true, false ],
+    [ true, true ]
+  ])
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
     options: {
       minimum: 1,
       maximum: 2,
+      prefixEncodings: [
+        getEncoding({
+          type: 'boolean'
+        }, 1),
+        getEncoding({
+          type: 'boolean'
+        }, 1)
+      ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded array with partial prefix items', (test) => {
+  const schema: EncodingSchema = {
+    type: 'array',
+    maxItems: 3,
+    minItems: 1,
+    items: {
+      type: 'integer',
+      maximum: 3,
+      minimum: 1
+    },
+    prefixItems: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'boolean'
+      }
+    ]
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.strictSame(getStates(schema, 0), [
+    [ false ],
+    [ true ],
+    [ false, false ],
+    [ false, true ],
+    [ true, false ],
+    [ true, true ],
+    [ false, false, 1 ],
+    [ false, false, 2 ],
+    [ false, false, 3 ],
+    [ false, true, 1 ],
+    [ false, true, 2 ],
+    [ false, true, 3 ],
+    [ true, false, 1 ],
+    [ true, false, 2 ],
+    [ true, false, 3 ],
+    [ true, true, 1 ],
+    [ true, true, 2 ],
+    [ true, true, 3 ]
+  ])
+  test.strictSame(result, {
+    type: 'array',
+    encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+    options: {
+      minimum: 1,
+      maximum: 3,
+      encoding: getEncoding({
+        type: 'integer',
+        maximum: 3,
+        minimum: 1
+      }, 1),
       prefixEncodings: [
         getEncoding({
           type: 'boolean'

@@ -26,13 +26,19 @@ import {
 
 tap.test('should generate a 0-permutation', (test) => {
   const result: JSONValue[][] = generatePermutations()
-  test.strictSame(result, [])
+  test.strictSame(result, [ [] ])
+  test.end()
+})
+
+tap.test('should generate the 0-permutations of [ null ]', (test) => {
+  const result: JSONValue[][] = generatePermutations([ null ])
+  test.strictSame(result, [ [ null ] ])
   test.end()
 })
 
 tap.test('should generate a 1-permutation of no choice', (test) => {
   const result: JSONValue[][] = generatePermutations([])
-  test.strictSame(result, [])
+  test.strictSame(result, [ [] ])
   test.end()
 })
 

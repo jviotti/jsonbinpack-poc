@@ -28,7 +28,7 @@ var generatePermutations = function () {
         choices[_i] = arguments[_i];
     }
     if (choices.length === 0 || (choices.length === 1 && choices[0].length === 0)) {
-        return [];
+        return [[]];
     }
     if (choices.length === 1) {
         return choices[0].map(function (element) {

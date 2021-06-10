@@ -1,38 +1,59 @@
 "use strict";
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getArrayEncoding = exports.getArrayStates = void 0;
+var lodash_1 = require("lodash");
 var encoder_1 = require("../encoder");
 var index_1 = require("./index");
 var limits_1 = require("../utils/limits");
+var permutation_1 = require("../utils/permutation");
 var getArrayStates = function (schema, level) {
     var _a;
-    var encoding = exports.getArrayEncoding(schema, level);
-    if (encoding.encoding === 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' ||
-        encoding.encoding === 'BOUNDED_TYPED__LENGTH_PREFIX' ||
-        encoding.encoding === 'ROOF_8BITS_TYPED__LENGTH_PREFIX' ||
-        encoding.encoding === 'ROOF_TYPED__LENGTH_PREFIX' ||
-        encoding.encoding === 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' ||
-        encoding.encoding === 'BOUNDED_SEMITYPED__LENGTH_PREFIX' ||
-        encoding.encoding === 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' ||
-        encoding.encoding === 'ROOF_SEMITYPED__LENGTH_PREFIX') {
-        var index = 0;
-        var result = 1;
-        while (index < encoding.options.maximum) {
-            var itemEncoding = (_a = encoding.options.prefixEncodings[index]) !== null && _a !== void 0 ? _a : null;
-            if (itemEncoding !== null) {
-                var states = index_1.getStates(itemEncoding, level + 1);
-                result = result * (Array.isArray(states) ? states.length : states);
+    if (typeof schema.maxItems === 'number' &&
+        (typeof schema.items !== 'undefined' || typeof schema.prefixItems !== 'undefined')) {
+        var choices_1 = lodash_1.range(0, schema.maxItems).reduce(function (accumulator, index) {
+            var _a, _b, _c;
+            var states = index_1.getStates((_c = (_b = ((_a = schema.prefixItems) !== null && _a !== void 0 ? _a : [])[index]) !== null && _b !== void 0 ? _b : schema.items) !== null && _c !== void 0 ? _c : {}, level);
+            if (Array.isArray(accumulator) && Array.isArray(states)) {
+                accumulator.push(states);
             }
-            else if ('encoding' in encoding.options) {
-                var states = index_1.getStates(encoding.options.encoding, level + 1);
-                result = result * (Array.isArray(states) ? states.length : states);
+            else if (typeof accumulator !== 'number' && !Array.isArray(states)) {
+                return states + accumulator.reduce(function (subaccumulator, choice) {
+                    return subaccumulator + choice.length;
+                }, 0);
             }
-            else {
-                return Infinity;
+            else if (!Array.isArray(accumulator)) {
+                return accumulator + (Array.isArray(states) ? states.length : states);
             }
-            index += 1;
+            return accumulator;
+        }, []);
+        if (typeof choices_1 === 'number') {
+            return choices_1;
         }
-        return result;
+        return lodash_1.range((_a = schema.minItems) !== null && _a !== void 0 ? _a : 0, schema.maxItems + 1)
+            .reduce(function (accumulator, maximum) {
+            return accumulator.concat(permutation_1.generatePermutations.apply(void 0, __spreadArray([], __read(choices_1.slice(0, maximum)))));
+        }, []);
     }
     return Infinity;
 };
