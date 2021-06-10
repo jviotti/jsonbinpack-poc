@@ -15,6 +15,11 @@
  */
 
 import {
+  uniqWith,
+  isEqual
+} from 'lodash'
+
+import {
   JSONValue
 } from '../json'
 
@@ -50,10 +55,21 @@ export type OneOfEncodingNames = 'ONEOF_CHOICE_INDEX_PREFIX'
 export type OneOfEncoding = ONEOF_CHOICE_INDEX_PREFIX_ENCODING
 
 export const getOneOfStates = (schema: OneOfEncodingSchema, level: number): number | JSONValue[] => {
-  return schema.oneOf.reduce((accumulator: number, choice: EncodingSchema) => {
+  return schema.oneOf.reduce((accumulator: number | JSONValue[], choice: EncodingSchema) => {
     const states: number | JSONValue[] = getStates(choice, level + 1)
-    return accumulator + (Array.isArray(states) ? states.length : states)
-  }, 0)
+
+    if (Array.isArray(states)) {
+      if (Array.isArray(accumulator)) {
+        return uniqWith(accumulator.concat(states), isEqual)
+      } else {
+        return accumulator + states.length
+      }
+    }
+
+    const accumulatorLength: number =
+      Array.isArray(accumulator) ? accumulator.length : accumulator
+    return accumulatorLength + states
+  }, [])
 }
 
 export const getOneOfEncoding = (schema: OneOfEncodingSchema, level: number): OneOfEncoding => {
