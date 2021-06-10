@@ -26,7 +26,49 @@ import {
   getEncoding
 } from '../../lib/mapper'
 
-tap.test('should encode an enum with one value', (test) => {
+tap.test('should encode an object with an enum with one value', (test) => {
+  const schema: EncodingSchema = {
+    type: 'object',
+    properties: {
+      test: {
+        enum: [ 'foo' ]
+      }
+    }
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
+  test.strictSame(result, {
+    type: 'object',
+    encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
+    options: {
+      optionalProperties: [ 'test' ],
+      encoding: {
+        type: 'any',
+        encoding: 'ANY__TYPE_PREFIX',
+        options: {}
+      },
+      keyEncoding: {
+        type: 'string',
+        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+        options: {}
+      },
+      propertyEncodings: {
+        test: {
+          type: 'enum',
+          encoding: 'BOUNDED_CHOICE_INDEX',
+          options: {
+            choices: [ 'foo' ]
+          }
+        }
+      }
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a top-level enum with one value', (test) => {
   const schema: EncodingSchema = {
     enum: [ 'foo' ]
   }
@@ -35,7 +77,7 @@ tap.test('should encode an enum with one value', (test) => {
   test.strictSame(getStates(schema, 0), [ 'foo' ])
   test.strictSame(result, {
     type: 'enum',
-    encoding: 'BOUNDED_CHOICE_INDEX',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
       choices: [ 'foo' ]
     }

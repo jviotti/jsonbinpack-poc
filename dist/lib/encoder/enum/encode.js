@@ -27,15 +27,17 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LARGE_BOUNDED_CHOICE_INDEX = exports.BOUNDED_CHOICE_INDEX = void 0;
+exports.LARGE_BOUNDED_CHOICE_INDEX = exports.BOUNDED_CHOICE_INDEX = exports.TOP_LEVEL_8BIT_CHOICE_INDEX = void 0;
 var assert_1 = require("assert");
 var util_1 = require("util");
 var encode_1 = require("../integer/encode");
 var limits_1 = require("../../utils/limits");
-var BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, context) {
+var TOP_LEVEL_8BIT_CHOICE_INDEX = function (buffer, offset, value, options, context) {
     var e_1, _a;
     assert_1.strict(options.choices.length > 0);
     assert_1.strict(options.choices.length <= limits_1.UINT8_MAX);
+    assert_1.strict(buffer.getSize() === 0);
+    assert_1.strict(offset === 0);
     var cursor = -1;
     try {
         for (var _b = __values(options.choices.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -55,15 +57,19 @@ var BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, context) {
     }
     assert_1.strict(cursor !== -1);
     assert_1.strict(cursor >= 0 && cursor < options.choices.length);
+    if (cursor === 0) {
+        return 0;
+    }
     return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, cursor, {
-        minimum: 0,
+        minimum: 1,
         maximum: options.choices.length
     }, context);
 };
-exports.BOUNDED_CHOICE_INDEX = BOUNDED_CHOICE_INDEX;
-var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, context) {
+exports.TOP_LEVEL_8BIT_CHOICE_INDEX = TOP_LEVEL_8BIT_CHOICE_INDEX;
+var BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, context) {
     var e_2, _a;
     assert_1.strict(options.choices.length > 0);
+    assert_1.strict(options.choices.length <= limits_1.UINT8_MAX);
     var cursor = -1;
     try {
         for (var _b = __values(options.choices.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -80,6 +86,34 @@ var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, conte
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
         finally { if (e_2) throw e_2.error; }
+    }
+    assert_1.strict(cursor !== -1);
+    assert_1.strict(cursor >= 0 && cursor < options.choices.length);
+    return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, cursor, {
+        minimum: 0,
+        maximum: options.choices.length
+    }, context);
+};
+exports.BOUNDED_CHOICE_INDEX = BOUNDED_CHOICE_INDEX;
+var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, context) {
+    var e_3, _a;
+    assert_1.strict(options.choices.length > 0);
+    var cursor = -1;
+    try {
+        for (var _b = __values(options.choices.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var _d = __read(_c.value, 2), index = _d[0], choice = _d[1];
+            if (util_1.isDeepStrictEqual(value, choice)) {
+                cursor = index;
+                break;
+            }
+        }
+    }
+    catch (e_3_1) { e_3 = { error: e_3_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_3) throw e_3.error; }
     }
     assert_1.strict(cursor !== -1);
     assert_1.strict(cursor >= 0 && cursor < options.choices.length);
