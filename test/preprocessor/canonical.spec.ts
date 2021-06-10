@@ -142,3 +142,54 @@ tap.test('should canonicalize a oneOf schema', (test) => {
 
   test.end()
 })
+
+tap.test('should canonicalize a oneOf schema with one duplicated choice', (test) => {
+  const result: EncodingSchema = canonicalizeSchema({
+    oneOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'integer'
+      },
+      {
+        type: 'boolean'
+      }
+    ]
+  })
+
+  test.strictSame(result, {
+    oneOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'integer'
+      }
+    ]
+  })
+
+  test.end()
+})
+
+tap.test('should canonicalize a oneOf schema with one all duplicated choices', (test) => {
+  const result: EncodingSchema = canonicalizeSchema({
+    oneOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'boolean'
+      }
+    ]
+  })
+
+  test.strictSame(result, {
+    type: 'boolean'
+  })
+
+  test.end()
+})

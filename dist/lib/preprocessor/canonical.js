@@ -59,10 +59,15 @@ var canonicalizeSchema = function (schema) {
         return exports.canonicalizeSchema(lodash_1.merge.apply(void 0, __spreadArray([{}], __read(schema.allOf))));
     }
     else if (Array.isArray(schema.oneOf)) {
+        var branches = schema.oneOf.map(function (choice) {
+            return exports.canonicalizeSchema(lodash_1.merge(lodash_1.cloneDeep(choice), lodash_1.omit(schema, ['oneOf'])));
+        });
+        var uniqueBranches = lodash_1.uniqWith(branches, lodash_1.isEqual);
+        if (uniqueBranches.length === 1) {
+            return uniqueBranches[0];
+        }
         return {
-            oneOf: schema.oneOf.map(function (choice) {
-                return exports.canonicalizeSchema(lodash_1.merge(lodash_1.cloneDeep(choice), lodash_1.omit(schema, ['oneOf'])));
-            })
+            oneOf: uniqueBranches
         };
     }
     if (Array.isArray(schema.type)) {

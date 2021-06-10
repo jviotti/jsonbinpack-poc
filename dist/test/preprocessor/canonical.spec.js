@@ -109,3 +109,48 @@ tap_1.default.test('should canonicalize a oneOf schema', function (test) {
     });
     test.end();
 });
+tap_1.default.test('should canonicalize a oneOf schema with one duplicated choice', function (test) {
+    var result = canonical_1.canonicalizeSchema({
+        oneOf: [
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'integer'
+            },
+            {
+                type: 'boolean'
+            }
+        ]
+    });
+    test.strictSame(result, {
+        oneOf: [
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'integer'
+            }
+        ]
+    });
+    test.end();
+});
+tap_1.default.test('should canonicalize a oneOf schema with one all duplicated choices', function (test) {
+    var result = canonical_1.canonicalizeSchema({
+        oneOf: [
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'boolean'
+            }
+        ]
+    });
+    test.strictSame(result, {
+        type: 'boolean'
+    });
+    test.end();
+});
