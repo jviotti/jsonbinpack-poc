@@ -136,26 +136,28 @@ export type IntegerEncoding =
   ARBITRARY__ZIGZAG_VARINT_ENCODING |
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT_ENCODING
 
-export const getIntegerStates = (schema: IntegerEncodingSchema, level: number): number | JSONValue[] => {
-  const encoding: IntegerEncoding = getIntegerEncoding(schema, level)
-
-  if (encoding.encoding === 'BOUNDED__ENUM_VARINT' ||
-    encoding.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
+export const getIntegerStates = (schema: IntegerEncodingSchema, _level: number): number | JSONValue[] => {
+  if (typeof schema.maximum === 'number' &&
+    typeof schema.minimum === 'number' &&
+    typeof schema.multipleOf !== 'number') {
     // It is pointless to calculate the exact amount of states after a certain point
-    if (encoding.options.maximum - encoding.options.minimum > UINT8_MAX) {
-      return encoding.options.maximum - encoding.options.minimum + 1
+    if (schema.maximum - schema.minimum > UINT8_MAX) {
+      return schema.maximum - schema.minimum + 1
     }
 
-    return range(encoding.options.minimum, encoding.options.maximum + 1)
-  } else if (encoding.encoding === 'BOUNDED_MULTIPLE__ENUM_VARINT' ||
-    encoding.encoding === 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED') {
+    return range(schema.minimum, schema.maximum + 1)
+  }
+
+  if (typeof schema.maximum === 'number' &&
+    typeof schema.minimum === 'number' &&
+    typeof schema.multipleOf === 'number') {
 
     // TODO: De-duplicate this logic on encoder/integer/encode
-    const absoluteMultiplier: number = Math.abs(encoding.options.multiplier)
+    const absoluteMultiplier: number = Math.abs(schema.multipleOf)
     const closestMinimumMultiple: number =
-      Math.ceil(encoding.options.minimum / absoluteMultiplier) * absoluteMultiplier
+      Math.ceil(schema.minimum / absoluteMultiplier) * absoluteMultiplier
     const closestMaximumMultiple: number =
-      Math.ceil(encoding.options.maximum / -absoluteMultiplier) * -absoluteMultiplier
+      Math.ceil(schema.maximum / -absoluteMultiplier) * -absoluteMultiplier
     const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
     const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
 
