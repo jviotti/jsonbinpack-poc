@@ -29,8 +29,8 @@ import {
 tap.test('should encode an any value', (test) => {
   const schema: EncodingSchema = {}
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'any',
     encoding: 'ANY__TYPE_PREFIX',

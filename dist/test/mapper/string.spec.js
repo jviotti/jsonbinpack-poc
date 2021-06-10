@@ -10,8 +10,8 @@ tap_1.default.test('should encode string with format: date', function (test) {
         type: 'string',
         format: 'date'
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'RFC3339_DATE_INTEGER_TRIPLET',
@@ -23,8 +23,8 @@ tap_1.default.test('should encode a simple string', function (test) {
     var schema = {
         type: 'string'
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
@@ -37,8 +37,8 @@ tap_1.default.test('should encode a string with minLength', function (test) {
         type: 'string',
         minLength: 5
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
@@ -53,8 +53,8 @@ tap_1.default.test('should encode a string with maxLength >= 255', function (tes
         type: 'string',
         maxLength: 256
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -69,8 +69,8 @@ tap_1.default.test('should encode a string with maxLength < 255', function (test
         type: 'string',
         maxLength: 254
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
@@ -85,8 +85,8 @@ tap_1.default.test('should encode a string with maxLength = 255', function (test
         type: 'string',
         maxLength: 255
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -102,8 +102,8 @@ tap_1.default.test('should encode a string with minLength and maxLength < 255', 
         minLength: 100,
         maxLength: 300
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
@@ -120,8 +120,8 @@ tap_1.default.test('should encode a string with minLength and maxLength > 255', 
         minLength: 100,
         maxLength: 600
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'string',
         encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',

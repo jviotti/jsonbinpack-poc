@@ -28,7 +28,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', function (t
             }
         ]
     };
-    var encoding = oneof_1.getOneOfEncoding(schema);
+    var encoding = oneof_1.getOneOfEncoding(schema, 0);
     var options = encoding.options;
     var value = 'foobar';
     var bytesWritten = encode_1.ONEOF_CHOICE_INDEX_PREFIX(buffer, 0, value, options, context);
@@ -58,7 +58,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 2/3 number encoding', function (t
             }
         ]
     };
-    var encoding = oneof_1.getOneOfEncoding(schema);
+    var encoding = oneof_1.getOneOfEncoding(schema, 0);
     var options = encoding.options;
     var value = 4;
     var bytesWritten = encode_1.ONEOF_CHOICE_INDEX_PREFIX(buffer, 0, value, options, context);
@@ -88,7 +88,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 3/3 array encoding', function (te
             }
         ]
     };
-    var encoding = oneof_1.getOneOfEncoding(schema);
+    var encoding = oneof_1.getOneOfEncoding(schema, 0);
     var options = encoding.options;
     var value = ['foobar'];
     var bytesWritten = encode_1.ONEOF_CHOICE_INDEX_PREFIX(buffer, 0, value, options, context);

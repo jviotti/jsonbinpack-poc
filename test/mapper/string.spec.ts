@@ -32,8 +32,8 @@ tap.test('should encode string with format: date', (test) => {
     format: 'date'
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'RFC3339_DATE_INTEGER_TRIPLET',
@@ -48,8 +48,8 @@ tap.test('should encode a simple string', (test) => {
     type: 'string'
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
@@ -65,8 +65,8 @@ tap.test('should encode a string with minLength', (test) => {
     minLength: 5
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
@@ -84,8 +84,8 @@ tap.test('should encode a string with maxLength >= 255', (test) => {
     maxLength: 256
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -103,8 +103,8 @@ tap.test('should encode a string with maxLength < 255', (test) => {
     maxLength: 254
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
@@ -122,8 +122,8 @@ tap.test('should encode a string with maxLength = 255', (test) => {
     maxLength: 255
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
@@ -144,8 +144,8 @@ tap.test('should encode a string with minLength and maxLength < 255', (
     maxLength: 300
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
@@ -167,8 +167,8 @@ tap.test('should encode a string with minLength and maxLength > 255', (
     maxLength: 600
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'string',
     encoding: 'BOUNDED__PREFIX_LENGTH_ENUM_VARINT',

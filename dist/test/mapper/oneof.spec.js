@@ -23,8 +23,8 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
             }
         ]
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), Infinity);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), Infinity);
     test.strictSame(result, {
         type: 'oneOf',
         encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -36,7 +36,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
                     },
                     encoding: mapper_1.getEncoding({
                         type: 'string'
-                    })
+                    }, 1)
                 },
                 {
                     schema: {
@@ -46,7 +46,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
                     encoding: mapper_1.getEncoding({
                         type: 'integer',
                         maximum: 5
-                    })
+                    }, 1)
                 },
                 {
                     schema: {
@@ -60,7 +60,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
                         items: {
                             type: 'string'
                         }
-                    })
+                    }, 1)
                 }
             ]
         }
@@ -81,8 +81,8 @@ tap_1.default.test('should encode a oneOf schema with multiple boolean choices',
             }
         ]
     };
-    var result = mapper_1.getEncoding(schema);
-    test.is(mapper_1.getStates(schema), 8);
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema, 0), 8);
     test.strictSame(result, {
         type: 'oneOf',
         encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -94,7 +94,7 @@ tap_1.default.test('should encode a oneOf schema with multiple boolean choices',
                     },
                     encoding: mapper_1.getEncoding({
                         type: 'boolean'
-                    })
+                    }, 1)
                 },
                 {
                     schema: {
@@ -102,7 +102,7 @@ tap_1.default.test('should encode a oneOf schema with multiple boolean choices',
                     },
                     encoding: mapper_1.getEncoding({
                         type: 'boolean'
-                    })
+                    }, 1)
                 },
                 {
                     schema: {
@@ -110,7 +110,7 @@ tap_1.default.test('should encode a oneOf schema with multiple boolean choices',
                     },
                     encoding: mapper_1.getEncoding({
                         type: 'boolean'
-                    })
+                    }, 1)
                 }
             ]
         }

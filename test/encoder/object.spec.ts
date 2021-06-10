@@ -76,7 +76,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', (test) => {
   const options: TypedKeysOptions = {
     keyEncoding: getStringEncoding({
       type: 'string'
-    }),
+    }, 1),
     encoding: {
       type: EncodingType.Any,
       encoding: 'ANY__TYPE_PREFIX',
@@ -119,7 +119,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', (test) => {
 
   const keyEncoding: StringEncoding = getStringEncoding({
     type: 'string'
-  })
+  }, 1)
 
   const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, value, {
@@ -157,7 +157,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', (test) => {
   const keyEncoding: StringEncoding = getStringEncoding({
     type: 'string',
     minLength: 3
-  })
+  }, 1)
 
   const bytesWritten: number = ENCODE_ARBITRARY_TYPED_KEYS_OBJECT(
     buffer, 0, value, {
@@ -197,13 +197,13 @@ tap.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =>
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'integer',
         minimum: 0
-      }),
-      bar: getEncoding({}),
-      qux: getEncoding({})
+      }, 1),
+      bar: getEncoding({}, 1),
+      qux: getEncoding({}, 1)
     }
   }
 
@@ -232,11 +232,11 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}', (test) =
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'integer',
         minimum: 0
-      })
+      }, 1)
     }
   }
 
@@ -266,11 +266,11 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one required'
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'integer',
         minimum: 0
-      })
+      }, 1)
     }
   }
 
@@ -296,11 +296,11 @@ tap.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missing optiona
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'integer',
         minimum: 0
-      })
+      }, 1)
     }
   }
 
@@ -326,11 +326,11 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      })
+      }, 1)
     },
     keyEncoding: getStringEncoding({
       type: 'string'
-    }),
+    }, 1),
     encoding: {
       type: EncodingType.Any,
       encoding: 'ANY__TYPE_PREFIX',
@@ -359,11 +359,11 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', (test) => {
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      })
+      }, 1)
     },
     keyEncoding: getStringEncoding({
       type: 'string'
-    }),
+    }, 1),
     encoding: {
       type: EncodingType.Any,
       encoding: 'ANY__TYPE_PREFIX',
@@ -392,11 +392,11 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}', (test) 
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      })
+      }, 1)
     },
     keyEncoding: getStringEncoding({
       type: 'string'
-    }),
+    }, 1),
     encoding: {
       type: EncodingType.Any,
       encoding: 'ANY__TYPE_PREFIX',
@@ -429,7 +429,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test
     optionalProperties: [ 'baz' ],
     keyEncoding: getStringEncoding({
       type: 'string'
-    }),
+    }, 1),
     encoding: {
       type: EncodingType.Any,
       encoding: 'ANY__TYPE_PREFIX',
@@ -438,11 +438,11 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:null}', (test
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'integer',
         minimum: 0
-      })
+      }, 1)
     }
   }
 
@@ -472,17 +472,17 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1,baz:true,qu
     propertyEncodings: {
       foo: getEncoding({
         type: 'string'
-      }),
+      }, 1),
       bar: getEncoding({
         type: 'integer',
         minimum: 0
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       qux: getEncoding({
         type: 'boolean'
-      })
+      }, 1)
     }
   }
 
@@ -512,13 +512,13 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: three boolean properties', (test) 
     propertyEncodings: {
       foo: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       bar: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'boolean'
-      })
+      }, 1)
     }
   }
 
@@ -553,28 +553,28 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: eight boolean properties', (test) 
     propertyEncodings: {
       foo: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       bar: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       qux: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       xxx: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       yyy: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       zzz: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       qqq: getEncoding({
         type: 'boolean'
-      })
+      }, 1)
     }
   }
 
@@ -610,31 +610,31 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: nine boolean properties', (test) =
     propertyEncodings: {
       foo: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       bar: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       baz: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       qux: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       xxx: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       yyy: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       zzz: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       qqq: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       ppp: getEncoding({
         type: 'boolean'
-      })
+      }, 1)
     }
   }
 
@@ -676,21 +676,21 @@ tap.test('PACKED_UNBOUNDED_OBJECT: complex object', (test) => {
     propertyEncodings: {
       name: getEncoding({
         type: 'string'
-      }),
+      }, 1),
       age: getEncoding({
         type: 'integer',
         minimum: 0
-      }),
+      }, 1),
       flag: getEncoding({
         type: 'boolean'
-      })
+      }, 1)
     },
     optionalProperties: [ 'age' ],
     requiredProperties: [ 'name' ],
     booleanRequiredProperties: [ 'flag' ],
     keyEncoding: getStringEncoding({
       type: 'string'
-    })
+    }, 1)
   }
 
   const bytesWritten: number = ENCODE_PACKED_UNBOUNDED_OBJECT(

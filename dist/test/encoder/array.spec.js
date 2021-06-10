@@ -86,7 +86,7 @@ tap_1.default.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', function (tes
         var offset = 0;
         var encoding = mapper_1.getEncoding({
             type: 'integer'
-        });
+        }, 1);
         var bytesWritten = encode_1.UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {
             prefixEncodings: [],
             encoding: encoding

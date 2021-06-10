@@ -134,7 +134,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', (test) => {
 
     const encoding: Encoding = getEncoding({
       type: 'integer'
-    })
+    }, 1)
 
     const bytesWritten: number =
       ENCODE_UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {

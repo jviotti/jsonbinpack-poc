@@ -4,11 +4,11 @@ exports.getStringEncoding = exports.getStringStates = void 0;
 var assert_1 = require("assert");
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
-var getStringStates = function (_schema) {
+var getStringStates = function (_schema, _level) {
     return Infinity;
 };
 exports.getStringStates = getStringStates;
-var getStringEncoding = function (schema) {
+var getStringEncoding = function (schema, _level) {
     if (schema.format === 'date') {
         return {
             type: encoder_1.EncodingType.String,

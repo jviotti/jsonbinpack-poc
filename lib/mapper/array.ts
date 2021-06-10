@@ -152,8 +152,8 @@ export type ArrayEncoding =
   ROOF_TYPED__LENGTH_PREFIX_ENCODING |
   UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
 
-export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[] => {
-  const encoding: ArrayEncoding = getArrayEncoding(schema)
+export const getArrayStates = (schema: ArrayEncodingSchema, level: number): number | JSONValue[] => {
+  const encoding: ArrayEncoding = getArrayEncoding(schema, level)
   if (encoding.encoding === 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' ||
     encoding.encoding === 'BOUNDED_TYPED__LENGTH_PREFIX' ||
     encoding.encoding === 'ROOF_8BITS_TYPED__LENGTH_PREFIX' ||
@@ -169,10 +169,11 @@ export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[
       const itemEncoding: Encoding | null =
         encoding.options.prefixEncodings[index] ?? null
       if (itemEncoding !== null) {
-        const states: number | JSONValue[] = getStates(itemEncoding)
+        const states: number | JSONValue[] = getStates(itemEncoding, level + 1)
         result = result * (Array.isArray(states) ? states.length : states)
       } else if ('encoding' in encoding.options) {
-        const states: number | JSONValue[] = getStates(encoding.options.encoding)
+        const states: number | JSONValue[] =
+          getStates(encoding.options.encoding, level + 1)
         result = result * (Array.isArray(states) ? states.length : states)
       } else {
         return Infinity
@@ -187,11 +188,11 @@ export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[
   return Infinity
 }
 
-export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => {
+export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): ArrayEncoding => {
   const encodingSchema: EncodingSchema | undefined = schema.items
   const prefixEncodings: Encoding[] =
     (schema.prefixItems ?? []).map((subschema: EncodingSchema) => {
-      return getEncoding(subschema)
+      return getEncoding(subschema, level + 1)
     })
 
   if (typeof encodingSchema === 'undefined') {
@@ -247,7 +248,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => 
       options: {
         minimum: schema.minItems,
         maximum: schema.maxItems,
-        encoding: getEncoding(encodingSchema),
+        encoding: getEncoding(encodingSchema, level + 1),
         prefixEncodings
       }
     }
@@ -259,7 +260,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => 
         ? 'ROOF_8BITS_TYPED__LENGTH_PREFIX' : 'ROOF_TYPED__LENGTH_PREFIX',
       options: {
         maximum: schema.maxItems,
-        encoding: getEncoding(encodingSchema),
+        encoding: getEncoding(encodingSchema, level + 1),
         prefixEncodings
       }
     }
@@ -270,7 +271,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => 
       encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
       options: {
         minimum: schema.minItems,
-        encoding: getEncoding(encodingSchema),
+        encoding: getEncoding(encodingSchema, level + 1),
         prefixEncodings
       }
     }
@@ -279,7 +280,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema): ArrayEncoding => 
     type: EncodingType.Array,
     encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
     options: {
-      encoding: getEncoding(encodingSchema),
+      encoding: getEncoding(encodingSchema, level + 1),
       prefixEncodings
     }
   }

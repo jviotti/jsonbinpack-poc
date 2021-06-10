@@ -5,8 +5,8 @@ var assert_1 = require("assert");
 var lodash_1 = require("lodash");
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
-var getIntegerStates = function (schema) {
-    var encoding = exports.getIntegerEncoding(schema);
+var getIntegerStates = function (schema, level) {
+    var encoding = exports.getIntegerEncoding(schema, level);
     if (encoding.encoding === 'BOUNDED__ENUM_VARINT' ||
         encoding.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
         if (encoding.options.maximum - encoding.options.minimum > limits_1.UINT8_MAX) {
@@ -31,7 +31,7 @@ var getIntegerStates = function (schema) {
     return Infinity;
 };
 exports.getIntegerStates = getIntegerStates;
-var getIntegerEncoding = function (schema) {
+var getIntegerEncoding = function (schema, _level) {
     assert_1.strict(typeof schema.minimum === 'undefined' ||
         typeof schema.maximum === 'undefined' ||
         schema.maximum >= schema.minimum);

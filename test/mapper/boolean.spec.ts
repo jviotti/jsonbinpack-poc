@@ -31,8 +31,8 @@ tap.test('should encode a boolean value', (test) => {
     type: 'boolean'
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.strictSame(getStates(schema), [ false, true ])
+  const result: Encoding = getEncoding(schema, 0)
+  test.strictSame(getStates(schema, 0), [ false, true ])
   test.strictSame(result, {
     type: 'boolean',
     encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
