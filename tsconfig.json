@@ -19,7 +19,7 @@
     "downlevelIteration": true,
     "moduleResolution": "node",
     "allowJs": false,
-    "lib": [ "es2017", "dom" ],
+    "lib": [ "es2019", "dom" ],
     "target": "es5",
     "sourceMap": false,
     "declaration": false,
