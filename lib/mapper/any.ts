@@ -44,11 +44,11 @@ export type AnyEncodingNames = 'ANY__TYPE_PREFIX'
 export type AnyEncoding = ANY__TYPE_PREFIX_ENCODING
 
 // It could literally be anything
-export const getAnyStates = (_schema: AnyEncodingSchema): number | JSONValue[] => {
+export const getAnyStates = (_schema: AnyEncodingSchema, _level: number): number | JSONValue[] => {
   return Infinity
 }
 
-export const getAnyEncoding = (_schema: AnyEncodingSchema): AnyEncoding => {
+export const getAnyEncoding = (_schema: AnyEncodingSchema, _level: number): AnyEncoding => {
   return {
     type: EncodingType.Any,
     encoding: 'ANY__TYPE_PREFIX',

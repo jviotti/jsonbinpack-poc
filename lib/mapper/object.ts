@@ -125,7 +125,8 @@ export type ObjectEncoding =
   PACKED_UNBOUNDED_OBJECT_ENCODING
 
 const parseAdditionalProperties = (
-  value: undefined | boolean | EncodingSchema
+  value: undefined | boolean | EncodingSchema,
+  level: number
 ): Encoding | null => {
   if (typeof value === 'boolean' && !value) {
     return null
@@ -134,13 +135,13 @@ const parseAdditionalProperties = (
   const schema: EncodingSchema =
     (typeof value === 'undefined' || (typeof value === 'boolean' && value))
       ? {} : value
-  return getEncoding(schema)
+  return getEncoding(schema, level + 1)
 }
 
 // TODO: This definition can probably be greatly improved once we
 // support the maxProperties JSON Schema keyword.
-export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValue[] => {
-  const encoding: ObjectEncoding = getObjectEncoding(schema)
+export const getObjectStates = (schema: ObjectEncodingSchema, level: number): number | JSONValue[] => {
+  const encoding: ObjectEncoding = getObjectEncoding(schema, level)
   if (encoding.encoding === 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' ||
     encoding.encoding === 'NON_REQUIRED_BOUNDED_TYPED_OBJECT' ||
     encoding.encoding === 'MIXED_BOUNDED_TYPED_OBJECT') {
@@ -148,7 +149,7 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
       (accumulator: number, property: string): number => {
       const propertyEncoding: Encoding =
           encoding.options.propertyEncodings[property]
-      const states: number | JSONValue[] = getStates(propertyEncoding)
+      const states: number | JSONValue[] = getStates(propertyEncoding, level + 1)
       const propertyStates: number = Array.isArray(states) ? states.length : states
 
       if ('optionalProperties' in encoding.options &&
@@ -165,14 +166,14 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
   return Infinity
 }
 
-export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding => {
+export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): ObjectEncoding => {
   const additionalProperties: Encoding | null =
-    parseAdditionalProperties(schema.additionalProperties)
+    parseAdditionalProperties(schema.additionalProperties, level)
 
   const properties: Record<string, EncodingSchema> = schema.properties ?? {}
   const propertyEncodings: Record<string, Encoding> = Object.keys(properties)
     .reduce((accumulator: Record<string, Encoding>, key: string) => {
-      accumulator[key] = getEncoding(properties[key])
+      accumulator[key] = getEncoding(properties[key], level + 1)
       return accumulator
     }, {})
 
@@ -210,14 +211,14 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
   const allProperties: string[] = allRequiredProperties.concat(optionalProperties)
   for (const key of allProperties) {
     if (!(key in propertyEncodings)) {
-      propertyEncodings[key] = additionalProperties ?? getEncoding({})
+      propertyEncodings[key] = additionalProperties ?? getEncoding({}, level + 1)
     }
   }
 
   const keyEncoding: StringEncoding =
     getStringEncoding(schema.propertyNames ?? {
       type: 'string'
-    })
+    }, level + 1)
 
   // Bounded encodings
   if (additionalProperties === null) {
@@ -270,7 +271,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema): ObjectEncoding 
       if (!(key in propertiesDefinition)) {
         packedRequiredProperties.push(key)
       } else if (isDeepStrictEqual(additionalProperties,
-        getEncoding(propertiesDefinition[key]))) {
+        getEncoding(propertiesDefinition[key], level + 1))) {
         packedRequiredProperties.push(key)
       } else {
         unpackedRequiredProperties.push(key)

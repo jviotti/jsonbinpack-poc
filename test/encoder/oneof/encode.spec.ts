@@ -64,7 +64,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 1 of 
     ]
   }
 
-  const encoding: OneOfEncoding = getOneOfEncoding(schema)
+  const encoding: OneOfEncoding = getOneOfEncoding(schema, 0)
   const options: SchemasOptions = encoding.options
   const value: JSONValue = 'foobar'
   const bytesWritten: number =
@@ -105,7 +105,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 2 of 
     ]
   }
 
-  const encoding: OneOfEncoding = getOneOfEncoding(schema)
+  const encoding: OneOfEncoding = getOneOfEncoding(schema, 0)
   const options: SchemasOptions = encoding.options
   const value: JSONValue = 4
   const bytesWritten: number =
@@ -143,7 +143,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 3 of 
     ]
   }
 
-  const encoding: OneOfEncoding = getOneOfEncoding(schema)
+  const encoding: OneOfEncoding = getOneOfEncoding(schema, 0)
   const options: SchemasOptions = encoding.options
   const value: JSONValue = [ 'foobar' ]
   const bytesWritten: number =

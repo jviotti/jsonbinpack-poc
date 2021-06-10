@@ -16,22 +16,22 @@ var util_1 = require("util");
 var string_1 = require("./string");
 var index_1 = require("./index");
 var encoder_1 = require("../encoder");
-var parseAdditionalProperties = function (value) {
+var parseAdditionalProperties = function (value, level) {
     if (typeof value === 'boolean' && !value) {
         return null;
     }
     var schema = (typeof value === 'undefined' || (typeof value === 'boolean' && value))
         ? {} : value;
-    return index_1.getEncoding(schema);
+    return index_1.getEncoding(schema, level + 1);
 };
-var getObjectStates = function (schema) {
-    var encoding = exports.getObjectEncoding(schema);
+var getObjectStates = function (schema, level) {
+    var encoding = exports.getObjectEncoding(schema, level);
     if (encoding.encoding === 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' ||
         encoding.encoding === 'NON_REQUIRED_BOUNDED_TYPED_OBJECT' ||
         encoding.encoding === 'MIXED_BOUNDED_TYPED_OBJECT') {
         return Object.keys(encoding.options.propertyEncodings).reduce(function (accumulator, property) {
             var propertyEncoding = encoding.options.propertyEncodings[property];
-            var states = index_1.getStates(propertyEncoding);
+            var states = index_1.getStates(propertyEncoding, level + 1);
             var propertyStates = Array.isArray(states) ? states.length : states;
             if ('optionalProperties' in encoding.options &&
                 Array.isArray(encoding.options.optionalProperties) &&
@@ -44,14 +44,14 @@ var getObjectStates = function (schema) {
     return Infinity;
 };
 exports.getObjectStates = getObjectStates;
-var getObjectEncoding = function (schema) {
+var getObjectEncoding = function (schema, level) {
     var e_1, _a, e_2, _b, e_3, _c;
     var _d, _e, _f, _g, _h, _j, _k;
-    var additionalProperties = parseAdditionalProperties(schema.additionalProperties);
+    var additionalProperties = parseAdditionalProperties(schema.additionalProperties, level);
     var properties = (_d = schema.properties) !== null && _d !== void 0 ? _d : {};
     var propertyEncodings = Object.keys(properties)
         .reduce(function (accumulator, key) {
-        accumulator[key] = index_1.getEncoding(properties[key]);
+        accumulator[key] = index_1.getEncoding(properties[key], level + 1);
         return accumulator;
     }, {});
     var unsortedRequiredBooleanProperties = [];
@@ -93,7 +93,7 @@ var getObjectEncoding = function (schema) {
         for (var allProperties_1 = __values(allProperties), allProperties_1_1 = allProperties_1.next(); !allProperties_1_1.done; allProperties_1_1 = allProperties_1.next()) {
             var key = allProperties_1_1.value;
             if (!(key in propertyEncodings)) {
-                propertyEncodings[key] = additionalProperties !== null && additionalProperties !== void 0 ? additionalProperties : index_1.getEncoding({});
+                propertyEncodings[key] = additionalProperties !== null && additionalProperties !== void 0 ? additionalProperties : index_1.getEncoding({}, level + 1);
             }
         }
     }
@@ -106,7 +106,7 @@ var getObjectEncoding = function (schema) {
     }
     var keyEncoding = string_1.getStringEncoding((_h = schema.propertyNames) !== null && _h !== void 0 ? _h : {
         type: 'string'
-    });
+    }, level + 1);
     if (additionalProperties === null) {
         if (optionalProperties.length === 0) {
             return {
@@ -156,7 +156,7 @@ var getObjectEncoding = function (schema) {
                 if (!(key in propertiesDefinition)) {
                     packedRequiredProperties_1.push(key);
                 }
-                else if (util_1.isDeepStrictEqual(additionalProperties, index_1.getEncoding(propertiesDefinition[key]))) {
+                else if (util_1.isDeepStrictEqual(additionalProperties, index_1.getEncoding(propertiesDefinition[key], level + 1))) {
                     packedRequiredProperties_1.push(key);
                 }
                 else {

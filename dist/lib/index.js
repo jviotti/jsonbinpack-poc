@@ -47,7 +47,7 @@ var compileSchema = function (schema) { return __awaiter(void 0, void 0, void 0,
             case 0:
                 _a = mapper_1.getEncoding;
                 return [4, preprocessor_1.preprocessSchema(schema)];
-            case 1: return [2, _a.apply(void 0, [_b.sent()])];
+            case 1: return [2, _a.apply(void 0, [_b.sent(), 0])];
         }
     });
 }); };

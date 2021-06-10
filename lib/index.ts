@@ -50,7 +50,7 @@ export {
 } from './preprocessor'
 
 export const compileSchema = async (schema: JSONSchema): Promise<Encoding> => {
-  return getEncoding(await preprocessSchema(schema))
+  return getEncoding(await preprocessSchema(schema), 0)
 }
 
 export const encode = (encoding: Encoding, value: JSONValue): Buffer => {

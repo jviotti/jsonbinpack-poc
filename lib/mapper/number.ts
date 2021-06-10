@@ -43,11 +43,11 @@ export interface DOUBLE_VARINT_TUPLE_ENCODING extends BaseEncodingDefinition {
 export type NumberEncodingNames = 'DOUBLE_VARINT_TUPLE'
 export type NumberEncoding = DOUBLE_VARINT_TUPLE_ENCODING
 
-export const getNumberStates = (_schema: NumberEncodingSchema): number | JSONValue[] => {
+export const getNumberStates = (_schema: NumberEncodingSchema, _level: number): number | JSONValue[] => {
   return Infinity
 }
 
-export const getNumberEncoding = (_schema: NumberEncodingSchema): NumberEncoding => {
+export const getNumberEncoding = (_schema: NumberEncodingSchema, _level: number): NumberEncoding => {
   return {
     type: EncodingType.Number,
     encoding: 'DOUBLE_VARINT_TUPLE',

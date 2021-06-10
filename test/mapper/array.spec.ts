@@ -31,8 +31,8 @@ tap.test('should encode an arbitrary array', (test) => {
     type: 'array'
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -50,8 +50,8 @@ tap.test('should encode an arbitrary array with minItems', (test) => {
     minItems: 10
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -70,8 +70,8 @@ tap.test('should encode an arbitrary array with maxItems = 256', (test) => {
     maxItems: 256
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'ROOF_SEMITYPED__LENGTH_PREFIX',
@@ -90,8 +90,8 @@ tap.test('should encode an arbitrary array with maxItems = 255', (test) => {
     maxItems: 255
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -110,8 +110,8 @@ tap.test('should encode an arbitrary array with maxItems < 255', (test) => {
     maxItems: 10
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -131,8 +131,8 @@ tap.test('should encode an arbitrary array with maxItems - minItems < 255', (tes
     minItems: 3
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -153,8 +153,8 @@ tap.test('should encode an arbitrary array with maxItems - minItems > 255', (tes
     minItems: 30
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -182,8 +182,8 @@ tap.test('should encode an semi-typed scalar heterogeneous array', (test) => {
     ]
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -223,8 +223,8 @@ tap.test('should encode an semi-typed array with minItems', (test) => {
     ]
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -268,8 +268,8 @@ tap.test('should encode an semi + fully typed array with minItems', (test) => {
     ]
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'array',
     encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
@@ -312,8 +312,8 @@ tap.test('should encode an a bounded array with bounded items', (test) => {
     }
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 4)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), 4)
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
@@ -322,7 +322,7 @@ tap.test('should encode an a bounded array with bounded items', (test) => {
       maximum: 2,
       encoding: getEncoding({
         type: 'boolean'
-      }),
+      }, 1),
       prefixEncodings: []
     }
   })
@@ -345,8 +345,8 @@ tap.test('should encode an a bounded array with total prefix items', (test) => {
     ]
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 4)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), 4)
   test.strictSame(result, {
     type: 'array',
     encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -356,10 +356,10 @@ tap.test('should encode an a bounded array with total prefix items', (test) => {
       prefixEncodings: [
         getEncoding({
           type: 'boolean'
-        }),
+        }, 1),
         getEncoding({
           type: 'boolean'
-        })
+        }, 1)
       ]
     }
   })

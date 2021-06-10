@@ -12,71 +12,71 @@ var object_1 = require("./object");
 var enum_1 = require("./enum");
 var oneof_1 = require("./oneof");
 var const_1 = require("./const");
-var getEncoding = function (schema) {
+var getEncoding = function (schema, level) {
     if ('enum' in schema) {
-        return enum_1.getEnumEncoding(schema);
+        return enum_1.getEnumEncoding(schema, level);
     }
     else if ('const' in schema) {
-        return const_1.getConstEncoding(schema);
+        return const_1.getConstEncoding(schema, level);
     }
     else if ('oneOf' in schema) {
-        return oneof_1.getOneOfEncoding(schema);
+        return oneof_1.getOneOfEncoding(schema, level);
     }
     else if (!('type' in schema)) {
-        return any_1.getAnyEncoding(schema);
+        return any_1.getAnyEncoding(schema, level);
     }
     else if (schema.type === 'boolean') {
-        return boolean_1.getBooleanEncoding(schema);
+        return boolean_1.getBooleanEncoding(schema, level);
     }
     else if (schema.type === 'integer') {
-        return integer_1.getIntegerEncoding(schema);
+        return integer_1.getIntegerEncoding(schema, level);
     }
     else if (schema.type === 'null') {
-        return null_1.getNullEncoding(schema);
+        return null_1.getNullEncoding(schema, level);
     }
     else if (schema.type === 'number') {
-        return number_1.getNumberEncoding(schema);
+        return number_1.getNumberEncoding(schema, level);
     }
     else if (schema.type === 'string') {
-        return string_1.getStringEncoding(schema);
+        return string_1.getStringEncoding(schema, level);
     }
     else if (schema.type === 'array') {
-        return array_1.getArrayEncoding(schema);
+        return array_1.getArrayEncoding(schema, level);
     }
-    return object_1.getObjectEncoding(schema);
+    return object_1.getObjectEncoding(schema, level);
 };
 exports.getEncoding = getEncoding;
-var getStates = function (schema) {
+var getStates = function (schema, level) {
     if ('enum' in schema) {
-        return enum_1.getEnumStates(schema);
+        return enum_1.getEnumStates(schema, level);
     }
     else if ('const' in schema) {
-        return const_1.getConstStates(schema);
+        return const_1.getConstStates(schema, level);
     }
     else if ('oneOf' in schema) {
-        return oneof_1.getOneOfStates(schema);
+        return oneof_1.getOneOfStates(schema, level);
     }
     else if (!('type' in schema)) {
-        return any_1.getAnyStates(schema);
+        return any_1.getAnyStates(schema, level);
     }
     else if (schema.type === 'boolean') {
-        return boolean_1.getBooleanStates(schema);
+        return boolean_1.getBooleanStates(schema, level);
     }
     else if (schema.type === 'integer') {
-        return integer_1.getIntegerStates(schema);
+        return integer_1.getIntegerStates(schema, level);
     }
     else if (schema.type === 'null') {
-        return null_1.getNullStates(schema);
+        return null_1.getNullStates(schema, level);
     }
     else if (schema.type === 'number') {
-        return number_1.getNumberStates(schema);
+        return number_1.getNumberStates(schema, level);
     }
     else if (schema.type === 'string') {
-        return string_1.getStringStates(schema);
+        return string_1.getStringStates(schema, level);
     }
     else if (schema.type === 'array') {
-        return array_1.getArrayStates(schema);
+        return array_1.getArrayStates(schema, level);
     }
-    return object_1.getObjectStates(schema);
+    return object_1.getObjectStates(schema, level);
 };
 exports.getStates = getStates;

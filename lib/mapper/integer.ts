@@ -136,8 +136,8 @@ export type IntegerEncoding =
   ARBITRARY__ZIGZAG_VARINT_ENCODING |
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT_ENCODING
 
-export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONValue[] => {
-  const encoding: IntegerEncoding = getIntegerEncoding(schema)
+export const getIntegerStates = (schema: IntegerEncodingSchema, level: number): number | JSONValue[] => {
+  const encoding: IntegerEncoding = getIntegerEncoding(schema, level)
 
   if (encoding.encoding === 'BOUNDED__ENUM_VARINT' ||
     encoding.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
@@ -172,7 +172,7 @@ export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONVa
   return Infinity
 }
 
-export const getIntegerEncoding = (schema: IntegerEncodingSchema): IntegerEncoding => {
+export const getIntegerEncoding = (schema: IntegerEncodingSchema, _level: number): IntegerEncoding => {
   assert(typeof schema.minimum === 'undefined' ||
     typeof schema.maximum === 'undefined' ||
     schema.maximum >= schema.minimum)

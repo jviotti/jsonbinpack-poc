@@ -216,7 +216,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -241,7 +241,7 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: same max/min', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
   const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -265,7 +265,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -290,7 +290,7 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: same max/min', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
   const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -314,7 +314,7 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -338,7 +338,7 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]',
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -362,7 +362,7 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -386,7 +386,7 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', 
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -409,7 +409,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, ty
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
@@ -433,7 +433,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fa
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
@@ -457,7 +457,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
@@ -480,7 +480,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
@@ -503,7 +503,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
@@ -526,7 +526,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, [
@@ -548,11 +548,11 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false,
   const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const integerEncoding: Encoding = getEncoding({
     type: 'integer'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -578,11 +578,11 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
   const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const integerEncoding: Encoding = getEncoding({
     type: 'integer'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = BOUNDED_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -608,11 +608,11 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 
   const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const integerEncoding: Encoding = getEncoding({
     type: 'integer'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -637,11 +637,11 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fal
   const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const integerEncoding: Encoding = getEncoding({
     type: 'integer'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = ROOF_8BITS_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -666,11 +666,11 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
   const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const integerEncoding: Encoding = getEncoding({
     type: 'integer'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = FLOOR_TYPED__LENGTH_PREFIX(buffer, 0, [
@@ -695,11 +695,11 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
   const context: EncodingContext = getDefaultEncodingContext()
   const booleanEncoding: Encoding = getEncoding({
     type: 'boolean'
-  })
+  }, 1)
 
   const integerEncoding: Encoding = getEncoding({
     type: 'integer'
-  })
+  }, 1)
 
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number = UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, 0, [

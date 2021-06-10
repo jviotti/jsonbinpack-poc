@@ -45,8 +45,8 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
     ]
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), Infinity)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), Infinity)
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -58,7 +58,7 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
           },
           encoding: getEncoding({
             type: 'string'
-          })
+          }, 1)
         },
         {
           schema: {
@@ -68,7 +68,7 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
           encoding: getEncoding({
             type: 'integer',
             maximum: 5
-          })
+          }, 1)
         },
         {
           schema: {
@@ -82,7 +82,7 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
             items: {
               type: 'string'
             }
-          })
+          }, 1)
         }
       ]
     }
@@ -106,8 +106,8 @@ tap.test('should encode a oneOf schema with multiple boolean choices', (test) =>
     ]
   }
 
-  const result: Encoding = getEncoding(schema)
-  test.is(getStates(schema), 8)
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema, 0), 8)
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -119,7 +119,7 @@ tap.test('should encode a oneOf schema with multiple boolean choices', (test) =>
           },
           encoding: getEncoding({
             type: 'boolean'
-          })
+          }, 1)
         },
         {
           schema: {
@@ -127,7 +127,7 @@ tap.test('should encode a oneOf schema with multiple boolean choices', (test) =>
           },
           encoding: getEncoding({
             type: 'boolean'
-          })
+          }, 1)
         },
         {
           schema: {
@@ -135,7 +135,7 @@ tap.test('should encode a oneOf schema with multiple boolean choices', (test) =>
           },
           encoding: getEncoding({
             type: 'boolean'
-          })
+          }, 1)
         }
       ]
     }

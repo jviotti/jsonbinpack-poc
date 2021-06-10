@@ -34,7 +34,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test
     var options = {
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -64,7 +64,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', fun
     };
     var keyEncoding = string_1.getStringEncoding({
         type: 'string'
-    });
+    }, 1);
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, {
         keyEncoding: keyEncoding,
         encoding: {
@@ -95,7 +95,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
     var keyEncoding = string_1.getStringEncoding({
         type: 'string',
         minLength: 3
-    });
+    }, 1);
     var bytesWritten = encode_1.ARBITRARY_TYPED_KEYS_OBJECT(buffer, 0, value, {
         keyEncoding: keyEncoding,
         encoding: {
@@ -128,13 +128,13 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}',
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            }),
-            bar: mapper_1.getEncoding({}),
-            qux: mapper_1.getEncoding({})
+            }, 1),
+            bar: mapper_1.getEncoding({}, 1),
+            qux: mapper_1.getEncoding({}, 1)
         }
     };
     var bytesWritten = encode_1.NON_REQUIRED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -156,11 +156,11 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1}'
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -183,11 +183,11 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1} with one
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -209,11 +209,11 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: {foo:"bar",baz:1} with one missi
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.MIXED_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -235,11 +235,11 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            })
+            }, 1)
         },
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -264,11 +264,11 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', functio
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            })
+            }, 1)
         },
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -293,11 +293,11 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            })
+            }, 1)
         },
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -324,7 +324,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:nul
         optionalProperties: ['baz'],
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -333,11 +333,11 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:nul
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -361,17 +361,17 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: typed {foo:"bar",baz:1,b
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qux: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -394,13 +394,13 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: three boolean properties
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -428,28 +428,28 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: eight boolean properties
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qux: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             xxx: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             yyy: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             zzz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qqq: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -478,31 +478,31 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: nine boolean properties'
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qux: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             xxx: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             yyy: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             zzz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qqq: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             ppp: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     };
     var bytesWritten = encode_1.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, 0, value, options, context);
@@ -537,21 +537,21 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: complex object', function (test) {
         propertyEncodings: {
             name: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             age: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            }),
+            }, 1),
             flag: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         },
         optionalProperties: ['age'],
         requiredProperties: ['name'],
         booleanRequiredProperties: ['flag'],
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        })
+        }, 1)
     };
     var bytesWritten = encode_1.PACKED_UNBOUNDED_OBJECT(buffer, 0, value, options, context);
     var result = decode_1.PACKED_UNBOUNDED_OBJECT(buffer, 0, options);

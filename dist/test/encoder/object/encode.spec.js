@@ -17,7 +17,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar
     }, {
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -44,7 +44,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",
         keyEncoding: string_1.getStringEncoding({
             type: 'string',
             minLength: 3
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -72,13 +72,13 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {foo:
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            }),
-            bar: mapper_1.getEncoding({}),
-            qux: mapper_1.getEncoding({})
+            }, 1),
+            bar: mapper_1.getEncoding({}, 1),
+            qux: mapper_1.getEncoding({}, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -98,13 +98,13 @@ tap_1.default.test('NON_REQUIRED_BOUNDED_TYPED_OBJECT: should encode typed {}', 
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            }),
-            bar: mapper_1.getEncoding({}),
-            qux: mapper_1.getEncoding({})
+            }, 1),
+            bar: mapper_1.getEncoding({}, 1),
+            qux: mapper_1.getEncoding({}, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -138,11 +138,11 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -166,17 +166,17 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode typed {foo
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qux: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -200,13 +200,13 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode three bool
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([5]));
@@ -231,28 +231,28 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode eight bool
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qux: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             xxx: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             yyy: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             zzz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qqq: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([205]));
@@ -278,31 +278,31 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: should encode nine boole
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             bar: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qux: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             xxx: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             yyy: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             zzz: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             qqq: mapper_1.getEncoding({
                 type: 'boolean'
-            }),
+            }, 1),
             ppp: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([205, 0x00]));
@@ -322,11 +322,11 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -349,11 +349,11 @@ tap_1.default.test('MIXED_BOUNDED_TYPED_OBJECT: should encode typed {foo:"bar",b
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -375,11 +375,11 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            })
+            }, 1)
         },
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -406,11 +406,11 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            })
+            }, 1)
         },
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -435,11 +435,11 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            })
+            }, 1)
         },
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -469,7 +469,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
         optionalProperties: ['baz'],
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        }),
+        }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
             encoding: 'ANY__TYPE_PREFIX',
@@ -478,11 +478,11 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
         propertyEncodings: {
             foo: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             baz: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            })
+            }, 1)
         }
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -521,21 +521,21 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', fu
         propertyEncodings: {
             name: mapper_1.getEncoding({
                 type: 'string'
-            }),
+            }, 1),
             age: mapper_1.getEncoding({
                 type: 'integer',
                 minimum: 0
-            }),
+            }, 1),
             flag: mapper_1.getEncoding({
                 type: 'boolean'
-            })
+            }, 1)
         },
         optionalProperties: ['age'],
         requiredProperties: ['name'],
         booleanRequiredProperties: ['flag'],
         keyEncoding: string_1.getStringEncoding({
             type: 'string'
-        })
+        }, 1)
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x05,

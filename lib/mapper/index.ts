@@ -170,53 +170,53 @@ export type Encoding =
   OneOfEncoding |
   ConstEncoding
 
-export const getEncoding = (schema: EncodingSchema): Encoding => {
+export const getEncoding = (schema: EncodingSchema, level: number): Encoding => {
   if ('enum' in schema) {
-    return getEnumEncoding(schema)
+    return getEnumEncoding(schema, level)
   } else if ('const' in schema) {
-    return getConstEncoding(schema)
+    return getConstEncoding(schema, level)
   } else if ('oneOf' in schema) {
-    return getOneOfEncoding(schema)
+    return getOneOfEncoding(schema, level)
   } else if (!('type' in schema)) {
-    return getAnyEncoding(schema)
+    return getAnyEncoding(schema, level)
   } else if (schema.type === 'boolean') {
-    return getBooleanEncoding(schema)
+    return getBooleanEncoding(schema, level)
   } else if (schema.type === 'integer') {
-    return getIntegerEncoding(schema)
+    return getIntegerEncoding(schema, level)
   } else if (schema.type === 'null') {
-    return getNullEncoding(schema)
+    return getNullEncoding(schema, level)
   } else if (schema.type === 'number') {
-    return getNumberEncoding(schema)
+    return getNumberEncoding(schema, level)
   } else if (schema.type === 'string') {
-    return getStringEncoding(schema)
+    return getStringEncoding(schema, level)
   } else if (schema.type === 'array') {
-    return getArrayEncoding(schema)
+    return getArrayEncoding(schema, level)
   }
-  return getObjectEncoding(schema)
+  return getObjectEncoding(schema, level)
 }
 
-export const getStates = (schema: EncodingSchema): number | JSONValue[] => {
+export const getStates = (schema: EncodingSchema, level: number): number | JSONValue[] => {
   if ('enum' in schema) {
-    return getEnumStates(schema)
+    return getEnumStates(schema, level)
   } else if ('const' in schema) {
-    return getConstStates(schema)
+    return getConstStates(schema, level)
   } else if ('oneOf' in schema) {
-    return getOneOfStates(schema)
+    return getOneOfStates(schema, level)
   } else if (!('type' in schema)) {
-    return getAnyStates(schema)
+    return getAnyStates(schema, level)
   } else if (schema.type === 'boolean') {
-    return getBooleanStates(schema)
+    return getBooleanStates(schema, level)
   } else if (schema.type === 'integer') {
-    return getIntegerStates(schema)
+    return getIntegerStates(schema, level)
   } else if (schema.type === 'null') {
-    return getNullStates(schema)
+    return getNullStates(schema, level)
   } else if (schema.type === 'number') {
-    return getNumberStates(schema)
+    return getNumberStates(schema, level)
   } else if (schema.type === 'string') {
-    return getStringStates(schema)
+    return getStringStates(schema, level)
   } else if (schema.type === 'array') {
-    return getArrayStates(schema)
+    return getArrayStates(schema, level)
   }
 
-  return getObjectStates(schema)
+  return getObjectStates(schema, level)
 }

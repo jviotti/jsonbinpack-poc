@@ -104,11 +104,11 @@ export type StringEncoding =
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING
 
-export const getStringStates = (_schema: StringEncodingSchema): number | JSONValue[] => {
+export const getStringStates = (_schema: StringEncodingSchema, _level: number): number | JSONValue[] => {
   return Infinity
 }
 
-export const getStringEncoding = (schema: StringEncodingSchema): StringEncoding => {
+export const getStringEncoding = (schema: StringEncodingSchema, _level: number): StringEncoding => {
   if (schema.format === 'date') {
     return {
       type: EncodingType.String,
