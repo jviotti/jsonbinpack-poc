@@ -157,6 +157,10 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
     const schemaProperties: Record<string, EncodingSchema> = schema.properties ?? {}
     const requiredProperties: string[] = schema.required ?? []
 
+    if (requiredProperties.length > 10) {
+      return Infinity
+    }
+
     // A required key that is not defined is an "any" type
     for (const key of requiredProperties) {
       if (typeof schemaProperties[key] === 'undefined') {

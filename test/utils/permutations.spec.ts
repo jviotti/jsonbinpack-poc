@@ -50,7 +50,6 @@ tap.test('should generate a 1-permutation of one choice', (test) => {
 
 tap.test('should generate a 1-permutation of two choices', (test) => {
   const result: JSONValue[][] = generatePermutations([ false, true ])
-  console.log(result)
   test.strictSame(result, [
     [ false ],
     [ true ]

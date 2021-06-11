@@ -53,6 +53,9 @@ var getObjectStates = function (schema) {
     if (typeof schema.additionalProperties === 'boolean' && !schema.additionalProperties) {
         var schemaProperties = (_c = schema.properties) !== null && _c !== void 0 ? _c : {};
         var requiredProperties = (_d = schema.required) !== null && _d !== void 0 ? _d : [];
+        if (requiredProperties.length > 10) {
+            return Infinity;
+        }
         try {
             for (var requiredProperties_1 = __values(requiredProperties), requiredProperties_1_1 = requiredProperties_1.next(); !requiredProperties_1_1.done; requiredProperties_1_1 = requiredProperties_1.next()) {
                 var key = requiredProperties_1_1.value;

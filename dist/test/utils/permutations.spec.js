@@ -27,7 +27,6 @@ tap_1.default.test('should generate a 1-permutation of one choice', function (te
 });
 tap_1.default.test('should generate a 1-permutation of two choices', function (test) {
     var result = permutation_1.generatePermutations([false, true]);
-    console.log(result);
     test.strictSame(result, [
         [false],
         [true]
