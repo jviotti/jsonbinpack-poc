@@ -185,7 +185,9 @@ tap.test('should encode a bounded object with no required nor optionals', (test)
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 1)
+  test.strictSame(getStates(schema, 0), [
+    {}
+  ])
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -835,7 +837,24 @@ tap.test('should encode a bounded object with only boolean required keys', (test
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 4)
+  test.strictSame(getStates(schema, 0), [
+    {
+      foo: false,
+      bar: false
+    },
+    {
+      foo: false,
+      bar: true
+    },
+    {
+      foo: true,
+      bar: false
+    },
+    {
+      foo: true,
+      bar: true
+    }
+  ])
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -873,7 +892,14 @@ tap.test('should encode a bounded property with a single required boolean', (tes
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 2)
+  test.strictSame(getStates(schema, 0), [
+    {
+      jsx: false
+    },
+    {
+      jsx: true
+    }
+  ])
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -905,7 +931,15 @@ tap.test('should encode a bounded property with a single boolean', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 3)
+  test.strictSame(getStates(schema, 0), [
+    {
+      jsx: false
+    },
+    {
+      jsx: true
+    },
+    {}
+  ])
   test.strictSame(result, {
     type: 'object',
     encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -918,27 +952,6 @@ tap.test('should encode a bounded property with a single boolean', (test) => {
           options: {}
         }
       }
-    }
-  })
-
-  test.end()
-})
-
-tap.test('should encode a bounded empty object', (test) => {
-  const schema: EncodingSchema = {
-    type: 'object',
-    additionalProperties: false
-  }
-
-  const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), 1)
-  test.strictSame(result, {
-    type: 'object',
-    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
-    options: {
-      propertyEncodings: {},
-      requiredProperties: [],
-      booleanRequiredProperties: []
     }
   })
 

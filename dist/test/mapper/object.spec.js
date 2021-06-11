@@ -151,7 +151,9 @@ tap_1.default.test('should encode a bounded object with no required nor optional
         additionalProperties: false
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), 1);
+    test.strictSame(mapper_1.getStates(schema, 0), [
+        {}
+    ]);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -750,7 +752,24 @@ tap_1.default.test('should encode a bounded object with only boolean required ke
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), 4);
+    test.strictSame(mapper_1.getStates(schema, 0), [
+        {
+            foo: false,
+            bar: false
+        },
+        {
+            foo: false,
+            bar: true
+        },
+        {
+            foo: true,
+            bar: false
+        },
+        {
+            foo: true,
+            bar: true
+        }
+    ]);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -785,7 +804,14 @@ tap_1.default.test('should encode a bounded property with a single required bool
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), 2);
+    test.strictSame(mapper_1.getStates(schema, 0), [
+        {
+            jsx: false
+        },
+        {
+            jsx: true
+        }
+    ]);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -814,7 +840,15 @@ tap_1.default.test('should encode a bounded property with a single boolean', fun
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), 3);
+    test.strictSame(mapper_1.getStates(schema, 0), [
+        {
+            jsx: false
+        },
+        {
+            jsx: true
+        },
+        {}
+    ]);
     test.strictSame(result, {
         type: 'object',
         encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -827,24 +861,6 @@ tap_1.default.test('should encode a bounded property with a single boolean', fun
                     options: {}
                 }
             }
-        }
-    });
-    test.end();
-});
-tap_1.default.test('should encode a bounded empty object', function (test) {
-    var schema = {
-        type: 'object',
-        additionalProperties: false
-    };
-    var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), 1);
-    test.strictSame(result, {
-        type: 'object',
-        encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
-        options: {
-            propertyEncodings: {},
-            requiredProperties: [],
-            booleanRequiredProperties: []
         }
     });
     test.end();
