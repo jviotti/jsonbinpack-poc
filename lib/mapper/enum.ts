@@ -69,7 +69,7 @@ export const getEnumStates = (schema: EnumEncodingSchema): number | JSONValue[] 
 }
 
 export const getEnumEncoding = (schema: EnumEncodingSchema, level: number): EnumEncoding => {
-  if (level === 0) {
+  if (level === 0 && schema.enum.length < UINT8_MAX) {
     return {
       type: EncodingType.Enum,
       encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',

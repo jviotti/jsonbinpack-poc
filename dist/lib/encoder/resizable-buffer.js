@@ -13,6 +13,9 @@ var ResizableBuffer = (function () {
             ]);
         }
     };
+    ResizableBuffer.prototype.getOriginalSize = function () {
+        return this.buffer.length;
+    };
     ResizableBuffer.prototype.getSize = function () {
         return this.written;
     };

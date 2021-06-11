@@ -189,12 +189,12 @@ tap.test('should encode a bounded object with no required nor optionals', (test)
     {}
   ])
   test.strictSame(result, {
-    type: 'object',
-    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      booleanRequiredProperties: [],
-      propertyEncodings: {},
-      requiredProperties: []
+      choices: [
+        {}
+      ]
     }
   })
 
@@ -856,23 +856,27 @@ tap.test('should encode a bounded object with only boolean required keys', (test
     }
   ])
   test.strictSame(result, {
-    type: 'object',
-    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      booleanRequiredProperties: [ 'bar', 'foo' ],
-      propertyEncodings: {
-        foo: {
-          type: 'boolean',
-          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-          options: {}
+      choices: [
+        {
+          foo: false,
+          bar: false
         },
-        bar: {
-          type: 'boolean',
-          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-          options: {}
+        {
+          foo: false,
+          bar: true
+        },
+        {
+          foo: true,
+          bar: false
+        },
+        {
+          foo: true,
+          bar: true
         }
-      },
-      requiredProperties: []
+      ]
     }
   })
 
@@ -901,18 +905,17 @@ tap.test('should encode a bounded property with a single required boolean', (tes
     }
   ])
   test.strictSame(result, {
-    type: 'object',
-    encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      booleanRequiredProperties: [ 'jsx' ],
-      propertyEncodings: {
-        jsx: {
-          type: 'boolean',
-          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-          options: {}
+      choices: [
+        {
+          jsx: false
+        },
+        {
+          jsx: true
         }
-      },
-      requiredProperties: []
+      ]
     }
   })
 
@@ -941,17 +944,18 @@ tap.test('should encode a bounded property with a single boolean', (test) => {
     {}
   ])
   test.strictSame(result, {
-    type: 'object',
-    encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      optionalProperties: [ 'jsx' ],
-      propertyEncodings: {
-        jsx: {
-          type: 'boolean',
-          encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-          options: {}
-        }
-      }
+      choices: [
+        {
+          jsx: false
+        },
+        {
+          jsx: true
+        },
+        {}
+      ]
     }
   })
 

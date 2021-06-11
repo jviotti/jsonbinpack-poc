@@ -46,7 +46,7 @@ var decode_1 = require("../../lib/encoder/enum/decode");
 var encoder_1 = require("../../lib/encoder");
 tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 1, 0, 0 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(0));
     var offset = 0;
     var value = 1;
     var options = {
@@ -61,7 +61,7 @@ tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 1, 0, 0 ]'
 });
 tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 1, 0 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(0));
     var offset = 0;
     var value = 1;
     var options = {
@@ -76,7 +76,7 @@ tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 1, 0 ]'
 });
 tap_1.default.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 0, 1 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(0));
     var offset = 0;
     var value = 1;
     var options = {

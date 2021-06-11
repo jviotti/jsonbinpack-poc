@@ -5,7 +5,7 @@ var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
 var TOP_LEVEL_8BIT_CHOICE_INDEX = function (buffer, offset, options) {
     assert_1.strict(offset === 0);
-    if (buffer.getSize() === 0) {
+    if (buffer.getOriginalSize() === 0) {
         return {
             value: options.choices[0],
             bytes: 0

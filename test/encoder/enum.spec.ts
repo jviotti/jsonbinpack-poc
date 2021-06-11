@@ -47,7 +47,7 @@ import {
 
 tap.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 1, 0, 0 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(0))
 
   const offset: number = 0
   const value: number = 1
@@ -68,7 +68,7 @@ tap.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 1, 0, 0 ]', (test) =
 
 tap.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 1, 0 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(0))
 
   const offset: number = 0
   const value: number = 1
@@ -89,7 +89,7 @@ tap.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 1, 0 ]', (test) =
 
 tap.test('TOP_LEVEL_8BIT_CHOICE_INDEX: should handle 1 of [ 0, 0, 1 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(0))
 
   const offset: number = 0
   const value: number = 1

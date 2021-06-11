@@ -8,7 +8,7 @@ var getEnumStates = function (schema) {
 };
 exports.getEnumStates = getEnumStates;
 var getEnumEncoding = function (schema, level) {
-    if (level === 0) {
+    if (level === 0 && schema.enum.length < limits_1.UINT8_MAX) {
         return {
             type: encoder_1.EncodingType.Enum,
             encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',

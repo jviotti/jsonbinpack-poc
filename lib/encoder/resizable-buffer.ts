@@ -36,6 +36,10 @@ export default class ResizableBuffer {
     }
   }
 
+  public getOriginalSize (): number {
+    return this.buffer.length
+  }
+
   public getSize (): number {
     return this.written
   }
