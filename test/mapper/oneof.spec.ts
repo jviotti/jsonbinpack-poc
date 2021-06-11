@@ -46,7 +46,7 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -107,7 +107,7 @@ tap.test('should encode a oneOf schema with multiple boolean choices', (test) =>
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.strictSame(getStates(schema, 0), [ false, true ])
+  test.strictSame(getStates(schema), [ false, true ])
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -159,7 +159,7 @@ tap.test('should encode a oneOf schema with multiple bounded choices', (test) =>
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.strictSame(getStates(schema, 0), [
+  test.strictSame(getStates(schema), [
     false, true,
     0, 1, 2, 3
   ])
@@ -208,7 +208,7 @@ tap.test('should encode a oneOf schema with one bounded and one unbounded choice
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',

@@ -27,13 +27,13 @@ var encoder_1 = require("../encoder");
 var index_1 = require("./index");
 var limits_1 = require("../utils/limits");
 var permutation_1 = require("../utils/permutation");
-var getArrayStates = function (schema, level) {
+var getArrayStates = function (schema) {
     var _a;
     if (typeof schema.maxItems === 'number' &&
         (typeof schema.items !== 'undefined' || typeof schema.prefixItems !== 'undefined')) {
         var choices_1 = lodash_1.range(0, schema.maxItems).reduce(function (accumulator, index) {
             var _a, _b, _c;
-            var states = index_1.getStates((_c = (_b = ((_a = schema.prefixItems) !== null && _a !== void 0 ? _a : [])[index]) !== null && _b !== void 0 ? _b : schema.items) !== null && _c !== void 0 ? _c : {}, level);
+            var states = index_1.getStates((_c = (_b = ((_a = schema.prefixItems) !== null && _a !== void 0 ? _a : [])[index]) !== null && _b !== void 0 ? _b : schema.items) !== null && _c !== void 0 ? _c : {});
             if (Array.isArray(accumulator) && Array.isArray(states)) {
                 accumulator.push(states);
             }

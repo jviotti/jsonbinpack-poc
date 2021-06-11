@@ -64,7 +64,7 @@ export type EnumEncoding = TOP_LEVEL_8BIT_CHOICE_INDEX_ENCODING |
   BOUNDED_CHOICE_INDEX_ENCODING |
   LARGE_BOUNDED_CHOICE_INDEX_ENCODING
 
-export const getEnumStates = (schema: EnumEncodingSchema, _level: number): number | JSONValue[] => {
+export const getEnumStates = (schema: EnumEncodingSchema): number | JSONValue[] => {
   return schema.enum
 }
 

@@ -32,7 +32,7 @@ tap.test('should encode a number simple value', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'number',
     encoding: 'DOUBLE_VARINT_TUPLE',

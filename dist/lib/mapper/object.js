@@ -46,7 +46,7 @@ var parseAdditionalProperties = function (value, level) {
         ? {} : value;
     return index_1.getEncoding(schema, level + 1);
 };
-var getObjectStates = function (schema, level) {
+var getObjectStates = function (schema) {
     var e_1, _a, e_2, _b;
     var _c, _d;
     if (typeof schema.additionalProperties === 'boolean' && !schema.additionalProperties) {
@@ -69,7 +69,7 @@ var getObjectStates = function (schema, level) {
         }
         var choices = [];
         var _loop_1 = function (key, value) {
-            var states = index_1.getStates(value, level + 1);
+            var states = index_1.getStates(value);
             if (typeof states === 'number' && !Number.isFinite(states)) {
                 return { value: Infinity };
             }

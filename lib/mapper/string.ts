@@ -104,7 +104,7 @@ export type StringEncoding =
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING
 
-export const getStringStates = (_schema: StringEncodingSchema, _level: number): number | JSONValue[] => {
+export const getStringStates = (_schema: StringEncodingSchema): number | JSONValue[] => {
   return Infinity
 }
 

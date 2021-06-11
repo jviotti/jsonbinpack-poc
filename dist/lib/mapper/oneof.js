@@ -4,9 +4,9 @@ exports.getOneOfEncoding = exports.getOneOfStates = void 0;
 var lodash_1 = require("lodash");
 var encoder_1 = require("../encoder");
 var index_1 = require("./index");
-var getOneOfStates = function (schema, level) {
+var getOneOfStates = function (schema) {
     return schema.oneOf.reduce(function (accumulator, choice) {
-        var states = index_1.getStates(choice, level + 1);
+        var states = index_1.getStates(choice);
         if (Array.isArray(states)) {
             if (Array.isArray(accumulator)) {
                 return lodash_1.uniqWith(accumulator.concat(states), lodash_1.isEqual);

@@ -24,7 +24,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'oneOf',
         encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -82,7 +82,7 @@ tap_1.default.test('should encode a oneOf schema with multiple boolean choices',
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [false, true]);
+    test.strictSame(mapper_1.getStates(schema), [false, true]);
     test.strictSame(result, {
         type: 'oneOf',
         encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
@@ -131,7 +131,7 @@ tap_1.default.test('should encode a oneOf schema with multiple bounded choices',
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         false, true,
         0, 1, 2, 3
     ]);
@@ -177,7 +177,7 @@ tap_1.default.test('should encode a oneOf schema with one bounded and one unboun
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'oneOf',
         encoding: 'ONEOF_CHOICE_INDEX_PREFIX',

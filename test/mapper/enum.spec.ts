@@ -37,7 +37,7 @@ tap.test('should encode an object with an enum with one value', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
@@ -74,7 +74,7 @@ tap.test('should encode a top-level enum with one value', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.strictSame(getStates(schema, 0), [ 'foo' ])
+  test.strictSame(getStates(schema), [ 'foo' ])
   test.strictSame(result, {
     type: 'enum',
     encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',

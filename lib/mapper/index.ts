@@ -195,28 +195,28 @@ export const getEncoding = (schema: EncodingSchema, level: number): Encoding => 
   return getObjectEncoding(schema, level)
 }
 
-export const getStates = (schema: EncodingSchema, level: number): number | JSONValue[] => {
+export const getStates = (schema: EncodingSchema): number | JSONValue[] => {
   if ('enum' in schema) {
-    return getEnumStates(schema, level)
+    return getEnumStates(schema)
   } else if ('const' in schema) {
-    return getConstStates(schema, level)
+    return getConstStates(schema)
   } else if ('oneOf' in schema) {
-    return getOneOfStates(schema, level)
+    return getOneOfStates(schema)
   } else if (!('type' in schema)) {
-    return getAnyStates(schema, level)
+    return getAnyStates(schema)
   } else if (schema.type === 'boolean') {
-    return getBooleanStates(schema, level)
+    return getBooleanStates(schema)
   } else if (schema.type === 'integer') {
-    return getIntegerStates(schema, level)
+    return getIntegerStates(schema)
   } else if (schema.type === 'null') {
-    return getNullStates(schema, level)
+    return getNullStates(schema)
   } else if (schema.type === 'number') {
-    return getNumberStates(schema, level)
+    return getNumberStates(schema)
   } else if (schema.type === 'string') {
-    return getStringStates(schema, level)
+    return getStringStates(schema)
   } else if (schema.type === 'array') {
-    return getArrayStates(schema, level)
+    return getArrayStates(schema)
   }
 
-  return getObjectStates(schema, level)
+  return getObjectStates(schema)
 }

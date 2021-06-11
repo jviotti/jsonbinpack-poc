@@ -136,7 +136,7 @@ export type IntegerEncoding =
   ARBITRARY__ZIGZAG_VARINT_ENCODING |
   ARBITRARY_MULTIPLE__ZIGZAG_VARINT_ENCODING
 
-export const getIntegerStates = (schema: IntegerEncodingSchema, _level: number): number | JSONValue[] => {
+export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONValue[] => {
   if (typeof schema.maximum === 'number' &&
     typeof schema.minimum === 'number' &&
     typeof schema.multipleOf !== 'number') {

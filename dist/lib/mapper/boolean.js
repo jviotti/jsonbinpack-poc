@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBooleanEncoding = exports.getBooleanStates = void 0;
 var encoder_1 = require("../encoder");
-var getBooleanStates = function (_schema, _level) {
+var getBooleanStates = function (_schema) {
     return [false, true];
 };
 exports.getBooleanStates = getBooleanStates;
