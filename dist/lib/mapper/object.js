@@ -126,7 +126,7 @@ var getObjectEncoding = function (schema, level) {
     var e_3, _a, e_4, _b, e_5, _c;
     var _d, _e, _f, _g, _h, _j, _k;
     var states = exports.getObjectStates(schema);
-    if (Array.isArray(states)) {
+    if (Array.isArray(states) && level === 0) {
         return enum_1.getEnumEncoding({
             enum: states
         }, level);

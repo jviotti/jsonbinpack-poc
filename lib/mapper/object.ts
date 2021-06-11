@@ -211,7 +211,7 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
 
 export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): ObjectEncoding => {
   const states: number | JSONValue[] = getObjectStates(schema)
-  if (Array.isArray(states)) {
+  if (Array.isArray(states) && level === 0) {
     return getEnumEncoding({
       enum: states
     }, level)

@@ -48,7 +48,7 @@ export const TOP_LEVEL_8BIT_CHOICE_INDEX = (
 ): EnumResult => {
   assert(offset === 0)
 
-  if (buffer.getSize() === 0) {
+  if (buffer.getOriginalSize() === 0) {
     return {
       value: options.choices[0],
       bytes: 0
