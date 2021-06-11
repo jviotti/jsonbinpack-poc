@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEnumEncoding = exports.getEnumStates = void 0;
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
-var getEnumStates = function (schema, _level) {
+var getEnumStates = function (schema) {
     return schema.enum;
 };
 exports.getEnumStates = getEnumStates;

@@ -144,7 +144,7 @@ const parseAdditionalProperties = (
 
 // TODO: This definition can probably be greatly improved once we
 // support the maxProperties JSON Schema keyword.
-export const getObjectStates = (schema: ObjectEncodingSchema, level: number): number | JSONValue[] => {
+export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValue[] => {
   if (typeof schema.additionalProperties === 'boolean' && !schema.additionalProperties) {
     const schemaProperties: Record<string, EncodingSchema> = schema.properties ?? {}
     const requiredProperties: string[] = schema.required ?? []
@@ -158,7 +158,7 @@ export const getObjectStates = (schema: ObjectEncodingSchema, level: number): nu
 
     let choices: number | JSONValue[][] = []
     for (const [ key, value ] of Object.entries(schemaProperties)) {
-      const states: number | JSONValue[] = getStates(value, level + 1)
+      const states: number | JSONValue[] = getStates(value)
 
       // We can break out if one of the states is infinite
       if (typeof states === 'number' && !Number.isFinite(states)) {

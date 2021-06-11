@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNumberEncoding = exports.getNumberStates = void 0;
 var encoder_1 = require("../encoder");
-var getNumberStates = function (_schema, _level) {
+var getNumberStates = function (_schema) {
     return Infinity;
 };
 exports.getNumberStates = getNumberStates;

@@ -5,7 +5,7 @@ var assert_1 = require("assert");
 var lodash_1 = require("lodash");
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
-var getIntegerStates = function (schema, _level) {
+var getIntegerStates = function (schema) {
     if (typeof schema.maximum === 'number' &&
         typeof schema.minimum === 'number' &&
         typeof schema.multipleOf !== 'number') {

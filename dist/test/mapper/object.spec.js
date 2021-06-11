@@ -12,7 +12,7 @@ tap_1.default.test('should encode a bounded object with only required keys', fun
         required: ['foo', 'bar']
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -43,7 +43,7 @@ tap_1.default.test('should encode a bounded object with required keys and empty 
         required: ['foo', 'bar']
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -79,7 +79,7 @@ tap_1.default.test('should encode a bounded object with partially defined requir
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -120,7 +120,7 @@ tap_1.default.test('should encode a bounded object with fully defined required k
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -151,7 +151,7 @@ tap_1.default.test('should encode a bounded object with no required nor optional
         additionalProperties: false
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         {}
     ]);
     test.strictSame(result, {
@@ -177,7 +177,7 @@ tap_1.default.test('should encode a bounded object with optional properties', fu
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -211,7 +211,7 @@ tap_1.default.test('should encode a bounded object with more than one optional k
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -251,7 +251,7 @@ tap_1.default.test('should encode a bounded object with more than one optional k
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -288,7 +288,7 @@ tap_1.default.test('should encode a bounded object with an optional and a requir
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
@@ -330,7 +330,7 @@ tap_1.default.test('should encode a bounded object with an optional and a typed 
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
@@ -361,7 +361,7 @@ tap_1.default.test('should encode a simple unbounded object', function (test) {
         type: 'object'
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -386,7 +386,7 @@ tap_1.default.test('should encode a simple unbounded object with empty required'
         required: []
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -411,7 +411,7 @@ tap_1.default.test('should encode a simple unbounded object with additionalPrope
         additionalProperties: true
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -438,7 +438,7 @@ tap_1.default.test('should encode a simple unbounded object with additionalPrope
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -466,7 +466,7 @@ tap_1.default.test('should encode a simple unbounded object with propertyNames',
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -497,7 +497,7 @@ tap_1.default.test('should encode a simple unbounded object with propertyNames a
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -530,7 +530,7 @@ tap_1.default.test('should encode a simple unbounded object with propertyNames a
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -557,7 +557,7 @@ tap_1.default.test('should encode a simple unbounded object with a required prop
         required: ['foo']
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -596,7 +596,7 @@ tap_1.default.test('should encode a simple unbounded object with a required type
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -638,7 +638,7 @@ tap_1.default.test('should encode a simple unbounded object with two optional pr
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
@@ -694,7 +694,7 @@ tap_1.default.test('should encode a complex unbounded object', function (test) {
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
@@ -752,7 +752,7 @@ tap_1.default.test('should encode a bounded object with only boolean required ke
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         {
             foo: false,
             bar: false
@@ -804,7 +804,7 @@ tap_1.default.test('should encode a bounded property with a single required bool
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         {
             jsx: false
         },
@@ -840,7 +840,7 @@ tap_1.default.test('should encode a bounded property with a single boolean', fun
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         {
             jsx: false
         },
@@ -893,7 +893,7 @@ tap_1.default.test('should encode an unbounded object with bounded integers', fu
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'PACKED_UNBOUNDED_OBJECT',

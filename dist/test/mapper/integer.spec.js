@@ -14,7 +14,7 @@ tap_1.default.test('should encode an 8-bit integer with minimum, maximum, and mu
         multipleOf: 5
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), lodash_1.range(-100, 105, 5));
+    test.strictSame(mapper_1.getStates(schema), lodash_1.range(-100, 105, 5));
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED',
@@ -34,7 +34,7 @@ tap_1.default.test('should encode an integer with minimum, maximum, and multipli
         multipleOf: 5
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), 2021);
+    test.is(mapper_1.getStates(schema), 2021);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_MULTIPLE__ENUM_VARINT',
@@ -51,7 +51,7 @@ tap_1.default.test('should encode an arbitrary integer', function (test) {
         type: 'integer'
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ARBITRARY__ZIGZAG_VARINT',
@@ -65,7 +65,7 @@ tap_1.default.test('should encode an arbitrary integer with multipleOf', functio
         multipleOf: 5
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
@@ -81,7 +81,7 @@ tap_1.default.test('should encode an integer with minimum', function (test) {
         minimum: 0
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'FLOOR__ENUM_VARINT',
@@ -98,7 +98,7 @@ tap_1.default.test('should encode an integer with minimum and multipleOf', funct
         multipleOf: 5
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
@@ -115,7 +115,7 @@ tap_1.default.test('should encode an integer with maximum', function (test) {
         maximum: 100
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ROOF__MIRROR_ENUM_VARINT',
@@ -132,7 +132,7 @@ tap_1.default.test('should encode an integer with maximum and multipleOf', funct
         multipleOf: 5
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
@@ -150,7 +150,7 @@ tap_1.default.test('should encode an 8-bit integer with minimum and maximum', fu
         maximum: 100
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), lodash_1.range(-100, 101));
+    test.strictSame(mapper_1.getStates(schema), lodash_1.range(-100, 101));
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED_8BITS__ENUM_FIXED',
@@ -168,7 +168,7 @@ tap_1.default.test('should encode an >8-bit integer with minimum and maximum', f
         maximum: 100000
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), 100101);
+    test.is(mapper_1.getStates(schema), 100101);
     test.strictSame(result, {
         type: 'integer',
         encoding: 'BOUNDED__ENUM_VARINT',

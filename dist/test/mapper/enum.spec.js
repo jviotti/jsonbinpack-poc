@@ -15,7 +15,7 @@ tap_1.default.test('should encode an object with an enum with one value', functi
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'object',
         encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
@@ -49,7 +49,7 @@ tap_1.default.test('should encode a top-level enum with one value', function (te
         enum: ['foo']
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), ['foo']);
+    test.strictSame(mapper_1.getStates(schema), ['foo']);
     test.strictSame(result, {
         type: 'enum',
         encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',

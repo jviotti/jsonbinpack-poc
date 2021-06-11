@@ -46,37 +46,37 @@ var getEncoding = function (schema, level) {
     return object_1.getObjectEncoding(schema, level);
 };
 exports.getEncoding = getEncoding;
-var getStates = function (schema, level) {
+var getStates = function (schema) {
     if ('enum' in schema) {
-        return enum_1.getEnumStates(schema, level);
+        return enum_1.getEnumStates(schema);
     }
     else if ('const' in schema) {
-        return const_1.getConstStates(schema, level);
+        return const_1.getConstStates(schema);
     }
     else if ('oneOf' in schema) {
-        return oneof_1.getOneOfStates(schema, level);
+        return oneof_1.getOneOfStates(schema);
     }
     else if (!('type' in schema)) {
-        return any_1.getAnyStates(schema, level);
+        return any_1.getAnyStates(schema);
     }
     else if (schema.type === 'boolean') {
-        return boolean_1.getBooleanStates(schema, level);
+        return boolean_1.getBooleanStates(schema);
     }
     else if (schema.type === 'integer') {
-        return integer_1.getIntegerStates(schema, level);
+        return integer_1.getIntegerStates(schema);
     }
     else if (schema.type === 'null') {
-        return null_1.getNullStates(schema, level);
+        return null_1.getNullStates(schema);
     }
     else if (schema.type === 'number') {
-        return number_1.getNumberStates(schema, level);
+        return number_1.getNumberStates(schema);
     }
     else if (schema.type === 'string') {
-        return string_1.getStringStates(schema, level);
+        return string_1.getStringStates(schema);
     }
     else if (schema.type === 'array') {
-        return array_1.getArrayStates(schema, level);
+        return array_1.getArrayStates(schema);
     }
-    return object_1.getObjectStates(schema, level);
+    return object_1.getObjectStates(schema);
 };
 exports.getStates = getStates;

@@ -10,7 +10,7 @@ tap_1.default.test('should encode an arbitrary array', function (test) {
         type: 'array'
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -26,7 +26,7 @@ tap_1.default.test('should encode an arbitrary array with minItems', function (t
         minItems: 10
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -43,7 +43,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 256', funct
         maxItems: 256
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'ROOF_SEMITYPED__LENGTH_PREFIX',
@@ -60,7 +60,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 255', funct
         maxItems: 255
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -77,7 +77,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems < 255', funct
         maxItems: 10
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -95,7 +95,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems < 
         minItems: 3
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
@@ -114,7 +114,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems > 
         minItems: 30
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -140,7 +140,7 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
@@ -178,7 +178,7 @@ tap_1.default.test('should encode a semi-typed array with minItems', function (t
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
@@ -220,7 +220,7 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.is(mapper_1.getStates(schema, 0), Infinity);
+    test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
         encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
@@ -261,7 +261,7 @@ tap_1.default.test('should encode a bounded array with bounded boolean items', f
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         [false],
         [true],
         [false, false],
@@ -295,7 +295,7 @@ tap_1.default.test('should encode a bounded array with bounded integer items', f
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         [1],
         [2],
         [3],
@@ -334,7 +334,7 @@ tap_1.default.test('should encode a bounded roofed array with bounded boolean it
         }
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         [],
         [false],
         [true],
@@ -371,7 +371,7 @@ tap_1.default.test('should encode a bounded array with total prefix items', func
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         [false],
         [true],
         [false, false],
@@ -417,7 +417,7 @@ tap_1.default.test('should encode a bounded array with partial prefix items', fu
         ]
     };
     var result = mapper_1.getEncoding(schema, 0);
-    test.strictSame(mapper_1.getStates(schema, 0), [
+    test.strictSame(mapper_1.getStates(schema), [
         [false],
         [true],
         [false, false],

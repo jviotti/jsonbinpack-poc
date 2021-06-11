@@ -160,13 +160,13 @@ export type ArrayEncoding =
   ROOF_TYPED__LENGTH_PREFIX_ENCODING |
   UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
 
-export const getArrayStates = (schema: ArrayEncodingSchema, level: number): number | JSONValue[] => {
+export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[] => {
   if (typeof schema.maxItems === 'number' &&
     (typeof schema.items !== 'undefined' || typeof schema.prefixItems !== 'undefined')) {
     const choices: number | JSONValue[][] =
       range(0, schema.maxItems).reduce((accumulator: number | JSONValue[][], index: number) => {
         const states: number | JSONValue[] =
-          getStates((schema.prefixItems ?? [])[index] ?? schema.items ?? {}, level)
+          getStates((schema.prefixItems ?? [])[index] ?? schema.items ?? {})
 
         if (Array.isArray(accumulator) && Array.isArray(states)) {
           accumulator.push(states)

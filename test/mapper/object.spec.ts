@@ -34,7 +34,7 @@ tap.test('should encode a bounded object with only required keys', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -68,7 +68,7 @@ tap.test('should encode a bounded object with required keys and empty properties
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -107,7 +107,7 @@ tap.test('should encode a bounded object with partially defined required keys', 
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -151,7 +151,7 @@ tap.test('should encode a bounded object with fully defined required keys', (tes
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
@@ -185,7 +185,7 @@ tap.test('should encode a bounded object with no required nor optionals', (test)
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.strictSame(getStates(schema, 0), [
+  test.strictSame(getStates(schema), [
     {}
   ])
   test.strictSame(result, {
@@ -214,7 +214,7 @@ tap.test('should encode a bounded object with optional properties', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -251,7 +251,7 @@ tap.test('should encode a bounded object with more than one optional keys', (tes
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -294,7 +294,7 @@ tap.test('should encode a bounded object with more than one optional keys and em
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
@@ -334,7 +334,7 @@ tap.test('should encode a bounded object with an optional and a required propert
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
@@ -379,7 +379,7 @@ tap.test('should encode a bounded object with an optional and a typed required p
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'MIXED_BOUNDED_TYPED_OBJECT',
@@ -413,7 +413,7 @@ tap.test('should encode a simple unbounded object', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -441,7 +441,7 @@ tap.test('should encode a simple unbounded object with empty required', (test) =
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -469,7 +469,7 @@ tap.test('should encode a simple unbounded object with additionalProperties: tru
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -499,7 +499,7 @@ tap.test('should encode a simple unbounded object with additionalProperties: sch
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -530,7 +530,7 @@ tap.test('should encode a simple unbounded object with propertyNames', (test) =>
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -564,7 +564,7 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -600,7 +600,7 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
@@ -630,7 +630,7 @@ tap.test('should encode a simple unbounded object with a required property', (te
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -672,7 +672,7 @@ tap.test('should encode a simple unbounded object with a required typed property
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'REQUIRED_UNBOUNDED_TYPED_OBJECT',
@@ -717,7 +717,7 @@ tap.test('should encode a simple unbounded object with two optional properties',
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'OPTIONAL_UNBOUNDED_TYPED_OBJECT',
@@ -776,7 +776,7 @@ tap.test('should encode a complex unbounded object', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'MIXED_UNBOUNDED_TYPED_OBJECT',
@@ -837,7 +837,7 @@ tap.test('should encode a bounded object with only boolean required keys', (test
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.strictSame(getStates(schema, 0), [
+  test.strictSame(getStates(schema), [
     {
       foo: false,
       bar: false
@@ -892,7 +892,7 @@ tap.test('should encode a bounded property with a single required boolean', (tes
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.strictSame(getStates(schema, 0), [
+  test.strictSame(getStates(schema), [
     {
       jsx: false
     },
@@ -931,7 +931,7 @@ tap.test('should encode a bounded property with a single boolean', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.strictSame(getStates(schema, 0), [
+  test.strictSame(getStates(schema), [
     {
       jsx: false
     },
@@ -987,7 +987,7 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
   }
 
   const result: Encoding = getEncoding(schema, 0)
-  test.is(getStates(schema, 0), Infinity)
+  test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'object',
     encoding: 'PACKED_UNBOUNDED_OBJECT',

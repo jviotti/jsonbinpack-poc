@@ -54,9 +54,9 @@ export interface ONEOF_CHOICE_INDEX_PREFIX_ENCODING extends BaseEncodingDefiniti
 export type OneOfEncodingNames = 'ONEOF_CHOICE_INDEX_PREFIX'
 export type OneOfEncoding = ONEOF_CHOICE_INDEX_PREFIX_ENCODING
 
-export const getOneOfStates = (schema: OneOfEncodingSchema, level: number): number | JSONValue[] => {
+export const getOneOfStates = (schema: OneOfEncodingSchema): number | JSONValue[] => {
   return schema.oneOf.reduce((accumulator: number | JSONValue[], choice: EncodingSchema) => {
-    const states: number | JSONValue[] = getStates(choice, level + 1)
+    const states: number | JSONValue[] = getStates(choice)
 
     if (Array.isArray(states)) {
       if (Array.isArray(accumulator)) {
