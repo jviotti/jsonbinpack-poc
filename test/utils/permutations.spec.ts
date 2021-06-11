@@ -24,55 +24,70 @@ import {
   generatePermutations,
 } from '../../lib/utils/permutation'
 
-tap.test('should generate the 0-permutations of [ null ]', (test) => {
-  const result: JSONValue[][] = generatePermutations([ null ], 0)
+tap.test('should generate a 0-permutation', (test) => {
+  const result: JSONValue[][] = generatePermutations()
   test.strictSame(result, [])
   test.end()
 })
 
-tap.test('should generate the 1-permutations of [ null ]', (test) => {
-  const result: JSONValue[][] = generatePermutations([ null ], 1)
-  test.strictSame(result, [
-    [ null ]
-  ])
-
+tap.test('should generate a 1-permutation of no choice', (test) => {
+  const result: JSONValue[][] = generatePermutations([])
+  test.strictSame(result, [])
   test.end()
 })
 
-tap.test('should generate the 1-permutations of [ false, true ]', (test) => {
-  const result: JSONValue[][] = generatePermutations([ false, true ], 1)
+tap.test('should generate a 1-permutation of one choice', (test) => {
+  const result: JSONValue[][] = generatePermutations([ null ])
+  test.strictSame(result, [ [ null ] ])
+  test.end()
+})
+
+tap.test('should generate a 1-permutation of two choices', (test) => {
+  const result: JSONValue[][] = generatePermutations([ false, true ])
+  console.log(result)
   test.strictSame(result, [
     [ false ],
     [ true ]
   ])
-
   test.end()
 })
 
-tap.test('should generate the 2-permutations of [ false, true ]', (test) => {
-  const result: JSONValue[][] = generatePermutations([ false, true ], 2)
+tap.test('should generate a 2-permutation of two choices each', (test) => {
+  const result: JSONValue[][] = generatePermutations([ false, true ], [ false, true ])
   test.strictSame(result, [
     [ false, false ],
     [ false, true ],
     [ true, false ],
     [ true, true ]
   ])
-
   test.end()
 })
 
-tap.test('should generate the 3-permutations of [ false, true ]', (test) => {
-  const result: JSONValue[][] = generatePermutations([ false, true ], 3)
+tap.test('should generate a 2-permutation of different choices-sets', (test) => {
+  const result: JSONValue[][] = generatePermutations([ false, true ], [ 'A' ])
   test.strictSame(result, [
-    [ false, false, false ],
-    [ false, false, true ],
-    [ false, true, false ],
-    [ false, true, true ],
-    [ true, false, false ],
-    [ true, false, true ],
-    [ true, true, false ],
-    [ true, true, true ]
+    [ false, 'A' ],
+    [ true, 'A' ]
   ])
+  test.end()
+})
 
+tap.test('should generate a 3-permutation of different choices-sets', (test) => {
+  const result: JSONValue[][] =
+    generatePermutations([ false, true ], [ 1, 2, 3 ], [ 'AA', 'BB' ])
+  test.strictSame(result, [
+    [ false, 1, 'AA' ],
+    [ false, 1, 'BB' ],
+    [ false, 2, 'AA' ],
+    [ false, 2, 'BB' ],
+    [ false, 3, 'AA' ],
+    [ false, 3, 'BB' ],
+    [ true, 1, 'AA' ],
+    [ true, 1, 'BB' ],
+    [ true, 2, 'AA' ],
+    [ true, 2, 'BB' ],
+    [ true, 3, 'AA' ],
+    [ true, 3, 'BB' ]
+  ])
   test.end()
 })

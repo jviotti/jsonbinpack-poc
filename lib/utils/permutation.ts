@@ -18,20 +18,19 @@ import {
   JSONValue
 } from '../json'
 
-// Inspired by https://stackoverflow.com/a/64904542
-export const generatePermutations = (list: JSONValue[], size: number): JSONValue[][] => {
-  if (size === 0) {
+export const generatePermutations = (...choices: JSONValue[][]): JSONValue[][] => {
+  if (choices.length === 0 || (choices.length === 1 && choices[0].length === 0)) {
     return []
   }
 
-  if (size === 1) {
-    return list.map((element: JSONValue): JSONValue[] => {
+  if (choices.length === 1) {
+    return choices[0].map((element: JSONValue): JSONValue[] => {
       return [ element ]
     })
   }
 
-  return list.flatMap((element: JSONValue): JSONValue[][] => {
-    return generatePermutations(list, size - 1).map((item: JSONValue[]): JSONValue[] => {
+  return choices[0].flatMap((element: JSONValue): JSONValue[][] => {
+    return generatePermutations(...choices.slice(1)).map((item: JSONValue[]): JSONValue[] => {
       return [ element, ...item ]
     })
   })
