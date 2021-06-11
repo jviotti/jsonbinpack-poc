@@ -270,15 +270,17 @@ tap_1.default.test('should encode a bounded array with bounded boolean items', f
         [true, true]
     ]);
     test.strictSame(result, {
-        type: 'array',
-        encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            minimum: 1,
-            maximum: 2,
-            encoding: mapper_1.getEncoding({
-                type: 'boolean'
-            }, 1),
-            prefixEncodings: []
+            choices: [
+                [false],
+                [true],
+                [false, false],
+                [false, true],
+                [true, false],
+                [true, true]
+            ]
         }
     });
     test.end();
@@ -310,17 +312,23 @@ tap_1.default.test('should encode a bounded array with bounded integer items', f
         [3, 3]
     ]);
     test.strictSame(result, {
-        type: 'array',
-        encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            minimum: 1,
-            maximum: 2,
-            encoding: mapper_1.getEncoding({
-                type: 'integer',
-                maximum: 3,
-                minimum: 1
-            }, 1),
-            prefixEncodings: []
+            choices: [
+                [1],
+                [2],
+                [3],
+                [1, 1],
+                [1, 2],
+                [1, 3],
+                [2, 1],
+                [2, 2],
+                [2, 3],
+                [3, 1],
+                [3, 2],
+                [3, 3]
+            ]
         }
     });
     test.end();
@@ -344,14 +352,18 @@ tap_1.default.test('should encode a bounded roofed array with bounded boolean it
         [true, true]
     ]);
     test.strictSame(result, {
-        type: 'array',
-        encoding: 'ROOF_8BITS_TYPED__LENGTH_PREFIX',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            maximum: 2,
-            encoding: mapper_1.getEncoding({
-                type: 'boolean'
-            }, 1),
-            prefixEncodings: []
+            choices: [
+                [],
+                [false],
+                [true],
+                [false, false],
+                [false, true],
+                [true, false],
+                [true, true]
+            ]
         }
     });
     test.end();
@@ -380,18 +392,16 @@ tap_1.default.test('should encode a bounded array with total prefix items', func
         [true, true]
     ]);
     test.strictSame(result, {
-        type: 'array',
-        encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            minimum: 1,
-            maximum: 2,
-            prefixEncodings: [
-                mapper_1.getEncoding({
-                    type: 'boolean'
-                }, 1),
-                mapper_1.getEncoding({
-                    type: 'boolean'
-                }, 1)
+            choices: [
+                [false],
+                [true],
+                [false, false],
+                [false, true],
+                [true, false],
+                [true, true]
             ]
         }
     });
@@ -438,23 +448,76 @@ tap_1.default.test('should encode a bounded array with partial prefix items', fu
         [true, true, 3]
     ]);
     test.strictSame(result, {
-        type: 'array',
-        encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            minimum: 1,
-            maximum: 3,
-            encoding: mapper_1.getEncoding({
+            choices: [
+                [false],
+                [true],
+                [false, false],
+                [false, true],
+                [true, false],
+                [true, true],
+                [false, false, 1],
+                [false, false, 2],
+                [false, false, 3],
+                [false, true, 1],
+                [false, true, 2],
+                [false, true, 3],
+                [true, false, 1],
+                [true, false, 2],
+                [true, false, 3],
+                [true, true, 1],
+                [true, true, 2],
+                [true, true, 3]
+            ]
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode a bounded array with bounded prefixItems', function (test) {
+    var schema = {
+        type: 'array',
+        minItems: 2,
+        maxItems: 2,
+        prefixItems: [
+            {
                 type: 'integer',
-                maximum: 3,
-                minimum: 1
-            }, 1),
-            prefixEncodings: [
-                mapper_1.getEncoding({
-                    type: 'boolean'
-                }, 1),
-                mapper_1.getEncoding({
-                    type: 'boolean'
-                }, 1)
+                minimum: 0,
+                maximum: 2
+            },
+            {
+                type: 'object',
+                additionalProperties: false,
+                required: ['requireReturn'],
+                properties: {
+                    requireReturn: {
+                        type: 'boolean'
+                    }
+                }
+            }
+        ]
+    };
+    var result = mapper_1.getEncoding(schema, 0);
+    test.strictSame(mapper_1.getStates(schema), [
+        [0, { requireReturn: false }],
+        [0, { requireReturn: true }],
+        [1, { requireReturn: false }],
+        [1, { requireReturn: true }],
+        [2, { requireReturn: false }],
+        [2, { requireReturn: true }]
+    ]);
+    test.strictSame(result, {
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
+        options: {
+            choices: [
+                [0, { requireReturn: false }],
+                [0, { requireReturn: true }],
+                [1, { requireReturn: false }],
+                [1, { requireReturn: true }],
+                [2, { requireReturn: false }],
+                [2, { requireReturn: true }]
             ]
         }
     });

@@ -27,6 +27,7 @@ var encoder_1 = require("../encoder");
 var index_1 = require("./index");
 var limits_1 = require("../utils/limits");
 var permutation_1 = require("../utils/permutation");
+var enum_1 = require("./enum");
 var getArrayStates = function (schema) {
     var _a;
     if (typeof schema.maxItems === 'number' &&
@@ -60,6 +61,12 @@ var getArrayStates = function (schema) {
 exports.getArrayStates = getArrayStates;
 var getArrayEncoding = function (schema, level) {
     var _a;
+    var states = exports.getArrayStates(schema);
+    if (Array.isArray(states) && states.length < limits_1.UINT8_MAX) {
+        return enum_1.getEnumEncoding({
+            enum: states
+        }, level);
+    }
     var encodingSchema = schema.items;
     var prefixEncodings = ((_a = schema.prefixItems) !== null && _a !== void 0 ? _a : []).map(function (subschema) {
         return index_1.getEncoding(subschema, level + 1);

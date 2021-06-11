@@ -322,15 +322,17 @@ tap.test('should encode a bounded array with bounded boolean items', (test) => {
     [ true, true ]
   ])
   test.strictSame(result, {
-    type: 'array',
-    encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      minimum: 1,
-      maximum: 2,
-      encoding: getEncoding({
-        type: 'boolean'
-      }, 1),
-      prefixEncodings: []
+      choices: [
+        [ false ],
+        [ true ],
+        [ false, false ],
+        [ false, true ],
+        [ true, false ],
+        [ true, true ]
+      ]
     }
   })
 
@@ -365,17 +367,23 @@ tap.test('should encode a bounded array with bounded integer items', (test) => {
     [ 3, 3 ]
   ])
   test.strictSame(result, {
-    type: 'array',
-    encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      minimum: 1,
-      maximum: 2,
-      encoding: getEncoding({
-        type: 'integer',
-        maximum: 3,
-        minimum: 1
-      }, 1),
-      prefixEncodings: []
+      choices: [
+        [ 1 ],
+        [ 2 ],
+        [ 3 ],
+        [ 1, 1 ],
+        [ 1, 2 ],
+        [ 1, 3 ],
+        [ 2, 1 ],
+        [ 2, 2 ],
+        [ 2, 3 ],
+        [ 3, 1 ],
+        [ 3, 2 ],
+        [ 3, 3 ]
+      ]
     }
   })
 
@@ -402,14 +410,18 @@ tap.test('should encode a bounded roofed array with bounded boolean items', (tes
     [ true, true ]
   ])
   test.strictSame(result, {
-    type: 'array',
-    encoding: 'ROOF_8BITS_TYPED__LENGTH_PREFIX',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      maximum: 2,
-      encoding: getEncoding({
-        type: 'boolean'
-      }, 1),
-      prefixEncodings: []
+      choices: [
+        [],
+        [ false ],
+        [ true ],
+        [ false, false ],
+        [ false, true ],
+        [ true, false ],
+        [ true, true ]
+      ]
     }
   })
 
@@ -441,18 +453,16 @@ tap.test('should encode a bounded array with total prefix items', (test) => {
     [ true, true ]
   ])
   test.strictSame(result, {
-    type: 'array',
-    encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      minimum: 1,
-      maximum: 2,
-      prefixEncodings: [
-        getEncoding({
-          type: 'boolean'
-        }, 1),
-        getEncoding({
-          type: 'boolean'
-        }, 1)
+      choices: [
+        [ false ],
+        [ true ],
+        [ false, false ],
+        [ false, true ],
+        [ true, false ],
+        [ true, true ]
       ]
     }
   })
@@ -502,23 +512,79 @@ tap.test('should encode a bounded array with partial prefix items', (test) => {
     [ true, true, 3 ]
   ])
   test.strictSame(result, {
-    type: 'array',
-    encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX',
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
-      minimum: 1,
-      maximum: 3,
-      encoding: getEncoding({
+      choices: [
+        [ false ],
+        [ true ],
+        [ false, false ],
+        [ false, true ],
+        [ true, false ],
+        [ true, true ],
+        [ false, false, 1 ],
+        [ false, false, 2 ],
+        [ false, false, 3 ],
+        [ false, true, 1 ],
+        [ false, true, 2 ],
+        [ false, true, 3 ],
+        [ true, false, 1 ],
+        [ true, false, 2 ],
+        [ true, false, 3 ],
+        [ true, true, 1 ],
+        [ true, true, 2 ],
+        [ true, true, 3 ]
+      ]
+    }
+  })
+
+  test.end()
+})
+
+tap.test('should encode a bounded array with bounded prefixItems', (test) => {
+  const schema: EncodingSchema = {
+    type: 'array',
+    minItems: 2,
+    maxItems: 2,
+    prefixItems: [
+      {
         type: 'integer',
-        maximum: 3,
-        minimum: 1
-      }, 1),
-      prefixEncodings: [
-        getEncoding({
-          type: 'boolean'
-        }, 1),
-        getEncoding({
-          type: 'boolean'
-        }, 1)
+        minimum: 0,
+        maximum: 2
+      },
+      {
+        type: 'object',
+        additionalProperties: false,
+        required: [ 'requireReturn' ],
+        properties: {
+          requireReturn: {
+            type: 'boolean'
+          }
+        }
+      }
+    ]
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.strictSame(getStates(schema), [
+    [ 0, { requireReturn: false } ],
+    [ 0, { requireReturn: true } ],
+    [ 1, { requireReturn: false } ],
+    [ 1, { requireReturn: true } ],
+    [ 2, { requireReturn: false } ],
+    [ 2, { requireReturn: true } ]
+  ])
+  test.strictSame(result, {
+    type: 'enum',
+    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
+    options: {
+      choices: [
+        [ 0, { requireReturn: false } ],
+        [ 0, { requireReturn: true } ],
+        [ 1, { requireReturn: false } ],
+        [ 1, { requireReturn: true } ],
+        [ 2, { requireReturn: false } ],
+        [ 2, { requireReturn: true } ]
       ]
     }
   })
