@@ -22,17 +22,21 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generatePermutations = void 0;
-var generatePermutations = function (list, size) {
-    if (size === 0) {
+var generatePermutations = function () {
+    var choices = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        choices[_i] = arguments[_i];
+    }
+    if (choices.length === 0 || (choices.length === 1 && choices[0].length === 0)) {
         return [];
     }
-    if (size === 1) {
-        return list.map(function (element) {
+    if (choices.length === 1) {
+        return choices[0].map(function (element) {
             return [element];
         });
     }
-    return list.flatMap(function (element) {
-        return exports.generatePermutations(list, size - 1).map(function (item) {
+    return choices[0].flatMap(function (element) {
+        return exports.generatePermutations.apply(void 0, __spreadArray([], __read(choices.slice(1)))).map(function (item) {
             return __spreadArray([element], __read(item));
         });
     });
