@@ -155,12 +155,12 @@ tap_1.default.test('should encode a bounded object with no required nor optional
         {}
     ]);
     test.strictSame(result, {
-        type: 'object',
-        encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            booleanRequiredProperties: [],
-            propertyEncodings: {},
-            requiredProperties: []
+            choices: [
+                {}
+            ]
         }
     });
     test.end();
@@ -771,23 +771,27 @@ tap_1.default.test('should encode a bounded object with only boolean required ke
         }
     ]);
     test.strictSame(result, {
-        type: 'object',
-        encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            booleanRequiredProperties: ['bar', 'foo'],
-            propertyEncodings: {
-                foo: {
-                    type: 'boolean',
-                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-                    options: {}
+            choices: [
+                {
+                    foo: false,
+                    bar: false
                 },
-                bar: {
-                    type: 'boolean',
-                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-                    options: {}
+                {
+                    foo: false,
+                    bar: true
+                },
+                {
+                    foo: true,
+                    bar: false
+                },
+                {
+                    foo: true,
+                    bar: true
                 }
-            },
-            requiredProperties: []
+            ]
         }
     });
     test.end();
@@ -813,18 +817,17 @@ tap_1.default.test('should encode a bounded property with a single required bool
         }
     ]);
     test.strictSame(result, {
-        type: 'object',
-        encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            booleanRequiredProperties: ['jsx'],
-            propertyEncodings: {
-                jsx: {
-                    type: 'boolean',
-                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-                    options: {}
+            choices: [
+                {
+                    jsx: false
+                },
+                {
+                    jsx: true
                 }
-            },
-            requiredProperties: []
+            ]
         }
     });
     test.end();
@@ -850,17 +853,18 @@ tap_1.default.test('should encode a bounded property with a single boolean', fun
         {}
     ]);
     test.strictSame(result, {
-        type: 'object',
-        encoding: 'NON_REQUIRED_BOUNDED_TYPED_OBJECT',
+        type: 'enum',
+        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
-            optionalProperties: ['jsx'],
-            propertyEncodings: {
-                jsx: {
-                    type: 'boolean',
-                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
-                    options: {}
-                }
-            }
+            choices: [
+                {
+                    jsx: false
+                },
+                {
+                    jsx: true
+                },
+                {}
+            ]
         }
     });
     test.end();

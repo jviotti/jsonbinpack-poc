@@ -37,6 +37,7 @@ var util_1 = require("util");
 var string_1 = require("./string");
 var index_1 = require("./index");
 var encoder_1 = require("../encoder");
+var enum_1 = require("./enum");
 var permutation_1 = require("../utils/permutation");
 var parseAdditionalProperties = function (value, level) {
     if (typeof value === 'boolean' && !value) {
@@ -124,6 +125,12 @@ exports.getObjectStates = getObjectStates;
 var getObjectEncoding = function (schema, level) {
     var e_3, _a, e_4, _b, e_5, _c;
     var _d, _e, _f, _g, _h, _j, _k;
+    var states = exports.getObjectStates(schema);
+    if (Array.isArray(states)) {
+        return enum_1.getEnumEncoding({
+            enum: states
+        }, level);
+    }
     var additionalProperties = parseAdditionalProperties(schema.additionalProperties, level);
     var properties = (_d = schema.properties) !== null && _d !== void 0 ? _d : {};
     var propertyEncodings = Object.keys(properties)

@@ -177,12 +177,12 @@
                     "additionalProperties": false
                   },
                   "encoding": {
-                    "type": "object",
-                    "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+                    "type": "enum",
+                    "encoding": "BOUNDED_CHOICE_INDEX",
                     "options": {
-                      "propertyEncodings": {},
-                      "requiredProperties": [],
-                      "booleanRequiredProperties": []
+                      "choices": [
+                        {}
+                      ]
                     }
                   }
                 }

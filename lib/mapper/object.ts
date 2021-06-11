@@ -42,6 +42,12 @@ import {
 } from './base-encoding-definition'
 
 import {
+  EnumEncodingNames,
+  EnumEncoding,
+  getEnumEncoding
+} from './enum'
+
+import {
   TypedKeysOptions,
   BoundedTypedOptions,
   UnboundedTypedOptions,
@@ -110,6 +116,7 @@ export interface PACKED_UNBOUNDED_OBJECT_ENCODING extends BaseEncodingDefinition
 }
 
 export type ObjectEncodingNames =
+  EnumEncodingNames |
   'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' |
   'NON_REQUIRED_BOUNDED_TYPED_OBJECT' |
   'MIXED_BOUNDED_TYPED_OBJECT' |
@@ -119,6 +126,7 @@ export type ObjectEncodingNames =
   'MIXED_UNBOUNDED_TYPED_OBJECT' |
   'PACKED_UNBOUNDED_OBJECT'
 export type ObjectEncoding =
+  EnumEncoding |
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT_ENCODING |
   NON_REQUIRED_BOUNDED_TYPED_OBJECT_ENCODING |
   MIXED_BOUNDED_TYPED_OBJECT_ENCODING |
@@ -202,6 +210,13 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
 }
 
 export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): ObjectEncoding => {
+  const states: number | JSONValue[] = getObjectStates(schema)
+  if (Array.isArray(states)) {
+    return getEnumEncoding({
+      enum: states
+    }, level)
+  }
+
   const additionalProperties: Encoding | null =
     parseAdditionalProperties(schema.additionalProperties, level)
 
