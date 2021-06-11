@@ -53,6 +53,10 @@ import {
 } from '../encoder/object/options'
 
 import {
+  generatePermutations
+} from '../utils/permutation'
+
+import {
   EncodingSchema,
   ObjectEncodingSchema
 } from '../schema'
@@ -141,26 +145,57 @@ const parseAdditionalProperties = (
 // TODO: This definition can probably be greatly improved once we
 // support the maxProperties JSON Schema keyword.
 export const getObjectStates = (schema: ObjectEncodingSchema, level: number): number | JSONValue[] => {
-  const encoding: ObjectEncoding = getObjectEncoding(schema, level)
-  if (encoding.encoding === 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' ||
-    encoding.encoding === 'NON_REQUIRED_BOUNDED_TYPED_OBJECT' ||
-    encoding.encoding === 'MIXED_BOUNDED_TYPED_OBJECT') {
-    return Object.keys(encoding.options.propertyEncodings).reduce(
-      (accumulator: number, property: string): number => {
-      const propertyEncoding: Encoding =
-          encoding.options.propertyEncodings[property]
-      const states: number | JSONValue[] = getStates(propertyEncoding, level + 1)
-      const propertyStates: number = Array.isArray(states) ? states.length : states
+  if (typeof schema.additionalProperties === 'boolean' && !schema.additionalProperties) {
+    const schemaProperties: Record<string, EncodingSchema> = schema.properties ?? {}
+    const requiredProperties: string[] = schema.required ?? []
 
-      if ('optionalProperties' in encoding.options &&
-        Array.isArray(encoding.options.optionalProperties) &&
-        encoding.options.optionalProperties.includes(property)) {
-        // As non being present (optional) counts as yet another state
-        return accumulator * (propertyStates + 1)
+    // A required key that is not defined is an "any" type
+    for (const key of requiredProperties) {
+      if (typeof schemaProperties[key] === 'undefined') {
+        return Infinity
+      }
+    }
+
+    let choices: number | JSONValue[][] = []
+    for (const [ key, value ] of Object.entries(schemaProperties)) {
+      const states: number | JSONValue[] = getStates(value, level + 1)
+
+      // We can break out if one of the states is infinite
+      if (typeof states === 'number' && !Number.isFinite(states)) {
+        return Infinity
       }
 
-      return accumulator * propertyStates
-    }, 1)
+      let absoluteStates: number | Array<JSONValue | undefined> = states
+
+      // As non being present (optional) counts as yet another state
+      if (!requiredProperties.includes(key)) {
+        if (Array.isArray(absoluteStates)) {
+          absoluteStates.push(undefined)
+        } else {
+          absoluteStates += 1
+        }
+      }
+
+      if (Array.isArray(choices) && Array.isArray(absoluteStates)) {
+        choices.push(absoluteStates.map((state: JSONValue | undefined) => {
+          return typeof state === 'undefined' ? {} : {
+            [key]: state
+          }
+        }))
+      } else {
+        choices =
+          (Array.isArray(choices) ? choices.length : choices) *
+          (Array.isArray(absoluteStates) ? absoluteStates.length : absoluteStates)
+      }
+    }
+
+    if (typeof choices === 'number') {
+      return choices
+    }
+
+    return generatePermutations(...choices).map((result: JSONValue[]) => {
+      return Object.assign({}, ...result)
+    })
   }
 
   return Infinity

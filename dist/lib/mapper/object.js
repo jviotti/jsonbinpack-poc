@@ -10,12 +10,34 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getObjectEncoding = exports.getObjectStates = void 0;
 var util_1 = require("util");
 var string_1 = require("./string");
 var index_1 = require("./index");
 var encoder_1 = require("../encoder");
+var permutation_1 = require("../utils/permutation");
 var parseAdditionalProperties = function (value, level) {
     if (typeof value === 'boolean' && !value) {
         return null;
@@ -25,27 +47,82 @@ var parseAdditionalProperties = function (value, level) {
     return index_1.getEncoding(schema, level + 1);
 };
 var getObjectStates = function (schema, level) {
-    var encoding = exports.getObjectEncoding(schema, level);
-    if (encoding.encoding === 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' ||
-        encoding.encoding === 'NON_REQUIRED_BOUNDED_TYPED_OBJECT' ||
-        encoding.encoding === 'MIXED_BOUNDED_TYPED_OBJECT') {
-        return Object.keys(encoding.options.propertyEncodings).reduce(function (accumulator, property) {
-            var propertyEncoding = encoding.options.propertyEncodings[property];
-            var states = index_1.getStates(propertyEncoding, level + 1);
-            var propertyStates = Array.isArray(states) ? states.length : states;
-            if ('optionalProperties' in encoding.options &&
-                Array.isArray(encoding.options.optionalProperties) &&
-                encoding.options.optionalProperties.includes(property)) {
-                return accumulator * (propertyStates + 1);
+    var e_1, _a, e_2, _b;
+    var _c, _d;
+    if (typeof schema.additionalProperties === 'boolean' && !schema.additionalProperties) {
+        var schemaProperties = (_c = schema.properties) !== null && _c !== void 0 ? _c : {};
+        var requiredProperties = (_d = schema.required) !== null && _d !== void 0 ? _d : [];
+        try {
+            for (var requiredProperties_1 = __values(requiredProperties), requiredProperties_1_1 = requiredProperties_1.next(); !requiredProperties_1_1.done; requiredProperties_1_1 = requiredProperties_1.next()) {
+                var key = requiredProperties_1_1.value;
+                if (typeof schemaProperties[key] === 'undefined') {
+                    return Infinity;
+                }
             }
-            return accumulator * propertyStates;
-        }, 1);
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (requiredProperties_1_1 && !requiredProperties_1_1.done && (_a = requiredProperties_1.return)) _a.call(requiredProperties_1);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+        var choices = [];
+        var _loop_1 = function (key, value) {
+            var states = index_1.getStates(value, level + 1);
+            if (typeof states === 'number' && !Number.isFinite(states)) {
+                return { value: Infinity };
+            }
+            var absoluteStates = states;
+            if (!requiredProperties.includes(key)) {
+                if (Array.isArray(absoluteStates)) {
+                    absoluteStates.push(undefined);
+                }
+                else {
+                    absoluteStates += 1;
+                }
+            }
+            if (Array.isArray(choices) && Array.isArray(absoluteStates)) {
+                choices.push(absoluteStates.map(function (state) {
+                    var _a;
+                    return typeof state === 'undefined' ? {} : (_a = {},
+                        _a[key] = state,
+                        _a);
+                }));
+            }
+            else {
+                choices =
+                    (Array.isArray(choices) ? choices.length : choices) *
+                        (Array.isArray(absoluteStates) ? absoluteStates.length : absoluteStates);
+            }
+        };
+        try {
+            for (var _e = __values(Object.entries(schemaProperties)), _f = _e.next(); !_f.done; _f = _e.next()) {
+                var _g = __read(_f.value, 2), key = _g[0], value = _g[1];
+                var state_1 = _loop_1(key, value);
+                if (typeof state_1 === "object")
+                    return state_1.value;
+            }
+        }
+        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        finally {
+            try {
+                if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
+            }
+            finally { if (e_2) throw e_2.error; }
+        }
+        if (typeof choices === 'number') {
+            return choices;
+        }
+        return permutation_1.generatePermutations.apply(void 0, __spreadArray([], __read(choices))).map(function (result) {
+            return Object.assign.apply(Object, __spreadArray([{}], __read(result)));
+        });
     }
     return Infinity;
 };
 exports.getObjectStates = getObjectStates;
 var getObjectEncoding = function (schema, level) {
-    var e_1, _a, e_2, _b, e_3, _c;
+    var e_3, _a, e_4, _b, e_5, _c;
     var _d, _e, _f, _g, _h, _j, _k;
     var additionalProperties = parseAdditionalProperties(schema.additionalProperties, level);
     var properties = (_d = schema.properties) !== null && _d !== void 0 ? _d : {};
@@ -68,12 +145,12 @@ var getObjectEncoding = function (schema, level) {
             }
         }
     }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    catch (e_3_1) { e_3 = { error: e_3_1 }; }
     finally {
         try {
             if (_m && !_m.done && (_a = _l.return)) _a.call(_l);
         }
-        finally { if (e_1) throw e_1.error; }
+        finally { if (e_3) throw e_3.error; }
     }
     var booleanRequiredProperties = unsortedRequiredBooleanProperties.sort(function (left, right) {
         return left.localeCompare(right);
@@ -97,12 +174,12 @@ var getObjectEncoding = function (schema, level) {
             }
         }
     }
-    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+    catch (e_4_1) { e_4 = { error: e_4_1 }; }
     finally {
         try {
             if (allProperties_1_1 && !allProperties_1_1.done && (_b = allProperties_1.return)) _b.call(allProperties_1);
         }
-        finally { if (e_2) throw e_2.error; }
+        finally { if (e_4) throw e_4.error; }
     }
     var keyEncoding = string_1.getStringEncoding((_h = schema.propertyNames) !== null && _h !== void 0 ? _h : {
         type: 'string'
@@ -164,12 +241,12 @@ var getObjectEncoding = function (schema, level) {
                 }
             }
         }
-        catch (e_3_1) { e_3 = { error: e_3_1 }; }
+        catch (e_5_1) { e_5 = { error: e_5_1 }; }
         finally {
             try {
                 if (_p && !_p.done && (_c = _o.return)) _c.call(_o);
             }
-            finally { if (e_3) throw e_3.error; }
+            finally { if (e_5) throw e_5.error; }
         }
         var packedPropertyEncodings = Object.keys(propertyEncodings).reduce(function (accumulator, key) {
             if (!packedRequiredProperties_1.includes(key)) {
