@@ -20,7 +20,7 @@ import {
 
 export const generatePermutations = (...choices: JSONValue[][]): JSONValue[][] => {
   if (choices.length === 0 || (choices.length === 1 && choices[0].length === 0)) {
-    return []
+    return [ [] ]
   }
 
   if (choices.length === 1) {

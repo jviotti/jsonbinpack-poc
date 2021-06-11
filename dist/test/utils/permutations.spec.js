@@ -7,12 +7,17 @@ var tap_1 = __importDefault(require("tap"));
 var permutation_1 = require("../../lib/utils/permutation");
 tap_1.default.test('should generate a 0-permutation', function (test) {
     var result = permutation_1.generatePermutations();
-    test.strictSame(result, []);
+    test.strictSame(result, [[]]);
+    test.end();
+});
+tap_1.default.test('should generate the 0-permutations of [ null ]', function (test) {
+    var result = permutation_1.generatePermutations([null]);
+    test.strictSame(result, [[null]]);
     test.end();
 });
 tap_1.default.test('should generate a 1-permutation of no choice', function (test) {
     var result = permutation_1.generatePermutations([]);
-    test.strictSame(result, []);
+    test.strictSame(result, [[]]);
     test.end();
 });
 tap_1.default.test('should generate a 1-permutation of one choice', function (test) {
