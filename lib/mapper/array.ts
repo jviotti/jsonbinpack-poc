@@ -56,6 +56,12 @@ import {
 } from '../utils/permutation'
 
 import {
+  EnumEncodingNames,
+  EnumEncoding,
+  getEnumEncoding
+} from './enum'
+
+import {
   ArrayEncodingSchema,
   EncodingSchema
 } from '../schema'
@@ -133,6 +139,7 @@ export interface UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDef
 }
 
 export type ArrayEncodingNames =
+  EnumEncodingNames |
   'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' |
   'BOUNDED_SEMITYPED__LENGTH_PREFIX' |
   'FLOOR_SEMITYPED__LENGTH_PREFIX' |
@@ -147,6 +154,7 @@ export type ArrayEncodingNames =
   'UNBOUNDED_TYPED__LENGTH_PREFIX'
 
 export type ArrayEncoding =
+  EnumEncoding |
   BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX_ENCODING |
   BOUNDED_SEMITYPED__LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED__LENGTH_PREFIX_ENCODING |
@@ -195,6 +203,13 @@ export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[
 }
 
 export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): ArrayEncoding => {
+  const states: number | JSONValue[] = getArrayStates(schema)
+  if (Array.isArray(states) && states.length < UINT8_MAX) {
+    return getEnumEncoding({
+      enum: states
+    }, level)
+  }
+
   const encodingSchema: EncodingSchema | undefined = schema.items
   const prefixEncodings: Encoding[] =
     (schema.prefixItems ?? []).map((subschema: EncodingSchema) => {
