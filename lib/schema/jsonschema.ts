@@ -19,6 +19,7 @@ import Ajv, {
 } from 'ajv/dist/2020'
 
 import addFormats from 'ajv-formats'
+import apply2019Formats from 'ajv-formats-draft2019'
 
 import {
   EncodingSchema
@@ -29,9 +30,9 @@ import {
 } from '../json'
 
 const ajv: Ajv = new Ajv({
-  strict: true,
-  strictTypes: true,
-  strictTuples: true,
+  strict: false,
+  strictTypes: false,
+  strictTuples: false,
   strictRequired: false,
   validateFormats: true
 })
@@ -40,6 +41,7 @@ const ajv: Ajv = new Ajv({
 // default on AJV unless we explicitly add it
 // through the "ajv-formats" plugin.
 addFormats(ajv)
+apply2019Formats(ajv)
 
 export const validateSchema = (
   schema: EncodingSchema, value: JSONValue
