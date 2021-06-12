@@ -39,6 +39,7 @@ var index_1 = require("./index");
 var encoder_1 = require("../encoder");
 var enum_1 = require("./enum");
 var permutation_1 = require("../utils/permutation");
+var limits_1 = require("../utils/limits");
 var parseAdditionalProperties = function (value, level) {
     if (typeof value === 'boolean' && !value) {
         return null;
@@ -126,7 +127,7 @@ var getObjectEncoding = function (schema, level) {
     var e_3, _a, e_4, _b, e_5, _c;
     var _d, _e, _f, _g, _h, _j, _k;
     var states = exports.getObjectStates(schema);
-    if (Array.isArray(states) && level === 0) {
+    if (Array.isArray(states) && ((states.length > 1 && states.length < limits_1.UINT8_MAX) || level === 0)) {
         return enum_1.getEnumEncoding({
             enum: states
         }, level);
