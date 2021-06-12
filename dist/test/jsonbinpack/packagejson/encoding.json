@@ -1,0 +1,391 @@
+{
+  "type": "object",
+  "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+  "options": {
+    "propertyEncodings": {
+      "name": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      },
+      "description": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      },
+      "version": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      },
+      "author": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "name": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "url": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            }
+          },
+          "requiredProperties": [
+            "name",
+            "url"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "homepage": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      },
+      "repository": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "type": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "url": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            }
+          },
+          "requiredProperties": [
+            "type",
+            "url"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "bugs": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "url": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            }
+          },
+          "requiredProperties": [
+            "url"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "licenses": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "type": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "url": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                }
+              },
+              "requiredProperties": [
+                "type",
+                "url"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "main": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      },
+      "scripts": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "test": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            }
+          },
+          "requiredProperties": [
+            "test"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "engines": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "node": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            }
+          },
+          "requiredProperties": [
+            "node"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "keywords": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "string",
+            "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+            "options": {}
+          },
+          "prefixEncodings": []
+        }
+      },
+      "dependencies": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "async": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "coffee-script": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "colors": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "dateformat": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "eventemitter2": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "findup-sync": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "glob": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "hooker": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "iconv-lite": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "minimatch": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "nopt": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "rimraf": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "lodash": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "underscore.string": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "which": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "js-yaml": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "exit": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "getobject": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "grunt-legacy-util": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "grunt-legacy-log": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            }
+          },
+          "requiredProperties": [
+            "async",
+            "coffee-script",
+            "colors",
+            "dateformat",
+            "eventemitter2",
+            "exit",
+            "findup-sync",
+            "getobject",
+            "glob",
+            "grunt-legacy-log",
+            "grunt-legacy-util",
+            "hooker",
+            "iconv-lite",
+            "js-yaml",
+            "lodash",
+            "minimatch",
+            "nopt",
+            "rimraf",
+            "underscore.string",
+            "which"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "devDependencies": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "temporary": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "grunt-contrib-jshint": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "grunt-contrib-nodeunit": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "grunt-contrib-watch": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "difflet": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "semver": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "shelljs": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            }
+          },
+          "requiredProperties": [
+            "difflet",
+            "grunt-contrib-jshint",
+            "grunt-contrib-nodeunit",
+            "grunt-contrib-watch",
+            "semver",
+            "shelljs",
+            "temporary"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "readme": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      },
+      "_id": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      },
+      "_from": {
+        "type": "string",
+        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "options": {}
+      }
+    },
+    "requiredProperties": [
+      "_from",
+      "_id",
+      "author",
+      "bugs",
+      "dependencies",
+      "description",
+      "devDependencies",
+      "engines",
+      "homepage",
+      "keywords",
+      "licenses",
+      "main",
+      "name",
+      "readme",
+      "repository",
+      "scripts",
+      "version"
+    ],
+    "booleanRequiredProperties": []
+  }
+}

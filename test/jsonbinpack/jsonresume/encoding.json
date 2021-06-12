@@ -1,0 +1,584 @@
+{
+  "type": "object",
+  "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+  "options": {
+    "propertyEncodings": {
+      "basics": {
+        "type": "object",
+        "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+        "options": {
+          "propertyEncodings": {
+            "name": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "label": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "picture": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "email": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "phone": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "website": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "summary": {
+              "type": "string",
+              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "options": {}
+            },
+            "location": {
+              "type": "object",
+              "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+              "options": {
+                "propertyEncodings": {
+                  "address": {
+                    "type": "string",
+                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                    "options": {}
+                  },
+                  "postalCode": {
+                    "type": "string",
+                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                    "options": {}
+                  },
+                  "city": {
+                    "type": "string",
+                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                    "options": {}
+                  },
+                  "countryCode": {
+                    "type": "string",
+                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                    "options": {}
+                  },
+                  "region": {
+                    "type": "string",
+                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                    "options": {}
+                  }
+                },
+                "requiredProperties": [
+                  "address",
+                  "city",
+                  "countryCode",
+                  "postalCode",
+                  "region"
+                ],
+                "booleanRequiredProperties": []
+              }
+            },
+            "profiles": {
+              "type": "array",
+              "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+              "options": {
+                "encoding": {
+                  "type": "object",
+                  "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+                  "options": {
+                    "propertyEncodings": {
+                      "network": {
+                        "type": "string",
+                        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                        "options": {}
+                      },
+                      "username": {
+                        "type": "string",
+                        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                        "options": {}
+                      },
+                      "url": {
+                        "type": "string",
+                        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                        "options": {}
+                      }
+                    },
+                    "requiredProperties": [
+                      "network",
+                      "url",
+                      "username"
+                    ],
+                    "booleanRequiredProperties": []
+                  }
+                },
+                "prefixEncodings": []
+              }
+            }
+          },
+          "requiredProperties": [
+            "email",
+            "label",
+            "location",
+            "name",
+            "phone",
+            "picture",
+            "profiles",
+            "summary",
+            "website"
+          ],
+          "booleanRequiredProperties": []
+        }
+      },
+      "work": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "company": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "position": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "website": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "startDate": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "endDate": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "summary": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "highlights": {
+                  "type": "array",
+                  "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                  "options": {
+                    "encoding": {
+                      "type": "string",
+                      "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                      "options": {}
+                    },
+                    "prefixEncodings": []
+                  }
+                }
+              },
+              "requiredProperties": [
+                "company",
+                "endDate",
+                "highlights",
+                "position",
+                "startDate",
+                "summary",
+                "website"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "volunteer": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "organization": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "position": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "website": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "startDate": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "endDate": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "summary": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "highlights": {
+                  "type": "array",
+                  "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                  "options": {
+                    "encoding": {
+                      "type": "string",
+                      "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                      "options": {}
+                    },
+                    "prefixEncodings": []
+                  }
+                }
+              },
+              "requiredProperties": [
+                "endDate",
+                "highlights",
+                "organization",
+                "position",
+                "startDate",
+                "summary",
+                "website"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "education": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "institution": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "area": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "studyType": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "startDate": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "endDate": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "gpa": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "courses": {
+                  "type": "array",
+                  "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                  "options": {
+                    "encoding": {
+                      "type": "string",
+                      "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                      "options": {}
+                    },
+                    "prefixEncodings": []
+                  }
+                }
+              },
+              "requiredProperties": [
+                "area",
+                "courses",
+                "endDate",
+                "gpa",
+                "institution",
+                "startDate",
+                "studyType"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "awards": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "title": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "date": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "awarder": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "summary": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                }
+              },
+              "requiredProperties": [
+                "awarder",
+                "date",
+                "summary",
+                "title"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "publications": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "name": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "publisher": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "releaseDate": {
+                  "type": "string",
+                  "encoding": "RFC3339_DATE_INTEGER_TRIPLET",
+                  "options": {}
+                },
+                "website": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "summary": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                }
+              },
+              "requiredProperties": [
+                "name",
+                "publisher",
+                "releaseDate",
+                "summary",
+                "website"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "skills": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "name": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "level": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "keywords": {
+                  "type": "array",
+                  "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                  "options": {
+                    "encoding": {
+                      "type": "string",
+                      "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                      "options": {}
+                    },
+                    "prefixEncodings": []
+                  }
+                }
+              },
+              "requiredProperties": [
+                "keywords",
+                "level",
+                "name"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "languages": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "language": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "fluency": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                }
+              },
+              "requiredProperties": [
+                "fluency",
+                "language"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "interests": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "name": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "keywords": {
+                  "type": "array",
+                  "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                  "options": {
+                    "encoding": {
+                      "type": "string",
+                      "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                      "options": {}
+                    },
+                    "prefixEncodings": []
+                  }
+                }
+              },
+              "requiredProperties": [
+                "keywords",
+                "name"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      },
+      "references": {
+        "type": "array",
+        "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+        "options": {
+          "encoding": {
+            "type": "object",
+            "encoding": "REQUIRED_ONLY_BOUNDED_TYPED_OBJECT",
+            "options": {
+              "propertyEncodings": {
+                "name": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                },
+                "reference": {
+                  "type": "string",
+                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "options": {}
+                }
+              },
+              "requiredProperties": [
+                "name",
+                "reference"
+              ],
+              "booleanRequiredProperties": []
+            }
+          },
+          "prefixEncodings": []
+        }
+      }
+    },
+    "requiredProperties": [
+      "awards",
+      "basics",
+      "education",
+      "interests",
+      "languages",
+      "publications",
+      "references",
+      "skills",
+      "volunteer",
+      "work"
+    ],
+    "booleanRequiredProperties": []
+  }
+}
