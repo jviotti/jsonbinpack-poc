@@ -40,7 +40,7 @@ var SCHEMA_NULL_KEYS = ['type'];
 var SCHEMA_NUMBER_KEYS = ['type'];
 var SCHEMA_STRING_KEYS = ['type', 'maxLength', 'minLength', 'format', 'contentEncoding', 'contentMediaType', 'contentSchema'];
 var SCHEMA_ARRAY_KEYS = ['type', 'maxItems', 'minItems', 'items', 'prefixItems'];
-var SCHEMA_OBJECT_KEYS = ['type', 'additionalProperties', 'required', 'propertyNames', 'properties'];
+var SCHEMA_OBJECT_KEYS = ['type', 'additionalProperties', 'required', 'propertyNames', 'properties', 'maxProperties'];
 var canonicalizeSchema = function (schema) {
     if (typeof schema === 'boolean') {
         return {};

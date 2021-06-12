@@ -38,6 +38,7 @@
         },
         "rules": {
             "type": "object",
+            "maxProperties": 39,
             "additionalProperties": {
                 "type": "integer",
                 "minimum": 0,

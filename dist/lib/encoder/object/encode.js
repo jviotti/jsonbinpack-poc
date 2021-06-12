@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PACKED_UNBOUNDED_OBJECT = exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
+exports.PACKED_BOUNDED_REQUIRED_OBJECT = exports.PACKED_UNBOUNDED_OBJECT = exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var bitset_1 = require("./bitset");
 var integer_list_1 = require("./integer-list");
@@ -324,3 +324,35 @@ var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, value, options, context)
     }, context);
 };
 exports.PACKED_UNBOUNDED_OBJECT = PACKED_UNBOUNDED_OBJECT;
+var PACKED_BOUNDED_REQUIRED_OBJECT = function (buffer, offset, value, options, context) {
+    var e_12, _a;
+    var packedValues = [];
+    var unpackedSubset = Object.assign({}, value);
+    try {
+        for (var _b = __values(options.packedRequiredProperties), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var key = _c.value;
+            var integer = value[key];
+            assert_1.strict(typeof integer === 'number');
+            packedValues.push(integer);
+            Reflect.deleteProperty(unpackedSubset, key);
+        }
+    }
+    catch (e_12_1) { e_12 = { error: e_12_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_12) throw e_12.error; }
+    }
+    var packedBytes = integer_list_1.integerListEncode(buffer, offset, packedValues, {
+        minimum: options.packedEncoding.options.minimum,
+        maximum: options.packedEncoding.options.maximum
+    }, context);
+    var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedBytes, unpackedSubset, {
+        propertyEncodings: options.propertyEncodings,
+        requiredProperties: options.requiredProperties,
+        booleanRequiredProperties: options.booleanRequiredProperties
+    }, context);
+    return packedBytes + requiredBytes;
+};
+exports.PACKED_BOUNDED_REQUIRED_OBJECT = PACKED_BOUNDED_REQUIRED_OBJECT;

@@ -89,7 +89,7 @@
       },
       "rules": {
         "type": "object",
-        "encoding": "PACKED_UNBOUNDED_OBJECT",
+        "encoding": "PACKED_BOUNDED_REQUIRED_OBJECT",
         "options": {
           "packedEncoding": {
             "type": "integer",
@@ -185,16 +185,10 @@
               }
             }
           },
-          "optionalProperties": [],
           "requiredProperties": [
             "valid-jsdoc"
           ],
-          "booleanRequiredProperties": [],
-          "keyEncoding": {
-            "type": "string",
-            "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
-            "options": {}
-          }
+          "booleanRequiredProperties": []
         }
       }
     },

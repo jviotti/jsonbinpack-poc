@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PACKED_UNBOUNDED_OBJECT = exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
+exports.PACKED_BOUNDED_REQUIRED_OBJECT = exports.PACKED_UNBOUNDED_OBJECT = exports.MIXED_UNBOUNDED_TYPED_OBJECT = exports.OPTIONAL_UNBOUNDED_TYPED_OBJECT = exports.REQUIRED_UNBOUNDED_TYPED_OBJECT = exports.ARBITRARY_TYPED_KEYS_OBJECT = exports.MIXED_BOUNDED_TYPED_OBJECT = exports.NON_REQUIRED_BOUNDED_TYPED_OBJECT = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = void 0;
 var assert_1 = require("assert");
 var bitset_1 = require("./bitset");
 var integer_list_1 = require("./integer-list");
@@ -239,3 +239,34 @@ var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, options) {
     };
 };
 exports.PACKED_UNBOUNDED_OBJECT = PACKED_UNBOUNDED_OBJECT;
+var PACKED_BOUNDED_REQUIRED_OBJECT = function (buffer, offset, options) {
+    var e_5, _a;
+    var packedResult = integer_list_1.integerListDecode(buffer, offset, {
+        minimum: options.packedEncoding.options.minimum,
+        maximum: options.packedEncoding.options.maximum
+    });
+    var result = {};
+    try {
+        for (var _b = __values(options.packedRequiredProperties.entries()), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var _d = __read(_c.value, 2), index = _d[0], key = _d[1];
+            Reflect.set(result, key, packedResult.value[index]);
+        }
+    }
+    catch (e_5_1) { e_5 = { error: e_5_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_5) throw e_5.error; }
+    }
+    var rest = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedResult.bytes, {
+        propertyEncodings: options.propertyEncodings,
+        requiredProperties: options.requiredProperties,
+        booleanRequiredProperties: options.booleanRequiredProperties
+    });
+    return {
+        value: Object.assign(result, rest.value),
+        bytes: packedResult.bytes + rest.bytes
+    };
+};
+exports.PACKED_BOUNDED_REQUIRED_OBJECT = PACKED_BOUNDED_REQUIRED_OBJECT;

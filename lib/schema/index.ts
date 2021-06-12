@@ -84,6 +84,7 @@ export interface ObjectEncodingSchema {
   readonly required?: string[];
   readonly propertyNames?: StringEncodingSchema;
   readonly properties?: Record<string, EncodingSchema>;
+  readonly maxProperties?: number;
 }
 
 export interface EnumEncodingSchema {

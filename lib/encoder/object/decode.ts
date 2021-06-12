@@ -47,7 +47,8 @@ import {
   TypedKeysOptions,
   OptionalBoundedTypedOptions,
   RequiredBoundedTypedOptions,
-  PackedUnboundedOptions
+  PackedUnboundedOptions,
+  PackedRequiredBoundedOptions
 } from './options'
 
 import {
@@ -273,6 +274,32 @@ export const PACKED_UNBOUNDED_OBJECT = (
       keyEncoding: options.keyEncoding,
       encoding: options.packedEncoding,
       propertyEncodings: options.propertyEncodings
+    })
+
+  return {
+    value: Object.assign(result, rest.value),
+    bytes: packedResult.bytes + rest.bytes
+  }
+}
+
+export const PACKED_BOUNDED_REQUIRED_OBJECT = (
+  buffer: ResizableBuffer, offset: number, options: PackedRequiredBoundedOptions
+): ObjectResult => {
+  const packedResult: IntegerListResult = integerListDecode(buffer, offset, {
+    minimum: options.packedEncoding.options.minimum,
+    maximum: options.packedEncoding.options.maximum
+  })
+
+  const result: JSONObject = {}
+  for (const [ index, key ] of options.packedRequiredProperties.entries()) {
+    Reflect.set(result, key, packedResult.value[index])
+  }
+
+  const rest: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
+    buffer, offset + packedResult.bytes, {
+      propertyEncodings: options.propertyEncodings,
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties
     })
 
   return {

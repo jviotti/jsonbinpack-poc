@@ -262,6 +262,26 @@ var getObjectEncoding = function (schema, level) {
             }
             return accumulator;
         }, {});
+        if (typeof schema.maxProperties === 'number' &&
+            schema.maxProperties === packedRequiredProperties_1.length +
+                unpackedRequiredProperties.length +
+                booleanRequiredProperties.length) {
+            return {
+                type: encoder_1.EncodingType.Object,
+                encoding: 'PACKED_BOUNDED_REQUIRED_OBJECT',
+                options: {
+                    packedEncoding: additionalProperties,
+                    packedRequiredProperties: packedRequiredProperties_1.sort(function (left, right) {
+                        return left.localeCompare(right);
+                    }),
+                    propertyEncodings: packedPropertyEncodings,
+                    requiredProperties: unpackedRequiredProperties.sort(function (left, right) {
+                        return left.localeCompare(right);
+                    }),
+                    booleanRequiredProperties: booleanRequiredProperties
+                }
+            };
+        }
         return {
             type: encoder_1.EncodingType.Object,
             encoding: 'PACKED_UNBOUNDED_OBJECT',
