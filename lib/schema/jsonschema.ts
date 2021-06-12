@@ -32,6 +32,7 @@ const ajv: Ajv = new Ajv({
   strict: true,
   strictTypes: true,
   strictTuples: true,
+  strictRequired: false,
   validateFormats: true
 })
 
