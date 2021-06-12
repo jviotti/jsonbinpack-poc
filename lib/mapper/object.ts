@@ -67,6 +67,10 @@ import {
   ObjectEncodingSchema
 } from '../schema'
 
+import {
+  UINT8_MAX
+} from '../utils/limits'
+
 export interface REQUIRED_ONLY_BOUNDED_TYPED_OBJECT_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Object;
   readonly encoding: 'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT';
@@ -211,7 +215,10 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
 
 export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): ObjectEncoding => {
   const states: number | JSONValue[] = getObjectStates(schema)
-  if (Array.isArray(states) && level === 0) {
+
+  // We only want to match objects with more than one state
+  // as empty bounded objects are already encoded using 0 bytes
+  if (Array.isArray(states) && ((states.length > 1 && states.length < UINT8_MAX) || level === 0)) {
     return getEnumEncoding({
       enum: states
     }, level)
