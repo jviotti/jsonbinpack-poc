@@ -50,7 +50,7 @@ const SCHEMA_STRING_KEYS: Array<keyof StringEncodingSchema> =
 const SCHEMA_ARRAY_KEYS: Array<keyof ArrayEncodingSchema> =
   [ 'type', 'maxItems', 'minItems', 'items', 'prefixItems' ]
 const SCHEMA_OBJECT_KEYS: Array<keyof ObjectEncodingSchema> =
-  [ 'type', 'additionalProperties', 'required', 'propertyNames', 'properties' ]
+  [ 'type', 'additionalProperties', 'required', 'propertyNames', 'properties', 'maxProperties' ]
 
 export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSchema => {
   // We can assume this is a truthy schema as otherwise nothing

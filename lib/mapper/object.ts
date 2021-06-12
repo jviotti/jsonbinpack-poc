@@ -55,7 +55,8 @@ import {
   OptionalBoundedTypedOptions,
   OptionalUnboundedTypedOptions,
   RequiredBoundedTypedOptions,
-  PackedUnboundedOptions
+  PackedUnboundedOptions,
+  PackedRequiredBoundedOptions
 } from '../encoder/object/options'
 
 import {
@@ -119,6 +120,12 @@ export interface PACKED_UNBOUNDED_OBJECT_ENCODING extends BaseEncodingDefinition
   readonly options: PackedUnboundedOptions;
 }
 
+export interface PACKED_BOUNDED_REQUIRED_OBJECT_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.Object;
+  readonly encoding: 'PACKED_BOUNDED_REQUIRED_OBJECT';
+  readonly options: PackedRequiredBoundedOptions;
+}
+
 export type ObjectEncodingNames =
   EnumEncodingNames |
   'REQUIRED_ONLY_BOUNDED_TYPED_OBJECT' |
@@ -128,7 +135,8 @@ export type ObjectEncodingNames =
   'REQUIRED_UNBOUNDED_TYPED_OBJECT' |
   'OPTIONAL_UNBOUNDED_TYPED_OBJECT' |
   'MIXED_UNBOUNDED_TYPED_OBJECT' |
-  'PACKED_UNBOUNDED_OBJECT'
+  'PACKED_UNBOUNDED_OBJECT' |
+  'PACKED_BOUNDED_REQUIRED_OBJECT'
 export type ObjectEncoding =
   EnumEncoding |
   REQUIRED_ONLY_BOUNDED_TYPED_OBJECT_ENCODING |
@@ -138,7 +146,8 @@ export type ObjectEncoding =
   REQUIRED_UNBOUNDED_TYPED_OBJECT_ENCODING |
   OPTIONAL_UNBOUNDED_TYPED_OBJECT_ENCODING |
   MIXED_UNBOUNDED_TYPED_OBJECT_ENCODING |
-  PACKED_UNBOUNDED_OBJECT_ENCODING
+  PACKED_UNBOUNDED_OBJECT_ENCODING |
+  PACKED_BOUNDED_REQUIRED_OBJECT_ENCODING
 
 const parseAdditionalProperties = (
   value: undefined | boolean | EncodingSchema,
@@ -343,6 +352,29 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
 
         return accumulator
       }, {})
+
+    if (typeof schema.maxProperties === 'number' &&
+      schema.maxProperties === packedRequiredProperties.length +
+        unpackedRequiredProperties.length +
+        booleanRequiredProperties.length) {
+      return {
+        type: EncodingType.Object,
+        encoding: 'PACKED_BOUNDED_REQUIRED_OBJECT',
+        options: {
+          packedEncoding: additionalProperties,
+          packedRequiredProperties: packedRequiredProperties.sort(
+            (left: string, right: string) => {
+              return left.localeCompare(right)
+            }),
+          propertyEncodings: packedPropertyEncodings,
+          requiredProperties: unpackedRequiredProperties.sort(
+            (left: string, right: string) => {
+              return left.localeCompare(right)
+            }),
+          booleanRequiredProperties
+        }
+      }
+    }
 
     return {
       type: EncodingType.Object,

@@ -942,3 +942,123 @@ tap_1.default.test('should encode an unbounded object with bounded integers', fu
     });
     test.end();
 });
+tap_1.default.test('should encode an unbounded object with bounded integers with maxProperties > length', function (test) {
+    var schema = {
+        type: 'object',
+        maxProperties: 8,
+        additionalProperties: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 2
+        },
+        required: ['foo', 'bar', 'baz', 'name', 'qux', 'extra', 'flag'],
+        properties: {
+            name: {
+                type: 'string'
+            },
+            extra: {
+                type: 'integer',
+                minimum: 0,
+                maximum: 2
+            },
+            flag: {
+                type: 'boolean'
+            }
+        }
+    };
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema), Infinity);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'PACKED_UNBOUNDED_OBJECT',
+        options: {
+            packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
+            packedEncoding: {
+                type: 'integer',
+                encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                options: {
+                    minimum: 0,
+                    maximum: 2
+                }
+            },
+            propertyEncodings: {
+                name: {
+                    type: 'string',
+                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                    options: {}
+                },
+                flag: {
+                    type: 'boolean',
+                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+                    options: {}
+                }
+            },
+            optionalProperties: [],
+            requiredProperties: ['name'],
+            booleanRequiredProperties: ['flag'],
+            keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+            }
+        }
+    });
+    test.end();
+});
+tap_1.default.test('should encode an unbounded object with bounded integers with maxProperties = length', function (test) {
+    var schema = {
+        type: 'object',
+        maxProperties: 7,
+        additionalProperties: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 2
+        },
+        required: ['foo', 'bar', 'baz', 'name', 'qux', 'extra', 'flag'],
+        properties: {
+            name: {
+                type: 'string'
+            },
+            extra: {
+                type: 'integer',
+                minimum: 0,
+                maximum: 2
+            },
+            flag: {
+                type: 'boolean'
+            }
+        }
+    };
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema), Infinity);
+    test.strictSame(result, {
+        type: 'object',
+        encoding: 'PACKED_BOUNDED_REQUIRED_OBJECT',
+        options: {
+            packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
+            packedEncoding: {
+                type: 'integer',
+                encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+                options: {
+                    minimum: 0,
+                    maximum: 2
+                }
+            },
+            propertyEncodings: {
+                name: {
+                    type: 'string',
+                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                    options: {}
+                },
+                flag: {
+                    type: 'boolean',
+                    encoding: 'BOOLEAN_8BITS__ENUM_FIXED',
+                    options: {}
+                }
+            },
+            requiredProperties: ['name'],
+            booleanRequiredProperties: ['flag']
+        }
+    });
+    test.end();
+});

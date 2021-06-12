@@ -554,3 +554,46 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', fu
     test.is(bytesWritten, 20);
     test.end();
 });
+tap_1.default.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex object', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(9));
+    var bytesWritten = encode_1.PACKED_BOUNDED_REQUIRED_OBJECT(buffer, 0, {
+        foo: 1,
+        bar: 2,
+        baz: 0,
+        qux: 2,
+        extra: 1,
+        name: 'john',
+        flag: true
+    }, {
+        packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
+        packedEncoding: {
+            type: encoder_1.EncodingType.Integer,
+            encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+            options: {
+                minimum: 0,
+                maximum: 2
+            }
+        },
+        propertyEncodings: {
+            name: mapper_1.getEncoding({
+                type: 'string'
+            }, 1),
+            flag: mapper_1.getEncoding({
+                type: 'boolean'
+            }, 1)
+        },
+        requiredProperties: ['name'],
+        booleanRequiredProperties: ['flag']
+    }, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x05,
+        161,
+        1,
+        0x01,
+        0x05,
+        0x6a, 0x6f, 0x68, 0x6e
+    ]));
+    test.is(bytesWritten, 9);
+    test.end();
+});

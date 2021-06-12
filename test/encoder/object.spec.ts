@@ -34,7 +34,8 @@ import {
   UnboundedTypedOptions,
   RequiredBoundedTypedOptions,
   OptionalBoundedTypedOptions,
-  PackedUnboundedOptions
+  PackedUnboundedOptions,
+  PackedRequiredBoundedOptions
 } from '../../lib/encoder/object/options'
 
 import {
@@ -45,7 +46,8 @@ import {
   REQUIRED_UNBOUNDED_TYPED_OBJECT as ENCODE_REQUIRED_UNBOUNDED_TYPED_OBJECT,
   OPTIONAL_UNBOUNDED_TYPED_OBJECT as ENCODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT,
   MIXED_UNBOUNDED_TYPED_OBJECT as ENCODE_MIXED_UNBOUNDED_TYPED_OBJECT,
-  PACKED_UNBOUNDED_OBJECT as ENCODE_PACKED_UNBOUNDED_OBJECT
+  PACKED_UNBOUNDED_OBJECT as ENCODE_PACKED_UNBOUNDED_OBJECT,
+  PACKED_BOUNDED_REQUIRED_OBJECT as ENCODE_PACKED_BOUNDED_REQUIRED_OBJECT
 } from '../../lib/encoder/object/encode'
 
 import {
@@ -57,7 +59,8 @@ import {
   REQUIRED_UNBOUNDED_TYPED_OBJECT as DECODE_REQUIRED_UNBOUNDED_TYPED_OBJECT,
   OPTIONAL_UNBOUNDED_TYPED_OBJECT as DECODE_OPTIONAL_UNBOUNDED_TYPED_OBJECT,
   MIXED_UNBOUNDED_TYPED_OBJECT as DECODE_MIXED_UNBOUNDED_TYPED_OBJECT,
-  PACKED_UNBOUNDED_OBJECT as DECODE_PACKED_UNBOUNDED_OBJECT
+  PACKED_UNBOUNDED_OBJECT as DECODE_PACKED_UNBOUNDED_OBJECT,
+  PACKED_BOUNDED_REQUIRED_OBJECT as DECODE_PACKED_BOUNDED_REQUIRED_OBJECT
 } from '../../lib/encoder/object/decode'
 
 import {
@@ -697,6 +700,52 @@ tap.test('PACKED_UNBOUNDED_OBJECT: complex object', (test) => {
     buffer, 0, value, options, context)
 
   const result: ObjectResult = DECODE_PACKED_UNBOUNDED_OBJECT(
+    buffer, 0, options)
+
+  test.is(bytesWritten, result.bytes)
+  test.strictSame(result.value, value)
+  test.end()
+})
+
+tap.test('PACKED_BOUNDED_REQUIRED_OBJECT: complex object', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
+  const value: JSONObject = {
+    foo: 1,
+    bar: 2,
+    baz: 0,
+    qux: 2,
+    extra: 1,
+    name: 'john',
+    flag: true
+  }
+
+  const options: PackedRequiredBoundedOptions = {
+    packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
+    packedEncoding: {
+      type: EncodingType.Integer,
+      encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+      options: {
+        minimum: 0,
+        maximum: 2
+      }
+    },
+    propertyEncodings: {
+      name: getEncoding({
+        type: 'string'
+      }, 1),
+      flag: getEncoding({
+        type: 'boolean'
+      }, 1)
+    },
+    requiredProperties: [ 'name' ],
+    booleanRequiredProperties: [ 'flag' ]
+  }
+
+  const bytesWritten: number = ENCODE_PACKED_BOUNDED_REQUIRED_OBJECT(
+    buffer, 0, value, options, context)
+
+  const result: ObjectResult = DECODE_PACKED_BOUNDED_REQUIRED_OBJECT(
     buffer, 0, options)
 
   test.is(bytesWritten, result.bytes)
