@@ -7,7 +7,7 @@
     "tsc": "tsc",
     "postinstall": "npm run tsc",
     "lint": "eslint lib test web contrib",
-    "test": "tap --reporter=list --no-coverage --jobs=1 --no-timeout 'dist/test/**/*.spec.js'"
+    "test": "tap --reporter=list --no-coverage --no-timeout 'dist/test/**/*.spec.js'"
   },
   "keywords": [
     "json",

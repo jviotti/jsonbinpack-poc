@@ -10,6 +10,7 @@ var ajv = new _2020_1.default({
     strict: true,
     strictTypes: true,
     strictTuples: true,
+    strictRequired: false,
     validateFormats: true
 });
 ajv_formats_1.default(ajv);
