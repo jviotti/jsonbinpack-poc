@@ -79,8 +79,6 @@ try {
             'anchor.json',
             'unknownKeyword.json',
             'format.json',
-            'additionalProperties.json',
-            'properties.json',
             'time.json',
             'iri.json',
             'dynamicRef.json',

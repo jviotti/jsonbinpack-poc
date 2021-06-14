@@ -129,7 +129,7 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     // The any type
     default:
       if (Object.keys(schema).length > 0) {
-        return Object.assign({}, pick(schema, SCHEMA_KEYS), {
+        const result = Object.assign({}, pick(schema, SCHEMA_KEYS), {
           type: [
             'boolean',
             'integer',
@@ -140,6 +140,17 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
             'object'
           ]
         })
+
+        // TODO: Workaround the canonical procedures to relax
+        // additionalProperties if patternProperties is
+        // defined until we properly support patternProperties
+        if (typeof schema.patternProperties !== 'undefined' &&
+          (typeof result.additionalProperties !== 'boolean' ||
+          result.additionalProperties === false)) {
+          result.additionalProperties = true
+        }
+
+        return result
       }
 
       return {}
