@@ -58,7 +58,7 @@ var lib_1 = require("../../lib");
 var schema_1 = require("../../lib/schema");
 var preprocessor_1 = require("../../lib/preprocessor");
 var TEST_DIRECTORY = __dirname;
-var SRC_TEST_DIRECTORY = path_1.resolve(__dirname, '..', '..', '..', 'test', 'jsonbinpack');
+var SRC_TEST_DIRECTORY = path_1.resolve(__dirname, '..', '..', '..', 'test', 'e2e');
 var _loop_1 = function (testCase) {
     var testCasePath = path_1.resolve(TEST_DIRECTORY, testCase);
     if (!fs_1.statSync(testCasePath).isDirectory()) {
