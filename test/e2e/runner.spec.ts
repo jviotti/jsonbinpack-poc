@@ -45,7 +45,7 @@ import {
 } from '../../lib/preprocessor'
 
 const TEST_DIRECTORY: string = __dirname
-const SRC_TEST_DIRECTORY: string = resolve(__dirname, '..', '..', '..', 'test', 'jsonbinpack')
+const SRC_TEST_DIRECTORY: string = resolve(__dirname, '..', '..', '..', 'test', 'e2e')
 
 for (const testCase of readdirSync(TEST_DIRECTORY)) {
   const testCasePath: string = resolve(TEST_DIRECTORY, testCase)
