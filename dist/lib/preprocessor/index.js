@@ -39,11 +39,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.preprocessSchema = void 0;
 var deref_1 = require("./deref");
 var canonical_1 = require("./canonical");
+var toObjectSchema = function (schema) {
+    if (typeof schema === 'boolean') {
+        return schema ? {} : {
+            not: {}
+        };
+    }
+    return schema;
+};
 var preprocessSchema = function (schema) { return __awaiter(void 0, void 0, void 0, function () {
-    var localSchema, castedSchema;
+    var objectSchema, localSchema, castedSchema;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, deref_1.dereferenceSchema(schema)];
+            case 0:
+                objectSchema = toObjectSchema(schema);
+                return [4, deref_1.dereferenceSchema(objectSchema)];
             case 1:
                 localSchema = _a.sent();
                 castedSchema = localSchema;

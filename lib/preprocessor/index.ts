@@ -36,8 +36,21 @@ export {
   JSONSchema
 } from './deref'
 
-export const preprocessSchema = async (schema: JSONSchema): Promise<EncodingSchema> => {
-  const localSchema: JSONSchema = await dereferenceSchema(schema)
+const toObjectSchema = (schema: JSONSchema | boolean): JSONSchema => {
+  if (typeof schema === 'boolean') {
+    return schema ? {} : {
+      not: {}
+    }
+  }
+
+  return schema
+}
+
+export const preprocessSchema = async (
+  schema: JSONSchema | boolean
+): Promise<EncodingSchema> => {
+  const objectSchema: JSONSchema = toObjectSchema(schema)
+  const localSchema: JSONSchema = await dereferenceSchema(objectSchema)
   // TODO: Find a way to make this cast in a better way
   // @ts-ignore
   const castedSchema: JSONObject | JSONBoolean = localSchema
