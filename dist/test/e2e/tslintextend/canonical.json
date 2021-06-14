@@ -1,15 +1,15 @@
 {
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "extends"
-  ],
-  "properties": {
-    "extends": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "extends"
+    ],
+    "properties": {
+        "extends": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
     }
-  }
 }

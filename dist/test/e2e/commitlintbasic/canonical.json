@@ -1,12 +1,12 @@
 {
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "defaultIgnores"
-  ],
-  "properties": {
-    "defaultIgnores": {
-      "type": "boolean"
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "defaultIgnores"
+    ],
+    "properties": {
+        "defaultIgnores": {
+            "type": "boolean"
+        }
     }
-  }
 }

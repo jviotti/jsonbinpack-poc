@@ -77,6 +77,8 @@ const SCHEMA_KEYS: Array<
   SCHEMA_OBJECT_KEYS
 )
 
+// TODO: Turn this into its own standalone C++ library
+
 export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSchema => {
   // We can assume this is a truthy schema as otherwise nothing
   // will match, and therefore nothing could have been encoded
