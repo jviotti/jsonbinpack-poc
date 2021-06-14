@@ -56,8 +56,9 @@
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^9.0.7",
-    "ajv": "^8.5.0",
+    "ajv": "^8.6.0",
     "ajv-formats": "^2.1.0",
+    "ajv-formats-draft2019": "^1.4.3",
     "from-exponential": "^1.1.0",
     "lodash": "^4.17.21"
   }

@@ -1,3 +1,5 @@
+include vendor/vendorpull/targets.mk
+
 .PHONY: all
 
 assets/js:
