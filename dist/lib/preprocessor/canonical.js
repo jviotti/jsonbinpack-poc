@@ -88,7 +88,7 @@ var canonicalizeSchema = function (schema) {
         case 'object': return lodash_1.pick(schema, SCHEMA_OBJECT_KEYS);
         default:
             if (Object.keys(schema).length > 0) {
-                return Object.assign({}, lodash_1.pick(schema, SCHEMA_KEYS), {
+                var result = Object.assign({}, lodash_1.pick(schema, SCHEMA_KEYS), {
                     type: [
                         'boolean',
                         'integer',
@@ -99,6 +99,12 @@ var canonicalizeSchema = function (schema) {
                         'object'
                     ]
                 });
+                if (typeof schema.patternProperties !== 'undefined' &&
+                    (typeof result.additionalProperties !== 'boolean' ||
+                        result.additionalProperties === false)) {
+                    result.additionalProperties = true;
+                }
+                return result;
             }
             return {};
     }

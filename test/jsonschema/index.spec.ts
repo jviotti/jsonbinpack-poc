@@ -86,8 +86,6 @@ for (const suitePath of recursiveReadDirectory(JSON_SCHEMA_TESTS_PATH)) {
     'format.json',
 
     // TODO: Make these suites pass
-    'additionalProperties.json',
-    'properties.json',
     'time.json',
     'iri.json',
     'dynamicRef.json',
