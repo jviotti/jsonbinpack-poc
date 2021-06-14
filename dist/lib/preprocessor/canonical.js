@@ -41,6 +41,7 @@ var SCHEMA_NUMBER_KEYS = ['type'];
 var SCHEMA_STRING_KEYS = ['type', 'maxLength', 'minLength', 'format', 'contentEncoding', 'contentMediaType', 'contentSchema'];
 var SCHEMA_ARRAY_KEYS = ['type', 'maxItems', 'minItems', 'items', 'prefixItems'];
 var SCHEMA_OBJECT_KEYS = ['type', 'additionalProperties', 'required', 'propertyNames', 'properties', 'maxProperties'];
+var SCHEMA_KEYS = lodash_1.concat(SCHEMA_BOOLEAN_KEYS, SCHEMA_INTEGER_KEYS, SCHEMA_NULL_KEYS, SCHEMA_NUMBER_KEYS, SCHEMA_STRING_KEYS, SCHEMA_ARRAY_KEYS, SCHEMA_OBJECT_KEYS);
 var canonicalizeSchema = function (schema) {
     if (typeof schema === 'boolean') {
         return {};
@@ -85,7 +86,21 @@ var canonicalizeSchema = function (schema) {
         case 'string': return lodash_1.pick(schema, SCHEMA_STRING_KEYS);
         case 'array': return lodash_1.pick(schema, SCHEMA_ARRAY_KEYS);
         case 'object': return lodash_1.pick(schema, SCHEMA_OBJECT_KEYS);
-        default: return {};
+        default:
+            if (Object.keys(schema).length > 0) {
+                return Object.assign({}, lodash_1.pick(schema, SCHEMA_KEYS), {
+                    type: [
+                        'boolean',
+                        'integer',
+                        'null',
+                        'number',
+                        'string',
+                        'array',
+                        'object'
+                    ]
+                });
+            }
+            return {};
     }
 };
 exports.canonicalizeSchema = canonicalizeSchema;

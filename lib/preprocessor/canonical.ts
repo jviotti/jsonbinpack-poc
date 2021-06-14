@@ -20,6 +20,7 @@ import {
   merge,
   uniqWith,
   isEqual,
+  concat,
   cloneDeep
 } from 'lodash'
 
@@ -51,6 +52,24 @@ const SCHEMA_ARRAY_KEYS: Array<keyof ArrayEncodingSchema> =
   [ 'type', 'maxItems', 'minItems', 'items', 'prefixItems' ]
 const SCHEMA_OBJECT_KEYS: Array<keyof ObjectEncodingSchema> =
   [ 'type', 'additionalProperties', 'required', 'propertyNames', 'properties', 'maxProperties' ]
+
+const SCHEMA_KEYS: Array<
+  keyof BooleanEncodingSchema |
+  keyof IntegerEncodingSchema |
+  keyof NullEncodingSchema |
+  keyof NumberEncodingSchema |
+  keyof StringEncodingSchema |
+  keyof ArrayEncodingSchema |
+  keyof ObjectEncodingSchema
+> = concat(
+  SCHEMA_BOOLEAN_KEYS,
+  SCHEMA_INTEGER_KEYS,
+  SCHEMA_NULL_KEYS,
+  SCHEMA_NUMBER_KEYS,
+  SCHEMA_STRING_KEYS,
+  SCHEMA_ARRAY_KEYS,
+  SCHEMA_OBJECT_KEYS
+)
 
 export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSchema => {
   // We can assume this is a truthy schema as otherwise nothing
@@ -108,6 +127,21 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     case 'object': return pick(schema, SCHEMA_OBJECT_KEYS)
 
     // The any type
-    default: return {}
+    default:
+      if (Object.keys(schema).length > 0) {
+        return Object.assign({}, pick(schema, SCHEMA_KEYS), {
+          type: [
+            'boolean',
+            'integer',
+            'null',
+            'number',
+            'string',
+            'array',
+            'object'
+          ]
+        })
+      }
+
+      return {}
   }
 }

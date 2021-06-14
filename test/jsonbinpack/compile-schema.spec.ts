@@ -76,11 +76,33 @@ tap.test('should compile a simple oneOf schema', async (test) => {
           }
         },
         {
-          schema: {},
+          schema: {
+            minimum: 2,
+            type: [
+              'boolean',
+              'integer',
+              'null',
+              'number',
+              'string',
+              'array',
+              'object'
+            ]
+          },
           encoding: {
-            type: 'any',
-            encoding: 'ANY__TYPE_PREFIX',
-            options: {}
+            type: 'object',
+            encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
+            options: {
+              encoding: {
+                type: 'any',
+                encoding: 'ANY__TYPE_PREFIX',
+                options: {}
+              },
+              keyEncoding: {
+                type: 'string',
+                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+                options: {}
+              }
+            }
           }
         }
       ]

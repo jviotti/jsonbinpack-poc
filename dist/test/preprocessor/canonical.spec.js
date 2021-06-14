@@ -154,3 +154,35 @@ tap_1.default.test('should canonicalize a oneOf schema with one all duplicated c
     });
     test.end();
 });
+tap_1.default.test('should canonicalize a oneOf schema lacking a type', function (test) {
+    var result = canonical_1.canonicalizeSchema({
+        oneOf: [
+            {
+                type: 'integer'
+            },
+            {
+                minimum: 2
+            }
+        ]
+    });
+    test.strictSame(result, {
+        oneOf: [
+            {
+                type: 'integer'
+            },
+            {
+                type: [
+                    'boolean',
+                    'integer',
+                    'null',
+                    'number',
+                    'string',
+                    'array',
+                    'object'
+                ],
+                minimum: 2
+            }
+        ]
+    });
+    test.end();
+});
