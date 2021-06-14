@@ -61,3 +61,20 @@ tap_1.default.test('should compile a string with format: date', function (test) 
         }
     });
 }); });
+tap_1.default.test('should compile a boolean schema true', function (test) { return __awaiter(void 0, void 0, void 0, function () {
+    var encoding;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, lib_1.compileSchema(true)];
+            case 1:
+                encoding = _a.sent();
+                test.strictSame(encoding, {
+                    type: 'any',
+                    encoding: 'ANY__TYPE_PREFIX',
+                    options: {}
+                });
+                test.end();
+                return [2];
+        }
+    });
+}); });

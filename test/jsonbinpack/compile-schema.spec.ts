@@ -35,3 +35,15 @@ tap.test('should compile a string with format: date', async (test) => {
 
   test.end()
 })
+
+tap.test('should compile a boolean schema true', async (test) => {
+  const encoding: Encoding = await compileSchema(true)
+
+  test.strictSame(encoding, {
+    type: 'any',
+    encoding: 'ANY__TYPE_PREFIX',
+    options: {}
+  })
+
+  test.end()
+})
