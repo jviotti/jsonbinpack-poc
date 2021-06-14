@@ -78,3 +78,50 @@ tap_1.default.test('should compile a boolean schema true', function (test) { ret
         }
     });
 }); });
+tap_1.default.test('should compile a simple oneOf schema', function (test) { return __awaiter(void 0, void 0, void 0, function () {
+    var encoding;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, lib_1.compileSchema({
+                    oneOf: [
+                        {
+                            type: 'integer'
+                        },
+                        {
+                            minimum: 2
+                        }
+                    ]
+                })];
+            case 1:
+                encoding = _a.sent();
+                test.strictSame(encoding, {
+                    type: 'oneOf',
+                    encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
+                    options: {
+                        schemas: [
+                            {
+                                schema: {
+                                    type: 'integer'
+                                },
+                                encoding: {
+                                    type: 'integer',
+                                    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+                                    options: {}
+                                }
+                            },
+                            {
+                                schema: {},
+                                encoding: {
+                                    type: 'any',
+                                    encoding: 'ANY__TYPE_PREFIX',
+                                    options: {}
+                                }
+                            }
+                        ]
+                    }
+                });
+                test.end();
+                return [2];
+        }
+    });
+}); });

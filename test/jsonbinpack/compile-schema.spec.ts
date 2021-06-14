@@ -47,3 +47,46 @@ tap.test('should compile a boolean schema true', async (test) => {
 
   test.end()
 })
+
+tap.test('should compile a simple oneOf schema', async (test) => {
+  const encoding: Encoding = await compileSchema({
+    oneOf: [
+      {
+        type: 'integer'
+      },
+      {
+        minimum: 2
+      }
+    ]
+  })
+
+  test.strictSame(encoding, {
+    type: 'oneOf',
+    encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
+    options: {
+      schemas: [
+        {
+          schema: {
+            type: 'integer'
+          },
+          encoding: {
+            type: 'integer',
+            encoding: 'ARBITRARY__ZIGZAG_VARINT',
+            options: {}
+          }
+        },
+        {
+          schema: {},
+          encoding: {
+            type: 'any',
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+          }
+        }
+      ]
+    }
+  })
+
+  test.end()
+})
+

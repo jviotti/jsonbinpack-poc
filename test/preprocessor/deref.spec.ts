@@ -74,3 +74,31 @@ tap.test('should not de-reference a circular schema', async (test) => {
 
   test.end()
 })
+
+tap.test('should de-reference a simple oneOf schema', async (test) => {
+  const schema: JSONSchema = {
+    oneOf: [
+      {
+        type: 'integer'
+      },
+      {
+        minimum: 2
+      }
+    ]
+  }
+
+  const result: JSONSchema = await dereferenceSchema(schema)
+  test.strictSame(result, {
+    oneOf: [
+      {
+        type: 'integer'
+      },
+      {
+        minimum: 2
+      }
+    ]
+  })
+
+  test.end()
+})
+

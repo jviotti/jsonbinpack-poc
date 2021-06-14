@@ -107,3 +107,36 @@ tap_1.default.test('should not de-reference a circular schema', function (test) 
         }
     });
 }); });
+tap_1.default.test('should de-reference a simple oneOf schema', function (test) { return __awaiter(void 0, void 0, void 0, function () {
+    var schema, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                schema = {
+                    oneOf: [
+                        {
+                            type: 'integer'
+                        },
+                        {
+                            minimum: 2
+                        }
+                    ]
+                };
+                return [4, deref_1.dereferenceSchema(schema)];
+            case 1:
+                result = _a.sent();
+                test.strictSame(result, {
+                    oneOf: [
+                        {
+                            type: 'integer'
+                        },
+                        {
+                            minimum: 2
+                        }
+                    ]
+                });
+                test.end();
+                return [2];
+        }
+    });
+}); });
