@@ -45,6 +45,12 @@ import {
   FloorOptions
 } from '../encoder/string/options'
 
+export interface URL_PROTOCOL_HOST_REST_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.String;
+  readonly encoding: 'URL_PROTOCOL_HOST_REST';
+  readonly options: NoOptions;
+}
+
 export interface RFC3339_DATE_INTEGER_TRIPLET_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
   readonly encoding: 'RFC3339_DATE_INTEGER_TRIPLET';
@@ -88,6 +94,7 @@ export interface ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING extends BaseEncodingDe
 }
 
 export type StringEncodingNames =
+  'URL_PROTOCOL_HOST_REST' |
   'RFC3339_DATE_INTEGER_TRIPLET' |
   'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' |
   'BOUNDED__PREFIX_LENGTH_ENUM_VARINT' |
@@ -96,6 +103,7 @@ export type StringEncodingNames =
   'FLOOR__PREFIX_LENGTH_ENUM_VARINT' |
   'ARBITRARY__PREFIX_LENGTH_VARINT'
 export type StringEncoding =
+  URL_PROTOCOL_HOST_REST_ENCODING |
   RFC3339_DATE_INTEGER_TRIPLET_ENCODING |
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
@@ -113,6 +121,12 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
     return {
       type: EncodingType.String,
       encoding: 'RFC3339_DATE_INTEGER_TRIPLET',
+      options: {}
+    }
+  } else if (schema.format === 'uri') {
+    return {
+      type: EncodingType.String,
+      encoding: 'URL_PROTOCOL_HOST_REST',
       options: {}
     }
   }

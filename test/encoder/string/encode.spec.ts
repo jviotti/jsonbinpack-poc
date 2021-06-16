@@ -17,6 +17,7 @@
 import tap from 'tap'
 
 import {
+  URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
@@ -37,6 +38,56 @@ import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
+
+tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const bytesWritten: number =
+    URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com', {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x07, // protocol length
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, // 'https:'
+    0x0b, // host length
+    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d, // 'google.com'
+    0x01 // rest length
+  ]))
+  test.is(bytesWritten, 19)
+  test.end()
+})
+
+tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const bytesWritten: number =
+    URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/', {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x07, // protocol length
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, // 'https:'
+    0x0b, // host length
+    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d, // 'google.com'
+    0x02, // rest length
+    0x2f
+  ]))
+  test.is(bytesWritten, 20)
+  test.end()
+})
+
+tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const bytesWritten: number =
+    URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/foo', {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x07, // protocol length
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, // 'https:'
+    0x0b, // host length
+    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d, // 'google.com'
+    0x05, // rest length
+    0x2f, 0x66, 0x6f, 0x6f
+  ]))
+  test.is(bytesWritten, 23)
+  test.end()
+})
 
 tap.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

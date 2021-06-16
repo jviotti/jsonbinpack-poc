@@ -44,6 +44,66 @@ var encode_1 = require("../../lib/encoder/string/encode");
 var decode_1 = require("../../lib/encoder/string/decode");
 var limits_1 = require("../../lib/utils/limits");
 var encoder_1 = require("../../lib/encoder");
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'https://google.com';
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context);
+    var result = decode_1.URL_PROTOCOL_HOST_REST(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'https://google.com/';
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context);
+    var result = decode_1.URL_PROTOCOL_HOST_REST(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/foo"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'https://google.com/foo';
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context);
+    var result = decode_1.URL_PROTOCOL_HOST_REST(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/foo?q=x"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'https://google.com/foo?q=x';
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context);
+    var result = decode_1.URL_PROTOCOL_HOST_REST(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/foo#hello"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'https://google.com/foo#hello';
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context);
+    var result = decode_1.URL_PROTOCOL_HOST_REST(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should handle "git://github.com/gruntjs/grunt.git"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'git://github.com/gruntjs/grunt.git';
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context);
+    var result = decode_1.URL_PROTOCOL_HOST_REST(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
 tap_1.default.test('RFC3339_DATE_INTEGER_TRIPLET: should handle "2014-10-01"', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
