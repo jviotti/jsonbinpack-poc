@@ -16,16 +16,16 @@
       "properties": {
         "no-any": {
           "type": "array",
-          "minItems": 1,
           "maxItems": 1,
+          "minItems": 1,
           "items": {
             "type": "boolean"
           }
         },
         "radix": {
           "type": "array",
-          "minItems": 1,
           "maxItems": 1,
+          "minItems": 1,
           "items": {
             "type": "boolean"
           }

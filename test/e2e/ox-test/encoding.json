@@ -59,11 +59,11 @@
                 {
                   "schema": {
                     "type": "object",
+                    "additionalProperties": false,
                     "required": [
                       "name",
                       "staff"
                     ],
-                    "additionalProperties": false,
                     "properties": {
                       "name": {
                         "type": "string"
@@ -101,12 +101,12 @@
                 {
                   "schema": {
                     "type": "object",
+                    "additionalProperties": false,
                     "required": [
                       "name",
                       "staff",
                       "extra"
                     ],
-                    "additionalProperties": false,
                     "properties": {
                       "name": {
                         "type": "null"
@@ -116,10 +116,10 @@
                       },
                       "extra": {
                         "type": "object",
+                        "additionalProperties": false,
                         "required": [
                           "info"
                         ],
-                        "additionalProperties": false,
                         "properties": {
                           "info": {
                             "type": "string"

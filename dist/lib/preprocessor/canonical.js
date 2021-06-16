@@ -71,6 +71,18 @@ var canonicalizeSchema = function (schema) {
             Reflect.set(schema, 'additionalProperties', exports.canonicalizeSchema(schema.additionalProperties));
         }
     }
+    if (typeof schema.properties !== 'undefined') {
+        assert_1.strict(typeof schema.properties === 'object' &&
+            !Array.isArray(schema.properties) &&
+            schema.properties !== null);
+        Reflect.set(schema, 'properties', lodash_1.mapValues(schema.properties, function (subschema) {
+            assert_1.strict(typeof subschema === 'boolean' ||
+                (typeof subschema === 'object' &&
+                    !Array.isArray(subschema) &&
+                    subschema !== null));
+            return exports.canonicalizeSchema(subschema);
+        }));
+    }
     if (typeof schema.propertyNames !== 'undefined') {
         assert_1.strict(typeof schema.propertyNames === 'boolean' || (typeof schema.propertyNames === 'object' &&
             !Array.isArray(schema.propertyNames) &&

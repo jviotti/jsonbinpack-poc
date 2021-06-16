@@ -278,3 +278,96 @@ tap.test('should canonicalize an any array without a type', (test) => {
 
   test.end()
 })
+
+tap.test('should canonicalize an any array with prefixItems and uniqueItems', (test) => {
+  const result: EncodingSchema = canonicalizeSchema({
+    prefixItems: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'boolean'
+      }
+    ],
+    uniqueItems: false
+  })
+
+  test.strictSame(result, {
+    anyOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'integer',
+      },
+      {
+        type: 'null'
+      },
+      {
+        type: 'number'
+      },
+      {
+        type: 'string'
+      },
+      {
+        type: 'array',
+        prefixItems: [
+          {
+            type: 'boolean'
+          },
+          {
+            type: 'boolean'
+          }
+        ]
+      },
+      {
+        type: 'object'
+      }
+    ]
+  })
+
+  test.end()
+})
+
+tap.test('should canonicalize an any object with truthy properties', (test) => {
+  const result: EncodingSchema = canonicalizeSchema({
+    required: [ 'bar' ],
+    properties: {
+      bar: true,
+      baz: true
+    }
+  })
+
+  test.strictSame(result, {
+    anyOf: [
+      {
+        type: 'boolean'
+      },
+      {
+        type: 'integer',
+      },
+      {
+        type: 'null'
+      },
+      {
+        type: 'number'
+      },
+      {
+        type: 'string'
+      },
+      {
+        type: 'array'
+      },
+      {
+        type: 'object',
+        required: [ 'bar' ],
+        properties: {
+          bar: {},
+          baz: {}
+        }
+      }
+    ]
+  })
+
+  test.end()
+})

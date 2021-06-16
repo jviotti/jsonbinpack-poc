@@ -21,6 +21,7 @@ import {
 import {
   pick,
   omit,
+  mapValues,
   merge,
   uniqWith,
   isEqual,
@@ -113,6 +114,21 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
       Reflect.set(schema, 'additionalProperties',
         canonicalizeSchema(schema.additionalProperties))
     }
+  }
+
+  if (typeof schema.properties !== 'undefined') {
+    assert(typeof schema.properties === 'object' &&
+      !Array.isArray(schema.properties) &&
+      schema.properties !== null)
+
+    Reflect.set(schema, 'properties',
+      mapValues(schema.properties, (subschema) => {
+        assert(typeof subschema === 'boolean' ||
+          (typeof subschema === 'object' &&
+          !Array.isArray(subschema) &&
+          subschema !== null))
+        return canonicalizeSchema(subschema)
+      }))
   }
 
   if (typeof schema.propertyNames !== 'undefined') {

@@ -23,8 +23,8 @@
       "properties": {
         "files": {
           "type": "object",
-          "required": [],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "required": []
         },
         "src": {
           "type": "array",

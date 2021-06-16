@@ -15,8 +15,8 @@
       "properties": {
         "scope-case": {
           "type": "array",
-          "minItems": 3,
           "maxItems": 3,
+          "minItems": 3,
           "prefixItems": [
             {
               "type": "integer",
@@ -38,8 +38,8 @@
         },
         "subject-case": {
           "type": "array",
-          "minItems": 3,
           "maxItems": 3,
+          "minItems": 3,
           "prefixItems": [
             {
               "type": "integer",
