@@ -102,6 +102,19 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     Reflect.set(schema, 'items', canonicalizeSchema(schema.items))
   }
 
+  if (typeof schema.additionalProperties !== 'undefined') {
+    assert(typeof schema.additionalProperties === 'boolean' || (
+      typeof schema.additionalProperties === 'object' &&
+      !Array.isArray(schema.additionalProperties) &&
+      schema.additionalProperties !== null
+    ))
+
+    if (schema.additionalProperties !== false) {
+      Reflect.set(schema, 'additionalProperties',
+        canonicalizeSchema(schema.additionalProperties))
+    }
+  }
+
   if (typeof schema.propertyNames !== 'undefined') {
     assert(typeof schema.propertyNames === 'boolean' || (
       typeof schema.propertyNames === 'object' &&

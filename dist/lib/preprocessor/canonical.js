@@ -63,6 +63,14 @@ var canonicalizeSchema = function (schema) {
             schema.items !== null));
         Reflect.set(schema, 'items', exports.canonicalizeSchema(schema.items));
     }
+    if (typeof schema.additionalProperties !== 'undefined') {
+        assert_1.strict(typeof schema.additionalProperties === 'boolean' || (typeof schema.additionalProperties === 'object' &&
+            !Array.isArray(schema.additionalProperties) &&
+            schema.additionalProperties !== null));
+        if (schema.additionalProperties !== false) {
+            Reflect.set(schema, 'additionalProperties', exports.canonicalizeSchema(schema.additionalProperties));
+        }
+    }
     if (typeof schema.propertyNames !== 'undefined') {
         assert_1.strict(typeof schema.propertyNames === 'boolean' || (typeof schema.propertyNames === 'object' &&
             !Array.isArray(schema.propertyNames) &&
