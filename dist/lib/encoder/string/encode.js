@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = void 0;
+exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = void 0;
 var assert_1 = require("assert");
 var encode_1 = require("../integer/encode");
 var limits_1 = require("../../utils/limits");
@@ -36,6 +36,58 @@ var writeMaybeSharedString = function (buffer, offset, value, length, context) {
         minimum: 0
     }, context);
 };
+var writeRawString = function (buffer, offset, value, context) {
+    var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
+    var length = Buffer.byteLength(value, STRING_ENCODING);
+    var lengthBytes = prefixBytes > 0
+        ? encode_1.FLOOR__ENUM_VARINT(buffer, offset + prefixBytes, length, {
+            minimum: 0
+        }, context)
+        : encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, offset + prefixBytes, -length - 1, {}, context);
+    var stringBytes = writeMaybeSharedString(buffer, offset + prefixBytes + lengthBytes, value, length, context);
+    return prefixBytes + lengthBytes + stringBytes;
+};
+var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, value, options, context) {
+    var e_1, _a;
+    var WORD_DELIMITER = ' ';
+    var unmatched = [];
+    var length = Buffer.byteLength(value, STRING_ENCODING);
+    var bytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, length, {
+        minimum: 0
+    }, context);
+    if (length === 0) {
+        return bytes;
+    }
+    try {
+        for (var _b = __values(value.split(WORD_DELIMITER)), _c = _b.next(); !_c.done; _c = _b.next()) {
+            var fragment = _c.value;
+            var entry = options.dictionary[fragment];
+            if (typeof entry === 'undefined') {
+                unmatched.push(fragment);
+                continue;
+            }
+            assert_1.strict(options.index[entry] === fragment);
+            if (unmatched.length > 0) {
+                bytes += writeRawString(buffer, offset + bytes, unmatched.join(WORD_DELIMITER), context);
+                unmatched = [];
+            }
+            assert_1.strict(entry >= 0);
+            bytes += encode_1.ARBITRARY__ZIGZAG_VARINT(buffer, offset + bytes, entry + 1, {}, context);
+        }
+    }
+    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    finally {
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        }
+        finally { if (e_1) throw e_1.error; }
+    }
+    if (unmatched.length > 0) {
+        bytes += writeRawString(buffer, offset + bytes, unmatched.join(WORD_DELIMITER), context);
+    }
+    return bytes;
+};
+exports.STRING_DICTIONARY_COMPRESSOR = STRING_DICTIONARY_COMPRESSOR;
 var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context) {
     var url = new URL(value);
     var protocolBytes = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, url.protocol, {}, context);
@@ -46,7 +98,7 @@ var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context)
 };
 exports.URL_PROTOCOL_HOST_REST = URL_PROTOCOL_HOST_REST;
 var RFC3339_DATE_INTEGER_TRIPLET = function (buffer, offset, value, _options, _context) {
-    var e_1, _a;
+    var e_2, _a;
     var date = [];
     try {
         for (var _b = __values(value.split('-')), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -54,12 +106,12 @@ var RFC3339_DATE_INTEGER_TRIPLET = function (buffer, offset, value, _options, _c
             date.push(parseInt(fragment, 10));
         }
     }
-    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+    catch (e_2_1) { e_2 = { error: e_2_1 }; }
     finally {
         try {
             if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
-        finally { if (e_1) throw e_1.error; }
+        finally { if (e_2) throw e_2.error; }
     }
     assert_1.strict(date.length === 3);
     assert_1.strict(date[0] >= 0 && date[0] <= 9999);

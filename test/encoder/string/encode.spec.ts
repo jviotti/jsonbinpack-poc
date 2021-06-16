@@ -17,6 +17,7 @@
 import tap from 'tap'
 
 import {
+  STRING_DICTIONARY_COMPRESSOR,
   URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
@@ -38,6 +39,89 @@ import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../../lib/encoder'
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "" with [ bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
+  const bytesWritten: number =
+    STRING_DICTIONARY_COMPRESSOR(buffer, 0, '', {
+      index: [ 'bar' ],
+      dictionary: {
+        bar: 0
+      }
+    }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
+  test.is(bytesWritten, 1)
+  test.end()
+})
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "foo bar baz" with [ bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const bytesWritten: number =
+    STRING_DICTIONARY_COMPRESSOR(buffer, 0, 'foo bar baz', {
+      index: [ 'bar' ],
+      dictionary: {
+        bar: 0
+      }
+    }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x0b, // whole string length
+    0x07, 0x66, 0x6f, 0x6f, // zigzag negative length + 'foo'
+    0x02, // 'bar'
+    0x07, 0x62, 0x61, 0x7a // zigzag negative length + 'baz'
+  ]))
+
+  test.is(bytesWritten, 10)
+  test.end()
+})
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "foo bar foo" with [ bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(11))
+  const bytesWritten: number =
+    STRING_DICTIONARY_COMPRESSOR(buffer, 0, 'foo bar foo', {
+      index: [ 'bar' ],
+      dictionary: {
+        bar: 0
+      }
+    }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x0b, // whole string length
+    0x07, 0x66, 0x6f, 0x6f, // zigzag negative length + 'foo'
+    0x02, // 'bar'
+    0x00, // start of shared string
+    0x03, 0x06 // zigzag negative length + offset 'foo'
+  ]))
+
+  test.is(bytesWritten, 9)
+  test.end()
+})
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "bar foo foo" with [ bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const bytesWritten: number =
+    STRING_DICTIONARY_COMPRESSOR(buffer, 0, 'bar foo foo', {
+      index: [ 'bar' ],
+      dictionary: {
+        bar: 0
+      }
+    }, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x0b, // whole string length
+    0x02, // 'bar'
+    0x0f, // zigzag negative length
+    0x66, 0x6f, 0x6f, 0x20, 0x66, 0x6f, 0x6f // 'foo foo'
+  ]))
+
+  test.is(bytesWritten, 10)
+  test.end()
+})
 
 tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

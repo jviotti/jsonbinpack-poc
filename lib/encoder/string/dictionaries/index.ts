@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
+import * as RAW_ENGLISH_DICTIONARY from './english.json'
 import {
-  NoOptions,
-  BoundedOptions,
-  RoofOptions,
-  FloorOptions
-} from '../integer/options'
+  DictionaryOptions
+} from '../options'
 
-export {
-  NoOptions,
-  BoundedOptions,
-  RoofOptions,
-  FloorOptions
-} from '../integer/options'
-
-export interface DictionaryOptions {
-  readonly dictionary: Record<string, number>;
-  readonly index: string[];
+export const ENGLISH_DICTIONARY: DictionaryOptions = {
+  index: RAW_ENGLISH_DICTIONARY.index,
+  dictionary: RAW_ENGLISH_DICTIONARY.index.reduce(
+    (accumulator: Record<string, number>, word: string, index: number): Record<string, number> => {
+      accumulator[word] = index
+      return accumulator
+    }, {})
 }
-
-export type StringOptions =
-  NoOptions |
-  DictionaryOptions |
-  BoundedOptions |
-  RoofOptions |
-  FloorOptions

@@ -40,10 +40,70 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
+var dictionaries_1 = require("../../lib/encoder/string/dictionaries");
 var encode_1 = require("../../lib/encoder/string/encode");
 var decode_1 = require("../../lib/encoder/string/decode");
 var limits_1 = require("../../lib/utils/limits");
 var encoder_1 = require("../../lib/encoder");
+tap_1.default.test('STRING_DICTIONARY_COMPRESSOR: "The quick brown fox jumps over the lazy dog"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'The quick brown fox jumps over the lazy dog';
+    var options = dictionaries_1.ENGLISH_DICTIONARY;
+    var bytesWritten = encode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context);
+    var result = decode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, options);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('STRING_DICTIONARY_COMPRESSOR: "foo bar baz" with [ bar ]', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'foo bar baz';
+    var options = {
+        index: ['bar'],
+        dictionary: {
+            bar: 0
+        }
+    };
+    var bytesWritten = encode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context);
+    var result = decode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, options);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('STRING_DICTIONARY_COMPRESSOR: "foo bar foo" with [ bar ]', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'foo bar foo';
+    var options = {
+        index: ['bar'],
+        dictionary: {
+            bar: 0
+        }
+    };
+    var bytesWritten = encode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context);
+    var result = decode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, options);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('STRING_DICTIONARY_COMPRESSOR: "bar foo foo" with [ bar ]', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'bar foo foo';
+    var options = {
+        index: ['bar'],
+        dictionary: {
+            bar: 0
+        }
+    };
+    var bytesWritten = encode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context);
+    var result = decode_1.STRING_DICTIONARY_COMPRESSOR(buffer, 0, options);
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
 tap_1.default.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com"', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
@@ -245,6 +305,24 @@ tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', function (test) {
         var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {}, context);
         var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
+tap_1.default.test('STRING_DICTIONARY_COMPRESSOR (ASCII)', function (test) {
+    fc.assert(fc.property(fc.nat(10), fc.string({
+        maxLength: 1000
+    }), function (offset, value) {
+        var context = encoder_1.getDefaultEncodingContext();
+        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2048));
+        var options = {
+            index: [],
+            dictionary: {}
+        };
+        var bytesWritten = encode_1.STRING_DICTIONARY_COMPRESSOR(buffer, offset, value, options, context);
+        var result = decode_1.STRING_DICTIONARY_COMPRESSOR(buffer, offset, options);
+        return result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
     });

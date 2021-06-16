@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = void 0;
+exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = void 0;
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
 var limits_1 = require("../../utils/limits");
@@ -17,6 +17,43 @@ var readSharedString = function (buffer, offset, prefix, length, delta) {
         bytes: prefix.bytes + length.bytes + pointer.bytes
     };
 };
+var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, options) {
+    var length = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
+        minimum: 0
+    });
+    var cursor = offset + length.bytes;
+    var result = '';
+    while (Buffer.byteLength(result, STRING_ENCODING) < length.value) {
+        var prefix = result.length === 0 ? '' : ' ';
+        var markerResult = decode_1.ARBITRARY__ZIGZAG_VARINT(buffer, cursor, {});
+        cursor += markerResult.bytes;
+        if (markerResult.value > 0) {
+            var fragment = options.index[markerResult.value - 1];
+            assert_1.strict(typeof fragment === 'string');
+            result += prefix + fragment;
+        }
+        else if (markerResult.value < 0) {
+            var fragmentLength = -markerResult.value - 1;
+            assert_1.strict(fragmentLength >= 0);
+            var fragment = buffer.toString(STRING_ENCODING, cursor, cursor + fragmentLength);
+            result += prefix + fragment;
+            cursor += fragmentLength;
+        }
+        else {
+            var lengthMarker = decode_1.FLOOR__ENUM_VARINT(buffer, cursor, {
+                minimum: 0
+            });
+            var fragment = readSharedString(buffer, cursor - markerResult.bytes, markerResult, lengthMarker, 0);
+            result += prefix + fragment.value;
+            cursor += fragment.bytes - 1;
+        }
+    }
+    return {
+        value: result,
+        bytes: cursor - offset
+    };
+};
+exports.STRING_DICTIONARY_COMPRESSOR = STRING_DICTIONARY_COMPRESSOR;
 var URL_PROTOCOL_HOST_REST = function (buffer, offset, _options) {
     var protocol = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
     var host = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocol.bytes, {});

@@ -5,6 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var mapper_1 = require("../../lib/mapper");
+var dictionaries_1 = require("../../lib/encoder/string/dictionaries");
+tap_1.default.test('should encode an unbounded string with contentMediaType: text/plain', function (test) {
+    var schema = {
+        type: 'string',
+        contentMediaType: 'text/plain'
+    };
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema), Infinity);
+    test.strictSame(result, {
+        type: 'string',
+        encoding: 'STRING_DICTIONARY_COMPRESSOR',
+        options: dictionaries_1.ENGLISH_DICTIONARY
+    });
+    test.end();
+});
 tap_1.default.test('should encode string with format: date', function (test) {
     var schema = {
         type: 'string',

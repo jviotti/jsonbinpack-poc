@@ -29,7 +29,8 @@ import {
   BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT,
-  ROOF__MIRROR_ENUM_VARINT
+  ROOF__MIRROR_ENUM_VARINT,
+  ARBITRARY__ZIGZAG_VARINT
 } from '../integer/encode'
 
 import {
@@ -45,7 +46,8 @@ import {
   NoOptions,
   BoundedOptions,
   RoofOptions,
-  FloorOptions
+  FloorOptions,
+  DictionaryOptions
 } from './options'
 
 import {
@@ -81,6 +83,83 @@ const writeMaybeSharedString = (
   return FLOOR__ENUM_VARINT(buffer, offset, offset - stringOffset, {
     minimum: 0
   }, context)
+}
+
+const writeRawString = (
+  buffer: ResizableBuffer, offset: number,
+  value: string, context: EncodingContext
+): number => {
+  // Write shared prefix
+  const prefixBytes: number =
+    maybeWriteSharedPrefix(buffer, offset, value, context)
+
+  // Write string length
+  const length: number = Buffer.byteLength(value, STRING_ENCODING)
+
+  const lengthBytes: number = prefixBytes > 0
+    // The string is shared
+    ? FLOOR__ENUM_VARINT(buffer, offset + prefixBytes, length, {
+      minimum: 0
+    }, context)
+
+    // The string is not shared
+    : ARBITRARY__ZIGZAG_VARINT(buffer, offset + prefixBytes,
+      -length - 1, {}, context)
+
+  // Write the string
+  const stringBytes: number = writeMaybeSharedString(
+    buffer, offset + prefixBytes + lengthBytes, value, length, context)
+
+  return prefixBytes + lengthBytes + stringBytes
+}
+
+export const STRING_DICTIONARY_COMPRESSOR = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  options: DictionaryOptions, context: EncodingContext
+): number => {
+  const WORD_DELIMITER: string = ' '
+  let unmatched: string[] = []
+
+  // Write the length of whole string
+  const length: number = Buffer.byteLength(value, STRING_ENCODING)
+  let bytes = FLOOR__ENUM_VARINT(buffer, offset, length, {
+    minimum: 0
+  }, context)
+
+  if (length === 0) {
+    return bytes
+  }
+
+  for (const fragment of value.split(WORD_DELIMITER)) {
+    const entry: number | undefined = options.dictionary[fragment]
+    if (typeof entry === 'undefined') {
+      unmatched.push(fragment)
+      continue
+    }
+
+    // Ensure the index matches the dictionary
+    assert(options.index[entry] === fragment)
+
+    // Flush unmatched section
+    if (unmatched.length > 0) {
+      bytes += writeRawString(buffer, offset + bytes,
+        unmatched.join(WORD_DELIMITER), context)
+      unmatched = []
+    }
+
+    // Write the dictionary entry index + 1
+    assert(entry >= 0)
+    bytes += ARBITRARY__ZIGZAG_VARINT(
+      buffer, offset + bytes, entry + 1, {}, context)
+  }
+
+  // Flush unmatched section
+  if (unmatched.length > 0) {
+    bytes += writeRawString(buffer, offset + bytes,
+      unmatched.join(WORD_DELIMITER), context)
+  }
+
+  return bytes
 }
 
 export const URL_PROTOCOL_HOST_REST = (

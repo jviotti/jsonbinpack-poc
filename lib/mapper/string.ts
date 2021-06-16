@@ -39,11 +39,22 @@ import {
 } from '../schema'
 
 import {
+  ENGLISH_DICTIONARY
+} from '../encoder/string/dictionaries'
+
+import {
   NoOptions,
   BoundedOptions,
   RoofOptions,
-  FloorOptions
+  FloorOptions,
+  DictionaryOptions
 } from '../encoder/string/options'
+
+export interface STRING_DICTIONARY_COMPRESSOR_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.String;
+  readonly encoding: 'STRING_DICTIONARY_COMPRESSOR';
+  readonly options: DictionaryOptions;
+}
 
 export interface URL_PROTOCOL_HOST_REST_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
@@ -94,6 +105,7 @@ export interface ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING extends BaseEncodingDe
 }
 
 export type StringEncodingNames =
+  'STRING_DICTIONARY_COMPRESSOR' |
   'URL_PROTOCOL_HOST_REST' |
   'RFC3339_DATE_INTEGER_TRIPLET' |
   'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' |
@@ -103,6 +115,7 @@ export type StringEncodingNames =
   'FLOOR__PREFIX_LENGTH_ENUM_VARINT' |
   'ARBITRARY__PREFIX_LENGTH_VARINT'
 export type StringEncoding =
+  STRING_DICTIONARY_COMPRESSOR_ENCODING |
   URL_PROTOCOL_HOST_REST_ENCODING |
   RFC3339_DATE_INTEGER_TRIPLET_ENCODING |
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
@@ -165,6 +178,19 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
       }
     }
   }
+
+  if (schema.contentMediaType === 'text/plain') {
+    return {
+      type: EncodingType.String,
+      encoding: 'STRING_DICTIONARY_COMPRESSOR',
+
+      // We should find a way to express the language of the text
+      // using JSON Schema, so that we can pick the right dictionary
+      // instead of always defaulting to english.
+      options: ENGLISH_DICTIONARY
+    }
+  }
+
   return {
     type: EncodingType.String,
     encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',

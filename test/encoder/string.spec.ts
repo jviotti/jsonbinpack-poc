@@ -18,6 +18,11 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  ENGLISH_DICTIONARY
+} from '../../lib/encoder/string/dictionaries'
+
+import {
+  STRING_DICTIONARY_COMPRESSOR as ENCODE_STRING_DICTIONARY_COMPRESSOR,
   URL_PROTOCOL_HOST_REST as ENCODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as ENCODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED as ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
@@ -30,6 +35,7 @@ import {
 
 import {
   StringResult,
+  STRING_DICTIONARY_COMPRESSOR as DECODE_STRING_DICTIONARY_COMPRESSOR,
   URL_PROTOCOL_HOST_REST as DECODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as DECODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED as DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
@@ -43,7 +49,8 @@ import {
 import {
   BoundedOptions,
   RoofOptions,
-  FloorOptions
+  FloorOptions,
+  DictionaryOptions
 } from '../../lib/encoder/string/options'
 
 import {
@@ -55,6 +62,79 @@ import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: "The quick brown fox jumps over the lazy dog"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'The quick brown fox jumps over the lazy dog'
+  const options: DictionaryOptions = ENGLISH_DICTIONARY
+  const bytesWritten: number =
+    ENCODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context)
+  const result: StringResult = DECODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, options)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: "foo bar baz" with [ bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'foo bar baz'
+
+  const options: DictionaryOptions = {
+    index: [ 'bar' ],
+    dictionary: {
+      bar: 0
+    }
+  }
+
+  const bytesWritten: number =
+    ENCODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context)
+  const result: StringResult = DECODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, options)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: "foo bar foo" with [ bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'foo bar foo'
+
+  const options: DictionaryOptions = {
+    index: [ 'bar' ],
+    dictionary: {
+      bar: 0
+    }
+  }
+
+  const bytesWritten: number =
+    ENCODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context)
+  const result: StringResult = DECODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, options)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('STRING_DICTIONARY_COMPRESSOR: "bar foo foo" with [ bar ]', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'bar foo foo'
+
+  const options: DictionaryOptions = {
+    index: [ 'bar' ],
+    dictionary: {
+      bar: 0
+    }
+  }
+
+  const bytesWritten: number =
+    ENCODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, value, options, context)
+  const result: StringResult = DECODE_STRING_DICTIONARY_COMPRESSOR(buffer, 0, options)
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
 
 tap.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
@@ -319,6 +399,30 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
     const result: StringResult =
       DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('STRING_DICTIONARY_COMPRESSOR (ASCII)', (test) => {
+  fc.assert(fc.property(fc.nat(10), fc.string({
+    maxLength: 1000
+  }), (
+    offset: number, value: string
+  ): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
+    const options: DictionaryOptions = {
+      index: [],
+      dictionary: {}
+    }
+    const bytesWritten: number =
+      ENCODE_STRING_DICTIONARY_COMPRESSOR(buffer, offset, value, options, context)
+    const result: StringResult =
+      DECODE_STRING_DICTIONARY_COMPRESSOR(buffer, offset, options)
+    return result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
   })

@@ -25,7 +25,8 @@
             "type": "string"
         },
         "description": {
-            "type": "string"
+            "type": "string",
+            "contentMediaType": "text/plain"
         },
         "version": {
             "type": "string"
@@ -259,7 +260,8 @@
             }
         },
         "readme": {
-            "type": "string"
+            "type": "string",
+            "contentMediaType": "text/plain"
         },
         "_id": {
             "type": "string"

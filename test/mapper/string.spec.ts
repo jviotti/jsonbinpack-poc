@@ -26,6 +26,27 @@ import {
   getEncoding
 } from '../../lib/mapper'
 
+import {
+  ENGLISH_DICTIONARY
+} from '../../lib/encoder/string/dictionaries'
+
+tap.test('should encode an unbounded string with contentMediaType: text/plain', (test) => {
+  const schema: EncodingSchema = {
+    type: 'string',
+    contentMediaType: 'text/plain'
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema), Infinity)
+  test.strictSame(result, {
+    type: 'string',
+    encoding: 'STRING_DICTIONARY_COMPRESSOR',
+    options: ENGLISH_DICTIONARY
+  })
+
+  test.end()
+})
+
 tap.test('should encode string with format: date', (test) => {
   const schema: EncodingSchema = {
     type: 'string',
