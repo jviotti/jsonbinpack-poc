@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   JSONValue
 } from '../json'
 
@@ -171,6 +175,9 @@ export type Encoding =
   ConstEncoding
 
 export const getEncoding = (schema: EncodingSchema, level: number): Encoding => {
+  // This case should be handled by the canonicalizer
+  assert(typeof schema !== 'boolean')
+
   if ('enum' in schema) {
     return getEnumEncoding(schema, level)
   } else if ('const' in schema) {

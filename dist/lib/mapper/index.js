@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStates = exports.getEncoding = void 0;
+var assert_1 = require("assert");
 var boolean_1 = require("./boolean");
 var null_1 = require("./null");
 var number_1 = require("./number");
@@ -13,6 +14,7 @@ var enum_1 = require("./enum");
 var oneof_1 = require("./oneof");
 var const_1 = require("./const");
 var getEncoding = function (schema, level) {
+    assert_1.strict(typeof schema !== 'boolean');
     if ('enum' in schema) {
         return enum_1.getEnumEncoding(schema, level);
     }

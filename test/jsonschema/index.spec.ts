@@ -29,7 +29,11 @@ import {
 
 import {
   JSONSchema,
-  JSONValue
+  JSONValue,
+  compileSchema,
+  encode,
+  decode,
+  Encoding
 } from '../../lib'
 
 import {
@@ -105,7 +109,10 @@ for (const suitePath of recursiveReadDirectory(JSON_SCHEMA_TESTS_PATH)) {
         const schema: JSONSchema = await preprocessSchema(suite.schema)
         test.true(validateSchema(schema, testCase.data))
 
-        // TODO: Test encoding/decoding
+        const encoding: Encoding = await compileSchema(schema)
+        const buffer: Buffer = encode(encoding, testCase.data)
+        const result: JSONValue = decode(encoding, buffer)
+        test.strictSame(testCase.data, result)
 
         test.end()
       })

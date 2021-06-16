@@ -54,6 +54,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fs_1 = require("fs");
 var path_1 = require("path");
+var lib_1 = require("../../lib");
 var schema_1 = require("../../lib/schema");
 var preprocessor_1 = require("../../lib/preprocessor");
 var SPECIFICATION = 'draft2020-12';
@@ -94,13 +95,19 @@ try {
                     return "continue";
                 }
                 tap_1.default.test(name_1 + " | " + suite.description + " -> " + testCase.description, function (test) { return __awaiter(void 0, void 0, void 0, function () {
-                    var schema;
+                    var schema, encoding, buffer, result;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0: return [4, preprocessor_1.preprocessSchema(suite.schema)];
                             case 1:
                                 schema = _a.sent();
                                 test.true(schema_1.validateSchema(schema, testCase.data));
+                                return [4, lib_1.compileSchema(schema)];
+                            case 2:
+                                encoding = _a.sent();
+                                buffer = lib_1.encode(encoding, testCase.data);
+                                result = lib_1.decode(encoding, buffer);
+                                test.strictSame(testCase.data, result);
                                 test.end();
                                 return [2];
                         }
