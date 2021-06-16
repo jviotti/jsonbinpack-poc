@@ -245,8 +245,8 @@
         },
         "valid-values-author": {
           "type": "array",
-          "minItems": 2,
           "maxItems": 2,
+          "minItems": 2,
           "prefixItems": [
             {
               "enum": [
@@ -265,8 +265,8 @@
         },
         "valid-values-private": {
           "type": "array",
-          "minItems": 2,
           "maxItems": 2,
+          "minItems": 2,
           "prefixItems": [
             {
               "enum": [
@@ -285,8 +285,8 @@
         },
         "no-restricted-dependencies": {
           "type": "array",
-          "minItems": 2,
           "maxItems": 2,
+          "minItems": 2,
           "prefixItems": [
             {
               "enum": [
@@ -305,8 +305,8 @@
         },
         "no-restricted-pre-release-dependencies": {
           "type": "array",
-          "minItems": 2,
           "maxItems": 2,
+          "minItems": 2,
           "prefixItems": [
             {
               "enum": [
@@ -325,8 +325,8 @@
         },
         "no-restricted-invalid-devDependencies": {
           "type": "array",
-          "minItems": 2,
           "maxItems": 2,
+          "minItems": 2,
           "prefixItems": [
             {
               "enum": [
@@ -345,8 +345,8 @@
         },
         "no-restricted-pre-release-devDependencies": {
           "type": "array",
-          "minItems": 2,
           "maxItems": 2,
+          "minItems": 2,
           "prefixItems": [
             {
               "enum": [

@@ -21,6 +21,7 @@ import {
 import {
   pick,
   omit,
+  mapValues,
   merge,
   uniqWith,
   isEqual,
@@ -100,6 +101,34 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
       schema.items !== null
     ))
     Reflect.set(schema, 'items', canonicalizeSchema(schema.items))
+  }
+
+  if (typeof schema.additionalProperties !== 'undefined') {
+    assert(typeof schema.additionalProperties === 'boolean' || (
+      typeof schema.additionalProperties === 'object' &&
+      !Array.isArray(schema.additionalProperties) &&
+      schema.additionalProperties !== null
+    ))
+
+    if (schema.additionalProperties !== false) {
+      Reflect.set(schema, 'additionalProperties',
+        canonicalizeSchema(schema.additionalProperties))
+    }
+  }
+
+  if (typeof schema.properties !== 'undefined') {
+    assert(typeof schema.properties === 'object' &&
+      !Array.isArray(schema.properties) &&
+      schema.properties !== null)
+
+    Reflect.set(schema, 'properties',
+      mapValues(schema.properties, (subschema) => {
+        assert(typeof subschema === 'boolean' ||
+          (typeof subschema === 'object' &&
+          !Array.isArray(subschema) &&
+          subschema !== null))
+        return canonicalizeSchema(subschema)
+      }))
   }
 
   if (typeof schema.propertyNames !== 'undefined') {

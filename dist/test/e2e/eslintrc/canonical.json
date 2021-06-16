@@ -56,7 +56,6 @@
     },
     "rules": {
       "type": "object",
-      "maxProperties": 39,
       "additionalProperties": {
         "type": "integer",
         "minimum": 0,
@@ -106,8 +105,8 @@
       "properties": {
         "valid-jsdoc": {
           "type": "array",
-          "minItems": 2,
           "maxItems": 2,
+          "minItems": 2,
           "prefixItems": [
             {
               "type": "integer",
@@ -128,7 +127,8 @@
             }
           ]
         }
-      }
+      },
+      "maxProperties": 39
     }
   }
 }

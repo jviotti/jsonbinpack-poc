@@ -16,8 +16,8 @@
       },
       "coord": {
         "type": "array",
-        "minItems": 2,
         "maxItems": 2,
+        "minItems": 2,
         "items": {
           "type": "number"
         }

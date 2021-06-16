@@ -233,3 +233,90 @@ tap_1.default.test('should canonicalize an any array without a type', function (
     });
     test.end();
 });
+tap_1.default.test('should canonicalize an any array with prefixItems and uniqueItems', function (test) {
+    var result = canonical_1.canonicalizeSchema({
+        prefixItems: [
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'boolean'
+            }
+        ],
+        uniqueItems: false
+    });
+    test.strictSame(result, {
+        anyOf: [
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'integer',
+            },
+            {
+                type: 'null'
+            },
+            {
+                type: 'number'
+            },
+            {
+                type: 'string'
+            },
+            {
+                type: 'array',
+                prefixItems: [
+                    {
+                        type: 'boolean'
+                    },
+                    {
+                        type: 'boolean'
+                    }
+                ]
+            },
+            {
+                type: 'object'
+            }
+        ]
+    });
+    test.end();
+});
+tap_1.default.test('should canonicalize an any object with truthy properties', function (test) {
+    var result = canonical_1.canonicalizeSchema({
+        required: ['bar'],
+        properties: {
+            bar: true,
+            baz: true
+        }
+    });
+    test.strictSame(result, {
+        anyOf: [
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'integer',
+            },
+            {
+                type: 'null'
+            },
+            {
+                type: 'number'
+            },
+            {
+                type: 'string'
+            },
+            {
+                type: 'array'
+            },
+            {
+                type: 'object',
+                required: ['bar'],
+                properties: {
+                    bar: {},
+                    baz: {}
+                }
+            }
+        ]
+    });
+    test.end();
+});
