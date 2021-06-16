@@ -34,7 +34,7 @@ tap_1.default.test('should canonicalize a multiple-type schema', function (test)
         }
     });
     test.strictSame(result, {
-        oneOf: [
+        anyOf: [
             {
                 type: 'object',
                 properties: {
@@ -171,16 +171,63 @@ tap_1.default.test('should canonicalize a oneOf schema lacking a type', function
                 type: 'integer'
             },
             {
-                type: [
-                    'boolean',
-                    'integer',
-                    'null',
-                    'number',
-                    'string',
-                    'array',
-                    'object'
-                ],
-                minimum: 2
+                anyOf: [
+                    {
+                        type: 'boolean'
+                    },
+                    {
+                        type: 'integer',
+                        minimum: 2
+                    },
+                    {
+                        type: 'null'
+                    },
+                    {
+                        type: 'number',
+                        minimum: 2
+                    },
+                    {
+                        type: 'string'
+                    },
+                    {
+                        type: 'array'
+                    },
+                    {
+                        type: 'object'
+                    }
+                ]
+            }
+        ]
+    });
+    test.end();
+});
+tap_1.default.test('should canonicalize an any array without a type', function (test) {
+    var result = canonical_1.canonicalizeSchema({
+        items: true
+    });
+    test.strictSame(result, {
+        anyOf: [
+            {
+                type: 'boolean'
+            },
+            {
+                type: 'integer',
+            },
+            {
+                type: 'null'
+            },
+            {
+                type: 'number'
+            },
+            {
+                type: 'string'
+            },
+            {
+                type: 'array',
+                items: {}
+            },
+            {
+                type: 'object'
             }
         ]
     });
