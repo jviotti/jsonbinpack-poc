@@ -37,7 +37,8 @@ import {
 } from '../../lib'
 
 import {
-  validateSchema
+  validateSchema,
+  EncodingSchema
 } from '../../lib/schema'
 
 import {
@@ -57,17 +58,24 @@ for (const testCase of readdirSync(TEST_DIRECTORY)) {
     const schema: JSONSchema = JSON.parse(readFileSync(resolve(testCasePath, 'schema.json'), 'utf8'))
     const value: JSONValue = JSON.parse(readFileSync(resolve(testCasePath, 'document.json'), 'utf8'))
 
-    test.true(validateSchema(await preprocessSchema(schema), value))
+    const encodingSchema: EncodingSchema = await preprocessSchema(schema)
+    test.true(validateSchema(encodingSchema, value))
 
     const encoding: Encoding = await compileSchema(schema)
 
-    // Record the encoding schema for debugging purposes
+    // Record the encoding and canonical schemas for debugging purposes
     writeFileSync(
       resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'),
       JSON.stringify(encoding, null, 2), 'utf8')
     writeFileSync(
       resolve(TEST_DIRECTORY, testCase, 'encoding.json'),
       JSON.stringify(encoding, null, 2), 'utf8')
+    writeFileSync(
+      resolve(SRC_TEST_DIRECTORY, testCase, 'canonical.json'),
+      JSON.stringify(encodingSchema, null, 2), 'utf8')
+    writeFileSync(
+      resolve(TEST_DIRECTORY, testCase, 'canonical.json'),
+      JSON.stringify(encodingSchema, null, 2), 'utf8')
 
     const buffer: Buffer = encode(encoding, value)
     const result: JSONValue = decode(encoding, buffer)
