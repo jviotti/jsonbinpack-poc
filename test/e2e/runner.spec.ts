@@ -17,6 +17,10 @@
 import tap from 'tap'
 
 import {
+  isDeepStrictEqual
+} from 'util'
+
+import {
   readdirSync,
   readFileSync,
   writeFileSync,
@@ -48,6 +52,31 @@ import {
 const TEST_DIRECTORY: string = __dirname
 const SRC_TEST_DIRECTORY: string = resolve(__dirname, '..', '..', '..', 'test', 'e2e')
 
+const safeReadFile = (filePath: string): string | null => {
+  try {
+    return readFileSync(filePath, 'utf8')
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return null
+    }
+
+    throw error
+  }
+}
+
+const writeResult = (testCase: string, name: string, value: Encoding | EncodingSchema): void => {
+  const destination: string = resolve(SRC_TEST_DIRECTORY, testCase, name)
+
+  const currentContent: string | null = safeReadFile(destination)
+  if (typeof currentContent === 'string' &&
+    isDeepStrictEqual(JSON.parse(currentContent), value)) {
+    return
+  }
+
+  const content: string = JSON.stringify(value, null, 2)
+  writeFileSync(destination, `${content}\n`, 'utf8')
+}
+
 for (const testCase of readdirSync(TEST_DIRECTORY)) {
   const testCasePath: string = resolve(TEST_DIRECTORY, testCase)
   if (!statSync(testCasePath).isDirectory()) {
@@ -64,18 +93,8 @@ for (const testCase of readdirSync(TEST_DIRECTORY)) {
     const encoding: Encoding = await compileSchema(schema)
 
     // Record the encoding and canonical schemas for debugging purposes
-    writeFileSync(
-      resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'),
-      JSON.stringify(encoding, null, 2), 'utf8')
-    writeFileSync(
-      resolve(TEST_DIRECTORY, testCase, 'encoding.json'),
-      JSON.stringify(encoding, null, 2), 'utf8')
-    writeFileSync(
-      resolve(SRC_TEST_DIRECTORY, testCase, 'canonical.json'),
-      JSON.stringify(encodingSchema, null, 2), 'utf8')
-    writeFileSync(
-      resolve(TEST_DIRECTORY, testCase, 'canonical.json'),
-      JSON.stringify(encodingSchema, null, 2), 'utf8')
+    writeResult(testCase, 'encoding.json', encoding)
+    writeResult(testCase, 'canonical.json', encodingSchema)
 
     const buffer: Buffer = encode(encoding, value)
     const result: JSONValue = decode(encoding, buffer)
@@ -84,7 +103,8 @@ for (const testCase of readdirSync(TEST_DIRECTORY)) {
     writeFileSync(resolve(SRC_TEST_DIRECTORY, testCase, 'output.bin'), buffer)
 
     // Record the buffer size for debugging purposes
-    writeFileSync(resolve(SRC_TEST_DIRECTORY, testCase, 'size'), String(buffer.length), 'utf8')
+    const size: string = String(buffer.length)
+    writeFileSync(resolve(SRC_TEST_DIRECTORY, testCase, 'size'), `${size}\n`, 'utf8')
 
     test.strictSame(value, result)
     test.end()

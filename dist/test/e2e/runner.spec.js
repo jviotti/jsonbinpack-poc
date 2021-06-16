@@ -52,6 +52,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 var e_1, _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
+var util_1 = require("util");
 var fs_1 = require("fs");
 var path_1 = require("path");
 var lib_1 = require("../../lib");
@@ -59,13 +60,34 @@ var schema_1 = require("../../lib/schema");
 var preprocessor_1 = require("../../lib/preprocessor");
 var TEST_DIRECTORY = __dirname;
 var SRC_TEST_DIRECTORY = path_1.resolve(__dirname, '..', '..', '..', 'test', 'e2e');
+var safeReadFile = function (filePath) {
+    try {
+        return fs_1.readFileSync(filePath, 'utf8');
+    }
+    catch (error) {
+        if (error.code === 'ENOENT') {
+            return null;
+        }
+        throw error;
+    }
+};
+var writeResult = function (testCase, name, value) {
+    var destination = path_1.resolve(SRC_TEST_DIRECTORY, testCase, name);
+    var currentContent = safeReadFile(destination);
+    if (typeof currentContent === 'string' &&
+        util_1.isDeepStrictEqual(JSON.parse(currentContent), value)) {
+        return;
+    }
+    var content = JSON.stringify(value, null, 2);
+    fs_1.writeFileSync(destination, content + "\n", 'utf8');
+};
 var _loop_1 = function (testCase) {
     var testCasePath = path_1.resolve(TEST_DIRECTORY, testCase);
     if (!fs_1.statSync(testCasePath).isDirectory()) {
         return "continue";
     }
     tap_1.default.test(testCase, function (test) { return __awaiter(void 0, void 0, void 0, function () {
-        var schema, value, encodingSchema, encoding, buffer, result;
+        var schema, value, encodingSchema, encoding, buffer, result, size;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -78,14 +100,13 @@ var _loop_1 = function (testCase) {
                     return [4, lib_1.compileSchema(schema)];
                 case 2:
                     encoding = _a.sent();
-                    fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
-                    fs_1.writeFileSync(path_1.resolve(TEST_DIRECTORY, testCase, 'encoding.json'), JSON.stringify(encoding, null, 2), 'utf8');
-                    fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'canonical.json'), JSON.stringify(encodingSchema, null, 2), 'utf8');
-                    fs_1.writeFileSync(path_1.resolve(TEST_DIRECTORY, testCase, 'canonical.json'), JSON.stringify(encodingSchema, null, 2), 'utf8');
+                    writeResult(testCase, 'encoding.json', encoding);
+                    writeResult(testCase, 'canonical.json', encodingSchema);
                     buffer = lib_1.encode(encoding, value);
                     result = lib_1.decode(encoding, buffer);
                     fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'output.bin'), buffer);
-                    fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'size'), String(buffer.length), 'utf8');
+                    size = String(buffer.length);
+                    fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, 'size'), size + "\n", 'utf8');
                     test.strictSame(value, result);
                     test.end();
                     return [2];
