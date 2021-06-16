@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   pick,
   omit,
   merge,
@@ -45,7 +49,8 @@ const SCHEMA_BOOLEAN_KEYS: Array<keyof BooleanEncodingSchema> = [ 'type' ]
 const SCHEMA_INTEGER_KEYS: Array<keyof IntegerEncodingSchema> =
   [ 'type', 'minimum', 'maximum', 'multipleOf' ]
 const SCHEMA_NULL_KEYS: Array<keyof NullEncodingSchema> = [ 'type' ]
-const SCHEMA_NUMBER_KEYS: Array<keyof NumberEncodingSchema> = [ 'type' ]
+const SCHEMA_NUMBER_KEYS: Array<keyof NumberEncodingSchema> =
+  [ 'type', 'maximum', 'minimum' ]
 const SCHEMA_STRING_KEYS: Array<keyof StringEncodingSchema> =
   [ 'type', 'maxLength', 'minLength', 'format', 'contentEncoding', 'contentMediaType', 'contentSchema' ]
 const SCHEMA_ARRAY_KEYS: Array<keyof ArrayEncodingSchema> =
@@ -88,6 +93,38 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     }
   }
 
+  if (typeof schema.items !== 'undefined') {
+    assert(typeof schema.items === 'boolean' || (
+      typeof schema.items === 'object' &&
+      !Array.isArray(schema.items) &&
+      schema.items !== null
+    ))
+    Reflect.set(schema, 'items', canonicalizeSchema(schema.items))
+  }
+
+  if (typeof schema.propertyNames !== 'undefined') {
+    assert(typeof schema.propertyNames === 'boolean' || (
+      typeof schema.propertyNames === 'object' &&
+      !Array.isArray(schema.propertyNames) &&
+      schema.propertyNames !== null
+    ))
+    Reflect.set(schema, 'propertyNames',
+      canonicalizeSchema(schema.propertyNames))
+  }
+
+  if (typeof schema.prefixItems !== 'undefined') {
+    assert(Array.isArray(schema.prefixItems))
+    Reflect.set(schema, 'prefixItems', schema.prefixItems.map((subschema) => {
+      assert(typeof subschema === 'boolean' || (
+        typeof subschema === 'object' &&
+        !Array.isArray(subschema) &&
+        subschema !== null
+      ))
+
+      return canonicalizeSchema(subschema)
+    }))
+  }
+
   if (Array.isArray(schema.allOf)) {
     return canonicalizeSchema(merge({}, ...schema.allOf))
   } else if (Array.isArray(schema.oneOf)) {
@@ -104,11 +141,25 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     return {
       oneOf: uniqueBranches
     }
+  } else if (Array.isArray(schema.anyOf)) {
+    const branches: EncodingSchema[] = schema.anyOf.map((choice: JSONValue) => {
+      return canonicalizeSchema(merge(cloneDeep(choice), omit(schema, [ 'anyOf' ])))
+    })
+
+    // Attempt to collapse the anyOf as much as possible
+    const uniqueBranches: EncodingSchema[] = uniqWith(branches, isEqual)
+    if (uniqueBranches.length === 1) {
+      return uniqueBranches[0]
+    }
+
+    return {
+      anyOf: uniqueBranches
+    }
   }
 
   if (Array.isArray(schema.type)) {
     return {
-      oneOf: schema.type.map((type: JSONValue) => {
+      anyOf: schema.type.map((type: JSONValue) => {
         return canonicalizeSchema({
           ...schema,
           type
@@ -123,7 +174,8 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     case 'null': return pick(schema, SCHEMA_NULL_KEYS)
     case 'number': return pick(schema, SCHEMA_NUMBER_KEYS)
     case 'string': return pick(schema, SCHEMA_STRING_KEYS)
-    case 'array': return pick(schema, SCHEMA_ARRAY_KEYS)
+    case 'array':
+      return  pick(schema, SCHEMA_ARRAY_KEYS)
     case 'object': return pick(schema, SCHEMA_OBJECT_KEYS)
 
     // The any type
@@ -150,7 +202,7 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
           result.additionalProperties = true
         }
 
-        return result
+        return canonicalizeSchema(result)
       }
 
       return {}

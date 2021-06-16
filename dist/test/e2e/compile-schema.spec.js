@@ -111,32 +111,36 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                             },
                             {
                                 schema: {
-                                    minimum: 2,
-                                    type: [
-                                        'boolean',
-                                        'integer',
-                                        'null',
-                                        'number',
-                                        'string',
-                                        'array',
-                                        'object'
+                                    anyOf: [
+                                        {
+                                            type: 'boolean'
+                                        },
+                                        {
+                                            type: 'integer',
+                                            minimum: 2
+                                        },
+                                        {
+                                            type: 'null'
+                                        },
+                                        {
+                                            type: 'number',
+                                            minimum: 2
+                                        },
+                                        {
+                                            type: 'string'
+                                        },
+                                        {
+                                            type: 'array'
+                                        },
+                                        {
+                                            type: 'object'
+                                        }
                                     ]
                                 },
                                 encoding: {
-                                    type: 'object',
-                                    encoding: 'ARBITRARY_TYPED_KEYS_OBJECT',
-                                    options: {
-                                        encoding: {
-                                            type: 'any',
-                                            encoding: 'ANY__TYPE_PREFIX',
-                                            options: {}
-                                        },
-                                        keyEncoding: {
-                                            type: 'string',
-                                            encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                                            options: {}
-                                        }
-                                    }
+                                    type: 'any',
+                                    encoding: 'ANY__TYPE_PREFIX',
+                                    options: {}
                                 }
                             }
                         ]

@@ -43,6 +43,8 @@ export interface NullEncodingSchema {
 
 export interface NumberEncodingSchema {
   readonly type: 'number';
+  readonly minimum?: number;
+  readonly maximum?: number;
 }
 
 export interface StringEncodingSchema {
