@@ -5,7 +5,7 @@
     "propertyEncodings": {
       "version": {
         "type": "string",
-        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "encoding": "URL_PROTOCOL_HOST_REST",
         "options": {}
       },
       "user_comment": {
@@ -20,12 +20,12 @@
       },
       "home_page_url": {
         "type": "string",
-        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "encoding": "URL_PROTOCOL_HOST_REST",
         "options": {}
       },
       "feed_url": {
         "type": "string",
-        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "encoding": "URL_PROTOCOL_HOST_REST",
         "options": {}
       },
       "author": {
@@ -40,12 +40,12 @@
             },
             "url": {
               "type": "string",
-              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "encoding": "URL_PROTOCOL_HOST_REST",
               "options": {}
             },
             "avatar": {
               "type": "string",
-              "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+              "encoding": "URL_PROTOCOL_HOST_REST",
               "options": {}
             }
           },
@@ -73,7 +73,7 @@
                 },
                 "url": {
                   "type": "string",
-                  "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                  "encoding": "URL_PROTOCOL_HOST_REST",
                   "options": {}
                 },
                 "content_text": {

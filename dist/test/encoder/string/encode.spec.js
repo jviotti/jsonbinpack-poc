@@ -6,6 +6,50 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var encode_1 = require("../../../lib/encoder/string/encode");
 var encoder_1 = require("../../../lib/encoder");
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x07,
+        0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+        0x0b,
+        0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+        0x01
+    ]));
+    test.is(bytesWritten, 19);
+    test.end();
+});
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x07,
+        0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+        0x0b,
+        0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+        0x02,
+        0x2f
+    ]));
+    test.is(bytesWritten, 20);
+    test.end();
+});
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/foo', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x07,
+        0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+        0x0b,
+        0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+        0x05,
+        0x2f, 0x66, 0x6f, 0x6f
+    ]));
+    test.is(bytesWritten, 23);
+    test.end();
+});
 tap_1.default.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));

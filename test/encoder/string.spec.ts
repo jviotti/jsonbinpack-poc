@@ -18,6 +18,7 @@ import tap from 'tap'
 import * as fc from 'fast-check'
 
 import {
+  URL_PROTOCOL_HOST_REST as ENCODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as ENCODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED as ENCODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT as ENCODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
@@ -29,6 +30,7 @@ import {
 
 import {
   StringResult,
+  URL_PROTOCOL_HOST_REST as DECODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as DECODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED as DECODE_BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT as DECODE_BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
@@ -53,6 +55,78 @@ import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
+
+tap.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'https://google.com'
+  const bytesWritten: number =
+    ENCODE_URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_URL_PROTOCOL_HOST_REST(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'https://google.com/'
+  const bytesWritten: number =
+    ENCODE_URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_URL_PROTOCOL_HOST_REST(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/foo"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'https://google.com/foo'
+  const bytesWritten: number =
+    ENCODE_URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_URL_PROTOCOL_HOST_REST(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/foo?q=x"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'https://google.com/foo?q=x'
+  const bytesWritten: number =
+    ENCODE_URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_URL_PROTOCOL_HOST_REST(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('URL_PROTOCOL_HOST_REST: should handle "https://google.com/foo#hello"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'https://google.com/foo#hello'
+  const bytesWritten: number =
+    ENCODE_URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_URL_PROTOCOL_HOST_REST(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('URL_PROTOCOL_HOST_REST: should handle "git://github.com/gruntjs/grunt.git"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'git://github.com/gruntjs/grunt.git'
+  const bytesWritten: number =
+    ENCODE_URL_PROTOCOL_HOST_REST(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_URL_PROTOCOL_HOST_REST(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
 
 tap.test('RFC3339_DATE_INTEGER_TRIPLET: should handle "2014-10-01"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()

@@ -35,7 +35,7 @@
                         },
                         "website": {
                             "type": "string",
-                            "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                            "encoding": "URL_PROTOCOL_HOST_REST",
                             "options": {}
                         },
                         "summary": {
@@ -156,7 +156,7 @@
                                 },
                                 "website": {
                                     "type": "string",
-                                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                                    "encoding": "URL_PROTOCOL_HOST_REST",
                                     "options": {}
                                 },
                                 "startDate": {
@@ -223,7 +223,7 @@
                                 },
                                 "website": {
                                     "type": "string",
-                                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                                    "encoding": "URL_PROTOCOL_HOST_REST",
                                     "options": {}
                                 },
                                 "startDate": {
@@ -404,7 +404,7 @@
                                 },
                                 "website": {
                                     "type": "string",
-                                    "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+                                    "encoding": "URL_PROTOCOL_HOST_REST",
                                     "options": {}
                                 },
                                 "summary": {

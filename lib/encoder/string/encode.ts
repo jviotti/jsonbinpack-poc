@@ -83,6 +83,21 @@ const writeMaybeSharedString = (
   }, context)
 }
 
+export const URL_PROTOCOL_HOST_REST = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  _options: NoOptions, context: EncodingContext
+): number => {
+  const url = new URL(value)
+  const protocolBytes: number = ARBITRARY__PREFIX_LENGTH_VARINT(
+    buffer, offset, url.protocol, {}, context)
+  const hostBytes: number = ARBITRARY__PREFIX_LENGTH_VARINT(
+    buffer, offset + protocolBytes, url.host, {}, context)
+  const rest: string = value.replace(`${url.protocol}//${url.host}`, '')
+  const restBytes: number = ARBITRARY__PREFIX_LENGTH_VARINT(
+    buffer, offset + protocolBytes + hostBytes, rest, {}, context)
+  return protocolBytes + hostBytes + restBytes
+}
+
 export const RFC3339_DATE_INTEGER_TRIPLET = (
   buffer: ResizableBuffer, offset: number, value: JSONString,
   _options: NoOptions, _context: EncodingContext

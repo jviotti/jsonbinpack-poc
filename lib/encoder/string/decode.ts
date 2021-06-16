@@ -74,6 +74,22 @@ const readSharedString = (
   }
 }
 
+export const URL_PROTOCOL_HOST_REST = (
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
+): StringResult => {
+  const protocol: StringResult =
+    ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
+  const host: StringResult =
+    ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocol.bytes, {})
+  const rest: StringResult =
+    ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocol.bytes + host.bytes, {})
+
+  return {
+    value: `${protocol.value}//${host.value}${rest.value}`,
+    bytes: protocol.bytes + host.bytes + rest.bytes
+  }
+}
+
 export const RFC3339_DATE_INTEGER_TRIPLET = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): StringResult => {

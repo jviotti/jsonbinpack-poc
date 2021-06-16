@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = void 0;
+exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = void 0;
 var assert_1 = require("assert");
 var encode_1 = require("../integer/encode");
 var limits_1 = require("../../utils/limits");
@@ -36,6 +36,15 @@ var writeMaybeSharedString = function (buffer, offset, value, length, context) {
         minimum: 0
     }, context);
 };
+var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context) {
+    var url = new URL(value);
+    var protocolBytes = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, url.protocol, {}, context);
+    var hostBytes = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocolBytes, url.host, {}, context);
+    var rest = value.replace(url.protocol + "//" + url.host, '');
+    var restBytes = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocolBytes + hostBytes, rest, {}, context);
+    return protocolBytes + hostBytes + restBytes;
+};
+exports.URL_PROTOCOL_HOST_REST = URL_PROTOCOL_HOST_REST;
 var RFC3339_DATE_INTEGER_TRIPLET = function (buffer, offset, value, _options, _context) {
     var e_1, _a;
     var date = [];

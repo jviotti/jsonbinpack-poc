@@ -5,7 +5,7 @@
     "propertyEncodings": {
       "site": {
         "type": "string",
-        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "encoding": "URL_PROTOCOL_HOST_REST",
         "options": {}
       },
       "maxAge": {
@@ -17,7 +17,7 @@
       },
       "reportUrl": {
         "type": "string",
-        "encoding": "ARBITRARY__PREFIX_LENGTH_VARINT",
+        "encoding": "URL_PROTOCOL_HOST_REST",
         "options": {}
       },
       "defaultNavBehavior": {
