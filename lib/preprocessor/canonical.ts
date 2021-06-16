@@ -102,6 +102,29 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     Reflect.set(schema, 'items', canonicalizeSchema(schema.items))
   }
 
+  if (typeof schema.propertyNames !== 'undefined') {
+    assert(typeof schema.propertyNames === 'boolean' || (
+      typeof schema.propertyNames === 'object' &&
+      !Array.isArray(schema.propertyNames) &&
+      schema.propertyNames !== null
+    ))
+    Reflect.set(schema, 'propertyNames',
+      canonicalizeSchema(schema.propertyNames))
+  }
+
+  if (typeof schema.prefixItems !== 'undefined') {
+    assert(Array.isArray(schema.prefixItems))
+    Reflect.set(schema, 'prefixItems', schema.prefixItems.map((subschema) => {
+      assert(typeof subschema === 'boolean' || (
+        typeof subschema === 'object' &&
+        !Array.isArray(subschema) &&
+        subschema !== null
+      ))
+
+      return canonicalizeSchema(subschema)
+    }))
+  }
+
   if (Array.isArray(schema.allOf)) {
     return canonicalizeSchema(merge({}, ...schema.allOf))
   } else if (Array.isArray(schema.oneOf)) {

@@ -63,6 +63,21 @@ var canonicalizeSchema = function (schema) {
             schema.items !== null));
         Reflect.set(schema, 'items', exports.canonicalizeSchema(schema.items));
     }
+    if (typeof schema.propertyNames !== 'undefined') {
+        assert_1.strict(typeof schema.propertyNames === 'boolean' || (typeof schema.propertyNames === 'object' &&
+            !Array.isArray(schema.propertyNames) &&
+            schema.propertyNames !== null));
+        Reflect.set(schema, 'propertyNames', exports.canonicalizeSchema(schema.propertyNames));
+    }
+    if (typeof schema.prefixItems !== 'undefined') {
+        assert_1.strict(Array.isArray(schema.prefixItems));
+        Reflect.set(schema, 'prefixItems', schema.prefixItems.map(function (subschema) {
+            assert_1.strict(typeof subschema === 'boolean' || (typeof subschema === 'object' &&
+                !Array.isArray(subschema) &&
+                subschema !== null));
+            return exports.canonicalizeSchema(subschema);
+        }));
+    }
     if (Array.isArray(schema.allOf)) {
         return exports.canonicalizeSchema(lodash_1.merge.apply(void 0, __spreadArray([{}], __read(schema.allOf))));
     }
