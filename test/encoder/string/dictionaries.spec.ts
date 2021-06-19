@@ -24,6 +24,9 @@ tap.test('ENGLISH_DICTIONARY', (test) => {
   test.is(ENGLISH_DICTIONARY.index.length,
     Object.keys(ENGLISH_DICTIONARY.dictionary).length)
 
+  // Uniqueness check
+  test.is(Array.from(new Set(ENGLISH_DICTIONARY.index)).length, ENGLISH_DICTIONARY.index.length)
+
   test.true(ENGLISH_DICTIONARY.index.every((word: string, index: number): boolean => {
     return ENGLISH_DICTIONARY.dictionary[word] === index
   }))
