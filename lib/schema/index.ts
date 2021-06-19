@@ -64,10 +64,7 @@ export interface StringEncodingSchema {
   'json-pointer' | 'relative-json-pointer' |
   'regex';
 
-  // TODO: We can use these in the future to apply more clever encodings
-  readonly contentEncoding?: string;
   readonly contentMediaType?: string;
-  readonly contentSchema?: EncodingSchema;
 }
 
 export interface AnyEncodingSchema {}
