@@ -53,7 +53,7 @@ const SCHEMA_NULL_KEYS: Array<keyof NullEncodingSchema> = [ 'type' ]
 const SCHEMA_NUMBER_KEYS: Array<keyof NumberEncodingSchema> =
   [ 'type', 'maximum', 'minimum' ]
 const SCHEMA_STRING_KEYS: Array<keyof StringEncodingSchema> =
-  [ 'type', 'maxLength', 'minLength', 'format', 'contentEncoding', 'contentMediaType', 'contentSchema' ]
+  [ 'type', 'maxLength', 'minLength', 'format', 'contentMediaType' ]
 const SCHEMA_ARRAY_KEYS: Array<keyof ArrayEncodingSchema> =
   [ 'type', 'maxItems', 'minItems', 'items', 'prefixItems' ]
 const SCHEMA_OBJECT_KEYS: Array<keyof ObjectEncodingSchema> =
