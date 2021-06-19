@@ -26,3 +26,6 @@ jobs:
 
     - name: Build project
       run: make all
+
+    - name: Check that there are no uncommitted changes
+      run: rm -rf dist && npm run tsc && ./scripts/no-staged-uncommitted-files.sh
