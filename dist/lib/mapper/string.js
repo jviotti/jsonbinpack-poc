@@ -4,6 +4,7 @@ exports.getStringEncoding = exports.getStringStates = void 0;
 var assert_1 = require("assert");
 var encoder_1 = require("../encoder");
 var limits_1 = require("../utils/limits");
+var dictionaries_1 = require("../encoder/string/dictionaries");
 var getStringStates = function (_schema) {
     return Infinity;
 };
@@ -56,6 +57,13 @@ var getStringEncoding = function (schema, _level) {
             options: {
                 maximum: schema.maxLength
             }
+        };
+    }
+    if (schema.contentMediaType === 'text/plain') {
+        return {
+            type: encoder_1.EncodingType.String,
+            encoding: 'STRING_DICTIONARY_COMPRESSOR',
+            options: dictionaries_1.ENGLISH_DICTIONARY
         };
     }
     return {

@@ -29,6 +29,7 @@ import {
   BOUNDED_8BITS__ENUM_FIXED,
   BOUNDED__ENUM_VARINT,
   FLOOR__ENUM_VARINT,
+  ARBITRARY__ZIGZAG_VARINT,
   ROOF__MIRROR_ENUM_VARINT
 } from '../integer/decode'
 
@@ -36,7 +37,8 @@ import {
   NoOptions,
   BoundedOptions,
   RoofOptions,
-  FloorOptions
+  FloorOptions,
+  DictionaryOptions
 } from './options'
 
 import {
@@ -71,6 +73,56 @@ const readSharedString = (
     value: buffer.toString(
       STRING_ENCODING, stringOffset, stringOffset + length.value + delta),
     bytes: prefix.bytes + length.bytes + pointer.bytes
+  }
+}
+
+export const STRING_DICTIONARY_COMPRESSOR = (
+  buffer: ResizableBuffer, offset: number, options: DictionaryOptions
+): StringResult => {
+  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+    minimum: 0
+  })
+
+  let cursor: number = offset + length.bytes
+  let result: string = ''
+
+  while (Buffer.byteLength(result, STRING_ENCODING) < length.value) {
+    const prefix: string = result.length === 0 ? '' : ' '
+    const markerResult: IntegerResult =
+      ARBITRARY__ZIGZAG_VARINT(buffer, cursor, {})
+    cursor += markerResult.bytes
+
+    // Read a fragment from the dictionary
+    if (markerResult.value > 0) {
+      const fragment: string | undefined = options.index[markerResult.value - 1]
+      assert(typeof fragment === 'string')
+      result += prefix + fragment
+
+    // Read a raw fragment
+    } else if (markerResult.value < 0) {
+      const fragmentLength: number = -markerResult.value - 1
+      assert(fragmentLength >= 0)
+      const fragment: string =
+        buffer.toString(STRING_ENCODING, cursor, cursor + fragmentLength)
+      result += prefix + fragment
+      cursor += fragmentLength
+
+    // Read a shared string
+    } else {
+      const lengthMarker: IntegerResult =
+        FLOOR__ENUM_VARINT(buffer, cursor, {
+          minimum: 0
+        })
+      const fragment: StringResult = readSharedString(
+        buffer, cursor - markerResult.bytes, markerResult, lengthMarker, 0)
+      result += prefix + fragment.value
+      cursor += fragment.bytes - 1
+    }
+  }
+
+  return {
+    value: result,
+    bytes: cursor - offset
   }
 }
 

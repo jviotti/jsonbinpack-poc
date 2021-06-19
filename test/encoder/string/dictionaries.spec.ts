@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
+import tap from 'tap'
+
 import {
-  NoOptions,
-  BoundedOptions,
-  RoofOptions,
-  FloorOptions
-} from '../integer/options'
+  ENGLISH_DICTIONARY
+} from '../../../lib/encoder/string/dictionaries'
 
-export {
-  NoOptions,
-  BoundedOptions,
-  RoofOptions,
-  FloorOptions
-} from '../integer/options'
+tap.test('ENGLISH_DICTIONARY', (test) => {
+  test.is(ENGLISH_DICTIONARY.index.length,
+    Object.keys(ENGLISH_DICTIONARY.dictionary).length)
 
-export interface DictionaryOptions {
-  readonly dictionary: Record<string, number>;
-  readonly index: string[];
-}
+  test.true(ENGLISH_DICTIONARY.index.every((word: string, index: number): boolean => {
+    return ENGLISH_DICTIONARY.dictionary[word] === index
+  }))
 
-export type StringOptions =
-  NoOptions |
-  DictionaryOptions |
-  BoundedOptions |
-  RoofOptions |
-  FloorOptions
+  test.end()
+})
