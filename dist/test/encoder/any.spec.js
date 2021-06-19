@@ -66,6 +66,20 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', func
     test.strictSame(result.value, ['foo', true, 2000]);
     test.end();
 });
+tap_1.default.skip('ANY__TYPE_PREFIX: should encode { "": -11492746249590654 }', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(12));
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, {
+        '': -11492746249590654
+    }, {}, context);
+    test.is(bytesWritten, 12);
+    var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
+    test.is(result.bytes, 12);
+    test.strictSame(result.value, {
+        '': -11492746249590654
+    });
+    test.end();
+});
 tap_1.default.test('ANY__TYPE_PREFIX: should handle shared strings', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(100));

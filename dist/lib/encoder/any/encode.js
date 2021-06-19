@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ANY__TYPE_PREFIX = void 0;
+var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var types_1 = require("./types");
 var encoding_type_1 = require("../encoding-type");
@@ -67,6 +68,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         }
         var type = isPositive
             ? types_1.Type.PositiveInteger : types_1.Type.NegativeInteger;
+        assert_1.strict(type === types_1.Type.PositiveInteger || -(absoluteValue + 1) === value);
         var tagBytes_5 = encodeTypeTag(buffer, offset, type, context);
         var valueBytes_5 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_5, absoluteValue, {
             minimum: 0
