@@ -20,11 +20,5 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ENGLISH_DICTIONARY = void 0;
-var RAW_ENGLISH_DICTIONARY = __importStar(require("./english.json"));
-exports.ENGLISH_DICTIONARY = {
-    index: RAW_ENGLISH_DICTIONARY.index,
-    dictionary: RAW_ENGLISH_DICTIONARY.index.reduce(function (accumulator, word, index) {
-        accumulator[word] = index;
-        return accumulator;
-    }, {})
-};
+var JSON_ENGLISH_DICTIONARY = __importStar(require("./english.json"));
+exports.ENGLISH_DICTIONARY = JSON_ENGLISH_DICTIONARY;
