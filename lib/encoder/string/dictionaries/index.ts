@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-import * as RAW_ENGLISH_DICTIONARY from './english.json'
+import * as JSON_ENGLISH_DICTIONARY from './english.json'
 import {
   DictionaryOptions
 } from '../options'
 
-export const ENGLISH_DICTIONARY: DictionaryOptions = {
-  index: RAW_ENGLISH_DICTIONARY.index,
-  dictionary: RAW_ENGLISH_DICTIONARY.index.reduce(
-    (accumulator: Record<string, number>, word: string, index: number): Record<string, number> => {
-      accumulator[word] = index
-      return accumulator
-    }, {})
-}
+export const ENGLISH_DICTIONARY: DictionaryOptions = JSON_ENGLISH_DICTIONARY
