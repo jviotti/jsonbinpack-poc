@@ -201,3 +201,22 @@ tap.test('should encode a string with minLength and maxLength > 255', (
 
   test.end()
 })
+
+tap.test('should encode a markdown string', (
+  test
+) => {
+  const schema: EncodingSchema = {
+    type: 'string',
+    contentMediaType: 'text/markdown'
+  }
+
+  const result: Encoding = getEncoding(schema, 0)
+  test.is(getStates(schema), Infinity)
+  test.strictSame(result, {
+    type: 'string',
+    encoding: 'STRING_BROTLI',
+    options: {}
+  })
+
+  test.end()
+})

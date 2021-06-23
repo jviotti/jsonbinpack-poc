@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = void 0;
+exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
+var zlib_1 = require("zlib");
 var decode_1 = require("../integer/decode");
 var limits_1 = require("../../utils/limits");
 var types_1 = require("../any/types");
@@ -17,6 +18,17 @@ var readSharedString = function (buffer, offset, prefix, length, delta) {
         bytes: prefix.bytes + length.bytes + pointer.bytes
     };
 };
+var STRING_BROTLI = function (buffer, offset, _options) {
+    var length = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
+        minimum: 0
+    });
+    var slice = buffer.slice(offset + length.bytes, offset + length.bytes + length.value);
+    return {
+        value: zlib_1.brotliDecompressSync(slice).toString(STRING_ENCODING),
+        bytes: length.bytes + length.value
+    };
+};
+exports.STRING_BROTLI = STRING_BROTLI;
 var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, options) {
     var length = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
         minimum: 0

@@ -175,7 +175,7 @@
         },
         "readme": {
             "type": "string",
-            "contentMediaType": "text/plain"
+            "contentMediaType": "text/markdown"
         },
         "_id": { "type": "string" },
         "_from": { "type": "string" }

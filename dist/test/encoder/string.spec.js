@@ -45,6 +45,26 @@ var encode_1 = require("../../lib/encoder/string/encode");
 var decode_1 = require("../../lib/encoder/string/decode");
 var limits_1 = require("../../lib/utils/limits");
 var encoder_1 = require("../../lib/encoder");
+tap_1.default.test('STRING_BROTLI: "The quick brown fox jumps over the lazy dog"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = 'The quick brown fox jumps over the lazy dog';
+    var bytesWritten = encode_1.STRING_BROTLI(buffer, 0, value, {}, context);
+    var result = decode_1.STRING_BROTLI(buffer, 0, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
+tap_1.default.test('STRING_BROTLI: "" at offset 1', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var value = '';
+    var bytesWritten = encode_1.STRING_BROTLI(buffer, 1, value, {}, context);
+    var result = decode_1.STRING_BROTLI(buffer, 1, {});
+    test.is(result.bytes, bytesWritten);
+    test.is(result.value, value);
+    test.end();
+});
 tap_1.default.test('STRING_DICTIONARY_COMPRESSOR: "The quick brown fox jumps over the lazy dog"', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
@@ -305,6 +325,20 @@ tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', function (test) {
         var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {}, context);
         var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
+    }), {
+        verbose: false
+    });
+    test.end();
+});
+tap_1.default.test('STRING_BROTLI (ASCII)', function (test) {
+    fc.assert(fc.property(fc.nat(10), fc.string({
+        maxLength: 1000
+    }), function (offset, value) {
+        var context = encoder_1.getDefaultEncodingContext();
+        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2048));
+        var bytesWritten = encode_1.STRING_BROTLI(buffer, offset, value, {}, context);
+        var result = decode_1.STRING_BROTLI(buffer, offset, {});
+        return result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
     });

@@ -11,8 +11,9 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = void 0;
+exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
+var zlib_1 = require("zlib");
 var encode_1 = require("../integer/encode");
 var limits_1 = require("../../utils/limits");
 var types_1 = require("../any/types");
@@ -47,6 +48,14 @@ var writeRawString = function (buffer, offset, value, context) {
     var stringBytes = writeMaybeSharedString(buffer, offset + prefixBytes + lengthBytes, value, length, context);
     return prefixBytes + lengthBytes + stringBytes;
 };
+var STRING_BROTLI = function (buffer, offset, value, _options, context) {
+    var compressed = zlib_1.brotliCompressSync(Buffer.from(value));
+    var bytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, compressed.length, {
+        minimum: 0
+    }, context);
+    return bytes + buffer.writeBuffer(offset + bytes, compressed);
+};
+exports.STRING_BROTLI = STRING_BROTLI;
 var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, value, options, context) {
     var e_1, _a;
     var WORD_DELIMITER = ' ';

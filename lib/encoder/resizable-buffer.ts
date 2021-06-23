@@ -102,4 +102,15 @@ export default class ResizableBuffer {
   public readDoubleLE (offset: number): number {
     return this.buffer.readDoubleLE(offset)
   }
+
+  public slice (start: number, end: number): Buffer {
+    return this.buffer.slice(start, end)
+  }
+
+  public writeBuffer (offset: number, buffer: Buffer): number {
+    this.grow(buffer.length)
+    const bytesWritten: number = buffer.copy(this.buffer, offset)
+    this.written = Math.max(this.written + buffer.length, offset + buffer.length)
+    return bytesWritten
+  }
 }

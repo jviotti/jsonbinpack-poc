@@ -18,6 +18,10 @@ import {
   strict as assert
 } from 'assert'
 
+import {
+  brotliDecompressSync
+} from 'zlib'
+
 import ResizableBuffer from '../resizable-buffer'
 
 import {
@@ -73,6 +77,21 @@ const readSharedString = (
     value: buffer.toString(
       STRING_ENCODING, stringOffset, stringOffset + length.value + delta),
     bytes: prefix.bytes + length.bytes + pointer.bytes
+  }
+}
+
+export const STRING_BROTLI = (
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
+): StringResult => {
+  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+    minimum: 0
+  })
+
+  const slice: Buffer = buffer.slice(
+    offset + length.bytes, offset + length.bytes + length.value)
+  return {
+    value: brotliDecompressSync(slice).toString(STRING_ENCODING),
+    bytes: length.bytes + length.value
   }
 }
 
