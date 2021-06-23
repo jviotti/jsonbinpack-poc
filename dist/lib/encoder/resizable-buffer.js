@@ -67,6 +67,15 @@ var ResizableBuffer = (function () {
     ResizableBuffer.prototype.readDoubleLE = function (offset) {
         return this.buffer.readDoubleLE(offset);
     };
+    ResizableBuffer.prototype.slice = function (start, end) {
+        return this.buffer.slice(start, end);
+    };
+    ResizableBuffer.prototype.writeBuffer = function (offset, buffer) {
+        this.grow(buffer.length);
+        var bytesWritten = buffer.copy(this.buffer, offset);
+        this.written = Math.max(this.written + buffer.length, offset + buffer.length);
+        return bytesWritten;
+    };
     return ResizableBuffer;
 }());
 exports.default = ResizableBuffer;

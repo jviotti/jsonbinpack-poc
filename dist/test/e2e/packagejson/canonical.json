@@ -261,7 +261,7 @@
         },
         "readme": {
             "type": "string",
-            "contentMediaType": "text/plain"
+            "contentMediaType": "text/markdown"
         },
         "_id": {
             "type": "string"

@@ -50,6 +50,12 @@ import {
   DictionaryOptions
 } from '../encoder/string/options'
 
+export interface STRING_BROTLI_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.String;
+  readonly encoding: 'STRING_BROTLI';
+  readonly options: NoOptions;
+}
+
 export interface STRING_DICTIONARY_COMPRESSOR_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
   readonly encoding: 'STRING_DICTIONARY_COMPRESSOR';
@@ -105,6 +111,7 @@ export interface ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING extends BaseEncodingDe
 }
 
 export type StringEncodingNames =
+  'STRING_BROTLI' |
   'STRING_DICTIONARY_COMPRESSOR' |
   'URL_PROTOCOL_HOST_REST' |
   'RFC3339_DATE_INTEGER_TRIPLET' |
@@ -115,6 +122,7 @@ export type StringEncodingNames =
   'FLOOR__PREFIX_LENGTH_ENUM_VARINT' |
   'ARBITRARY__PREFIX_LENGTH_VARINT'
 export type StringEncoding =
+  STRING_BROTLI_ENCODING |
   STRING_DICTIONARY_COMPRESSOR_ENCODING |
   URL_PROTOCOL_HOST_REST_ENCODING |
   RFC3339_DATE_INTEGER_TRIPLET_ENCODING |
@@ -140,6 +148,16 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
     return {
       type: EncodingType.String,
       encoding: 'URL_PROTOCOL_HOST_REST',
+      options: {}
+    }
+  }
+
+  // Markdown content tends to be significantly large to justify
+  // the use of a proper general lossless compressor
+  if (schema.contentMediaType === 'text/markdown') {
+    return {
+      type: EncodingType.String,
+      encoding: 'STRING_BROTLI',
       options: {}
     }
   }

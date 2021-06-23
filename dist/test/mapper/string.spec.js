@@ -147,3 +147,17 @@ tap_1.default.test('should encode a string with minLength and maxLength > 255', 
     });
     test.end();
 });
+tap_1.default.test('should encode a markdown string', function (test) {
+    var schema = {
+        type: 'string',
+        contentMediaType: 'text/markdown'
+    };
+    var result = mapper_1.getEncoding(schema, 0);
+    test.is(mapper_1.getStates(schema), Infinity);
+    test.strictSame(result, {
+        type: 'string',
+        encoding: 'STRING_BROTLI',
+        options: {}
+    });
+    test.end();
+});

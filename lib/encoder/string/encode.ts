@@ -18,6 +18,10 @@ import {
   strict as assert
 } from 'assert'
 
+import {
+  brotliCompressSync
+} from 'zlib'
+
 import ResizableBuffer from '../resizable-buffer'
 
 import {
@@ -111,6 +115,17 @@ const writeRawString = (
     buffer, offset + prefixBytes + lengthBytes, value, length, context)
 
   return prefixBytes + lengthBytes + stringBytes
+}
+
+export const STRING_BROTLI = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  _options: NoOptions, context: EncodingContext
+): number => {
+  const compressed = brotliCompressSync(Buffer.from(value))
+  const bytes = FLOOR__ENUM_VARINT(buffer, offset, compressed.length, {
+    minimum: 0
+  }, context)
+  return bytes + buffer.writeBuffer(offset + bytes, compressed)
 }
 
 export const STRING_DICTIONARY_COMPRESSOR = (

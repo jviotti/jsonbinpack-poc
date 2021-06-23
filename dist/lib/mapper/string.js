@@ -24,6 +24,13 @@ var getStringEncoding = function (schema, _level) {
             options: {}
         };
     }
+    if (schema.contentMediaType === 'text/markdown') {
+        return {
+            type: encoder_1.EncodingType.String,
+            encoding: 'STRING_BROTLI',
+            options: {}
+        };
+    }
     assert_1.strict(typeof schema.minLength === 'undefined' || schema.minLength >= 0);
     assert_1.strict(typeof schema.maxLength === 'undefined' || schema.maxLength >= 0);
     assert_1.strict(typeof schema.minLength === 'undefined' ||

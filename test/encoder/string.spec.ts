@@ -22,6 +22,7 @@ import {
 } from '../../lib/encoder/string/dictionaries'
 
 import {
+  STRING_BROTLI as ENCODE_STRING_BROTLI,
   STRING_DICTIONARY_COMPRESSOR as ENCODE_STRING_DICTIONARY_COMPRESSOR,
   URL_PROTOCOL_HOST_REST as ENCODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as ENCODE_RFC3339_DATE_INTEGER_TRIPLET,
@@ -35,6 +36,7 @@ import {
 
 import {
   StringResult,
+  STRING_BROTLI as DECODE_STRING_BROTLI,
   STRING_DICTIONARY_COMPRESSOR as DECODE_STRING_DICTIONARY_COMPRESSOR,
   URL_PROTOCOL_HOST_REST as DECODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as DECODE_RFC3339_DATE_INTEGER_TRIPLET,
@@ -62,6 +64,30 @@ import {
   EncodingContext,
   getDefaultEncodingContext
 } from '../../lib/encoder'
+
+tap.test('STRING_BROTLI: "The quick brown fox jumps over the lazy dog"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'The quick brown fox jumps over the lazy dog'
+  const bytesWritten: number =
+    ENCODE_STRING_BROTLI(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_STRING_BROTLI(buffer, 0, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
+
+tap.test('STRING_BROTLI: "" at offset 1', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = ''
+  const bytesWritten: number =
+    ENCODE_STRING_BROTLI(buffer, 1, value, {}, context)
+  const result: StringResult = DECODE_STRING_BROTLI(buffer, 1, {})
+  test.is(result.bytes, bytesWritten)
+  test.is(result.value, value)
+  test.end()
+})
 
 tap.test('STRING_DICTIONARY_COMPRESSOR: "The quick brown fox jumps over the lazy dog"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
@@ -399,6 +425,26 @@ tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
     const result: StringResult =
       DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
+  }), {
+    verbose: false
+  })
+
+  test.end()
+})
+
+tap.test('STRING_BROTLI (ASCII)', (test) => {
+  fc.assert(fc.property(fc.nat(10), fc.string({
+    maxLength: 1000
+  }), (
+    offset: number, value: string
+  ): boolean => {
+    const context: EncodingContext = getDefaultEncodingContext()
+    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
+    const bytesWritten: number =
+      ENCODE_STRING_BROTLI(buffer, offset, value, {}, context)
+    const result: StringResult =
+      DECODE_STRING_BROTLI(buffer, offset, {})
+    return result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
   })
