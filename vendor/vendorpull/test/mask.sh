@@ -6,6 +6,7 @@ set -o nounset
 HASH="$(git rev-parse HEAD)"
 VENDORPULL_REPOSITORY="https://github.com/jviotti/vendorpull"
 TEMPORARY_DIRECTORY="$(mktemp -d -t vendorpull-test-XXXXX)"
+git -C "$TEMPORARY_DIRECTORY" init
 
 echo "Setting up test case at $TEMPORARY_DIRECTORY..."
 temporary_directory_clean() {
@@ -35,7 +36,7 @@ fi
 
 echo "test" > "$TEMPORARY_DIRECTORY/vendor/vendorpull.mask"
 
-./vendor/vendorpull/update
+./vendor/vendorpull/pull
 
 if [ -d "$TEMPORARY_DIRECTORY/vendor/vendorpull/test" ]
 then

@@ -52,7 +52,7 @@ Go to the root of the repository you want to setup `vendorpull` in and run the
 following command:
 
 ```sh
-/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/jviotti/vendorpull/master/bootstrap.sh -H "Cache-Control: no-cache, no-store, must-revalidate")"
+/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/jviotti/vendorpull/master/bootstrap -H "Cache-Control: no-cache, no-store, must-revalidate")"
 ```
 
 The bootstrap script will install `vendorpull` at `vendor/vendorpull` and set
@@ -74,9 +74,7 @@ In this case, we're vendoring `vendorpull` itself, Chromium's `depot_tools`,
 and the Electron project.
 
 - The first column defines the dependency name as it will be vendored in the
-  project. If the name does not contain a slash, then the dependency is
-  vendored inside the `vendor` directory. Otherwise, the dependency name is
-  vendored relative to the root of the repository
+  project. The dependency is vendored inside the `vendor` directory.
 - The second column defines the repository `git` URL of the dependency
 - The third column defines the `git` revision of the project that you want to
   vendor. It can be any `git` revision such as a commit hash, a tag, etc
@@ -84,13 +82,13 @@ and the Electron project.
 In order to pull all dependencies, run the following command:
 
 ```sh
-./vendor/vendorpull/update
+./vendor/vendorpull/pull
 ```
 
 You can also pull a single dependency by specifying its name as the first argument. For example:
 
 ```sh
-./vendor/vendorpull/update depot_tools
+./vendor/vendorpull/pull depot_tools
 ```
 
 Updating
@@ -101,7 +99,7 @@ Updating
 and running the following command:
 
 ```sh
-./vendor/vendorpull/update vendorpull
+./vendor/vendorpull/pull vendorpull
 ```
 
 Masking
@@ -157,8 +155,8 @@ include vendor/vendorpull/targets.mk
 
 This will add two targets:
 
-- `vendor`: Pull all dependencies
-- `vendor-<dependency>`: Pull a particular dependency
+- `vendor-pull`: Pull all dependencies
+- `vendor-pull-<dependency>`: Pull a particular dependency
 
 Future plans
 ------------

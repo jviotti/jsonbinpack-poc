@@ -16,10 +16,11 @@ trap temporary_directory_clean EXIT
 VENDORPULL_SOURCE="$PWD"
 cd "$TEMPORARY_DIRECTORY"
 
-echo "Running bootstrap script..."
+echo "Running bootstrap script multiple times..."
 "$VENDORPULL_SOURCE/bootstrap"
-
-echo "Running assertions..."
+"$VENDORPULL_SOURCE/bootstrap"
+"$VENDORPULL_SOURCE/bootstrap"
+"$VENDORPULL_SOURCE/bootstrap"
 
 if [ ! -f "$TEMPORARY_DIRECTORY/DEPENDENCIES" ]
 then
@@ -27,22 +28,16 @@ then
   exit 1
 fi
 
-if [ ! -d "$TEMPORARY_DIRECTORY/vendor" ]
+LINES="$(wc -l < "$TEMPORARY_DIRECTORY/DEPENDENCIES" | xargs)"
+
+if [ "$LINES" != "1" ]
 then
-  echo "The bootstrap script should have created a vendor directory" 1>&2
+  echo "There should be a single entry in the DEPENDENCIES file"
+  cat "$TEMPORARY_DIRECTORY/DEPENDENCIES"
   exit 1
 fi
 
-if [ ! -d "$TEMPORARY_DIRECTORY/vendor/vendorpull" ]
-then
-  echo "The bootstrap script should have created a vendor/vendorpull directory" 1>&2
-  exit 1
-fi
-
-if [ ! -x "$TEMPORARY_DIRECTORY/vendor/vendorpull/pull" ]
-then
-  echo "There should be an pull executable file at vendor/vendorpull" 1>&2
-  exit 1
-fi
+# Do a pull just to make sure it all works
+./vendor/vendorpull/pull
 
 echo "PASS"
