@@ -64,7 +64,8 @@ import {
 } from '../array/decode'
 
 import {
-  Type
+  Type,
+  isType
 } from './types'
 
 export interface AnyResult extends DecodeResult {
@@ -82,7 +83,7 @@ export const ANY__TYPE_PREFIX = (
     maximum: 11
   })
 
-  if (tag.value === Type.Array) {
+  if (isType(Type.Array, tag.value)) {
     const result: ArrayResult =
       UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
         prefixEncodings: []
@@ -92,7 +93,7 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  } else if (tag.value === Type.Object) {
+  } else if (isType(Type.Object, tag.value)) {
     const result: ObjectResult =
       ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
         keyEncoding: {
@@ -111,36 +112,36 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  } else if (tag.value === Type.Null) {
+  } else if (isType(Type.Null, tag.value)) {
     return {
       value: null,
       bytes: tag.bytes
     }
-  } else if (tag.value === Type.True) {
+  } else if (isType(Type.True, tag.value)) {
     return {
       value: true,
       bytes: tag.bytes
     }
-  } else if (tag.value === Type.False) {
+  } else if (isType(Type.False, tag.value)) {
     return {
       value: false,
       bytes: tag.bytes
     }
-  } else if (tag.value === Type.SharedString) {
+  } else if (isType(Type.SharedString, tag.value)) {
     const result: StringResult =
       ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
     return {
       value: result.value,
       bytes: result.bytes
     }
-  } else if (tag.value === Type.String) {
+  } else if (isType(Type.String, tag.value)) {
     const result: StringResult =
       ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tag.bytes, {})
     return {
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  } else if (tag.value === Type.PositiveInteger) {
+  } else if (isType(Type.PositiveInteger, tag.value)) {
     const result: IntegerResult =
       FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
         minimum: 0
@@ -149,7 +150,7 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  } else if (tag.value === Type.NegativeInteger) {
+  } else if (isType(Type.NegativeInteger, tag.value)) {
     const result: IntegerResult =
       FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
         minimum: 0
@@ -158,7 +159,7 @@ export const ANY__TYPE_PREFIX = (
       value: (result.value + 1) * -1,
       bytes: tag.bytes + result.bytes
     }
-  } else if (tag.value === Type.PositiveIntegerByte) {
+  } else if (isType(Type.PositiveIntegerByte, tag.value)) {
     const result: IntegerResult =
       BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
         minimum: UINT8_MIN,
@@ -168,7 +169,7 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  } else if (tag.value === Type.NegativeIntegerByte) {
+  } else if (isType(Type.NegativeIntegerByte, tag.value)) {
     const result: IntegerResult =
       BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
         minimum: UINT8_MIN,
@@ -178,11 +179,14 @@ export const ANY__TYPE_PREFIX = (
       value: (result.value + 1) * -1,
       bytes: tag.bytes + result.bytes
     }
+  } else if (isType(Type.Number, tag.value)) {
+    const result: NumberResult =
+        DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {})
+    return {
+      value: result.value,
+      bytes: tag.bytes + result.bytes
+    }
   }
-  const result: NumberResult =
-      DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {})
-  return {
-    value: result.value,
-    bytes: tag.bytes + result.bytes
-  }
+
+  throw new Error(`Unrecognized type: ${tag.value}`)
 }

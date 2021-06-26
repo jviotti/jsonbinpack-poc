@@ -14,17 +14,17 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         minimum: limits_1.UINT8_MIN,
         maximum: 11
     });
-    if (tag.value === types_1.Type.Array) {
-        var result_1 = decode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
+    if (types_1.isType(types_1.Type.Array, tag.value)) {
+        var result = decode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
             prefixEncodings: []
         });
         return {
-            value: result_1.value,
-            bytes: tag.bytes + result_1.bytes
+            value: result.value,
+            bytes: tag.bytes + result.bytes
         };
     }
-    else if (tag.value === types_1.Type.Object) {
-        var result_2 = decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
+    else if (types_1.isType(types_1.Type.Object, tag.value)) {
+        var result = decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
             keyEncoding: {
                 type: encoding_type_1.EncodingType.String,
                 encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
@@ -37,84 +37,87 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             }
         });
         return {
-            value: result_2.value,
-            bytes: tag.bytes + result_2.bytes
+            value: result.value,
+            bytes: tag.bytes + result.bytes
         };
     }
-    else if (tag.value === types_1.Type.Null) {
+    else if (types_1.isType(types_1.Type.Null, tag.value)) {
         return {
             value: null,
             bytes: tag.bytes
         };
     }
-    else if (tag.value === types_1.Type.True) {
+    else if (types_1.isType(types_1.Type.True, tag.value)) {
         return {
             value: true,
             bytes: tag.bytes
         };
     }
-    else if (tag.value === types_1.Type.False) {
+    else if (types_1.isType(types_1.Type.False, tag.value)) {
         return {
             value: false,
             bytes: tag.bytes
         };
     }
-    else if (tag.value === types_1.Type.SharedString) {
-        var result_3 = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
+    else if (types_1.isType(types_1.Type.SharedString, tag.value)) {
+        var result = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
         return {
-            value: result_3.value,
-            bytes: result_3.bytes
+            value: result.value,
+            bytes: result.bytes
         };
     }
-    else if (tag.value === types_1.Type.String) {
-        var result_4 = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tag.bytes, {});
+    else if (types_1.isType(types_1.Type.String, tag.value)) {
+        var result = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tag.bytes, {});
         return {
-            value: result_4.value,
-            bytes: tag.bytes + result_4.bytes
+            value: result.value,
+            bytes: tag.bytes + result.bytes
         };
     }
-    else if (tag.value === types_1.Type.PositiveInteger) {
-        var result_5 = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
+    else if (types_1.isType(types_1.Type.PositiveInteger, tag.value)) {
+        var result = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
             minimum: 0
         });
         return {
-            value: result_5.value,
-            bytes: tag.bytes + result_5.bytes
+            value: result.value,
+            bytes: tag.bytes + result.bytes
         };
     }
-    else if (tag.value === types_1.Type.NegativeInteger) {
-        var result_6 = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
+    else if (types_1.isType(types_1.Type.NegativeInteger, tag.value)) {
+        var result = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
             minimum: 0
         });
         return {
-            value: (result_6.value + 1) * -1,
-            bytes: tag.bytes + result_6.bytes
+            value: (result.value + 1) * -1,
+            bytes: tag.bytes + result.bytes
         };
     }
-    else if (tag.value === types_1.Type.PositiveIntegerByte) {
-        var result_7 = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
+    else if (types_1.isType(types_1.Type.PositiveIntegerByte, tag.value)) {
+        var result = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
             minimum: limits_1.UINT8_MIN,
             maximum: limits_1.UINT8_MAX
         });
         return {
-            value: result_7.value,
-            bytes: tag.bytes + result_7.bytes
+            value: result.value,
+            bytes: tag.bytes + result.bytes
         };
     }
-    else if (tag.value === types_1.Type.NegativeIntegerByte) {
-        var result_8 = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
+    else if (types_1.isType(types_1.Type.NegativeIntegerByte, tag.value)) {
+        var result = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
             minimum: limits_1.UINT8_MIN,
             maximum: limits_1.UINT8_MAX
         });
         return {
-            value: (result_8.value + 1) * -1,
-            bytes: tag.bytes + result_8.bytes
+            value: (result.value + 1) * -1,
+            bytes: tag.bytes + result.bytes
         };
     }
-    var result = decode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {});
-    return {
-        value: result.value,
-        bytes: tag.bytes + result.bytes
-    };
+    else if (types_1.isType(types_1.Type.Number, tag.value)) {
+        var result = decode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {});
+        return {
+            value: result.value,
+            bytes: tag.bytes + result.bytes
+        };
+    }
+    throw new Error("Unrecognized type: " + tag.value);
 };
 exports.ANY__TYPE_PREFIX = ANY__TYPE_PREFIX;
