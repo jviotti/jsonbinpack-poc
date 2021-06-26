@@ -55,3 +55,8 @@ export const getTypeTag = (type: Type, metadata: number): number => {
   assert(metadata >= UINT4_MIN && metadata <= UINT4_MAX)
   return (metadata << 4) | type
 }
+
+export const getMetadata = (value: number): number => {
+  assert(value >= UINT8_MIN && value <= UINT8_MAX)
+  return value >>> 4
+}
