@@ -18,14 +18,16 @@ var encodeTypeTag = function (buffer, offset, tag, context) {
 };
 var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
     if (Array.isArray(value)) {
-        var tagBytes_1 = encodeTypeTag(buffer, offset, types_1.Type.Array, context);
+        var typeTag_1 = types_1.getTypeTag(types_1.Type.Array, 0);
+        var tagBytes_1 = encodeTypeTag(buffer, offset, typeTag_1, context);
         var valueBytes_1 = encode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tagBytes_1, value, {
             prefixEncodings: []
         }, context);
         return tagBytes_1 + valueBytes_1;
     }
     else if (typeof value === 'object' && value !== null) {
-        var tagBytes_2 = encodeTypeTag(buffer, offset, types_1.Type.Object, context);
+        var typeTag_2 = types_1.getTypeTag(types_1.Type.Object, 0);
+        var tagBytes_2 = encodeTypeTag(buffer, offset, typeTag_2, context);
         var valueBytes_2 = encode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tagBytes_2, value, {
             keyEncoding: {
                 type: encoding_type_1.EncodingType.String,
@@ -41,15 +43,19 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         return tagBytes_2 + valueBytes_2;
     }
     else if (value === null) {
-        return encodeTypeTag(buffer, offset, types_1.Type.Null, context);
+        var typeTag_3 = types_1.getTypeTag(types_1.Type.Null, 0);
+        return encodeTypeTag(buffer, offset, typeTag_3, context);
     }
     else if (typeof value === 'boolean') {
-        return encodeTypeTag(buffer, offset, value ? types_1.Type.True : types_1.Type.False, context);
+        var typeTag_4 = value
+            ? types_1.getTypeTag(types_1.Type.True, 0) : types_1.getTypeTag(types_1.Type.False, 0);
+        return encodeTypeTag(buffer, offset, typeTag_4, context);
     }
     else if (typeof value === 'string') {
+        var typeTag_5 = types_1.getTypeTag(types_1.Type.String, 0);
         var tagBytes_3 = context.strings.has(value)
             ? 0
-            : encodeTypeTag(buffer, offset, types_1.Type.String, context);
+            : encodeTypeTag(buffer, offset, typeTag_5, context);
         var valueBytes_3 = encode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tagBytes_3, value, {}, context);
         return tagBytes_3 + valueBytes_3;
     }
@@ -59,7 +65,8 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         if (absoluteValue <= limits_1.UINT8_MAX) {
             var type_1 = isPositive
                 ? types_1.Type.PositiveIntegerByte : types_1.Type.NegativeIntegerByte;
-            var tagBytes_4 = encodeTypeTag(buffer, offset, type_1, context);
+            var typeTag_6 = types_1.getTypeTag(type_1, 0);
+            var tagBytes_4 = encodeTypeTag(buffer, offset, typeTag_6, context);
             var valueBytes_4 = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes_4, absoluteValue, {
                 minimum: limits_1.UINT8_MIN,
                 maximum: limits_1.UINT8_MAX
@@ -69,13 +76,15 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         var type = isPositive
             ? types_1.Type.PositiveInteger : types_1.Type.NegativeInteger;
         assert_1.strict(type === types_1.Type.PositiveInteger || -(absoluteValue + 1) === value);
-        var tagBytes_5 = encodeTypeTag(buffer, offset, type, context);
+        var typeTag_7 = types_1.getTypeTag(type, 0);
+        var tagBytes_5 = encodeTypeTag(buffer, offset, typeTag_7, context);
         var valueBytes_5 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_5, absoluteValue, {
             minimum: 0
         }, context);
         return tagBytes_5 + valueBytes_5;
     }
-    var tagBytes = encodeTypeTag(buffer, offset, types_1.Type.Number, context);
+    var typeTag = types_1.getTypeTag(types_1.Type.Number, 0);
+    var tagBytes = encodeTypeTag(buffer, offset, typeTag, context);
     var valueBytes = encode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context);
     return tagBytes + valueBytes;
 };
