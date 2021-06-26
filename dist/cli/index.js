@@ -31,7 +31,7 @@ if (COMMAND !== 'compile' && COMMAND !== 'encode' && COMMAND !== 'decode') {
     console.error('    encode <encoding.json> <document.json>');
     console.error('    decode <encoding.json> <binary.bin>');
     console.error('\nExamples:\n');
-    console.error("    $ " + packageJSON.name + " compile my/schema.json encoding.json");
+    console.error("    $ " + packageJSON.name + " compile my/schema.json > encoding.json");
     console.error("    $ " + packageJSON.name + " encode encoding.json my/document.json > output.bin");
     console.error("    $ " + packageJSON.name + " decode encoding.json output.bin > document.json");
     process.exit(1);
