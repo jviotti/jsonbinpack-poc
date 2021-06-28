@@ -56,7 +56,7 @@ import {
 } from '../number/encode'
 
 import {
-  ARBITRARY_TYPED_KEYS_OBJECT
+  ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH
 } from '../object/encode'
 
 import {
@@ -70,9 +70,7 @@ import {
 const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number, context: EncodingContext): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
-
-    // TODO: Find a way to keep this automatically in sync with "Type"
-    maximum: 11
+    maximum: UINT8_MAX
   }, context)
 }
 
@@ -92,10 +90,12 @@ export const ANY__TYPE_PREFIX = (
 
   // Encode an object value
   } else if (typeof value === 'object' && value !== null) {
-    const typeTag: number = getTypeTag(Type.Object, 0)
+    const size: number = Object.keys(value).length
+    const typeTag: number = getTypeTag(Type.Object, size)
     const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
-    const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT(
+    const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(
       buffer, offset + tagBytes, value, {
+        size,
         keyEncoding: {
           type: EncodingType.String,
           encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',

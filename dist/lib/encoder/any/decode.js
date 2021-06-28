@@ -12,7 +12,7 @@ var types_1 = require("./types");
 var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
     var tag = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
         minimum: limits_1.UINT8_MIN,
-        maximum: 11
+        maximum: limits_1.UINT8_MAX
     });
     if (types_1.isType(types_1.Type.Array, tag.value)) {
         var result = decode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
@@ -24,7 +24,8 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         };
     }
     else if (types_1.isType(types_1.Type.Object, tag.value)) {
-        var result = decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
+        var result = decode_4.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
+            size: types_1.getMetadata(tag.value),
             keyEncoding: {
                 type: encoding_type_1.EncodingType.String,
                 encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',

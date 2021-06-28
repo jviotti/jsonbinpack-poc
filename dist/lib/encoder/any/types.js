@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTypeTag = exports.isType = exports.Type = void 0;
+exports.getMetadata = exports.getTypeTag = exports.isType = exports.Type = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var Type;
@@ -30,3 +30,8 @@ var getTypeTag = function (type, metadata) {
     return (metadata << 4) | type;
 };
 exports.getTypeTag = getTypeTag;
+var getMetadata = function (value) {
+    assert_1.strict(value >= limits_1.UINT8_MIN && value <= limits_1.UINT8_MAX);
+    return value >>> 4;
+};
+exports.getMetadata = getMetadata;

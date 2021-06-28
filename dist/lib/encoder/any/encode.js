@@ -13,7 +13,7 @@ var encode_5 = require("../array/encode");
 var encodeTypeTag = function (buffer, offset, tag, context) {
     return encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
         minimum: limits_1.UINT8_MIN,
-        maximum: 11
+        maximum: limits_1.UINT8_MAX
     }, context);
 };
 var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
@@ -26,9 +26,11 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         return tagBytes_1 + valueBytes_1;
     }
     else if (typeof value === 'object' && value !== null) {
-        var typeTag_2 = types_1.getTypeTag(types_1.Type.Object, 0);
+        var size = Object.keys(value).length;
+        var typeTag_2 = types_1.getTypeTag(types_1.Type.Object, size);
         var tagBytes_2 = encodeTypeTag(buffer, offset, typeTag_2, context);
-        var valueBytes_2 = encode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tagBytes_2, value, {
+        var valueBytes_2 = encode_4.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + tagBytes_2, value, {
+            size: size,
             keyEncoding: {
                 type: encoding_type_1.EncodingType.String,
                 encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',

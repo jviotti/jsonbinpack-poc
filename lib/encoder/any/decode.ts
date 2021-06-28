@@ -55,7 +55,7 @@ import {
 
 import {
   ObjectResult,
-  ARBITRARY_TYPED_KEYS_OBJECT
+  ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH
 } from '../object/decode'
 
 import {
@@ -65,7 +65,8 @@ import {
 
 import {
   Type,
-  isType
+  isType,
+  getMetadata
 } from './types'
 
 export interface AnyResult extends DecodeResult {
@@ -78,9 +79,7 @@ export const ANY__TYPE_PREFIX = (
 ): AnyResult => {
   const tag: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
     minimum: UINT8_MIN,
-
-    // TODO: Find a way to keep this automatically in sync with "Type"
-    maximum: 11
+    maximum: UINT8_MAX
   })
 
   if (isType(Type.Array, tag.value)) {
@@ -95,7 +94,8 @@ export const ANY__TYPE_PREFIX = (
     }
   } else if (isType(Type.Object, tag.value)) {
     const result: ObjectResult =
-      ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
+      ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
+        size: getMetadata(tag.value),
         keyEncoding: {
           type: EncodingType.String,
           encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
