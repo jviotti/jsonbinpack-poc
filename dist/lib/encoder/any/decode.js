@@ -21,7 +21,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
                 minimum: 0,
                 prefixEncodings: []
             })
-            : decode_5.FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
+            : decode_5.FLOOR_SEMITYPED__NO_LENGTH_PREFIX(buffer, offset + tag.bytes, {
                 size: size - 1,
                 minimum: 0,
                 prefixEncodings: []

@@ -62,7 +62,7 @@ import {
 import {
   ArrayResult,
   FLOOR_SEMITYPED__LENGTH_PREFIX,
-  FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH
+  FLOOR_SEMITYPED__NO_LENGTH_PREFIX
 } from '../array/decode'
 
 import {
@@ -91,7 +91,7 @@ export const ANY__TYPE_PREFIX = (
         minimum: 0,
         prefixEncodings: []
       })
-      : FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
+      : FLOOR_SEMITYPED__NO_LENGTH_PREFIX(buffer, offset + tag.bytes, {
         size: size - 1,
         minimum: 0,
         prefixEncodings: []

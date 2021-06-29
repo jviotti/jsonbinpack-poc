@@ -124,7 +124,7 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
   return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
 
-export const FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH = (
+export const FLOOR_SEMITYPED__NO_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[],
   options: SizeSemiTypedFloorOptions, context: EncodingContext
 ): number => {
@@ -143,7 +143,7 @@ export const FLOOR_SEMITYPED__LENGTH_PREFIX = (
       minimum: options.minimum
     }, context)
 
-  return lengthBytes + FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(buffer, offset + lengthBytes, value, {
+  return lengthBytes + FLOOR_SEMITYPED__NO_LENGTH_PREFIX(buffer, offset + lengthBytes, value, {
     minimum: options.minimum,
     size: value.length,
     prefixEncodings: options.prefixEncodings

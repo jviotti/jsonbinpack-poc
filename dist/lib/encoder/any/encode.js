@@ -30,7 +30,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         }
         var typeTag_2 = types_1.getTypeTag(types_1.Type.Array, value.length + 1);
         var tagBytes_2 = encodeTypeTag(buffer, offset, typeTag_2, context);
-        var valueBytes_2 = encode_5.FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(buffer, offset + tagBytes_2, value, {
+        var valueBytes_2 = encode_5.FLOOR_SEMITYPED__NO_LENGTH_PREFIX(buffer, offset + tagBytes_2, value, {
             size: size,
             minimum: 0,
             prefixEncodings: []

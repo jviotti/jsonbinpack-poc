@@ -139,7 +139,7 @@ export const BOUNDED_SEMITYPED__LENGTH_PREFIX = (
     buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
 }
 
-export const FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH = (
+export const FLOOR_SEMITYPED__NO_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, options: SizeSemiTypedFloorOptions
 ): ArrayResult => {
   assert(options.minimum >= 0)
