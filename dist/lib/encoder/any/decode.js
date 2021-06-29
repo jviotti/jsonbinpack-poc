@@ -83,17 +83,41 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         };
     }
     else if (types_1.isType(types_1.Type.SharedString, tag.value)) {
-        var result = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
+        var size = types_1.getMetadata(tag.value);
+        if (size === 0) {
+            var result_1 = decode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+                minimum: 0
+            });
+            return {
+                value: result_1.value,
+                bytes: result_1.bytes
+            };
+        }
+        var result = decode_2.SHARED_STRING_POINTER_RELATIVE_OFFSET(buffer, offset + tag.bytes, {
+            size: size - 1
+        });
         return {
             value: result.value,
-            bytes: result.bytes
+            bytes: result.bytes + tag.bytes
         };
     }
     else if (types_1.isType(types_1.Type.String, tag.value)) {
-        var result = decode_2.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tag.bytes, {});
+        var size = types_1.getMetadata(tag.value);
+        if (size === 0) {
+            var result_2 = decode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tag.bytes, {
+                minimum: 0
+            });
+            return {
+                value: result_2.value,
+                bytes: tag.bytes + result_2.bytes
+            };
+        }
+        var result = decode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tag.bytes, {
+            size: size - 1
+        });
         return {
             value: result.value,
-            bytes: tag.bytes + result.bytes
+            bytes: result.bytes + tag.bytes
         };
     }
     else if (types_1.isType(types_1.Type.PositiveInteger, tag.value)) {

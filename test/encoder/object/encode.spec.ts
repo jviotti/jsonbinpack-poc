@@ -68,7 +68,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
     0x04, 0x66, 0x6f, 0x6f,
 
     // String tag + length + 'bar'
-    0x01, 0x04, 0x62, 0x61, 0x72,
+    0x41, 0x62, 0x61, 0x72,
 
     // Key length + 'baz'
     0x04, 0x62, 0x61, 0x7a,
@@ -77,7 +77,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
     0x2a
   ]))
 
-  test.is(bytesWritten, 15)
+  test.is(bytesWritten, 14)
   test.end()
 })
 
@@ -107,7 +107,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
     0x01, 0x66, 0x6f, 0x6f,
 
     // String tag + length + 'bar'
-    0x01, 0x04, 0x62, 0x61, 0x72,
+    0x41, 0x62, 0x61, 0x72,
 
     // Key length + 'baz'
     0x01, 0x62, 0x61, 0x7a,
@@ -116,7 +116,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
     0x2a
   ]))
 
-  test.is(bytesWritten, 15)
+  test.is(bytesWritten, 14)
   test.end()
 })
 
