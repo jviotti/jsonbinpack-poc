@@ -165,6 +165,12 @@ export const ANY__TYPE_PREFIX = (
     if (absoluteValue <= UINT8_MAX) {
       const type: Type = isPositive
         ? Type.PositiveIntegerByte : Type.NegativeIntegerByte
+
+      if (absoluteValue <= UINT4_MAX - 1) {
+        const typeTag: number = getTypeTag(type, absoluteValue + 1)
+        return encodeTypeTag(buffer, offset, typeTag, context)
+      }
+
       const typeTag: number = getTypeTag(type, 0)
       const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
       const valueBytes: number =
