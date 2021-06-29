@@ -60,9 +60,9 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', func
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, [
         'foo', true, 2000
     ], {}, context);
-    test.is(bytesWritten, 11);
+    test.is(bytesWritten, 10);
     var result = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
-    test.is(result.bytes, 11);
+    test.is(result.bytes, 10);
     test.strictSame(result.value, ['foo', true, 2000]);
     test.end();
 });

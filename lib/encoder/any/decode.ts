@@ -61,7 +61,8 @@ import {
 
 import {
   ArrayResult,
-  UNBOUNDED_SEMITYPED__LENGTH_PREFIX
+  FLOOR_SEMITYPED__LENGTH_PREFIX,
+  FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH
 } from '../array/decode'
 
 import {
@@ -84,8 +85,15 @@ export const ANY__TYPE_PREFIX = (
   })
 
   if (isType(Type.Array, tag.value)) {
-    const result: ArrayResult =
-      UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
+    const size: number = getMetadata(tag.value)
+    const result: ArrayResult = size === 0
+      ? FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
+        minimum: 0,
+        prefixEncodings: []
+      })
+      : FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
+        size: size - 1,
+        minimum: 0,
         prefixEncodings: []
       })
 

@@ -62,7 +62,8 @@ import {
 } from '../object/encode'
 
 import {
-  UNBOUNDED_SEMITYPED__LENGTH_PREFIX
+  FLOOR_SEMITYPED__LENGTH_PREFIX,
+  FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH
 } from '../array/encode'
 
 import {
@@ -81,10 +82,26 @@ export const ANY__TYPE_PREFIX = (
 ): number => {
   // Encode an array value
   if (Array.isArray(value)) {
-    const typeTag: number = getTypeTag(Type.Array, 0)
+    const size: number = value.length
+
+    if (size > UINT4_MAX - 1) {
+      const typeTag: number = getTypeTag(Type.Array, 0)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      const valueBytes: number = FLOOR_SEMITYPED__LENGTH_PREFIX(
+        buffer, offset + tagBytes, value, {
+          minimum: 0,
+          prefixEncodings: []
+        }, context)
+
+      return tagBytes + valueBytes
+    }
+
+    const typeTag: number = getTypeTag(Type.Array, value.length + 1)
     const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
-    const valueBytes: number = UNBOUNDED_SEMITYPED__LENGTH_PREFIX(
+    const valueBytes: number = FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(
       buffer, offset + tagBytes, value, {
+        size,
+        minimum: 0,
         prefixEncodings: []
       }, context)
 
