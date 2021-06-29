@@ -63,7 +63,7 @@ import {
 
 import {
   FLOOR_SEMITYPED__LENGTH_PREFIX,
-  FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH
+  FLOOR_SEMITYPED__NO_LENGTH_PREFIX
 } from '../array/encode'
 
 import {
@@ -98,7 +98,7 @@ export const ANY__TYPE_PREFIX = (
 
     const typeTag: number = getTypeTag(Type.Array, value.length + 1)
     const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
-    const valueBytes: number = FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(
+    const valueBytes: number = FLOOR_SEMITYPED__NO_LENGTH_PREFIX(
       buffer, offset + tagBytes, value, {
         size,
         minimum: 0,
