@@ -84,8 +84,12 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         if (absoluteValue <= limits_1.UINT8_MAX) {
             var type_1 = isPositive
                 ? types_1.Type.PositiveIntegerByte : types_1.Type.NegativeIntegerByte;
-            var typeTag_7 = types_1.getTypeTag(type_1, 0);
-            var tagBytes_5 = encodeTypeTag(buffer, offset, typeTag_7, context);
+            if (absoluteValue <= limits_1.UINT4_MAX - 1) {
+                var typeTag_7 = types_1.getTypeTag(type_1, absoluteValue + 1);
+                return encodeTypeTag(buffer, offset, typeTag_7, context);
+            }
+            var typeTag_8 = types_1.getTypeTag(type_1, 0);
+            var tagBytes_5 = encodeTypeTag(buffer, offset, typeTag_8, context);
             var valueBytes_5 = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes_5, absoluteValue, {
                 minimum: limits_1.UINT8_MIN,
                 maximum: limits_1.UINT8_MAX
@@ -95,8 +99,8 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         var type = isPositive
             ? types_1.Type.PositiveInteger : types_1.Type.NegativeInteger;
         assert_1.strict(type === types_1.Type.PositiveInteger || -(absoluteValue + 1) === value);
-        var typeTag_8 = types_1.getTypeTag(type, 0);
-        var tagBytes_6 = encodeTypeTag(buffer, offset, typeTag_8, context);
+        var typeTag_9 = types_1.getTypeTag(type, 0);
+        var tagBytes_6 = encodeTypeTag(buffer, offset, typeTag_9, context);
         var valueBytes_6 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_6, absoluteValue, {
             minimum: 0
         }, context);

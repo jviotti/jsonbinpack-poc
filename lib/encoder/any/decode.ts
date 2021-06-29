@@ -175,6 +175,14 @@ export const ANY__TYPE_PREFIX = (
       bytes: tag.bytes + result.bytes
     }
   } else if (isType(Type.PositiveIntegerByte, tag.value)) {
+    const metadata: number = getMetadata(tag.value)
+    if (metadata > 0) {
+      return {
+        value: metadata - 1,
+        bytes: tag.bytes
+      }
+    }
+
     const result: IntegerResult =
       BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
         minimum: UINT8_MIN,
@@ -185,6 +193,14 @@ export const ANY__TYPE_PREFIX = (
       bytes: tag.bytes + result.bytes
     }
   } else if (isType(Type.NegativeIntegerByte, tag.value)) {
+    const metadata: number = getMetadata(tag.value)
+    if (metadata > 0) {
+      return {
+        value: ((metadata - 1) + 1) * -1,
+        bytes: tag.bytes
+      }
+    }
+
     const result: IntegerResult =
       BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
         minimum: UINT8_MIN,

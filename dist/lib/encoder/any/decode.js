@@ -107,6 +107,13 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         };
     }
     else if (types_1.isType(types_1.Type.PositiveIntegerByte, tag.value)) {
+        var metadata = types_1.getMetadata(tag.value);
+        if (metadata > 0) {
+            return {
+                value: metadata - 1,
+                bytes: tag.bytes
+            };
+        }
         var result = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
             minimum: limits_1.UINT8_MIN,
             maximum: limits_1.UINT8_MAX
@@ -117,6 +124,13 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         };
     }
     else if (types_1.isType(types_1.Type.NegativeIntegerByte, tag.value)) {
+        var metadata = types_1.getMetadata(tag.value);
+        if (metadata > 0) {
+            return {
+                value: ((metadata - 1) + 1) * -1,
+                bytes: tag.bytes
+            };
+        }
         var result = decode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tag.bytes, {
             minimum: limits_1.UINT8_MIN,
             maximum: limits_1.UINT8_MAX

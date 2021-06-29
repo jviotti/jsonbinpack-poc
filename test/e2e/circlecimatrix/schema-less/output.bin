@@ -1,5 +1,2 @@
 2version*
-workflows"test"jobs"m1"matrix"parameters"a
-
-
-
+workflows"test"jobs"m1"matrix"parameters"a*:J
