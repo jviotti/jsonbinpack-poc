@@ -144,7 +144,7 @@ tap.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', (test) => {
   }, {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x22, // Length + Tag
+    0x32, // (Length + 1) + Tag
     0x04, 0x66, 0x6f, 0x6f, // Key length + 'foo'
     0x01, 0x04, 0x62, 0x61, 0x72, // String tag + length + 'bar'
     0x04, 0x62, 0x61, 0x7a, // Key length + 'baz'

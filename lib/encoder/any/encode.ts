@@ -26,7 +26,8 @@ import {
 
 import {
   UINT8_MIN,
-  UINT8_MAX
+  UINT8_MAX,
+  UINT4_MAX
 } from '../../utils/limits'
 
 import {
@@ -56,6 +57,7 @@ import {
 } from '../number/encode'
 
 import {
+  ARBITRARY_TYPED_KEYS_OBJECT,
   ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH
 } from '../object/encode'
 
@@ -91,7 +93,28 @@ export const ANY__TYPE_PREFIX = (
   // Encode an object value
   } else if (typeof value === 'object' && value !== null) {
     const size: number = Object.keys(value).length
-    const typeTag: number = getTypeTag(Type.Object, size)
+
+    if (size > UINT4_MAX - 1) {
+      const typeTag: number = getTypeTag(Type.Object, 0)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT(
+        buffer, offset + tagBytes, value, {
+          keyEncoding: {
+            type: EncodingType.String,
+            encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+            options: {}
+          },
+          encoding: {
+            type: EncodingType.Any,
+            encoding: 'ANY__TYPE_PREFIX',
+            options: {}
+          }
+        }, context)
+
+      return tagBytes + valueBytes
+    }
+
+    const typeTag: number = getTypeTag(Type.Object, size + 1)
     const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
     const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(
       buffer, offset + tagBytes, value, {

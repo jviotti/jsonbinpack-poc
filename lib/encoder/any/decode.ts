@@ -55,6 +55,7 @@ import {
 
 import {
   ObjectResult,
+  ARBITRARY_TYPED_KEYS_OBJECT,
   ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH
 } from '../object/decode'
 
@@ -93,9 +94,23 @@ export const ANY__TYPE_PREFIX = (
       bytes: tag.bytes + result.bytes
     }
   } else if (isType(Type.Object, tag.value)) {
-    const result: ObjectResult =
-      ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
-        size: getMetadata(tag.value),
+    const size: number = getMetadata(tag.value)
+
+    const result: ObjectResult = size === 0
+      ? ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
+        keyEncoding: {
+          type: EncodingType.String,
+          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
+          options: {}
+        },
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY__TYPE_PREFIX',
+          options: {}
+        }
+      })
+      : ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
+        size: size - 1,
         keyEncoding: {
           type: EncodingType.String,
           encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
