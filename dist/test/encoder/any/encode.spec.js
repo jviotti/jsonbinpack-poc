@@ -123,19 +123,18 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', function
 });
 tap_1.default.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(11));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, [
         'foo',
         true,
         2000
     ], {}, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x03,
-        0x03,
+        0x43,
         0x01, 0x04, 0x66, 0x6f, 0x6f,
         0x05,
         0x08, 0xd0, 0x0f
     ]));
-    test.is(bytesWritten, 11);
+    test.is(bytesWritten, 10);
     test.end();
 });

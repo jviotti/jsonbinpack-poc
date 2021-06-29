@@ -157,7 +157,7 @@ tap.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', (test) => {
 
 tap.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(11))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, [
     'foo',
     true,
@@ -165,13 +165,12 @@ tap.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   ], {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Tag
-    0x03, // Array length
+    0x43, // Length + 1 with tag
     0x01, 0x04, 0x66, 0x6f, 0x6f, // "foo"
     0x05, // True
     0x08, 0xd0, 0x0f // 2000
   ]))
 
-  test.is(bytesWritten, 11)
+  test.is(bytesWritten, 10)
   test.end()
 })

@@ -74,9 +74,9 @@ tap.test('ANY__TYPE_PREFIX: should handle [ "foo", true, 2000 ]', (test) => {
     'foo', true, 2000
   ], {}, context)
 
-  test.is(bytesWritten, 11)
+  test.is(bytesWritten, 10)
   const result: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})
-  test.is(result.bytes, 11)
+  test.is(result.bytes, 10)
   test.strictSame(result.value, [ 'foo', true, 2000 ])
 
   test.end()

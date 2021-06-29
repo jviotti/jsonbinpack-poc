@@ -15,9 +15,17 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
         maximum: limits_1.UINT8_MAX
     });
     if (types_1.isType(types_1.Type.Array, tag.value)) {
-        var result = decode_5.UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
-            prefixEncodings: []
-        });
+        var size = types_1.getMetadata(tag.value);
+        var result = size === 0
+            ? decode_5.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset + tag.bytes, {
+                minimum: 0,
+                prefixEncodings: []
+            })
+            : decode_5.FLOOR_SEMITYPED__LENGTH_PREFIX_WITHOUT_LENGTH(buffer, offset + tag.bytes, {
+                size: size - 1,
+                minimum: 0,
+                prefixEncodings: []
+            });
         return {
             value: result.value,
             bytes: tag.bytes + result.bytes
