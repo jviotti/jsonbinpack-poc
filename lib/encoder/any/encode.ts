@@ -49,7 +49,9 @@ import {
 } from '../integer/encode'
 
 import {
-  ARBITRARY__PREFIX_LENGTH_VARINT
+  UTF8_STRING_NO_LENGTH,
+  SHARED_STRING_POINTER_RELATIVE_OFFSET,
+  FLOOR__PREFIX_LENGTH_ENUM_VARINT
 } from '../string/encode'
 
 import {
@@ -69,6 +71,8 @@ import {
 import {
   EncodingContext
 } from '../context'
+
+const STRING_ENCODING: BufferEncoding = 'utf8'
 
 const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number, context: EncodingContext): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
@@ -163,16 +167,34 @@ export const ANY__TYPE_PREFIX = (
 
   // Encode a string value
   } else if (typeof value === 'string') {
-    const typeTag: number = getTypeTag(Type.String, 0)
+    const length: number = Buffer.byteLength(value, STRING_ENCODING)
 
-    // Exploit the fact that a shared string always starts with an impossible length
-    // marker (0) to avoid having to encode an additional tag
-    const tagBytes: number = context.strings.has(value)
-      ? 0
-      : encodeTypeTag(buffer, offset, typeTag, context)
-    const valueBytes: number =
-      ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + tagBytes, value, {}, context)
-    return tagBytes + valueBytes
+    if (length > UINT4_MAX - 1) {
+      const typeTag: number = getTypeTag(Type.String, 0)
+
+      // Exploit the fact that a shared string always starts with an impossible length
+      // marker (0) to avoid having to encode an additional tag
+      const tagBytes: number = context.strings.has(value)
+        ? 0
+        : encodeTypeTag(buffer, offset, typeTag, context)
+      const valueBytes: number =
+        FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes, value, {
+          minimum: 0
+        }, context)
+      return tagBytes + valueBytes
+    } else if (context.strings.has(value)) {
+      const typeTag: number = getTypeTag(Type.SharedString, length + 1)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      return tagBytes + SHARED_STRING_POINTER_RELATIVE_OFFSET(buffer, offset + tagBytes, value, {
+        size: length
+      }, context)
+    } else {
+      const typeTag: number = getTypeTag(Type.String, length + 1)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      return tagBytes + UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes, value, {
+        size: length
+      }, context)
+    }
 
   // Encode an integer value
   } else if (Number.isInteger(value)) {
