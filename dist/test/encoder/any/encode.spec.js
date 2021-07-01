@@ -46,12 +46,12 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode " " as 0x21 0x20', function 
     test.is(bytesWritten, 2);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x04 + double', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x55 + double', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 3.14, {}, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x04, 0xf4, 0x04, 0x02
+        0x55, 0xf4, 0x04, 0x02
     ]));
     test.is(bytesWritten, 4);
     test.end();

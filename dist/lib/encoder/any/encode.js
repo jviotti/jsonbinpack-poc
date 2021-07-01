@@ -140,7 +140,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         }, context);
         return tagBytes_9 + valueBytes_7;
     }
-    var typeTag = types_1.getTypeTag(types_1.Type.Number, 0);
+    var typeTag = types_1.getTypeTag(types_1.Type.Other, types_1.Subtype.Number);
     var tagBytes = encodeTypeTag(buffer, offset, typeTag, context);
     var valueBytes = encode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context);
     return tagBytes + valueBytes;
