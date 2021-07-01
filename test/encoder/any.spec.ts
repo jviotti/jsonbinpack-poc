@@ -111,8 +111,8 @@ tap.test('ANY__TYPE_PREFIX: should handle shared strings', (test) => {
   test.is(bytesWritten2, 2)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x41, 0x66, 0x6f, 0x6f, // Tag + length + foo
-    0x40, // Start of pointer
+    0x21, 0x66, 0x6f, 0x6f, // Tag + length + foo
+    0x20, // Start of pointer
     0x04 // Pointer (current = 6 - location = 2)
   ]))
 

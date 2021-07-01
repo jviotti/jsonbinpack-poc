@@ -20,7 +20,7 @@ var encodeTypeTag = function (buffer, offset, tag, context) {
 var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
     if (Array.isArray(value)) {
         var size = value.length;
-        if (size > limits_1.UINT4_MAX - 1) {
+        if (size > limits_1.UINT5_MAX - 1) {
             var typeTag_1 = types_1.getTypeTag(types_1.Type.Array, 0);
             var tagBytes_1 = encodeTypeTag(buffer, offset, typeTag_1, context);
             var valueBytes_1 = encode_5.FLOOR_SEMITYPED__LENGTH_PREFIX(buffer, offset + tagBytes_1, value, {
@@ -40,7 +40,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
     }
     else if (typeof value === 'object' && value !== null) {
         var size = Object.keys(value).length;
-        if (size > limits_1.UINT4_MAX - 1) {
+        if (size > limits_1.UINT5_MAX - 1) {
             var typeTag_3 = types_1.getTypeTag(types_1.Type.Object, 0);
             var tagBytes_3 = encodeTypeTag(buffer, offset, typeTag_3, context);
             var valueBytes_3 = encode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tagBytes_3, value, {
@@ -86,7 +86,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
     }
     else if (typeof value === 'string') {
         var length_1 = Buffer.byteLength(value, STRING_ENCODING);
-        if (length_1 > limits_1.UINT4_MAX - 1) {
+        if (length_1 > limits_1.UINT5_MAX - 1) {
             var typeTag_7 = types_1.getTypeTag(types_1.Type.String, 0);
             var tagBytes_5 = context.strings.has(value)
                 ? 0
@@ -117,7 +117,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         if (absoluteValue <= limits_1.UINT8_MAX) {
             var type_1 = isPositive
                 ? types_1.Type.PositiveIntegerByte : types_1.Type.NegativeIntegerByte;
-            if (absoluteValue <= limits_1.UINT4_MAX - 1) {
+            if (absoluteValue <= limits_1.UINT5_MAX - 1) {
                 var typeTag_10 = types_1.getTypeTag(type_1, absoluteValue + 1);
                 return encodeTypeTag(buffer, offset, typeTag_10, context);
             }
