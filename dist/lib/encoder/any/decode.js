@@ -172,7 +172,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: tag.bytes + result.bytes
         };
     }
-    else if (types_1.isType(types_1.Type.Number, tag.value)) {
+    else if (types_1.isNumber(tag.value)) {
         var result = decode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {});
         return {
             value: result.value,

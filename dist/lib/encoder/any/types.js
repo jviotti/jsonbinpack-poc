@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNegativeInteger = exports.isPositiveInteger = exports.isNull = exports.isFalse = exports.isTrue = exports.getMetadata = exports.getTypeTag = exports.isType = exports.Subtype = exports.Type = void 0;
+exports.isNumber = exports.isNegativeInteger = exports.isPositiveInteger = exports.isNull = exports.isFalse = exports.isTrue = exports.getMetadata = exports.getTypeTag = exports.isType = exports.Subtype = exports.Type = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var Type;
@@ -10,7 +10,6 @@ var Type;
     Type[Type["Object"] = 2] = "Object";
     Type[Type["Array"] = 3] = "Array";
     Type[Type["Other"] = 5] = "Other";
-    Type[Type["Number"] = 4] = "Number";
     Type[Type["PositiveIntegerByte"] = 10] = "PositiveIntegerByte";
     Type[Type["NegativeIntegerByte"] = 11] = "NegativeIntegerByte";
 })(Type = exports.Type || (exports.Type = {}));
@@ -21,6 +20,7 @@ var Subtype;
     Subtype[Subtype["Null"] = 2] = "Null";
     Subtype[Subtype["PositiveInteger"] = 3] = "PositiveInteger";
     Subtype[Subtype["NegativeInteger"] = 4] = "NegativeInteger";
+    Subtype[Subtype["Number"] = 5] = "Number";
 })(Subtype = exports.Subtype || (exports.Subtype = {}));
 var isType = function (type, value) {
     assert_1.strict(type >= limits_1.UINT4_MIN && type <= limits_1.UINT4_MAX);
@@ -64,3 +64,8 @@ var isNegativeInteger = function (value) {
         exports.getMetadata(value) === Subtype.NegativeInteger;
 };
 exports.isNegativeInteger = isNegativeInteger;
+var isNumber = function (value) {
+    return exports.isType(Type.Other, value) &&
+        exports.getMetadata(value) === Subtype.Number;
+};
+exports.isNumber = isNumber;

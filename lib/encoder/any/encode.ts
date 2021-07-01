@@ -241,7 +241,7 @@ export const ANY__TYPE_PREFIX = (
   }
 
   // Encode an number value
-  const typeTag: number = getTypeTag(Type.Number, 0)
+  const typeTag: number = getTypeTag(Type.Other, Subtype.Number)
   const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
   const valueBytes: number =
       DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context)

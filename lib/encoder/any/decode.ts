@@ -73,6 +73,7 @@ import {
   isFalse,
   isNull,
   isType,
+  isNumber,
   isPositiveInteger,
   isNegativeInteger,
   getMetadata
@@ -255,7 +256,7 @@ export const ANY__TYPE_PREFIX = (
       value: (result.value + 1) * -1,
       bytes: tag.bytes + result.bytes
     }
-  } else if (isType(Type.Number, tag.value)) {
+  } else if (isNumber(tag.value)) {
     const result: NumberResult =
         DOUBLE_VARINT_TUPLE(buffer, offset + tag.bytes, {})
     return {
