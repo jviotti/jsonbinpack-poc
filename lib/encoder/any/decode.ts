@@ -73,6 +73,8 @@ import {
   isFalse,
   isNull,
   isType,
+  isPositiveInteger,
+  isNegativeInteger,
   getMetadata
 } from './types'
 
@@ -199,7 +201,7 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: result.bytes + tag.bytes
     }
-  } else if (isType(Type.PositiveInteger, tag.value)) {
+  } else if (isPositiveInteger(tag.value)) {
     const result: IntegerResult =
       FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
         minimum: 0
@@ -208,7 +210,7 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  } else if (isType(Type.NegativeInteger, tag.value)) {
+  } else if (isNegativeInteger(tag.value)) {
     const result: IntegerResult =
       FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
         minimum: 0

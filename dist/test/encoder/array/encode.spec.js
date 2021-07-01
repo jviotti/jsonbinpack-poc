@@ -19,7 +19,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", t
         0x03,
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -38,7 +38,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo
         0x01,
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -56,7 +56,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', funct
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 8);
     test.end();
@@ -74,7 +74,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', function (t
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 8);
     test.end();
@@ -93,7 +93,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", tru
         0x01,
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -111,7 +111,7 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true,
         0x00,
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -129,7 +129,7 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", 
         0x03,
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -147,7 +147,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 
         0x00,
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();

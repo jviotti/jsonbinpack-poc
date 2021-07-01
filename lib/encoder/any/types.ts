@@ -36,8 +36,6 @@ export enum Type {
   Array = 0b00000011,
   Other = 0b00000101,
   Number = 0b00000100,
-  PositiveInteger = 0b00001000,
-  NegativeInteger = 0b00001001,
   PositiveIntegerByte = 0b00001010,
   NegativeIntegerByte = 0b00001011
 }
@@ -45,7 +43,9 @@ export enum Type {
 export enum Subtype {
   False = 0b00000000,
   True = 0b00000001,
-  Null = 0b00000010
+  Null = 0b00000010,
+  PositiveInteger = 0b00000011,
+  NegativeInteger = 0b00000100
 }
 
 export const isType = (type: Type, value: number): boolean => {
@@ -78,4 +78,14 @@ export const isFalse = (value: number): boolean => {
 export const isNull = (value: number): boolean => {
   return isType(Type.Other, value) &&
     getMetadata(value) === Subtype.Null
+}
+
+export const isPositiveInteger = (value: number): boolean => {
+  return isType(Type.Other, value) &&
+    getMetadata(value) === Subtype.PositiveInteger
+}
+
+export const isNegativeInteger = (value: number): boolean => {
+  return isType(Type.Other, value) &&
+    getMetadata(value) === Subtype.NegativeInteger
 }

@@ -129,10 +129,11 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
             }, context);
             return tagBytes_8 + valueBytes_6;
         }
-        var type = isPositive
-            ? types_1.Type.PositiveInteger : types_1.Type.NegativeInteger;
-        assert_1.strict(type === types_1.Type.PositiveInteger || -(absoluteValue + 1) === value);
-        var typeTag_12 = types_1.getTypeTag(type, 0);
+        var type = types_1.Type.Other;
+        var subtype = isPositive
+            ? types_1.Subtype.PositiveInteger : types_1.Subtype.NegativeInteger;
+        assert_1.strict(subtype === types_1.Subtype.PositiveInteger || -(absoluteValue + 1) === value);
+        var typeTag_12 = types_1.getTypeTag(type, subtype);
         var tagBytes_9 = encodeTypeTag(buffer, offset, typeTag_12, context);
         var valueBytes_7 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_9, absoluteValue, {
             minimum: 0
