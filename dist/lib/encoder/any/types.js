@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNull = exports.isFalse = exports.isTrue = exports.getMetadata = exports.getTypeTag = exports.isType = exports.BooleanSubtype = exports.Type = void 0;
+exports.isNull = exports.isFalse = exports.isTrue = exports.getMetadata = exports.getTypeTag = exports.isType = exports.Subtype = exports.Type = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var Type;
@@ -9,19 +9,19 @@ var Type;
     Type[Type["String"] = 1] = "String";
     Type[Type["Object"] = 2] = "Object";
     Type[Type["Array"] = 3] = "Array";
+    Type[Type["Other"] = 5] = "Other";
     Type[Type["Number"] = 4] = "Number";
-    Type[Type["Boolean"] = 5] = "Boolean";
     Type[Type["PositiveInteger"] = 8] = "PositiveInteger";
     Type[Type["NegativeInteger"] = 9] = "NegativeInteger";
     Type[Type["PositiveIntegerByte"] = 10] = "PositiveIntegerByte";
     Type[Type["NegativeIntegerByte"] = 11] = "NegativeIntegerByte";
 })(Type = exports.Type || (exports.Type = {}));
-var BooleanSubtype;
-(function (BooleanSubtype) {
-    BooleanSubtype[BooleanSubtype["False"] = 0] = "False";
-    BooleanSubtype[BooleanSubtype["True"] = 1] = "True";
-    BooleanSubtype[BooleanSubtype["Null"] = 2] = "Null";
-})(BooleanSubtype = exports.BooleanSubtype || (exports.BooleanSubtype = {}));
+var Subtype;
+(function (Subtype) {
+    Subtype[Subtype["False"] = 0] = "False";
+    Subtype[Subtype["True"] = 1] = "True";
+    Subtype[Subtype["Null"] = 2] = "Null";
+})(Subtype = exports.Subtype || (exports.Subtype = {}));
 var isType = function (type, value) {
     assert_1.strict(type >= limits_1.UINT4_MIN && type <= limits_1.UINT4_MAX);
     assert_1.strict(value >= limits_1.UINT8_MIN && value <= limits_1.UINT8_MAX);
@@ -40,17 +40,17 @@ var getMetadata = function (value) {
 };
 exports.getMetadata = getMetadata;
 var isTrue = function (value) {
-    return exports.isType(Type.Boolean, value) &&
-        exports.getMetadata(value) === BooleanSubtype.True;
+    return exports.isType(Type.Other, value) &&
+        exports.getMetadata(value) === Subtype.True;
 };
 exports.isTrue = isTrue;
 var isFalse = function (value) {
-    return exports.isType(Type.Boolean, value) &&
-        exports.getMetadata(value) === BooleanSubtype.False;
+    return exports.isType(Type.Other, value) &&
+        exports.getMetadata(value) === Subtype.False;
 };
 exports.isFalse = isFalse;
 var isNull = function (value) {
-    return exports.isType(Type.Boolean, value) &&
-        exports.getMetadata(value) === BooleanSubtype.Null;
+    return exports.isType(Type.Other, value) &&
+        exports.getMetadata(value) === Subtype.Null;
 };
 exports.isNull = isNull;

@@ -34,15 +34,15 @@ export enum Type {
   String = 0b00000001,
   Object = 0b00000010,
   Array = 0b00000011,
+  Other = 0b00000101,
   Number = 0b00000100,
-  Boolean = 0b00000101,
   PositiveInteger = 0b00001000,
   NegativeInteger = 0b00001001,
   PositiveIntegerByte = 0b00001010,
   NegativeIntegerByte = 0b00001011
 }
 
-export enum BooleanSubtype {
+export enum Subtype {
   False = 0b00000000,
   True = 0b00000001,
   Null = 0b00000010
@@ -66,16 +66,16 @@ export const getMetadata = (value: number): number => {
 }
 
 export const isTrue = (value: number): boolean => {
-  return isType(Type.Boolean, value) &&
-    getMetadata(value) === BooleanSubtype.True
+  return isType(Type.Other, value) &&
+    getMetadata(value) === Subtype.True
 }
 
 export const isFalse = (value: number): boolean => {
-  return isType(Type.Boolean, value) &&
-    getMetadata(value) === BooleanSubtype.False
+  return isType(Type.Other, value) &&
+    getMetadata(value) === Subtype.False
 }
 
 export const isNull = (value: number): boolean => {
-  return isType(Type.Boolean, value) &&
-    getMetadata(value) === BooleanSubtype.Null
+  return isType(Type.Other, value) &&
+    getMetadata(value) === Subtype.Null
 }
