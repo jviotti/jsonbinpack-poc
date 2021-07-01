@@ -491,7 +491,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
         0x01,
         0x01,
         0x04, 0x71, 0x75, 0x78,
-        0x07
+        0x25
     ]));
     test.is(bytesWritten, 13);
     test.end();

@@ -75,12 +75,13 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         return tagBytes_4 + valueBytes_4;
     }
     else if (value === null) {
-        var typeTag_5 = types_1.getTypeTag(types_1.Type.Null, 0);
+        var typeTag_5 = types_1.getTypeTag(types_1.Type.Boolean, types_1.BooleanSubtype.Null);
         return encodeTypeTag(buffer, offset, typeTag_5, context);
     }
     else if (typeof value === 'boolean') {
         var typeTag_6 = value
-            ? types_1.getTypeTag(types_1.Type.True, 0) : types_1.getTypeTag(types_1.Type.False, 0);
+            ? types_1.getTypeTag(types_1.Type.Boolean, types_1.BooleanSubtype.True)
+            : types_1.getTypeTag(types_1.Type.Boolean, types_1.BooleanSubtype.False);
         return encodeTypeTag(buffer, offset, typeTag_6, context);
     }
     else if (typeof value === 'string') {

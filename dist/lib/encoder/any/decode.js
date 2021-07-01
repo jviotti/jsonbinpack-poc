@@ -64,19 +64,19 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: tag.bytes + result.bytes
         };
     }
-    else if (types_1.isType(types_1.Type.Null, tag.value)) {
+    else if (types_1.isNull(tag.value)) {
         return {
             value: null,
             bytes: tag.bytes
         };
     }
-    else if (types_1.isType(types_1.Type.True, tag.value)) {
+    else if (types_1.isTrue(tag.value)) {
         return {
             value: true,
             bytes: tag.bytes
         };
     }
-    else if (types_1.isType(types_1.Type.False, tag.value)) {
+    else if (types_1.isFalse(tag.value)) {
         return {
             value: false,
             bytes: tag.bytes

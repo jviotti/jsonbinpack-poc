@@ -69,6 +69,9 @@ import {
 
 import {
   Type,
+  isTrue,
+  isFalse,
+  isNull,
   isType,
   getMetadata
 } from './types'
@@ -137,17 +140,17 @@ export const ANY__TYPE_PREFIX = (
       value: result.value,
       bytes: tag.bytes + result.bytes
     }
-  } else if (isType(Type.Null, tag.value)) {
+  } else if (isNull(tag.value)) {
     return {
       value: null,
       bytes: tag.bytes
     }
-  } else if (isType(Type.True, tag.value)) {
+  } else if (isTrue(tag.value)) {
     return {
       value: true,
       bytes: tag.bytes
     }
-  } else if (isType(Type.False, tag.value)) {
+  } else if (isFalse(tag.value)) {
     return {
       value: false,
       bytes: tag.bytes
