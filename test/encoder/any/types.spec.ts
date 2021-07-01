@@ -22,28 +22,33 @@ import {
   Type
 } from '../../../lib/encoder/any/types'
 
-tap.test('Type.Object should match 0000 0010', (test) => {
+tap.test('Type.Object should match 00000 010', (test) => {
   test.true(isType(Type.Object, 0b00000010))
   test.end()
 })
 
-tap.test('Type.Object should match 1100 0010', (test) => {
+tap.test('Type.Object should match 11000 010', (test) => {
   test.true(isType(Type.Object, 0b11000010))
   test.end()
 })
 
-tap.test('Type.Object should match 1101 0010', (test) => {
+tap.test('Type.Object should match 11010 010', (test) => {
   test.true(isType(Type.Object, 0b11010010))
   test.end()
 })
 
-tap.test('Type.Object should match 1111 0010', (test) => {
+tap.test('Type.Object should match 11110 010', (test) => {
   test.true(isType(Type.Object, 0b11110010))
   test.end()
 })
 
-tap.test('Type.Object should not match 1111 010', (test) => {
-  test.false(isType(Type.Object, 0b11111010))
+tap.test('Type.Object should match 11111 010', (test) => {
+  test.true(isType(Type.Object, 0b11111010))
+  test.end()
+})
+
+tap.test('Type.Object should not match 11111 110', (test) => {
+  test.false(isType(Type.Object, 0b11111110))
   test.end()
 })
 
@@ -61,3 +66,8 @@ tap.test('getTypeTag() Object + 01111', (test) => {
   test.true(isType(Type.Object, getTypeTag(Type.Object, 0b00001111)))
   test.end()
 })
+
+// tap.test('getTypeTag() Object + 11111', (test) => {
+  // test.true(isType(Type.Object, getTypeTag(Type.Object, 0b00011111)))
+  // test.end()
+// })

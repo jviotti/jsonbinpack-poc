@@ -27,7 +27,7 @@ import {
 import {
   UINT8_MIN,
   UINT8_MAX,
-  UINT4_MAX
+  UINT5_MAX
 } from '../../utils/limits'
 
 import {
@@ -89,7 +89,7 @@ export const ANY__TYPE_PREFIX = (
   if (Array.isArray(value)) {
     const size: number = value.length
 
-    if (size > UINT4_MAX - 1) {
+    if (size > UINT5_MAX - 1) {
       const typeTag: number = getTypeTag(Type.Array, 0)
       const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
       const valueBytes: number = FLOOR_SEMITYPED__LENGTH_PREFIX(
@@ -116,7 +116,7 @@ export const ANY__TYPE_PREFIX = (
   } else if (typeof value === 'object' && value !== null) {
     const size: number = Object.keys(value).length
 
-    if (size > UINT4_MAX - 1) {
+    if (size > UINT5_MAX - 1) {
       const typeTag: number = getTypeTag(Type.Object, 0)
       const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
       const valueBytes: number = ARBITRARY_TYPED_KEYS_OBJECT(
@@ -171,7 +171,7 @@ export const ANY__TYPE_PREFIX = (
   } else if (typeof value === 'string') {
     const length: number = Buffer.byteLength(value, STRING_ENCODING)
 
-    if (length > UINT4_MAX - 1) {
+    if (length > UINT5_MAX - 1) {
       const typeTag: number = getTypeTag(Type.String, 0)
 
       // Exploit the fact that a shared string always starts with an impossible length
@@ -207,7 +207,7 @@ export const ANY__TYPE_PREFIX = (
       const type: Type = isPositive
         ? Type.PositiveIntegerByte : Type.NegativeIntegerByte
 
-      if (absoluteValue <= UINT4_MAX - 1) {
+      if (absoluteValue <= UINT5_MAX - 1) {
         const typeTag: number = getTypeTag(type, absoluteValue + 1)
         return encodeTypeTag(buffer, offset, typeTag, context)
       }

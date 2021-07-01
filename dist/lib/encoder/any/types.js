@@ -23,20 +23,20 @@ var Subtype;
     Subtype[Subtype["Number"] = 5] = "Number";
 })(Subtype = exports.Subtype || (exports.Subtype = {}));
 var isType = function (type, value) {
-    assert_1.strict(type >= limits_1.UINT4_MIN && type <= limits_1.UINT4_MAX);
+    assert_1.strict(type >= limits_1.UINT3_MIN && type <= limits_1.UINT3_MAX);
     assert_1.strict(value >= limits_1.UINT8_MIN && value <= limits_1.UINT8_MAX);
-    return (value & 15) === type;
+    return (value & 7) === type;
 };
 exports.isType = isType;
 var getTypeTag = function (type, metadata) {
-    assert_1.strict(type >= limits_1.UINT4_MIN && type <= limits_1.UINT4_MAX);
-    assert_1.strict(metadata >= limits_1.UINT4_MIN && metadata <= limits_1.UINT4_MAX);
-    return (metadata << 4) | type;
+    assert_1.strict(type >= limits_1.UINT3_MIN && type <= limits_1.UINT3_MAX);
+    assert_1.strict(metadata >= limits_1.UINT5_MIN && metadata <= limits_1.UINT5_MAX);
+    return (metadata << 3) | type;
 };
 exports.getTypeTag = getTypeTag;
 var getMetadata = function (value) {
     assert_1.strict(value >= limits_1.UINT8_MIN && value <= limits_1.UINT8_MAX);
-    return value >>> 4;
+    return value >>> 3;
 };
 exports.getMetadata = getMetadata;
 var isTrue = function (value) {

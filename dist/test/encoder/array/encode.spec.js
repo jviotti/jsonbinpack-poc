@@ -17,9 +17,9 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", t
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -36,9 +36,9 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -54,9 +54,9 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', funct
         maximum: 3
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 8);
     test.end();
@@ -72,9 +72,9 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', function (t
         maximum: 3
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 8);
     test.end();
@@ -91,9 +91,9 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", tru
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -109,9 +109,9 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true,
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x00,
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -127,9 +127,9 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", 
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -145,9 +145,9 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x00,
-        0x41, 0x66, 0x6f, 0x6f,
-        0x16,
-        0x36, 0xd0, 0x0f
+        0x21, 0x66, 0x6f, 0x6f,
+        0x0e,
+        0x1e, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
@@ -328,7 +328,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ type
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x16
+        0x01, 0x00, 0x0e
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -348,7 +348,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x16
+        0x01, 0x00, 0x0e
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -367,7 +367,7 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, 
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
-        0x01, 0x00, 0x16
+        0x01, 0x00, 0x0e
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -386,7 +386,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, t
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x00,
-        0x01, 0x00, 0x16
+        0x01, 0x00, 0x0e
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -405,7 +405,7 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:t
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x16
+        0x01, 0x00, 0x0e
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -423,7 +423,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:tr
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x16
+        0x01, 0x00, 0x0e
     ]));
     test.is(bytesWritten, 4);
     test.end();

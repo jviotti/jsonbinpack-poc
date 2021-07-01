@@ -21,13 +21,15 @@ import {
 import {
   UINT8_MIN,
   UINT8_MAX,
-  UINT4_MIN,
-  UINT4_MAX
+  UINT3_MIN,
+  UINT3_MAX,
+  UINT5_MIN,
+  UINT5_MAX
 } from '../../utils/limits'
 
-// IMPORTANT! This enumeration is capped to have a maximum of 16 elements as
-// we use the lowest-significant 4 bits to store the type, and the remaining
-// 4 bits to store extra metadata about the type.
+// IMPORTANT! This enumeration is capped to have a maximum of 8 elements as
+// we use the lowest-significant 3 bits to store the type, and the remaining
+// 5 bits to store extra metadata about the type.
 
 export enum Type {
   SharedString = 0b00000000,
@@ -49,20 +51,20 @@ export enum Subtype {
 }
 
 export const isType = (type: Type, value: number): boolean => {
-  assert(type >= UINT4_MIN && type <= UINT4_MAX)
+  assert(type >= UINT3_MIN && type <= UINT3_MAX)
   assert(value >= UINT8_MIN && value <= UINT8_MAX)
-  return (value & 0b00001111) === type
+  return (value & 0b00000111) === type
 }
 
 export const getTypeTag = (type: Type, metadata: number): number => {
-  assert(type >= UINT4_MIN && type <= UINT4_MAX)
-  assert(metadata >= UINT4_MIN && metadata <= UINT4_MAX)
-  return (metadata << 4) | type
+  assert(type >= UINT3_MIN && type <= UINT3_MAX)
+  assert(metadata >= UINT5_MIN && metadata <= UINT5_MAX)
+  return (metadata << 3) | type
 }
 
 export const getMetadata = (value: number): number => {
   assert(value >= UINT8_MIN && value <= UINT8_MAX)
-  return value >>> 4
+  return value >>> 3
 }
 
 export const isTrue = (value: number): boolean => {

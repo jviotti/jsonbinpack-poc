@@ -88,8 +88,8 @@ tap_1.default.test('ANY__TYPE_PREFIX: should handle shared strings', function (t
     test.is(bytesWritten1, 4);
     test.is(bytesWritten2, 2);
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x41, 0x66, 0x6f, 0x6f,
-        0x40,
+        0x21, 0x66, 0x6f, 0x6f,
+        0x20,
         0x04
     ]));
     var decode1 = decode_1.ANY__TYPE_PREFIX(buffer, 0, {});
