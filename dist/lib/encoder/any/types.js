@@ -9,9 +9,9 @@ var Type;
     Type[Type["String"] = 1] = "String";
     Type[Type["Object"] = 2] = "Object";
     Type[Type["Array"] = 3] = "Array";
-    Type[Type["Other"] = 5] = "Other";
-    Type[Type["PositiveIntegerByte"] = 10] = "PositiveIntegerByte";
-    Type[Type["NegativeIntegerByte"] = 11] = "NegativeIntegerByte";
+    Type[Type["PositiveIntegerByte"] = 4] = "PositiveIntegerByte";
+    Type[Type["NegativeIntegerByte"] = 5] = "NegativeIntegerByte";
+    Type[Type["Other"] = 6] = "Other";
 })(Type = exports.Type || (exports.Type = {}));
 var Subtype;
 (function (Subtype) {
