@@ -56,7 +56,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 
     0x03, // Array length
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 9)
@@ -78,7 +78,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
     0x01, // Array length
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 9)
@@ -99,7 +99,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 8)
@@ -120,7 +120,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
   test.strictSame(buffer.getBuffer(), Buffer.from([
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 8)
@@ -142,7 +142,7 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
     0x01, // Array length
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 9)
@@ -163,7 +163,7 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', 
     0x00, // Array length
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 9)
@@ -184,7 +184,7 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000
     0x03, // Array length
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 9)
@@ -205,7 +205,7 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (
     0x00, // Array length
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 9)

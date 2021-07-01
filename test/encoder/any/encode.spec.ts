@@ -81,11 +81,11 @@ tap.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x04 + double', (test) => {
   test.end()
 })
 
-tap.test('ANY__TYPE_PREFIX: should encode 256 as 0x08 + varint', (test) => {
+tap.test('ANY__TYPE_PREFIX: should encode 256 as 0x35 + varint', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, 256, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x08, 0x80, 0x02 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x35, 0x80, 0x02 ]))
   test.is(bytesWritten, 3)
   test.end()
 })
@@ -108,11 +108,11 @@ tap.test('ANY__TYPE_PREFIX: should encode 0 as 0x0a 0x00', (test) => {
   test.end()
 })
 
-tap.test('ANY__TYPE_PREFIX: should encode -257 as 0x09 + 256 varint', (test) => {
+tap.test('ANY__TYPE_PREFIX: should encode -257 as 0x45 + 256 varint', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
   const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, -257, {}, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x09, 0x80, 0x02 ]))
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x45, 0x80, 0x02 ]))
   test.is(bytesWritten, 3)
   test.end()
 })
@@ -168,7 +168,7 @@ tap.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
     0x43, // Length + 1 with tag
     0x41, 0x66, 0x6f, 0x6f, // "foo"
     0x15, // True
-    0x08, 0xd0, 0x0f // 2000
+    0x35, 0xd0, 0x0f // 2000
   ]))
 
   test.is(bytesWritten, 9)

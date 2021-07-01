@@ -75,13 +75,13 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         return tagBytes_4 + valueBytes_4;
     }
     else if (value === null) {
-        var typeTag_5 = types_1.getTypeTag(types_1.Type.Boolean, types_1.BooleanSubtype.Null);
+        var typeTag_5 = types_1.getTypeTag(types_1.Type.Other, types_1.Subtype.Null);
         return encodeTypeTag(buffer, offset, typeTag_5, context);
     }
     else if (typeof value === 'boolean') {
         var typeTag_6 = value
-            ? types_1.getTypeTag(types_1.Type.Boolean, types_1.BooleanSubtype.True)
-            : types_1.getTypeTag(types_1.Type.Boolean, types_1.BooleanSubtype.False);
+            ? types_1.getTypeTag(types_1.Type.Other, types_1.Subtype.True)
+            : types_1.getTypeTag(types_1.Type.Other, types_1.Subtype.False);
         return encodeTypeTag(buffer, offset, typeTag_6, context);
     }
     else if (typeof value === 'string') {
@@ -129,10 +129,11 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
             }, context);
             return tagBytes_8 + valueBytes_6;
         }
-        var type = isPositive
-            ? types_1.Type.PositiveInteger : types_1.Type.NegativeInteger;
-        assert_1.strict(type === types_1.Type.PositiveInteger || -(absoluteValue + 1) === value);
-        var typeTag_12 = types_1.getTypeTag(type, 0);
+        var type = types_1.Type.Other;
+        var subtype = isPositive
+            ? types_1.Subtype.PositiveInteger : types_1.Subtype.NegativeInteger;
+        assert_1.strict(subtype === types_1.Subtype.PositiveInteger || -(absoluteValue + 1) === value);
+        var typeTag_12 = types_1.getTypeTag(type, subtype);
         var tagBytes_9 = encodeTypeTag(buffer, offset, typeTag_12, context);
         var valueBytes_7 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_9, absoluteValue, {
             minimum: 0

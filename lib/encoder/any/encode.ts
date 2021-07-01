@@ -36,7 +36,7 @@ import {
 
 import {
   Type,
-  BooleanSubtype,
+  Subtype,
   getTypeTag
 } from './types'
 
@@ -157,14 +157,14 @@ export const ANY__TYPE_PREFIX = (
 
   // Encode a null value (at the type level)
   } else if (value === null) {
-    const typeTag: number = getTypeTag(Type.Boolean, BooleanSubtype.Null)
+    const typeTag: number = getTypeTag(Type.Other, Subtype.Null)
     return encodeTypeTag(buffer, offset, typeTag, context)
 
   // Encode a boolean value (at the type level)
   } else if (typeof value === 'boolean') {
     const typeTag: number = value
-      ? getTypeTag(Type.Boolean, BooleanSubtype.True)
-      : getTypeTag(Type.Boolean, BooleanSubtype.False)
+      ? getTypeTag(Type.Other, Subtype.True)
+      : getTypeTag(Type.Other, Subtype.False)
     return encodeTypeTag(buffer, offset, typeTag, context)
 
   // Encode a string value
@@ -222,22 +222,22 @@ export const ANY__TYPE_PREFIX = (
       return tagBytes + valueBytes
     }
 
-    const type: Type = isPositive
-      ? Type.PositiveInteger : Type.NegativeInteger
+    const type: Type = Type.Other
+    const subtype: Subtype = isPositive
+      ? Subtype.PositiveInteger : Subtype.NegativeInteger
 
     // This assertion means that we have an integer that cannot
     // be correctly represented in JavaScript. We will leave this
     // problem aside until we switch over to C++
-    assert(type === Type.PositiveInteger || -(absoluteValue + 1) === value)
+    assert(subtype === Subtype.PositiveInteger || -(absoluteValue + 1) === value)
 
-    const typeTag: number = getTypeTag(type, 0)
+    const typeTag: number = getTypeTag(type, subtype)
     const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
     const valueBytes: number =
       FLOOR__ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
         minimum: 0
       }, context)
     return tagBytes + valueBytes
-
   }
 
   // Encode an number value

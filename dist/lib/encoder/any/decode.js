@@ -120,7 +120,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: result.bytes + tag.bytes
         };
     }
-    else if (types_1.isType(types_1.Type.PositiveInteger, tag.value)) {
+    else if (types_1.isPositiveInteger(tag.value)) {
         var result = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
             minimum: 0
         });
@@ -129,7 +129,7 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: tag.bytes + result.bytes
         };
     }
-    else if (types_1.isType(types_1.Type.NegativeInteger, tag.value)) {
+    else if (types_1.isNegativeInteger(tag.value)) {
         var result = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
             minimum: 0
         });

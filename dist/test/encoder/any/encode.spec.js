@@ -56,11 +56,11 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode 3.14 as 0x04 + double', func
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode 256 as 0x08 + varint', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode 256 as 0x35 + varint', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 256, {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x08, 0x80, 0x02]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x35, 0x80, 0x02]));
     test.is(bytesWritten, 3);
     test.end();
 });
@@ -80,11 +80,11 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode 0 as 0x0a 0x00', function (t
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode -257 as 0x09 + 256 varint', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode -257 as 0x45 + 256 varint', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(3));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, -257, {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x09, 0x80, 0x02]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x45, 0x80, 0x02]));
     test.is(bytesWritten, 3);
     test.end();
 });
@@ -133,7 +133,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', func
         0x43,
         0x41, 0x66, 0x6f, 0x6f,
         0x15,
-        0x08, 0xd0, 0x0f
+        0x35, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
     test.end();
