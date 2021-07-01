@@ -29,7 +29,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar
         0x04, 0x66, 0x6f, 0x6f,
         0x41, 0x62, 0x61, 0x72,
         0x04, 0x62, 0x61, 0x7a,
-        0x2a
+        0x24
     ]));
     test.is(bytesWritten, 14);
     test.end();
@@ -56,7 +56,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",
         0x01, 0x66, 0x6f, 0x6f,
         0x41, 0x62, 0x61, 0x72,
         0x01, 0x62, 0x61, 0x7a,
-        0x2a
+        0x24
     ]));
     test.is(bytesWritten, 14);
     test.end();
@@ -390,7 +390,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         0x04, 0x62, 0x61, 0x72,
         0x01,
         0x04, 0x62, 0x61, 0x7a,
-        0x2a
+        0x24
     ]));
     test.is(bytesWritten, 10);
     test.end();
@@ -451,7 +451,7 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         0x04, 0x62, 0x61, 0x72,
         0x01,
         0x04, 0x62, 0x61, 0x7a,
-        0x2a
+        0x24
     ]));
     test.is(bytesWritten, 12);
     test.end();
@@ -491,7 +491,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
         0x01,
         0x01,
         0x04, 0x71, 0x75, 0x78,
-        0x25
+        0x26
     ]));
     test.is(bytesWritten, 13);
     test.end();
