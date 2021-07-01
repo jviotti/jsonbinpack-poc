@@ -18,7 +18,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", t
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
@@ -37,7 +37,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
@@ -55,7 +55,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', funct
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 8);
@@ -73,7 +73,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', function (t
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 8);
@@ -92,7 +92,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", tru
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
@@ -110,7 +110,7 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true,
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x00,
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
@@ -128,7 +128,7 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", 
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
@@ -146,7 +146,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x00,
         0x41, 0x66, 0x6f, 0x6f,
-        0x05,
+        0x15,
         0x08, 0xd0, 0x0f
     ]));
     test.is(bytesWritten, 9);
@@ -328,7 +328,7 @@ tap_1.default.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ type
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x05
+        0x01, 0x00, 0x15
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -348,7 +348,7 @@ tap_1.default.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x05
+        0x01, 0x00, 0x15
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -367,7 +367,7 @@ tap_1.default.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, 
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
-        0x01, 0x00, 0x05
+        0x01, 0x00, 0x15
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -386,7 +386,7 @@ tap_1.default.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, t
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x00,
-        0x01, 0x00, 0x05
+        0x01, 0x00, 0x15
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -405,7 +405,7 @@ tap_1.default.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:t
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x05
+        0x01, 0x00, 0x15
     ]));
     test.is(bytesWritten, 4);
     test.end();
@@ -423,7 +423,7 @@ tap_1.default.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:tr
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x03,
-        0x01, 0x00, 0x05
+        0x01, 0x00, 0x15
     ]));
     test.is(bytesWritten, 4);
     test.end();

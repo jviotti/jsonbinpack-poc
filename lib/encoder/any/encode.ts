@@ -36,6 +36,7 @@ import {
 
 import {
   Type,
+  BooleanSubtype,
   getTypeTag
 } from './types'
 
@@ -156,13 +157,14 @@ export const ANY__TYPE_PREFIX = (
 
   // Encode a null value (at the type level)
   } else if (value === null) {
-    const typeTag: number = getTypeTag(Type.Null, 0)
+    const typeTag: number = getTypeTag(Type.Boolean, BooleanSubtype.Null)
     return encodeTypeTag(buffer, offset, typeTag, context)
 
   // Encode a boolean value (at the type level)
   } else if (typeof value === 'boolean') {
     const typeTag: number = value
-      ? getTypeTag(Type.True, 0) : getTypeTag(Type.False, 0)
+      ? getTypeTag(Type.Boolean, BooleanSubtype.True)
+      : getTypeTag(Type.Boolean, BooleanSubtype.False)
     return encodeTypeTag(buffer, offset, typeTag, context)
 
   // Encode a string value
