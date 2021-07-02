@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var encode_1 = require("../integer/encode");
@@ -203,3 +203,27 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options,
     return bytesWritten + prefixBytes + lengthBytes;
 };
 exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = FLOOR__PREFIX_LENGTH_ENUM_VARINT;
+var UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = function (buffer, offset, value, _options, context) {
+    if (context.keys.has(value)) {
+        var prefixBytes = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, {
+            minimum: 0,
+            maximum: 0
+        }, context);
+        var cursor = offset + prefixBytes;
+        var pointer = context.keys.get(value);
+        assert_1.strict(typeof pointer === 'number');
+        return prefixBytes + encode_1.FLOOR__ENUM_VARINT(buffer, cursor, cursor - pointer, {
+            minimum: 0
+        }, context);
+    }
+    var length = Buffer.byteLength(value, STRING_ENCODING);
+    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, length + 1, {
+        minimum: 0
+    }, context);
+    context.keys.set(value, offset);
+    context.strings.set(value, offset + lengthBytes);
+    return lengthBytes + exports.UTF8_STRING_NO_LENGTH(buffer, offset + lengthBytes, value, {
+        size: length
+    }, context);
+};
+exports.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH;

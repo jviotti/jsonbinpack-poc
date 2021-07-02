@@ -307,3 +307,44 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
     bytes: result.bytes + prefix.bytes
   }
 }
+
+export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
+): StringResult => {
+  const prefix: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+    minimum: 0
+  })
+
+  if (prefix.value === 0) {
+    const pointer: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset + prefix.bytes, {
+      minimum: 0
+    })
+
+    const cursor: number = offset + prefix.bytes - pointer.value
+
+    const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, cursor, {
+      minimum: 0
+    })
+
+    // This cannot be another shared string
+    assert(length.value > 0)
+
+    const result: StringResult = UTF8_STRING_NO_LENGTH(buffer, cursor + length.bytes, {
+      size: length.value - 1
+    })
+
+    return {
+      value: result.value,
+      bytes: prefix.bytes + pointer.bytes
+    }
+  }
+
+  const result: StringResult = UTF8_STRING_NO_LENGTH(buffer, offset + prefix.bytes, {
+    size: prefix.value - 1
+  })
+
+  return {
+    value: result.value,
+    bytes: result.bytes + prefix.bytes
+  }
+}

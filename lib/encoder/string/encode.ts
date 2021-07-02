@@ -332,3 +332,36 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
 
   return bytesWritten + prefixBytes + lengthBytes
 }
+
+export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  _options: NoOptions, context: EncodingContext
+): number => {
+  if (context.keys.has(value)) {
+    const prefixBytes: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, 0, {
+      minimum: 0,
+      maximum: 0
+    }, context)
+    const cursor: number = offset + prefixBytes
+    const pointer: number | undefined = context.keys.get(value)
+    assert(typeof pointer === 'number')
+    return prefixBytes + FLOOR__ENUM_VARINT(buffer, cursor, cursor - pointer, {
+      minimum: 0
+    }, context)
+  }
+
+  const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
+  const lengthBytes: number =
+    FLOOR__ENUM_VARINT(buffer, offset, length + 1, {
+      minimum: 0
+    }, context)
+
+  context.keys.set(value, offset)
+  // Its fine to override as it means that future pointers will be smaller
+  context.strings.set(value, offset + lengthBytes)
+
+  return lengthBytes + UTF8_STRING_NO_LENGTH(
+    buffer, offset + lengthBytes, value, {
+      size: length
+    }, context)
+}

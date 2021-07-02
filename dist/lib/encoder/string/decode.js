@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var decode_1 = require("../integer/decode");
@@ -186,3 +186,33 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     };
 };
 exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = FLOOR__PREFIX_LENGTH_ENUM_VARINT;
+var UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = function (buffer, offset, _options) {
+    var prefix = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
+        minimum: 0
+    });
+    if (prefix.value === 0) {
+        var pointer = decode_1.FLOOR__ENUM_VARINT(buffer, offset + prefix.bytes, {
+            minimum: 0
+        });
+        var cursor = offset + prefix.bytes - pointer.value;
+        var length_5 = decode_1.FLOOR__ENUM_VARINT(buffer, cursor, {
+            minimum: 0
+        });
+        assert_1.strict(length_5.value > 0);
+        var result_1 = exports.UTF8_STRING_NO_LENGTH(buffer, cursor + length_5.bytes, {
+            size: length_5.value - 1
+        });
+        return {
+            value: result_1.value,
+            bytes: prefix.bytes + pointer.bytes
+        };
+    }
+    var result = exports.UTF8_STRING_NO_LENGTH(buffer, offset + prefix.bytes, {
+        size: prefix.value - 1
+    });
+    return {
+        value: result.value,
+        bytes: result.bytes + prefix.bytes
+    };
+};
+exports.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH;
