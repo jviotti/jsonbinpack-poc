@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-// TODO: We should have a better data structure here
-// that supports searching for any substring of a string
-// in a bucket
-
 // Encoding a shared string has some overhead, such as the
 // shared string marker + the offset, so its not worth
 // doing for strings that are too small.
