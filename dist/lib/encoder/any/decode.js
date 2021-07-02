@@ -37,10 +37,8 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             ? decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
                 keyEncoding: {
                     type: encoding_type_1.EncodingType.String,
-                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                    options: {
-                        minimum: 0
-                    }
+                    encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                    options: {}
                 },
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,
@@ -52,10 +50,8 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
                 size: size - 1,
                 keyEncoding: {
                     type: encoding_type_1.EncodingType.String,
-                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                    options: {
-                        minimum: 0
-                    }
+                    encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                    options: {}
                 },
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,

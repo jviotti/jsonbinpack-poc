@@ -383,10 +383,8 @@ tap_1.default.test('should encode a simple unbounded object', function (test) {
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             encoding: {
                 type: 'any',
@@ -410,10 +408,8 @@ tap_1.default.test('should encode a simple unbounded object with empty required'
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             encoding: {
                 type: 'any',
@@ -437,10 +433,8 @@ tap_1.default.test('should encode a simple unbounded object with additionalPrope
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             encoding: {
                 type: 'any',
@@ -466,10 +460,8 @@ tap_1.default.test('should encode a simple unbounded object with additionalPrope
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             encoding: {
                 type: 'string',
@@ -603,10 +595,8 @@ tap_1.default.test('should encode a simple unbounded object with a required prop
             },
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             encoding: {
                 type: 'any',
@@ -646,10 +636,8 @@ tap_1.default.test('should encode a simple unbounded object with a required type
             },
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             encoding: {
                 type: 'any',
@@ -699,10 +687,8 @@ tap_1.default.test('should encode a simple unbounded object with two optional pr
             },
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             encoding: {
                 type: 'any',
@@ -981,10 +967,8 @@ tap_1.default.test('should encode an unbounded object with bounded integers', fu
             booleanRequiredProperties: ['flag'],
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             }
         }
     });
@@ -1048,10 +1032,8 @@ tap_1.default.test('should encode an unbounded object with bounded integers with
             booleanRequiredProperties: ['flag'],
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             }
         }
     });

@@ -31,7 +31,8 @@ import {
   ROOF__PREFIX_LENGTH_ENUM_VARINT as ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT as ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   UTF8_STRING_NO_LENGTH as ENCODE_UTF8_STRING_NO_LENGTH,
-  SHARED_STRING_POINTER_RELATIVE_OFFSET as ENCODE_SHARED_STRING_POINTER_RELATIVE_OFFSET
+  SHARED_STRING_POINTER_RELATIVE_OFFSET as ENCODE_SHARED_STRING_POINTER_RELATIVE_OFFSET,
+  UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH as ENCODE_UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH
 } from '../../lib/encoder/string/encode'
 
 import {
@@ -45,7 +46,8 @@ import {
   ROOF__PREFIX_LENGTH_ENUM_VARINT as DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT as DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
   UTF8_STRING_NO_LENGTH as DECODE_UTF8_STRING_NO_LENGTH,
-  SHARED_STRING_POINTER_RELATIVE_OFFSET as DECODE_SHARED_STRING_POINTER_RELATIVE_OFFSET
+  SHARED_STRING_POINTER_RELATIVE_OFFSET as DECODE_SHARED_STRING_POINTER_RELATIVE_OFFSET,
+  UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH as DECODE_UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH
 } from '../../lib/encoder/string/decode'
 
 import {
@@ -589,6 +591,43 @@ tap.test('SHARED_STRING_POINTER_RELATIVE_OFFSET: should handle a shared string',
   const result: StringResult = DECODE_SHARED_STRING_POINTER_RELATIVE_OFFSET(
     buffer, bytesWritten1, options)
 
+  test.is(result.value, value)
+  test.is(result.bytes, bytesWritten2)
+
+  test.end()
+})
+
+tap.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should handle "foo"', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const value: string = 'foo'
+  const bytesWritten: number =
+    ENCODE_UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, 0, value, {}, context)
+  const result: StringResult = DECODE_UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, 0, {})
+
+  test.is(result.value, value)
+  test.is(result.bytes, bytesWritten)
+
+  test.end()
+})
+
+tap.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should handle a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+  const value: string = 'foo'
+
+  const bytesWritten1: number = ENCODE_UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(
+    buffer, 0, value, {}, context)
+  const bytesWritten2: number = ENCODE_UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(
+    buffer, bytesWritten1, value, {}, context)
+  const result: StringResult =
+    DECODE_UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, bytesWritten1, {})
+
+  test.is(bytesWritten1, 4)
   test.is(result.value, value)
   test.is(result.bytes, bytesWritten2)
 

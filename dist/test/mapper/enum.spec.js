@@ -28,10 +28,8 @@ tap_1.default.test('should encode an object with an enum with one value', functi
             },
             keyEncoding: {
                 type: 'string',
-                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
-                options: {
-                    minimum: 0
-                }
+                encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+                options: {}
             },
             propertyEncodings: {
                 test: {

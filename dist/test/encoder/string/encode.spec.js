@@ -183,6 +183,7 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared st
         0x05
     ]));
     test.is(context.strings.get('foo'), 1);
+    test.false(context.keys.has('foo'));
     test.is(bytesWritten1, 4);
     test.is(bytesWritten2, 3);
     test.end();
@@ -203,6 +204,7 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode a shared s
         0x05
     ]));
     test.is(context.strings.get('foo'), 1);
+    test.false(context.keys.has('foo'));
     test.is(bytesWritten1, 4);
     test.is(bytesWritten2, 3);
     test.end();
@@ -222,6 +224,7 @@ tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode a shared stri
         0x05
     ]));
     test.is(context.strings.get('foo'), 1);
+    test.false(context.keys.has('foo'));
     test.is(bytesWritten1, 4);
     test.is(bytesWritten2, 3);
     test.end();
@@ -236,6 +239,7 @@ tap_1.default.test('UTF8_STRING_NO_LENGTH: should encode a string', function (te
         0x66, 0x6f, 0x6f
     ]));
     test.is(context.strings.get('foo'), 0);
+    test.false(context.keys.has('foo'));
     test.is(bytesWritten, 3);
     test.end();
 });
@@ -253,6 +257,7 @@ tap_1.default.test('SHARED_STRING_POINTER_RELATIVE_OFFSET: should encode a share
         0x03
     ]));
     test.is(context.strings.get('foo'), 0);
+    test.false(context.keys.has('foo'));
     test.is(bytesWritten1, 3);
     test.is(bytesWritten2, 1);
     test.end();
@@ -272,7 +277,49 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode a shared str
         0x05
     ]));
     test.is(context.strings.get('foo'), 1);
+    test.false(context.keys.has('foo'));
     test.is(bytesWritten1, 4);
     test.is(bytesWritten2, 3);
+    test.end();
+});
+tap_1.default.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should encode "foo"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
+    var bytesWritten = encode_1.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, 0, 'foo', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x04, 0x66, 0x6f, 0x6f]));
+    test.is(bytesWritten, 4);
+    test.end();
+});
+tap_1.default.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should encode a shared string', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
+    var bytesWritten1 = encode_1.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, 0, 'foo', {}, context);
+    var bytesWritten2 = encode_1.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, bytesWritten1, 'foo', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x04, 0x66, 0x6f, 0x6f,
+        0x00,
+        0x05
+    ]));
+    test.is(context.strings.get('foo'), 1);
+    test.is(context.keys.get('foo'), 0);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 2);
+    test.end();
+});
+tap_1.default.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should not encode a shared non-key string', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
+    var bytesWritten1 = encode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', {
+        minimum: 3
+    }, context);
+    var bytesWritten2 = encode_1.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, bytesWritten1, 'foo', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x01, 0x66, 0x6f, 0x6f,
+        0x04, 0x66, 0x6f, 0x6f
+    ]));
+    test.is(context.strings.get('foo'), 5);
+    test.is(context.keys.get('foo'), 4);
+    test.is(bytesWritten1, 4);
+    test.is(bytesWritten2, 4);
     test.end();
 });

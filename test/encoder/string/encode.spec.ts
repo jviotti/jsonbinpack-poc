@@ -25,7 +25,8 @@ import {
   ROOF__PREFIX_LENGTH_ENUM_VARINT,
   UTF8_STRING_NO_LENGTH,
   SHARED_STRING_POINTER_RELATIVE_OFFSET,
-  FLOOR__PREFIX_LENGTH_ENUM_VARINT
+  FLOOR__PREFIX_LENGTH_ENUM_VARINT,
+  UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH
 } from '../../../lib/encoder/string/encode'
 
 import {
@@ -271,6 +272,7 @@ tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
   ]))
 
   test.is(context.strings.get('foo'), 1)
+  test.false(context.keys.has('foo'))
   test.is(bytesWritten1, 4)
   test.is(bytesWritten2, 3)
 
@@ -308,6 +310,7 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
   ]))
 
   test.is(context.strings.get('foo'), 1)
+  test.false(context.keys.has('foo'))
   test.is(bytesWritten1, 4)
   test.is(bytesWritten2, 3)
 
@@ -344,6 +347,7 @@ tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
   ]))
 
   test.is(context.strings.get('foo'), 1)
+  test.false(context.keys.has('foo'))
   test.is(bytesWritten1, 4)
   test.is(bytesWritten2, 3)
 
@@ -366,6 +370,7 @@ tap.test('UTF8_STRING_NO_LENGTH: should encode a string', (
   ]))
 
   test.is(context.strings.get('foo'), 0)
+  test.false(context.keys.has('foo'))
   test.is(bytesWritten, 3)
   test.end()
 })
@@ -394,6 +399,7 @@ tap.test('SHARED_STRING_POINTER_RELATIVE_OFFSET: should encode a shared string',
   ]))
 
   test.is(context.strings.get('foo'), 0)
+  test.false(context.keys.has('foo'))
   test.is(bytesWritten1, 3)
   test.is(bytesWritten2, 1)
   test.end()
@@ -429,8 +435,82 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
   ]))
 
   test.is(context.strings.get('foo'), 1)
+  test.false(context.keys.has('foo'))
   test.is(bytesWritten1, 4)
   test.is(bytesWritten2, 3)
+
+  test.end()
+})
+
+tap.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should encode "foo"', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const bytesWritten: number =
+    UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, 0, 'foo', {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x04, 0x66, 0x6f, 0x6f ]))
+  test.is(bytesWritten, 4)
+  test.end()
+})
+
+tap.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should encode a shared string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+
+  const bytesWritten1: number = UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(
+    buffer, 0, 'foo', {}, context)
+
+  const bytesWritten2: number = UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(
+    buffer, bytesWritten1, 'foo', {}, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    // String length + foo
+    0x04, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x00,
+
+    // Pointer (current = 5 - location = 0)
+    0x05
+  ]))
+
+  test.is(context.strings.get('foo'), 1)
+  test.is(context.keys.get('foo'), 0)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 2)
+
+  test.end()
+})
+
+tap.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should not encode a shared non-key string', (
+  test
+) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
+
+  const bytesWritten1: number = FLOOR__PREFIX_LENGTH_ENUM_VARINT(
+    buffer, 0, 'foo', {
+      minimum: 3
+    }, context)
+
+  const bytesWritten2: number = UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(
+    buffer, bytesWritten1, 'foo', {}, context)
+
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    // String length + foo
+    0x01, 0x66, 0x6f, 0x6f,
+
+    // String length + foo
+    0x04, 0x66, 0x6f, 0x6f
+  ]))
+
+  test.is(context.strings.get('foo'), 5)
+  test.is(context.keys.get('foo'), 4)
+  test.is(bytesWritten1, 4)
+  test.is(bytesWritten2, 4)
 
   test.end()
 })
