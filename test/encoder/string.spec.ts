@@ -31,7 +31,6 @@ import {
   ROOF__PREFIX_LENGTH_8BIT_FIXED as ENCODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
   ROOF__PREFIX_LENGTH_ENUM_VARINT as ENCODE_ROOF__PREFIX_LENGTH_ENUM_VARINT,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT as ENCODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
-  ARBITRARY__PREFIX_LENGTH_VARINT as ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT,
   UTF8_STRING_NO_LENGTH as ENCODE_UTF8_STRING_NO_LENGTH,
   SHARED_STRING_POINTER_RELATIVE_OFFSET as ENCODE_SHARED_STRING_POINTER_RELATIVE_OFFSET
 } from '../../lib/encoder/string/encode'
@@ -47,7 +46,6 @@ import {
   ROOF__PREFIX_LENGTH_8BIT_FIXED as DECODE_ROOF__PREFIX_LENGTH_8BIT_FIXED,
   ROOF__PREFIX_LENGTH_ENUM_VARINT as DECODE_ROOF__PREFIX_LENGTH_ENUM_VARINT,
   FLOOR__PREFIX_LENGTH_ENUM_VARINT as DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT,
-  ARBITRARY__PREFIX_LENGTH_VARINT as DECODE_ARBITRARY__PREFIX_LENGTH_VARINT,
   UTF8_STRING_NO_LENGTH as DECODE_UTF8_STRING_NO_LENGTH,
   SHARED_STRING_POINTER_RELATIVE_OFFSET as DECODE_SHARED_STRING_POINTER_RELATIVE_OFFSET
 } from '../../lib/encoder/string/decode'
@@ -251,17 +249,6 @@ tap.test('RFC3339_DATE_INTEGER_TRIPLET: should handle "2014-10-01"', (test) => {
   test.end()
 })
 
-tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
-  const bytesWritten: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {}, context)
-  test.is(bytesWritten, 2)
-  const result: StringResult = DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {})
-  test.is(result.bytes, 2)
-  test.is(result.value, ' ')
-  test.end()
-})
-
 tap.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
   const arbitrary = fc.nat(UINT8_MAX - 1).chain((maximum: number) => {
     return fc.tuple(
@@ -409,26 +396,6 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
       DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
         minimum
       })
-    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
-  }), {
-    verbose: false
-  })
-
-  test.end()
-})
-
-tap.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', (test) => {
-  fc.assert(fc.property(fc.nat(10), fc.string({
-    maxLength: 1000
-  }), (
-    offset: number, value: string
-  ): boolean => {
-    const context: EncodingContext = getDefaultEncodingContext()
-    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
-    const bytesWritten: number =
-      ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {}, context)
-    const result: StringResult =
-      DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false
@@ -641,36 +608,6 @@ tap.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: shared string', (
 
   const decode2: StringResult = DECODE_FLOOR__PREFIX_LENGTH_ENUM_VARINT(
     buffer, decode1.bytes, options)
-
-  test.is(decode2.bytes, bytesWritten2)
-  test.is(decode2.value, 'foo')
-
-  test.end()
-})
-
-tap.test('ARBITRARY__PREFIX_LENGTH_VARINT: shared string', (
-  test
-) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
-
-  const bytesWritten1: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(
-    buffer, 0, 'foo', {}, context)
-
-  const bytesWritten2: number = ENCODE_ARBITRARY__PREFIX_LENGTH_VARINT(
-    buffer, bytesWritten1, 'foo', {}, context)
-
-  test.is(bytesWritten1, 4)
-  test.is(bytesWritten2, 3)
-
-  const decode1: StringResult = DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(
-    buffer, 0, {})
-
-  test.is(decode1.bytes, bytesWritten1)
-  test.is(decode1.value, 'foo')
-
-  const decode2: StringResult = DECODE_ARBITRARY__PREFIX_LENGTH_VARINT(
-    buffer, decode1.bytes, {})
 
   test.is(decode2.bytes, bytesWritten2)
   test.is(decode2.value, 'foo')
