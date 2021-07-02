@@ -130,8 +130,9 @@ tap.test('should encode a string with maxLength < 255', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'string',
-    encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+    encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
     options: {
+      minimum: 0,
       maximum: 254
     }
   })

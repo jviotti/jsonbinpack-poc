@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var decode_1 = require("../integer/decode");
@@ -139,15 +139,6 @@ var BOUNDED__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     };
 };
 exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = BOUNDED__PREFIX_LENGTH_ENUM_VARINT;
-var ROOF__PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
-    return exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, {
-        minimum: 0,
-        maximum: options.maximum
-    });
-};
-exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = ROOF__PREFIX_LENGTH_8BIT_FIXED;
 var ROOF__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
     var prefix = decode_1.ROOF__MIRROR_ENUM_VARINT(buffer, offset, options);

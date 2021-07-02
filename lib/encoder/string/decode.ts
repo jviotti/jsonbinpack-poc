@@ -244,17 +244,6 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   }
 }
 
-export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: ResizableBuffer, offset: number, options: RoofOptions
-): StringResult => {
-  assert(options.maximum >= 0)
-  assert(options.maximum <= UINT8_MAX)
-  return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, {
-    minimum: 0,
-    maximum: options.maximum
-  })
-}
-
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): StringResult => {
