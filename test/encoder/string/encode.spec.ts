@@ -22,7 +22,6 @@ import {
   RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED,
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT,
-  ROOF__PREFIX_LENGTH_8BIT_FIXED,
   ROOF__PREFIX_LENGTH_ENUM_VARINT,
   UTF8_STRING_NO_LENGTH,
   SHARED_STRING_POINTER_RELATIVE_OFFSET,
@@ -199,20 +198,6 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (
   test.end()
 })
 
-tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode "foo" (..4)', (
-  test
-) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
-  const bytesWritten: number =
-    ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', {
-      maximum: 4
-    }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x04, 0x66, 0x6f, 0x6f ]))
-  test.is(bytesWritten, 4)
-  test.end()
-})
-
 tap.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (..4)', (
   test
 ) => {
@@ -306,42 +291,6 @@ tap.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
     buffer, 0, 'foo', options, context)
 
   const bytesWritten2: number = BOUNDED__PREFIX_LENGTH_ENUM_VARINT(
-    buffer, bytesWritten1, 'foo', options, context)
-
-  test.strictSame(buffer.getBuffer(), Buffer.from([
-    // String length + foo
-    0x04, 0x66, 0x6f, 0x6f,
-
-    // Start of pointer
-    0x00,
-
-    // String length
-    0x04,
-
-    // Pointer (current = 6 - location = 1)
-    0x05
-  ]))
-
-  test.is(context.strings.get('foo'), 1)
-  test.is(bytesWritten1, 4)
-  test.is(bytesWritten2, 3)
-
-  test.end()
-})
-
-tap.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
-  test
-) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
-  const options: RoofOptions = {
-    maximum: 4
-  }
-
-  const bytesWritten1: number = ROOF__PREFIX_LENGTH_8BIT_FIXED(
-    buffer, 0, 'foo', options, context)
-
-  const bytesWritten2: number = ROOF__PREFIX_LENGTH_8BIT_FIXED(
     buffer, bytesWritten1, 'foo', options, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([

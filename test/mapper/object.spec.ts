@@ -116,8 +116,9 @@ tap.test('should encode a bounded object with partially defined required keys', 
       propertyEncodings: {
         foo: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         },
@@ -160,8 +161,9 @@ tap.test('should encode a bounded object with fully defined required keys', (tes
       propertyEncodings: {
         foo: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         },
@@ -224,8 +226,9 @@ tap.test('should encode a bounded object with optional properties', (test) => {
       propertyEncodings: {
         foo: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         }
@@ -261,8 +264,9 @@ tap.test('should encode a bounded object with more than one optional keys', (tes
       propertyEncodings: {
         foo: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         },
@@ -306,8 +310,9 @@ tap.test('should encode a bounded object with more than one optional keys and em
       propertyEncodings: {
         foo: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         },
@@ -348,8 +353,9 @@ tap.test('should encode a bounded object with an optional and a required propert
       propertyEncodings: {
         foo: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         },
@@ -393,8 +399,9 @@ tap.test('should encode a bounded object with an optional and a typed required p
       propertyEncodings: {
         foo: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         },
@@ -555,8 +562,9 @@ tap.test('should encode a simple unbounded object with propertyNames', (test) =>
     options: {
       keyEncoding: {
         type: 'string',
-        encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+        encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
         options: {
+          minimum: 0,
           maximum: 5
         }
       },
@@ -589,8 +597,9 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
     options: {
       keyEncoding: {
         type: 'string',
-        encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+        encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
         options: {
+          minimum: 0,
           maximum: 5
         }
       },
@@ -625,8 +634,9 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
     options: {
       keyEncoding: {
         type: 'string',
-        encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+        encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
         options: {
+          minimum: 0,
           maximum: 5
         }
       },
@@ -759,8 +769,9 @@ tap.test('should encode a simple unbounded object with two optional properties',
         },
         bar: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         }
@@ -822,8 +833,9 @@ tap.test('should encode a complex unbounded object', (test) => {
         },
         bar: {
           type: 'string',
-          encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED',
+          encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
           options: {
+            minimum: 0,
             maximum: 5
           }
         },

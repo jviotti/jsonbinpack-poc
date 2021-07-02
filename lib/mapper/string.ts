@@ -87,12 +87,6 @@ export interface BOUNDED__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodin
   readonly options: BoundedOptions;
 }
 
-export interface ROOF__PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.String;
-  readonly encoding: 'ROOF__PREFIX_LENGTH_8BIT_FIXED';
-  readonly options: RoofOptions;
-}
-
 export interface ROOF__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
   readonly encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT';
@@ -124,7 +118,6 @@ export type StringEncodingNames =
   'RFC3339_DATE_INTEGER_TRIPLET' |
   'BOUNDED__PREFIX_LENGTH_8BIT_FIXED' |
   'BOUNDED__PREFIX_LENGTH_ENUM_VARINT' |
-  'ROOF__PREFIX_LENGTH_8BIT_FIXED' |
   'ROOF__PREFIX_LENGTH_ENUM_VARINT' |
   'FLOOR__PREFIX_LENGTH_ENUM_VARINT' |
   'UTF8_STRING_NO_LENGTH' |
@@ -136,7 +129,6 @@ export type StringEncoding =
   RFC3339_DATE_INTEGER_TRIPLET_ENCODING |
   BOUNDED__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
   BOUNDED__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
-  ROOF__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
   ROOF__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   UTF8_STRING_NO_LENGTH_ENCODING |
@@ -196,10 +188,20 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
       }
     }
   } else if (typeof schema.minLength === 'undefined' && typeof schema.maxLength !== 'undefined') {
+    if (schema.maxLength <= UINT8_MAX - 1) {
+      return {
+        type: EncodingType.String,
+        encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
+        options: {
+          minimum: 0,
+          maximum: schema.maxLength
+        }
+      }
+    }
+
     return {
       type: EncodingType.String,
-      encoding: schema.maxLength <= UINT8_MAX - 1
-        ? 'ROOF__PREFIX_LENGTH_8BIT_FIXED' : 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
+      encoding: 'ROOF__PREFIX_LENGTH_ENUM_VARINT',
       options: {
         maximum: schema.maxLength
       }

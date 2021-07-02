@@ -208,7 +208,8 @@ export const RFC3339_DATE_INTEGER_TRIPLET = (
 
   assert(date.length === 3)
 
-  // As according to RFC3339: Internet Protocols MUST generate four digit years in dates.
+  // As according to RFC3339: Internet Protocols MUST
+  // generate four digit years in dates.
   assert(date[0] >= 0 && date[0] <= 9999)
   assert(date[1] >= 1 && date[1] <= 12)
   assert(date[2] >= 1 && date[2] <= 31)
@@ -219,7 +220,8 @@ export const RFC3339_DATE_INTEGER_TRIPLET = (
 }
 
 export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions, context: EncodingContext
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  options: BoundedOptions, context: EncodingContext
 ): number => {
   assert(options.minimum >= UINT8_MIN)
   assert(options.maximum >= 0)
@@ -228,18 +230,21 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(length <= options.maximum)
 
-  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
-  const bytesWritten: number = BOUNDED_8BITS__ENUM_FIXED(buffer, offset + prefixBytes, length + 1, {
-    minimum: options.minimum,
-    maximum: options.maximum + 1
-  }, context)
+  const prefixBytes: number =
+    maybeWriteSharedPrefix(buffer, offset, value, context)
+  const bytesWritten: number =
+    BOUNDED_8BITS__ENUM_FIXED(buffer, offset + prefixBytes, length + 1, {
+      minimum: options.minimum,
+      maximum: options.maximum + 1
+    }, context)
   const result: number = writeMaybeSharedString(
     buffer, offset + prefixBytes + bytesWritten, value, length, context)
   return result + prefixBytes + bytesWritten
 }
 
 export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: BoundedOptions, context: EncodingContext
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  options: BoundedOptions, context: EncodingContext
 ): number => {
   assert(options.minimum >= 0)
   assert(options.minimum <= options.maximum)
@@ -248,36 +253,30 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   assert(length >= options.minimum)
   assert(length <= options.maximum)
 
-  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
-  const bytesWritten: number = BOUNDED__ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
-    minimum: options.minimum,
-    maximum: options.maximum + 1
-  }, context)
+  const prefixBytes: number =
+    maybeWriteSharedPrefix(buffer, offset, value, context)
+  const bytesWritten: number =
+    BOUNDED__ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
+      minimum: options.minimum,
+      maximum: options.maximum + 1
+    }, context)
 
   const result: number = writeMaybeSharedString(
     buffer, offset + prefixBytes + bytesWritten, value, length, context)
   return result + prefixBytes + bytesWritten
 }
 
-export const ROOF__PREFIX_LENGTH_8BIT_FIXED = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions, context: EncodingContext
-): number => {
-  assert(options.maximum >= 0)
-  assert(options.maximum <= UINT8_MAX - 1)
-  return BOUNDED__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum
-  }, context)
-}
-
 export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONString, options: RoofOptions, context: EncodingContext
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  options: RoofOptions, context: EncodingContext
 ): number => {
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   assert(options.maximum >= 0)
   assert(length <= options.maximum)
-  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
-  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(buffer, offset + prefixBytes, length - 1, options, context)
+  const prefixBytes: number =
+    maybeWriteSharedPrefix(buffer, offset, value, context)
+  const bytesWritten: number = ROOF__MIRROR_ENUM_VARINT(
+    buffer, offset + prefixBytes, length - 1, options, context)
   const result: number = writeMaybeSharedString(
     buffer, offset + prefixBytes + bytesWritten, value, length, context)
   return result + prefixBytes + bytesWritten
@@ -316,7 +315,8 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   /*
    * (1) Write 0x00 if shared, else do nothing
    */
-  const prefixBytes: number = maybeWriteSharedPrefix(buffer, offset, value, context)
+  const prefixBytes: number =
+    maybeWriteSharedPrefix(buffer, offset, value, context)
 
   /*
    * (2) Write length of the string + 1

@@ -240,28 +240,6 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test)
     });
     test.end();
 });
-tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
-    var arbitrary = fc.nat(limits_1.UINT8_MAX - 1).chain(function (maximum) {
-        return fc.tuple(fc.nat(10), fc.constant(maximum), fc.string({
-            maxLength: maximum
-        }));
-    });
-    fc.assert(fc.property(arbitrary, function (_a) {
-        var _b = __read(_a, 3), offset = _b[0], maximum = _b[1], value = _b[2];
-        var context = encoder_1.getDefaultEncodingContext();
-        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(offset + limits_1.UINT8_MAX + 1));
-        var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, value, {
-            maximum: maximum
-        }, context);
-        var result = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, offset, {
-            maximum: maximum
-        });
-        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
-    }), {
-        verbose: false
-    });
-    test.end();
-});
 tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     var arbitrary = fc.nat(1000).chain(function (maximum) {
         return fc.tuple(fc.nat(10), fc.constant(maximum), fc.string({
@@ -372,24 +350,6 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: shared string', function
     test.is(decode1.bytes, bytesWritten1);
     test.is(decode1.value, 'foo');
     var decode2 = decode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, decode1.bytes, options);
-    test.is(decode2.bytes, bytesWritten2);
-    test.is(decode2.value, 'foo');
-    test.end();
-});
-tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: shared string', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(7));
-    var options = {
-        maximum: 4
-    };
-    var bytesWritten1 = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', options, context);
-    var bytesWritten2 = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, bytesWritten1, 'foo', options, context);
-    test.is(bytesWritten1, 4);
-    test.is(bytesWritten2, 3);
-    var decode1 = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, options);
-    test.is(decode1.bytes, bytesWritten1);
-    test.is(decode1.value, 'foo');
-    var decode2 = decode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, decode1.bytes, options);
     test.is(decode2.bytes, bytesWritten2);
     test.is(decode2.value, 'foo');
     test.end();

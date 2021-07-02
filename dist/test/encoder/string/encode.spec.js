@@ -137,16 +137,6 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode "foo" (..4)', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
-    var bytesWritten = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', {
-        maximum: 4
-    }, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x04, 0x66, 0x6f, 0x6f]));
-    test.is(bytesWritten, 4);
-    test.end();
-});
 tap_1.default.test('ROOF__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (..4)', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
@@ -206,25 +196,6 @@ tap_1.default.test('BOUNDED__PREFIX_LENGTH_ENUM_VARINT: should encode a shared s
     };
     var bytesWritten1 = encode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', options, context);
     var bytesWritten2 = encode_1.BOUNDED__PREFIX_LENGTH_ENUM_VARINT(buffer, bytesWritten1, 'foo', options, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x04, 0x66, 0x6f, 0x6f,
-        0x00,
-        0x04,
-        0x05
-    ]));
-    test.is(context.strings.get('foo'), 1);
-    test.is(bytesWritten1, 4);
-    test.is(bytesWritten2, 3);
-    test.end();
-});
-tap_1.default.test('ROOF__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
-    var options = {
-        maximum: 4
-    };
-    var bytesWritten1 = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', options, context);
-    var bytesWritten2 = encode_1.ROOF__PREFIX_LENGTH_8BIT_FIXED(buffer, bytesWritten1, 'foo', options, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x04, 0x66, 0x6f, 0x6f,
         0x00,
