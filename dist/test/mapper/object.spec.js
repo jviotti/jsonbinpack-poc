@@ -136,8 +136,10 @@ tap_1.default.test('should encode a bounded object with fully defined required k
                 },
                 bar: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 }
             },
             requiredProperties: ['bar', 'foo']
@@ -226,8 +228,10 @@ tap_1.default.test('should encode a bounded object with more than one optional k
                 },
                 bar: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 }
             },
             optionalProperties: ['bar', 'foo']
@@ -266,8 +270,10 @@ tap_1.default.test('should encode a bounded object with more than one optional k
                 },
                 bar: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 }
             },
             optionalProperties: ['bar', 'foo']
@@ -345,8 +351,10 @@ tap_1.default.test('should encode a bounded object with an optional and a typed 
                 },
                 bar: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 }
             },
             optionalProperties: ['foo'],
@@ -368,8 +376,10 @@ tap_1.default.test('should encode a simple unbounded object', function (test) {
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             },
             encoding: {
                 type: 'any',
@@ -393,8 +403,10 @@ tap_1.default.test('should encode a simple unbounded object with empty required'
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             },
             encoding: {
                 type: 'any',
@@ -418,8 +430,10 @@ tap_1.default.test('should encode a simple unbounded object with additionalPrope
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             },
             encoding: {
                 type: 'any',
@@ -445,13 +459,17 @@ tap_1.default.test('should encode a simple unbounded object with additionalPrope
         options: {
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             },
             encoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             }
         }
     });
@@ -544,8 +562,10 @@ tap_1.default.test('should encode a simple unbounded object with propertyNames a
             },
             encoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             }
         }
     });
@@ -573,8 +593,10 @@ tap_1.default.test('should encode a simple unbounded object with a required prop
             },
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             },
             encoding: {
                 type: 'any',
@@ -606,14 +628,18 @@ tap_1.default.test('should encode a simple unbounded object with a required type
             propertyEncodings: {
                 foo: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 }
             },
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             },
             encoding: {
                 type: 'any',
@@ -647,8 +673,10 @@ tap_1.default.test('should encode a simple unbounded object with two optional pr
             propertyEncodings: {
                 foo: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 },
                 bar: {
                     type: 'string',
@@ -660,8 +688,10 @@ tap_1.default.test('should encode a simple unbounded object with two optional pr
             },
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             },
             encoding: {
                 type: 'any',
@@ -717,8 +747,10 @@ tap_1.default.test('should encode a complex unbounded object', function (test) {
                 },
                 baz: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 }
             },
             keyEncoding: {
@@ -914,8 +946,10 @@ tap_1.default.test('should encode an unbounded object with bounded integers', fu
             propertyEncodings: {
                 name: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 },
                 age: {
                     type: 'integer',
@@ -935,8 +969,10 @@ tap_1.default.test('should encode an unbounded object with bounded integers', fu
             booleanRequiredProperties: ['flag'],
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             }
         }
     });
@@ -984,8 +1020,10 @@ tap_1.default.test('should encode an unbounded object with bounded integers with
             propertyEncodings: {
                 name: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 },
                 flag: {
                     type: 'boolean',
@@ -998,8 +1036,10 @@ tap_1.default.test('should encode an unbounded object with bounded integers with
             booleanRequiredProperties: ['flag'],
             keyEncoding: {
                 type: 'string',
-                encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                options: {}
+                encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                options: {
+                    minimum: 0
+                }
             }
         }
     });
@@ -1047,8 +1087,10 @@ tap_1.default.test('should encode an unbounded object with bounded integers with
             propertyEncodings: {
                 name: {
                     type: 'string',
-                    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-                    options: {}
+                    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+                    options: {
+                        minimum: 0
+                    }
                 },
                 flag: {
                     type: 'boolean',

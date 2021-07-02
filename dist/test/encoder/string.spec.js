@@ -194,16 +194,6 @@ tap_1.default.test('RFC3339_DATE_INTEGER_TRIPLET: should handle "2014-10-01"', f
     test.is(result.value, '2014-10-01');
     test.end();
 });
-tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should handle " "', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2048));
-    var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {}, context);
-    test.is(bytesWritten, 2);
-    var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {});
-    test.is(result.bytes, 2);
-    test.is(result.value, ' ');
-    test.end();
-});
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
     var arbitrary = fc.nat(limits_1.UINT8_MAX - 1).chain(function (maximum) {
         return fc.tuple(fc.nat(10), fc.nat(maximum), fc.constant(maximum), fc.string({
@@ -310,20 +300,6 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
         var result = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
             minimum: minimum
         });
-        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
-    }), {
-        verbose: false
-    });
-    test.end();
-});
-tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT (ASCII)', function (test) {
-    fc.assert(fc.property(fc.nat(10), fc.string({
-        maxLength: 1000
-    }), function (offset, value) {
-        var context = encoder_1.getDefaultEncodingContext();
-        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2048));
-        var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, value, {}, context);
-        var result = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {});
         return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
     }), {
         verbose: false
@@ -450,21 +426,6 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: shared string', function (
     test.is(decode1.bytes, bytesWritten1);
     test.is(decode1.value, 'foo');
     var decode2 = decode_1.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, decode1.bytes, options);
-    test.is(decode2.bytes, bytesWritten2);
-    test.is(decode2.value, 'foo');
-    test.end();
-});
-tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: shared string', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(7));
-    var bytesWritten1 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, 'foo', {}, context);
-    var bytesWritten2 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, bytesWritten1, 'foo', {}, context);
-    test.is(bytesWritten1, 4);
-    test.is(bytesWritten2, 3);
-    var decode1 = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, {});
-    test.is(decode1.bytes, bytesWritten1);
-    test.is(decode1.value, 'foo');
-    var decode2 = decode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, decode1.bytes, {});
     test.is(decode2.bytes, bytesWritten2);
     test.is(decode2.value, 'foo');
     test.end();

@@ -105,12 +105,6 @@ export interface FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingD
   readonly options: FloorOptions;
 }
 
-export interface ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.String;
-  readonly encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT';
-  readonly options: NoOptions;
-}
-
 export interface UTF8_STRING_NO_LENGTH_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
   readonly encoding: 'UTF8_STRING_NO_LENGTH';
@@ -133,7 +127,6 @@ export type StringEncodingNames =
   'ROOF__PREFIX_LENGTH_8BIT_FIXED' |
   'ROOF__PREFIX_LENGTH_ENUM_VARINT' |
   'FLOOR__PREFIX_LENGTH_ENUM_VARINT' |
-  'ARBITRARY__PREFIX_LENGTH_VARINT' |
   'UTF8_STRING_NO_LENGTH' |
   'SHARED_STRING_POINTER_RELATIVE_OFFSET'
 export type StringEncoding =
@@ -146,7 +139,6 @@ export type StringEncoding =
   ROOF__PREFIX_LENGTH_8BIT_FIXED_ENCODING |
   ROOF__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   FLOOR__PREFIX_LENGTH_ENUM_VARINT_ENCODING |
-  ARBITRARY__PREFIX_LENGTH_VARINT_ENCODING |
   UTF8_STRING_NO_LENGTH_ENCODING |
   SHARED_STRING_POINTER_RELATIVE_OFFSET_ENCODING
 
@@ -228,7 +220,9 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
 
   return {
     type: EncodingType.String,
-    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-    options: {}
+    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+    options: {
+      minimum: 0
+    }
   }
 }

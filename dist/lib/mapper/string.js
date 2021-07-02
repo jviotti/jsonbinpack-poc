@@ -75,8 +75,10 @@ var getStringEncoding = function (schema, _level) {
     }
     return {
         type: encoder_1.EncodingType.String,
-        encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-        options: {}
+        encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+        options: {
+            minimum: 0
+        }
     };
 };
 exports.getStringEncoding = getStringEncoding;

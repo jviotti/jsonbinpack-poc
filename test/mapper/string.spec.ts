@@ -73,8 +73,10 @@ tap.test('should encode a simple string', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'string',
-    encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-    options: {}
+    encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+    options: {
+      minimum: 0
+    }
   })
 
   test.end()

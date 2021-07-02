@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF__PREFIX_LENGTH_ENUM_VARINT = exports.ROOF__PREFIX_LENGTH_8BIT_FIXED = exports.BOUNDED__PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED__PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var encode_1 = require("../integer/encode");
@@ -98,10 +98,16 @@ var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, value, options, con
 exports.STRING_DICTIONARY_COMPRESSOR = STRING_DICTIONARY_COMPRESSOR;
 var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context) {
     var url = new URL(value);
-    var protocolBytes = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, url.protocol, {}, context);
-    var hostBytes = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocolBytes, url.host, {}, context);
+    var protocolBytes = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, url.protocol, {
+        minimum: 0
+    }, context);
+    var hostBytes = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes, url.host, {
+        minimum: 0
+    }, context);
     var rest = value.replace(url.protocol + "//" + url.host, '');
-    var restBytes = exports.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocolBytes + hostBytes, rest, {}, context);
+    var restBytes = exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes + hostBytes, rest, {
+        minimum: 0
+    }, context);
     return protocolBytes + hostBytes + restBytes;
 };
 exports.URL_PROTOCOL_HOST_REST = URL_PROTOCOL_HOST_REST;
@@ -206,9 +212,3 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options,
     return bytesWritten + prefixBytes + lengthBytes;
 };
 exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = FLOOR__PREFIX_LENGTH_ENUM_VARINT;
-var ARBITRARY__PREFIX_LENGTH_VARINT = function (buffer, offset, value, _options, context) {
-    return exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
-        minimum: 0
-    }, context);
-};
-exports.ARBITRARY__PREFIX_LENGTH_VARINT = ARBITRARY__PREFIX_LENGTH_VARINT;

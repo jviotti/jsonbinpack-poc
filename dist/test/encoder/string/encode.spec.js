@@ -177,30 +177,6 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (3..)'
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode "foo"', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
-    var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, 'foo', {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x04, 0x66, 0x6f, 0x6f]));
-    test.is(bytesWritten, 4);
-    test.end();
-});
-tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode ""', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
-    var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, '', {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x01]));
-    test.is(bytesWritten, 1);
-    test.end();
-});
-tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode " "', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
-    var bytesWritten = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, ' ', {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x02, 0x20]));
-    test.is(bytesWritten, 2);
-    test.end();
-});
 tap_1.default.test('BOUNDED__PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
@@ -322,22 +298,6 @@ tap_1.default.test('FLOOR__PREFIX_LENGTH_ENUM_VARINT: should encode a shared str
         0x01, 0x66, 0x6f, 0x6f,
         0x00,
         0x01,
-        0x05
-    ]));
-    test.is(context.strings.get('foo'), 1);
-    test.is(bytesWritten1, 4);
-    test.is(bytesWritten2, 3);
-    test.end();
-});
-tap_1.default.test('ARBITRARY__PREFIX_LENGTH_VARINT: should encode a shared string', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
-    var bytesWritten1 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, 0, 'foo', {}, context);
-    var bytesWritten2 = encode_1.ARBITRARY__PREFIX_LENGTH_VARINT(buffer, bytesWritten1, 'foo', {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x04, 0x66, 0x6f, 0x6f,
-        0x00,
-        0x04,
         0x05
     ]));
     test.is(context.strings.get('foo'), 1);

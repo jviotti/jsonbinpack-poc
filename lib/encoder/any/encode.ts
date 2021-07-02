@@ -123,8 +123,10 @@ export const ANY__TYPE_PREFIX = (
         buffer, offset + tagBytes, value, {
           keyEncoding: {
             type: EncodingType.String,
-            encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-            options: {}
+            encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+            options: {
+              minimum: 0
+            }
           },
           encoding: {
             type: EncodingType.Any,
@@ -143,8 +145,10 @@ export const ANY__TYPE_PREFIX = (
         size,
         keyEncoding: {
           type: EncodingType.String,
-          encoding: 'ARBITRARY__PREFIX_LENGTH_VARINT',
-          options: {}
+          encoding: 'FLOOR__PREFIX_LENGTH_ENUM_VARINT',
+          options: {
+            minimum: 0
+          }
         },
         encoding: {
           type: EncodingType.Any,

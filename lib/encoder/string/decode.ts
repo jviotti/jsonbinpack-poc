@@ -150,11 +150,17 @@ export const URL_PROTOCOL_HOST_REST = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): StringResult => {
   const protocol: StringResult =
-    ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset, {})
+    FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+      minimum: 0
+    })
   const host: StringResult =
-    ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocol.bytes, {})
+    FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes, {
+      minimum: 0
+    })
   const rest: StringResult =
-    ARBITRARY__PREFIX_LENGTH_VARINT(buffer, offset + protocol.bytes + host.bytes, {})
+    FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes + host.bytes, {
+      minimum: 0
+    })
 
   return {
     value: `${protocol.value}//${host.value}${rest.value}`,
@@ -311,12 +317,4 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
     value: result.value,
     bytes: result.bytes + prefix.bytes
   }
-}
-
-export const ARBITRARY__PREFIX_LENGTH_VARINT = (
-  buffer: ResizableBuffer, offset: number, _options: NoOptions
-): StringResult => {
-  return FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-    minimum: 0
-  })
 }
