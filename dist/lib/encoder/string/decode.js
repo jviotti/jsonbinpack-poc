@@ -186,7 +186,7 @@ var FLOOR__PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     };
 };
 exports.FLOOR__PREFIX_LENGTH_ENUM_VARINT = FLOOR__PREFIX_LENGTH_ENUM_VARINT;
-var UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = function (buffer, offset, _options) {
+var UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = function (buffer, offset, options) {
     var prefix = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
         minimum: 0
     });
@@ -198,12 +198,18 @@ var UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = function (buffer, offset, _options) {
         var length_5 = decode_1.FLOOR__ENUM_VARINT(buffer, cursor, {
             minimum: 0
         });
-        assert_1.strict(length_5.value > 0);
-        var result_1 = exports.UTF8_STRING_NO_LENGTH(buffer, cursor + length_5.bytes, {
+        if (length_5.value === 0) {
+            var result_1 = exports.UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, cursor, options);
+            return {
+                value: result_1.value,
+                bytes: prefix.bytes + pointer.bytes
+            };
+        }
+        var result_2 = exports.UTF8_STRING_NO_LENGTH(buffer, cursor + length_5.bytes, {
             size: length_5.value - 1
         });
         return {
-            value: result_1.value,
+            value: result_2.value,
             bytes: prefix.bytes + pointer.bytes
         };
     }

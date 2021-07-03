@@ -478,7 +478,7 @@ tap.test('UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH: should encode a shared string', (
   ]))
 
   test.is(context.strings.get('foo'), 1)
-  test.is(context.keys.get('foo'), 0)
+  test.is(context.keys.get('foo'), 4)
   test.is(bytesWritten1, 4)
   test.is(bytesWritten2, 2)
 
