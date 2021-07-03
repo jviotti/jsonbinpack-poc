@@ -38,6 +38,50 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode "foo" as 0x21 + string', fun
     test.is(bytesWritten, 4);
     test.end();
 });
+tap_1.default.test('ANY__TYPE_PREFIX: should encode "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" (30)', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(31));
+    var value = 'x'.repeat(30);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0xf9,
+        0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+        0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+        0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78
+    ]));
+    test.is(bytesWritten, 31);
+    test.end();
+});
+tap_1.default.test('ANY__TYPE_PREFIX: should encode "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" (31)', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(33));
+    var value = 'x'.repeat(31);
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x01, 0x20,
+        0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+        0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+        0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+        0x78
+    ]));
+    test.is(bytesWritten, 33);
+    test.end();
+});
+tap_1.default.test('ANY__TYPE_PREFIX: should encode "https://soundcloud.com/dandymusicnl"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(37));
+    var value = 'https://soundcloud.com/dandymusicnl';
+    var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, value, {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x01, 0x24,
+        0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, 0x2f, 0x2f, 0x73,
+        0x6f, 0x75, 0x6e, 0x64, 0x63, 0x6c, 0x6f, 0x75, 0x64,
+        0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x61, 0x6e, 0x64,
+        0x79, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x6e, 0x6c
+    ]));
+    test.is(bytesWritten, 37);
+    test.end();
+});
 tap_1.default.test('ANY__TYPE_PREFIX: should encode " " as 0x11 0x20', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
