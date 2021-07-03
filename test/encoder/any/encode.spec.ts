@@ -62,6 +62,57 @@ tap.test('ANY__TYPE_PREFIX: should encode "foo" as 0x21 + string', (test) => {
   test.end()
 })
 
+tap.test('ANY__TYPE_PREFIX: should encode "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" (30)', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(31))
+  const value: string = 'x'.repeat(30)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, value, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0xf9,
+    0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+    0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+    0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78
+  ]))
+
+  test.is(bytesWritten, 31)
+  test.end()
+})
+
+tap.test('ANY__TYPE_PREFIX: should encode "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" (31)', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(33))
+  const value: string = 'x'.repeat(31)
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, value, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x01, 0x20,
+    0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+    0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+    0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78,
+    0x78
+  ]))
+
+  test.is(bytesWritten, 33)
+  test.end()
+})
+
+tap.test('ANY__TYPE_PREFIX: should encode "https://soundcloud.com/dandymusicnl"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(37))
+  const value: string = 'https://soundcloud.com/dandymusicnl'
+  const bytesWritten: number = ANY__TYPE_PREFIX(buffer, 0, value, {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x01, 0x24,
+
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, 0x2f, 0x2f, 0x73,
+    0x6f, 0x75, 0x6e, 0x64, 0x63, 0x6c, 0x6f, 0x75, 0x64,
+    0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x61, 0x6e, 0x64,
+    0x79, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x6e, 0x6c
+  ]))
+
+  test.is(bytesWritten, 37)
+  test.end()
+})
+
 tap.test('ANY__TYPE_PREFIX: should encode " " as 0x11 0x20', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
