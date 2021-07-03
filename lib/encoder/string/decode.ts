@@ -309,7 +309,7 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
 }
 
 export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
-  buffer: ResizableBuffer, offset: number, _options: NoOptions
+  buffer: ResizableBuffer, offset: number, options: NoOptions
 ): StringResult => {
   const prefix: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
     minimum: 0
@@ -326,8 +326,16 @@ export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
       minimum: 0
     })
 
-    // This cannot be another shared string
-    assert(length.value > 0)
+    // Recurse to the nested pointer in this case to keep pointers low
+    // TODO: We should try to do the same for non-keys for locality
+    // purposes too?
+    if (length.value === 0) {
+      const result: StringResult = UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, cursor, options)
+      return {
+        value: result.value,
+        bytes: prefix.bytes + pointer.bytes
+      }
+    }
 
     const result: StringResult = UTF8_STRING_NO_LENGTH(buffer, cursor + length.bytes, {
       size: length.value - 1

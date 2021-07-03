@@ -345,6 +345,7 @@ export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
     const cursor: number = offset + prefixBytes
     const pointer: number | undefined = context.keys.get(value)
     assert(typeof pointer === 'number')
+    context.keys.set(value, offset)
     return prefixBytes + FLOOR__ENUM_VARINT(buffer, cursor, cursor - pointer, {
       minimum: 0
     }, context)

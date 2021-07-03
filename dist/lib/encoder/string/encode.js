@@ -212,6 +212,7 @@ var UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = function (buffer, offset, value, _opti
         var cursor = offset + prefixBytes;
         var pointer = context.keys.get(value);
         assert_1.strict(typeof pointer === 'number');
+        context.keys.set(value, offset);
         return prefixBytes + encode_1.FLOOR__ENUM_VARINT(buffer, cursor, cursor - pointer, {
             minimum: 0
         }, context);
