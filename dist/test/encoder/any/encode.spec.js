@@ -174,7 +174,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', func
         2000
     ], {}, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x23,
+        0x24,
         0x21, 0x66, 0x6f, 0x6f,
         0x0f,
         0x1f, 0xd0, 0x0f

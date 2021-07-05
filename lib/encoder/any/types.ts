@@ -35,7 +35,7 @@ export enum Type {
   SharedString = 0b00000000,
   String = 0b00000001,
   Object = 0b00000010,
-  Array = 0b00000011,
+  Array = 0b00000100,
   PositiveIntegerByte = 0b00000101,
   NegativeIntegerByte = 0b00000110,
   Other = 0b00000111
