@@ -38,7 +38,7 @@ export enum Type {
   Array = 0b00000011,
   PositiveIntegerByte = 0b00000100,
   NegativeIntegerByte = 0b00000101,
-  Other = 0b00000110
+  Other = 0b00000111
 }
 
 export enum Subtype {

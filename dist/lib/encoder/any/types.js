@@ -11,7 +11,7 @@ var Type;
     Type[Type["Array"] = 3] = "Array";
     Type[Type["PositiveIntegerByte"] = 4] = "PositiveIntegerByte";
     Type[Type["NegativeIntegerByte"] = 5] = "NegativeIntegerByte";
-    Type[Type["Other"] = 6] = "Other";
+    Type[Type["Other"] = 7] = "Other";
 })(Type = exports.Type || (exports.Type = {}));
 var Subtype;
 (function (Subtype) {

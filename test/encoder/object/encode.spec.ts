@@ -642,7 +642,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
     0x04, 0x71, 0x75, 0x78,
 
     // Null type tag
-    0x16
+    0x17
   ]))
 
   test.is(bytesWritten, 13)
