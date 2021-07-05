@@ -156,7 +156,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', function
         baz: 1
     }, {}, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x1a,
+        0x1b,
         0x04, 0x66, 0x6f, 0x6f,
         0x21, 0x62, 0x61, 0x72,
         0x04, 0x62, 0x61, 0x7a,

@@ -7,7 +7,7 @@ var Type;
 (function (Type) {
     Type[Type["SharedString"] = 0] = "SharedString";
     Type[Type["String"] = 1] = "String";
-    Type[Type["Object"] = 2] = "Object";
+    Type[Type["Object"] = 3] = "Object";
     Type[Type["Array"] = 4] = "Array";
     Type[Type["PositiveIntegerByte"] = 5] = "PositiveIntegerByte";
     Type[Type["NegativeIntegerByte"] = 6] = "NegativeIntegerByte";
