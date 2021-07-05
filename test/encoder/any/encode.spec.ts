@@ -216,7 +216,7 @@ tap.test('ANY__TYPE_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
   ], {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x23, // Length + 1 with tag
+    0x24, // Length + 1 with tag
     0x21, 0x66, 0x6f, 0x6f, // "foo"
     0x0f, // True
     0x1f, 0xd0, 0x0f // 2000
