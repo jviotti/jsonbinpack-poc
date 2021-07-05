@@ -108,19 +108,19 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode 256 as 0x1f + varint', funct
     test.is(bytesWritten, 3);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode 255 as 0x04 0xff', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode 255 as 0x05 0xff', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 255, {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x04, 0xff]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x05, 0xff]));
     test.is(bytesWritten, 2);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode 0 as 0x0c', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode 0 as 0x0d', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, 0, {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x0c]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x0d]));
     test.is(bytesWritten, 1);
     test.end();
 });
@@ -132,19 +132,19 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode -257 as 0x27 + 256 varint', 
     test.is(bytesWritten, 3);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode -1 as 0x0d', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode -1 as 0x0e', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, -1, {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x0d]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x0e]));
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('ANY__TYPE_PREFIX: should encode -256 as 0x05 0xff', function (test) {
+tap_1.default.test('ANY__TYPE_PREFIX: should encode -256 as 0x06 0xff', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2));
     var bytesWritten = encode_1.ANY__TYPE_PREFIX(buffer, 0, -256, {}, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x05, 0xff]));
+    test.strictSame(buffer.getBuffer(), Buffer.from([0x06, 0xff]));
     test.is(bytesWritten, 2);
     test.end();
 });
@@ -160,7 +160,7 @@ tap_1.default.test('ANY__TYPE_PREFIX: should encode {foo:"bar",baz:1}', function
         0x04, 0x66, 0x6f, 0x6f,
         0x21, 0x62, 0x61, 0x72,
         0x04, 0x62, 0x61, 0x7a,
-        0x14
+        0x15
     ]));
     test.is(bytesWritten, 14);
     test.end();
