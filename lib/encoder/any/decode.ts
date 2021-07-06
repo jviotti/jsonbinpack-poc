@@ -22,7 +22,8 @@ import {
 
 import {
   UINT8_MIN,
-  UINT8_MAX
+  UINT8_MAX,
+  UINT5_MAX
 } from '../../utils/limits'
 
 import {
@@ -196,6 +197,17 @@ export const ANY__TYPE_PREFIX = (
     const result: StringResult = UTF8_STRING_NO_LENGTH(
       buffer, offset + tag.bytes, {
         size: size - 1
+      })
+
+    return {
+      value: result.value,
+      bytes: result.bytes + tag.bytes
+    }
+  } else if (isType(Type.LongString, tag.value)) {
+    const size: number = getMetadata(tag.value) + UINT5_MAX
+    const result: StringResult = UTF8_STRING_NO_LENGTH(
+      buffer, offset + tag.bytes, {
+        size: size
       })
 
     return {
