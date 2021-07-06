@@ -28,7 +28,7 @@
             },
             "weather": {
                 "type": "array",
-                "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                 "options": {
                     "encoding": {
                         "type": "object",
@@ -37,28 +37,28 @@
                             "propertyEncodings": {
                                 "id": {
                                     "type": "integer",
-                                    "encoding": "FLOOR__ENUM_VARINT",
+                                    "encoding": "FLOOR_ENUM_VARINT",
                                     "options": {
                                         "minimum": 0
                                     }
                                 },
                                 "main": {
                                     "type": "string",
-                                    "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                                    "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                                     "options": {
                                         "minimum": 0
                                     }
                                 },
                                 "description": {
                                     "type": "string",
-                                    "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                                    "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                                     "options": {
                                         "minimum": 0
                                     }
                                 },
                                 "icon": {
                                     "type": "string",
-                                    "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                                    "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                                     "options": {
                                         "minimum": 0
                                     }
@@ -78,7 +78,7 @@
             },
             "base": {
                 "type": "string",
-                "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
@@ -110,14 +110,14 @@
                         },
                         "pressure": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
                         },
                         "humidity": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
@@ -136,7 +136,7 @@
             },
             "visibility": {
                 "type": "integer",
-                "encoding": "FLOOR__ENUM_VARINT",
+                "encoding": "FLOOR_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
@@ -153,7 +153,7 @@
                         },
                         "deg": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
@@ -173,7 +173,7 @@
                     "propertyEncodings": {
                         "all": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
@@ -187,7 +187,7 @@
             },
             "dt": {
                 "type": "integer",
-                "encoding": "FLOOR__ENUM_VARINT",
+                "encoding": "FLOOR_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
@@ -199,14 +199,14 @@
                     "propertyEncodings": {
                         "type": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
                         },
                         "id": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
@@ -218,21 +218,21 @@
                         },
                         "country": {
                             "type": "string",
-                            "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                            "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
                         },
                         "sunrise": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
                         },
                         "sunset": {
                             "type": "integer",
-                            "encoding": "FLOOR__ENUM_VARINT",
+                            "encoding": "FLOOR_ENUM_VARINT",
                             "options": {
                                 "minimum": 0
                             }
@@ -251,26 +251,26 @@
             },
             "timezone": {
                 "type": "integer",
-                "encoding": "ARBITRARY__ZIGZAG_VARINT",
+                "encoding": "ARBITRARY_ZIGZAG_VARINT",
                 "options": {}
             },
             "id": {
                 "type": "integer",
-                "encoding": "FLOOR__ENUM_VARINT",
+                "encoding": "FLOOR_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
             },
             "name": {
                 "type": "string",
-                "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
             },
             "cod": {
                 "type": "integer",
-                "encoding": "FLOOR__ENUM_VARINT",
+                "encoding": "FLOOR_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }

@@ -11,7 +11,7 @@ tap_1.default.test('should encode an any value', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'any',
-        encoding: 'ANY__TYPE_PREFIX',
+        encoding: 'ANY_TYPE_PREFIX',
         options: {}
     });
     test.end();

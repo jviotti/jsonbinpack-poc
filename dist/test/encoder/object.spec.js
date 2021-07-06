@@ -37,7 +37,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: scalars values', function (test
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     };
@@ -69,7 +69,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', fun
         keyEncoding: keyEncoding,
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     }, context);
@@ -77,7 +77,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: untyped {foo:"bar",baz:1}', fun
         keyEncoding: keyEncoding,
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     });
@@ -100,7 +100,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
         keyEncoding: keyEncoding,
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     }, context);
@@ -108,7 +108,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: typed {foo:"bar",baz:1}', funct
         keyEncoding: keyEncoding,
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     });
@@ -242,7 +242,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     };
@@ -271,7 +271,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: typed {foo:"bar"}', functio
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     };
@@ -300,7 +300,7 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: semityped {foo:"bar",baz:1}
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     };
@@ -327,7 +327,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: mixed {foo:"bar",baz:1,qux:nul
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         },
         propertyEncodings: {
@@ -528,7 +528,7 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: complex object', function (test) {
         packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
         packedEncoding: {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+            encoding: 'BOUNDED_8BITS_ENUM_FIXED',
             options: {
                 minimum: 0,
                 maximum: 2
@@ -575,7 +575,7 @@ tap_1.default.test('PACKED_BOUNDED_REQUIRED_OBJECT: complex object', function (t
         packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
         packedEncoding: {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+            encoding: 'BOUNDED_8BITS_ENUM_FIXED',
             options: {
                 minimum: 0,
                 maximum: 2

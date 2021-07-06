@@ -4,7 +4,7 @@ exports.ONEOF_CHOICE_INDEX_PREFIX = void 0;
 var decode_1 = require("../integer/decode");
 var index_1 = require("../index");
 var ONEOF_CHOICE_INDEX_PREFIX = function (buffer, offset, options) {
-    var index = decode_1.BOUNDED__ENUM_VARINT(buffer, offset, {
+    var index = decode_1.BOUNDED_ENUM_VARINT(buffer, offset, {
         minimum: 0,
         maximum: options.schemas.length
     });

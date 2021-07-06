@@ -318,7 +318,7 @@
             },
             "valid-values-author": {
               "type": "array",
-              "encoding": "BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX",
+              "encoding": "BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX",
               "options": {
                 "minimum": 2,
                 "maximum": 2,
@@ -336,11 +336,11 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                     "options": {
                       "encoding": {
                         "type": "string",
-                        "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                        "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                         "options": {
                           "minimum": 0
                         }
@@ -353,7 +353,7 @@
             },
             "valid-values-private": {
               "type": "array",
-              "encoding": "BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX",
+              "encoding": "BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX",
               "options": {
                 "minimum": 2,
                 "maximum": 2,
@@ -371,11 +371,11 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                     "options": {
                       "encoding": {
                         "type": "boolean",
-                        "encoding": "BOOLEAN_8BITS__ENUM_FIXED",
+                        "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
                         "options": {}
                       },
                       "prefixEncodings": []
@@ -386,7 +386,7 @@
             },
             "no-restricted-dependencies": {
               "type": "array",
-              "encoding": "BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX",
+              "encoding": "BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX",
               "options": {
                 "minimum": 2,
                 "maximum": 2,
@@ -404,11 +404,11 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                     "options": {
                       "encoding": {
                         "type": "string",
-                        "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                        "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                         "options": {
                           "minimum": 0
                         }
@@ -421,7 +421,7 @@
             },
             "no-restricted-pre-release-dependencies": {
               "type": "array",
-              "encoding": "BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX",
+              "encoding": "BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX",
               "options": {
                 "minimum": 2,
                 "maximum": 2,
@@ -439,11 +439,11 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                     "options": {
                       "encoding": {
                         "type": "string",
-                        "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                        "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                         "options": {
                           "minimum": 0
                         }
@@ -456,7 +456,7 @@
             },
             "no-restricted-invalid-devDependencies": {
               "type": "array",
-              "encoding": "BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX",
+              "encoding": "BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX",
               "options": {
                 "minimum": 2,
                 "maximum": 2,
@@ -474,11 +474,11 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                     "options": {
                       "encoding": {
                         "type": "string",
-                        "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                        "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                         "options": {
                           "minimum": 0
                         }
@@ -491,7 +491,7 @@
             },
             "no-restricted-pre-release-devDependencies": {
               "type": "array",
-              "encoding": "BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX",
+              "encoding": "BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX",
               "options": {
                 "minimum": 2,
                 "maximum": 2,
@@ -509,11 +509,11 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                     "options": {
                       "encoding": {
                         "type": "string",
-                        "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                        "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                         "options": {
                           "minimum": 0
                         }

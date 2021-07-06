@@ -10,7 +10,7 @@
             },
             "maxAge": {
                 "type": "integer",
-                "encoding": "FLOOR__ENUM_VARINT",
+                "encoding": "FLOOR_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
@@ -22,21 +22,21 @@
             },
             "defaultNavBehavior": {
                 "type": "string",
-                "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
             },
             "defaultResBehavior": {
                 "type": "string",
-                "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                 "options": {
                     "minimum": 0
                 }
             },
             "rules": {
                 "type": "array",
-                "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                 "options": {
                     "encoding": {
                         "type": "oneOf",
@@ -82,14 +82,14 @@
                                             "propertyEncodings": {
                                                 "path": {
                                                     "type": "string",
-                                                    "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                                                    "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                                                     "options": {
                                                         "minimum": 0
                                                     }
                                                 },
                                                 "types": {
                                                     "type": "array",
-                                                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                                                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                                                     "options": {
                                                         "encoding": {
                                                             "type": "enum",
@@ -110,7 +110,7 @@
                                                 },
                                                 "allowData": {
                                                     "type": "boolean",
-                                                    "encoding": "BOOLEAN_8BITS__ENUM_FIXED",
+                                                    "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
                                                     "options": {}
                                                 }
                                             },
@@ -163,14 +163,14 @@
                                             "propertyEncodings": {
                                                 "regex": {
                                                     "type": "string",
-                                                    "encoding": "FLOOR__PREFIX_LENGTH_ENUM_VARINT",
+                                                    "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
                                                     "options": {
                                                         "minimum": 0
                                                     }
                                                 },
                                                 "types": {
                                                     "type": "array",
-                                                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                                                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                                                     "options": {
                                                         "encoding": {
                                                             "type": "enum",
@@ -191,7 +191,7 @@
                                                 },
                                                 "allowData": {
                                                     "type": "boolean",
-                                                    "encoding": "BOOLEAN_8BITS__ENUM_FIXED",
+                                                    "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
                                                     "options": {}
                                                 }
                                             },

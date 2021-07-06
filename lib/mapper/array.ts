@@ -67,115 +67,115 @@ import {
   EncodingSchema
 } from '../schema'
 
-export interface BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX';
+  readonly encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX';
   readonly options: SemiTypedBoundedOptions;
 }
 
-export interface BOUNDED_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_SEMITYPED__LENGTH_PREFIX';
+  readonly encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX';
   readonly options: SemiTypedBoundedOptions;
 }
 
-export interface FLOOR_SEMITYPED__NO_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'FLOOR_SEMITYPED__NO_LENGTH_PREFIX';
+  readonly encoding: 'FLOOR_SEMITYPED_NO_LENGTH_PREFIX';
   readonly options: SizeSemiTypedFloorOptions;
 }
 
-export interface FLOOR_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX';
+  readonly encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX';
   readonly options: SemiTypedFloorOptions;
 }
 
-export interface ROOF_8BITS_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface ROOF_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX';
+  readonly encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX';
   readonly options: SemiTypedRoofOptions;
 }
 
-export interface ROOF_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_SEMITYPED__LENGTH_PREFIX';
+  readonly encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX';
   readonly options: SemiTypedRoofOptions;
 }
 
-export interface UNBOUNDED_SEMITYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface UNBOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX';
+  readonly encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX';
   readonly options: SemiTypedOptions;
 }
 
-export interface BOUNDED_8BITS_TYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX';
+  readonly encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX';
   readonly options: TypedBoundedOptions;
 }
 
-export interface BOUNDED_TYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface BOUNDED_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_TYPED__LENGTH_PREFIX';
+  readonly encoding: 'BOUNDED_TYPED_LENGTH_PREFIX';
   readonly options: TypedBoundedOptions;
 }
 
-export interface FLOOR_TYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface FLOOR_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'FLOOR_TYPED__LENGTH_PREFIX';
+  readonly encoding: 'FLOOR_TYPED_LENGTH_PREFIX';
   readonly options: TypedFloorOptions;
 }
 
-export interface ROOF_8BITS_TYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface ROOF_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_8BITS_TYPED__LENGTH_PREFIX';
+  readonly encoding: 'ROOF_8BITS_TYPED_LENGTH_PREFIX';
   readonly options: TypedRoofOptions;
 }
 
-export interface ROOF_TYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_TYPED__LENGTH_PREFIX';
+  readonly encoding: 'ROOF_TYPED_LENGTH_PREFIX';
   readonly options: TypedRoofOptions;
 }
 
-export interface UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface UNBOUNDED_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX';
+  readonly encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX';
   readonly options: TypedOptions;
 }
 
 export type ArrayEncodingNames =
   EnumEncodingNames |
-  'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' |
-  'BOUNDED_SEMITYPED__LENGTH_PREFIX' |
-  'FLOOR_SEMITYPED__NO_LENGTH_PREFIX' |
-  'FLOOR_SEMITYPED__LENGTH_PREFIX' |
-  'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' |
-  'ROOF_SEMITYPED__LENGTH_PREFIX' |
-  'UNBOUNDED_SEMITYPED__LENGTH_PREFIX' |
-  'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' |
-  'BOUNDED_TYPED__LENGTH_PREFIX' |
-  'FLOOR_TYPED__LENGTH_PREFIX' |
-  'ROOF_8BITS_TYPED__LENGTH_PREFIX' |
-  'ROOF_TYPED__LENGTH_PREFIX' |
-  'UNBOUNDED_TYPED__LENGTH_PREFIX'
+  'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' |
+  'BOUNDED_SEMITYPED_LENGTH_PREFIX' |
+  'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
+  'FLOOR_SEMITYPED_LENGTH_PREFIX' |
+  'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' |
+  'ROOF_SEMITYPED_LENGTH_PREFIX' |
+  'UNBOUNDED_SEMITYPED_LENGTH_PREFIX' |
+  'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' |
+  'BOUNDED_TYPED_LENGTH_PREFIX' |
+  'FLOOR_TYPED_LENGTH_PREFIX' |
+  'ROOF_8BITS_TYPED_LENGTH_PREFIX' |
+  'ROOF_TYPED_LENGTH_PREFIX' |
+  'UNBOUNDED_TYPED_LENGTH_PREFIX'
 
 export type ArrayEncoding =
   EnumEncoding |
-  BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX_ENCODING |
-  BOUNDED_SEMITYPED__LENGTH_PREFIX_ENCODING |
-  FLOOR_SEMITYPED__NO_LENGTH_PREFIX_ENCODING |
-  FLOOR_SEMITYPED__LENGTH_PREFIX_ENCODING |
-  ROOF_8BITS_SEMITYPED__LENGTH_PREFIX_ENCODING |
-  ROOF_SEMITYPED__LENGTH_PREFIX_ENCODING |
-  UNBOUNDED_SEMITYPED__LENGTH_PREFIX_ENCODING |
-  BOUNDED_8BITS_TYPED__LENGTH_PREFIX_ENCODING |
-  BOUNDED_TYPED__LENGTH_PREFIX_ENCODING |
-  FLOOR_TYPED__LENGTH_PREFIX_ENCODING |
-  ROOF_8BITS_TYPED__LENGTH_PREFIX_ENCODING |
-  ROOF_TYPED__LENGTH_PREFIX_ENCODING |
-  UNBOUNDED_TYPED__LENGTH_PREFIX_ENCODING
+  BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING |
+  BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING |
+  FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
+  FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING |
+  ROOF_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING |
+  ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING |
+  UNBOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING |
+  BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
+  BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
+  FLOOR_TYPED_LENGTH_PREFIX_ENCODING |
+  ROOF_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
+  ROOF_TYPED_LENGTH_PREFIX_ENCODING |
+  UNBOUNDED_TYPED_LENGTH_PREFIX_ENCODING
 
 export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[] => {
   if (typeof schema.maxItems === 'number' &&
@@ -231,7 +231,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       return {
         type: EncodingType.Array,
         encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
-          ? 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' : 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
+          ? 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' : 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
         options: {
           minimum: schema.minItems,
           maximum: schema.maxItems,
@@ -243,7 +243,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       return {
         type: EncodingType.Array,
         encoding: (schema.maxItems <= UINT8_MAX)
-          ? 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' : 'ROOF_SEMITYPED__LENGTH_PREFIX',
+          ? 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' : 'ROOF_SEMITYPED_LENGTH_PREFIX',
         options: {
           maximum: schema.maxItems,
           prefixEncodings
@@ -253,7 +253,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       typeof schema.maxItems === 'undefined') {
       return {
         type: EncodingType.Array,
-        encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
         options: {
           minimum: schema.minItems,
           prefixEncodings
@@ -262,7 +262,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     }
     return {
       type: EncodingType.Array,
-      encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+      encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
       options: {
         prefixEncodings
       }
@@ -274,7 +274,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     return {
       type: EncodingType.Array,
       encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
-        ? 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' : 'BOUNDED_TYPED__LENGTH_PREFIX',
+        ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' : 'BOUNDED_TYPED_LENGTH_PREFIX',
       options: {
         minimum: schema.minItems,
         maximum: schema.maxItems,
@@ -287,7 +287,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     return {
       type: EncodingType.Array,
       encoding: (schema.maxItems <= UINT8_MAX)
-        ? 'ROOF_8BITS_TYPED__LENGTH_PREFIX' : 'ROOF_TYPED__LENGTH_PREFIX',
+        ? 'ROOF_8BITS_TYPED_LENGTH_PREFIX' : 'ROOF_TYPED_LENGTH_PREFIX',
       options: {
         maximum: schema.maxItems,
         encoding: getEncoding(encodingSchema, level + 1),
@@ -298,7 +298,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     typeof schema.maxItems === 'undefined') {
     return {
       type: EncodingType.Array,
-      encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
+      encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
       options: {
         minimum: schema.minItems,
         encoding: getEncoding(encodingSchema, level + 1),
@@ -308,7 +308,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
   }
   return {
     type: EncodingType.Array,
-    encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
+    encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX',
     options: {
       encoding: getEncoding(encodingSchema, level + 1),
       prefixEncodings

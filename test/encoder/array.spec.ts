@@ -34,16 +34,16 @@ import {
 } from '../../lib/encoder/array/options'
 
 import {
-  UNBOUNDED_SEMITYPED__LENGTH_PREFIX as ENCODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX,
-  UNBOUNDED_TYPED__LENGTH_PREFIX as ENCODE_UNBOUNDED_TYPED__LENGTH_PREFIX,
-  BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX as ENCODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX
+  UNBOUNDED_SEMITYPED_LENGTH_PREFIX as ENCODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX,
+  UNBOUNDED_TYPED_LENGTH_PREFIX as ENCODE_UNBOUNDED_TYPED_LENGTH_PREFIX,
+  BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX as ENCODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX
 } from '../../lib/encoder/array/encode'
 
 import {
   ArrayResult,
-  UNBOUNDED_SEMITYPED__LENGTH_PREFIX as DECODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX,
-  UNBOUNDED_TYPED__LENGTH_PREFIX as DECODE_UNBOUNDED_TYPED__LENGTH_PREFIX,
-  BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX as DECODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX
+  UNBOUNDED_SEMITYPED_LENGTH_PREFIX as DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX,
+  UNBOUNDED_TYPED_LENGTH_PREFIX as DECODE_UNBOUNDED_TYPED_LENGTH_PREFIX,
+  BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX as DECODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX
 } from '../../lib/encoder/array/decode'
 
 import {
@@ -52,7 +52,7 @@ import {
   getDefaultEncodingContext
 } from '../../lib/encoder'
 
-tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', (test) => {
+tap.test('BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const value: JSONValue = [ 'foo', true, 2000 ]
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
@@ -63,9 +63,9 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 []
   }
 
   const bytesWritten: number =
-    ENCODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, value, options, context)
+    ENCODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX(buffer, 0, value, options, context)
   const result: ArrayResult =
-    DECODE_BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX(buffer, 0, options)
+    DECODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX(buffer, 0, options)
 
   test.is(bytesWritten, 9)
   test.is(bytesWritten, result.bytes)
@@ -73,7 +73,7 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 []
   test.end()
 })
 
-tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', (test) => {
+tap.test('UNBOUNDED_SEMITYPED_LENGTH_PREFIX: [] ([])', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const value: JSONValue = []
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
@@ -82,9 +82,9 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', (test) => {
   }
 
   const bytesWritten: number =
-    ENCODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, value, options, context)
+    ENCODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, 0, value, options, context)
   const result: ArrayResult =
-    DECODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, 0, options)
+    DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, 0, options)
 
   test.is(bytesWritten, 1)
   test.is(bytesWritten, result.bytes)
@@ -92,7 +92,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: [] ([])', (test) => {
   test.end()
 })
 
-tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', (test) => {
+tap.test('UNBOUNDED_SEMITYPED_LENGTH_PREFIX (scalars)', (test) => {
   fc.assert(fc.property(fc.array(fc.oneof(
     fc.constant(null),
     fc.boolean(),
@@ -108,12 +108,12 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', (test) => {
     const offset: number = 0
 
     const bytesWritten: number =
-      ENCODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, value, {
+      ENCODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, offset, value, {
         prefixEncodings: []
       }, context)
 
     const result: ArrayResult =
-      DECODE_UNBOUNDED_SEMITYPED__LENGTH_PREFIX(buffer, offset, {
+      DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
         prefixEncodings: []
       })
 
@@ -126,7 +126,7 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX (scalars)', (test) => {
   test.end()
 })
 
-tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', (test) => {
+tap.test('UNBOUNDED_TYPED_LENGTH_PREFIX ([], integer)', (test) => {
   fc.assert(fc.property(fc.array(fc.integer()), (value: JSONNumber[]): boolean => {
     const context: EncodingContext = getDefaultEncodingContext()
     const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
@@ -137,13 +137,13 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX ([], integer)', (test) => {
     }, 1)
 
     const bytesWritten: number =
-      ENCODE_UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, value, {
+      ENCODE_UNBOUNDED_TYPED_LENGTH_PREFIX(buffer, offset, value, {
         prefixEncodings: [],
         encoding
       }, context)
 
     const result: ArrayResult =
-      DECODE_UNBOUNDED_TYPED__LENGTH_PREFIX(buffer, offset, {
+      DECODE_UNBOUNDED_TYPED_LENGTH_PREFIX(buffer, offset, {
         prefixEncodings: [],
         encoding
       })

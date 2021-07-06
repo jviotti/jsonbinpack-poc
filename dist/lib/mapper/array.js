@@ -77,7 +77,7 @@ var getArrayEncoding = function (schema, level) {
             return {
                 type: encoder_1.EncodingType.Array,
                 encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
-                    ? 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX' : 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
+                    ? 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' : 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
                 options: {
                     minimum: schema.minItems,
                     maximum: schema.maxItems,
@@ -90,7 +90,7 @@ var getArrayEncoding = function (schema, level) {
             return {
                 type: encoder_1.EncodingType.Array,
                 encoding: (schema.maxItems <= limits_1.UINT8_MAX)
-                    ? 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX' : 'ROOF_SEMITYPED__LENGTH_PREFIX',
+                    ? 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' : 'ROOF_SEMITYPED_LENGTH_PREFIX',
                 options: {
                     maximum: schema.maxItems,
                     prefixEncodings: prefixEncodings
@@ -101,7 +101,7 @@ var getArrayEncoding = function (schema, level) {
             typeof schema.maxItems === 'undefined') {
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
+                encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
                 options: {
                     minimum: schema.minItems,
                     prefixEncodings: prefixEncodings
@@ -110,7 +110,7 @@ var getArrayEncoding = function (schema, level) {
         }
         return {
             type: encoder_1.EncodingType.Array,
-            encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+            encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
             options: {
                 prefixEncodings: prefixEncodings
             }
@@ -121,7 +121,7 @@ var getArrayEncoding = function (schema, level) {
         return {
             type: encoder_1.EncodingType.Array,
             encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
-                ? 'BOUNDED_8BITS_TYPED__LENGTH_PREFIX' : 'BOUNDED_TYPED__LENGTH_PREFIX',
+                ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' : 'BOUNDED_TYPED_LENGTH_PREFIX',
             options: {
                 minimum: schema.minItems,
                 maximum: schema.maxItems,
@@ -135,7 +135,7 @@ var getArrayEncoding = function (schema, level) {
         return {
             type: encoder_1.EncodingType.Array,
             encoding: (schema.maxItems <= limits_1.UINT8_MAX)
-                ? 'ROOF_8BITS_TYPED__LENGTH_PREFIX' : 'ROOF_TYPED__LENGTH_PREFIX',
+                ? 'ROOF_8BITS_TYPED_LENGTH_PREFIX' : 'ROOF_TYPED_LENGTH_PREFIX',
             options: {
                 maximum: schema.maxItems,
                 encoding: index_1.getEncoding(encodingSchema, level + 1),
@@ -147,7 +147,7 @@ var getArrayEncoding = function (schema, level) {
         typeof schema.maxItems === 'undefined') {
         return {
             type: encoder_1.EncodingType.Array,
-            encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
+            encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
             options: {
                 minimum: schema.minItems,
                 encoding: index_1.getEncoding(encodingSchema, level + 1),
@@ -157,7 +157,7 @@ var getArrayEncoding = function (schema, level) {
     }
     return {
         type: encoder_1.EncodingType.Array,
-        encoding: 'UNBOUNDED_TYPED__LENGTH_PREFIX',
+        encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX',
         options: {
             encoding: index_1.getEncoding(encodingSchema, level + 1),
             prefixEncodings: prefixEncodings

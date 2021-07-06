@@ -33,7 +33,7 @@ tap.test('should encode an any value', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'any',
-    encoding: 'ANY__TYPE_PREFIX',
+    encoding: 'ANY_TYPE_PREFIX',
     options: {}
   })
 

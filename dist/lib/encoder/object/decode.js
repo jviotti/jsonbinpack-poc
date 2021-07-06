@@ -77,7 +77,7 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
 exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT;
 var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_3, _a;
-    var bitsetLength = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
+    var bitsetLength = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
         minimum: 0
     });
     assert_1.strict(bitsetLength.value >= 0);
@@ -152,7 +152,7 @@ var ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH = function (buffer, offset, optio
 };
 exports.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH = ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH;
 var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, options) {
-    var sizeResult = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
+    var sizeResult = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
         minimum: 0
     });
     var result = exports.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + sizeResult.bytes, {
