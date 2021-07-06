@@ -570,24 +570,48 @@ tap.test('should encode a bounded array with bounded prefixItems', (test) => {
 
   const result: Encoding = getEncoding(schema, 0)
   test.strictSame(getStates(schema), [
-    [ 0, { requireReturn: false } ],
-    [ 0, { requireReturn: true } ],
-    [ 1, { requireReturn: false } ],
-    [ 1, { requireReturn: true } ],
-    [ 2, { requireReturn: false } ],
-    [ 2, { requireReturn: true } ]
+    [ 0, {
+      requireReturn: false
+    } ],
+    [ 0, {
+      requireReturn: true
+    } ],
+    [ 1, {
+      requireReturn: false
+    } ],
+    [ 1, {
+      requireReturn: true
+    } ],
+    [ 2, {
+      requireReturn: false
+    } ],
+    [ 2, {
+      requireReturn: true
+    } ]
   ])
   test.strictSame(result, {
     type: 'enum',
     encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
     options: {
       choices: [
-        [ 0, { requireReturn: false } ],
-        [ 0, { requireReturn: true } ],
-        [ 1, { requireReturn: false } ],
-        [ 1, { requireReturn: true } ],
-        [ 2, { requireReturn: false } ],
-        [ 2, { requireReturn: true } ]
+        [ 0, {
+          requireReturn: false
+        } ],
+        [ 0, {
+          requireReturn: true
+        } ],
+        [ 1, {
+          requireReturn: false
+        } ],
+        [ 1, {
+          requireReturn: true
+        } ],
+        [ 2, {
+          requireReturn: false
+        } ],
+        [ 2, {
+          requireReturn: true
+        } ]
       ]
     }
   })

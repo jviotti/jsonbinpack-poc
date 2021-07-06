@@ -64,9 +64,9 @@ export interface PackedUnboundedOptions extends BoundedTypedOptions {
 
 export interface PackedRequiredBoundedOptions
   extends RequiredBoundedTypedOptions {
-    packedRequiredProperties: string[];
-    packedEncoding: BOUNDED_8BITS__ENUM_FIXED_ENCODING;
-  }
+  packedRequiredProperties: string[];
+  packedEncoding: BOUNDED_8BITS__ENUM_FIXED_ENCODING;
+}
 
 export interface SizeTypedKeysOptions extends TypedKeysOptions {
   size: number;

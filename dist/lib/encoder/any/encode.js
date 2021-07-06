@@ -134,16 +134,14 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
                 size: length_1
             }, context);
         }
-        else {
-            var typeTag_11 = types_1.getTypeTag(types_1.Type.String, 0);
-            var tagBytes_9 = context.strings.has(value)
-                ? 0
-                : encodeTypeTag(buffer, offset, typeTag_11, context);
-            var valueBytes_5 = encode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes_9, value, {
-                minimum: 0
-            }, context);
-            return tagBytes_9 + valueBytes_5;
-        }
+        var typeTag_11 = types_1.getTypeTag(types_1.Type.String, 0);
+        var tagBytes_9 = context.strings.has(value)
+            ? 0
+            : encodeTypeTag(buffer, offset, typeTag_11, context);
+        var valueBytes_5 = encode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes_9, value, {
+            minimum: 0
+        }, context);
+        return tagBytes_9 + valueBytes_5;
     }
     else if (Number.isInteger(value)) {
         var isPositive = value >= 0;

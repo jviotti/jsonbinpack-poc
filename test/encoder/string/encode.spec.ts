@@ -69,10 +69,17 @@ tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "foo bar baz" with [ bar ]
     }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x0b, // whole string length
-    0x07, 0x66, 0x6f, 0x6f, // zigzag negative length + 'foo'
-    0x02, // 'bar'
-    0x07, 0x62, 0x61, 0x7a // zigzag negative length + 'baz'
+    // Whole string length
+    0x0b,
+
+    // Zigzag negative length + 'foo'
+    0x07, 0x66, 0x6f, 0x6f,
+
+    // 'bar'
+    0x02,
+
+    // Zigzag negative length + 'baz'
+    0x07, 0x62, 0x61, 0x7a
   ]))
 
   test.is(bytesWritten, 10)
@@ -91,11 +98,20 @@ tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "foo bar foo" with [ bar ]
     }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x0b, // whole string length
-    0x07, 0x66, 0x6f, 0x6f, // zigzag negative length + 'foo'
-    0x02, // 'bar'
-    0x00, // start of shared string
-    0x03, 0x06 // zigzag negative length + offset 'foo'
+    // Whole string length
+    0x0b,
+
+    // Zigzag negative length + 'foo'
+    0x07, 0x66, 0x6f, 0x6f,
+
+    // 'bar'
+    0x02,
+
+    // Start of shared string
+    0x00,
+
+    // Zigzag negative length + offset 'foo'
+    0x03, 0x06
   ]))
 
   test.is(bytesWritten, 9)
@@ -114,10 +130,17 @@ tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "bar foo foo" with [ bar ]
     }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x0b, // whole string length
-    0x02, // 'bar'
-    0x0f, // zigzag negative length
-    0x66, 0x6f, 0x6f, 0x20, 0x66, 0x6f, 0x6f // 'foo foo'
+    // Whole string length
+    0x0b,
+
+    // 'bar'
+    0x02,
+
+    // Zigzag negative length
+    0x0f,
+
+    // 'foo foo'
+    0x66, 0x6f, 0x6f, 0x20, 0x66, 0x6f, 0x6f
   ]))
 
   test.is(bytesWritten, 10)
@@ -130,11 +153,20 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com"', (test) =>
   const bytesWritten: number =
     URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x07, // protocol length
-    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, // 'https:'
-    0x0b, // host length
-    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d, // 'google.com'
-    0x01 // rest length
+    // Protocol length
+    0x07,
+
+    // 'https:'
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+
+    // Host length
+    0x0b,
+
+    // 'google.com'
+    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+
+    // Rest length
+    0x01
   ]))
   test.is(bytesWritten, 19)
   test.end()
@@ -146,11 +178,20 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/"', (test) =
   const bytesWritten: number =
     URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x07, // protocol length
-    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, // 'https:'
-    0x0b, // host length
-    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d, // 'google.com'
-    0x02, // rest length
+    // Protocol length
+    0x07,
+
+    // 'https:'
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+
+    // Host length
+    0x0b,
+
+    // 'google.com'
+    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+
+    // Rest length
+    0x02,
     0x2f
   ]))
   test.is(bytesWritten, 20)
@@ -163,11 +204,20 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo"', (test
   const bytesWritten: number =
     URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/foo', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x07, // protocol length
-    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a, // 'https:'
-    0x0b, // host length
-    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d, // 'google.com'
-    0x05, // rest length
+    // Protocol length
+    0x07,
+
+    // 'https:'
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+
+    // Host length
+    0x0b,
+
+    // 'google.com'
+    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+
+    // Rest length
+    0x05,
     0x2f, 0x66, 0x6f, 0x6f
   ]))
   test.is(bytesWritten, 23)

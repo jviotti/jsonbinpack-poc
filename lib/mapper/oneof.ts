@@ -61,9 +61,8 @@ export const getOneOfStates = (schema: OneOfEncodingSchema): number | JSONValue[
     if (Array.isArray(states)) {
       if (Array.isArray(accumulator)) {
         return uniqWith(accumulator.concat(states), isEqual)
-      } else {
-        return accumulator + states.length
       }
+      return accumulator + states.length
     }
 
     const accumulatorLength: number =

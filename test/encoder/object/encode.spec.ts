@@ -692,18 +692,41 @@ tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x05, // Amount of packed integers
-    0b10100001, // REVERSE(10 (bar) 00 (baz) 01 (extra) 01 (foo))
-    0b00000001, // REVERSE(10 (qux) 000000)
-    0x01, // true (flag)
-    0x05, // string length (4)
-    0x6a, 0x6f, 0x68, 0x6e, // 'john'
-    0x01, // Optional bitset length = 1
-    0x00, // Optional properties bitset = 0
-    0x01, // Extra properties length = 1
-    0x07, // string length (6)
-    0x72, 0x61, 0x6e, 0x64, 0x6f, 0x6d, // 'random'
-    0x01 // 1 (random)
+    // Amount of packed integers
+    0x05,
+
+    // REVERSE(10 (bar) 00 (baz) 01 (extra) 01 (foo))
+    0b10100001,
+
+    // REVERSE(10 (qux) 000000)
+    0b00000001,
+
+    // True (flag)
+    0x01,
+
+    // String length (4)
+    0x05,
+
+    // 'john'
+    0x6a, 0x6f, 0x68, 0x6e,
+
+    // Optional bitset length = 1
+    0x01,
+
+    // Optional properties bitset = 0
+    0x00,
+
+    // Extra properties length = 1
+    0x01,
+
+    // String length (6)
+    0x07,
+
+    // 'random'
+    0x72, 0x61, 0x6e, 0x64, 0x6f, 0x6d,
+
+    // 1 (random)
+    0x01
   ]))
 
   test.is(bytesWritten, 20)
@@ -744,12 +767,23 @@ tap.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex object', (test
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x05, // Amount of packed integers
-    0b10100001, // REVERSE(10 (bar) 00 (baz) 01 (extra) 01 (foo))
-    0b00000001, // REVERSE(10 (qux) 000000)
-    0x01, // true (flag)
-    0x05, // string length (4)
-    0x6a, 0x6f, 0x68, 0x6e // 'john'
+    // Amount of packed integers
+    0x05,
+
+    // REVERSE(10 (bar) 00 (baz) 01 (extra) 01 (foo))
+    0b10100001,
+
+    // REVERSE(10 (qux) 000000)
+    0b00000001,
+
+    // True (flag)
+    0x01,
+
+    // String length (4)
+    0x05,
+
+    // 'john'
+    0x6a, 0x6f, 0x68, 0x6e
   ]))
 
   test.is(bytesWritten, 9)

@@ -111,9 +111,14 @@ tap.test('ANY__TYPE_PREFIX: should handle shared strings', (test) => {
   test.is(bytesWritten2, 2)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x21, 0x66, 0x6f, 0x6f, // Tag + length + foo
-    0x20, // Start of pointer
-    0x04 // Pointer (current = 6 - location = 2)
+    // Tag + length + foo
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // Start of pointer
+    0x20,
+
+    // Pointer (current = 6 - location = 2)
+    0x04
   ]))
 
   const decode1: AnyResult = DECODE_ANY__TYPE_PREFIX(buffer, 0, {})

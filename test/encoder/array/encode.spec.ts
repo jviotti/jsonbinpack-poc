@@ -53,10 +53,17 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // Array length
+    0x03,
+
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 9)
@@ -75,10 +82,17 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, // Array length
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // Array length
+    0x01,
+
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 9)
@@ -97,9 +111,14 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 8)
@@ -118,9 +137,14 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: same max/min', (test) => {
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 8)
@@ -139,10 +163,17 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]'
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, // Array length
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // Array length
+    0x01,
+
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 9)
@@ -160,10 +191,17 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', 
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, // Array length
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // Array length
+    0x00,
+
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 9)
@@ -181,10 +219,17 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // Array length
+    0x03,
+
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 9)
@@ -202,10 +247,17 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, // Array length
-    0x21, 0x66, 0x6f, 0x6f, // "foo"
-    0x0f, // True
-    0x1f, 0xd0, 0x0f // 2000
+    // Array length
+    0x00,
+
+    // "foo"
+    0x21, 0x66, 0x6f, 0x6f,
+
+    // True
+    0x0f,
+
+    // 2000
+    0x1f, 0xd0, 0x0f
   ]))
 
   test.is(bytesWritten, 9)
@@ -229,7 +281,9 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (t
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x01
   ]))
 
@@ -278,7 +332,9 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true 
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x01
   ]))
 
@@ -326,7 +382,9 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (test
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, // Array length
+    // Array length
+    0x00,
+
     0x01, 0x00, 0x01
   ]))
 
@@ -350,7 +408,9 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]',
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x01
   ]))
 
@@ -374,7 +434,9 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', (tes
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, // Array length
+    // Array length
+    0x00,
+
     0x01, 0x00, 0x01
   ]))
 
@@ -397,7 +459,9 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ true, false, true ]', 
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x01
   ]))
 
@@ -421,7 +485,9 @@ tap.test('BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, ty
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x0f
   ]))
 
@@ -445,7 +511,9 @@ tap.test('BOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fa
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x0f
   ]))
 
@@ -468,7 +536,9 @@ tap.test('FLOOR_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, // Array length
+    // Array length
+    0x01,
+
     0x01, 0x00, 0x0f
   ]))
 
@@ -491,7 +561,9 @@ tap.test('ROOF_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, // Array length
+    // Array length
+    0x00,
+
     0x01, 0x00, 0x0f
   ]))
 
@@ -514,7 +586,9 @@ tap.test('ROOF_8BITS_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x0f
   ]))
 
@@ -536,7 +610,9 @@ tap.test('UNBOUNDED_SEMITYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
+    // Array length
+    0x03,
+
     0x01, 0x00, 0x0f
   ]))
 
@@ -565,9 +641,14 @@ tap.test('BOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false,
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, // Array length
-    0x01, 0x00, // True, false
-    0x0a // 5
+    // Array length
+    0x01,
+
+    // True, false
+    0x01, 0x00,
+
+    // 5
+    0x0a
   ]))
 
   test.is(bytesWritten, 4)
@@ -595,9 +676,14 @@ tap.test('BOUNDED_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, // Array length
-    0x01, 0x00, // True, false
-    0x0a // 5
+    // Array length
+    0x01,
+
+    // True, false
+    0x01, 0x00,
+
+    // 5
+    0x0a
   ]))
 
   test.is(bytesWritten, 4)
@@ -624,9 +710,14 @@ tap.test('ROOF_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x00, // Array length
-    0x01, 0x00, // True, false
-    0x0a // 5
+    // Array length
+    0x00,
+
+    // True, false
+    0x01, 0x00,
+
+    // 5
+    0x0a
   ]))
 
   test.is(bytesWritten, 4)
@@ -653,9 +744,14 @@ tap.test('ROOF_8BITS_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fal
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
-    0x01, 0x00, // True, false
-    0x0a // 5
+    // Array length
+    0x03,
+
+    // True, false
+    0x01, 0x00,
+
+    // 5
+    0x0a
   ]))
 
   test.is(bytesWritten, 4)
@@ -682,9 +778,14 @@ tap.test('FLOOR_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:false, 5
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x01, // Array length
-    0x01, 0x00, // True, false
-    0x0a // 5
+    // Array length
+    0x01,
+
+    // True, false
+    0x01, 0x00,
+
+    // 5
+    0x0a
   ]))
 
   test.is(bytesWritten, 4)
@@ -710,9 +811,14 @@ tap.test('UNBOUNDED_TYPED__LENGTH_PREFIX: should encode [ typed:true, typed:fals
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    0x03, // Array length
-    0x01, 0x00, // True, false
-    0x0a // 5
+    // Array length
+    0x03,
+
+    // True, false
+    0x01, 0x00,
+
+    // 5
+    0x0a
   ]))
 
   test.is(bytesWritten, 4)

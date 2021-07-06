@@ -227,20 +227,19 @@ export const ANY__TYPE_PREFIX = (
         buffer, offset + tagBytes + lengthBytes, value, {
           size: length
         }, context)
-    } else {
-      const typeTag: number = getTypeTag(Type.String, 0)
+    }
+    const typeTag: number = getTypeTag(Type.String, 0)
 
-      // Exploit the fact that a shared string always starts with an impossible length
-      // marker (0) to avoid having to encode an additional tag
-      const tagBytes: number = context.strings.has(value)
-        ? 0
-        : encodeTypeTag(buffer, offset, typeTag, context)
-      const valueBytes: number =
+    // Exploit the fact that a shared string always starts with an impossible length
+    // marker (0) to avoid having to encode an additional tag
+    const tagBytes: number = context.strings.has(value)
+      ? 0
+      : encodeTypeTag(buffer, offset, typeTag, context)
+    const valueBytes: number =
         FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes, value, {
           minimum: 0
         }, context)
-      return tagBytes + valueBytes
-    }
+    return tagBytes + valueBytes
 
   // Encode an integer value
   } else if (Number.isInteger(value)) {

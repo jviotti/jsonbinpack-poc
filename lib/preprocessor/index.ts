@@ -51,6 +51,7 @@ export const preprocessSchema = async (
 ): Promise<EncodingSchema> => {
   const objectSchema: JSONSchema = toObjectSchema(schema)
   const localSchema: JSONSchema = await dereferenceSchema(objectSchema)
+
   // TODO: Find a way to make this cast in a better way
   // @ts-ignore
   const castedSchema: JSONObject | JSONBoolean = localSchema

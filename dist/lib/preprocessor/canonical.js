@@ -156,7 +156,7 @@ var canonicalizeSchema = function (schema) {
                 });
                 if (typeof schema.patternProperties !== 'undefined' &&
                     (typeof result.additionalProperties !== 'boolean' ||
-                        result.additionalProperties === false)) {
+                        !result.additionalProperties)) {
                     result.additionalProperties = true;
                 }
                 return exports.canonicalizeSchema(result);

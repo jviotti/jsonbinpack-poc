@@ -100,6 +100,7 @@ const writeRawString = (
   const length: number = Buffer.byteLength(value, STRING_ENCODING)
 
   const lengthBytes: number = prefixBytes > 0
+
     // The string is shared
     ? FLOOR__ENUM_VARINT(buffer, offset + prefixBytes, length, {
       minimum: 0
@@ -358,6 +359,7 @@ export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
     }, context)
 
   context.keys.set(value, offset)
+
   // Its fine to override as it means that future pointers will be smaller
   context.strings.set(value, offset + lengthBytes)
 

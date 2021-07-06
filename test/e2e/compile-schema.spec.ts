@@ -115,4 +115,3 @@ tap.test('should compile a simple oneOf schema', async (test) => {
 
   test.end()
 })
-

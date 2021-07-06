@@ -208,7 +208,7 @@ export const ANY__TYPE_PREFIX = (
     const size: number = getMetadata(tag.value) + UINT5_MAX
     const result: StringResult = UTF8_STRING_NO_LENGTH(
       buffer, offset + tag.bytes, {
-        size: size
+        size
       })
 
     return {

@@ -151,7 +151,6 @@ export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONVa
   if (typeof schema.maximum === 'number' &&
     typeof schema.minimum === 'number' &&
     typeof schema.multipleOf === 'number') {
-
     // TODO: De-duplicate this logic on encoder/integer/encode
     const absoluteMultiplier: number = Math.abs(schema.multipleOf)
     const closestMinimumMultiple: number =

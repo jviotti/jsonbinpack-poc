@@ -195,7 +195,7 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
         return Infinity
       }
 
-      let absoluteStates: number | Array<JSONValue | undefined> = states
+      let absoluteStates: number | (JSONValue | undefined)[] = states
 
       // As non being present (optional) counts as yet another state
       if (!requiredProperties.includes(key)) {
@@ -336,7 +336,6 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
     requiredProperties.length > 0 &&
     additionalProperties.type === EncodingType.Integer &&
     additionalProperties.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
-
     const propertiesDefinition: Record<string, EncodingSchema> =
       schema.properties ?? {}
     const packedRequiredProperties: string[] = []
