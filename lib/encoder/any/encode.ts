@@ -183,6 +183,12 @@ export const ANY__TYPE_PREFIX = (
       return tagBytes + UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes, value, {
         size: length
       }, context)
+    } else if (length >= UINT5_MAX && length < UINT5_MAX * 2 && !context.strings.has(value)) {
+      const typeTag: number = getTypeTag(Type.LongString, length - UINT5_MAX)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      return tagBytes + UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes, value, {
+        size: length
+      }, context)
     } else {
       const typeTag: number = getTypeTag(Type.String, 0)
 

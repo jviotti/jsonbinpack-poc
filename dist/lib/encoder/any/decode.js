@@ -120,6 +120,16 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: result.bytes + tag.bytes
         };
     }
+    else if (types_1.isType(types_1.Type.LongString, tag.value)) {
+        var size = types_1.getMetadata(tag.value) + limits_1.UINT5_MAX;
+        var result = decode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tag.bytes, {
+            size: size
+        });
+        return {
+            value: result.value,
+            bytes: result.bytes + tag.bytes
+        };
+    }
     else if (types_1.isPositiveInteger(tag.value)) {
         var result = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
             minimum: 0

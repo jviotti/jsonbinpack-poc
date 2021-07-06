@@ -100,15 +100,22 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
                 size: length_1
             }, context);
         }
+        else if (length_1 >= limits_1.UINT5_MAX && length_1 < limits_1.UINT5_MAX * 2 && !context.strings.has(value)) {
+            var typeTag_9 = types_1.getTypeTag(types_1.Type.LongString, length_1 - limits_1.UINT5_MAX);
+            var tagBytes_7 = encodeTypeTag(buffer, offset, typeTag_9, context);
+            return tagBytes_7 + encode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes_7, value, {
+                size: length_1
+            }, context);
+        }
         else {
-            var typeTag_9 = types_1.getTypeTag(types_1.Type.String, 0);
-            var tagBytes_7 = context.strings.has(value)
+            var typeTag_10 = types_1.getTypeTag(types_1.Type.String, 0);
+            var tagBytes_8 = context.strings.has(value)
                 ? 0
-                : encodeTypeTag(buffer, offset, typeTag_9, context);
-            var valueBytes_5 = encode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes_7, value, {
+                : encodeTypeTag(buffer, offset, typeTag_10, context);
+            var valueBytes_5 = encode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes_8, value, {
                 minimum: 0
             }, context);
-            return tagBytes_7 + valueBytes_5;
+            return tagBytes_8 + valueBytes_5;
         }
     }
     else if (Number.isInteger(value)) {
@@ -118,27 +125,27 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
             var type_1 = isPositive
                 ? types_1.Type.PositiveIntegerByte : types_1.Type.NegativeIntegerByte;
             if (absoluteValue <= limits_1.UINT5_MAX - 1) {
-                var typeTag_10 = types_1.getTypeTag(type_1, absoluteValue + 1);
-                return encodeTypeTag(buffer, offset, typeTag_10, context);
+                var typeTag_11 = types_1.getTypeTag(type_1, absoluteValue + 1);
+                return encodeTypeTag(buffer, offset, typeTag_11, context);
             }
-            var typeTag_11 = types_1.getTypeTag(type_1, 0);
-            var tagBytes_8 = encodeTypeTag(buffer, offset, typeTag_11, context);
-            var valueBytes_6 = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes_8, absoluteValue, {
+            var typeTag_12 = types_1.getTypeTag(type_1, 0);
+            var tagBytes_9 = encodeTypeTag(buffer, offset, typeTag_12, context);
+            var valueBytes_6 = encode_1.BOUNDED_8BITS__ENUM_FIXED(buffer, offset + tagBytes_9, absoluteValue, {
                 minimum: limits_1.UINT8_MIN,
                 maximum: limits_1.UINT8_MAX
             }, context);
-            return tagBytes_8 + valueBytes_6;
+            return tagBytes_9 + valueBytes_6;
         }
         var type = types_1.Type.Other;
         var subtype = isPositive
             ? types_1.Subtype.PositiveInteger : types_1.Subtype.NegativeInteger;
         assert_1.strict(subtype === types_1.Subtype.PositiveInteger || -(absoluteValue + 1) === value);
-        var typeTag_12 = types_1.getTypeTag(type, subtype);
-        var tagBytes_9 = encodeTypeTag(buffer, offset, typeTag_12, context);
-        var valueBytes_7 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_9, absoluteValue, {
+        var typeTag_13 = types_1.getTypeTag(type, subtype);
+        var tagBytes_10 = encodeTypeTag(buffer, offset, typeTag_13, context);
+        var valueBytes_7 = encode_1.FLOOR__ENUM_VARINT(buffer, offset + tagBytes_10, absoluteValue, {
             minimum: 0
         }, context);
-        return tagBytes_9 + valueBytes_7;
+        return tagBytes_10 + valueBytes_7;
     }
     var typeTag = types_1.getTypeTag(types_1.Type.Other, types_1.Subtype.Number);
     var tagBytes = encodeTypeTag(buffer, offset, typeTag, context);
