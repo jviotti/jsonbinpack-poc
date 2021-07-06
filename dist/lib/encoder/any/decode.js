@@ -130,6 +130,21 @@ var ANY__TYPE_PREFIX = function (buffer, offset, _options) {
             bytes: result.bytes + tag.bytes
         };
     }
+    else if (types_1.isType(types_1.Type.Other, tag.value) && (types_1.getMetadata(tag.value) === types_1.Subtype.LongStringBaseExponent7 ||
+        types_1.getMetadata(tag.value) === types_1.Subtype.LongStringBaseExponent8 ||
+        types_1.getMetadata(tag.value) === types_1.Subtype.LongStringBaseExponent9 ||
+        types_1.getMetadata(tag.value) === types_1.Subtype.LongStringBaseExponent10)) {
+        var size = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
+            minimum: Math.pow(2, types_1.getMetadata(tag.value))
+        });
+        var result = decode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tag.bytes + size.bytes, {
+            size: size.value
+        });
+        return {
+            value: result.value,
+            bytes: result.bytes + tag.bytes + size.bytes
+        };
+    }
     else if (types_1.isPositiveInteger(tag.value)) {
         var result = decode_1.FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
             minimum: 0

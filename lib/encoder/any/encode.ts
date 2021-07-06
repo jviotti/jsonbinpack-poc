@@ -37,7 +37,9 @@ import {
 import {
   Type,
   Subtype,
-  getTypeTag
+  getTypeTag,
+  LONG_STRING_BASE_EXPONENT_MINIMUM,
+  LONG_STRING_BASE_EXPONENT_MAXIMUM
 } from './types'
 
 import {
@@ -75,11 +77,32 @@ import {
 
 const STRING_ENCODING: BufferEncoding = 'utf8'
 
-const encodeTypeTag = (buffer: ResizableBuffer, offset: number, tag: number, context: EncodingContext): number => {
+const encodeTypeTag = (
+  buffer: ResizableBuffer, offset: number,
+  tag: number, context: EncodingContext
+): number => {
   return BOUNDED_8BITS__ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
     maximum: UINT8_MAX
   }, context)
+}
+
+const findHighest2Exponent = (
+  value: number, start: number, limit: number
+): number | null => {
+  let exponent: number = start - 1
+  if (((2 << exponent) >>> 0) > value) {
+    return null
+  }
+
+  while (((2 << exponent) >>> 0) <= value) {
+    exponent += 1
+    if (exponent > limit) {
+      return null
+    }
+  }
+
+  return exponent
 }
 
 export const ANY__TYPE_PREFIX = (
@@ -189,6 +212,21 @@ export const ANY__TYPE_PREFIX = (
       return tagBytes + UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes, value, {
         size: length
       }, context)
+    } else if (length >= Math.pow(2, LONG_STRING_BASE_EXPONENT_MINIMUM) &&
+      length <= Math.pow(2, LONG_STRING_BASE_EXPONENT_MAXIMUM) &&
+      !context.strings.has(value)) {
+      const exponent: number | null = findHighest2Exponent(length,
+        LONG_STRING_BASE_EXPONENT_MINIMUM, LONG_STRING_BASE_EXPONENT_MAXIMUM)
+      assert(typeof exponent === 'number' && Math.pow(2, exponent) <= length)
+      const typeTag: number = getTypeTag(Type.Other, exponent)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      const lengthBytes: number = FLOOR__ENUM_VARINT(buffer, offset + tagBytes, length, {
+        minimum: Math.pow(2, exponent)
+      }, context)
+      return tagBytes + lengthBytes + UTF8_STRING_NO_LENGTH(
+        buffer, offset + tagBytes + lengthBytes, value, {
+          size: length
+        }, context)
     } else {
       const typeTag: number = getTypeTag(Type.String, 0)
 

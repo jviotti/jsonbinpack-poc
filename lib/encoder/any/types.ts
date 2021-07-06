@@ -48,8 +48,17 @@ export enum Subtype {
   Null = 0b00000010,
   PositiveInteger = 0b00000011,
   NegativeInteger = 0b00000100,
-  Number = 0b00000101
+  Number = 0b00000101,
+
+  // Note that the binary values actually match the exponents
+  LongStringBaseExponent7 = 0b00000111,
+  LongStringBaseExponent8 = 0b00001000,
+  LongStringBaseExponent9 = 0b00001001,
+  LongStringBaseExponent10 = 0b00001010
 }
+
+export const LONG_STRING_BASE_EXPONENT_MINIMUM: number = 7
+export const LONG_STRING_BASE_EXPONENT_MAXIMUM: number = 10
 
 export const isType = (type: Type, value: number): boolean => {
   assert(type >= UINT3_MIN && type <= UINT3_MAX)
