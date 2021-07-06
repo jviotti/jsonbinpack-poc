@@ -193,7 +193,7 @@ var getObjectEncoding = function (schema, level) {
         ? string_1.getStringEncoding(schema.propertyNames, level + 1)
         : {
             type: encoder_1.EncodingType.String,
-            encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+            encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
             options: {}
         };
     if (additionalProperties === null) {
@@ -232,7 +232,7 @@ var getObjectEncoding = function (schema, level) {
     if (additionalProperties !== null &&
         requiredProperties.length > 0 &&
         additionalProperties.type === encoder_1.EncodingType.Integer &&
-        additionalProperties.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
+        additionalProperties.encoding === 'BOUNDED_8BITS_ENUM_FIXED') {
         var propertiesDefinition = (_h = schema.properties) !== null && _h !== void 0 ? _h : {};
         var packedRequiredProperties_1 = [];
         var unpackedRequiredProperties = [];

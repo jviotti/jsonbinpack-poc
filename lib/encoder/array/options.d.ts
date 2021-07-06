@@ -15,10 +15,6 @@
  */
 
 import {
-  NoOptions
-} from '../null/options'
-
-import {
   BoundedOptions,
   FloorOptions,
   RoofOptions

@@ -20,7 +20,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     }, context);
@@ -47,7 +47,7 @@ tap_1.default.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     }, context);
@@ -382,7 +382,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     }, context);
@@ -413,7 +413,7 @@ tap_1.default.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"b
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     }, context);
@@ -442,7 +442,7 @@ tap_1.default.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {fo
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         }
     }, context);
@@ -472,7 +472,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
         }, 1),
         encoding: {
             type: encoder_1.EncodingType.Any,
-            encoding: 'ANY__TYPE_PREFIX',
+            encoding: 'ANY_TYPE_PREFIX',
             options: {}
         },
         propertyEncodings: {
@@ -512,7 +512,7 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', fu
         packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
         packedEncoding: {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+            encoding: 'BOUNDED_8BITS_ENUM_FIXED',
             options: {
                 minimum: 0,
                 maximum: 2
@@ -569,7 +569,7 @@ tap_1.default.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex obje
         packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
         packedEncoding: {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'BOUNDED_8BITS__ENUM_FIXED',
+            encoding: 'BOUNDED_8BITS_ENUM_FIXED',
             options: {
                 minimum: 0,
                 maximum: 2

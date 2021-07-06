@@ -30,11 +30,11 @@ import {
 
 import {
   IntegerResult,
-  BOUNDED_8BITS__ENUM_FIXED,
-  BOUNDED__ENUM_VARINT,
-  FLOOR__ENUM_VARINT,
-  ARBITRARY__ZIGZAG_VARINT,
-  ROOF__MIRROR_ENUM_VARINT
+  BOUNDED_8BITS_ENUM_FIXED,
+  BOUNDED_ENUM_VARINT,
+  FLOOR_ENUM_VARINT,
+  ARBITRARY_ZIGZAG_VARINT,
+  ROOF_MIRROR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -69,7 +69,7 @@ const readSharedString = (
   buffer: ResizableBuffer, offset: number, prefix: IntegerResult, length: IntegerResult, delta: number
 ): StringResult => {
   const pointerOffset: number = offset + prefix.bytes + length.bytes
-  const pointer: IntegerResult = FLOOR__ENUM_VARINT(buffer, pointerOffset, {
+  const pointer: IntegerResult = FLOOR_ENUM_VARINT(buffer, pointerOffset, {
     minimum: 0
   })
 
@@ -84,7 +84,7 @@ const readSharedString = (
 export const STRING_BROTLI = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): StringResult => {
-  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+  const length: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
     minimum: 0
   })
 
@@ -99,7 +99,7 @@ export const STRING_BROTLI = (
 export const STRING_DICTIONARY_COMPRESSOR = (
   buffer: ResizableBuffer, offset: number, options: DictionaryOptions
 ): StringResult => {
-  const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+  const length: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
     minimum: 0
   })
 
@@ -109,7 +109,7 @@ export const STRING_DICTIONARY_COMPRESSOR = (
   while (Buffer.byteLength(result, STRING_ENCODING) < length.value) {
     const prefix: string = result.length === 0 ? '' : ' '
     const markerResult: IntegerResult =
-      ARBITRARY__ZIGZAG_VARINT(buffer, cursor, {})
+      ARBITRARY_ZIGZAG_VARINT(buffer, cursor, {})
     cursor += markerResult.bytes
 
     // Read a fragment from the dictionary
@@ -130,7 +130,7 @@ export const STRING_DICTIONARY_COMPRESSOR = (
     // Read a shared string
     } else {
       const lengthMarker: IntegerResult =
-        FLOOR__ENUM_VARINT(buffer, cursor, {
+        FLOOR_ENUM_VARINT(buffer, cursor, {
           minimum: 0
         })
       const fragment: StringResult = readSharedString(
@@ -143,28 +143,6 @@ export const STRING_DICTIONARY_COMPRESSOR = (
   return {
     value: result,
     bytes: cursor - offset
-  }
-}
-
-export const URL_PROTOCOL_HOST_REST = (
-  buffer: ResizableBuffer, offset: number, _options: NoOptions
-): StringResult => {
-  const protocol: StringResult =
-    FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-      minimum: 0
-    })
-  const host: StringResult =
-    FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes, {
-      minimum: 0
-    })
-  const rest: StringResult =
-    FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes + host.bytes, {
-      minimum: 0
-    })
-
-  return {
-    value: `${protocol.value}//${host.value}${rest.value}`,
-    bytes: protocol.bytes + host.bytes + rest.bytes
   }
 }
 
@@ -189,19 +167,19 @@ export const RFC3339_DATE_INTEGER_TRIPLET = (
   }
 }
 
-export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
+export const BOUNDED_PREFIX_LENGTH_8BIT_FIXED = (
   buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): StringResult => {
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
-  const prefix: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(buffer, offset, {
+  const prefix: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
     minimum: options.minimum,
     maximum: options.maximum + 1
   })
 
   if (prefix.value === Type.SharedString) {
-    const length: IntegerResult = BOUNDED_8BITS__ENUM_FIXED(
+    const length: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(
       buffer, offset + prefix.bytes, {
         minimum: options.minimum,
         maximum: options.maximum + 1
@@ -217,18 +195,18 @@ export const BOUNDED__PREFIX_LENGTH_8BIT_FIXED = (
   }
 }
 
-export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
+export const BOUNDED_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): StringResult => {
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
-  const prefix: IntegerResult = BOUNDED__ENUM_VARINT(buffer, offset, {
+  const prefix: IntegerResult = BOUNDED_ENUM_VARINT(buffer, offset, {
     minimum: options.minimum,
     maximum: options.maximum + 1
   })
 
   if (prefix.value === Type.SharedString) {
-    const length: IntegerResult = BOUNDED__ENUM_VARINT(
+    const length: IntegerResult = BOUNDED_ENUM_VARINT(
       buffer, offset + prefix.bytes, {
         minimum: options.minimum,
         maximum: options.maximum + 1
@@ -244,14 +222,14 @@ export const BOUNDED__PREFIX_LENGTH_ENUM_VARINT = (
   }
 }
 
-export const ROOF__PREFIX_LENGTH_ENUM_VARINT = (
+export const ROOF_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): StringResult => {
   assert(options.maximum >= 0)
-  const prefix: IntegerResult = ROOF__MIRROR_ENUM_VARINT(buffer, offset, options)
+  const prefix: IntegerResult = ROOF_MIRROR_ENUM_VARINT(buffer, offset, options)
 
   if (prefix.value === options.maximum) {
-    const length: IntegerResult = ROOF__MIRROR_ENUM_VARINT(
+    const length: IntegerResult = ROOF_MIRROR_ENUM_VARINT(
       buffer, offset + prefix.bytes, options)
     return readSharedString(buffer, offset, prefix, length, 1)
   }
@@ -286,14 +264,14 @@ export const SHARED_STRING_POINTER_RELATIVE_OFFSET = (
   }, 0)
 }
 
-export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
+export const FLOOR_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: FloorOptions
 ): StringResult => {
   assert(options.minimum >= 0)
-  const prefix: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, options)
+  const prefix: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, options)
 
   if (prefix.value === options.minimum) {
-    const length: IntegerResult = FLOOR__ENUM_VARINT(
+    const length: IntegerResult = FLOOR_ENUM_VARINT(
       buffer, offset + prefix.bytes, options)
     return readSharedString(buffer, offset, prefix, length, -1)
   }
@@ -308,21 +286,21 @@ export const FLOOR__PREFIX_LENGTH_ENUM_VARINT = (
   }
 }
 
-export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
+export const UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = (
   buffer: ResizableBuffer, offset: number, options: NoOptions
 ): StringResult => {
-  const prefix: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+  const prefix: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
     minimum: 0
   })
 
   if (prefix.value === 0) {
-    const pointer: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset + prefix.bytes, {
+    const pointer: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, {
       minimum: 0
     })
 
     const cursor: number = offset + prefix.bytes - pointer.value
 
-    const length: IntegerResult = FLOOR__ENUM_VARINT(buffer, cursor, {
+    const length: IntegerResult = FLOOR_ENUM_VARINT(buffer, cursor, {
       minimum: 0
     })
 
@@ -330,7 +308,7 @@ export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
     // TODO: We should try to do the same for non-keys for locality
     // purposes too?
     if (length.value === 0) {
-      const result: StringResult = UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH(buffer, cursor, options)
+      const result: StringResult = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, cursor, options)
       return {
         value: result.value,
         bytes: prefix.bytes + pointer.bytes
@@ -354,5 +332,27 @@ export const UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH = (
   return {
     value: result.value,
     bytes: result.bytes + prefix.bytes
+  }
+}
+
+export const URL_PROTOCOL_HOST_REST = (
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
+): StringResult => {
+  const protocol: StringResult =
+    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+      minimum: 0
+    })
+  const host: StringResult =
+    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes, {
+      minimum: 0
+    })
+  const rest: StringResult =
+    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes + host.bytes, {
+      minimum: 0
+    })
+
+  return {
+    value: `${protocol.value}//${host.value}${rest.value}`,
+    bytes: protocol.bytes + host.bytes + rest.bytes
   }
 }

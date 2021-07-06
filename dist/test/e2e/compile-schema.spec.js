@@ -70,7 +70,7 @@ tap_1.default.test('should compile a boolean schema true', function (test) { ret
                 encoding = _a.sent();
                 test.strictSame(encoding, {
                     type: 'any',
-                    encoding: 'ANY__TYPE_PREFIX',
+                    encoding: 'ANY_TYPE_PREFIX',
                     options: {}
                 });
                 test.end();
@@ -105,7 +105,7 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                 },
                                 encoding: {
                                     type: 'integer',
-                                    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+                                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
                                     options: {}
                                 }
                             },
@@ -139,7 +139,7 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                 },
                                 encoding: {
                                     type: 'any',
-                                    encoding: 'ANY__TYPE_PREFIX',
+                                    encoding: 'ANY_TYPE_PREFIX',
                                     options: {}
                                 }
                             }

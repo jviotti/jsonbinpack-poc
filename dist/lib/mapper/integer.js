@@ -46,8 +46,8 @@ var getIntegerEncoding = function (schema, _level) {
         return {
             type: encoder_1.EncodingType.Integer,
             encoding: enumMaximum - enumMinimum <= limits_1.UINT8_MAX
-                ? 'BOUNDED_MULTIPLE_8BITS__ENUM_FIXED'
-                : 'BOUNDED_MULTIPLE__ENUM_VARINT',
+                ? 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED'
+                : 'BOUNDED_MULTIPLE_ENUM_VARINT',
             options: {
                 minimum: schema.minimum,
                 maximum: schema.maximum,
@@ -60,7 +60,7 @@ var getIntegerEncoding = function (schema, _level) {
         return {
             type: encoder_1.EncodingType.Integer,
             encoding: (schema.maximum - schema.minimum <= limits_1.UINT8_MAX)
-                ? 'BOUNDED_8BITS__ENUM_FIXED' : 'BOUNDED__ENUM_VARINT',
+                ? 'BOUNDED_8BITS_ENUM_FIXED' : 'BOUNDED_ENUM_VARINT',
             options: {
                 minimum: schema.minimum,
                 maximum: schema.maximum
@@ -71,7 +71,7 @@ var getIntegerEncoding = function (schema, _level) {
         typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
         return {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'FLOOR_MULTIPLE__ENUM_VARINT',
+            encoding: 'FLOOR_MULTIPLE_ENUM_VARINT',
             options: {
                 minimum: schema.minimum,
                 multiplier: schema.multipleOf
@@ -82,7 +82,7 @@ var getIntegerEncoding = function (schema, _level) {
         typeof schema.maximum === 'undefined' && !('multipleOf' in schema)) {
         return {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'FLOOR__ENUM_VARINT',
+            encoding: 'FLOOR_ENUM_VARINT',
             options: {
                 minimum: schema.minimum
             }
@@ -92,7 +92,7 @@ var getIntegerEncoding = function (schema, _level) {
         typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
         return {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'ROOF_MULTIPLE__MIRROR_ENUM_VARINT',
+            encoding: 'ROOF_MULTIPLE_MIRROR_ENUM_VARINT',
             options: {
                 maximum: schema.maximum,
                 multiplier: schema.multipleOf
@@ -103,7 +103,7 @@ var getIntegerEncoding = function (schema, _level) {
         typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
         return {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'ROOF__MIRROR_ENUM_VARINT',
+            encoding: 'ROOF_MIRROR_ENUM_VARINT',
             options: {
                 maximum: schema.maximum
             }
@@ -113,7 +113,7 @@ var getIntegerEncoding = function (schema, _level) {
         typeof schema.maximum === 'undefined' && typeof schema.multipleOf !== 'undefined') {
         return {
             type: encoder_1.EncodingType.Integer,
-            encoding: 'ARBITRARY_MULTIPLE__ZIGZAG_VARINT',
+            encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
             options: {
                 multiplier: schema.multipleOf
             }
@@ -121,7 +121,7 @@ var getIntegerEncoding = function (schema, _level) {
     }
     return {
         type: encoder_1.EncodingType.Integer,
-        encoding: 'ARBITRARY__ZIGZAG_VARINT',
+        encoding: 'ARBITRARY_ZIGZAG_VARINT',
         options: {}
     };
 };

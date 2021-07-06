@@ -36,7 +36,7 @@ import {
 
 import {
   IntegerResult,
-  FLOOR__ENUM_VARINT
+  FLOOR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -96,7 +96,7 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
 export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
   buffer: ResizableBuffer, offset: number, options: OptionalBoundedTypedOptions
 ): ObjectResult => {
-  const bitsetLength: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+  const bitsetLength: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
     minimum: 0
   })
 
@@ -182,7 +182,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH = (
 export const ARBITRARY_TYPED_KEYS_OBJECT = (
   buffer: ResizableBuffer, offset: number, options: TypedKeysOptions
 ): ObjectResult => {
-  const sizeResult: IntegerResult = FLOOR__ENUM_VARINT(buffer, offset, {
+  const sizeResult: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
     minimum: 0
   })
 

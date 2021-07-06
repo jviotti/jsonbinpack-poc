@@ -1,5 +1,5 @@
 {
     "type": "any",
-    "encoding": "ANY__TYPE_PREFIX",
+    "encoding": "ANY_TYPE_PREFIX",
     "options": {}
 }

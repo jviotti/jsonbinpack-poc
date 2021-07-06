@@ -37,7 +37,7 @@ import {
 } from '../../schema'
 
 import {
-  BOUNDED__ENUM_VARINT
+  BOUNDED_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -61,7 +61,7 @@ export const ONEOF_CHOICE_INDEX_PREFIX = (
   assert(choiceIndex >= 0)
 
   // Record which of the choices was used
-  const indexBytes: number = BOUNDED__ENUM_VARINT(buffer, offset, choiceIndex, {
+  const indexBytes: number = BOUNDED_ENUM_VARINT(buffer, offset, choiceIndex, {
     minimum: 0,
     maximum: options.schemas.length
   }, context)

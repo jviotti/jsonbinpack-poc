@@ -57,7 +57,7 @@ export interface IntegerResult extends DecodeResult {
   readonly bytes: number;
 }
 
-export const BOUNDED_8BITS__ENUM_FIXED = (
+export const BOUNDED_8BITS_ENUM_FIXED = (
   buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): IntegerResult => {
   assert(options.maximum >= options.minimum)
@@ -69,7 +69,7 @@ export const BOUNDED_8BITS__ENUM_FIXED = (
   }
 }
 
-export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
+export const BOUNDED_MULTIPLE_8BITS_ENUM_FIXED = (
   buffer: ResizableBuffer, offset: number, options: BoundedMultiplierOptions
 ): IntegerResult => {
   assert(options.maximum >= options.minimum)
@@ -86,7 +86,7 @@ export const BOUNDED_MULTIPLE_8BITS__ENUM_FIXED = (
   }
 }
 
-export const BOUNDED__ENUM_VARINT = (
+export const BOUNDED_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): IntegerResult => {
   assert(options.maximum >= options.minimum)
@@ -98,7 +98,7 @@ export const BOUNDED__ENUM_VARINT = (
   }
 }
 
-export const BOUNDED_MULTIPLE__ENUM_VARINT = (
+export const BOUNDED_MULTIPLE_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: BoundedMultiplierOptions
 ): IntegerResult => {
   assert(options.maximum >= options.minimum)
@@ -116,7 +116,7 @@ export const BOUNDED_MULTIPLE__ENUM_VARINT = (
   }
 }
 
-export const FLOOR__ENUM_VARINT = (
+export const FLOOR_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: FloorOptions
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
@@ -126,7 +126,7 @@ export const FLOOR__ENUM_VARINT = (
   }
 }
 
-export const FLOOR_MULTIPLE__ENUM_VARINT = (
+export const FLOOR_MULTIPLE_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: FloorMultiplierOptions
 ): IntegerResult => {
   assert(options.multiplier >= options.minimum)
@@ -142,7 +142,7 @@ export const FLOOR_MULTIPLE__ENUM_VARINT = (
   }
 }
 
-export const ROOF__MIRROR_ENUM_VARINT = (
+export const ROOF_MIRROR_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
@@ -152,7 +152,7 @@ export const ROOF__MIRROR_ENUM_VARINT = (
   }
 }
 
-export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
+export const ROOF_MULTIPLE_MIRROR_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: RoofMultiplierOptions
 ): IntegerResult => {
   assert(options.maximum >= options.multiplier)
@@ -167,7 +167,7 @@ export const ROOF_MULTIPLE__MIRROR_ENUM_VARINT = (
   }
 }
 
-export const ARBITRARY__ZIGZAG_VARINT = (
+export const ARBITRARY_ZIGZAG_VARINT = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
@@ -177,10 +177,10 @@ export const ARBITRARY__ZIGZAG_VARINT = (
   }
 }
 
-export const ARBITRARY_MULTIPLE__ZIGZAG_VARINT = (
+export const ARBITRARY_MULTIPLE_ZIGZAG_VARINT = (
   buffer: ResizableBuffer, offset: number, options: MultiplierOptions
 ): IntegerResult => {
-  const result: IntegerResult = ARBITRARY__ZIGZAG_VARINT(buffer, offset, {})
+  const result: IntegerResult = ARBITRARY_ZIGZAG_VARINT(buffer, offset, {})
   return {
     value: result.value * Math.abs(options.multiplier),
     bytes: result.bytes

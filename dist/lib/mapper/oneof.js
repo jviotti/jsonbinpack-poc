@@ -11,9 +11,7 @@ var getOneOfStates = function (schema) {
             if (Array.isArray(accumulator)) {
                 return lodash_1.uniqWith(accumulator.concat(states), lodash_1.isEqual);
             }
-            else {
-                return accumulator + states.length;
-            }
+            return accumulator + states.length;
         }
         var accumulatorLength = Array.isArray(accumulator) ? accumulator.length : accumulator;
         return accumulatorLength + states;

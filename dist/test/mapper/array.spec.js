@@ -13,7 +13,7 @@ tap_1.default.test('should encode an arbitrary array', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
         options: {
             prefixEncodings: []
         }
@@ -29,7 +29,7 @@ tap_1.default.test('should encode an arbitrary array with minItems', function (t
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
         options: {
             minimum: 10,
             prefixEncodings: []
@@ -46,7 +46,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 256', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX',
         options: {
             maximum: 256,
             prefixEncodings: []
@@ -63,7 +63,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 255', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX',
         options: {
             maximum: 255,
             prefixEncodings: []
@@ -80,7 +80,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems < 255', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_8BITS_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX',
         options: {
             maximum: 10,
             prefixEncodings: []
@@ -98,7 +98,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems < 
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'BOUNDED_8BITS_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
         options: {
             minimum: 3,
             maximum: 10,
@@ -117,7 +117,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems > 
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'BOUNDED_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
         options: {
             minimum: 30,
             maximum: 450,
@@ -143,17 +143,17 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
         options: {
             prefixEncodings: [
                 {
                     type: 'integer',
-                    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
                     options: {}
                 },
                 {
                     type: 'string',
-                    encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
+                    encoding: 'BOUNDED_PREFIX_LENGTH_8BIT_FIXED',
                     options: {
                         minimum: 0,
                         maximum: 5
@@ -182,18 +182,18 @@ tap_1.default.test('should encode a semi-typed array with minItems', function (t
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED__LENGTH_PREFIX',
+        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
         options: {
             minimum: 5,
             prefixEncodings: [
                 {
                     type: 'integer',
-                    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
                     options: {}
                 },
                 {
                     type: 'string',
-                    encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
+                    encoding: 'BOUNDED_PREFIX_LENGTH_8BIT_FIXED',
                     options: {
                         minimum: 0,
                         maximum: 5
@@ -225,12 +225,12 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_TYPED__LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 5,
             encoding: {
                 type: 'array',
-                encoding: 'UNBOUNDED_SEMITYPED__LENGTH_PREFIX',
+                encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
                 options: {
                     prefixEncodings: []
                 }
@@ -238,12 +238,12 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
             prefixEncodings: [
                 {
                     type: 'integer',
-                    encoding: 'ARBITRARY__ZIGZAG_VARINT',
+                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
                     options: {}
                 },
                 {
                     type: 'string',
-                    encoding: 'BOUNDED__PREFIX_LENGTH_8BIT_FIXED',
+                    encoding: 'BOUNDED_PREFIX_LENGTH_8BIT_FIXED',
                     options: {
                         minimum: 0,
                         maximum: 5
@@ -503,24 +503,48 @@ tap_1.default.test('should encode a bounded array with bounded prefixItems', fun
     };
     var result = mapper_1.getEncoding(schema, 0);
     test.strictSame(mapper_1.getStates(schema), [
-        [0, { requireReturn: false }],
-        [0, { requireReturn: true }],
-        [1, { requireReturn: false }],
-        [1, { requireReturn: true }],
-        [2, { requireReturn: false }],
-        [2, { requireReturn: true }]
+        [0, {
+                requireReturn: false
+            }],
+        [0, {
+                requireReturn: true
+            }],
+        [1, {
+                requireReturn: false
+            }],
+        [1, {
+                requireReturn: true
+            }],
+        [2, {
+                requireReturn: false
+            }],
+        [2, {
+                requireReturn: true
+            }]
     ]);
     test.strictSame(result, {
         type: 'enum',
         encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
         options: {
             choices: [
-                [0, { requireReturn: false }],
-                [0, { requireReturn: true }],
-                [1, { requireReturn: false }],
-                [1, { requireReturn: true }],
-                [2, { requireReturn: false }],
-                [2, { requireReturn: true }]
+                [0, {
+                        requireReturn: false
+                    }],
+                [0, {
+                        requireReturn: true
+                    }],
+                [1, {
+                        requireReturn: false
+                    }],
+                [1, {
+                        requireReturn: true
+                    }],
+                [2, {
+                        requireReturn: false
+                    }],
+                [2, {
+                        requireReturn: true
+                    }]
             ]
         }
     });

@@ -20,7 +20,7 @@ import {
 } from '../../mapper'
 
 import {
-  BOUNDED_8BITS__ENUM_FIXED_ENCODING
+  BOUNDED_8BITS_ENUM_FIXED_ENCODING
 } from '../../mapper/integer'
 
 interface TypedPropertiesOptions {
@@ -58,15 +58,15 @@ export interface UnboundedTypedOptions extends
 
 export interface PackedUnboundedOptions extends BoundedTypedOptions {
   packedRequiredProperties: string[];
-  packedEncoding: BOUNDED_8BITS__ENUM_FIXED_ENCODING;
+  packedEncoding: BOUNDED_8BITS_ENUM_FIXED_ENCODING;
   keyEncoding: StringEncoding;
 }
 
 export interface PackedRequiredBoundedOptions
   extends RequiredBoundedTypedOptions {
-    packedRequiredProperties: string[];
-    packedEncoding: BOUNDED_8BITS__ENUM_FIXED_ENCODING;
-  }
+  packedRequiredProperties: string[];
+  packedEncoding: BOUNDED_8BITS_ENUM_FIXED_ENCODING;
+}
 
 export interface SizeTypedKeysOptions extends TypedKeysOptions {
   size: number;

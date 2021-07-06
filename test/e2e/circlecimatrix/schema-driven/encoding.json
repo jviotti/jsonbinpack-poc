@@ -20,7 +20,7 @@
                 "propertyEncodings": {
                   "jobs": {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                     "options": {
                       "encoding": {
                         "type": "object",
@@ -44,11 +44,11 @@
                                             "propertyEncodings": {
                                               "a": {
                                                 "type": "array",
-                                                "encoding": "UNBOUNDED_TYPED__LENGTH_PREFIX",
+                                                "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
                                                 "options": {
                                                   "encoding": {
                                                     "type": "integer",
-                                                    "encoding": "FLOOR__ENUM_VARINT",
+                                                    "encoding": "FLOOR_ENUM_VARINT",
                                                     "options": {
                                                       "minimum": 0
                                                     }

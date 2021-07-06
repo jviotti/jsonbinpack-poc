@@ -56,7 +56,7 @@ import {
 } from './options'
 
 import {
-  FLOOR__ENUM_VARINT
+  FLOOR_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -95,7 +95,7 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
 ): number => {
   assert(Object.keys(value).length <= options.optionalProperties.length)
 
-  const lengthBytes: number = FLOOR__ENUM_VARINT(
+  const lengthBytes: number = FLOOR_ENUM_VARINT(
     buffer, offset, options.optionalProperties.length, {
       minimum: 0
     }, context)
@@ -170,7 +170,7 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: TypedKeysOptions, context: EncodingContext
 ): number => {
   const size: number = Object.keys(value).length
-  const lengthBytes: number = FLOOR__ENUM_VARINT(buffer, offset, size, {
+  const lengthBytes: number = FLOOR_ENUM_VARINT(buffer, offset, size, {
     minimum: 0
   }, context)
 

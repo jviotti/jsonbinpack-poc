@@ -119,6 +119,7 @@ export const encode = (
   // typing in order to dynamically load encoding functions
   // from an encoding definition.
   // Maybe there is a way to do this in a type-safe manner?
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return fns[encoding.encoding](buffer, offset, value, encoding.options, context)
 }
@@ -133,6 +134,7 @@ export const decode = (
   // typing in order to dynamically load encoding functions
   // from an encoding definition.
   // Maybe there is a way to do this in a type-safe manner?
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return fns[encoding.encoding](buffer, offset, encoding.options)
 }

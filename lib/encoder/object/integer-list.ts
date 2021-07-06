@@ -29,12 +29,12 @@ import {
 } from '../integer/options'
 
 import {
-  FLOOR__ENUM_VARINT as ENCODE_FLOOR__ENUM_VARINT
+  FLOOR_ENUM_VARINT as ENCODE_FLOOR_ENUM_VARINT
 } from '../integer/encode'
 
 import {
   IntegerResult,
-  FLOOR__ENUM_VARINT as DECODE_FLOOR__ENUM_VARINT
+  FLOOR_ENUM_VARINT as DECODE_FLOOR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -69,7 +69,7 @@ export const integerListEncode = (
     result.push(...bitset)
   }
 
-  const lengthBytes: number = ENCODE_FLOOR__ENUM_VARINT(
+  const lengthBytes: number = ENCODE_FLOOR_ENUM_VARINT(
     buffer, offset, integers.length, {
       minimum: 0
     }, context)
@@ -83,7 +83,7 @@ export interface IntegerListResult extends DecodeResult {
 export const integerListDecode = (
   buffer: ResizableBuffer, offset: number, options: BoundedOptions
 ): IntegerListResult => {
-  const length: IntegerResult = DECODE_FLOOR__ENUM_VARINT(
+  const length: IntegerResult = DECODE_FLOOR_ENUM_VARINT(
     buffer, offset, {
       minimum: 0
     })

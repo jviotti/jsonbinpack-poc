@@ -61,14 +61,14 @@ var integerListEncode = function (buffer, offset, integers, options, context) {
         }
         finally { if (e_1) throw e_1.error; }
     }
-    var lengthBytes = encode_1.FLOOR__ENUM_VARINT(buffer, offset, integers.length, {
+    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, integers.length, {
         minimum: 0
     }, context);
     return lengthBytes + bitset_1.bitsetEncode(buffer, offset + lengthBytes, result);
 };
 exports.integerListEncode = integerListEncode;
 var integerListDecode = function (buffer, offset, options) {
-    var length = decode_1.FLOOR__ENUM_VARINT(buffer, offset, {
+    var length = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
         minimum: 0
     });
     var range = options.maximum - options.minimum;

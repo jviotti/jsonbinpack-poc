@@ -195,7 +195,7 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
         return Infinity
       }
 
-      let absoluteStates: number | Array<JSONValue | undefined> = states
+      let absoluteStates: number | (JSONValue | undefined)[] = states
 
       // As non being present (optional) counts as yet another state
       if (!requiredProperties.includes(key)) {
@@ -294,7 +294,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
     ? getStringEncoding(schema.propertyNames, level + 1)
     : {
       type: EncodingType.String,
-      encoding: 'UNBOUNDED_OBJECT_KEY__PREFIX_LENGTH',
+      encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
       options: {}
     }
 
@@ -335,8 +335,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
   if (additionalProperties !== null &&
     requiredProperties.length > 0 &&
     additionalProperties.type === EncodingType.Integer &&
-    additionalProperties.encoding === 'BOUNDED_8BITS__ENUM_FIXED') {
-
+    additionalProperties.encoding === 'BOUNDED_8BITS_ENUM_FIXED') {
     const propertiesDefinition: Record<string, EncodingSchema> =
       schema.properties ?? {}
     const packedRequiredProperties: string[] = []
