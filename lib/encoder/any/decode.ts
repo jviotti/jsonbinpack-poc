@@ -70,6 +70,7 @@ import {
 
 import {
   Type,
+  Subtype,
   isTrue,
   isFalse,
   isNull,
@@ -213,6 +214,26 @@ export const ANY__TYPE_PREFIX = (
     return {
       value: result.value,
       bytes: result.bytes + tag.bytes
+    }
+  } else if (isType(Type.Other, tag.value) && (
+    getMetadata(tag.value) === Subtype.LongStringBaseExponent7 ||
+    getMetadata(tag.value) === Subtype.LongStringBaseExponent8 ||
+    getMetadata(tag.value) === Subtype.LongStringBaseExponent9 ||
+    getMetadata(tag.value) === Subtype.LongStringBaseExponent10
+  )) {
+    const size: IntegerResult =
+      FLOOR__ENUM_VARINT(buffer, offset + tag.bytes, {
+        minimum: Math.pow(2, getMetadata(tag.value))
+      })
+
+    const result: StringResult = UTF8_STRING_NO_LENGTH(
+      buffer, offset + tag.bytes + size.bytes, {
+        size: size.value
+      })
+
+    return {
+      value: result.value,
+      bytes: result.bytes + tag.bytes + size.bytes
     }
   } else if (isPositiveInteger(tag.value)) {
     const result: IntegerResult =

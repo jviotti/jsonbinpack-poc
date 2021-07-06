@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNumber = exports.isNegativeInteger = exports.isPositiveInteger = exports.isNull = exports.isFalse = exports.isTrue = exports.getMetadata = exports.getTypeTag = exports.isType = exports.Subtype = exports.Type = void 0;
+exports.isNumber = exports.isNegativeInteger = exports.isPositiveInteger = exports.isNull = exports.isFalse = exports.isTrue = exports.getMetadata = exports.getTypeTag = exports.isType = exports.LONG_STRING_BASE_EXPONENT_MAXIMUM = exports.LONG_STRING_BASE_EXPONENT_MINIMUM = exports.Subtype = exports.Type = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var Type;
@@ -22,7 +22,13 @@ var Subtype;
     Subtype[Subtype["PositiveInteger"] = 3] = "PositiveInteger";
     Subtype[Subtype["NegativeInteger"] = 4] = "NegativeInteger";
     Subtype[Subtype["Number"] = 5] = "Number";
+    Subtype[Subtype["LongStringBaseExponent7"] = 7] = "LongStringBaseExponent7";
+    Subtype[Subtype["LongStringBaseExponent8"] = 8] = "LongStringBaseExponent8";
+    Subtype[Subtype["LongStringBaseExponent9"] = 9] = "LongStringBaseExponent9";
+    Subtype[Subtype["LongStringBaseExponent10"] = 10] = "LongStringBaseExponent10";
 })(Subtype = exports.Subtype || (exports.Subtype = {}));
+exports.LONG_STRING_BASE_EXPONENT_MINIMUM = 7;
+exports.LONG_STRING_BASE_EXPONENT_MAXIMUM = 10;
 var isType = function (type, value) {
     assert_1.strict(type >= limits_1.UINT3_MIN && type <= limits_1.UINT3_MAX);
     assert_1.strict(value >= limits_1.UINT8_MIN && value <= limits_1.UINT8_MAX);
