@@ -171,7 +171,19 @@ export const ANY__TYPE_PREFIX = (
   } else if (typeof value === 'string') {
     const length: number = Buffer.byteLength(value, STRING_ENCODING)
 
-    if (length > UINT5_MAX - 1) {
+    if (length < UINT5_MAX && context.strings.has(value)) {
+      const typeTag: number = getTypeTag(Type.SharedString, length + 1)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      return tagBytes + SHARED_STRING_POINTER_RELATIVE_OFFSET(buffer, offset + tagBytes, value, {
+        size: length
+      }, context)
+    } else if (length < UINT5_MAX && !context.strings.has(value)) {
+      const typeTag: number = getTypeTag(Type.String, length + 1)
+      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
+      return tagBytes + UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes, value, {
+        size: length
+      }, context)
+    } else {
       const typeTag: number = getTypeTag(Type.String, 0)
 
       // Exploit the fact that a shared string always starts with an impossible length
@@ -184,18 +196,6 @@ export const ANY__TYPE_PREFIX = (
           minimum: 0
         }, context)
       return tagBytes + valueBytes
-    } else if (context.strings.has(value)) {
-      const typeTag: number = getTypeTag(Type.SharedString, length + 1)
-      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
-      return tagBytes + SHARED_STRING_POINTER_RELATIVE_OFFSET(buffer, offset + tagBytes, value, {
-        size: length
-      }, context)
-    } else {
-      const typeTag: number = getTypeTag(Type.String, length + 1)
-      const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
-      return tagBytes + UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes, value, {
-        size: length
-      }, context)
     }
 
   // Encode an integer value

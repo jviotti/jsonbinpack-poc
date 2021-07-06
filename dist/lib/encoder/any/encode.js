@@ -86,29 +86,29 @@ var ANY__TYPE_PREFIX = function (buffer, offset, value, _options, context) {
     }
     else if (typeof value === 'string') {
         var length_1 = Buffer.byteLength(value, STRING_ENCODING);
-        if (length_1 > limits_1.UINT5_MAX - 1) {
-            var typeTag_7 = types_1.getTypeTag(types_1.Type.String, 0);
-            var tagBytes_5 = context.strings.has(value)
-                ? 0
-                : encodeTypeTag(buffer, offset, typeTag_7, context);
-            var valueBytes_5 = encode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes_5, value, {
-                minimum: 0
+        if (length_1 < limits_1.UINT5_MAX && context.strings.has(value)) {
+            var typeTag_7 = types_1.getTypeTag(types_1.Type.SharedString, length_1 + 1);
+            var tagBytes_5 = encodeTypeTag(buffer, offset, typeTag_7, context);
+            return tagBytes_5 + encode_2.SHARED_STRING_POINTER_RELATIVE_OFFSET(buffer, offset + tagBytes_5, value, {
+                size: length_1
             }, context);
-            return tagBytes_5 + valueBytes_5;
         }
-        else if (context.strings.has(value)) {
-            var typeTag_8 = types_1.getTypeTag(types_1.Type.SharedString, length_1 + 1);
+        else if (length_1 < limits_1.UINT5_MAX && !context.strings.has(value)) {
+            var typeTag_8 = types_1.getTypeTag(types_1.Type.String, length_1 + 1);
             var tagBytes_6 = encodeTypeTag(buffer, offset, typeTag_8, context);
-            return tagBytes_6 + encode_2.SHARED_STRING_POINTER_RELATIVE_OFFSET(buffer, offset + tagBytes_6, value, {
+            return tagBytes_6 + encode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes_6, value, {
                 size: length_1
             }, context);
         }
         else {
-            var typeTag_9 = types_1.getTypeTag(types_1.Type.String, length_1 + 1);
-            var tagBytes_7 = encodeTypeTag(buffer, offset, typeTag_9, context);
-            return tagBytes_7 + encode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes_7, value, {
-                size: length_1
+            var typeTag_9 = types_1.getTypeTag(types_1.Type.String, 0);
+            var tagBytes_7 = context.strings.has(value)
+                ? 0
+                : encodeTypeTag(buffer, offset, typeTag_9, context);
+            var valueBytes_5 = encode_2.FLOOR__PREFIX_LENGTH_ENUM_VARINT(buffer, offset + tagBytes_7, value, {
+                minimum: 0
             }, context);
+            return tagBytes_7 + valueBytes_5;
         }
     }
     else if (Number.isInteger(value)) {

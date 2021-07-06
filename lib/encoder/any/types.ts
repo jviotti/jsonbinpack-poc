@@ -34,6 +34,7 @@ import {
 export enum Type {
   SharedString = 0b00000000,
   String = 0b00000001,
+  LongString = 0b00000010,
   Object = 0b00000011,
   Array = 0b00000100,
   PositiveIntegerByte = 0b00000101,
