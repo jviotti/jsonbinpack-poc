@@ -73,6 +73,28 @@ const maybeWriteSharedPrefix = (
     : 0
 }
 
+export const SHARED_STRING_POINTER_RELATIVE_OFFSET = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  _options: SizeOptions, context: EncodingContext
+): number => {
+  const stringOffset: number | undefined = context.strings.get(value)
+  assert(typeof stringOffset !== 'undefined')
+  return FLOOR_ENUM_VARINT(buffer, offset, offset - stringOffset, {
+    minimum: 0
+  }, context)
+}
+
+export const UTF8_STRING_NO_LENGTH = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  options: SizeOptions, context: EncodingContext
+): number => {
+  assert(options.size >= 0)
+  const bytesWritten: number = buffer.write(
+    value, offset, options.size, STRING_ENCODING)
+  context.strings.set(value, offset)
+  return bytesWritten
+}
+
 const writeMaybeSharedString = (
   buffer: ResizableBuffer, offset: number,
   value: JSONString, length: number, context: EncodingContext
@@ -177,27 +199,6 @@ export const STRING_DICTIONARY_COMPRESSOR = (
   return bytes
 }
 
-export const URL_PROTOCOL_HOST_REST = (
-  buffer: ResizableBuffer, offset: number, value: JSONString,
-  _options: NoOptions, context: EncodingContext
-): number => {
-  const url = new URL(value)
-  const protocolBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, offset, url.protocol, {
-      minimum: 0
-    }, context)
-  const hostBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, offset + protocolBytes, url.host, {
-      minimum: 0
-    }, context)
-  const rest: string = value.replace(`${url.protocol}//${url.host}`, '')
-  const restBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, offset + protocolBytes + hostBytes, rest, {
-      minimum: 0
-    }, context)
-  return protocolBytes + hostBytes + restBytes
-}
-
 export const RFC3339_DATE_INTEGER_TRIPLET = (
   buffer: ResizableBuffer, offset: number, value: JSONString,
   _options: NoOptions, _context: EncodingContext
@@ -283,28 +284,6 @@ export const ROOF_PREFIX_LENGTH_ENUM_VARINT = (
   return result + prefixBytes + bytesWritten
 }
 
-export const UTF8_STRING_NO_LENGTH = (
-  buffer: ResizableBuffer, offset: number, value: JSONString,
-  options: SizeOptions, context: EncodingContext
-): number => {
-  assert(options.size >= 0)
-  const bytesWritten: number = buffer.write(
-    value, offset, options.size, STRING_ENCODING)
-  context.strings.set(value, offset)
-  return bytesWritten
-}
-
-export const SHARED_STRING_POINTER_RELATIVE_OFFSET = (
-  buffer: ResizableBuffer, offset: number, value: JSONString,
-  _options: SizeOptions, context: EncodingContext
-): number => {
-  const stringOffset: number | undefined = context.strings.get(value)
-  assert(typeof stringOffset !== 'undefined')
-  return FLOOR_ENUM_VARINT(buffer, offset, offset - stringOffset, {
-    minimum: 0
-  }, context)
-}
-
 export const FLOOR_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONString,
   options: FloorOptions, context: EncodingContext
@@ -367,4 +346,25 @@ export const UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = (
     buffer, offset + lengthBytes, value, {
       size: length
     }, context)
+}
+
+export const URL_PROTOCOL_HOST_REST = (
+  buffer: ResizableBuffer, offset: number, value: JSONString,
+  _options: NoOptions, context: EncodingContext
+): number => {
+  const url = new URL(value)
+  const protocolBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(
+    buffer, offset, url.protocol, {
+      minimum: 0
+    }, context)
+  const hostBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(
+    buffer, offset + protocolBytes, url.host, {
+      minimum: 0
+    }, context)
+  const rest: string = value.replace(`${url.protocol}//${url.host}`, '')
+  const restBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(
+    buffer, offset + protocolBytes + hostBytes, rest, {
+      minimum: 0
+    }, context)
+  return protocolBytes + hostBytes + restBytes
 }

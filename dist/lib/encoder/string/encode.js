@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = exports.UTF8_STRING_NO_LENGTH = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var encode_1 = require("../integer/encode");
@@ -26,6 +26,21 @@ var maybeWriteSharedPrefix = function (buffer, offset, value, context) {
         }, context)
         : 0;
 };
+var SHARED_STRING_POINTER_RELATIVE_OFFSET = function (buffer, offset, value, _options, context) {
+    var stringOffset = context.strings.get(value);
+    assert_1.strict(typeof stringOffset !== 'undefined');
+    return encode_1.FLOOR_ENUM_VARINT(buffer, offset, offset - stringOffset, {
+        minimum: 0
+    }, context);
+};
+exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = SHARED_STRING_POINTER_RELATIVE_OFFSET;
+var UTF8_STRING_NO_LENGTH = function (buffer, offset, value, options, context) {
+    assert_1.strict(options.size >= 0);
+    var bytesWritten = buffer.write(value, offset, options.size, STRING_ENCODING);
+    context.strings.set(value, offset);
+    return bytesWritten;
+};
+exports.UTF8_STRING_NO_LENGTH = UTF8_STRING_NO_LENGTH;
 var writeMaybeSharedString = function (buffer, offset, value, length, context) {
     if (context.strings.has(value)) {
         return exports.SHARED_STRING_POINTER_RELATIVE_OFFSET(buffer, offset, value, {
@@ -96,21 +111,6 @@ var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, value, options, con
     return bytes;
 };
 exports.STRING_DICTIONARY_COMPRESSOR = STRING_DICTIONARY_COMPRESSOR;
-var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context) {
-    var url = new URL(value);
-    var protocolBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, url.protocol, {
-        minimum: 0
-    }, context);
-    var hostBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes, url.host, {
-        minimum: 0
-    }, context);
-    var rest = value.replace(url.protocol + "//" + url.host, '');
-    var restBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes + hostBytes, rest, {
-        minimum: 0
-    }, context);
-    return protocolBytes + hostBytes + restBytes;
-};
-exports.URL_PROTOCOL_HOST_REST = URL_PROTOCOL_HOST_REST;
 var RFC3339_DATE_INTEGER_TRIPLET = function (buffer, offset, value, _options, _context) {
     var e_2, _a;
     var date = [];
@@ -178,21 +178,6 @@ var ROOF_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, c
     return result + prefixBytes + bytesWritten;
 };
 exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = ROOF_PREFIX_LENGTH_ENUM_VARINT;
-var UTF8_STRING_NO_LENGTH = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.size >= 0);
-    var bytesWritten = buffer.write(value, offset, options.size, STRING_ENCODING);
-    context.strings.set(value, offset);
-    return bytesWritten;
-};
-exports.UTF8_STRING_NO_LENGTH = UTF8_STRING_NO_LENGTH;
-var SHARED_STRING_POINTER_RELATIVE_OFFSET = function (buffer, offset, value, _options, context) {
-    var stringOffset = context.strings.get(value);
-    assert_1.strict(typeof stringOffset !== 'undefined');
-    return encode_1.FLOOR_ENUM_VARINT(buffer, offset, offset - stringOffset, {
-        minimum: 0
-    }, context);
-};
-exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = SHARED_STRING_POINTER_RELATIVE_OFFSET;
 var FLOOR_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, context) {
     assert_1.strict(options.minimum >= 0);
     var length = Buffer.byteLength(value, STRING_ENCODING);
@@ -228,3 +213,18 @@ var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, value, _optio
     }, context);
 };
 exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH;
+var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context) {
+    var url = new URL(value);
+    var protocolBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, url.protocol, {
+        minimum: 0
+    }, context);
+    var hostBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes, url.host, {
+        minimum: 0
+    }, context);
+    var rest = value.replace(url.protocol + "//" + url.host, '');
+    var restBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes + hostBytes, rest, {
+        minimum: 0
+    }, context);
+    return protocolBytes + hostBytes + restBytes;
+};
+exports.URL_PROTOCOL_HOST_REST = URL_PROTOCOL_HOST_REST;

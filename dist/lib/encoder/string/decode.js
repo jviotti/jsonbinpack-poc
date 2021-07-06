@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.URL_PROTOCOL_HOST_REST = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var decode_1 = require("../integer/decode");
@@ -66,22 +66,6 @@ var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, options) {
     };
 };
 exports.STRING_DICTIONARY_COMPRESSOR = STRING_DICTIONARY_COMPRESSOR;
-var URL_PROTOCOL_HOST_REST = function (buffer, offset, _options) {
-    var protocol = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-        minimum: 0
-    });
-    var host = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes, {
-        minimum: 0
-    });
-    var rest = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes + host.bytes, {
-        minimum: 0
-    });
-    return {
-        value: protocol.value + "//" + host.value + rest.value,
-        bytes: protocol.bytes + host.bytes + rest.bytes
-    };
-};
-exports.URL_PROTOCOL_HOST_REST = URL_PROTOCOL_HOST_REST;
 var RFC3339_DATE_INTEGER_TRIPLET = function (buffer, offset, _options) {
     var year = buffer.readUInt16LE(offset);
     var month = buffer.readUInt8(offset + 2);
@@ -222,3 +206,19 @@ var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, options) {
     };
 };
 exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH;
+var URL_PROTOCOL_HOST_REST = function (buffer, offset, _options) {
+    var protocol = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+        minimum: 0
+    });
+    var host = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes, {
+        minimum: 0
+    });
+    var rest = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes + host.bytes, {
+        minimum: 0
+    });
+    return {
+        value: protocol.value + "//" + host.value + rest.value,
+        bytes: protocol.bytes + host.bytes + rest.bytes
+    };
+};
+exports.URL_PROTOCOL_HOST_REST = URL_PROTOCOL_HOST_REST;

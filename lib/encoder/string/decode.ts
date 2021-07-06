@@ -146,28 +146,6 @@ export const STRING_DICTIONARY_COMPRESSOR = (
   }
 }
 
-export const URL_PROTOCOL_HOST_REST = (
-  buffer: ResizableBuffer, offset: number, _options: NoOptions
-): StringResult => {
-  const protocol: StringResult =
-    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-      minimum: 0
-    })
-  const host: StringResult =
-    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes, {
-      minimum: 0
-    })
-  const rest: StringResult =
-    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes + host.bytes, {
-      minimum: 0
-    })
-
-  return {
-    value: `${protocol.value}//${host.value}${rest.value}`,
-    bytes: protocol.bytes + host.bytes + rest.bytes
-  }
-}
-
 export const RFC3339_DATE_INTEGER_TRIPLET = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): StringResult => {
@@ -354,5 +332,27 @@ export const UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = (
   return {
     value: result.value,
     bytes: result.bytes + prefix.bytes
+  }
+}
+
+export const URL_PROTOCOL_HOST_REST = (
+  buffer: ResizableBuffer, offset: number, _options: NoOptions
+): StringResult => {
+  const protocol: StringResult =
+    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
+      minimum: 0
+    })
+  const host: StringResult =
+    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes, {
+      minimum: 0
+    })
+  const rest: StringResult =
+    FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocol.bytes + host.bytes, {
+      minimum: 0
+    })
+
+  return {
+    value: `${protocol.value}//${host.value}${rest.value}`,
+    bytes: protocol.bytes + host.bytes + rest.bytes
   }
 }
