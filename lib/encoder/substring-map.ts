@@ -26,7 +26,7 @@ const LIMIT: number = 100
 export default class SubstringMap {
   private readonly data: Map<string, number>;
 
-  constructor () {
+  public constructor () {
     this.data = new Map()
   }
 

@@ -108,10 +108,6 @@ export const analyze = (
       2 + (numberOfKeys * 2) - Math.min(numberOfKeys, 1)
 
     for (const [ key, value ] of Object.entries(document)) {
-      if (value === undefined) {
-        continue
-      }
-
       keys.add(key)
       accumulator.keys.count += 1
       accumulator.keys.byteSize += getJSONSize(key)

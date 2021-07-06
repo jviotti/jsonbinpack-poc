@@ -110,9 +110,6 @@ var analyze = function (document, level, accumulator, keys, values, levels) {
         try {
             for (var _d = __values(Object.entries(document)), _e = _d.next(); !_e.done; _e = _d.next()) {
                 var _f = __read(_e.value, 2), key = _f[0], value = _f[1];
-                if (value === undefined) {
-                    continue;
-                }
                 keys.add(key);
                 accumulator.keys.count += 1;
                 accumulator.keys.byteSize += json_1.getJSONSize(key);

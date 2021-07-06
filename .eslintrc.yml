@@ -41,7 +41,7 @@ rules:
   '@typescript-eslint/no-inferrable-types':
     - off
   '@typescript-eslint/no-unused-vars':
-    - error
+    - off
   '@typescript-eslint/explicit-function-return-type':
     - error
   '@typescript-eslint/member-delimiter-style':
@@ -56,6 +56,8 @@ rules:
     - error
   '@typescript-eslint/naming-convention':
     - error
+    - selector: 'typeLike'
+      format: [ 'PascalCase', 'UPPER_CASE' ]
   '@typescript-eslint/no-base-to-string':
     - error
   '@typescript-eslint/no-dynamic-delete':
