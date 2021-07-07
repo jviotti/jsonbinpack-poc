@@ -1,6 +1,10 @@
 Integer Encodings
 -----------------
 
+The integer data type is a core part of the encoding of the other data types.
+Multiple types of encodings are supported to accomodate to a wide set of
+scenarios in a space-efficient manner.
+
 ### `BOUNDED_8BITS_ENUM_FIXED`
 
 This encoding consists of an 8-bit unsigned integer that represents the bounded
@@ -22,12 +26,64 @@ maximum and the minimum options should be less than 256.
 | `value <= maximum`           | The input value must be less than or equal to the maximum    |
 | `maximum - minimum < 2 ** 8` | The range must be representable in 8 bits                    |
 
-### Example
+### Examples
 
-Given the input value 2, where the minimum is -5 and the maximum is 5:
+Given the input value 2, where the minimum is -5 and the maximum is 5, the
+encoding results in the 8-bit unsigned integer 7 = 2 - (-5):
 
 ```
 |------|
 | 0x07 |
+|------|
+```
+
+### `BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`
+
+This encoding is a variant of
+[`BOUNDED_8BITS_ENUM_FIXED`](#bounded_8bits_enum_fixed). It takes an input
+signed integer, a minimum and a maximum option, and a multiplier option. The
+multiplier is used to reduce the input value and its bounds as much as possible
+to result in a shorter enumeration of possible values. The resulting value is
+stored as an 8-bit unsigned integer.
+
+- **Minimum**: The minimum value of the resulting enumeration is calculated by
+  finding the minimal multiple that results in a value that is equal to or
+  greater than the `minimum` option. For example, if the `minimum` option is 5
+  and the `multiplier` is 2, then the minimal value that is within the bounds
+  is 2 * 3. Therefore the new minimum value is 3.
+
+- **Maximum**: The maximum value of the resulting enumeration is calculated by
+  finding the maximal multiple that results in a value that is equal to or less
+  than the `maximum` option. For example, if the `maximum` option is 21 and the
+  `multiplier` is 5, then the maximal value that is within the bounds is 5 * 4.
+  Therefore the new maximal value is 4.
+
+### Options
+
+| Option       | Description                                               |
+|--------------|-----------------------------------------------------------|
+| `minimum`    | A signed integer representing the inclusive minimum value |
+| `maximum`    | A signed integer representing the inclusive maximum value |
+| `multiplier` | A signed integer representing the multiplier value        |
+
+### Conditions
+
+| Condition                    | Description                                                         |
+|------------------------------|---------------------------------------------------------------------|
+| `value >= minimum`           | The input value must be greater than or equal to the minimum        |
+| `value <= maximum`           | The input value must be less than or equal to the maximum           |
+| `multiplier >= minimum`      | The multiplier integer must be greater than or equal to the minimum |
+| `multiplier <= maximum`      | The multiplier integer must be less than or equal to the maximum    |
+| `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
+| `floor(maximal / abs(multiplier)) - ceil(minimum / abs(multiplier)) < 2 ** 8` | The divided range must be representable in 8 bits |
+
+### Examples
+
+Given the input value 15, where the minimum is 1, the maximum is 19, and the
+multiplier is 5, the encoding results in the 8-bit unsigned integer 2:
+
+```
+|------|
+| 0x02 |
 |------|
 ```

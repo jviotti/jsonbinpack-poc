@@ -77,12 +77,8 @@ export const BOUNDED_MULTIPLE_8BITS_ENUM_FIXED = (
   assert(value % options.multiplier === 0)
 
   const absoluteMultiplier: number = Math.abs(options.multiplier)
-  const closestMinimumMultiple: number =
-    Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier
-  const closestMaximumMultiple: number =
-    Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier
-  const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
-  const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
+  const enumMinimum: number = Math.ceil(options.minimum / absoluteMultiplier)
+  const enumMaximum: number = Math.floor(options.maximum / absoluteMultiplier)
   assert(enumMaximum - enumMinimum <= UINT8_MAX)
 
   return BOUNDED_8BITS_ENUM_FIXED(buffer, offset,
@@ -115,15 +111,10 @@ export const BOUNDED_MULTIPLE_ENUM_VARINT = (
   assert(value % options.multiplier === 0)
 
   const absoluteMultiplier: number = Math.abs(options.multiplier)
-  const closestMinimumMultiple: number =
-    Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier
-  const closestMaximumMultiple: number =
-    Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier
-
   return BOUNDED_ENUM_VARINT(buffer, offset,
     value / absoluteMultiplier, {
-      minimum: closestMinimumMultiple / absoluteMultiplier,
-      maximum: closestMaximumMultiple / absoluteMultiplier
+      minimum: Math.ceil(options.minimum / absoluteMultiplier),
+      maximum: Math.floor(options.maximum / absoluteMultiplier)
     }, context)
 }
 
@@ -144,13 +135,9 @@ export const FLOOR_MULTIPLE_ENUM_VARINT = (
   assert(options.multiplier >= options.minimum)
 
   const absoluteMultiplier: number = Math.abs(options.multiplier)
-  const closestMinimumMultiple: number =
-    Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier
-
-  return FLOOR_ENUM_VARINT(buffer, offset,
-    value / absoluteMultiplier, {
-      minimum: closestMinimumMultiple / absoluteMultiplier
-    }, context)
+  return FLOOR_ENUM_VARINT(buffer, offset, value / absoluteMultiplier, {
+    minimum: Math.ceil(options.minimum / absoluteMultiplier)
+  }, context)
 }
 
 export const ROOF_MIRROR_ENUM_VARINT = (
