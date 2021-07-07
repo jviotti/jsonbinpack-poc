@@ -108,8 +108,9 @@ multiplier is 5, the encoding results in the 8-bit unsigned integer 2:
 
 ### `FLOOR_ENUM_VARINT`
 
-This encoding consists of a Base-128 variable-length unsigned integer that
-represents the bounded input signed integer minus the minimum value.
+This encoding consists of a Base-128 little-endian variable-length unsigned
+integer that represents the bounded input signed integer minus the minimum
+value.
 
 ### Options
 
@@ -139,7 +140,7 @@ variable-length encoded integer 300:
 This encoding is a variant of
 [`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](#bounded_multiple_8bits_enum_fixed)
 without the upper bound constraint. However, it encodes the value as a Base-128
-variable-length unsigned integer.
+little-endian variable-length unsigned integer.
 
 ### Options
 
@@ -159,7 +160,8 @@ variable-length unsigned integer.
 ### Examples
 
 Given the input value 1000, where the minimum is -2 and the multiplier is 4,
-the encoding results in the Base-128 variable-length unsigned integer 250:
+the encoding results in the Base-128 little-endian variable-length unsigned
+integer 250:
 
 ```
 +------+------+
