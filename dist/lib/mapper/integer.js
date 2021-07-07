@@ -39,14 +39,22 @@ var getIntegerEncoding = function (schema, _level) {
         var absoluteMultiplier = Math.abs(schema.multipleOf);
         var enumMinimum = Math.ceil(schema.minimum / absoluteMultiplier);
         var enumMaximum = Math.floor(schema.maximum / absoluteMultiplier);
+        if (enumMaximum - enumMinimum <= limits_1.UINT8_MAX) {
+            return {
+                type: encoder_1.EncodingType.Integer,
+                encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
+                options: {
+                    minimum: schema.minimum,
+                    maximum: schema.maximum,
+                    multiplier: schema.multipleOf
+                }
+            };
+        }
         return {
             type: encoder_1.EncodingType.Integer,
-            encoding: enumMaximum - enumMinimum <= limits_1.UINT8_MAX
-                ? 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED'
-                : 'BOUNDED_MULTIPLE_ENUM_VARINT',
+            encoding: 'FLOOR_MULTIPLE_ENUM_VARINT',
             options: {
                 minimum: schema.minimum,
-                maximum: schema.maximum,
                 multiplier: schema.multipleOf
             }
         };

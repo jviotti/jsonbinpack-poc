@@ -65,12 +65,6 @@ export interface BOUNDED_MULTIPLE_8BITS_ENUM_FIXED_ENCODING extends BaseEncoding
   readonly options: BoundedMultiplierOptions;
 }
 
-export interface BOUNDED_MULTIPLE_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Integer;
-  readonly encoding: 'BOUNDED_MULTIPLE_ENUM_VARINT';
-  readonly options: BoundedMultiplierOptions;
-}
-
 export interface FLOOR_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Integer;
   readonly encoding: 'FLOOR_ENUM_VARINT';
@@ -110,7 +104,6 @@ export interface ARBITRARY_MULTIPLE_ZIGZAG_VARINT_ENCODING extends BaseEncodingD
 export type IntegerEncodingNames =
   'BOUNDED_8BITS_ENUM_FIXED' |
   'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED' |
-  'BOUNDED_MULTIPLE_ENUM_VARINT' |
   'FLOOR_ENUM_VARINT' |
   'FLOOR_MULTIPLE_ENUM_VARINT' |
   'ROOF_MIRROR_ENUM_VARINT' |
@@ -120,7 +113,6 @@ export type IntegerEncodingNames =
 export type IntegerEncoding =
   BOUNDED_8BITS_ENUM_FIXED_ENCODING |
   BOUNDED_MULTIPLE_8BITS_ENUM_FIXED_ENCODING |
-  BOUNDED_MULTIPLE_ENUM_VARINT_ENCODING |
   FLOOR_ENUM_VARINT_ENCODING |
   FLOOR_MULTIPLE_ENUM_VARINT_ENCODING |
   ROOF_MIRROR_ENUM_VARINT_ENCODING |
@@ -172,14 +164,23 @@ export const getIntegerEncoding = (schema: IntegerEncodingSchema, _level: number
     const enumMinimum: number = Math.ceil(schema.minimum / absoluteMultiplier)
     const enumMaximum: number = Math.floor(schema.maximum / absoluteMultiplier)
 
+    if (enumMaximum - enumMinimum <= UINT8_MAX) {
+      return {
+        type: EncodingType.Integer,
+        encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
+        options: {
+          minimum: schema.minimum,
+          maximum: schema.maximum,
+          multiplier: schema.multipleOf
+        }
+      }
+    }
+
     return {
       type: EncodingType.Integer,
-      encoding: enumMaximum - enumMinimum <= UINT8_MAX
-        ? 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED'
-        : 'BOUNDED_MULTIPLE_ENUM_VARINT',
+      encoding: 'FLOOR_MULTIPLE_ENUM_VARINT',
       options: {
         minimum: schema.minimum,
-        maximum: schema.maximum,
         multiplier: schema.multipleOf
       }
     }

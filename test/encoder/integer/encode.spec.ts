@@ -19,7 +19,6 @@ import tap from 'tap'
 import {
   BOUNDED_8BITS_ENUM_FIXED,
   BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
-  BOUNDED_MULTIPLE_ENUM_VARINT,
   FLOOR_ENUM_VARINT,
   FLOOR_MULTIPLE_ENUM_VARINT,
   ROOF_MIRROR_ENUM_VARINT,
@@ -87,45 +86,6 @@ tap.test('BOUNDED_MULTIPLE_8BITS_ENUM_FIXED: should encode 15 (1..19) / 5 as 0x0
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const bytesWritten: number = BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, 0, 15, {
-    minimum: 1,
-    maximum: 19,
-    multiplier: 5
-  }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x02 ]))
-  test.is(bytesWritten, 1)
-  test.end()
-})
-
-tap.test('BOUNDED_MULTIPLE_ENUM_VARINT: should encode 5 (1..19) / 5 as 0x00', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = BOUNDED_MULTIPLE_ENUM_VARINT(buffer, 0, 5, {
-    minimum: 1,
-    maximum: 19,
-    multiplier: 5
-  }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
-  test.is(bytesWritten, 1)
-  test.end()
-})
-
-tap.test('BOUNDED_MULTIPLE_ENUM_VARINT: should encode 1000 (-2..1500) / 4 as 0xfa 0x01', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
-  const bytesWritten: number = BOUNDED_MULTIPLE_ENUM_VARINT(buffer, 0, 1000, {
-    minimum: -2,
-    maximum: 1500,
-    multiplier: 4
-  }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0xfa, 0x01 ]))
-  test.is(bytesWritten, 2)
-  test.end()
-})
-
-tap.test('BOUNDED_MULTIPLE_ENUM_VARINT: should encode 15 (1..19) / 5 as 0x02', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = BOUNDED_MULTIPLE_ENUM_VARINT(buffer, 0, 15, {
     minimum: 1,
     maximum: 19,
     multiplier: 5
