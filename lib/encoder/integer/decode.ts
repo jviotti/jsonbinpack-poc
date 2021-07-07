@@ -117,7 +117,7 @@ export const ROOF_MIRROR_ENUM_VARINT = (
 ): IntegerResult => {
   const result: VarintDecodeResult = varintDecode(buffer, offset)
   return {
-    value: -1 * (Number(result.value) - options.maximum),
+    value: options.maximum - Number(result.value),
     bytes: result.bytes
   }
 }

@@ -168,3 +168,31 @@ integer 250:
 | 0xfa | 0x01 |
 +------+------+
 ```
+
+### `ROOF_MIRROR_ENUM_VARINT`
+
+This encoding consists of a Base-128 little-endian variable-length unsigned
+integer that represents the maximum minus the input value.
+
+### Options
+
+| Option    | Type  | Description                 |
+|-----------|-------|-----------------------------|
+| `maximum` | `int` | The inclusive maximum value |
+
+### Conditions
+
+| Condition                    | Description                                                  |
+|------------------------------|--------------------------------------------------------------|
+| `value <= maximum`           | The input value must be less than or equal to the maximum    |
+
+### Examples
+
+Given the input value 8, where the maximum is 10, the encoding results in the
+variable-length encoded integer 2 = 10 - 8:
+
+```
++------+
+| 0x02 |
++------+
+```

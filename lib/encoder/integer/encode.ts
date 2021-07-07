@@ -115,7 +115,7 @@ export const ROOF_MIRROR_ENUM_VARINT = (
   options: RoofOptions, _context: EncodingContext
 ): number => {
   assert(value <= options.maximum)
-  return varintEncode(buffer, offset, BigInt((-1 * value) + options.maximum))
+  return varintEncode(buffer, offset, BigInt(options.maximum - value))
 }
 
 export const ROOF_MULTIPLE_MIRROR_ENUM_VARINT = (

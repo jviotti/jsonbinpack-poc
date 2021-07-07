@@ -48,7 +48,7 @@ exports.FLOOR_MULTIPLE_ENUM_VARINT = FLOOR_MULTIPLE_ENUM_VARINT;
 var ROOF_MIRROR_ENUM_VARINT = function (buffer, offset, options) {
     var result = varint_1.varintDecode(buffer, offset);
     return {
-        value: -1 * (Number(result.value) - options.maximum),
+        value: options.maximum - Number(result.value),
         bytes: result.bytes
     };
 };
