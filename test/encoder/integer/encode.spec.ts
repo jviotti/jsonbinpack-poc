@@ -146,6 +146,19 @@ tap.test('BOUNDED_MULTIPLE_ENUM_VARINT: should encode 5 (1..19) / 5 as 0x00', (t
   test.end()
 })
 
+tap.test('BOUNDED_MULTIPLE_ENUM_VARINT: should encode 1000 (-2..1500) / 4 as 0xfa 0x01', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2))
+  const bytesWritten: number = BOUNDED_MULTIPLE_ENUM_VARINT(buffer, 0, 1000, {
+    minimum: -2,
+    maximum: 1500,
+    multiplier: 4
+  }, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([ 0xfa, 0x01 ]))
+  test.is(bytesWritten, 2)
+  test.end()
+})
+
 tap.test('BOUNDED_MULTIPLE_ENUM_VARINT: should encode 15 (1..19) / 5 as 0x02', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
