@@ -21,10 +21,8 @@ var BOUNDED_MULTIPLE_8BITS_ENUM_FIXED = function (buffer, offset, value, options
     assert_1.strict(options.multiplier <= options.maximum);
     assert_1.strict(value % options.multiplier === 0);
     var absoluteMultiplier = Math.abs(options.multiplier);
-    var closestMinimumMultiple = Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier;
-    var closestMaximumMultiple = Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier;
-    var enumMinimum = closestMinimumMultiple / absoluteMultiplier;
-    var enumMaximum = closestMaximumMultiple / absoluteMultiplier;
+    var enumMinimum = Math.ceil(options.minimum / absoluteMultiplier);
+    var enumMaximum = Math.floor(options.maximum / absoluteMultiplier);
     assert_1.strict(enumMaximum - enumMinimum <= limits_1.UINT8_MAX);
     return exports.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, value / absoluteMultiplier, {
         minimum: enumMinimum,
@@ -47,11 +45,9 @@ var BOUNDED_MULTIPLE_ENUM_VARINT = function (buffer, offset, value, options, con
     assert_1.strict(options.multiplier <= options.maximum);
     assert_1.strict(value % options.multiplier === 0);
     var absoluteMultiplier = Math.abs(options.multiplier);
-    var closestMinimumMultiple = Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier;
-    var closestMaximumMultiple = Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier;
     return exports.BOUNDED_ENUM_VARINT(buffer, offset, value / absoluteMultiplier, {
-        minimum: closestMinimumMultiple / absoluteMultiplier,
-        maximum: closestMaximumMultiple / absoluteMultiplier
+        minimum: Math.ceil(options.minimum / absoluteMultiplier),
+        maximum: Math.floor(options.maximum / absoluteMultiplier)
     }, context);
 };
 exports.BOUNDED_MULTIPLE_ENUM_VARINT = BOUNDED_MULTIPLE_ENUM_VARINT;
@@ -65,9 +61,8 @@ var FLOOR_MULTIPLE_ENUM_VARINT = function (buffer, offset, value, options, conte
     assert_1.strict(value % options.multiplier === 0);
     assert_1.strict(options.multiplier >= options.minimum);
     var absoluteMultiplier = Math.abs(options.multiplier);
-    var closestMinimumMultiple = Math.ceil(options.minimum / absoluteMultiplier) * absoluteMultiplier;
     return exports.FLOOR_ENUM_VARINT(buffer, offset, value / absoluteMultiplier, {
-        minimum: closestMinimumMultiple / absoluteMultiplier
+        minimum: Math.ceil(options.minimum / absoluteMultiplier)
     }, context);
 };
 exports.FLOOR_MULTIPLE_ENUM_VARINT = FLOOR_MULTIPLE_ENUM_VARINT;

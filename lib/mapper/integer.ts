@@ -153,12 +153,8 @@ export const getIntegerStates = (schema: IntegerEncodingSchema): number | JSONVa
     typeof schema.multipleOf === 'number') {
     // TODO: De-duplicate this logic on encoder/integer/encode
     const absoluteMultiplier: number = Math.abs(schema.multipleOf)
-    const closestMinimumMultiple: number =
-      Math.ceil(schema.minimum / absoluteMultiplier) * absoluteMultiplier
-    const closestMaximumMultiple: number =
-      Math.ceil(schema.maximum / -absoluteMultiplier) * -absoluteMultiplier
-    const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
-    const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
+    const enumMinimum: number = Math.ceil(schema.minimum / absoluteMultiplier)
+    const enumMaximum: number = Math.floor(schema.maximum / absoluteMultiplier)
 
     // It is pointless to calculate the exact amount of states after a certain point
     if (enumMaximum - enumMinimum > UINT8_MAX) {
@@ -181,12 +177,8 @@ export const getIntegerEncoding = (schema: IntegerEncodingSchema, _level: number
   if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
     const absoluteMultiplier: number = Math.abs(schema.multipleOf)
-    const closestMinimumMultiple: number =
-      Math.ceil(schema.minimum / absoluteMultiplier) * absoluteMultiplier
-    const closestMaximumMultiple: number =
-      Math.ceil(schema.maximum / -absoluteMultiplier) * -absoluteMultiplier
-    const enumMinimum: number = closestMinimumMultiple / absoluteMultiplier
-    const enumMaximum: number = closestMaximumMultiple / absoluteMultiplier
+    const enumMinimum: number = Math.ceil(schema.minimum / absoluteMultiplier)
+    const enumMaximum: number = Math.floor(schema.maximum / absoluteMultiplier)
 
     return {
       type: EncodingType.Integer,

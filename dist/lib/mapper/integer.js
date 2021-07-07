@@ -18,10 +18,8 @@ var getIntegerStates = function (schema) {
         typeof schema.minimum === 'number' &&
         typeof schema.multipleOf === 'number') {
         var absoluteMultiplier_1 = Math.abs(schema.multipleOf);
-        var closestMinimumMultiple = Math.ceil(schema.minimum / absoluteMultiplier_1) * absoluteMultiplier_1;
-        var closestMaximumMultiple = Math.ceil(schema.maximum / -absoluteMultiplier_1) * -absoluteMultiplier_1;
-        var enumMinimum = closestMinimumMultiple / absoluteMultiplier_1;
-        var enumMaximum = closestMaximumMultiple / absoluteMultiplier_1;
+        var enumMinimum = Math.ceil(schema.minimum / absoluteMultiplier_1);
+        var enumMaximum = Math.floor(schema.maximum / absoluteMultiplier_1);
         if (enumMaximum - enumMinimum > limits_1.UINT8_MAX) {
             return enumMaximum - enumMinimum + 1;
         }
@@ -39,10 +37,8 @@ var getIntegerEncoding = function (schema, _level) {
     if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum !== 'undefined' && typeof schema.multipleOf !== 'undefined') {
         var absoluteMultiplier = Math.abs(schema.multipleOf);
-        var closestMinimumMultiple = Math.ceil(schema.minimum / absoluteMultiplier) * absoluteMultiplier;
-        var closestMaximumMultiple = Math.ceil(schema.maximum / -absoluteMultiplier) * -absoluteMultiplier;
-        var enumMinimum = closestMinimumMultiple / absoluteMultiplier;
-        var enumMaximum = closestMaximumMultiple / absoluteMultiplier;
+        var enumMinimum = Math.ceil(schema.minimum / absoluteMultiplier);
+        var enumMaximum = Math.floor(schema.maximum / absoluteMultiplier);
         return {
             type: encoder_1.EncodingType.Integer,
             encoding: enumMaximum - enumMinimum <= limits_1.UINT8_MAX
