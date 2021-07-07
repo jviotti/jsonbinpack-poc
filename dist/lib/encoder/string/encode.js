@@ -160,9 +160,8 @@ var BOUNDED_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options
     assert_1.strict(length >= options.minimum);
     assert_1.strict(length <= options.maximum);
     var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
-    var bytesWritten = encode_1.BOUNDED_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
-        minimum: options.minimum,
-        maximum: options.maximum + 1
+    var bytesWritten = encode_1.FLOOR_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
+        minimum: options.minimum
     }, context);
     var result = writeMaybeSharedString(buffer, offset + prefixBytes + bytesWritten, value, length, context);
     return result + prefixBytes + bytesWritten;

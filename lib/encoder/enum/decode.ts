@@ -27,7 +27,7 @@ import {
 import {
   IntegerResult,
   BOUNDED_8BITS_ENUM_FIXED,
-  BOUNDED_ENUM_VARINT
+  FLOOR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -83,9 +83,8 @@ export const BOUNDED_CHOICE_INDEX = (
 export const LARGE_BOUNDED_CHOICE_INDEX = (
   buffer: ResizableBuffer, offset: number, options: ChoiceOptions
 ): EnumResult => {
-  const result: IntegerResult = BOUNDED_ENUM_VARINT(buffer, offset, {
-    minimum: 0,
-    maximum: options.choices.length
+  const result: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
+    minimum: 0
   })
 
   return {

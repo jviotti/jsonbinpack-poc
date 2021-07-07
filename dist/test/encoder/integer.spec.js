@@ -88,23 +88,6 @@ tap_1.default.test('BOUNDED_MULTIPLE_8BITS_ENUM_FIXED', function (test) {
     });
     test.end();
 });
-tap_1.default.test('BOUNDED_ENUM_VARINT', function (test) {
-    fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), fc.integer(), function (offset, value, minimum, maximum) {
-        fc.pre(value >= minimum && value <= maximum);
-        var context = encoder_1.getDefaultEncodingContext();
-        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(offset + 8));
-        var bytesWritten = encode_1.BOUNDED_ENUM_VARINT(buffer, offset, value, {
-            minimum: minimum, maximum: maximum
-        }, context);
-        var result = decode_1.BOUNDED_ENUM_VARINT(buffer, offset, {
-            minimum: minimum, maximum: maximum
-        });
-        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
-    }), {
-        verbose: false
-    });
-    test.end();
-});
 tap_1.default.test('BOUNDED_MULTIPLE_ENUM_VARINT', function (test) {
     var arbitrary = fc.integer().chain(function (minimum) {
         return fc.integer({

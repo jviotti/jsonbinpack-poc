@@ -50,7 +50,6 @@ import {
 
 import {
   FLOOR_ENUM_VARINT,
-  BOUNDED_ENUM_VARINT,
   BOUNDED_8BITS_ENUM_FIXED,
   ROOF_MIRROR_ENUM_VARINT
 } from '../integer/encode'
@@ -116,9 +115,8 @@ export const BOUNDED_SEMITYPED_LENGTH_PREFIX = (
 
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
-    : BOUNDED_ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum,
-      maximum: options.maximum
+    : FLOOR_ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum
     }, context)
 
   return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
@@ -198,9 +196,8 @@ export const BOUNDED_TYPED_LENGTH_PREFIX = (
 
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
-    : BOUNDED_ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum,
-      maximum: options.maximum
+    : FLOOR_ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum
     }, context)
 
   return lengthBytes + encodeArray(

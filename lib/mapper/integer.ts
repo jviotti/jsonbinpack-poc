@@ -65,12 +65,6 @@ export interface BOUNDED_MULTIPLE_8BITS_ENUM_FIXED_ENCODING extends BaseEncoding
   readonly options: BoundedMultiplierOptions;
 }
 
-export interface BOUNDED_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Integer;
-  readonly encoding: 'BOUNDED_ENUM_VARINT';
-  readonly options: BoundedOptions;
-}
-
 export interface BOUNDED_MULTIPLE_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Integer;
   readonly encoding: 'BOUNDED_MULTIPLE_ENUM_VARINT';
@@ -116,7 +110,6 @@ export interface ARBITRARY_MULTIPLE_ZIGZAG_VARINT_ENCODING extends BaseEncodingD
 export type IntegerEncodingNames =
   'BOUNDED_8BITS_ENUM_FIXED' |
   'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED' |
-  'BOUNDED_ENUM_VARINT' |
   'BOUNDED_MULTIPLE_ENUM_VARINT' |
   'FLOOR_ENUM_VARINT' |
   'FLOOR_MULTIPLE_ENUM_VARINT' |
@@ -127,7 +120,6 @@ export type IntegerEncodingNames =
 export type IntegerEncoding =
   BOUNDED_8BITS_ENUM_FIXED_ENCODING |
   BOUNDED_MULTIPLE_8BITS_ENUM_FIXED_ENCODING |
-  BOUNDED_ENUM_VARINT_ENCODING |
   BOUNDED_MULTIPLE_ENUM_VARINT_ENCODING |
   FLOOR_ENUM_VARINT_ENCODING |
   FLOOR_MULTIPLE_ENUM_VARINT_ENCODING |
@@ -193,13 +185,22 @@ export const getIntegerEncoding = (schema: IntegerEncodingSchema, _level: number
     }
   } else if (typeof schema.minimum !== 'undefined' &&
     typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
+    if (schema.maximum - schema.minimum <= UINT8_MAX) {
+      return {
+        type: EncodingType.Integer,
+        encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+        options: {
+          minimum: schema.minimum,
+          maximum: schema.maximum
+        }
+      }
+    }
+
     return {
       type: EncodingType.Integer,
-      encoding: (schema.maximum - schema.minimum <= UINT8_MAX)
-        ? 'BOUNDED_8BITS_ENUM_FIXED' : 'BOUNDED_ENUM_VARINT',
+      encoding: 'FLOOR_ENUM_VARINT',
       options: {
-        minimum: schema.minimum,
-        maximum: schema.maximum
+        minimum: schema.minimum
       }
     }
   } else if (typeof schema.minimum !== 'undefined' &&

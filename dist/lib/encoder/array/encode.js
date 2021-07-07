@@ -85,9 +85,8 @@ var BOUNDED_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, 
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
     var lengthBytes = options.maximum === options.minimum
         ? 0
-        : encode_1.BOUNDED_ENUM_VARINT(buffer, offset, value.length, {
-            minimum: options.minimum,
-            maximum: options.maximum
+        : encode_1.FLOOR_ENUM_VARINT(buffer, offset, value.length, {
+            minimum: options.minimum
         }, context);
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context);
 };
@@ -145,9 +144,8 @@ var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, cont
     assert_1.strict(value.length <= options.maximum);
     var lengthBytes = options.maximum === options.minimum
         ? 0
-        : encode_1.BOUNDED_ENUM_VARINT(buffer, offset, value.length, {
-            minimum: options.minimum,
-            maximum: options.maximum
+        : encode_1.FLOOR_ENUM_VARINT(buffer, offset, value.length, {
+            minimum: options.minimum
         }, context);
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding);
 };

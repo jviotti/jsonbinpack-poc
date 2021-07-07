@@ -26,7 +26,6 @@ import {
 
 import {
   IntegerResult,
-  BOUNDED_ENUM_VARINT,
   BOUNDED_8BITS_ENUM_FIXED,
   FLOOR_ENUM_VARINT,
   ROOF_MIRROR_ENUM_VARINT
@@ -130,9 +129,8 @@ export const BOUNDED_SEMITYPED_LENGTH_PREFIX = (
         bytes: 0,
         value: options.maximum
       }
-      : BOUNDED_ENUM_VARINT(buffer, offset, {
-        minimum: options.minimum,
-        maximum: options.maximum
+      : FLOOR_ENUM_VARINT(buffer, offset, {
+        minimum: options.minimum
       })
 
   return decodeArray(
@@ -208,9 +206,8 @@ export const BOUNDED_TYPED_LENGTH_PREFIX = (
       bytes: 0,
       value: options.maximum
     }
-    : BOUNDED_ENUM_VARINT(buffer, offset, {
-      minimum: options.minimum,
-      maximum: options.maximum
+    : FLOOR_ENUM_VARINT(buffer, offset, {
+      minimum: options.minimum
     })
 
   return decodeArray(

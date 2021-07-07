@@ -31,7 +31,6 @@ import {
 
 import {
   BOUNDED_8BITS_ENUM_FIXED,
-  BOUNDED_ENUM_VARINT,
   FLOOR_ENUM_VARINT,
   ROOF_MIRROR_ENUM_VARINT,
   ARBITRARY_ZIGZAG_VARINT
@@ -258,9 +257,8 @@ export const BOUNDED_PREFIX_LENGTH_ENUM_VARINT = (
   const prefixBytes: number =
     maybeWriteSharedPrefix(buffer, offset, value, context)
   const bytesWritten: number =
-    BOUNDED_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
-      minimum: options.minimum,
-      maximum: options.maximum + 1
+    FLOOR_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
+      minimum: options.minimum
     }, context)
 
   const result: number = writeMaybeSharedString(

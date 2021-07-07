@@ -63,39 +63,6 @@ tap_1.default.test('BOUNDED_MULTIPLE_8BITS_ENUM_FIXED: should encode 15 (1..19) 
     test.is(bytesWritten, 1);
     test.end();
 });
-tap_1.default.test('BOUNDED_ENUM_VARINT: should encode -5 (-5..-1) as 0x00', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
-    var bytesWritten = encode_1.BOUNDED_ENUM_VARINT(buffer, 0, -5, {
-        minimum: -5,
-        maximum: -1
-    }, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x00]));
-    test.is(bytesWritten, 1);
-    test.end();
-});
-tap_1.default.test('BOUNDED_ENUM_VARINT: should encode 2 (-5..5) as 0x07', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
-    var bytesWritten = encode_1.BOUNDED_ENUM_VARINT(buffer, 0, 2, {
-        minimum: -5,
-        maximum: 5
-    }, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x07]));
-    test.is(bytesWritten, 1);
-    test.end();
-});
-tap_1.default.test('BOUNDED_ENUM_VARINT: should encode 5 (2..8) as 0x03', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
-    var bytesWritten = encode_1.BOUNDED_ENUM_VARINT(buffer, 0, 5, {
-        minimum: 2,
-        maximum: 8
-    }, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x03]));
-    test.is(bytesWritten, 1);
-    test.end();
-});
 tap_1.default.test('BOUNDED_MULTIPLE_ENUM_VARINT: should encode 5 (1..19) / 5 as 0x00', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
