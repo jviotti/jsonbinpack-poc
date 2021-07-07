@@ -13,10 +13,10 @@ the maximum and the minimum options should be less than 256.
 
 ### Options
 
-| Option    | Description                                               |
-|-----------|-----------------------------------------------------------|
-| `minimum` | A signed integer representing the inclusive minimum value |
-| `maximum` | A signed integer representing the inclusive maximum value |
+| Option    | Type  | Description                 |
+|-----------|-------|-----------------------------|
+| `minimum` | `int` | The inclusive minimum value |
+| `maximum` | `int` | The inclusive maximum value |
 
 ### Conditions
 
@@ -60,11 +60,11 @@ stored as a fixed 8-bit unsigned integer.
 
 ### Options
 
-| Option       | Description                                               |
-|--------------|-----------------------------------------------------------|
-| `minimum`    | A signed integer representing the inclusive minimum value |
-| `maximum`    | A signed integer representing the inclusive maximum value |
-| `multiplier` | A signed integer representing the multiplier value        |
+| Option       | Type  | Description                 |
+|--------------|-------|-----------------------------|
+| `minimum`    | `int` | The inclusive minimum value |
+| `maximum`    | `int` | The inclusive maximum value |
+| `multiplier` | `int` | The multiplier value        |
 
 ### Conditions
 
