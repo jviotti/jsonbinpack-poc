@@ -65,10 +65,9 @@ tap.test('should encode an integer with minimum, maximum, and multiplier', (test
   test.is(getStates(schema), 2021)
   test.strictSame(result, {
     type: 'integer',
-    encoding: 'BOUNDED_MULTIPLE_ENUM_VARINT',
+    encoding: 'FLOOR_MULTIPLE_ENUM_VARINT',
     options: {
       minimum: -100,
-      maximum: 10000,
       multiplier: 5
     }
   })

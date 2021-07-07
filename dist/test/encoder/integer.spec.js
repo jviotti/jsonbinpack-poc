@@ -88,35 +88,6 @@ tap_1.default.test('BOUNDED_MULTIPLE_8BITS_ENUM_FIXED', function (test) {
     });
     test.end();
 });
-tap_1.default.test('BOUNDED_MULTIPLE_ENUM_VARINT', function (test) {
-    var arbitrary = fc.integer().chain(function (minimum) {
-        return fc.integer({
-            min: minimum
-        }).chain(function (maximum) {
-            return fc.tuple(fc.nat(10), fc.constant(minimum), fc.constant(maximum), fc.integer({
-                min: minimum, max: maximum
-            }), fc.integer({
-                min: minimum, max: maximum
-            }));
-        });
-    });
-    fc.assert(fc.property(arbitrary, function (_a) {
-        var _b = __read(_a, 5), offset = _b[0], minimum = _b[1], maximum = _b[2], value = _b[3], multiplier = _b[4];
-        fc.pre(value % multiplier === 0);
-        var context = encoder_1.getDefaultEncodingContext();
-        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(offset + 8));
-        var bytesWritten = encode_1.BOUNDED_MULTIPLE_ENUM_VARINT(buffer, offset, value, {
-            minimum: minimum, maximum: maximum, multiplier: multiplier
-        }, context);
-        var result = decode_1.BOUNDED_MULTIPLE_ENUM_VARINT(buffer, offset, {
-            minimum: minimum, maximum: maximum, multiplier: multiplier
-        });
-        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
-    }), {
-        verbose: false
-    });
-    test.end();
-});
 tap_1.default.test('FLOOR_ENUM_VARINT: should encode 696667952522107300000', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(60));

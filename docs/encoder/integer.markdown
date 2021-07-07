@@ -116,11 +116,11 @@ variable-length encoded integer 300:
 +------+------+
 ```
 
-### `BOUNDED_MULTIPLE_ENUM_VARINT`
+### `FLOOR_MULTIPLE_ENUM_VARINT`
 
 This encoding is a variant of
 [`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](#bounded_multiple_8bits_enum_fixed)
-without the 8-bit constraint. However, it encodes the value as a Base-128
+without the upper bound constraint. However, it encodes the value as a Base-128
 variable-length unsigned integer.
 
 ### Options
@@ -128,7 +128,6 @@ variable-length unsigned integer.
 | Option       | Type  | Description                 |
 |--------------|-------|-----------------------------|
 | `minimum`    | `int` | The inclusive minimum value |
-| `maximum`    | `int` | The inclusive maximum value |
 | `multiplier` | `int` | The multiplier value        |
 
 ### Conditions
@@ -136,16 +135,13 @@ variable-length unsigned integer.
 | Condition                    | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|
 | `value >= minimum`           | The input value must be greater than or equal to the minimum        |
-| `value <= maximum`           | The input value must be less than or equal to the maximum           |
 | `multiplier >= minimum`      | The multiplier integer must be greater than or equal to the minimum |
-| `multiplier <= maximum`      | The multiplier integer must be less than or equal to the maximum    |
 | `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
 
 ### Examples
 
-Given the input value 1000, where the minimum is -2, the maximum is 1500, and
-the multiplier is 4, the encoding results in the Base-128 variable-length
-unsigned integer 250:
+Given the input value 1000, where the minimum is -2 and the multiplier is 4,
+the encoding results in the Base-128 variable-length unsigned integer 250:
 
 ```
 +------+------+
