@@ -32,9 +32,9 @@ Given the input value 2, where the minimum is -5 and the maximum is 5, the
 encoding results in the 8-bit unsigned integer 7 = 2 - (-5):
 
 ```
-|------|
++------+
 | 0x07 |
-|------|
++------+
 ```
 
 ### `BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`
@@ -83,7 +83,7 @@ Given the input value 15, where the minimum is 1, the maximum is 19, and the
 multiplier is 5, the encoding results in the 8-bit unsigned integer 2:
 
 ```
-|------|
++------+
 | 0x02 |
-|------|
++------+
 ```
