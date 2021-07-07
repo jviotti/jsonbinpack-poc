@@ -7,9 +7,9 @@ scenarios in a space-efficient manner.
 
 ### `BOUNDED_8BITS_ENUM_FIXED`
 
-This encoding consists of an 8-bit unsigned integer that represents the bounded
-input signed integer minus the minimum value. The difference between the
-maximum and the minimum options should be less than 256.
+This encoding consists of a fixed 8-bit unsigned integer that represents the
+bounded input signed integer minus the minimum value. The difference between
+the maximum and the minimum options should be less than 256.
 
 ### Options
 
@@ -44,7 +44,7 @@ This encoding is a variant of
 signed integer, a minimum and a maximum option, and a multiplier option. The
 multiplier is used to reduce the input value and its bounds as much as possible
 to result in a shorter enumeration of possible values. The resulting value is
-stored as an 8-bit unsigned integer.
+stored as a fixed 8-bit unsigned integer.
 
 - **Minimum**: The minimum value of the resulting enumeration is calculated by
   finding the minimal multiple that results in a value that is equal to or
