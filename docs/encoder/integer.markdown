@@ -122,7 +122,7 @@ encoding results in the variable-length encoded integer 300:
 
 This encoding is a variant of
 [`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](#bounded_multiple_8bits_enum_fixed)
-without the 8-bit constraint. It encodes the value as a Base-128
+without the 8-bit constraint. However, it encodes the value as a Base-128
 variable-length unsigned integer.
 
 ### Options
