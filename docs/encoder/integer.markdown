@@ -58,6 +58,24 @@ stored as a fixed 8-bit unsigned integer.
   `multiplier` is 5, then the maximal value that is within the bounds is 5 * 4.
   Therefore the new maximal value is 4.
 
+To visualize the space-efficient gains of using this encoding in the presence
+of a multiplier, consider the following example set of possible values:
+
+```
++----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+|  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
++----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+```
+
+If the minimum value is 4, the maximum value is 14, and the multiplier is 3,
+then the possible values is restricted to the following set:
+
+```
++----+----+----+
+|  6 |  9 | 12 |
++----+----+----+
+```
+
 ### Options
 
 | Option       | Type  | Description                 |
