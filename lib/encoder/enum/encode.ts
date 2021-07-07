@@ -32,7 +32,7 @@ import {
 
 import {
   BOUNDED_8BITS_ENUM_FIXED,
-  BOUNDED_ENUM_VARINT
+  FLOOR_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -117,8 +117,7 @@ export const LARGE_BOUNDED_CHOICE_INDEX = (
   assert(cursor !== -1)
   assert(cursor >= 0 && cursor < options.choices.length)
 
-  return BOUNDED_ENUM_VARINT(buffer, offset, cursor, {
-    minimum: 0,
-    maximum: options.choices.length
+  return FLOOR_ENUM_VARINT(buffer, offset, cursor, {
+    minimum: 0
   }, context)
 }

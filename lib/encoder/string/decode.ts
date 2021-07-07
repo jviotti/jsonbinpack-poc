@@ -31,7 +31,6 @@ import {
 import {
   IntegerResult,
   BOUNDED_8BITS_ENUM_FIXED,
-  BOUNDED_ENUM_VARINT,
   FLOOR_ENUM_VARINT,
   ARBITRARY_ZIGZAG_VARINT,
   ROOF_MIRROR_ENUM_VARINT
@@ -200,16 +199,14 @@ export const BOUNDED_PREFIX_LENGTH_ENUM_VARINT = (
 ): StringResult => {
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
-  const prefix: IntegerResult = BOUNDED_ENUM_VARINT(buffer, offset, {
-    minimum: options.minimum,
-    maximum: options.maximum + 1
+  const prefix: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum
   })
 
   if (prefix.value === Type.SharedString) {
-    const length: IntegerResult = BOUNDED_ENUM_VARINT(
+    const length: IntegerResult = FLOOR_ENUM_VARINT(
       buffer, offset + prefix.bytes, {
-        minimum: options.minimum,
-        maximum: options.maximum + 1
+        minimum: options.minimum
       })
 
     return readSharedString(buffer, offset, prefix, length, -1)

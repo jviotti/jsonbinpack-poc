@@ -106,14 +106,12 @@ exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = BOUNDED_PREFIX_LENGTH_8BIT_FIXED;
 var BOUNDED_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
-    var prefix = decode_1.BOUNDED_ENUM_VARINT(buffer, offset, {
-        minimum: options.minimum,
-        maximum: options.maximum + 1
+    var prefix = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
+        minimum: options.minimum
     });
     if (prefix.value === types_1.Type.SharedString) {
-        var length_2 = decode_1.BOUNDED_ENUM_VARINT(buffer, offset + prefix.bytes, {
-            minimum: options.minimum,
-            maximum: options.maximum + 1
+        var length_2 = decode_1.FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, {
+            minimum: options.minimum
         });
         return readSharedString(buffer, offset, prefix, length_2, -1);
     }

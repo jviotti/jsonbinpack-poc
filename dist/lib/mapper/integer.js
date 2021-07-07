@@ -53,13 +53,21 @@ var getIntegerEncoding = function (schema, _level) {
     }
     else if (typeof schema.minimum !== 'undefined' &&
         typeof schema.maximum !== 'undefined' && !('multipleOf' in schema)) {
+        if (schema.maximum - schema.minimum <= limits_1.UINT8_MAX) {
+            return {
+                type: encoder_1.EncodingType.Integer,
+                encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+                options: {
+                    minimum: schema.minimum,
+                    maximum: schema.maximum
+                }
+            };
+        }
         return {
             type: encoder_1.EncodingType.Integer,
-            encoding: (schema.maximum - schema.minimum <= limits_1.UINT8_MAX)
-                ? 'BOUNDED_8BITS_ENUM_FIXED' : 'BOUNDED_ENUM_VARINT',
+            encoding: 'FLOOR_ENUM_VARINT',
             options: {
-                minimum: schema.minimum,
-                maximum: schema.maximum
+                minimum: schema.minimum
             }
         };
     }

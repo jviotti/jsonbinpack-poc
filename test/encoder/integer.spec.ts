@@ -20,7 +20,6 @@ import * as fc from 'fast-check'
 import {
   BOUNDED_8BITS_ENUM_FIXED as ENCODE_BOUNDED_8BITS_ENUM_FIXED,
   BOUNDED_MULTIPLE_8BITS_ENUM_FIXED as ENCODE_BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
-  BOUNDED_ENUM_VARINT as ENCODE_BOUNDED_ENUM_VARINT,
   BOUNDED_MULTIPLE_ENUM_VARINT as ENCODE_BOUNDED_MULTIPLE_ENUM_VARINT,
   FLOOR_ENUM_VARINT as ENCODE_FLOOR_ENUM_VARINT,
   FLOOR_MULTIPLE_ENUM_VARINT as ENCODE_FLOOR_MULTIPLE_ENUM_VARINT,
@@ -34,7 +33,6 @@ import {
   IntegerResult,
   BOUNDED_8BITS_ENUM_FIXED as DECODE_BOUNDED_8BITS_ENUM_FIXED,
   BOUNDED_MULTIPLE_8BITS_ENUM_FIXED as DECODE_BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
-  BOUNDED_ENUM_VARINT as DECODE_BOUNDED_ENUM_VARINT,
   BOUNDED_MULTIPLE_ENUM_VARINT as DECODE_BOUNDED_MULTIPLE_ENUM_VARINT,
   FLOOR_ENUM_VARINT as DECODE_FLOOR_ENUM_VARINT,
   FLOOR_MULTIPLE_ENUM_VARINT as DECODE_FLOOR_MULTIPLE_ENUM_VARINT,
@@ -111,29 +109,6 @@ tap.test('BOUNDED_MULTIPLE_8BITS_ENUM_FIXED', (test) => {
         buffer, offset, {
           minimum, maximum, multiplier
         })
-    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
-  }), {
-    verbose: false
-  })
-
-  test.end()
-})
-
-tap.test('BOUNDED_ENUM_VARINT', (test) => {
-  fc.assert(fc.property(fc.nat(10), fc.integer(), fc.integer(), fc.integer(), (
-    offset: number, value: number, minimum: number, maximum: number
-  ): boolean => {
-    fc.pre(value >= minimum && value <= maximum)
-    const context: EncodingContext = getDefaultEncodingContext()
-    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(offset + 8))
-    const bytesWritten: number =
-      ENCODE_BOUNDED_ENUM_VARINT(buffer, offset, value, {
-        minimum, maximum
-      }, context)
-    const result: IntegerResult =
-      DECODE_BOUNDED_ENUM_VARINT(buffer, offset, {
-        minimum, maximum
-      })
     return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
   }), {
     verbose: false

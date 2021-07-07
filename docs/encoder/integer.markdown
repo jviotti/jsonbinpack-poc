@@ -88,7 +88,7 @@ multiplier is 5, the encoding results in the 8-bit unsigned integer 2:
 +------+
 ```
 
-### `BOUNDED_ENUM_VARINT`
+### `FLOOR_ENUM_VARINT`
 
 This encoding consists of a Base-128 variable-length unsigned integer that
 represents the bounded input signed integer minus the minimum value.
@@ -98,19 +98,17 @@ represents the bounded input signed integer minus the minimum value.
 | Option    | Type  | Description                 |
 |-----------|-------|-----------------------------|
 | `minimum` | `int` | The inclusive minimum value |
-| `maximum` | `int` | The inclusive maximum value |
 
 ### Conditions
 
 | Condition                    | Description                                                  |
 |------------------------------|--------------------------------------------------------------|
 | `value >= minimum`           | The input value must be greater than or equal to the minimum |
-| `value <= maximum`           | The input value must be less than or equal to the maximum    |
 
 ### Examples
 
-Given the input value 305, where the minimum is 5 and the maximum is 500, the
-encoding results in the variable-length encoded integer 300:
+Given the input value 305, where the minimum is 5, the encoding results in the
+variable-length encoded integer 300:
 
 ```
 +------+------+

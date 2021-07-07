@@ -88,17 +88,6 @@ export const BOUNDED_MULTIPLE_8BITS_ENUM_FIXED = (
     }, context)
 }
 
-export const BOUNDED_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: BoundedOptions, _context: EncodingContext
-): number => {
-  assert(options.maximum >= options.minimum)
-  assert(value >= options.minimum)
-  assert(value <= options.maximum)
-
-  return varintEncode(buffer, offset, BigInt(value - options.minimum))
-}
-
 export const BOUNDED_MULTIPLE_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
   options: BoundedMultiplierOptions, context: EncodingContext
@@ -111,10 +100,9 @@ export const BOUNDED_MULTIPLE_ENUM_VARINT = (
   assert(value % options.multiplier === 0)
 
   const absoluteMultiplier: number = Math.abs(options.multiplier)
-  return BOUNDED_ENUM_VARINT(buffer, offset,
+  return FLOOR_ENUM_VARINT(buffer, offset,
     value / absoluteMultiplier, {
-      minimum: Math.ceil(options.minimum / absoluteMultiplier),
-      maximum: Math.floor(options.maximum / absoluteMultiplier)
+      minimum: Math.ceil(options.minimum / absoluteMultiplier)
     }, context)
 }
 

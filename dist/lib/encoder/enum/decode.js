@@ -33,9 +33,8 @@ var BOUNDED_CHOICE_INDEX = function (buffer, offset, options) {
 };
 exports.BOUNDED_CHOICE_INDEX = BOUNDED_CHOICE_INDEX;
 var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, options) {
-    var result = decode_1.BOUNDED_ENUM_VARINT(buffer, offset, {
-        minimum: 0,
-        maximum: options.choices.length
+    var result = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
+        minimum: 0
     });
     return {
         value: options.choices[result.value],

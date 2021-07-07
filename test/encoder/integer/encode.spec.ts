@@ -19,7 +19,6 @@ import tap from 'tap'
 import {
   BOUNDED_8BITS_ENUM_FIXED,
   BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
-  BOUNDED_ENUM_VARINT,
   BOUNDED_MULTIPLE_ENUM_VARINT,
   FLOOR_ENUM_VARINT,
   FLOOR_MULTIPLE_ENUM_VARINT,
@@ -93,42 +92,6 @@ tap.test('BOUNDED_MULTIPLE_8BITS_ENUM_FIXED: should encode 15 (1..19) / 5 as 0x0
     multiplier: 5
   }, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x02 ]))
-  test.is(bytesWritten, 1)
-  test.end()
-})
-
-tap.test('BOUNDED_ENUM_VARINT: should encode -5 (-5..-1) as 0x00', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = BOUNDED_ENUM_VARINT(buffer, 0, -5, {
-    minimum: -5,
-    maximum: -1
-  }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x00 ]))
-  test.is(bytesWritten, 1)
-  test.end()
-})
-
-tap.test('BOUNDED_ENUM_VARINT: should encode 2 (-5..5) as 0x07', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = BOUNDED_ENUM_VARINT(buffer, 0, 2, {
-    minimum: -5,
-    maximum: 5
-  }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x07 ]))
-  test.is(bytesWritten, 1)
-  test.end()
-})
-
-tap.test('BOUNDED_ENUM_VARINT: should encode 5 (2..8) as 0x03', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const bytesWritten: number = BOUNDED_ENUM_VARINT(buffer, 0, 5, {
-    minimum: 2,
-    maximum: 8
-  }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x03 ]))
   test.is(bytesWritten, 1)
   test.end()
 })

@@ -171,10 +171,9 @@ tap_1.default.test('should encode an >8-bit integer with minimum and maximum', f
     test.is(mapper_1.getStates(schema), 100101);
     test.strictSame(result, {
         type: 'integer',
-        encoding: 'BOUNDED_ENUM_VARINT',
+        encoding: 'FLOOR_ENUM_VARINT',
         options: {
-            minimum: -100,
-            maximum: 100000
+            minimum: -100
         }
     });
     test.end();

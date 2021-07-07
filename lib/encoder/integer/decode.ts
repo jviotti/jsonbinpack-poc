@@ -86,18 +86,6 @@ export const BOUNDED_MULTIPLE_8BITS_ENUM_FIXED = (
   }
 }
 
-export const BOUNDED_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, options: BoundedOptions
-): IntegerResult => {
-  assert(options.maximum >= options.minimum)
-
-  const result: VarintDecodeResult = varintDecode(buffer, offset)
-  return {
-    value: Number(result.value) + options.minimum,
-    bytes: result.bytes
-  }
-}
-
 export const BOUNDED_MULTIPLE_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: BoundedMultiplierOptions
 ): IntegerResult => {
