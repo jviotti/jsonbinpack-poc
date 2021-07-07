@@ -196,3 +196,38 @@ variable-length encoded integer 2 = 10 - 8:
 | 0x02 |
 +------+
 ```
+
+### `ROOF_MULTIPLE_MIRROR_ENUM_VARINT`
+
+This encoding consists of a Base-128 little-endian variable-length unsigned
+integer that represents the maximal multiple that results in a value that is
+equal to or less than the `maximum` option (as discussed in
+[`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](#bounded_multiple_8bits_enum_fixed))
+minus the input value divided by the absolute multiple.
+
+### Options
+
+| Option       | Type  | Description                 |
+|--------------|-------|-----------------------------|
+| `maximum`    | `int` | The inclusive maximum value |
+| `multiplier` | `int` | The multiplier value        |
+
+### Conditions
+
+| Condition                    | Description                                                         |
+|------------------------------|---------------------------------------------------------------------|
+| `value <= maximum`           | The input value must be less than or equal to the maximum           |
+| `multiplier <= maximum`      | The multiplier integer must be less than or equal to the maximum    |
+| `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
+
+### Examples
+
+Given the input value 5, where the maximum is 16 and the multiplier is 5,
+the encoding results in the Base-128 little-endian variable-length unsigned
+integer 2:
+
+```
++------+
+| 0x02 |
++------+
+```

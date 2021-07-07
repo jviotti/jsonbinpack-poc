@@ -127,11 +127,9 @@ export const ROOF_MULTIPLE_MIRROR_ENUM_VARINT = (
   assert(options.maximum >= options.multiplier)
 
   const absoluteMultiplier: number = Math.abs(options.multiplier)
-  const closestMaximumMultiple: number =
-    Math.ceil(options.maximum / -absoluteMultiplier) * -absoluteMultiplier
   return ROOF_MIRROR_ENUM_VARINT(buffer, offset,
     value / absoluteMultiplier, {
-      maximum: closestMaximumMultiple / absoluteMultiplier
+      maximum: Math.floor(options.maximum / absoluteMultiplier)
     }, context)
 }
 
