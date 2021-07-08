@@ -108,9 +108,9 @@ multiplier is 5, the encoding results in the 8-bit unsigned integer 2:
 
 ### `FLOOR_ENUM_VARINT`
 
-This encoding consists of a Base-128 little-endian variable-length unsigned
-integer that represents the bounded input signed integer minus the minimum
-value.
+This encoding consists of a Base-128 64-bit Little Endian variable-length
+unsigned integer that represents the bounded input signed integer minus the
+minimum value.
 
 ### Options
 
@@ -140,7 +140,7 @@ variable-length encoded integer 300:
 This encoding is a variant of
 [`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](#bounded_multiple_8bits_enum_fixed)
 without the upper bound constraint. However, it encodes the value as a Base-128
-little-endian variable-length unsigned integer.
+64-bit Little Endian variable-length unsigned integer.
 
 ### Options
 
@@ -160,7 +160,7 @@ little-endian variable-length unsigned integer.
 ### Examples
 
 Given the input value 1000, where the minimum is -2 and the multiplier is 4,
-the encoding results in the Base-128 little-endian variable-length unsigned
+the encoding results in the Base-128 64-bit Little Endian variable-length unsigned
 integer 250:
 
 ```
@@ -171,8 +171,8 @@ integer 250:
 
 ### `ROOF_MIRROR_ENUM_VARINT`
 
-This encoding consists of a Base-128 little-endian variable-length unsigned
-integer that represents the maximum minus the input value.
+This encoding consists of a Base-128 64-bit Little Endian variable-length
+unsigned integer that represents the maximum minus the input value.
 
 ### Options
 
@@ -199,9 +199,9 @@ variable-length encoded integer 2 = 10 - 8:
 
 ### `ROOF_MULTIPLE_MIRROR_ENUM_VARINT`
 
-This encoding consists of a Base-128 little-endian variable-length unsigned
-integer that represents the maximal multiple that results in a value that is
-equal to or less than the `maximum` option (as discussed in
+This encoding consists of a Base-128 64-bit Little Endian variable-length
+unsigned integer that represents the maximal multiple that results in a value
+that is equal to or less than the `maximum` option (as discussed in
 [`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](#bounded_multiple_8bits_enum_fixed))
 minus the input value divided by the absolute multiple.
 
@@ -222,12 +222,36 @@ minus the input value divided by the absolute multiple.
 
 ### Examples
 
-Given the input value 5, where the maximum is 16 and the multiplier is 5,
-the encoding results in the Base-128 little-endian variable-length unsigned
+Given the input value 5, where the maximum is 16 and the multiplier is 5, the
+encoding results in the Base-128 64-bit Little Endian variable-length unsigned
 integer 2:
 
 ```
 +------+
 | 0x02 |
 +------+
+```
+
+### `ARBITRARY_ZIGZAG_VARINT`
+
+The input value is encoded as a ZigZag-encoded Base-128 64-bit Little Endian
+variable-length unsigned integer.
+
+### Options
+
+None
+
+### Conditions
+
+None
+
+### Examples
+
+The input value -25200 is encoded as the Base-128 64-bit Little Endian
+variable-length unsigned integer 50399:
+
+```
++------+------+------+
+| 0xdf | 0x89 | 0x03 |
++------+------+------+
 ```
