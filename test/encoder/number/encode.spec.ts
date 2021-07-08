@@ -48,6 +48,10 @@ tap.test('DOUBLE_VARINT_TUPLE: should encode a negative real number', (test) => 
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(3))
   const bytesWritten: number = DOUBLE_VARINT_TUPLE(buffer, 0, -3.14, {}, context)
+
+  // TODO: The "point" index should have been 1 instead of 2. Seems like we are
+  // taking the sign as an implicit digit??
+
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0xf3, 0x04, 0x04 ]))
   test.is(bytesWritten, 3)
   test.end()
