@@ -255,3 +255,31 @@ variable-length unsigned integer 50399:
 | 0xdf | 0x89 | 0x03 |
 +------+------+------+
 ```
+
+### `ARBITRARY_MULTIPLE_ZIGZAG_VARINT`
+
+The input value is divided by the absolute multiplier and encoded as a
+ZigZag-encoded Base-128 64-bit Little Endian variable-length unsigned integer.
+
+### Options
+
+| Option       | Type  | Description                 |
+|--------------|-------|-----------------------------|
+| `multiplier` | `int` | The multiplier value        |
+
+### Conditions
+
+| Condition                    | Description                                                         |
+|------------------------------|---------------------------------------------------------------------|
+| `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
+
+### Examples
+
+Given the input value 10, where the multiplier is 5, the encoding results in
+the Base-128 64-bit Little Endian variable-length unsigned integer 4:
+
+```
++------+
+| 0x04 |
++------+
+```
