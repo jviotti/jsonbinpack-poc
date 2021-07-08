@@ -16,7 +16,8 @@ contributions in any of the following areas:
 - Improve the documentation at
   [`docs`](https://github.com/jviotti/jsonbinpack/tree/main/docs)
 - Suggesting new encodings to make JSON BinPack more space-efficient
-- Bug fixes
+- Performance improvements, primarily in the encoder
+- General bug fixes
 
 Additionally, we are tracking the following major changes:
 
