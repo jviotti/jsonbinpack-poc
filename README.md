@@ -13,3 +13,9 @@ Roadmap
 - [ ] Implement support for the `anyOf` JSON keyword
 - [ ] Implement support for inline binary blobs defined with the
   `contentEncoding` JSON Schema keyword
+
+License
+-------
+
+This project is released under the terms specified in
+[license](https://github.com/jviotti/jsonbinpack/blob/main/LICENSE).
