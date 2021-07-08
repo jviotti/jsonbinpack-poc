@@ -11,14 +11,14 @@ This encoding consists of a fixed 8-bit unsigned integer that represents the
 bounded input signed integer minus the minimum value. The difference between
 the maximum and the minimum options should be less than 256.
 
-### Options
+#### Options
 
 | Option    | Type  | Description                 |
 |-----------|-------|-----------------------------|
 | `minimum` | `int` | The inclusive minimum value |
 | `maximum` | `int` | The inclusive maximum value |
 
-### Conditions
+#### Conditions
 
 | Condition                    | Description                                                  |
 |------------------------------|--------------------------------------------------------------|
@@ -26,7 +26,7 @@ the maximum and the minimum options should be less than 256.
 | `value <= maximum`           | The input value must be less than or equal to the maximum    |
 | `maximum - minimum < 2 ** 8` | The range must be representable in 8 bits                    |
 
-### Examples
+#### Examples
 
 Given the input value 2, where the minimum is -5 and the maximum is 5, the
 encoding results in the 8-bit unsigned integer 7 = 2 - (-5):
@@ -76,7 +76,7 @@ then the possible values is restricted to the following set:
 +----+----+----+
 ```
 
-### Options
+#### Options
 
 | Option       | Type  | Description                 |
 |--------------|-------|-----------------------------|
@@ -84,7 +84,7 @@ then the possible values is restricted to the following set:
 | `maximum`    | `int` | The inclusive maximum value |
 | `multiplier` | `int` | The multiplier value        |
 
-### Conditions
+#### Conditions
 
 | Condition                    | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|
@@ -95,7 +95,7 @@ then the possible values is restricted to the following set:
 | `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
 | `floor(maximum / abs(multiplier)) - ceil(minimum / abs(multiplier)) < 2 ** 8` | The divided range must be representable in 8 bits |
 
-### Examples
+#### Examples
 
 Given the input value 15, where the minimum is 1, the maximum is 19, and the
 multiplier is 5, the encoding results in the 8-bit unsigned integer 2:
@@ -112,19 +112,19 @@ This encoding consists of a Base-128 64-bit Little Endian variable-length
 unsigned integer that represents the bounded input signed integer minus the
 minimum value.
 
-### Options
+#### Options
 
 | Option    | Type  | Description                 |
 |-----------|-------|-----------------------------|
 | `minimum` | `int` | The inclusive minimum value |
 
-### Conditions
+#### Conditions
 
 | Condition                    | Description                                                  |
 |------------------------------|--------------------------------------------------------------|
 | `value >= minimum`           | The input value must be greater than or equal to the minimum |
 
-### Examples
+#### Examples
 
 Given the input value 305, where the minimum is 5, the encoding results in the
 variable-length encoded integer 300:
@@ -142,14 +142,14 @@ This encoding is a variant of
 without the upper bound constraint. However, it encodes the value as a Base-128
 64-bit Little Endian variable-length unsigned integer.
 
-### Options
+#### Options
 
 | Option       | Type  | Description                 |
 |--------------|-------|-----------------------------|
 | `minimum`    | `int` | The inclusive minimum value |
 | `multiplier` | `int` | The multiplier value        |
 
-### Conditions
+#### Conditions
 
 | Condition                    | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|
@@ -157,7 +157,7 @@ without the upper bound constraint. However, it encodes the value as a Base-128
 | `multiplier >= minimum`      | The multiplier integer must be greater than or equal to the minimum |
 | `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
 
-### Examples
+#### Examples
 
 Given the input value 1000, where the minimum is -2 and the multiplier is 4,
 the encoding results in the Base-128 64-bit Little Endian variable-length unsigned
@@ -174,19 +174,19 @@ integer 250:
 This encoding consists of a Base-128 64-bit Little Endian variable-length
 unsigned integer that represents the maximum minus the input value.
 
-### Options
+#### Options
 
 | Option    | Type  | Description                 |
 |-----------|-------|-----------------------------|
 | `maximum` | `int` | The inclusive maximum value |
 
-### Conditions
+#### Conditions
 
 | Condition                    | Description                                                  |
 |------------------------------|--------------------------------------------------------------|
 | `value <= maximum`           | The input value must be less than or equal to the maximum    |
 
-### Examples
+#### Examples
 
 Given the input value 8, where the maximum is 10, the encoding results in the
 variable-length encoded integer 2 = 10 - 8:
@@ -205,14 +205,14 @@ that is equal to or less than the `maximum` option (as discussed in
 [`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](#bounded_multiple_8bits_enum_fixed))
 minus the input value divided by the absolute multiple.
 
-### Options
+#### Options
 
 | Option       | Type  | Description                 |
 |--------------|-------|-----------------------------|
 | `maximum`    | `int` | The inclusive maximum value |
 | `multiplier` | `int` | The multiplier value        |
 
-### Conditions
+#### Conditions
 
 | Condition                    | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|
@@ -220,7 +220,7 @@ minus the input value divided by the absolute multiple.
 | `multiplier <= maximum`      | The multiplier integer must be less than or equal to the maximum    |
 | `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
 
-### Examples
+#### Examples
 
 Given the input value 5, where the maximum is 16 and the multiplier is 5, the
 encoding results in the Base-128 64-bit Little Endian variable-length unsigned
@@ -237,15 +237,15 @@ integer 2:
 The input value is encoded as a ZigZag-encoded Base-128 64-bit Little Endian
 variable-length unsigned integer.
 
-### Options
+#### Options
 
 None
 
-### Conditions
+#### Conditions
 
 None
 
-### Examples
+#### Examples
 
 The input value -25200 is encoded as the Base-128 64-bit Little Endian
 variable-length unsigned integer 50399:
@@ -261,19 +261,19 @@ variable-length unsigned integer 50399:
 The input value is divided by the absolute multiplier and encoded as a
 ZigZag-encoded Base-128 64-bit Little Endian variable-length unsigned integer.
 
-### Options
+#### Options
 
 | Option       | Type  | Description                 |
 |--------------|-------|-----------------------------|
 | `multiplier` | `int` | The multiplier value        |
 
-### Conditions
+#### Conditions
 
 | Condition                    | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|
 | `value % multiplier == 0`    | The input value must be divisible by the multiplier                 |
 
-### Examples
+#### Examples
 
 Given the input value 10, where the multiplier is 5, the encoding results in
 the Base-128 64-bit Little Endian variable-length unsigned integer 4:
