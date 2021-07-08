@@ -17,5 +17,5 @@ Roadmap
 License
 -------
 
-This project is released under the terms specified in
+This project is released under the terms specified in the
 [license](https://github.com/jviotti/jsonbinpack/blob/main/LICENSE).
