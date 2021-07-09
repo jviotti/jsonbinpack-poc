@@ -87,10 +87,20 @@ var getArrayEncoding = function (schema, level) {
         }
         else if (typeof schema.minItems === 'undefined' &&
             typeof schema.maxItems !== 'undefined') {
+            if (schema.maxItems <= limits_1.UINT8_MAX) {
+                return {
+                    type: encoder_1.EncodingType.Array,
+                    encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
+                    options: {
+                        minimum: 0,
+                        maximum: schema.maxItems,
+                        prefixEncodings: prefixEncodings
+                    }
+                };
+            }
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: (schema.maxItems <= limits_1.UINT8_MAX)
-                    ? 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' : 'ROOF_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX',
                 options: {
                     maximum: schema.maxItems,
                     prefixEncodings: prefixEncodings

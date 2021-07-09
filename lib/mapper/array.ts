@@ -89,12 +89,6 @@ export interface FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefi
   readonly options: SemiTypedFloorOptions;
 }
 
-export interface ROOF_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedRoofOptions;
-}
-
 export interface ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
   readonly encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX';
@@ -137,7 +131,6 @@ export type ArrayEncodingNames =
   'BOUNDED_SEMITYPED_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_LENGTH_PREFIX' |
-  'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' |
   'ROOF_SEMITYPED_LENGTH_PREFIX' |
   'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' |
   'BOUNDED_TYPED_LENGTH_PREFIX' |
@@ -151,7 +144,6 @@ export type ArrayEncoding =
   BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING |
   ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
@@ -222,10 +214,21 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       }
     } else if (typeof schema.minItems === 'undefined' &&
       typeof schema.maxItems !== 'undefined') {
+      if (schema.maxItems <= UINT8_MAX) {
+        return {
+          type: EncodingType.Array,
+          encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
+          options: {
+            minimum: 0,
+            maximum: schema.maxItems,
+            prefixEncodings
+          }
+        }
+      }
+
       return {
         type: EncodingType.Array,
-        encoding: (schema.maxItems <= UINT8_MAX)
-          ? 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' : 'ROOF_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX',
         options: {
           maximum: schema.maxItems,
           prefixEncodings

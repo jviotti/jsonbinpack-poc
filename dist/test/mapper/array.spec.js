@@ -64,8 +64,9 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 255', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             maximum: 255,
             prefixEncodings: []
         }
@@ -81,8 +82,9 @@ tap_1.default.test('should encode an arbitrary array with maxItems < 255', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             maximum: 10,
             prefixEncodings: []
         }

@@ -160,20 +160,6 @@ export const ROOF_SEMITYPED_LENGTH_PREFIX = (
   return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
 
-export const ROOF_8BITS_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions, context: EncodingContext
-): number => {
-  assert(options.maximum >= 0)
-  assert(value.length <= options.maximum)
-  assert(options.maximum <= UINT8_MAX)
-
-  return BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings
-  }, context)
-}
-
 export const BOUNDED_TYPED_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedBoundedOptions, context: EncodingContext
 ): number => {
