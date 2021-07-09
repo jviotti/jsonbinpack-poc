@@ -26,10 +26,14 @@ var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
                     options: {}
                 }
             })
-            : decode_5.FLOOR_SEMITYPED_NO_LENGTH_PREFIX(buffer, offset + tag.bytes, {
+            : decode_5.FIXED_TYPED_ARRAY(buffer, offset + tag.bytes, {
                 size: size - 1,
-                minimum: 0,
-                prefixEncodings: []
+                prefixEncodings: [],
+                encoding: {
+                    type: encoding_type_1.EncodingType.Any,
+                    encoding: 'ANY_TYPE_PREFIX',
+                    options: {}
+                }
             });
         return {
             value: result.value,

@@ -65,7 +65,7 @@ import {
 import {
   ArrayResult,
   FLOOR_TYPED_LENGTH_PREFIX,
-  FLOOR_SEMITYPED_NO_LENGTH_PREFIX
+  FIXED_TYPED_ARRAY
 } from '../array/decode'
 
 import {
@@ -106,10 +106,14 @@ export const ANY_TYPE_PREFIX = (
           options: {}
         }
       })
-      : FLOOR_SEMITYPED_NO_LENGTH_PREFIX(buffer, offset + tag.bytes, {
+      : FIXED_TYPED_ARRAY(buffer, offset + tag.bytes, {
         size: size - 1,
-        minimum: 0,
-        prefixEncodings: []
+        prefixEncodings: [],
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY_TYPE_PREFIX',
+          options: {}
+        }
       })
 
     return {

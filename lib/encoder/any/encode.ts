@@ -68,7 +68,7 @@ import {
 
 import {
   FLOOR_TYPED_LENGTH_PREFIX,
-  FLOOR_SEMITYPED_NO_LENGTH_PREFIX
+  FIXED_TYPED_ARRAY
 } from '../array/encode'
 
 import {
@@ -131,11 +131,15 @@ export const ANY_TYPE_PREFIX = (
 
     const typeTag: number = getTypeTag(Type.Array, value.length + 1)
     const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
-    const valueBytes: number = FLOOR_SEMITYPED_NO_LENGTH_PREFIX(
+    const valueBytes: number = FIXED_TYPED_ARRAY(
       buffer, offset + tagBytes, value, {
         size,
-        minimum: 0,
-        prefixEncodings: []
+        prefixEncodings: [],
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY_TYPE_PREFIX',
+          options: {}
+        }
       }, context)
 
     return tagBytes + valueBytes

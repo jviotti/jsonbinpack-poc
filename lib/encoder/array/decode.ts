@@ -32,10 +32,6 @@ import {
 } from '../integer/decode'
 
 import {
-  ANY_TYPE_PREFIX
-} from '../any/decode'
-
-import {
   decode
 } from '../index'
 
@@ -51,7 +47,7 @@ import {
   TypedRoofOptions,
   TypedFloorOptions,
   TypedBoundedOptions,
-  SizeSemiTypedFloorOptions
+  SizeTypedOptions
 } from './options'
 
 import {
@@ -65,7 +61,7 @@ export interface ArrayResult extends DecodeResult {
 
 const decodeArray = (
   buffer: ResizableBuffer, offset: number, bytesWritten: number, length: number,
-  prefixEncodings: Encoding[], defaultEncoding?: Encoding
+  prefixEncodings: Encoding[], defaultEncoding: Encoding
 ): ArrayResult => {
   let index = 0
   let cursor = offset + bytesWritten
@@ -74,9 +70,7 @@ const decodeArray = (
   while (index < length) {
     const encoding: Encoding | undefined =
       prefixEncodings[index] ?? defaultEncoding
-    const elementResult: DecodeResult = typeof encoding === 'undefined'
-      ? ANY_TYPE_PREFIX(buffer, cursor, {})
-      : decode(buffer, cursor, encoding)
+    const elementResult: DecodeResult = decode(buffer, cursor, encoding)
     cursor += elementResult.bytes
     result.push(elementResult.value)
     index += 1
@@ -88,13 +82,12 @@ const decodeArray = (
   }
 }
 
-export const FLOOR_SEMITYPED_NO_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SizeSemiTypedFloorOptions
+export const FIXED_TYPED_ARRAY = (
+  buffer: ResizableBuffer, offset: number, options: SizeTypedOptions
 ): ArrayResult => {
-  assert(options.minimum >= 0)
   assert(options.size >= 0)
   return decodeArray(
-    buffer, offset, 0, options.size, options.prefixEncodings)
+    buffer, offset, 0, options.size, options.prefixEncodings, options.encoding)
 }
 
 export const BOUNDED_TYPED_LENGTH_PREFIX = (
