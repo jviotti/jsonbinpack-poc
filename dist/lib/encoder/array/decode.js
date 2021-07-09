@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.ROOF_SEMITYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = void 0;
+exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
 var decode_2 = require("../any/decode");
@@ -39,14 +39,6 @@ var FLOOR_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, options) {
     return decodeArray(buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings);
 };
 exports.FLOOR_SEMITYPED_LENGTH_PREFIX = FLOOR_SEMITYPED_LENGTH_PREFIX;
-var ROOF_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, options) {
-    assert_1.strict(options.maximum >= 0);
-    var lengthResult = decode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset, {
-        maximum: options.maximum
-    });
-    return decodeArray(buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings);
-};
-exports.ROOF_SEMITYPED_LENGTH_PREFIX = ROOF_SEMITYPED_LENGTH_PREFIX;
 var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);

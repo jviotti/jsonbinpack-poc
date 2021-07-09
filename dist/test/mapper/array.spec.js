@@ -47,10 +47,15 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 256', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'ROOF_TYPED_LENGTH_PREFIX',
         options: {
             maximum: 256,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();

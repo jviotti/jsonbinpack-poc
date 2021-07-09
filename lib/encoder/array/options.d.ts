@@ -29,7 +29,6 @@ interface SemiTypedOptions {
 }
 
 export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
-export interface SemiTypedRoofOptions extends RoofOptions, SemiTypedOptions {}
 
 export interface SizeSemiTypedFloorOptions extends SemiTypedFloorOptions {
   readonly size: number;
@@ -45,7 +44,6 @@ interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 
 export type ArrayOptions =
   SemiTypedFloorOptions |
-  SemiTypedRoofOptions |
   TypedFloorOptions |
   TypedRoofOptions |
   TypedBoundedOptions |

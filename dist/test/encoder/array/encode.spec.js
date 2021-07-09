@@ -25,24 +25,6 @@ tap_1.default.test('FLOOR_SEMITYPED_LENGTH_PREFIX: should encode [ "foo", true, 
     test.is(bytesWritten, 9);
     test.end();
 });
-tap_1.default.test('ROOF_SEMITYPED_LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
-    var bytesWritten = encode_1.ROOF_SEMITYPED_LENGTH_PREFIX(buffer, 0, [
-        'foo', true, 2000
-    ], {
-        prefixEncodings: [],
-        maximum: 3
-    }, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x00,
-        0x21, 0x66, 0x6f, 0x6f,
-        0x0f,
-        0x1f, 0xd0, 0x0f
-    ]));
-    test.is(bytesWritten, 9);
-    test.end();
-});
 tap_1.default.test('BOUNDED_TYPED_LENGTH_PREFIX: should encode [ true, false, true ]', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var encoding = mapper_1.getEncoding({
@@ -179,25 +161,6 @@ tap_1.default.test('FLOOR_SEMITYPED_LENGTH_PREFIX: should encode [ typed:true, t
     }, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x01,
-        0x01, 0x00, 0x0f
-    ]));
-    test.is(bytesWritten, 4);
-    test.end();
-});
-tap_1.default.test('ROOF_SEMITYPED_LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var encoding = mapper_1.getEncoding({
-        type: 'boolean'
-    }, 1);
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
-    var bytesWritten = encode_1.ROOF_SEMITYPED_LENGTH_PREFIX(buffer, 0, [
-        true, false, true
-    ], {
-        maximum: 3,
-        prefixEncodings: [encoding, encoding]
-    }, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x00,
         0x01, 0x00, 0x0f
     ]));
     test.is(bytesWritten, 4);

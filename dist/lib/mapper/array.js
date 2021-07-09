@@ -125,10 +125,15 @@ var getArrayEncoding = function (schema, level) {
             }
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'ROOF_TYPED_LENGTH_PREFIX',
                 options: {
                     maximum: schema.maxItems,
-                    prefixEncodings: prefixEncodings
+                    prefixEncodings: prefixEncodings,
+                    encoding: {
+                        type: encoder_1.EncodingType.Any,
+                        encoding: 'ANY_TYPE_PREFIX',
+                        options: {}
+                    }
                 }
             };
         }

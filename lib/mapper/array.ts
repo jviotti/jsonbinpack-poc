@@ -38,7 +38,6 @@ import {
 
 import {
   SemiTypedFloorOptions,
-  SemiTypedRoofOptions,
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions,
@@ -76,12 +75,6 @@ export interface FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefi
   readonly options: SemiTypedFloorOptions;
 }
 
-export interface ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedRoofOptions;
-}
-
 export interface BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
   readonly encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX';
@@ -110,7 +103,6 @@ export type ArrayEncodingNames =
   EnumEncodingNames |
   'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_LENGTH_PREFIX' |
-  'ROOF_SEMITYPED_LENGTH_PREFIX' |
   'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' |
   'BOUNDED_TYPED_LENGTH_PREFIX' |
   'FLOOR_TYPED_LENGTH_PREFIX' |
@@ -120,7 +112,6 @@ export type ArrayEncoding =
   EnumEncoding |
   FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_TYPED_LENGTH_PREFIX_ENCODING |
@@ -229,10 +220,15 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
 
       return {
         type: EncodingType.Array,
-        encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'ROOF_TYPED_LENGTH_PREFIX',
         options: {
           maximum: schema.maxItems,
-          prefixEncodings
+          prefixEncodings,
+          encoding: {
+            type: EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+          }
         }
       }
     } else if (typeof schema.minItems !== 'undefined' &&

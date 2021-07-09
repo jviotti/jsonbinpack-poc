@@ -51,7 +51,6 @@ import {
   TypedRoofOptions,
   TypedFloorOptions,
   TypedBoundedOptions,
-  SemiTypedRoofOptions,
   SemiTypedFloorOptions,
   SizeSemiTypedFloorOptions
 } from './options'
@@ -106,19 +105,6 @@ export const FLOOR_SEMITYPED_LENGTH_PREFIX = (
 
   const lengthResult: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
     minimum: options.minimum
-  })
-
-  return decodeArray(
-    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
-}
-
-export const ROOF_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedRoofOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-
-  const lengthResult: IntegerResult = ROOF_MIRROR_ENUM_VARINT(buffer, offset, {
-    maximum: options.maximum
   })
 
   return decodeArray(

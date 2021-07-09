@@ -38,7 +38,6 @@ import {
 
 import {
   SemiTypedFloorOptions,
-  SemiTypedRoofOptions,
   TypedBoundedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
@@ -104,20 +103,6 @@ export const FLOOR_SEMITYPED_LENGTH_PREFIX = (
     size: value.length,
     prefixEncodings: options.prefixEncodings
   }, context)
-}
-
-export const ROOF_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedRoofOptions, context: EncodingContext
-): number => {
-  assert(options.maximum >= 0)
-  assert(value.length <= options.maximum)
-
-  const lengthBytes: number =
-    ROOF_MIRROR_ENUM_VARINT(buffer, offset, value.length, {
-      maximum: options.maximum
-    }, context)
-
-  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
 }
 
 export const BOUNDED_TYPED_LENGTH_PREFIX = (
