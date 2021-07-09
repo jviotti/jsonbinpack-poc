@@ -31,8 +31,8 @@ Additionally, we are tracking the following major changes:
   `contentEncoding` JSON Schema keyword
 
 Don't hesitate in getting in touch [by creating a
-ticket](https://github.com/jviotti/jsonbinpack/issues) if you require any
-guidance on contributing to the project.
+ticket](https://github.com/jviotti/jsonbinpack/issues/new/choose) if you
+require any guidance on contributing to the project.
 
 License
 -------
