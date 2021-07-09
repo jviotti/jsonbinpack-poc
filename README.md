@@ -1,6 +1,8 @@
 jsonbinpack
 ===========
 
+![GitHub Actions](https://github.com/jviotti/jsonbinpack/actions/workflows/nodejs.yml/badge.svg?branch=master)
+
 A space-efficient schema-driven binary JSON serialization format based on JSON
 Schema.
 
