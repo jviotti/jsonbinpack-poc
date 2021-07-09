@@ -22,6 +22,8 @@ contributions in any of the following areas:
 Additionally, we are tracking the following major changes:
 
 - [ ] Re-write the encoders in C++ and compile to WebAssembly
+- [ ] Generate serialization and deserialization C++ that does not dynamically
+  traverses the encoding schema for runtime performance reasons
 - [ ] Support recursive JSON Schema documents
 - [ ] Implement support for the `if`, `then`, and `else` JSON Schema keywords
 - [ ] Implement support for the `anyOf` JSON keyword
