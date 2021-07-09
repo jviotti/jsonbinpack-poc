@@ -175,21 +175,6 @@ export const ROOF_TYPED_LENGTH_PREFIX = (
     buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
 }
 
-export const ROOF_8BITS_TYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedRoofOptions, context: EncodingContext
-): number => {
-  assert(options.maximum >= 0)
-  assert(value.length <= options.maximum)
-  assert(options.maximum <= UINT8_MAX)
-
-  return BOUNDED_8BITS_TYPED_LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings,
-    encoding: options.encoding
-  }, context)
-}
-
 export const FLOOR_TYPED_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedFloorOptions, context: EncodingContext
 ): number => {

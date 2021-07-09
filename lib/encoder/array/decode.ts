@@ -183,20 +183,6 @@ export const ROOF_TYPED_LENGTH_PREFIX = (
     options.prefixEncodings, options.encoding)
 }
 
-export const ROOF_8BITS_TYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: TypedRoofOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-  assert(options.maximum <= UINT8_MAX)
-
-  return BOUNDED_8BITS_TYPED_LENGTH_PREFIX(buffer, offset, {
-    minimum: 0,
-    maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings,
-    encoding: options.encoding
-  })
-}
-
 export const FLOOR_TYPED_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, options: TypedFloorOptions
 ): ArrayResult => {

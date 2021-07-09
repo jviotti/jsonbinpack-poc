@@ -100,12 +100,6 @@ export interface FLOOR_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefiniti
   readonly options: TypedFloorOptions;
 }
 
-export interface ROOF_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_8BITS_TYPED_LENGTH_PREFIX';
-  readonly options: TypedRoofOptions;
-}
-
 export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
   readonly encoding: 'ROOF_TYPED_LENGTH_PREFIX';
@@ -120,7 +114,6 @@ export type ArrayEncodingNames =
   'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' |
   'BOUNDED_TYPED_LENGTH_PREFIX' |
   'FLOOR_TYPED_LENGTH_PREFIX' |
-  'ROOF_8BITS_TYPED_LENGTH_PREFIX' |
   'ROOF_TYPED_LENGTH_PREFIX'
 
 export type ArrayEncoding =
@@ -131,7 +124,6 @@ export type ArrayEncoding =
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_TYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
   ROOF_TYPED_LENGTH_PREFIX_ENCODING
 
 export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[] => {
@@ -280,10 +272,22 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     }
   } else if (typeof schema.minItems === 'undefined' &&
     typeof schema.maxItems !== 'undefined') {
+    if (schema.maxItems <= UINT8_MAX) {
+      return {
+        type: EncodingType.Array,
+        encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+        options: {
+          minimum: 0,
+          maximum: schema.maxItems,
+          encoding: getEncoding(encodingSchema, level + 1),
+          prefixEncodings
+        }
+      }
+    }
+
     return {
       type: EncodingType.Array,
-      encoding: (schema.maxItems <= UINT8_MAX)
-        ? 'ROOF_8BITS_TYPED_LENGTH_PREFIX' : 'ROOF_TYPED_LENGTH_PREFIX',
+      encoding: 'ROOF_TYPED_LENGTH_PREFIX',
       options: {
         maximum: schema.maxItems,
         encoding: getEncoding(encodingSchema, level + 1),

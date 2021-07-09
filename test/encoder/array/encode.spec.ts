@@ -34,7 +34,6 @@ import {
   BOUNDED_TYPED_LENGTH_PREFIX,
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX,
   ROOF_TYPED_LENGTH_PREFIX,
-  ROOF_8BITS_TYPED_LENGTH_PREFIX,
   FLOOR_TYPED_LENGTH_PREFIX
 } from '../../../lib/encoder/array/encode'
 
@@ -222,32 +221,6 @@ tap.test('ROOF_TYPED_LENGTH_PREFIX: should encode [ true, false, true ]', (test)
   test.end()
 })
 
-tap.test('ROOF_8BITS_TYPED_LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: Encoding = getEncoding({
-    type: 'boolean'
-  }, 1)
-
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
-  const bytesWritten: number = ROOF_8BITS_TYPED_LENGTH_PREFIX(buffer, 0, [
-    true, false, true
-  ], {
-    maximum: 3,
-    prefixEncodings: [],
-    encoding
-  }, context)
-
-  test.strictSame(buffer.getBuffer(), Buffer.from([
-    // Array length
-    0x03,
-
-    0x01, 0x00, 0x01
-  ]))
-
-  test.is(bytesWritten, 4)
-  test.end()
-})
-
 tap.test('FLOOR_TYPED_LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const encoding: Encoding = getEncoding({
@@ -416,40 +389,6 @@ tap.test('ROOF_TYPED_LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]
   test.strictSame(buffer.getBuffer(), Buffer.from([
     // Array length
     0x00,
-
-    // True, false
-    0x01, 0x00,
-
-    // 5
-    0x0a
-  ]))
-
-  test.is(bytesWritten, 4)
-  test.end()
-})
-
-tap.test('ROOF_8BITS_TYPED_LENGTH_PREFIX: should encode [ typed:true, typed:false, 5 ]', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const booleanEncoding: Encoding = getEncoding({
-    type: 'boolean'
-  }, 1)
-
-  const integerEncoding: Encoding = getEncoding({
-    type: 'integer'
-  }, 1)
-
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
-  const bytesWritten: number = ROOF_8BITS_TYPED_LENGTH_PREFIX(buffer, 0, [
-    true, false, 5
-  ], {
-    maximum: 3,
-    prefixEncodings: [ booleanEncoding, booleanEncoding ],
-    encoding: integerEncoding
-  }, context)
-
-  test.strictSame(buffer.getBuffer(), Buffer.from([
-    // Array length
-    0x03,
 
     // True, false
     0x01, 0x00,
