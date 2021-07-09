@@ -53,7 +53,6 @@ import {
   TypedBoundedOptions,
   SemiTypedRoofOptions,
   SemiTypedFloorOptions,
-  SemiTypedBoundedOptions,
   SizeSemiTypedFloorOptions
 } from './options'
 
@@ -89,27 +88,6 @@ const decodeArray = (
     value: result,
     bytes: cursor - (offset + bytesWritten) + bytesWritten
   }
-}
-
-export const BOUNDED_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedBoundedOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-
-  const lengthResult: IntegerResult =
-    options.maximum === options.minimum
-      ? {
-        bytes: 0,
-        value: options.maximum
-      }
-      : FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: options.minimum
-      })
-
-  return decodeArray(
-    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
 }
 
 export const FLOOR_SEMITYPED_NO_LENGTH_PREFIX = (

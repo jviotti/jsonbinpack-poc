@@ -39,7 +39,6 @@ import {
 import {
   SemiTypedFloorOptions,
   SemiTypedRoofOptions,
-  SemiTypedBoundedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions,
@@ -64,12 +63,6 @@ import {
   ArrayEncodingSchema,
   EncodingSchema
 } from '../schema'
-
-export interface BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedBoundedOptions;
-}
 
 export interface FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
@@ -121,7 +114,6 @@ export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinitio
 
 export type ArrayEncodingNames =
   EnumEncodingNames |
-  'BOUNDED_SEMITYPED_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_LENGTH_PREFIX' |
   'ROOF_SEMITYPED_LENGTH_PREFIX' |
@@ -133,7 +125,6 @@ export type ArrayEncodingNames =
 
 export type ArrayEncoding =
   EnumEncoding |
-  BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING |
   ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING |
@@ -213,11 +204,16 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
 
       return {
         type: EncodingType.Array,
-        encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_TYPED_LENGTH_PREFIX',
         options: {
           minimum: schema.minItems,
           maximum: schema.maxItems,
-          prefixEncodings
+          prefixEncodings,
+          encoding: {
+            type: EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+          }
         }
       }
     } else if (typeof schema.minItems === 'undefined' &&
