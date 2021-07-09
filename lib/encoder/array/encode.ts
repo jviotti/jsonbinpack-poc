@@ -37,7 +37,6 @@ import {
 } from '../../mapper'
 
 import {
-  SemiTypedOptions,
   SemiTypedBoundedOptions,
   SemiTypedFloorOptions,
   SemiTypedRoofOptions,
@@ -171,15 +170,6 @@ export const ROOF_8BITS_SEMITYPED_LENGTH_PREFIX = (
   return BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX(buffer, offset, value, {
     minimum: 0,
     maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings
-  }, context)
-}
-
-export const UNBOUNDED_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedOptions, context: EncodingContext
-): number => {
-  return FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
     prefixEncodings: options.prefixEncodings
   }, context)
 }

@@ -35,8 +35,9 @@ tap.test('should encode an arbitrary array', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'array',
-    encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
     options: {
+      minimum: 0,
       prefixEncodings: []
     }
   })
@@ -186,8 +187,9 @@ tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'array',
-    encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
     options: {
+      minimum: 0,
       prefixEncodings: [
         {
           type: 'integer',
@@ -279,8 +281,9 @@ tap.test('should encode a semi + fully typed array with minItems', (test) => {
       minimum: 5,
       encoding: {
         type: 'array',
-        encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
         options: {
+          minimum: 0,
           prefixEncodings: []
         }
       },

@@ -24,7 +24,7 @@ import {
   Encoding
 } from '../../mapper'
 
-export interface SemiTypedOptions {
+interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];
 }
 
@@ -45,7 +45,6 @@ interface TypedRoofOptions extends RoofOptions, TypedOptions {}
 interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 
 export type ArrayOptions =
-  SemiTypedOptions |
   SemiTypedFloorOptions |
   SemiTypedRoofOptions |
   SemiTypedBoundedOptions |

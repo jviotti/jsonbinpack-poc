@@ -22,8 +22,9 @@
                     "propertyEncodings": {
                         "qux": {
                             "type": "array",
-                            "encoding": "UNBOUNDED_SEMITYPED_LENGTH_PREFIX",
+                            "encoding": "FLOOR_SEMITYPED_LENGTH_PREFIX",
                             "options": {
+                                "minimum": 0,
                                 "prefixEncodings": []
                             }
                         }

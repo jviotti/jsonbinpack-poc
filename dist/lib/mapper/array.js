@@ -110,8 +110,9 @@ var getArrayEncoding = function (schema, level) {
         }
         return {
             type: encoder_1.EncodingType.Array,
-            encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+            encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
             options: {
+                minimum: 0,
                 prefixEncodings: prefixEncodings
             }
         };

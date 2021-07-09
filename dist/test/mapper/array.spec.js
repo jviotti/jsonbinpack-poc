@@ -13,8 +13,9 @@ tap_1.default.test('should encode an arbitrary array', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             prefixEncodings: []
         }
     });
@@ -143,8 +144,9 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             prefixEncodings: [
                 {
                     type: 'integer',
@@ -230,8 +232,9 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
             minimum: 5,
             encoding: {
                 type: 'array',
-                encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
                 options: {
+                    minimum: 0,
                     prefixEncodings: []
                 }
             },

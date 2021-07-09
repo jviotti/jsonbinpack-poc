@@ -51,7 +51,6 @@ import {
   TypedRoofOptions,
   TypedFloorOptions,
   TypedBoundedOptions,
-  SemiTypedOptions,
   SemiTypedRoofOptions,
   SemiTypedFloorOptions,
   SemiTypedBoundedOptions,
@@ -180,15 +179,6 @@ export const ROOF_8BITS_SEMITYPED_LENGTH_PREFIX = (
   return BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
     minimum: 0,
     maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings
-  })
-}
-
-export const UNBOUNDED_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedOptions
-): ArrayResult => {
-  return FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
-    minimum: 0,
     prefixEncodings: options.prefixEncodings
   })
 }

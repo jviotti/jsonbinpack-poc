@@ -15,26 +15,21 @@
  */
 
 import tap from 'tap'
-import * as fc from 'fast-check'
-import * as util from 'util'
 
 import {
   JSONValue
 } from '../../lib/json'
 
 import {
-  SemiTypedOptions,
   SemiTypedBoundedOptions
 } from '../../lib/encoder/array/options'
 
 import {
-  UNBOUNDED_SEMITYPED_LENGTH_PREFIX as ENCODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX,
   BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX as ENCODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX
 } from '../../lib/encoder/array/encode'
 
 import {
   ArrayResult,
-  UNBOUNDED_SEMITYPED_LENGTH_PREFIX as DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX,
   BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX as DECODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX
 } from '../../lib/encoder/array/decode'
 
@@ -62,58 +57,5 @@ tap.test('BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX: [ "foo", true, 2000 ] (2..3 [])
   test.is(bytesWritten, 9)
   test.is(bytesWritten, result.bytes)
   test.strictSame(result.value, value)
-  test.end()
-})
-
-tap.test('UNBOUNDED_SEMITYPED_LENGTH_PREFIX: [] ([])', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const value: JSONValue = []
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
-  const options: SemiTypedOptions = {
-    prefixEncodings: []
-  }
-
-  const bytesWritten: number =
-    ENCODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, 0, value, options, context)
-  const result: ArrayResult =
-    DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, 0, options)
-
-  test.is(bytesWritten, 1)
-  test.is(bytesWritten, result.bytes)
-  test.strictSame(result.value, value)
-  test.end()
-})
-
-tap.test('UNBOUNDED_SEMITYPED_LENGTH_PREFIX (scalars)', (test) => {
-  fc.assert(fc.property(fc.array(fc.oneof(
-    fc.constant(null),
-    fc.boolean(),
-    fc.integer(),
-    fc.float(),
-    fc.double(),
-    fc.string({
-      maxLength: 10
-    })
-  )), (value: JSONValue[]): boolean => {
-    const context: EncodingContext = getDefaultEncodingContext()
-    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
-    const offset: number = 0
-
-    const bytesWritten: number =
-      ENCODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, offset, value, {
-        prefixEncodings: []
-      }, context)
-
-    const result: ArrayResult =
-      DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
-        prefixEncodings: []
-      })
-
-    return bytesWritten > 0 && result.bytes === bytesWritten &&
-      util.isDeepStrictEqual(result.value, value)
-  }), {
-    verbose: false
-  })
-
   test.end()
 })
