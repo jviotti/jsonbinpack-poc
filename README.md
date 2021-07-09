@@ -4,6 +4,27 @@ jsonbinpack
 A space-efficient schema-driven binary JSON serialization format based on JSON
 Schema.
 
+Building from source
+--------------------
+
+Compiling the project:
+
+```sh
+make
+```
+
+Running tests:
+
+```sh
+make test
+```
+
+Running the linter:
+
+```sh
+make lint
+```
+
 Contributing
 ------------
 

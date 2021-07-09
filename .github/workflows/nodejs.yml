@@ -22,10 +22,10 @@ jobs:
       run: npm ci
 
     - name: Run tests
-      run: npm test
+      run: make test
 
     - name: Build project
-      run: make all
+      run: make
 
     - name: Check that there are no uncommitted changes
-      run: rm -rf dist && npm run tsc && ./scripts/no-staged-uncommitted-files.sh
+      run: rm -rf dist && make && ./scripts/no-staged-uncommitted-files.sh
