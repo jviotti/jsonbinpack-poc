@@ -17,9 +17,14 @@ var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
     if (types_1.isType(types_1.Type.Array, tag.value)) {
         var size = types_1.getMetadata(tag.value);
         var result = size === 0
-            ? decode_5.FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, offset + tag.bytes, {
+            ? decode_5.FLOOR_TYPED_LENGTH_PREFIX(buffer, offset + tag.bytes, {
                 minimum: 0,
-                prefixEncodings: []
+                prefixEncodings: [],
+                encoding: {
+                    type: encoding_type_1.EncodingType.Any,
+                    encoding: 'ANY_TYPE_PREFIX',
+                    options: {}
+                }
             })
             : decode_5.FLOOR_SEMITYPED_NO_LENGTH_PREFIX(buffer, offset + tag.bytes, {
                 size: size - 1,

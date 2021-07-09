@@ -13,10 +13,15 @@ tap_1.default.test('should encode an arbitrary array', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 0,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -30,10 +35,15 @@ tap_1.default.test('should encode an arbitrary array with minItems', function (t
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 10,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -171,7 +181,7 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 0,
             prefixEncodings: [
@@ -188,7 +198,12 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
                         maximum: 5
                     }
                 }
-            ]
+            ],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -211,7 +226,7 @@ tap_1.default.test('should encode a semi-typed array with minItems', function (t
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 5,
             prefixEncodings: [
@@ -228,7 +243,12 @@ tap_1.default.test('should encode a semi-typed array with minItems', function (t
                         maximum: 5
                     }
                 }
-            ]
+            ],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -259,10 +279,15 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
             minimum: 5,
             encoding: {
                 type: 'array',
-                encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
                 options: {
                     minimum: 0,
-                    prefixEncodings: []
+                    prefixEncodings: [],
+                    encoding: {
+                        type: 'any',
+                        encoding: 'ANY_TYPE_PREFIX',
+                        options: {}
+                    }
                 }
             },
             prefixEncodings: [

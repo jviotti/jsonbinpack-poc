@@ -141,19 +141,29 @@ var getArrayEncoding = function (schema, level) {
             typeof schema.maxItems === 'undefined') {
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
                 options: {
                     minimum: schema.minItems,
-                    prefixEncodings: prefixEncodings
+                    prefixEncodings: prefixEncodings,
+                    encoding: {
+                        type: encoder_1.EncodingType.Any,
+                        encoding: 'ANY_TYPE_PREFIX',
+                        options: {}
+                    }
                 }
             };
         }
         return {
             type: encoder_1.EncodingType.Array,
-            encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+            encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
             options: {
                 minimum: 0,
-                prefixEncodings: prefixEncodings
+                prefixEncodings: prefixEncodings,
+                encoding: {
+                    type: encoder_1.EncodingType.Any,
+                    encoding: 'ANY_TYPE_PREFIX',
+                    options: {}
+                }
             }
         };
     }

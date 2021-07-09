@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = void 0;
+exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var index_1 = require("../index");
@@ -66,18 +66,6 @@ var FLOOR_SEMITYPED_NO_LENGTH_PREFIX = function (buffer, offset, value, options,
     return encodeArray(buffer, offset, value, options.prefixEncodings, context);
 };
 exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = FLOOR_SEMITYPED_NO_LENGTH_PREFIX;
-var FLOOR_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.minimum >= 0);
-    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-        minimum: options.minimum
-    }, context);
-    return lengthBytes + exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX(buffer, offset + lengthBytes, value, {
-        minimum: options.minimum,
-        size: value.length,
-        prefixEncodings: options.prefixEncodings
-    }, context);
-};
-exports.FLOOR_SEMITYPED_LENGTH_PREFIX = FLOOR_SEMITYPED_LENGTH_PREFIX;
 var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);

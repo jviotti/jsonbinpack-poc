@@ -37,7 +37,6 @@ import {
 } from './index'
 
 import {
-  SemiTypedFloorOptions,
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions,
@@ -69,12 +68,6 @@ export interface FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING extends BaseEncodingD
   readonly options: SizeSemiTypedFloorOptions;
 }
 
-export interface FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedFloorOptions;
-}
-
 export interface BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
   readonly encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX';
@@ -102,7 +95,6 @@ export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinitio
 export type ArrayEncodingNames =
   EnumEncodingNames |
   'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
-  'FLOOR_SEMITYPED_LENGTH_PREFIX' |
   'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' |
   'BOUNDED_TYPED_LENGTH_PREFIX' |
   'FLOOR_TYPED_LENGTH_PREFIX' |
@@ -111,7 +103,6 @@ export type ArrayEncodingNames =
 export type ArrayEncoding =
   EnumEncoding |
   FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
-  FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_TYPED_LENGTH_PREFIX_ENCODING |
@@ -235,20 +226,30 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       typeof schema.maxItems === 'undefined') {
       return {
         type: EncodingType.Array,
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
           minimum: schema.minItems,
-          prefixEncodings
+          prefixEncodings,
+          encoding: {
+            type: EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+          }
         }
       }
     }
 
     return {
       type: EncodingType.Array,
-      encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+      encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
       options: {
         minimum: 0,
-        prefixEncodings
+        prefixEncodings,
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY_TYPE_PREFIX',
+          options: {}
+        }
       }
     }
   }

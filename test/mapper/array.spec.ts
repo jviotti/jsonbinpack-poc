@@ -35,10 +35,15 @@ tap.test('should encode an arbitrary array', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'array',
-    encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
     options: {
       minimum: 0,
-      prefixEncodings: []
+      prefixEncodings: [],
+      encoding: {
+        type: 'any',
+        encoding: 'ANY_TYPE_PREFIX',
+        options: {}
+      }
     }
   })
 
@@ -55,10 +60,15 @@ tap.test('should encode an arbitrary array with minItems', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'array',
-    encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
     options: {
       minimum: 10,
-      prefixEncodings: []
+      prefixEncodings: [],
+      encoding: {
+        type: 'any',
+        encoding: 'ANY_TYPE_PREFIX',
+        options: {}
+      }
     }
   })
 
@@ -214,7 +224,7 @@ tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'array',
-    encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
     options: {
       minimum: 0,
       prefixEncodings: [
@@ -231,7 +241,12 @@ tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
             maximum: 5
           }
         }
-      ]
+      ],
+      encoding: {
+        type: 'any',
+        encoding: 'ANY_TYPE_PREFIX',
+        options: {}
+      }
     }
   })
 
@@ -257,7 +272,7 @@ tap.test('should encode a semi-typed array with minItems', (test) => {
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'array',
-    encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
     options: {
       minimum: 5,
       prefixEncodings: [
@@ -274,7 +289,12 @@ tap.test('should encode a semi-typed array with minItems', (test) => {
             maximum: 5
           }
         }
-      ]
+      ],
+      encoding: {
+        type: 'any',
+        encoding: 'ANY_TYPE_PREFIX',
+        options: {}
+      }
     }
   })
 
@@ -308,10 +328,15 @@ tap.test('should encode a semi + fully typed array with minItems', (test) => {
       minimum: 5,
       encoding: {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
           minimum: 0,
-          prefixEncodings: []
+          prefixEncodings: [],
+          encoding: {
+            type: 'any',
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+          }
         }
       },
       prefixEncodings: [

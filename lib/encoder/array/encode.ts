@@ -37,7 +37,6 @@ import {
 } from '../../mapper'
 
 import {
-  SemiTypedFloorOptions,
   TypedBoundedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
@@ -86,23 +85,6 @@ export const FLOOR_SEMITYPED_NO_LENGTH_PREFIX = (
   assert(options.minimum >= 0)
   assert(options.size >= options.minimum)
   return encodeArray(buffer, offset, value, options.prefixEncodings, context)
-}
-
-export const FLOOR_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[],
-  options: SemiTypedFloorOptions, context: EncodingContext
-): number => {
-  assert(options.minimum >= 0)
-  const lengthBytes: number =
-    FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum
-    }, context)
-
-  return lengthBytes + FLOOR_SEMITYPED_NO_LENGTH_PREFIX(buffer, offset + lengthBytes, value, {
-    minimum: options.minimum,
-    size: value.length,
-    prefixEncodings: options.prefixEncodings
-  }, context)
 }
 
 export const BOUNDED_TYPED_LENGTH_PREFIX = (

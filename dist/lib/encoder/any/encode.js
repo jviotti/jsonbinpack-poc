@@ -36,9 +36,14 @@ var ANY_TYPE_PREFIX = function (buffer, offset, value, _options, context) {
         if (size > limits_1.UINT5_MAX - 1) {
             var typeTag_1 = types_1.getTypeTag(types_1.Type.Array, 0);
             var tagBytes_1 = encodeTypeTag(buffer, offset, typeTag_1, context);
-            var valueBytes_1 = encode_5.FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, offset + tagBytes_1, value, {
+            var valueBytes_1 = encode_5.FLOOR_TYPED_LENGTH_PREFIX(buffer, offset + tagBytes_1, value, {
                 minimum: 0,
-                prefixEncodings: []
+                prefixEncodings: [],
+                encoding: {
+                    type: encoding_type_1.EncodingType.Any,
+                    encoding: 'ANY_TYPE_PREFIX',
+                    options: {}
+                }
             }, context);
             return tagBytes_1 + valueBytes_1;
         }

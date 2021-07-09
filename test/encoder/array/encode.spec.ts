@@ -28,41 +28,11 @@ import {
 } from '../../../lib/encoder'
 
 import {
-  FLOOR_SEMITYPED_LENGTH_PREFIX,
-
   BOUNDED_TYPED_LENGTH_PREFIX,
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX,
   ROOF_TYPED_LENGTH_PREFIX,
   FLOOR_TYPED_LENGTH_PREFIX
 } from '../../../lib/encoder/array/encode'
-
-tap.test('FLOOR_SEMITYPED_LENGTH_PREFIX: should encode [ "foo", true, 2000 ]', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
-  const bytesWritten: number = FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, 0, [
-    'foo', true, 2000
-  ], {
-    prefixEncodings: [],
-    minimum: 3
-  }, context)
-
-  test.strictSame(buffer.getBuffer(), Buffer.from([
-    // Array length
-    0x00,
-
-    // "foo"
-    0x21, 0x66, 0x6f, 0x6f,
-
-    // True
-    0x0f,
-
-    // 2000
-    0x1f, 0xd0, 0x0f
-  ]))
-
-  test.is(bytesWritten, 9)
-  test.end()
-})
 
 tap.test('BOUNDED_TYPED_LENGTH_PREFIX: should encode [ true, false, true ]', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
@@ -212,31 +182,6 @@ tap.test('FLOOR_TYPED_LENGTH_PREFIX: should encode [ true, false, true ]', (test
     0x00,
 
     0x01, 0x00, 0x01
-  ]))
-
-  test.is(bytesWritten, 4)
-  test.end()
-})
-
-tap.test('FLOOR_SEMITYPED_LENGTH_PREFIX: should encode [ typed:true, typed:false, true ]', (test) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const encoding: Encoding = getEncoding({
-    type: 'boolean'
-  }, 1)
-
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
-  const bytesWritten: number = FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, 0, [
-    true, false, true
-  ], {
-    minimum: 2,
-    prefixEncodings: [ encoding, encoding ]
-  }, context)
-
-  test.strictSame(buffer.getBuffer(), Buffer.from([
-    // Array length
-    0x01,
-
-    0x01, 0x00, 0x0f
   ]))
 
   test.is(bytesWritten, 4)

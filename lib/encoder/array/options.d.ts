@@ -28,7 +28,7 @@ interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];
 }
 
-export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
+interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
 
 export interface SizeSemiTypedFloorOptions extends SemiTypedFloorOptions {
   readonly size: number;
@@ -43,7 +43,6 @@ interface TypedRoofOptions extends RoofOptions, TypedOptions {}
 interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 
 export type ArrayOptions =
-  SemiTypedFloorOptions |
   TypedFloorOptions |
   TypedRoofOptions |
   TypedBoundedOptions |
