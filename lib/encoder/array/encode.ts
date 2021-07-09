@@ -81,26 +81,6 @@ const encodeArray = (
   return cursor - offset
 }
 
-export const BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions, context: EncodingContext
-): number => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-  assert(value.length >= options.minimum)
-  assert(value.length <= options.maximum)
-  assert(options.maximum - options.minimum <= UINT8_MAX)
-
-  const lengthBytes: number = options.maximum === options.minimum
-    ? 0
-    : BOUNDED_8BITS_ENUM_FIXED(buffer, offset, value.length, {
-      minimum: options.minimum,
-      maximum: options.maximum
-    }, context)
-
-  return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context)
-}
-
 export const BOUNDED_SEMITYPED_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[], options: SemiTypedBoundedOptions, context: EncodingContext
 ): number => {

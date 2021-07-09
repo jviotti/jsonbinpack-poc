@@ -74,10 +74,25 @@ var getArrayEncoding = function (schema, level) {
     if (typeof encodingSchema === 'undefined') {
         if (typeof schema.minItems !== 'undefined' &&
             typeof schema.maxItems !== 'undefined') {
+            if (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX) {
+                return {
+                    type: encoder_1.EncodingType.Array,
+                    encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+                    options: {
+                        minimum: schema.minItems,
+                        maximum: schema.maxItems,
+                        prefixEncodings: prefixEncodings,
+                        encoding: {
+                            type: encoder_1.EncodingType.Any,
+                            encoding: 'ANY_TYPE_PREFIX',
+                            options: {}
+                        }
+                    }
+                };
+            }
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
-                    ? 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' : 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
                 options: {
                     minimum: schema.minItems,
                     maximum: schema.maxItems,
@@ -90,11 +105,16 @@ var getArrayEncoding = function (schema, level) {
             if (schema.maxItems <= limits_1.UINT8_MAX) {
                 return {
                     type: encoder_1.EncodingType.Array,
-                    encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
+                    encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
                     options: {
                         minimum: 0,
                         maximum: schema.maxItems,
-                        prefixEncodings: prefixEncodings
+                        prefixEncodings: prefixEncodings,
+                        encoding: {
+                            type: encoder_1.EncodingType.Any,
+                            encoding: 'ANY_TYPE_PREFIX',
+                            options: {}
+                        }
                     }
                 };
             }

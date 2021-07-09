@@ -65,12 +65,6 @@ import {
   EncodingSchema
 } from '../schema'
 
-export interface BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedBoundedOptions;
-}
-
 export interface BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
   readonly encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX';
@@ -127,7 +121,6 @@ export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinitio
 
 export type ArrayEncodingNames =
   EnumEncodingNames |
-  'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' |
   'BOUNDED_SEMITYPED_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_LENGTH_PREFIX' |
@@ -140,7 +133,6 @@ export type ArrayEncodingNames =
 
 export type ArrayEncoding =
   EnumEncoding |
-  BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING |
@@ -202,10 +194,26 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
   if (typeof encodingSchema === 'undefined') {
     if (typeof schema.minItems !== 'undefined' &&
       typeof schema.maxItems !== 'undefined') {
+      if (schema.maxItems - schema.minItems <= UINT8_MAX) {
+        return {
+          type: EncodingType.Array,
+          encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+          options: {
+            minimum: schema.minItems,
+            maximum: schema.maxItems,
+            prefixEncodings,
+            encoding: {
+              type: EncodingType.Any,
+              encoding: 'ANY_TYPE_PREFIX',
+              options: {}
+            }
+          }
+        }
+      }
+
       return {
         type: EncodingType.Array,
-        encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
-          ? 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' : 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
         options: {
           minimum: schema.minItems,
           maximum: schema.maxItems,
@@ -217,11 +225,16 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       if (schema.maxItems <= UINT8_MAX) {
         return {
           type: EncodingType.Array,
-          encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
+          encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
           options: {
             minimum: 0,
             maximum: schema.maxItems,
-            prefixEncodings
+            prefixEncodings,
+            encoding: {
+              type: EncodingType.Any,
+              encoding: 'ANY_TYPE_PREFIX',
+              options: {}
+            }
           }
         }
       }
