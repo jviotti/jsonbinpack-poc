@@ -41,7 +41,6 @@ import {
   SemiTypedFloorOptions,
   SemiTypedRoofOptions,
   SemiTypedBoundedOptions,
-  TypedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions,
@@ -139,12 +138,6 @@ export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinitio
   readonly options: TypedRoofOptions;
 }
 
-export interface UNBOUNDED_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX';
-  readonly options: TypedOptions;
-}
-
 export type ArrayEncodingNames =
   EnumEncodingNames |
   'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' |
@@ -158,8 +151,7 @@ export type ArrayEncodingNames =
   'BOUNDED_TYPED_LENGTH_PREFIX' |
   'FLOOR_TYPED_LENGTH_PREFIX' |
   'ROOF_8BITS_TYPED_LENGTH_PREFIX' |
-  'ROOF_TYPED_LENGTH_PREFIX' |
-  'UNBOUNDED_TYPED_LENGTH_PREFIX'
+  'ROOF_TYPED_LENGTH_PREFIX'
 
 export type ArrayEncoding =
   EnumEncoding |
@@ -174,8 +166,7 @@ export type ArrayEncoding =
   BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_TYPED_LENGTH_PREFIX_ENCODING |
   ROOF_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_TYPED_LENGTH_PREFIX_ENCODING |
-  UNBOUNDED_TYPED_LENGTH_PREFIX_ENCODING
+  ROOF_TYPED_LENGTH_PREFIX_ENCODING
 
 export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[] => {
   if (typeof schema.maxItems === 'number' &&
@@ -306,10 +297,12 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       }
     }
   }
+
   return {
     type: EncodingType.Array,
-    encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
     options: {
+      minimum: 0,
       encoding: getEncoding(encodingSchema, level + 1),
       prefixEncodings
     }

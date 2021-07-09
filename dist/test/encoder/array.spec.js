@@ -25,7 +25,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
 var fc = __importStar(require("fast-check"));
 var util = __importStar(require("util"));
-var mapper_1 = require("../../lib/mapper");
 var encode_1 = require("../../lib/encoder/array/encode");
 var decode_1 = require("../../lib/encoder/array/decode");
 var encoder_1 = require("../../lib/encoder");
@@ -71,29 +70,6 @@ tap_1.default.test('UNBOUNDED_SEMITYPED_LENGTH_PREFIX (scalars)', function (test
         }, context);
         var result = decode_1.UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
             prefixEncodings: []
-        });
-        return bytesWritten > 0 && result.bytes === bytesWritten &&
-            util.isDeepStrictEqual(result.value, value);
-    }), {
-        verbose: false
-    });
-    test.end();
-});
-tap_1.default.test('UNBOUNDED_TYPED_LENGTH_PREFIX ([], integer)', function (test) {
-    fc.assert(fc.property(fc.array(fc.integer()), function (value) {
-        var context = encoder_1.getDefaultEncodingContext();
-        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2048));
-        var offset = 0;
-        var encoding = mapper_1.getEncoding({
-            type: 'integer'
-        }, 1);
-        var bytesWritten = encode_1.UNBOUNDED_TYPED_LENGTH_PREFIX(buffer, offset, value, {
-            prefixEncodings: [],
-            encoding: encoding
-        }, context);
-        var result = decode_1.UNBOUNDED_TYPED_LENGTH_PREFIX(buffer, offset, {
-            prefixEncodings: [],
-            encoding: encoding
         });
         return bytesWritten > 0 && result.bytes === bytesWritten &&
             util.isDeepStrictEqual(result.value, value);

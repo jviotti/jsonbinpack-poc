@@ -41,7 +41,6 @@ import {
   SemiTypedBoundedOptions,
   SemiTypedFloorOptions,
   SemiTypedRoofOptions,
-  TypedOptions,
   TypedBoundedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
@@ -270,12 +269,3 @@ export const FLOOR_TYPED_LENGTH_PREFIX = (
     buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
 }
 
-export const UNBOUNDED_TYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, value: JSONValue[], options: TypedOptions, context: EncodingContext
-): number => {
-  return FLOOR_TYPED_LENGTH_PREFIX(buffer, offset, value, {
-    minimum: 0,
-    encoding: options.encoding,
-    prefixEncodings: options.prefixEncodings
-  }, context)
-}

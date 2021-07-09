@@ -336,8 +336,9 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+                    "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
                     "options": {
+                      "minimum": 0,
                       "encoding": {
                         "type": "string",
                         "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
@@ -371,8 +372,9 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+                    "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
                     "options": {
+                      "minimum": 0,
                       "encoding": {
                         "type": "boolean",
                         "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
@@ -404,8 +406,9 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+                    "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
                     "options": {
+                      "minimum": 0,
                       "encoding": {
                         "type": "string",
                         "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
@@ -439,8 +442,9 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+                    "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
                     "options": {
+                      "minimum": 0,
                       "encoding": {
                         "type": "string",
                         "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
@@ -474,8 +478,9 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+                    "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
                     "options": {
+                      "minimum": 0,
                       "encoding": {
                         "type": "string",
                         "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
@@ -509,8 +514,9 @@
                   },
                   {
                     "type": "array",
-                    "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+                    "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
                     "options": {
+                      "minimum": 0,
                       "encoding": {
                         "type": "string",
                         "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",

@@ -48,7 +48,6 @@ import {
 } from '../../utils/limits'
 
 import {
-  TypedOptions,
   TypedRoofOptions,
   TypedFloorOptions,
   TypedBoundedOptions,
@@ -278,14 +277,4 @@ export const FLOOR_TYPED_LENGTH_PREFIX = (
   return decodeArray(
     buffer, offset, lengthResult.bytes, lengthResult.value,
     options.prefixEncodings, options.encoding)
-}
-
-export const UNBOUNDED_TYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: TypedOptions
-): ArrayResult => {
-  return FLOOR_TYPED_LENGTH_PREFIX(buffer, offset, {
-    minimum: 0,
-    prefixEncodings: options.prefixEncodings,
-    encoding: options.encoding
-  })
 }

@@ -49,7 +49,6 @@ export type ArrayOptions =
   SemiTypedFloorOptions |
   SemiTypedRoofOptions |
   SemiTypedBoundedOptions |
-  TypedOptions |
   TypedFloorOptions |
   TypedRoofOptions |
   TypedBoundedOptions |

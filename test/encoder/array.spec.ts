@@ -19,14 +19,8 @@ import * as fc from 'fast-check'
 import * as util from 'util'
 
 import {
-  JSONValue,
-  JSONNumber
+  JSONValue
 } from '../../lib/json'
-
-import {
-  Encoding,
-  getEncoding
-} from '../../lib/mapper'
 
 import {
   SemiTypedOptions,
@@ -35,14 +29,12 @@ import {
 
 import {
   UNBOUNDED_SEMITYPED_LENGTH_PREFIX as ENCODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX,
-  UNBOUNDED_TYPED_LENGTH_PREFIX as ENCODE_UNBOUNDED_TYPED_LENGTH_PREFIX,
   BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX as ENCODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX
 } from '../../lib/encoder/array/encode'
 
 import {
   ArrayResult,
   UNBOUNDED_SEMITYPED_LENGTH_PREFIX as DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX,
-  UNBOUNDED_TYPED_LENGTH_PREFIX as DECODE_UNBOUNDED_TYPED_LENGTH_PREFIX,
   BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX as DECODE_BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX
 } from '../../lib/encoder/array/decode'
 
@@ -115,37 +107,6 @@ tap.test('UNBOUNDED_SEMITYPED_LENGTH_PREFIX (scalars)', (test) => {
     const result: ArrayResult =
       DECODE_UNBOUNDED_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
         prefixEncodings: []
-      })
-
-    return bytesWritten > 0 && result.bytes === bytesWritten &&
-      util.isDeepStrictEqual(result.value, value)
-  }), {
-    verbose: false
-  })
-
-  test.end()
-})
-
-tap.test('UNBOUNDED_TYPED_LENGTH_PREFIX ([], integer)', (test) => {
-  fc.assert(fc.property(fc.array(fc.integer()), (value: JSONNumber[]): boolean => {
-    const context: EncodingContext = getDefaultEncodingContext()
-    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
-    const offset: number = 0
-
-    const encoding: Encoding = getEncoding({
-      type: 'integer'
-    }, 1)
-
-    const bytesWritten: number =
-      ENCODE_UNBOUNDED_TYPED_LENGTH_PREFIX(buffer, offset, value, {
-        prefixEncodings: [],
-        encoding
-      }, context)
-
-    const result: ArrayResult =
-      DECODE_UNBOUNDED_TYPED_LENGTH_PREFIX(buffer, offset, {
-        prefixEncodings: [],
-        encoding
       })
 
     return bytesWritten > 0 && result.bytes === bytesWritten &&

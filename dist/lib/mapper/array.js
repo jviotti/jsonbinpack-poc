@@ -157,8 +157,9 @@ var getArrayEncoding = function (schema, level) {
     }
     return {
         type: encoder_1.EncodingType.Array,
-        encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             encoding: index_1.getEncoding(encodingSchema, level + 1),
             prefixEncodings: prefixEncodings
         }
