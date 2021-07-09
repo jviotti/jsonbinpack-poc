@@ -1,41 +1,6 @@
 Enum Encodings
 --------------
 
-### `TOP_LEVEL_8BIT_CHOICE_INDEX`
-
-This encoding stores the indexes of an enumeration consisting of up to 255
-elements. The index is stored as an unsigned 8-bit integer minus 1. The first
-element of the enumeration set is not encoded and is instead represented by the
-absence of the data in the buffer.
-
-#### Options
-
-| Option    | Type    | Description                 |
-|-----------|---------|-----------------------------|
-| `choices` | `any[]` | The set of choice values    |
-
-#### Conditions
-
-| Condition                | Description                                            |
-|--------------------------|--------------------------------------------------------|
-| `len(choices) > 0`       | The choices array is not empty                         |
-| `len(choices) <  2 ** 8` | The number of choices must be representable in 8 bits  |
-| `value in choices`       | The input value is included in the set of choices      |
-
-#### Examples
-
-Given an enumeration `[ 'foo', 'bar', 'baz' ]` and an input value 'bar', the
-encoding results in the unsigned 8 bit integer 0:
-
-```
-+------+
-| 0x00 |
-+------+
-```
-
-Given an enumeration `[ 'foo', 'bar', 'baz' ]` and an input value 'foo', the
-encoding results in an empty buffer.
-
 ### `BOUNDED_CHOICE_INDEX`
 
 This encoding stores the indexes of an enumeration consisting of up to 256
@@ -104,3 +69,38 @@ variable-length unsigned integer 300:
 | 0xac | 0x02 |
 +------+------+
 ```
+
+### `TOP_LEVEL_8BIT_CHOICE_INDEX`
+
+This encoding stores the indexes of an enumeration consisting of up to 255
+elements. The index is stored as an unsigned 8-bit integer minus 1. The first
+element of the enumeration set is not encoded and is instead represented by the
+absence of the data in the buffer.
+
+#### Options
+
+| Option    | Type    | Description                 |
+|-----------|---------|-----------------------------|
+| `choices` | `any[]` | The set of choice values    |
+
+#### Conditions
+
+| Condition                | Description                                            |
+|--------------------------|--------------------------------------------------------|
+| `len(choices) > 0`       | The choices array is not empty                         |
+| `len(choices) <  2 ** 8` | The number of choices must be representable in 8 bits  |
+| `value in choices`       | The input value is included in the set of choices      |
+
+#### Examples
+
+Given an enumeration `[ 'foo', 'bar', 'baz' ]` and an input value 'bar', the
+encoding results in the unsigned 8 bit integer 0:
+
+```
++------+
+| 0x00 |
++------+
+```
+
+Given an enumeration `[ 'foo', 'bar', 'baz' ]` and an input value 'foo', the
+encoding results in an empty buffer.
