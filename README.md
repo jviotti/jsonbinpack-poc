@@ -30,8 +30,9 @@ Additionally, we are tracking the following major changes:
 - [ ] Implement support for inline binary blobs defined with the
   `contentEncoding` JSON Schema keyword
 
-Don't hesitate in getting in touch if you require guidance on contributing to
-the project.
+Don't hesitate in getting in touch [by creating a
+ticket](https://github.com/jviotti/jsonbinpack/issues) if you require any
+guidance on contributing to the project.
 
 License
 -------
