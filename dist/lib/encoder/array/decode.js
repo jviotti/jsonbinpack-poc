@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = void 0;
+exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FIXED_TYPED_ARRAY = void 0;
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
-var decode_2 = require("../any/decode");
 var index_1 = require("../index");
 var limits_1 = require("../../utils/limits");
 var decodeArray = function (buffer, offset, bytesWritten, length, prefixEncodings, defaultEncoding) {
@@ -13,9 +12,7 @@ var decodeArray = function (buffer, offset, bytesWritten, length, prefixEncoding
     var result = [];
     while (index < length) {
         var encoding = (_a = prefixEncodings[index]) !== null && _a !== void 0 ? _a : defaultEncoding;
-        var elementResult = typeof encoding === 'undefined'
-            ? decode_2.ANY_TYPE_PREFIX(buffer, cursor, {})
-            : index_1.decode(buffer, cursor, encoding);
+        var elementResult = index_1.decode(buffer, cursor, encoding);
         cursor += elementResult.bytes;
         result.push(elementResult.value);
         index += 1;
@@ -25,12 +22,11 @@ var decodeArray = function (buffer, offset, bytesWritten, length, prefixEncoding
         bytes: cursor - (offset + bytesWritten) + bytesWritten
     };
 };
-var FLOOR_SEMITYPED_NO_LENGTH_PREFIX = function (buffer, offset, options) {
-    assert_1.strict(options.minimum >= 0);
+var FIXED_TYPED_ARRAY = function (buffer, offset, options) {
     assert_1.strict(options.size >= 0);
-    return decodeArray(buffer, offset, 0, options.size, options.prefixEncodings);
+    return decodeArray(buffer, offset, 0, options.size, options.prefixEncodings, options.encoding);
 };
-exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = FLOOR_SEMITYPED_NO_LENGTH_PREFIX;
+exports.FIXED_TYPED_ARRAY = FIXED_TYPED_ARRAY;
 var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);

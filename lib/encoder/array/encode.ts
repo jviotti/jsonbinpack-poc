@@ -40,7 +40,7 @@ import {
   TypedBoundedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
-  SizeSemiTypedFloorOptions
+  SizeTypedOptions
 } from './options'
 
 import {
@@ -50,41 +50,30 @@ import {
 } from '../integer/encode'
 
 import {
-  ANY_TYPE_PREFIX
-} from '../any/encode'
-
-import {
   EncodingContext
 } from '../context'
 
 const encodeArray = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[],
-  prefixEncodings: Encoding[], context: EncodingContext, defaultEncoding?: Encoding
+  prefixEncodings: Encoding[], context: EncodingContext, defaultEncoding: Encoding
 ): number => {
   let cursor = offset
   for (const [ index, element ] of value.entries()) {
     const encoding: Encoding | undefined = prefixEncodings[index] ?? defaultEncoding
-    if (typeof encoding === 'undefined') {
-      const bytesWritten: number =
-        ANY_TYPE_PREFIX(buffer, cursor, element, {}, context)
-      cursor += bytesWritten
-    } else {
-      const bytesWritten: number =
-        encode(buffer, cursor, encoding, element, context)
-      cursor += bytesWritten
-    }
+    const bytesWritten: number =
+      encode(buffer, cursor, encoding, element, context)
+    cursor += bytesWritten
   }
 
   return cursor - offset
 }
 
-export const FLOOR_SEMITYPED_NO_LENGTH_PREFIX = (
+export const FIXED_TYPED_ARRAY = (
   buffer: ResizableBuffer, offset: number, value: JSONValue[],
-  options: SizeSemiTypedFloorOptions, context: EncodingContext
+  options: SizeTypedOptions, context: EncodingContext
 ): number => {
-  assert(options.minimum >= 0)
-  assert(options.size >= options.minimum)
-  return encodeArray(buffer, offset, value, options.prefixEncodings, context)
+  assert(options.size >= 0)
+  return encodeArray(buffer, offset, value, options.prefixEncodings, context, options.encoding)
 }
 
 export const BOUNDED_TYPED_LENGTH_PREFIX = (

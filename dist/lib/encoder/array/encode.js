@@ -27,12 +27,11 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = void 0;
+exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FIXED_TYPED_ARRAY = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var index_1 = require("../index");
 var encode_1 = require("../integer/encode");
-var encode_2 = require("../any/encode");
 var encodeArray = function (buffer, offset, value, prefixEncodings, context, defaultEncoding) {
     var e_1, _a;
     var _b;
@@ -41,14 +40,8 @@ var encodeArray = function (buffer, offset, value, prefixEncodings, context, def
         for (var _c = __values(value.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
             var _e = __read(_d.value, 2), index = _e[0], element = _e[1];
             var encoding = (_b = prefixEncodings[index]) !== null && _b !== void 0 ? _b : defaultEncoding;
-            if (typeof encoding === 'undefined') {
-                var bytesWritten = encode_2.ANY_TYPE_PREFIX(buffer, cursor, element, {}, context);
-                cursor += bytesWritten;
-            }
-            else {
-                var bytesWritten = index_1.encode(buffer, cursor, encoding, element, context);
-                cursor += bytesWritten;
-            }
+            var bytesWritten = index_1.encode(buffer, cursor, encoding, element, context);
+            cursor += bytesWritten;
         }
     }
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -60,12 +53,11 @@ var encodeArray = function (buffer, offset, value, prefixEncodings, context, def
     }
     return cursor - offset;
 };
-var FLOOR_SEMITYPED_NO_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(options.size >= options.minimum);
-    return encodeArray(buffer, offset, value, options.prefixEncodings, context);
+var FIXED_TYPED_ARRAY = function (buffer, offset, value, options, context) {
+    assert_1.strict(options.size >= 0);
+    return encodeArray(buffer, offset, value, options.prefixEncodings, context, options.encoding);
 };
-exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = FLOOR_SEMITYPED_NO_LENGTH_PREFIX;
+exports.FIXED_TYPED_ARRAY = FIXED_TYPED_ARRAY;
 var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);

@@ -40,7 +40,7 @@ import {
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions,
-  SizeSemiTypedFloorOptions
+  SizeTypedOptions
 } from '../encoder/array/options'
 
 import {
@@ -62,10 +62,10 @@ import {
   EncodingSchema
 } from '../schema'
 
-export interface FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
+export interface FIXED_TYPED_ARRAY_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
-  readonly encoding: 'FLOOR_SEMITYPED_NO_LENGTH_PREFIX';
-  readonly options: SizeSemiTypedFloorOptions;
+  readonly encoding: 'FIXED_TYPED_ARRAY';
+  readonly options: SizeTypedOptions;
 }
 
 export interface BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
@@ -94,7 +94,7 @@ export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinitio
 
 export type ArrayEncodingNames =
   EnumEncodingNames |
-  'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
+  'FIXED_TYPED_ARRAY' |
   'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' |
   'BOUNDED_TYPED_LENGTH_PREFIX' |
   'FLOOR_TYPED_LENGTH_PREFIX' |
@@ -102,7 +102,7 @@ export type ArrayEncodingNames =
 
 export type ArrayEncoding =
   EnumEncoding |
-  FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
+  FIXED_TYPED_ARRAY_ENCODING |
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_TYPED_LENGTH_PREFIX_ENCODING |
