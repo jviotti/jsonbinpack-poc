@@ -9,6 +9,18 @@ Schema.
 Building from source
 --------------------
 
+Requirements:
+
+- Node.js
+- `npm`
+- GNU Make
+
+Installing dependencies:
+
+```sh
+npm install
+```
+
 Compiling the project:
 
 ```sh
