@@ -64,7 +64,7 @@ import {
 
 import {
   ArrayResult,
-  FLOOR_SEMITYPED_LENGTH_PREFIX,
+  FLOOR_TYPED_LENGTH_PREFIX,
   FLOOR_SEMITYPED_NO_LENGTH_PREFIX
 } from '../array/decode'
 
@@ -97,9 +97,14 @@ export const ANY_TYPE_PREFIX = (
   if (isType(Type.Array, tag.value)) {
     const size: number = getMetadata(tag.value)
     const result: ArrayResult = size === 0
-      ? FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, offset + tag.bytes, {
+      ? FLOOR_TYPED_LENGTH_PREFIX(buffer, offset + tag.bytes, {
         minimum: 0,
-        prefixEncodings: []
+        prefixEncodings: [],
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY_TYPE_PREFIX',
+          options: {}
+        }
       })
       : FLOOR_SEMITYPED_NO_LENGTH_PREFIX(buffer, offset + tag.bytes, {
         size: size - 1,

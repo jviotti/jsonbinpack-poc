@@ -48,14 +48,9 @@ import {
 } from '../../utils/limits'
 
 import {
-  TypedOptions,
   TypedRoofOptions,
   TypedFloorOptions,
   TypedBoundedOptions,
-  SemiTypedOptions,
-  SemiTypedRoofOptions,
-  SemiTypedFloorOptions,
-  SemiTypedBoundedOptions,
   SizeSemiTypedFloorOptions
 } from './options'
 
@@ -93,50 +88,6 @@ const decodeArray = (
   }
 }
 
-export const BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedBoundedOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-  assert(options.maximum - options.minimum <= UINT8_MAX)
-
-  const lengthResult: IntegerResult =
-    options.maximum === options.minimum
-      ? {
-        bytes: 0,
-        value: options.maximum
-      }
-      : BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
-        minimum: options.minimum,
-        maximum: options.maximum
-      })
-
-  return decodeArray(
-    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
-}
-
-export const BOUNDED_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedBoundedOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-
-  const lengthResult: IntegerResult =
-    options.maximum === options.minimum
-      ? {
-        bytes: 0,
-        value: options.maximum
-      }
-      : FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: options.minimum
-      })
-
-  return decodeArray(
-    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
-}
-
 export const FLOOR_SEMITYPED_NO_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, options: SizeSemiTypedFloorOptions
 ): ArrayResult => {
@@ -144,54 +95,6 @@ export const FLOOR_SEMITYPED_NO_LENGTH_PREFIX = (
   assert(options.size >= 0)
   return decodeArray(
     buffer, offset, 0, options.size, options.prefixEncodings)
-}
-
-export const FLOOR_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedFloorOptions
-): ArrayResult => {
-  assert(options.minimum >= 0)
-
-  const lengthResult: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: options.minimum
-  })
-
-  return decodeArray(
-    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
-}
-
-export const ROOF_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedRoofOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-
-  const lengthResult: IntegerResult = ROOF_MIRROR_ENUM_VARINT(buffer, offset, {
-    maximum: options.maximum
-  })
-
-  return decodeArray(
-    buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings)
-}
-
-export const ROOF_8BITS_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedRoofOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-  assert(options.maximum <= UINT8_MAX)
-
-  return BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
-    minimum: 0,
-    maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings
-  })
-}
-
-export const UNBOUNDED_SEMITYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: SemiTypedOptions
-): ArrayResult => {
-  return FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, offset, {
-    minimum: 0,
-    prefixEncodings: options.prefixEncodings
-  })
 }
 
 export const BOUNDED_TYPED_LENGTH_PREFIX = (
@@ -252,20 +155,6 @@ export const ROOF_TYPED_LENGTH_PREFIX = (
     options.prefixEncodings, options.encoding)
 }
 
-export const ROOF_8BITS_TYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: TypedRoofOptions
-): ArrayResult => {
-  assert(options.maximum >= 0)
-  assert(options.maximum <= UINT8_MAX)
-
-  return BOUNDED_8BITS_TYPED_LENGTH_PREFIX(buffer, offset, {
-    minimum: 0,
-    maximum: options.maximum,
-    prefixEncodings: options.prefixEncodings,
-    encoding: options.encoding
-  })
-}
-
 export const FLOOR_TYPED_LENGTH_PREFIX = (
   buffer: ResizableBuffer, offset: number, options: TypedFloorOptions
 ): ArrayResult => {
@@ -278,14 +167,4 @@ export const FLOOR_TYPED_LENGTH_PREFIX = (
   return decodeArray(
     buffer, offset, lengthResult.bytes, lengthResult.value,
     options.prefixEncodings, options.encoding)
-}
-
-export const UNBOUNDED_TYPED_LENGTH_PREFIX = (
-  buffer: ResizableBuffer, offset: number, options: TypedOptions
-): ArrayResult => {
-  return FLOOR_TYPED_LENGTH_PREFIX(buffer, offset, {
-    minimum: 0,
-    prefixEncodings: options.prefixEncodings,
-    encoding: options.encoding
-  })
 }

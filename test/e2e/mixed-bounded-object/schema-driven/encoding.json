@@ -22,9 +22,15 @@
           "propertyEncodings": {
             "qux": {
               "type": "array",
-              "encoding": "UNBOUNDED_SEMITYPED_LENGTH_PREFIX",
+              "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
               "options": {
-                "prefixEncodings": []
+                "minimum": 0,
+                "prefixEncodings": [],
+                "encoding": {
+                  "type": "any",
+                  "encoding": "ANY_TYPE_PREFIX",
+                  "options": {}
+                }
               }
             }
           },

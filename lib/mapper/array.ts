@@ -37,11 +37,6 @@ import {
 } from './index'
 
 import {
-  SemiTypedOptions,
-  SemiTypedFloorOptions,
-  SemiTypedRoofOptions,
-  SemiTypedBoundedOptions,
-  TypedOptions,
   TypedFloorOptions,
   TypedRoofOptions,
   TypedBoundedOptions,
@@ -67,46 +62,10 @@ import {
   EncodingSchema
 } from '../schema'
 
-export interface BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedBoundedOptions;
-}
-
-export interface BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedBoundedOptions;
-}
-
 export interface FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
   readonly encoding: 'FLOOR_SEMITYPED_NO_LENGTH_PREFIX';
   readonly options: SizeSemiTypedFloorOptions;
-}
-
-export interface FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedFloorOptions;
-}
-
-export interface ROOF_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedRoofOptions;
-}
-
-export interface ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedRoofOptions;
-}
-
-export interface UNBOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX';
-  readonly options: SemiTypedOptions;
 }
 
 export interface BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
@@ -127,55 +86,27 @@ export interface FLOOR_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefiniti
   readonly options: TypedFloorOptions;
 }
 
-export interface ROOF_8BITS_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'ROOF_8BITS_TYPED_LENGTH_PREFIX';
-  readonly options: TypedRoofOptions;
-}
-
 export interface ROOF_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.Array;
   readonly encoding: 'ROOF_TYPED_LENGTH_PREFIX';
   readonly options: TypedRoofOptions;
 }
 
-export interface UNBOUNDED_TYPED_LENGTH_PREFIX_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.Array;
-  readonly encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX';
-  readonly options: TypedOptions;
-}
-
 export type ArrayEncodingNames =
   EnumEncodingNames |
-  'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' |
-  'BOUNDED_SEMITYPED_LENGTH_PREFIX' |
   'FLOOR_SEMITYPED_NO_LENGTH_PREFIX' |
-  'FLOOR_SEMITYPED_LENGTH_PREFIX' |
-  'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' |
-  'ROOF_SEMITYPED_LENGTH_PREFIX' |
-  'UNBOUNDED_SEMITYPED_LENGTH_PREFIX' |
   'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' |
   'BOUNDED_TYPED_LENGTH_PREFIX' |
   'FLOOR_TYPED_LENGTH_PREFIX' |
-  'ROOF_8BITS_TYPED_LENGTH_PREFIX' |
-  'ROOF_TYPED_LENGTH_PREFIX' |
-  'UNBOUNDED_TYPED_LENGTH_PREFIX'
+  'ROOF_TYPED_LENGTH_PREFIX'
 
 export type ArrayEncoding =
   EnumEncoding |
-  BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING |
-  BOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_SEMITYPED_NO_LENGTH_PREFIX_ENCODING |
-  FLOOR_SEMITYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_8BITS_SEMITYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_SEMITYPED_LENGTH_PREFIX_ENCODING |
-  UNBOUNDED_SEMITYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
   BOUNDED_TYPED_LENGTH_PREFIX_ENCODING |
   FLOOR_TYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_8BITS_TYPED_LENGTH_PREFIX_ENCODING |
-  ROOF_TYPED_LENGTH_PREFIX_ENCODING |
-  UNBOUNDED_TYPED_LENGTH_PREFIX_ENCODING
+  ROOF_TYPED_LENGTH_PREFIX_ENCODING
 
 export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[] => {
   if (typeof schema.maxItems === 'number' &&
@@ -228,43 +159,97 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
   if (typeof encodingSchema === 'undefined') {
     if (typeof schema.minItems !== 'undefined' &&
       typeof schema.maxItems !== 'undefined') {
+      if (schema.maxItems - schema.minItems <= UINT8_MAX) {
+        return {
+          type: EncodingType.Array,
+          encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+          options: {
+            minimum: schema.minItems,
+            maximum: schema.maxItems,
+            prefixEncodings,
+            encoding: {
+              type: EncodingType.Any,
+              encoding: 'ANY_TYPE_PREFIX',
+              options: {}
+            }
+          }
+        }
+      }
+
       return {
         type: EncodingType.Array,
-        encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
-          ? 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' : 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_TYPED_LENGTH_PREFIX',
         options: {
           minimum: schema.minItems,
           maximum: schema.maxItems,
-          prefixEncodings
+          prefixEncodings,
+          encoding: {
+            type: EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+          }
         }
       }
     } else if (typeof schema.minItems === 'undefined' &&
       typeof schema.maxItems !== 'undefined') {
+      if (schema.maxItems <= UINT8_MAX) {
+        return {
+          type: EncodingType.Array,
+          encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+          options: {
+            minimum: 0,
+            maximum: schema.maxItems,
+            prefixEncodings,
+            encoding: {
+              type: EncodingType.Any,
+              encoding: 'ANY_TYPE_PREFIX',
+              options: {}
+            }
+          }
+        }
+      }
+
       return {
         type: EncodingType.Array,
-        encoding: (schema.maxItems <= UINT8_MAX)
-          ? 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' : 'ROOF_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'ROOF_TYPED_LENGTH_PREFIX',
         options: {
           maximum: schema.maxItems,
-          prefixEncodings
+          prefixEncodings,
+          encoding: {
+            type: EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+          }
         }
       }
     } else if (typeof schema.minItems !== 'undefined' &&
       typeof schema.maxItems === 'undefined') {
       return {
         type: EncodingType.Array,
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
           minimum: schema.minItems,
-          prefixEncodings
+          prefixEncodings,
+          encoding: {
+            type: EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+          }
         }
       }
     }
+
     return {
       type: EncodingType.Array,
-      encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+      encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
       options: {
-        prefixEncodings
+        minimum: 0,
+        prefixEncodings,
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY_TYPE_PREFIX',
+          options: {}
+        }
       }
     }
   }
@@ -284,10 +269,22 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     }
   } else if (typeof schema.minItems === 'undefined' &&
     typeof schema.maxItems !== 'undefined') {
+    if (schema.maxItems <= UINT8_MAX) {
+      return {
+        type: EncodingType.Array,
+        encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+        options: {
+          minimum: 0,
+          maximum: schema.maxItems,
+          encoding: getEncoding(encodingSchema, level + 1),
+          prefixEncodings
+        }
+      }
+    }
+
     return {
       type: EncodingType.Array,
-      encoding: (schema.maxItems <= UINT8_MAX)
-        ? 'ROOF_8BITS_TYPED_LENGTH_PREFIX' : 'ROOF_TYPED_LENGTH_PREFIX',
+      encoding: 'ROOF_TYPED_LENGTH_PREFIX',
       options: {
         maximum: schema.maxItems,
         encoding: getEncoding(encodingSchema, level + 1),
@@ -306,10 +303,12 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       }
     }
   }
+
   return {
     type: EncodingType.Array,
-    encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX',
+    encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
     options: {
+      minimum: 0,
       encoding: getEncoding(encodingSchema, level + 1),
       prefixEncodings
     }

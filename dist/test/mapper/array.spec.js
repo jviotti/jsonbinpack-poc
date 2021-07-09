@@ -13,9 +13,15 @@ tap_1.default.test('should encode an arbitrary array', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
-            prefixEncodings: []
+            minimum: 0,
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -29,10 +35,15 @@ tap_1.default.test('should encode an arbitrary array with minItems', function (t
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 10,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -46,10 +57,15 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 256', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'ROOF_TYPED_LENGTH_PREFIX',
         options: {
             maximum: 256,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -63,10 +79,16 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 255', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             maximum: 255,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -80,10 +102,16 @@ tap_1.default.test('should encode an arbitrary array with maxItems < 255', funct
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             maximum: 10,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -98,11 +126,16 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems < 
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 3,
             maximum: 10,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -117,11 +150,16 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems > 
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'BOUNDED_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 30,
             maximum: 450,
-            prefixEncodings: []
+            prefixEncodings: [],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -143,8 +181,9 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             prefixEncodings: [
                 {
                     type: 'integer',
@@ -159,7 +198,12 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
                         maximum: 5
                     }
                 }
-            ]
+            ],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -182,7 +226,7 @@ tap_1.default.test('should encode a semi-typed array with minItems', function (t
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'array',
-        encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
             minimum: 5,
             prefixEncodings: [
@@ -199,7 +243,12 @@ tap_1.default.test('should encode a semi-typed array with minItems', function (t
                         maximum: 5
                     }
                 }
-            ]
+            ],
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            }
         }
     });
     test.end();
@@ -230,9 +279,15 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
             minimum: 5,
             encoding: {
                 type: 'array',
-                encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
                 options: {
-                    prefixEncodings: []
+                    minimum: 0,
+                    prefixEncodings: [],
+                    encoding: {
+                        type: 'any',
+                        encoding: 'ANY_TYPE_PREFIX',
+                        options: {}
+                    }
                 }
             },
             prefixEncodings: [

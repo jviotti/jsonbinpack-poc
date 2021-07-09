@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UNBOUNDED_TYPED_LENGTH_PREFIX = exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_8BITS_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.UNBOUNDED_SEMITYPED_LENGTH_PREFIX = exports.ROOF_8BITS_SEMITYPED_LENGTH_PREFIX = exports.ROOF_SEMITYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = exports.BOUNDED_SEMITYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX = void 0;
+exports.FLOOR_TYPED_LENGTH_PREFIX = exports.ROOF_TYPED_LENGTH_PREFIX = exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = exports.BOUNDED_TYPED_LENGTH_PREFIX = exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var index_1 = require("../index");
@@ -60,82 +60,12 @@ var encodeArray = function (buffer, offset, value, prefixEncodings, context, def
     }
     return cursor - offset;
 };
-var BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(options.maximum >= options.minimum);
-    assert_1.strict(value.length >= options.minimum);
-    assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    var lengthBytes = options.maximum === options.minimum
-        ? 0
-        : encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, value.length, {
-            minimum: options.minimum,
-            maximum: options.maximum
-        }, context);
-    return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context);
-};
-exports.BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX = BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX;
-var BOUNDED_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(options.maximum >= options.minimum);
-    assert_1.strict(value.length >= options.minimum);
-    assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    var lengthBytes = options.maximum === options.minimum
-        ? 0
-        : encode_1.FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-            minimum: options.minimum
-        }, context);
-    return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context);
-};
-exports.BOUNDED_SEMITYPED_LENGTH_PREFIX = BOUNDED_SEMITYPED_LENGTH_PREFIX;
 var FLOOR_SEMITYPED_NO_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.size >= options.minimum);
     return encodeArray(buffer, offset, value, options.prefixEncodings, context);
 };
 exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX = FLOOR_SEMITYPED_NO_LENGTH_PREFIX;
-var FLOOR_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.minimum >= 0);
-    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-        minimum: options.minimum
-    }, context);
-    return lengthBytes + exports.FLOOR_SEMITYPED_NO_LENGTH_PREFIX(buffer, offset + lengthBytes, value, {
-        minimum: options.minimum,
-        size: value.length,
-        prefixEncodings: options.prefixEncodings
-    }, context);
-};
-exports.FLOOR_SEMITYPED_LENGTH_PREFIX = FLOOR_SEMITYPED_LENGTH_PREFIX;
-var ROOF_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(value.length <= options.maximum);
-    var lengthBytes = encode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset, value.length, {
-        maximum: options.maximum
-    }, context);
-    return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context);
-};
-exports.ROOF_SEMITYPED_LENGTH_PREFIX = ROOF_SEMITYPED_LENGTH_PREFIX;
-var ROOF_8BITS_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
-    return exports.BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX(buffer, offset, value, {
-        minimum: 0,
-        maximum: options.maximum,
-        prefixEncodings: options.prefixEncodings
-    }, context);
-};
-exports.ROOF_8BITS_SEMITYPED_LENGTH_PREFIX = ROOF_8BITS_SEMITYPED_LENGTH_PREFIX;
-var UNBOUNDED_SEMITYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    return exports.FLOOR_SEMITYPED_LENGTH_PREFIX(buffer, offset, value, {
-        minimum: 0,
-        prefixEncodings: options.prefixEncodings
-    }, context);
-};
-exports.UNBOUNDED_SEMITYPED_LENGTH_PREFIX = UNBOUNDED_SEMITYPED_LENGTH_PREFIX;
 var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(options.minimum >= 0);
@@ -175,18 +105,6 @@ var ROOF_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding);
 };
 exports.ROOF_TYPED_LENGTH_PREFIX = ROOF_TYPED_LENGTH_PREFIX;
-var ROOF_8BITS_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.maximum >= 0);
-    assert_1.strict(value.length <= options.maximum);
-    assert_1.strict(options.maximum <= limits_1.UINT8_MAX);
-    return exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX(buffer, offset, value, {
-        minimum: 0,
-        maximum: options.maximum,
-        prefixEncodings: options.prefixEncodings,
-        encoding: options.encoding
-    }, context);
-};
-exports.ROOF_8BITS_TYPED_LENGTH_PREFIX = ROOF_8BITS_TYPED_LENGTH_PREFIX;
 var FLOOR_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(value.length >= options.minimum);
@@ -196,11 +114,3 @@ var FLOOR_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, contex
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding);
 };
 exports.FLOOR_TYPED_LENGTH_PREFIX = FLOOR_TYPED_LENGTH_PREFIX;
-var UNBOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
-    return exports.FLOOR_TYPED_LENGTH_PREFIX(buffer, offset, value, {
-        minimum: 0,
-        encoding: options.encoding,
-        prefixEncodings: options.prefixEncodings
-    }, context);
-};
-exports.UNBOUNDED_TYPED_LENGTH_PREFIX = UNBOUNDED_TYPED_LENGTH_PREFIX;

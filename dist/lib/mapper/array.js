@@ -74,26 +74,66 @@ var getArrayEncoding = function (schema, level) {
     if (typeof encodingSchema === 'undefined') {
         if (typeof schema.minItems !== 'undefined' &&
             typeof schema.maxItems !== 'undefined') {
+            if (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX) {
+                return {
+                    type: encoder_1.EncodingType.Array,
+                    encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+                    options: {
+                        minimum: schema.minItems,
+                        maximum: schema.maxItems,
+                        prefixEncodings: prefixEncodings,
+                        encoding: {
+                            type: encoder_1.EncodingType.Any,
+                            encoding: 'ANY_TYPE_PREFIX',
+                            options: {}
+                        }
+                    }
+                };
+            }
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
-                    ? 'BOUNDED_8BITS_SEMITYPED_LENGTH_PREFIX' : 'BOUNDED_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'BOUNDED_TYPED_LENGTH_PREFIX',
                 options: {
                     minimum: schema.minItems,
                     maximum: schema.maxItems,
-                    prefixEncodings: prefixEncodings
+                    prefixEncodings: prefixEncodings,
+                    encoding: {
+                        type: encoder_1.EncodingType.Any,
+                        encoding: 'ANY_TYPE_PREFIX',
+                        options: {}
+                    }
                 }
             };
         }
         else if (typeof schema.minItems === 'undefined' &&
             typeof schema.maxItems !== 'undefined') {
+            if (schema.maxItems <= limits_1.UINT8_MAX) {
+                return {
+                    type: encoder_1.EncodingType.Array,
+                    encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+                    options: {
+                        minimum: 0,
+                        maximum: schema.maxItems,
+                        prefixEncodings: prefixEncodings,
+                        encoding: {
+                            type: encoder_1.EncodingType.Any,
+                            encoding: 'ANY_TYPE_PREFIX',
+                            options: {}
+                        }
+                    }
+                };
+            }
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: (schema.maxItems <= limits_1.UINT8_MAX)
-                    ? 'ROOF_8BITS_SEMITYPED_LENGTH_PREFIX' : 'ROOF_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'ROOF_TYPED_LENGTH_PREFIX',
                 options: {
                     maximum: schema.maxItems,
-                    prefixEncodings: prefixEncodings
+                    prefixEncodings: prefixEncodings,
+                    encoding: {
+                        type: encoder_1.EncodingType.Any,
+                        encoding: 'ANY_TYPE_PREFIX',
+                        options: {}
+                    }
                 }
             };
         }
@@ -101,18 +141,29 @@ var getArrayEncoding = function (schema, level) {
             typeof schema.maxItems === 'undefined') {
             return {
                 type: encoder_1.EncodingType.Array,
-                encoding: 'FLOOR_SEMITYPED_LENGTH_PREFIX',
+                encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
                 options: {
                     minimum: schema.minItems,
-                    prefixEncodings: prefixEncodings
+                    prefixEncodings: prefixEncodings,
+                    encoding: {
+                        type: encoder_1.EncodingType.Any,
+                        encoding: 'ANY_TYPE_PREFIX',
+                        options: {}
+                    }
                 }
             };
         }
         return {
             type: encoder_1.EncodingType.Array,
-            encoding: 'UNBOUNDED_SEMITYPED_LENGTH_PREFIX',
+            encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
             options: {
-                prefixEncodings: prefixEncodings
+                minimum: 0,
+                prefixEncodings: prefixEncodings,
+                encoding: {
+                    type: encoder_1.EncodingType.Any,
+                    encoding: 'ANY_TYPE_PREFIX',
+                    options: {}
+                }
             }
         };
     }
@@ -132,10 +183,21 @@ var getArrayEncoding = function (schema, level) {
     }
     else if (typeof schema.minItems === 'undefined' &&
         typeof schema.maxItems !== 'undefined') {
+        if (schema.maxItems <= limits_1.UINT8_MAX) {
+            return {
+                type: encoder_1.EncodingType.Array,
+                encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
+                options: {
+                    minimum: 0,
+                    maximum: schema.maxItems,
+                    encoding: index_1.getEncoding(encodingSchema, level + 1),
+                    prefixEncodings: prefixEncodings
+                }
+            };
+        }
         return {
             type: encoder_1.EncodingType.Array,
-            encoding: (schema.maxItems <= limits_1.UINT8_MAX)
-                ? 'ROOF_8BITS_TYPED_LENGTH_PREFIX' : 'ROOF_TYPED_LENGTH_PREFIX',
+            encoding: 'ROOF_TYPED_LENGTH_PREFIX',
             options: {
                 maximum: schema.maxItems,
                 encoding: index_1.getEncoding(encodingSchema, level + 1),
@@ -157,8 +219,9 @@ var getArrayEncoding = function (schema, level) {
     }
     return {
         type: encoder_1.EncodingType.Array,
-        encoding: 'UNBOUNDED_TYPED_LENGTH_PREFIX',
+        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
+            minimum: 0,
             encoding: index_1.getEncoding(encodingSchema, level + 1),
             prefixEncodings: prefixEncodings
         }

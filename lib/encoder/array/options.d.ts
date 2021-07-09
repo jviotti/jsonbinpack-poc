@@ -24,13 +24,11 @@ import {
   Encoding
 } from '../../mapper'
 
-export interface SemiTypedOptions {
+interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];
 }
 
-export interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
-export interface SemiTypedRoofOptions extends RoofOptions, SemiTypedOptions {}
-export interface SemiTypedBoundedOptions extends BoundedOptions, SemiTypedOptions {}
+interface SemiTypedFloorOptions extends FloorOptions, SemiTypedOptions {}
 
 export interface SizeSemiTypedFloorOptions extends SemiTypedFloorOptions {
   readonly size: number;
@@ -45,11 +43,6 @@ interface TypedRoofOptions extends RoofOptions, TypedOptions {}
 interface TypedBoundedOptions extends BoundedOptions, TypedOptions {}
 
 export type ArrayOptions =
-  SemiTypedOptions |
-  SemiTypedFloorOptions |
-  SemiTypedRoofOptions |
-  SemiTypedBoundedOptions |
-  TypedOptions |
   TypedFloorOptions |
   TypedRoofOptions |
   TypedBoundedOptions |

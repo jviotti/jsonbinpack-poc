@@ -5,8 +5,9 @@
     "propertyEncodings": {
       "foo": {
         "type": "array",
-        "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+        "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
         "options": {
+          "minimum": 0,
           "encoding": {
             "type": "string",
             "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
@@ -33,8 +34,9 @@
             },
             "src": {
               "type": "array",
-              "encoding": "UNBOUNDED_TYPED_LENGTH_PREFIX",
+              "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
               "options": {
+                "minimum": 0,
                 "encoding": {
                   "type": "string",
                   "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
