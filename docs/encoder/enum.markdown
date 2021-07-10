@@ -3,8 +3,8 @@ Enum Encodings
 
 ### `BOUNDED_CHOICE_INDEX`
 
-This encoding stores the indexes of an enumeration consisting of up to 256
-elements. The index is stored as an unsigned 8-bit integer.
+The encoding consists of an index to the enumeration choices encoded as an
+8-bit unsigned integer.
 
 #### Options
 
@@ -42,7 +42,7 @@ encoding results in the unsigned 8 bit integer 0:
 
 ### `LARGE_BOUNDED_CHOICE_INDEX`
 
-This encoding stores the indexes of an enumeration. The index is stored as a
+The encoding consists of an index to the enumeration choices encoded as a
 Base-128 64-bit Little Endian variable-length unsigned integer.
 
 #### Options
@@ -72,10 +72,9 @@ variable-length unsigned integer 300:
 
 ### `TOP_LEVEL_8BIT_CHOICE_INDEX`
 
-This encoding stores the indexes of an enumeration consisting of up to 255
-elements. The index is stored as an unsigned 8-bit integer minus 1. The first
-element of the enumeration set is not encoded and is instead represented by the
-absence of the data in the buffer.
+If the input value corresponds to the index 0 to the enumeration choices, the
+encoding stores no data. Otherwise, the encoding consists of an index to the
+enumeration choices minus 1 encoded as an 8-bit unsigned integer.
 
 #### Options
 
@@ -103,4 +102,4 @@ encoding results in the unsigned 8 bit integer 0:
 ```
 
 Given an enumeration `[ 'foo', 'bar', 'baz' ]` and an input value 'foo', the
-encoding results in an empty buffer.
+value is not encoded.
