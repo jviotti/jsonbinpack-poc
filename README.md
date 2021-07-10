@@ -1,10 +1,8 @@
-jsonbinpack
-===========
-
 ![GitHub Actions](https://github.com/jviotti/jsonbinpack/actions/workflows/nodejs.yml/badge.svg?branch=main)
 
-A space-efficient schema-driven binary JSON serialization format based on JSON
-Schema.
+<h1 align="center">JSON BinPack</h1>
+<p align="center">A space-efficient schema-driven binary JSON serialization format based on JSON
+Schema.</p>
 
 Building from source
 --------------------
