@@ -3,8 +3,7 @@ Boolean Encodings
 
 ### `BOOLEAN_8BITS_ENUM_FIXED`
 
-The input values are encoded as the 8-bit constants `0x00` (false) and `0x01`
-(true).
+The encoding consists of the 8-bit constants `0x00` (false) and `0x01` (true).
 
 #### Options
 
@@ -16,7 +15,7 @@ None
 
 #### Examples
 
-The input value `true` is encoded as:
+The input value `true` is encoded as follows:
 
 ```
 +------+
@@ -24,7 +23,7 @@ The input value `true` is encoded as:
 +------+
 ```
 
-The input value `false` is encoded as:
+The input value `false` is encoded as follows:
 
 ```
 +------+
