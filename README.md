@@ -1,6 +1,9 @@
-![GitHub Actions](https://github.com/jviotti/jsonbinpack/actions/workflows/nodejs.yml/badge.svg?branch=main)
+[![GitHub Actions](https://github.com/jviotti/jsonbinpack/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/jviotti/jsonbinpack/actions/workflows/nodejs.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<h1 align="center">JSON BinPack</h1>
+JSON BinPack
+============
 
 JSON BinPack is an open-source binary [JSON](https://www.json.org)
 serialization format with a strong focus on space efficiency. It can run in
