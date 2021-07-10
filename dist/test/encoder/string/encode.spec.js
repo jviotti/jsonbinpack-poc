@@ -126,17 +126,6 @@ tap_1.default.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', f
     test.is(bytesWritten, 4);
     test.end();
 });
-tap_1.default.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
-    var bytesWritten = encode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', {
-        minimum: 2,
-        maximum: 4
-    }, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([0x02, 0x66, 0x6f, 0x6f]));
-    test.is(bytesWritten, 4);
-    test.end();
-});
 tap_1.default.test('ROOF_PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (..4)', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
@@ -176,27 +165,6 @@ tap_1.default.test('BOUNDED_PREFIX_LENGTH_8BIT_FIXED: should encode a shared str
     };
     var bytesWritten1 = encode_1.BOUNDED_PREFIX_LENGTH_8BIT_FIXED(buffer, 0, 'foo', options, context);
     var bytesWritten2 = encode_1.BOUNDED_PREFIX_LENGTH_8BIT_FIXED(buffer, bytesWritten1, 'foo', options, context);
-    test.strictSame(buffer.getBuffer(), Buffer.from([
-        0x04, 0x66, 0x6f, 0x6f,
-        0x00,
-        0x04,
-        0x05
-    ]));
-    test.is(context.strings.get('foo'), 1);
-    test.false(context.keys.has('foo'));
-    test.is(bytesWritten1, 4);
-    test.is(bytesWritten2, 3);
-    test.end();
-});
-tap_1.default.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
-    var options = {
-        minimum: 0,
-        maximum: 4
-    };
-    var bytesWritten1 = encode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', options, context);
-    var bytesWritten2 = encode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, bytesWritten1, 'foo', options, context);
     test.strictSame(buffer.getBuffer(), Buffer.from([
         0x04, 0x66, 0x6f, 0x6f,
         0x00,

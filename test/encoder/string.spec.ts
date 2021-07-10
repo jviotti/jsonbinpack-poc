@@ -27,7 +27,6 @@ import {
   URL_PROTOCOL_HOST_REST as ENCODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as ENCODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED_PREFIX_LENGTH_8BIT_FIXED as ENCODE_BOUNDED_PREFIX_LENGTH_8BIT_FIXED,
-  BOUNDED_PREFIX_LENGTH_ENUM_VARINT as ENCODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT,
   ROOF_PREFIX_LENGTH_ENUM_VARINT as ENCODE_ROOF_PREFIX_LENGTH_ENUM_VARINT,
   FLOOR_PREFIX_LENGTH_ENUM_VARINT as ENCODE_FLOOR_PREFIX_LENGTH_ENUM_VARINT,
   UTF8_STRING_NO_LENGTH as ENCODE_UTF8_STRING_NO_LENGTH,
@@ -42,7 +41,6 @@ import {
   URL_PROTOCOL_HOST_REST as DECODE_URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET as DECODE_RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED_PREFIX_LENGTH_8BIT_FIXED as DECODE_BOUNDED_PREFIX_LENGTH_8BIT_FIXED,
-  BOUNDED_PREFIX_LENGTH_ENUM_VARINT as DECODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT,
   ROOF_PREFIX_LENGTH_ENUM_VARINT as DECODE_ROOF_PREFIX_LENGTH_ENUM_VARINT,
   FLOOR_PREFIX_LENGTH_ENUM_VARINT as DECODE_FLOOR_PREFIX_LENGTH_ENUM_VARINT,
   UTF8_STRING_NO_LENGTH as DECODE_UTF8_STRING_NO_LENGTH,
@@ -281,38 +279,6 @@ tap.test('BOUNDED_PREFIX_LENGTH_8BIT_FIXED (ASCII)', (test) => {
   test.end()
 })
 
-tap.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
-  const arbitrary = fc.nat(1000).chain((maximum: number) => {
-    return fc.tuple(
-      fc.nat(10),
-      fc.nat(maximum),
-      fc.constant(maximum),
-      fc.string({
-        maxLength: maximum
-      })
-    )
-  })
-
-  fc.assert(fc.property(arbitrary, ([ offset, minimum, maximum, value ]): boolean => {
-    fc.pre(Buffer.byteLength(value, 'utf8') >= minimum)
-    const context: EncodingContext = getDefaultEncodingContext()
-    const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(2048))
-    const bytesWritten: number =
-      ENCODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
-        minimum, maximum
-      }, context)
-    const result: StringResult =
-      DECODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-        minimum, maximum
-      })
-    return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value
-  }), {
-    verbose: false
-  })
-
-  test.end()
-})
-
 tap.test('ROOF_PREFIX_LENGTH_ENUM_VARINT (ASCII)', (test) => {
   const arbitrary = fc.nat(1000).chain((maximum: number) => {
     return fc.tuple(
@@ -444,40 +410,6 @@ tap.test('BOUNDED_PREFIX_LENGTH_8BIT_FIXED: shared string', (
   test.is(decode1.value, 'foo')
 
   const decode2: StringResult = DECODE_BOUNDED_PREFIX_LENGTH_8BIT_FIXED(
-    buffer, decode1.bytes, options)
-
-  test.is(decode2.bytes, bytesWritten2)
-  test.is(decode2.value, 'foo')
-
-  test.end()
-})
-
-tap.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT: shared string', (
-  test
-) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(7))
-  const options: BoundedOptions = {
-    minimum: 0,
-    maximum: 4
-  }
-
-  const bytesWritten1: number = ENCODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, 0, 'foo', options, context)
-
-  const bytesWritten2: number = ENCODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, bytesWritten1, 'foo', options, context)
-
-  test.is(bytesWritten1, 4)
-  test.is(bytesWritten2, 3)
-
-  const decode1: StringResult = DECODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, 0, options)
-
-  test.is(decode1.bytes, bytesWritten1)
-  test.is(decode1.value, 'foo')
-
-  const decode2: StringResult = DECODE_BOUNDED_PREFIX_LENGTH_ENUM_VARINT(
     buffer, decode1.bytes, options)
 
   test.is(decode2.bytes, bytesWritten2)

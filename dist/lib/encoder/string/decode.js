@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var decode_1 = require("../integer/decode");
@@ -103,30 +103,12 @@ var BOUNDED_PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
     };
 };
 exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = BOUNDED_PREFIX_LENGTH_8BIT_FIXED;
-var BOUNDED_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(options.maximum >= options.minimum);
-    var prefix = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: options.minimum
-    });
-    if (prefix.value === types_1.Type.SharedString) {
-        var length_2 = decode_1.FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, {
-            minimum: options.minimum
-        });
-        return readSharedString(buffer, offset, prefix, length_2, -1);
-    }
-    return {
-        value: buffer.toString(STRING_ENCODING, offset + prefix.bytes, offset + prefix.bytes + prefix.value - 1),
-        bytes: prefix.bytes + prefix.value - 1
-    };
-};
-exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = BOUNDED_PREFIX_LENGTH_ENUM_VARINT;
 var ROOF_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
     var prefix = decode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset, options);
     if (prefix.value === options.maximum) {
-        var length_3 = decode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset + prefix.bytes, options);
-        return readSharedString(buffer, offset, prefix, length_3, 1);
+        var length_2 = decode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset + prefix.bytes, options);
+        return readSharedString(buffer, offset, prefix, length_2, 1);
     }
     return {
         value: buffer.toString(STRING_ENCODING, offset + prefix.bytes, offset + prefix.bytes + prefix.value + 1),
@@ -156,8 +138,8 @@ var FLOOR_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     var prefix = decode_1.FLOOR_ENUM_VARINT(buffer, offset, options);
     if (prefix.value === options.minimum) {
-        var length_4 = decode_1.FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, options);
-        return readSharedString(buffer, offset, prefix, length_4, -1);
+        var length_3 = decode_1.FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, options);
+        return readSharedString(buffer, offset, prefix, length_3, -1);
     }
     var result = exports.UTF8_STRING_NO_LENGTH(buffer, offset + prefix.bytes, {
         size: prefix.value - 1
@@ -177,18 +159,18 @@ var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, options) {
             minimum: 0
         });
         var cursor = offset + prefix.bytes - pointer.value;
-        var length_5 = decode_1.FLOOR_ENUM_VARINT(buffer, cursor, {
+        var length_4 = decode_1.FLOOR_ENUM_VARINT(buffer, cursor, {
             minimum: 0
         });
-        if (length_5.value === 0) {
+        if (length_4.value === 0) {
             var result_1 = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, cursor, options);
             return {
                 value: result_1.value,
                 bytes: prefix.bytes + pointer.bytes
             };
         }
-        var result_2 = exports.UTF8_STRING_NO_LENGTH(buffer, cursor + length_5.bytes, {
-            size: length_5.value - 1
+        var result_2 = exports.UTF8_STRING_NO_LENGTH(buffer, cursor + length_4.bytes, {
+            size: length_4.value - 1
         });
         return {
             value: result_2.value,
