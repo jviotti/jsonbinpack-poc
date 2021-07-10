@@ -3,19 +3,17 @@ Array Encodings
 
 ### `FIXED_TYPED_ARRAY`
 
-This encoding consists of the elements of the fixed array encoded in order.
-
-The `prefixEncodings` option provides a sequence of positional encodings that
-correspond to the indexes of the array. If the array index is greater than the
-`prefixEncodings` size, then the `encoding` encoding is used instead.
+The encoding consists of the elements of the fixed array encoded in order. The
+encoding of the element at index `i` is either `prefixEncodings[i]` if set, or
+`encoding`.
 
 #### Options
 
-| Option            | Type         | Description                   |
-|-------------------|--------------|-------------------------------|
-| `size`            | `uint`       | The length of the input array |
-| `prefixEncodings` | `encoding[]` | A set of positional encodings |
-| `encoding`        | `encoding`   | A fallback general encoding   |
+| Option            | Type         | Description          |
+|-------------------|--------------|----------------------|
+| `size`            | `uint`       | The array length     |
+| `prefixEncodings` | `encoding[]` | Positional encodings |
+| `encoding`        | `encoding`   | Element encoding     |
 
 #### Conditions
 
@@ -42,21 +40,18 @@ minimum 0 and maximum 255, the encoding results in:
 
 ### `FLOOR_TYPED_LENGTH_PREFIX`
 
-This encoding consists of the length of array minus the minumum encoded as a
+The encoding consists of the length of the array minus `minimum` encoded as a
 Base-128 64-bit Little Endian variable-length unsigned integer followed by the
-elements encoded in order.
-
-The `prefixEncodings` option provides a sequence of positional encodings that
-correspond to the indexes of the array. If the array index is greater than the
-`prefixEncodings` size, then the `encoding` encoding is used instead.
+elements of the array encoded in order. The encoding of the element at index
+`i` is either `prefixEncodings[i]` if set, or `encoding`.
 
 #### Options
 
 | Option            | Type         | Description                     |
 |-------------------|--------------|---------------------------------|
 | `minimum`         | `uint`       | The minimum length of the array |
-| `prefixEncodings` | `encoding[]` | A set of positional encodings   |
-| `encoding`        | `encoding`   | A fallback general encoding     |
+| `prefixEncodings` | `encoding[]` | Positional encodings            |
+| `encoding`        | `encoding`   | Element encoding                |
 
 #### Conditions
 
@@ -81,21 +76,18 @@ minimum 0 and maximum 255, the encoding results in:
 
 ### `ROOF_TYPED_LENGTH_PREFIX`
 
-This encoding consists of the maximum minus the length of array encoded as a
+The encoding consists of `maximum` minus the length of the array encoded as a
 Base-128 64-bit Little Endian variable-length unsigned integer followed by the
-elements encoded in order.
-
-The `prefixEncodings` option provides a sequence of positional encodings that
-correspond to the indexes of the array. If the array index is greater than the
-`prefixEncodings` size, then the `encoding` encoding is used instead.
+elements of the array encoded in order. The encoding of the element at index
+`i` is either `prefixEncodings[i]` if set, or `encoding`.
 
 #### Options
 
 | Option            | Type         | Description                     |
 |-------------------|--------------|---------------------------------|
 | `maximum`         | `uint`       | The maximum length of the array |
-| `prefixEncodings` | `encoding[]` | A set of positional encodings   |
-| `encoding`        | `encoding`   | A fallback general encoding     |
+| `prefixEncodings` | `encoding[]` | Positional encodings            |
+| `encoding`        | `encoding`   | Element encoding                |
 
 #### Conditions
 
@@ -122,14 +114,11 @@ minimum 0 and maximum 255, the encoding results in:
 
 ### `BOUNDED_8BITS_TYPED_LENGTH_PREFIX`
 
-If the minimum option equals the maximum option, this encoding consists of the
-elements of the fixed array encoded in order. Otherwise, the encoding consists
-of the length of array minus the minumum encoded as an 8-bit unsigned integer
-followed by the elements encoded in order.
-
-The `prefixEncodings` option provides a sequence of positional encodings that
-correspond to the indexes of the array. If the array index is greater than the
-`prefixEncodings` size, then the `encoding` encoding is used instead.
+If `minimum` equals `maximum`, the encoding consists of the elements of the
+array encoded in order. Otherwise, the encoding consists of the length of the
+array minus `minimum` encoded as an 8-bit unsigned integer followed by the
+elements of the array encoded in order. In both cases, the encoding of the
+element at index `i` is either `prefixEncodings[i]` if set, or `encoding`.
 
 #### Options
 
@@ -137,8 +126,8 @@ correspond to the indexes of the array. If the array index is greater than the
 |-------------------|--------------|---------------------------------|
 | `minimum`         | `uint`       | The minimum length of the array |
 | `maximum`         | `uint`       | The maximum length of the array |
-| `prefixEncodings` | `encoding[]` | A set of positional encodings   |
-| `encoding`        | `encoding`   | A fallback general encoding     |
+| `prefixEncodings` | `encoding[]` | Positional encodings |
+| `encoding`        | `encoding`   | Element encoding     |
 
 #### Conditions
 
@@ -168,15 +157,12 @@ minimum 0 and maximum 255, the encoding results in:
 
 ### `BOUNDED_TYPED_LENGTH_PREFIX`
 
-If the minimum option equals the maximum option, this encoding consists of the
-elements of the fixed array encoded in order. Otherwise, the encoding consists
-of the length of array minus the minumum encoded as a Base-128 64-bit Little
-Endian variable-length unsigned integer followed by the elements encoded in
-order.
-
-The `prefixEncodings` option provides a sequence of positional encodings that
-correspond to the indexes of the array. If the array index is greater than the
-`prefixEncodings` size, then the `encoding` encoding is used instead.
+If `minimum` equals `maximum`, the encoding consists of the elements of the
+array encoded in order. Otherwise, the encoding consists of the length of the
+array minus `minimum` encoded as a Base-128 64-bit Little Endian
+variable-length unsigned integer followed by the elements of the array encoded
+in order. In both cases, the encoding of the element at index `i` is either
+`prefixEncodings[i]` if set, or `encoding`.
 
 #### Options
 
@@ -184,8 +170,8 @@ correspond to the indexes of the array. If the array index is greater than the
 |-------------------|--------------|---------------------------------|
 | `minimum`         | `uint`       | The minimum length of the array |
 | `maximum`         | `uint`       | The maximum length of the array |
-| `prefixEncodings` | `encoding[]` | A set of positional encodings   |
-| `encoding`        | `encoding`   | A fallback general encoding     |
+| `prefixEncodings` | `encoding[]` | Positional encodings            |
+| `encoding`        | `encoding`   | Element encoding                |
 
 #### Conditions
 
@@ -211,3 +197,5 @@ minimum 0 and maximum 255, the encoding results in:
 +------+------+------+------+
   size   true   false  5
 ```
+
+<!-- TODO: Show an example that highlights that the size is a var int -->
