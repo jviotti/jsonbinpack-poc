@@ -3,7 +3,8 @@ Boolean Encodings
 
 ### `BOOLEAN_8BITS_ENUM_FIXED`
 
-The encoding consists of the 8-bit constants `0x00` (false) and `0x01` (true).
+The encoding consists of the 8-bit fixed-length constants `0x00` (false) and
+`0x01` (true).
 
 #### Options
 

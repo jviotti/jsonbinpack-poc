@@ -116,9 +116,10 @@ minimum 0 and maximum 255, the encoding results in:
 
 If `minimum` equals `maximum`, the encoding consists of the elements of the
 array encoded in order. Otherwise, the encoding consists of the length of the
-array minus `minimum` encoded as an 8-bit unsigned integer followed by the
-elements of the array encoded in order. In both cases, the encoding of the
-element at index `i` is either `prefixEncodings[i]` if set, or `encoding`.
+array minus `minimum` encoded as an 8-bit fixed-length unsigned integer
+followed by the elements of the array encoded in order. In both cases, the
+encoding of the element at index `i` is either `prefixEncodings[i]` if set, or
+`encoding`.
 
 #### Options
 

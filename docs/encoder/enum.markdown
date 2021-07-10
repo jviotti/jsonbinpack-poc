@@ -4,7 +4,7 @@ Enum Encodings
 ### `BOUNDED_CHOICE_INDEX`
 
 The encoding consists of an index to the enumeration choices encoded as an
-8-bit unsigned integer.
+8-bit fixed-length unsigned integer.
 
 #### Options
 
@@ -74,7 +74,7 @@ variable-length unsigned integer 300:
 
 If the input value corresponds to the index 0 to the enumeration choices, the
 encoding stores no data. Otherwise, the encoding consists of an index to the
-enumeration choices minus 1 encoded as an 8-bit unsigned integer.
+enumeration choices minus 1 encoded as an 8-bit fixed-length unsigned integer.
 
 #### Options
 
