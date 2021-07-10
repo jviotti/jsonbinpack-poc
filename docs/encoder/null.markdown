@@ -3,7 +3,7 @@ Null Encodings
 
 ### `NULL_8BITS_ENUM_FIXED`
 
-The input value is encoded as the 8-bit constant `0x00`.
+The encoding consists in the the 8-bit constant `0x00`.
 
 #### Options
 
@@ -15,7 +15,7 @@ None
 
 #### Examples
 
-The single input value `null` is encoded as:
+The input value `null` is encoded as:
 
 ```
 +------+

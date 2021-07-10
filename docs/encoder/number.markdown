@@ -3,16 +3,13 @@ Number Encodings
 
 ### `DOUBLE_VARINT_TUPLE`
 
-This encoding consists of a sequence of two integers:
-
-- The ZigZag-encoded Base-128 64-bit Little Endian variable-length unsigned
-  integer that represents the integer that results from concatenating integral
-  part of the number followed by the decimal part of the number.
-
-- The ZigZag-encoded Base-128 64-bit Little Endian variable-length unsigned
-  integer that represents the position of the decimal point from the first
-  digit of the integer. A negative position puts the decimal point to the left
-  of the first digit, adding 0s as needed.
+The encoding consists of a sequence of two integers: The signed integer that
+results from concatenating the integral part and the decimal part of the
+number, if any, as a ZigZag-encoded Base-128 64-bit Little Endian
+variable-length unsigned integer; and the position of the decimal mark from the
+first digit of the number encoded as a ZigZag-encoded Base-128 64-bit Little
+Endian variable-length unsigned integer. The presence of a negative integer
+results in left zero-padding.
 
 #### Options
 
