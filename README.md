@@ -1,8 +1,18 @@
 ![GitHub Actions](https://github.com/jviotti/jsonbinpack/actions/workflows/nodejs.yml/badge.svg?branch=main)
 
 <h1 align="center">JSON BinPack</h1>
-<p align="center">A space-efficient schema-driven binary JSON serialization format based on JSON
-Schema.</p>
+
+JSON BinPack is an open-source binary [JSON](https://www.json.org)
+serialization format with a strong focus on space efficiency. It can run in
+schema-driven and schema-less mode to encode any JSON document given a matching
+[JSON Schema](http://json-schema.org).
+
+Documentation
+-------------
+
+The complete documentation is available at the official website:
+
+https://www.jsonbinpack.org
 
 Building from source
 --------------------
