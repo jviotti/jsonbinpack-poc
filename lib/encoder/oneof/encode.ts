@@ -53,6 +53,9 @@ export const ONEOF_CHOICE_INDEX_PREFIX = (
   // Find which of the choices is the one that applies
   let choiceIndex: number = -1
   for (const [ index, definition ] of options.schemas.entries()) {
+    // TODO: By no means we should be doing full-blown JSON Schema validation
+    // here. We should instead be compiling the schema into something simpler
+    // that we can check and use that intead.
     if (validateSchema(definition.schema, value)) {
       choiceIndex = index
       break
