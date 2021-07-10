@@ -21,7 +21,6 @@ import {
   URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED_PREFIX_LENGTH_8BIT_FIXED,
-  BOUNDED_PREFIX_LENGTH_ENUM_VARINT,
   ROOF_PREFIX_LENGTH_ENUM_VARINT,
   UTF8_STRING_NO_LENGTH,
   SHARED_STRING_POINTER_RELATIVE_OFFSET,
@@ -234,21 +233,6 @@ tap.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', (test) => {
   test.end()
 })
 
-tap.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (2..4)', (
-  test
-) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
-  const bytesWritten: number =
-    BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', {
-      minimum: 2,
-      maximum: 4
-    }, context)
-  test.strictSame(buffer.getBuffer(), Buffer.from([ 0x02, 0x66, 0x6f, 0x6f ]))
-  test.is(bytesWritten, 4)
-  test.end()
-})
-
 tap.test('ROOF_PREFIX_LENGTH_ENUM_VARINT: should encode "foo" (..4)', (
   test
 ) => {
@@ -305,44 +289,6 @@ tap.test('BOUNDED_PREFIX_LENGTH_8BIT_FIXED: should encode a shared string', (
     buffer, 0, 'foo', options, context)
 
   const bytesWritten2: number = BOUNDED_PREFIX_LENGTH_8BIT_FIXED(
-    buffer, bytesWritten1, 'foo', options, context)
-
-  test.strictSame(buffer.getBuffer(), Buffer.from([
-    // String length + foo
-    0x04, 0x66, 0x6f, 0x6f,
-
-    // Start of pointer
-    0x00,
-
-    // String length
-    0x04,
-
-    // Pointer (current = 6 - location = 1)
-    0x05
-  ]))
-
-  test.is(context.strings.get('foo'), 1)
-  test.false(context.keys.has('foo'))
-  test.is(bytesWritten1, 4)
-  test.is(bytesWritten2, 3)
-
-  test.end()
-})
-
-tap.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
-  test
-) => {
-  const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
-  const options: BoundedOptions = {
-    minimum: 0,
-    maximum: 4
-  }
-
-  const bytesWritten1: number = BOUNDED_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, 0, 'foo', options, context)
-
-  const bytesWritten2: number = BOUNDED_PREFIX_LENGTH_ENUM_VARINT(
     buffer, bytesWritten1, 'foo', options, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([

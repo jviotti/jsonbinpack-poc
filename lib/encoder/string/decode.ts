@@ -194,31 +194,6 @@ export const BOUNDED_PREFIX_LENGTH_8BIT_FIXED = (
   }
 }
 
-export const BOUNDED_PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, options: BoundedOptions
-): StringResult => {
-  assert(options.minimum >= 0)
-  assert(options.maximum >= options.minimum)
-  const prefix: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: options.minimum
-  })
-
-  if (prefix.value === Type.SharedString) {
-    const length: IntegerResult = FLOOR_ENUM_VARINT(
-      buffer, offset + prefix.bytes, {
-        minimum: options.minimum
-      })
-
-    return readSharedString(buffer, offset, prefix, length, -1)
-  }
-
-  return {
-    value: buffer.toString(
-      STRING_ENCODING, offset + prefix.bytes, offset + prefix.bytes + prefix.value - 1),
-    bytes: prefix.bytes + prefix.value - 1
-  }
-}
-
 export const ROOF_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): StringResult => {

@@ -81,12 +81,6 @@ export interface BOUNDED_PREFIX_LENGTH_8BIT_FIXED_ENCODING extends BaseEncodingD
   readonly options: BoundedOptions;
 }
 
-export interface BOUNDED_PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.String;
-  readonly encoding: 'BOUNDED_PREFIX_LENGTH_ENUM_VARINT';
-  readonly options: BoundedOptions;
-}
-
 export interface ROOF_PREFIX_LENGTH_ENUM_VARINT_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
   readonly encoding: 'ROOF_PREFIX_LENGTH_ENUM_VARINT';
@@ -123,7 +117,6 @@ export type StringEncodingNames =
   'URL_PROTOCOL_HOST_REST' |
   'RFC3339_DATE_INTEGER_TRIPLET' |
   'BOUNDED_PREFIX_LENGTH_8BIT_FIXED' |
-  'BOUNDED_PREFIX_LENGTH_ENUM_VARINT' |
   'ROOF_PREFIX_LENGTH_ENUM_VARINT' |
   'FLOOR_PREFIX_LENGTH_ENUM_VARINT' |
   'UTF8_STRING_NO_LENGTH' |
@@ -135,7 +128,6 @@ export type StringEncoding =
   URL_PROTOCOL_HOST_REST_ENCODING |
   RFC3339_DATE_INTEGER_TRIPLET_ENCODING |
   BOUNDED_PREFIX_LENGTH_8BIT_FIXED_ENCODING |
-  BOUNDED_PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   ROOF_PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   FLOOR_PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   UTF8_STRING_NO_LENGTH_ENCODING |
@@ -178,13 +170,22 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
     schema.maxLength >= schema.minLength)
 
   if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
+    if (schema.maxLength - schema.minLength <= UINT8_MAX - 1) {
+      return {
+        type: EncodingType.String,
+        encoding: 'BOUNDED_PREFIX_LENGTH_8BIT_FIXED',
+        options: {
+          minimum: schema.minLength,
+          maximum: schema.maxLength
+        }
+      }
+    }
+
     return {
       type: EncodingType.String,
-      encoding: (schema.maxLength - schema.minLength <= UINT8_MAX - 1)
-        ? 'BOUNDED_PREFIX_LENGTH_8BIT_FIXED' : 'BOUNDED_PREFIX_LENGTH_ENUM_VARINT',
+      encoding: 'FLOOR_PREFIX_LENGTH_ENUM_VARINT',
       options: {
-        minimum: schema.minLength,
-        maximum: schema.maxLength
+        minimum: schema.minLength
       }
     }
   } else if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength === 'undefined') {

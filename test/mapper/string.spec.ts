@@ -195,10 +195,9 @@ tap.test('should encode a string with minLength and maxLength > 255', (
   test.is(getStates(schema), Infinity)
   test.strictSame(result, {
     type: 'string',
-    encoding: 'BOUNDED_PREFIX_LENGTH_ENUM_VARINT',
+    encoding: 'FLOOR_PREFIX_LENGTH_ENUM_VARINT',
     options: {
-      minimum: 100,
-      maximum: 600
+      minimum: 100
     }
   })
 

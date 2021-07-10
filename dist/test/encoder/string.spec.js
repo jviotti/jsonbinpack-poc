@@ -217,29 +217,6 @@ tap_1.default.test('BOUNDED_PREFIX_LENGTH_8BIT_FIXED (ASCII)', function (test) {
     });
     test.end();
 });
-tap_1.default.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
-    var arbitrary = fc.nat(1000).chain(function (maximum) {
-        return fc.tuple(fc.nat(10), fc.nat(maximum), fc.constant(maximum), fc.string({
-            maxLength: maximum
-        }));
-    });
-    fc.assert(fc.property(arbitrary, function (_a) {
-        var _b = __read(_a, 4), offset = _b[0], minimum = _b[1], maximum = _b[2], value = _b[3];
-        fc.pre(Buffer.byteLength(value, 'utf8') >= minimum);
-        var context = encoder_1.getDefaultEncodingContext();
-        var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(2048));
-        var bytesWritten = encode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, value, {
-            minimum: minimum, maximum: maximum
-        }, context);
-        var result = decode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
-            minimum: minimum, maximum: maximum
-        });
-        return bytesWritten > 0 && result.bytes === bytesWritten && result.value === value;
-    }), {
-        verbose: false
-    });
-    test.end();
-});
 tap_1.default.test('ROOF_PREFIX_LENGTH_ENUM_VARINT (ASCII)', function (test) {
     var arbitrary = fc.nat(1000).chain(function (maximum) {
         return fc.tuple(fc.nat(10), fc.constant(maximum), fc.string({
@@ -331,25 +308,6 @@ tap_1.default.test('BOUNDED_PREFIX_LENGTH_8BIT_FIXED: shared string', function (
     test.is(decode1.bytes, bytesWritten1);
     test.is(decode1.value, 'foo');
     var decode2 = decode_1.BOUNDED_PREFIX_LENGTH_8BIT_FIXED(buffer, decode1.bytes, options);
-    test.is(decode2.bytes, bytesWritten2);
-    test.is(decode2.value, 'foo');
-    test.end();
-});
-tap_1.default.test('BOUNDED_PREFIX_LENGTH_ENUM_VARINT: shared string', function (test) {
-    var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(7));
-    var options = {
-        minimum: 0,
-        maximum: 4
-    };
-    var bytesWritten1 = encode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, 0, 'foo', options, context);
-    var bytesWritten2 = encode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, bytesWritten1, 'foo', options, context);
-    test.is(bytesWritten1, 4);
-    test.is(bytesWritten2, 3);
-    var decode1 = decode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, 0, options);
-    test.is(decode1.bytes, bytesWritten1);
-    test.is(decode1.value, 'foo');
-    var decode2 = decode_1.BOUNDED_PREFIX_LENGTH_ENUM_VARINT(buffer, decode1.bytes, options);
     test.is(decode2.bytes, bytesWritten2);
     test.is(decode2.value, 'foo');
     test.end();

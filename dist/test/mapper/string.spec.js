@@ -142,10 +142,9 @@ tap_1.default.test('should encode a string with minLength and maxLength > 255', 
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'string',
-        encoding: 'BOUNDED_PREFIX_LENGTH_ENUM_VARINT',
+        encoding: 'FLOOR_PREFIX_LENGTH_ENUM_VARINT',
         options: {
-            minimum: 100,
-            maximum: 600
+            minimum: 100
         }
     });
     test.end();

@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = exports.UTF8_STRING_NO_LENGTH = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = void 0;
+exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = exports.UTF8_STRING_NO_LENGTH = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var encode_1 = require("../integer/encode");
@@ -152,21 +152,6 @@ var BOUNDED_PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, value, options,
     return result + prefixBytes + bytesWritten;
 };
 exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = BOUNDED_PREFIX_LENGTH_8BIT_FIXED;
-var BOUNDED_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, context) {
-    assert_1.strict(options.minimum >= 0);
-    assert_1.strict(options.minimum <= options.maximum);
-    assert_1.strict(options.maximum >= 0);
-    var length = Buffer.byteLength(value, STRING_ENCODING);
-    assert_1.strict(length >= options.minimum);
-    assert_1.strict(length <= options.maximum);
-    var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
-    var bytesWritten = encode_1.FLOOR_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
-        minimum: options.minimum
-    }, context);
-    var result = writeMaybeSharedString(buffer, offset + prefixBytes + bytesWritten, value, length, context);
-    return result + prefixBytes + bytesWritten;
-};
-exports.BOUNDED_PREFIX_LENGTH_ENUM_VARINT = BOUNDED_PREFIX_LENGTH_ENUM_VARINT;
 var ROOF_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, context) {
     var length = Buffer.byteLength(value, STRING_ENCODING);
     assert_1.strict(options.maximum >= 0);

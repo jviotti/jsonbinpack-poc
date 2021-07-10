@@ -243,29 +243,6 @@ export const BOUNDED_PREFIX_LENGTH_8BIT_FIXED = (
   return result + prefixBytes + bytesWritten
 }
 
-export const BOUNDED_PREFIX_LENGTH_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONString,
-  options: BoundedOptions, context: EncodingContext
-): number => {
-  assert(options.minimum >= 0)
-  assert(options.minimum <= options.maximum)
-  assert(options.maximum >= 0)
-  const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
-  assert(length >= options.minimum)
-  assert(length <= options.maximum)
-
-  const prefixBytes: number =
-    maybeWriteSharedPrefix(buffer, offset, value, context)
-  const bytesWritten: number =
-    FLOOR_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
-      minimum: options.minimum
-    }, context)
-
-  const result: number = writeMaybeSharedString(
-    buffer, offset + prefixBytes + bytesWritten, value, length, context)
-  return result + prefixBytes + bytesWritten
-}
-
 export const ROOF_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONString,
   options: RoofOptions, context: EncodingContext
