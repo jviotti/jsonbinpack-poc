@@ -18,6 +18,7 @@ import tap from 'tap'
 
 import {
   STRING_DICTIONARY_COMPRESSOR,
+  STRING_BROTLI,
   URL_PROTOCOL_HOST_REST,
   RFC3339_DATE_INTEGER_TRIPLET,
   BOUNDED_PREFIX_LENGTH_8BIT_FIXED,
@@ -143,6 +144,18 @@ tap.test('STRING_DICTIONARY_COMPRESSOR: should encode "bar foo foo" with [ bar ]
   ]))
 
   test.is(bytesWritten, 10)
+  test.end()
+})
+
+tap.test('STRING_BROTLI: should encode "foo bar baz"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(16))
+  const bytesWritten: number = STRING_BROTLI(buffer, 0, 'foo bar baz', {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    0x0f, 0x0b, 0x05, 0x80, 0x66, 0x6f, 0x6f, 0x20,
+    0x62, 0x61, 0x72, 0x20, 0x62, 0x61, 0x7a, 0x03
+  ]))
+  test.is(bytesWritten, 16)
   test.end()
 })
 

@@ -333,3 +333,31 @@ Given the encoding of `foo` repeated 3 times, the encoding may result in:
 +------+------+------+------+------+------+------+------+
          f      o      o             5 - 0         7 - 4
 ```
+
+### `STRING_BROTLI`
+
+The encoding consists of the byte-length of the string as a Base-128 64-bit
+Little Endian variable-length unsigned integer followed by the string value
+compressed using the Brotli lossless data format specified in
+[RFC7932](https://www.rfc-editor.org/rfc/rfc7932.txt). The selection of Brotli
+parameters is left to the implementation.
+
+#### Options
+
+None
+
+#### Conditions
+
+None
+
+#### Examples
+
+Given the input string `foo bar baz`, the encoding may result in:
+
+```
++------+------+------+------+------+------+------+------+
+| 0x0f | 0x0b | 0x05 | 0x80 | 0x66 | 0x6f | 0x6f | 0x20 |
++------+------+------+------+------+------+------+------+
+| 0x62 | 0x61 | 0x72 | 0x20 | 0x62 | 0x61 | 0x7a | 0x03 |
++------+------+------+------+------+------+------+------+
+```

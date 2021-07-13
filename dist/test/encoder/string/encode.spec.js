@@ -74,6 +74,17 @@ tap_1.default.test('STRING_DICTIONARY_COMPRESSOR: should encode "bar foo foo" wi
     test.is(bytesWritten, 10);
     test.end();
 });
+tap_1.default.test('STRING_BROTLI: should encode "foo bar baz"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(16));
+    var bytesWritten = encode_1.STRING_BROTLI(buffer, 0, 'foo bar baz', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x0f, 0x0b, 0x05, 0x80, 0x66, 0x6f, 0x6f, 0x20,
+        0x62, 0x61, 0x72, 0x20, 0x62, 0x61, 0x7a, 0x03
+    ]));
+    test.is(bytesWritten, 16);
+    test.end();
+});
 tap_1.default.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com"', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
