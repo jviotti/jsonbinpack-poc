@@ -223,6 +223,35 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo"', (test
   test.end()
 })
 
+tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo?bar=1"', (test) => {
+  const context: EncodingContext = getDefaultEncodingContext()
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(29))
+  const bytesWritten: number =
+    URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/foo?bar=1', {}, context)
+  test.strictSame(buffer.getBuffer(), Buffer.from([
+    // Protocol length
+    0x07,
+
+    // 'https:'
+    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+
+    // Host length
+    0x0b,
+
+    // 'google.com'
+    0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+
+    // Rest length
+    0x0b,
+    0x2f, 0x66, 0x6f, 0x6f,
+
+    // Query string
+    0x3f, 0x62, 0x61, 0x72, 0x3d, 0x31
+  ]))
+  test.is(bytesWritten, 29)
+  test.end()
+})
+
 tap.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))

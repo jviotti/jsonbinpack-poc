@@ -118,6 +118,22 @@ tap_1.default.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/fo
     test.is(bytesWritten, 23);
     test.end();
 });
+tap_1.default.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo?bar=1"', function (test) {
+    var context = encoder_1.getDefaultEncodingContext();
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(29));
+    var bytesWritten = encode_1.URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/foo?bar=1', {}, context);
+    test.strictSame(buffer.getBuffer(), Buffer.from([
+        0x07,
+        0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+        0x0b,
+        0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x63, 0x6f, 0x6d,
+        0x0b,
+        0x2f, 0x66, 0x6f, 0x6f,
+        0x3f, 0x62, 0x61, 0x72, 0x3d, 0x31
+    ]));
+    test.is(bytesWritten, 29);
+    test.end();
+});
 tap_1.default.test('RFC3339_DATE_INTEGER_TRIPLET: should encode "2014-10-01"', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
