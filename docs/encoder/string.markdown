@@ -65,8 +65,8 @@ The encoding consists of the byte-length of the string minus `minimum` plus 1
 as a Base-128 64-bit Little Endian variable-length unsigned integer followed by
 the UTF-8 encoding of the input value.
 
-Optionally, if input string has already been encoded to the buffer using UTF-8,
-the encoding may consist of the byte constant `0x00` followed by the
+Optionally, if the input string has already been encoded to the buffer using
+UTF-8, the encoding may consist of the byte constant `0x00` followed by the
 byte-length of the string minus `minimum` plus 1 as a Base-128 64-bit Little
 Endian variable-length unsigned integer, followed by the current offset minus
 the offset to the start of the UTF-8 string value in the buffer encoded as a
@@ -114,12 +114,12 @@ The encoding consists of `maximum` minus the byte-length of the string plus 1
 as a Base-128 64-bit Little Endian variable-length unsigned integer followed by
 the UTF-8 encoding of the input value.
 
-Optionally, if input string has already been encoded to the buffer using UTF-8,
-the encoding may consist of the byte constant `0x00` followed by `maximum`
-minus the byte-length of the string plus 1 as a Base-128 64-bit Little Endian
-variable-length unsigned integer, followed by the current offset minus the
-offset to the start of the UTF-8 string value in the buffer encoded as a
-Base-128 64-bit Little Endian variable-length unsigned integer.
+Optionally, if the input string has already been encoded to the buffer using
+UTF-8, the encoding may consist of the byte constant `0x00` followed by
+`maximum` minus the byte-length of the string plus 1 as a Base-128 64-bit
+Little Endian variable-length unsigned integer, followed by the current offset
+minus the offset to the start of the UTF-8 string value in the buffer encoded
+as a Base-128 64-bit Little Endian variable-length unsigned integer.
 
 #### Options
 
@@ -163,8 +163,8 @@ The encoding consists of the byte-length of the string minus `minimum` plus 1
 as an 8-bit fixed-length unsigned integer followed by the UTF-8 encoding of the
 input value.
 
-Optionally, if input string has already been encoded to the buffer using UTF-8,
-the encoding may consist of the byte constant `0x00` followed by the
+Optionally, if the input string has already been encoded to the buffer using
+UTF-8, the encoding may consist of the byte constant `0x00` followed by the
 byte-length of the string minus `minimum` plus 1 as an 8-bit fixed-length
 unsigned integer, followed by the current offset minus the offset to the start
 of the UTF-8 string value in the buffer encoded as a Base-128 64-bit Little
@@ -294,8 +294,8 @@ The encoding consists of the byte-length of the string plus 1 as a Base-128
 64-bit Little Endian variable-length unsigned integer followed by the UTF-8
 encoding of the input value.
 
-Optionally, if input string has already been encoded to the buffer using the
-[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
+Optionally, if the input string has already been encoded to the buffer using
+the [`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
 encoding, the encoding may consist of the byte constant `0x00` followed by the
 current offset minus the offset to the start of the
 [`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
@@ -360,4 +360,50 @@ Given the input string `foo bar baz`, the encoding may result in:
 +------+------+------+------+------+------+------+------+
 | 0x62 | 0x61 | 0x72 | 0x20 | 0x62 | 0x61 | 0x7a | 0x03 |
 +------+------+------+------+------+------+------+------+
+```
+
+### `STRING_DICTIONARY_COMPRESSOR`
+
+The encoding serializes an string value compressing words given an input
+dictionary. The encoding starts with the byte-length of the string as a
+Base-128 64-bit Little Endian variable-length unsigned integer. If a word
+delimited by the ASCII space character is present in the dictionary, the
+corresponding dictionary entry is encoded as a ZigZag-encoded Base-128 64-bit
+Little Endian variable-length unsigned integer.
+
+The portions of text in between dictionary matches are encoded as the negative
+string byte-length minus 1 as a ZigZag-encoded Base-128 64-bit Little Endian
+variable-length unsigned integer followed by the UTF-8 encoding of the string.
+Optionally, if the unmatched text portion has already been encoded to the
+buffer using UTF-8, the encoding may consist of the byte constant `0x00`
+followed by the byte-length of the string as a Base-128 64-bit Little Endian
+variable-length unsigned integer, followed by the current offset minus the
+offset to the start of the UTF-8 string value in the buffer encoded as a
+Base-128 64-bit Little Endian variable-length unsigned integer.
+
+#### Options
+
+| Option       | Type                | Description                                                          |
+|--------------|---------------------|----------------------------------------------------------------------|
+| `dictionary` | `map<string, uint>` | The dictionary as an associate map of strings to unsigned integers   |
+| `index`      | `string[]`          | The inverse of the dictionary associate map. For performance reasons |
+
+#### Conditions
+
+| Condition                                               | Description                                               |
+|---------------------------------------------------------|-----------------------------------------------------------|
+| `for all string in index => dictionary[string] = index` | The dictionary and the index must represent the same data |
+
+#### Examples
+
+Given the input string `foo bar foo` with a dictionary equivalent to `[ bar ]`,
+the encoding may result in:
+
+```
+0      1      2      3      4      5      6      7      8
+^      ^      ^      ^      ^      ^      ^      ^      ^
++------+------+------+------+------+------+------+------+------+
+| 0x0b | 0x07 | 0x66 | 0x6f | 0x6f | 0x02 | 0x00 | 0x03 | 0x06 |
++------+------+------+------+------+------+------+------+------+
+  size          f      o      o      bar                  8 - 2
 ```
