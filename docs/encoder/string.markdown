@@ -211,3 +211,37 @@ may result in:
 +------+------+------+------+------+------+------+
          f      o      o                    6 - 1
 ```
+
+### `RFC3339_DATE_INTEGER_TRIPLET`
+
+The encoding consists of an implementation of
+[RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) date expressions as
+the sequence of 3 integers: the year as a 16-bit fixed-length Little Endian
+unsigned integer, the month as an 8-bit fixed-length unsigned integer, and the
+day as an 8-bit fixed-length unsigned integer.
+
+#### Options
+
+None
+
+#### Conditions
+
+| Condition             | Description                                                                            |
+|-----------------------|----------------------------------------------------------------------------------------|
+| `year(value) >= 0`    | The year is greater than or equal to 0                                                 |
+| `year(value) <= 9999` | The year is less than or equal to 9999. The spec states that years consist of 4 digits |
+| `month(value) >= 1`   | The month is greater than or equal to 1                                                |
+| `month(value) <= 12`  | The month is less than or equal to 12                                                  |
+| `day(value) >= 1`     | The day is greater than or equal to 1                                                  |
+| `day(value) <= 31`    | The day is less than or equal to 31                                                    |
+
+#### Examples
+
+Given the input string `2014-10-01`, the encoding results in:
+
+```
++------+------+------+------+
+| 0xde | 0x07 | 0x0a | 0x01 |
++------+------+------+------+
+  year   ...    month  day
+```
