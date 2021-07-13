@@ -285,3 +285,51 @@ Given the input string `https://google.com/foo?bar=1`, the encoding results in:
 +------+------+------+------+------+------+------+------+------+------+------+
          /      f      o      o      ?      b      a      r      =      1
 ```
+
+### `UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`
+
+<!-- TODO: Give this encoding another name that doesn't make reference to object keys -->
+
+The encoding consists of the byte-length of the string plus 1 as a Base-128
+64-bit Little Endian variable-length unsigned integer followed by the UTF-8
+encoding of the input value.
+
+Optionally, if input string has already been encoded to the buffer using the
+[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
+encoding, the encoding may consist of the byte constant `0x00` followed by the
+current offset minus the offset to the start of the
+[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
+encoding as a Base-128 64-bit Little Endian variable-length unsigned integer.
+It is permissible to point to another instance of the string that is a pointer
+itself.
+
+#### Options
+
+None
+
+#### Conditions
+
+None
+
+#### Examples
+
+Given the input string `foo` where the string has not been previously encoded,
+the encoding results in:
+
+```
++------+------+------+------+
+| 0x04 | 0x66 | 0x6f | 0x6f |
++------+------+------+------+
+         f      o      o
+```
+
+Given the encoding of `foo` repeated 3 times, the encoding may result in:
+
+```
+0      1      2      3      4      5      6      7
+^      ^      ^      ^      ^      ^      ^      ^
++------+------+------+------+------+------+------+------+
+| 0x04 | 0x66 | 0x6f | 0x6f | 0x00 | 0x05 | 0x00 | 0x03 |
++------+------+------+------+------+------+------+------+
+         f      o      o             5 - 0         7 - 4
+```
