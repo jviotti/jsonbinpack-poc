@@ -390,9 +390,9 @@ Base-128 64-bit Little Endian variable-length unsigned integer.
 
 #### Conditions
 
-| Condition                                               | Description                                               |
-|---------------------------------------------------------|-----------------------------------------------------------|
-| `for all string in index => dictionary[string] = index` | The dictionary and the index must represent the same data |
+| Condition                                                      | Description                                               |
+|----------------------------------------------------------------|-----------------------------------------------------------|
+| `for all string, entry in dictionary => string = index[entry]` | The dictionary and the index must represent the same data |
 
 #### Examples
 
