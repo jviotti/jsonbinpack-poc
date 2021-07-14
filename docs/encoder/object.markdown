@@ -14,6 +14,12 @@ is undefined.
 | `encoding`        | `encoding` | Value encoding |
 | `keyEncoding`     | `encoding` | Key encoding   |
 
+#### Conditions
+
+| Condition                      | Description                                 |
+|--------------------------------|---------------------------------------------|
+| `keyEncoding.type == string`   | The key encoding must be a string encoding  |
+
 #### Examples
 
 Given the input value `{ "foo": "bar", "baz": 1 }` where the encoding is
@@ -27,12 +33,6 @@ with a minimum of 0, the encoding results in:
 +------+------+------+------+------+------+------+------+------+------+------+------+------+
          f      o      o             b      a      r             b      a      z      1
 ```
-
-#### Conditions
-
-| Condition                      | Description                                 |
-|--------------------------------|---------------------------------------------|
-| `keyEncoding.type == string`   | The key encoding must be a string encoding  |
 
 ### `ARBITRARY_TYPED_KEYS_OBJECT`
 
