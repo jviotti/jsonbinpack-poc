@@ -73,8 +73,8 @@ with a minimum of 0, the encoding results in:
 The encoding consists of the boolean required properties encoded in order as a
 byte-aligned bitset where the least-significant bit corresponds to the first
 boolean required property, followed by the non-boolean required properties
-encoded in order according to the corresponding encoding entries declared in
-`propertyEncodings`.
+values encoded in order according to the corresponding encoding entries
+declared in `propertyEncodings`.
 
 #### Options
 
@@ -88,13 +88,14 @@ encoded in order according to the corresponding encoding entries declared in
 
 | Condition                                                                        | Description                                                         |
 |----------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| `len(requiredProperties ++ booleanRequiredProperties) == len(propertyEncodings)` | The total required properties equal the declared properties         |
+| `len(requiredProperties ++ booleanRequiredProperties) == len(propertyEncodings)` | Every defined property is required                                  |
 | `len(requiredProperties union booleanRequiredProperties) == 0`                   | The required and boolean required properties sequences are disjoint |
+| `len(value) == len(propertyEncodings)`                                           | The input value must not contain pairs undeclared pairs |
 
 #### Examples
 
-Given the input object: `{ "foo": "bar", "bar": 1, "baz": true, "qux": false
-}`, where the options are defined as follows:
+Given the input object `{ "foo": "bar", "bar": 1, "baz": true, "qux": false }`,
+where the options are defined as follows:
 
 - `requiredProperties`: `[ "bar", "foo" ]`
 - `booleanRequiredProperties`: `[ "baz", "qux" ]`
@@ -116,4 +117,48 @@ The encoding results in:
 | 0b00000001 | 0x01 | 0x04 | 0x62 | 0x61 | 0x72 |
 +------------+------+------+------+------+------+
   baz qux      1             b      a      r
+```
+
+### `NON_REQUIRED_BOUNDED_TYPED_OBJECT`
+
+The encoding consists of the length of `optionalProperties` as a Base-128
+64-bit Little Endian variable-length unsigned integer followed by a
+byte-aligned bitset where the least-significant bit corresponds to the first
+element of `optionalProperties`, followed by the object values encoded in order
+according to the corresponding encoding entries declared in
+`propertyEncodings`.
+
+#### Options
+
+| Option                      | Type                    | Description                          |
+|-----------------------------|-------------------------|--------------------------------------|
+| `propertyEncodings`         | `map<string, encoding>` | The encoding of each object property |
+| `optionalProperties`        | `string[]`              | The list of optional properties      |
+
+#### Conditions
+
+| Condition                                           | Description                                             |
+|-----------------------------------------------------|---------------------------------------------------------|
+| `len(optionalProperties) == len(propertyEncodings)` | Every defined property is optional                      |
+| `len(value) <= len(propertyEncodings)`              | The input value must not contain pairs undeclared pairs |
+
+#### Examples
+
+Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
+defined as follows:
+
+- `optionalProperties`: `[ "baz", "bar", "foo", "qux" ]`
+- `propertyEncodings`:
+  - `foo`: [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint) with minimum 0
+  - `bar`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+  - `baz`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with minimum 0
+  - `qux`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+
+The encoding results in:
+
+```
++------+------------+------+------+------+------+------+
+| 0x04 | 0b00000101 | 0x01 | 0x04 | 0x62 | 0x61 | 0x72 |
++------+------------+------+------+------+------+------+
+         bitset       1             b      a      r
 ```
