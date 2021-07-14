@@ -67,3 +67,53 @@ with a minimum of 0, the encoding results in:
 +------+------+------+------+------+------+------+------+------+------+------+------+------+------+
                 f      o      o             b      a      r             b      a      z      1
 ```
+
+### `REQUIRED_ONLY_BOUNDED_TYPED_OBJECT`
+
+The encoding consists of the boolean required properties encoded in order as a
+byte-aligned bitset where the least-significant bit corresponds to the first
+boolean required property, followed by the non-boolean required properties
+encoded in order according to the corresponding encoding entries declared in
+`propertyEncodings`.
+
+#### Options
+
+| Option                      | Type                    | Description                                 |
+|-----------------------------|-------------------------|---------------------------------------------|
+| `propertyEncodings`         | `map<string, encoding>` | The encoding of each object property        |
+| `requiredProperties`        | `string[]`              | The list of non-boolean required properties |
+| `booleanRequiredProperties` | `string[]`              | The list of boolean required properties     |
+
+#### Conditions
+
+| Condition                                                                        | Description                                                         |
+|----------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `len(requiredProperties ++ booleanRequiredProperties) == len(propertyEncodings)` | The total required properties equal the declared properties         |
+| `len(requiredProperties union booleanRequiredProperties) == 0`                   | The required and boolean required properties sequences are disjoint |
+
+#### Examples
+
+Given the input object: `{ "foo": "bar", "bar": 1, "baz": true, "qux": false
+}`, where the options are defined as follows:
+
+- `requiredProperties`: `[ "bar", "foo" ]`
+- `booleanRequiredProperties`: `[ "baz", "qux" ]`
+- `propertyEncodings`:
+  - `foo`:
+    [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+    with minimum 0
+  - `bar`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with
+    minimum 0
+  - `baz`:
+    [`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed)
+  - `qux`:
+    [`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed)
+
+The encoding results in:
+
+```
++------------+------+------+------+------+------+
+| 0b00000001 | 0x01 | 0x04 | 0x62 | 0x61 | 0x72 |
++------------+------+------+------+------+------+
+  baz qux      1             b      a      r
+```
