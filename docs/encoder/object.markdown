@@ -213,3 +213,53 @@ The encoding results in:
 +------+------+------+------+------+------+
          b      a      r
 ```
+
+### `REQUIRED_UNBOUNDED_TYPED_OBJECT`
+
+The encoding consists in the required subset of the input object encoded as
+defined in
+[`REQUIRED_ONLY_BOUNDED_TYPED_OBJECT`](#required_only_bounded_typed_object)
+followed by the rest of the input object encoded as defined in
+[`ARBITRARY_TYPED_KEYS_OBJECT`](#arbitrary_typed_keys_object).
+
+#### Options
+
+| Option                      | Type                    | Description                                 |
+|-----------------------------|-------------------------|---------------------------------------------|
+| `propertyEncodings`         | `map<string, encoding>` | The encoding of each object property        |
+| `requiredProperties`        | `string[]`              | The list of non-boolean required properties |
+| `booleanRequiredProperties` | `string[]`              | The list of boolean required properties     |
+| `encoding`                  | `encoding`              | Remaining values encoding                   |
+| `keyEncoding`               | `encoding`              | Key encoding                                |
+
+#### Conditions
+
+| Condition                                                      | Description                                  |
+|----------------------------------------------------------------|----------------------------------------------|
+| `len(requiredProperties) + len(booleanRequiredProperties) > 0` | There must be at least one required property |
+| `keyEncoding.type == string`                                   | The key encoding must be a string encoding   |
+
+#### Examples
+
+Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
+defined as follows:
+
+- `requiredProperties`: `[ "foo" ]`
+- `booleanRequiredProperties`: `[]`
+- `propertyEncodings`:
+  - `foo`:
+    [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+    with minimum 0
+- `keyEncoding`:
+  [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+  with minimum 0
+- `encoding`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+
+The encoding results in:
+
+```
++------+------+------+------+------+------+------+------+------+------+
+| 0x04 | 0x62 | 0x61 | 0x72 | 0x01 | 0x04 | 0x62 | 0x61 | 0x7a | 0x15 |
++------+------+------+------+------+------+------+------+------+------+
+         b      a      r                    b      a      z      1
+```
