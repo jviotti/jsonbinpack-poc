@@ -90,7 +90,7 @@ declared in `propertyEncodings`.
 |----------------------------------------------------------------------------------|---------------------------------------------------------------------|
 | `len(requiredProperties ++ booleanRequiredProperties) == len(propertyEncodings)` | Every defined property is required                                  |
 | `len(requiredProperties union booleanRequiredProperties) == 0`                   | The required and boolean required properties sequences are disjoint |
-| `len(value) == len(propertyEncodings)`                                           | The input value must not contain pairs undeclared pairs |
+| `len(value) == len(propertyEncodings)`                                           | The input value must not contain undeclared pairs                   |
 
 #### Examples
 
@@ -137,10 +137,10 @@ according to the corresponding encoding entries declared in
 
 #### Conditions
 
-| Condition                                           | Description                                             |
-|-----------------------------------------------------|---------------------------------------------------------|
-| `len(optionalProperties) == len(propertyEncodings)` | Every defined property is optional                      |
-| `len(value) <= len(propertyEncodings)`              | The input value must not contain pairs undeclared pairs |
+| Condition                                           | Description                                       |
+|-----------------------------------------------------|---------------------------------------------------|
+| `len(optionalProperties) == len(propertyEncodings)` | Every defined property is optional                |
+| `len(value) <= len(propertyEncodings)`              | The input value must not contain undeclared pairs |
 
 #### Examples
 
@@ -149,9 +149,12 @@ defined as follows:
 
 - `optionalProperties`: `[ "baz", "bar", "foo", "qux" ]`
 - `propertyEncodings`:
-  - `foo`: [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint) with minimum 0
+  - `foo`:
+    [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+    with minimum 0
   - `bar`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
-  - `baz`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with minimum 0
+  - `baz`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with
+    minimum 0
   - `qux`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
 
 The encoding results in:
@@ -161,4 +164,52 @@ The encoding results in:
 | 0x04 | 0b00000101 | 0x01 | 0x04 | 0x62 | 0x61 | 0x72 |
 +------+------------+------+------+------+------+------+
          bitset       1             b      a      r
+```
+
+### `MIXED_BOUNDED_TYPED_OBJECT`
+
+The encoding consists in the required subset of the input object encoded as
+defined in
+[`REQUIRED_ONLY_BOUNDED_TYPED_OBJECT`](#required_only_bounded_typed_object)
+followed by the optional subset of the input object encoded as defined in
+[`NON_REQUIRED_BOUNDED_TYPED_OBJECT`](#non_required_bounded_typed_object).
+
+#### Options
+
+| Option                      | Type                    | Description                                 |
+|-----------------------------|-------------------------|---------------------------------------------|
+| `propertyEncodings`         | `map<string, encoding>` | The encoding of each object property        |
+| `requiredProperties`        | `string[]`              | The list of non-boolean required properties |
+| `booleanRequiredProperties` | `string[]`              | The list of boolean required properties     |
+| `optionalProperties`        | `string[]`              | The list of optional properties             |
+
+#### Conditions
+
+| Condition                                                                                              | Description                                       |
+|--------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| `len(optionalProperties ++ requiredProperties ++ booleanRequiredProperties) == len(propertyEncodings)` | Every property is defined                         |
+| `len(value) <= len(propertyEncodings)`                                                                 | The input value must not contain undeclared pairs |
+
+#### Examples
+
+Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
+defined as follows:
+
+- `requiredProperties`: `[ "foo" ]`
+- `booleanRequiredProperties`: `[]`
+- `optionalProperties`: `[ "baz" ]`
+- `propertyEncodings`:
+  - `foo`:
+    [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+    with minimum 0
+  - `baz`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with
+    minimum 0
+
+The encoding results in:
+
+```
++------+------+------+------+------+------+
+| 0x04 | 0x62 | 0x61 | 0x72 | 0x01 | 0x00 |
++------+------+------+------+------+------+
+         b      a      r
 ```
