@@ -3,7 +3,7 @@ Object Encodings
 
 ### `ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH`
 
-The encoding consists each pair encoded as the key followed by the value
+The encoding consists of each pair encoded as the key followed by the value
 according to `keyEncoding` and `encoding`. The order in which pairs are encoded
 is undefined.
 
@@ -168,7 +168,7 @@ The encoding results in:
 
 ### `MIXED_BOUNDED_TYPED_OBJECT`
 
-The encoding consists in the required subset of the input object encoded as
+The encoding consists of the required subset of the input object encoded as
 defined in
 [`REQUIRED_ONLY_BOUNDED_TYPED_OBJECT`](#required_only_bounded_typed_object)
 followed by the optional subset of the input object encoded as defined in
@@ -216,7 +216,7 @@ The encoding results in:
 
 ### `REQUIRED_UNBOUNDED_TYPED_OBJECT`
 
-The encoding consists in the required subset of the input object encoded as
+The encoding consists of the required subset of the input object encoded as
 defined in
 [`REQUIRED_ONLY_BOUNDED_TYPED_OBJECT`](#required_only_bounded_typed_object)
 followed by the rest of the input object encoded as defined in
@@ -234,10 +234,11 @@ followed by the rest of the input object encoded as defined in
 
 #### Conditions
 
-| Condition                                                      | Description                                  |
-|----------------------------------------------------------------|----------------------------------------------|
-| `len(requiredProperties) + len(booleanRequiredProperties) > 0` | There must be at least one required property |
-| `keyEncoding.type == string`                                   | The key encoding must be a string encoding   |
+| Condition                                                                            | Description                                  |
+|--------------------------------------------------------------------------------------|----------------------------------------------|
+| `len(requiredProperties) + len(booleanRequiredProperties) > 0`                       | There must be at least one required property |
+| `len(requiredProperties) + len(booleanRequiredProperties) == len(propertyEncodings)` | Every required property is defined           |
+| `keyEncoding.type == string`                                                         | The key encoding must be a string encoding   |
 
 #### Examples
 
@@ -262,4 +263,53 @@ The encoding results in:
 | 0x04 | 0x62 | 0x61 | 0x72 | 0x01 | 0x04 | 0x62 | 0x61 | 0x7a | 0x15 |
 +------+------+------+------+------+------+------+------+------+------+
          b      a      r                    b      a      z      1
+```
+
+### `OPTIONAL_UNBOUNDED_TYPED_OBJECT`
+
+The encoding consists of the optional subset of the input object encoded as
+defined in
+[`NON_REQUIRED_BOUNDED_TYPED_OBJECT`](#non_required_bounded_typed_object)
+followed by the rest of the input object encoded as defined in
+[`ARBITRARY_TYPED_KEYS_OBJECT`](#arbitrary_typed_keys_object).
+
+#### Options
+
+| Option               | Type                    | Description                          |
+|----------------------|-------------------------|--------------------------------------|
+| `propertyEncodings`  | `map<string, encoding>` | The encoding of each object property |
+| `optionalProperties` | `string[]`              | The list of optional properties      |
+| `encoding`           | `encoding`              | Remaining values encoding            |
+| `keyEncoding`        | `encoding`              | Key encoding                         |
+
+#### Conditions
+
+| Condition                                           | Description                                  |
+|-----------------------------------------------------|----------------------------------------------|
+| `len(optionalProperties) > 0`                       | There must be at least one optional property |
+| `len(optionalProperties) == len(propertyEncodings)` | Every optional property is defined           |
+| `keyEncoding.type == string`                        | The key encoding must be a string encoding   |
+
+#### Examples
+
+Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
+defined as follows:
+
+- `optionalProperties`: `[ "foo" ]`
+- `propertyEncodings`:
+  - `foo`:
+    [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+    with minimum 0
+- `keyEncoding`:
+  [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+  with minimum 0
+- `encoding`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+
+The encoding results in:
+
+```
++------+------+------+------+------+------+------+------+------+------+------+------+
+| 0x01 | 0x01 | 0x04 | 0x62 | 0x61 | 0x72 | 0x01 | 0x04 | 0x62 | 0x61 | 0x7a | 0x15 |
++------+------+------+------+------+------+------+------+------+------+------+------+
+                       b      a      r                    b      a      z      1
 ```
