@@ -8,7 +8,7 @@ JSON BinPack
 JSON BinPack is an open-source binary [JSON](https://www.json.org)
 serialization format with a strong focus on space efficiency. It can run in
 schema-driven and schema-less mode to encode any JSON document given a matching
-[JSON Schema](http://json-schema.org).
+[JSON Schema 2020-12](http://json-schema.org) definition.
 
 Documentation
 -------------
