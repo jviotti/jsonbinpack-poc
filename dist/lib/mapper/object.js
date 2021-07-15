@@ -189,13 +189,13 @@ var getObjectEncoding = function (schema, level) {
         }
         finally { if (e_4) throw e_4.error; }
     }
-    var keyEncoding = typeof schema.propertyNames !== 'undefined'
-        ? string_1.getStringEncoding(schema.propertyNames, level + 1)
-        : {
+    var keyEncoding = typeof schema.propertyNames === 'undefined'
+        ? {
             type: encoder_1.EncodingType.String,
             encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
             options: {}
-        };
+        }
+        : string_1.getStringEncoding(schema.propertyNames, level + 1);
     if (additionalProperties === null) {
         if (optionalProperties.length === 0) {
             return {

@@ -145,4 +145,3 @@ export const FLOOR_TYPED_LENGTH_PREFIX = (
   return lengthBytes + encodeArray(
     buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding)
 }
-

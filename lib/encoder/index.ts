@@ -81,7 +81,9 @@ export {
   EncodingType
 } from './encoding-type'
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
+// eslint-disable-next-line @typescript-eslint/ban-types
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 
 ENCODE_TYPE_INDEX.set(EncodingType.Boolean, ENCODE_BOOLEAN)
@@ -112,6 +114,7 @@ export const encode = (
   buffer: ResizableBuffer, offset: number, encoding: Encoding,
   value: JSONValue, context: EncodingContext
 ): number => {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const fns: object | undefined = ENCODE_TYPE_INDEX.get(encoding.type)
   assert(typeof fns !== 'undefined')
 
@@ -127,6 +130,7 @@ export const encode = (
 export const decode = (
   buffer: ResizableBuffer, offset: number, encoding: Encoding
 ): DecodeResult => {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const fns: object | undefined = DECODE_TYPE_INDEX.get(encoding.type)
   assert(typeof fns !== 'undefined')
 

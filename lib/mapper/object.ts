@@ -223,7 +223,9 @@ export const getObjectStates = (schema: ObjectEncodingSchema): number | JSONValu
       return choices
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return generatePermutations(...choices).map((result: JSONValue[]) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return Object.assign({}, ...result)
     })
   }
@@ -290,13 +292,13 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
     }
   }
 
-  const keyEncoding: StringEncoding = typeof schema.propertyNames !== 'undefined'
-    ? getStringEncoding(schema.propertyNames, level + 1)
-    : {
+  const keyEncoding: StringEncoding = typeof schema.propertyNames === 'undefined'
+    ? {
       type: EncodingType.String,
       encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
       options: {}
     }
+    : getStringEncoding(schema.propertyNames, level + 1)
 
   // Bounded encodings
   if (additionalProperties === null) {
