@@ -289,7 +289,7 @@ export const PACKED_UNBOUNDED_OBJECT = (
       booleanRequiredProperties: options.booleanRequiredProperties,
       optionalProperties: options.optionalProperties,
       keyEncoding: options.keyEncoding,
-      encoding: options.packedEncoding,
+      encoding: options.encoding,
       propertyEncodings: options.propertyEncodings
     })
 

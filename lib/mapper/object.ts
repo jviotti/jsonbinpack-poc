@@ -396,6 +396,11 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
           (left: string, right: string) => {
             return left.localeCompare(right)
           }),
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY_TYPE_PREFIX',
+          options: {}
+        },
         propertyEncodings: packedPropertyEncodings,
         optionalProperties,
         requiredProperties: unpackedRequiredProperties.sort(

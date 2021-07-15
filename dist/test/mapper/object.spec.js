@@ -941,6 +941,11 @@ tap_1.default.test('should encode an unbounded object with bounded integers', fu
                     maximum: 2
                 }
             },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
+            },
             propertyEncodings: {
                 name: {
                     type: 'string',
@@ -1012,6 +1017,11 @@ tap_1.default.test('should encode an unbounded object with bounded integers with
                     minimum: 0,
                     maximum: 2
                 }
+            },
+            encoding: {
+                type: 'any',
+                encoding: 'ANY_TYPE_PREFIX',
+                options: {}
             },
             propertyEncodings: {
                 name: {

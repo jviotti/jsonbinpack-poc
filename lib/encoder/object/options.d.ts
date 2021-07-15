@@ -56,11 +56,12 @@ export interface OptionalUnboundedTypedOptions extends
 export interface UnboundedTypedOptions extends
   BoundedTypedOptions, TypedKeysOptions, HomogeneousPropertiesOptions {}
 
-export interface PackedUnboundedOptions extends BoundedTypedOptions {
-  packedRequiredProperties: string[];
-  packedEncoding: BOUNDED_8BITS_ENUM_FIXED_ENCODING;
-  keyEncoding: StringEncoding;
-}
+export interface PackedUnboundedOptions extends
+  BoundedTypedOptions, HomogeneousPropertiesOptions {
+    packedRequiredProperties: string[];
+    packedEncoding: BOUNDED_8BITS_ENUM_FIXED_ENCODING;
+    keyEncoding: StringEncoding;
+  }
 
 export interface PackedRequiredBoundedOptions
   extends RequiredBoundedTypedOptions {

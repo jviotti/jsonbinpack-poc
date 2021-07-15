@@ -651,7 +651,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
 
 tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(20))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(21))
   const bytesWritten: number = PACKED_UNBOUNDED_OBJECT(buffer, 0, {
     foo: 1,
     bar: 2,
@@ -660,7 +660,7 @@ tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
     extra: 1,
     name: 'john',
     flag: true,
-    random: 1
+    random: 'x'
   }, {
     packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
     packedEncoding: {
@@ -670,6 +670,11 @@ tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
         minimum: 0,
         maximum: 2
       }
+    },
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY_TYPE_PREFIX',
+      options: {}
     },
     propertyEncodings: {
       name: getEncoding({
@@ -725,11 +730,11 @@ tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
     // 'random'
     0x72, 0x61, 0x6e, 0x64, 0x6f, 0x6d,
 
-    // 1 (random)
-    0x01
+    // 'x' (random)
+    0x11, 0x78
   ]))
 
-  test.is(bytesWritten, 20)
+  test.is(bytesWritten, 21)
   test.end()
 })
 

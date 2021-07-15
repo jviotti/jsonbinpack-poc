@@ -676,6 +676,11 @@ tap.test('PACKED_UNBOUNDED_OBJECT: complex object', (test) => {
         maximum: 2
       }
     },
+    encoding: {
+      type: EncodingType.Any,
+      encoding: 'ANY_TYPE_PREFIX',
+      options: {}
+    },
     propertyEncodings: {
       name: getEncoding({
         type: 'string'

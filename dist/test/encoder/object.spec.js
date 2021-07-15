@@ -534,6 +534,11 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: complex object', function (test) {
                 maximum: 2
             }
         },
+        encoding: {
+            type: encoder_1.EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
+        },
         propertyEncodings: {
             name: mapper_1.getEncoding({
                 type: 'string'
