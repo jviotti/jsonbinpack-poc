@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ANY_TYPE_PREFIX = void 0;
+exports.ANY_PACKED_TYPE_TAG_BYTE_PREFIX = void 0;
 var limits_1 = require("../../utils/limits");
 var encoding_type_1 = require("../encoding-type");
 var decode_1 = require("../integer/decode");
@@ -9,7 +9,7 @@ var decode_3 = require("../number/decode");
 var decode_4 = require("../object/decode");
 var decode_5 = require("../array/decode");
 var types_1 = require("./types");
-var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
+var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
     var tag = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
         minimum: limits_1.UINT8_MIN,
         maximum: limits_1.UINT8_MAX
@@ -22,7 +22,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
                 prefixEncodings: [],
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             })
@@ -31,7 +31,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
                 prefixEncodings: [],
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             });
@@ -51,7 +51,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
                 },
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             })
@@ -64,7 +64,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
                 },
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             });
@@ -215,4 +215,4 @@ var ANY_TYPE_PREFIX = function (buffer, offset, _options) {
     }
     throw new Error("Unrecognized type: " + tag.value);
 };
-exports.ANY_TYPE_PREFIX = ANY_TYPE_PREFIX;
+exports.ANY_PACKED_TYPE_TAG_BYTE_PREFIX = ANY_PACKED_TYPE_TAG_BYTE_PREFIX;

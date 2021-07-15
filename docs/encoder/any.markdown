@@ -1,7 +1,7 @@
 Any Encodings
 -------------
 
-### `ANY_TYPE_PREFIX`
+### `ANY_PACKED_TYPE_TAG_BYTE_PREFIX`
 
 The encoding consists of a type tag followed by the input value serialized
 using a predetermined encoding. This encoding supports the following type tags:
@@ -33,24 +33,24 @@ using a predetermined encoding. This encoding supports the following type tags:
 	[`ARBITRARY_TYPED_KEYS_OBJECT`](./object.markdown#arbitrary_typed_keys_object)
 	where `keyEncoding` is
 	[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](./string.markdown#unbounded_object_key_prefix_length)
-	and `encoding` is [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix).
+	and `encoding` is [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix).
 	Otherwise, the number of pairs plus 1 is encoded as an unsigned integer in
 	the most-significant 5 bits of the type tag followed by the input value
 	encoded as defined in
 	[`ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH`](./object.markdown#arbitrary_typed_keys_object_without_length)
 	where `keyEncoding` is
 	[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](./string.markdown#unbounded_object_key_prefix_length)
-	and `encoding` is [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix).
+	and `encoding` is [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix).
 - `0b00000100` (Array): If the number of items is greater than 30, the input
 	value is encoded as the type tag followed by
 	[`FLOOR_TYPED_LENGTH_PREFIX`](./array.markdown#floor_typed_length_prefix)
 	where `minimum` is `0`, `prefixEncodings` is `[]`, and `encoding` is
-	[`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix). Otherwise, the number of
+	[`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix). Otherwise, the number of
 	items plus 1 is encoded as an unsigned integer in the most-significant 5 bits
 	of the type tag followed by the input value encoded as defined in
 	[`FIXED_TYPED_ARRAY`](./array.markdown#fixed_typed_array) where
 	`prefixEncodings` is `[]` and `encoding` is
-	[`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix).
+	[`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix).
 - `0b00000101` (Positive integer byte): If the value is less than 31, the value
 	plus 1 is encoded as an unsigned integer in the most-significant 5 bits of
 	the type tag. Otherwise, the type tag is followed by the input value as

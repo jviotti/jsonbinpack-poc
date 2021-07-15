@@ -45,7 +45,7 @@ tap.test('should encode an object with an enum with one value', (test) => {
       optionalProperties: [ 'test' ],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       },
       keyEncoding: {

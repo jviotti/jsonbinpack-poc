@@ -296,7 +296,7 @@ var getObjectEncoding = function (schema, level) {
                 }),
                 encoding: {
                     type: encoder_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 },
                 propertyEncodings: packedPropertyEncodings,

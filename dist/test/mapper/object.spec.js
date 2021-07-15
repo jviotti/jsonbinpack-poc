@@ -21,12 +21,12 @@ tap_1.default.test('should encode a bounded object with only required keys', fun
             propertyEncodings: {
                 foo: {
                     type: 'any',
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 },
                 bar: {
                     type: 'any',
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             },
@@ -52,12 +52,12 @@ tap_1.default.test('should encode a bounded object with required keys and empty 
             propertyEncodings: {
                 foo: {
                     type: 'any',
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 },
                 bar: {
                     type: 'any',
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             },
@@ -96,7 +96,7 @@ tap_1.default.test('should encode a bounded object with partially defined requir
                 },
                 bar: {
                     type: 'any',
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             },
@@ -315,7 +315,7 @@ tap_1.default.test('should encode a bounded object with an optional and a requir
                 },
                 bar: {
                     type: 'any',
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             },
@@ -388,7 +388,7 @@ tap_1.default.test('should encode a simple unbounded object', function (test) {
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -413,7 +413,7 @@ tap_1.default.test('should encode a simple unbounded object with empty required'
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -438,7 +438,7 @@ tap_1.default.test('should encode a simple unbounded object with additionalPrope
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -498,7 +498,7 @@ tap_1.default.test('should encode a simple unbounded object with propertyNames',
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -530,7 +530,7 @@ tap_1.default.test('should encode a simple unbounded object with propertyNames a
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -589,7 +589,7 @@ tap_1.default.test('should encode a simple unbounded object with a required prop
             propertyEncodings: {
                 foo: {
                     type: 'any',
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             },
@@ -600,7 +600,7 @@ tap_1.default.test('should encode a simple unbounded object with a required prop
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -641,7 +641,7 @@ tap_1.default.test('should encode a simple unbounded object with a required type
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -692,7 +692,7 @@ tap_1.default.test('should encode a simple unbounded object with two optional pr
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }
@@ -943,7 +943,7 @@ tap_1.default.test('should encode an unbounded object with bounded integers', fu
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             },
             propertyEncodings: {
@@ -1020,7 +1020,7 @@ tap_1.default.test('should encode an unbounded object with bounded integers with
             },
             encoding: {
                 type: 'any',
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             },
             propertyEncodings: {

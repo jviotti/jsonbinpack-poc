@@ -43,12 +43,12 @@ tap.test('should encode a bounded object with only required keys', (test) => {
       propertyEncodings: {
         foo: {
           type: 'any',
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         },
         bar: {
           type: 'any',
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       },
@@ -77,12 +77,12 @@ tap.test('should encode a bounded object with required keys and empty properties
       propertyEncodings: {
         foo: {
           type: 'any',
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         },
         bar: {
           type: 'any',
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       },
@@ -124,7 +124,7 @@ tap.test('should encode a bounded object with partially defined required keys', 
         },
         bar: {
           type: 'any',
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       },
@@ -361,7 +361,7 @@ tap.test('should encode a bounded object with an optional and a required propert
         },
         bar: {
           type: 'any',
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       },
@@ -440,7 +440,7 @@ tap.test('should encode a simple unbounded object', (test) => {
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -468,7 +468,7 @@ tap.test('should encode a simple unbounded object with empty required', (test) =
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -496,7 +496,7 @@ tap.test('should encode a simple unbounded object with additionalProperties: tru
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -562,7 +562,7 @@ tap.test('should encode a simple unbounded object with propertyNames', (test) =>
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -597,7 +597,7 @@ tap.test('should encode a simple unbounded object with propertyNames and additio
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -662,7 +662,7 @@ tap.test('should encode a simple unbounded object with a required property', (te
       propertyEncodings: {
         foo: {
           type: 'any',
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       },
@@ -673,7 +673,7 @@ tap.test('should encode a simple unbounded object with a required property', (te
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -717,7 +717,7 @@ tap.test('should encode a simple unbounded object with a required typed property
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -771,7 +771,7 @@ tap.test('should encode a simple unbounded object with two optional properties',
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -1037,7 +1037,7 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       },
       propertyEncodings: {
@@ -1117,7 +1117,7 @@ tap.test('should encode an unbounded object with bounded integers with maxProper
       },
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       },
       propertyEncodings: {

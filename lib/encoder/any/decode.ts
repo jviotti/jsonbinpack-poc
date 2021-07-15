@@ -86,7 +86,7 @@ export interface AnyResult extends DecodeResult {
   readonly bytes: number;
 }
 
-export const ANY_TYPE_PREFIX = (
+export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): AnyResult => {
   const tag: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
@@ -102,7 +102,7 @@ export const ANY_TYPE_PREFIX = (
         prefixEncodings: [],
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       })
@@ -111,7 +111,7 @@ export const ANY_TYPE_PREFIX = (
         prefixEncodings: [],
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       })
@@ -132,7 +132,7 @@ export const ANY_TYPE_PREFIX = (
         },
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       })
@@ -145,7 +145,7 @@ export const ANY_TYPE_PREFIX = (
         },
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       })

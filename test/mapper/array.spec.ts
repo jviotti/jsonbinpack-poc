@@ -41,7 +41,7 @@ tap.test('should encode an arbitrary array', (test) => {
       prefixEncodings: [],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -66,7 +66,7 @@ tap.test('should encode an arbitrary array with minItems', (test) => {
       prefixEncodings: [],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -91,7 +91,7 @@ tap.test('should encode an arbitrary array with maxItems = 256', (test) => {
       prefixEncodings: [],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -117,7 +117,7 @@ tap.test('should encode an arbitrary array with maxItems = 255', (test) => {
       prefixEncodings: [],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -143,7 +143,7 @@ tap.test('should encode an arbitrary array with maxItems < 255', (test) => {
       prefixEncodings: [],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -170,7 +170,7 @@ tap.test('should encode an arbitrary array with maxItems - minItems < 255', (tes
       prefixEncodings: [],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -197,7 +197,7 @@ tap.test('should encode an arbitrary array with maxItems - minItems > 255', (tes
       prefixEncodings: [],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -244,7 +244,7 @@ tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
       ],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -292,7 +292,7 @@ tap.test('should encode a semi-typed array with minItems', (test) => {
       ],
       encoding: {
         type: 'any',
-        encoding: 'ANY_TYPE_PREFIX',
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
       }
     }
@@ -334,7 +334,7 @@ tap.test('should encode a semi + fully typed array with minItems', (test) => {
           prefixEncodings: [],
           encoding: {
             type: 'any',
-            encoding: 'ANY_TYPE_PREFIX',
+            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
             options: {}
           }
         }
