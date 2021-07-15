@@ -22,8 +22,17 @@ is undefined.
 
 #### Examples
 
-Given the input value `{ "foo": "bar", "baz": 1 }` where the encoding is
-[`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix) and the key encoding is
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "baz": 1
+}
+```
+
+Where the encoding is [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix) and
+the key encoding is
 [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
 with a minimum of 0, the encoding results in:
 
@@ -56,8 +65,17 @@ pair encoded as the key followed by the value according to `keyEncoding` and
 
 #### Examples
 
-Given the input value `{ "foo": "bar", "baz": 1 }` where the encoding is
-[`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix) and the key encoding is
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "baz": 1
+}
+```
+
+Where the encoding is [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix) and
+the key encoding is
 [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
 with a minimum of 0, the encoding results in:
 
@@ -94,8 +112,18 @@ declared in `propertyEncodings`.
 
 #### Examples
 
-Given the input object `{ "foo": "bar", "bar": 1, "baz": true, "qux": false }`,
-where the options are defined as follows:
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "bar": 1,
+  "baz": true,
+  "qux": false
+}
+```
+
+Where the options are defined as follows:
 
 - `requiredProperties`: `[ "bar", "foo" ]`
 - `booleanRequiredProperties`: `[ "baz", "qux" ]`
@@ -144,8 +172,16 @@ according to the corresponding encoding entries declared in
 
 #### Examples
 
-Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
-defined as follows:
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "baz": 1
+}
+```
+
+Where the options are defined as follows:
 
 - `optionalProperties`: `[ "baz", "bar", "foo", "qux" ]`
 - `propertyEncodings`:
@@ -192,8 +228,16 @@ followed by the optional subset of the input object encoded as defined in
 
 #### Examples
 
-Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
-defined as follows:
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "baz": 1
+}
+```
+
+Where the options are defined as follows:
 
 - `requiredProperties`: `[ "foo" ]`
 - `booleanRequiredProperties`: `[]`
@@ -242,8 +286,16 @@ followed by the rest of the input object encoded as defined in
 
 #### Examples
 
-Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
-defined as follows:
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "baz": 1
+}
+```
+
+Where the options are defined as follows:
 
 - `requiredProperties`: `[ "foo" ]`
 - `booleanRequiredProperties`: `[]`
@@ -292,8 +344,16 @@ followed by the rest of the input object encoded as defined in
 
 #### Examples
 
-Given the input object `{ "foo": "bar", "baz": 1 }` where the options are
-defined as follows:
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "baz": 1
+}
+```
+
+Where the options are defined as follows:
 
 - `optionalProperties`: `[ "foo" ]`
 - `propertyEncodings`:
@@ -344,8 +404,17 @@ followed by the rest of the input object encoded as defined in
 
 #### Examples
 
-Given the input object `{ "foo": "bar", "baz": 1, "qux": null }` where the
-options are defined as follows:
+Given the following input object:
+
+```json
+{
+  "foo": "bar",
+  "baz": 1,
+  "qux": null
+}
+```
+
+Where the options are defined as follows:
 
 - `requiredProperties`: `[ "foo" ]`
 - `booleanRequiredProperties`: `[]`
@@ -404,8 +473,21 @@ we should fix the reversing and ordering abominations -->
 
 #### Examples
 
-Given the input object `{ "foo": 1, "bar": 2, "baz": 0, "qux": 2, "extra": 1,
-"name": "john", "flag": true }` where the options are defined as follows:
+Given the following input object:
+
+```json
+{
+  "foo": 1,
+  "bar": 2,
+  "baz": 0,
+  "qux": 2,
+  "extra": 1,
+  "name": "john",
+  "flag": true
+}
+```
+
+Where the options are defined as follows:
 
 - `packedRequiredProperties`: `[ "bar", "baz", "extra", "foo", "qux" ]`
 - `requiredProperties`: `[ "name" ]`
@@ -474,9 +556,22 @@ we should fix the reversing and ordering abominations -->
 
 #### Examples
 
-Given the input object `{ "foo": 1, "bar": 2, "baz": 0, "qux": 2, "extra": 1,
-"name": "john", "flag": true, "random": "x" }` where the options are defined as
-follows:
+Given the following input object:
+
+```json
+{
+  "foo": 1,
+  "bar": 2,
+  "baz": 0,
+  "qux": 2,
+  "extra": 1,
+  "name": "john",
+  "flag": true,
+  "random": "x"
+}
+```
+
+Where the options are defined as follows:
 
 - `packedRequiredProperties`: `[ "bar", "baz", "extra", "foo", "qux" ]`
 - `requiredProperties`: `[ "name" ]`
