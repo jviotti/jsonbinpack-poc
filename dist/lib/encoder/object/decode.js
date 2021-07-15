@@ -242,7 +242,7 @@ var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, options) {
         booleanRequiredProperties: options.booleanRequiredProperties,
         optionalProperties: options.optionalProperties,
         keyEncoding: options.keyEncoding,
-        encoding: options.packedEncoding,
+        encoding: options.encoding,
         propertyEncodings: options.propertyEncodings
     });
     return {

@@ -294,6 +294,11 @@ var getObjectEncoding = function (schema, level) {
                 packedRequiredProperties: packedRequiredProperties_1.sort(function (left, right) {
                     return left.localeCompare(right);
                 }),
+                encoding: {
+                    type: encoder_1.EncodingType.Any,
+                    encoding: 'ANY_TYPE_PREFIX',
+                    options: {}
+                },
                 propertyEncodings: packedPropertyEncodings,
                 optionalProperties: optionalProperties,
                 requiredProperties: unpackedRequiredProperties.sort(function (left, right) {

@@ -498,7 +498,7 @@ tap_1.default.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar"
 });
 tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(20));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(21));
     var bytesWritten = encode_1.PACKED_UNBOUNDED_OBJECT(buffer, 0, {
         foo: 1,
         bar: 2,
@@ -507,7 +507,7 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', fu
         extra: 1,
         name: 'john',
         flag: true,
-        random: 1
+        random: 'x'
     }, {
         packedRequiredProperties: ['bar', 'baz', 'extra', 'foo', 'qux'],
         packedEncoding: {
@@ -517,6 +517,11 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', fu
                 minimum: 0,
                 maximum: 2
             }
+        },
+        encoding: {
+            type: encoder_1.EncodingType.Any,
+            encoding: 'ANY_TYPE_PREFIX',
+            options: {}
         },
         propertyEncodings: {
             name: mapper_1.getEncoding({
@@ -549,9 +554,9 @@ tap_1.default.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', fu
         0x01,
         0x07,
         0x72, 0x61, 0x6e, 0x64, 0x6f, 0x6d,
-        0x01
+        0x11, 0x78
     ]));
-    test.is(bytesWritten, 20);
+    test.is(bytesWritten, 21);
     test.end();
 });
 tap_1.default.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex object', function (test) {
