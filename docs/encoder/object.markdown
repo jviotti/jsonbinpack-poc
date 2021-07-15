@@ -369,3 +369,64 @@ The encoding results in:
 +------+------+------+------+------+------+------+------+------+------+------+------+------+
          b      a      r                    1                    q      u      x      null
 ```
+
+### `PACKED_BOUNDED_REQUIRED_OBJECT`
+
+The encoding consists of the number of packed integer required properties as a
+Base-128 64-bit Little Endian variable-length unsigned integer followed by the
+packed integer properties encoded in order followed by the rest of the input
+object encoded as defined in
+[`REQUIRED_ONLY_BOUNDED_TYPED_OBJECT`](#required_only_bounded_typed_object).
+The packed integer properties are encoded as a byte-aligned reversed Little
+Endian buffer using the least possible amount of bits for each item as
+determined by the bounds of `packedEncoding`.
+
+<!-- TODO: We don't really need to encode the packed properties length here -->
+<!-- TODO: The fact that it is so hard to explain the integer bitset means that
+we should fix the reversing and ordering abominations -->
+
+#### Options
+
+| Option                      | Type                    | Description                                                |
+|-----------------------------|-------------------------|------------------------------------------------------------|
+| `propertyEncodings`         | `map<string, encoding>` | The encoding of each non-packed object property            |
+| `requiredProperties`        | `string[]`              | The list of non-boolean and non-packed required properties |
+| `booleanRequiredProperties` | `string[]`              | The list of boolean required properties                    |
+| `packedRequiredProperties`  | `string[]`              | The list of packed required properties                     |
+| `packedEncoding`            | `encoding`              | Remaining values encoding                                  |
+
+#### Conditions
+
+| Condition                                                                             | Description                                       |
+|---------------------------------------------------------------------------------------|---------------------------------------------------|
+| `len(requiredProperties) + len(booleanRequiredProperties) == len(propertyEncodings)`  | Every non-packed property is defined              |
+| `packedEncoding.type == integer and (minimum, maximum) in packedEncoding`             | The packed encoding is a bounned integer encoding |
+
+#### Examples
+
+Given the input object `{ "foo": 1, "bar": 2, "baz": 0, "qux": 2, "extra": 1,
+"name": "john", "flag": true }` where the options are defined as follows:
+
+- `packedRequiredProperties`: `[ "bar", "baz", "extra", "foo", "qux" ]`
+- `requiredProperties`: `[ "name" ]`
+- `booleanRequiredProperties`: `[ "flag" ]`
+- `packedEncoding`: `BOUNDED_8BITS_ENUM_FIXED` with minimum 0 and maximum 2
+- `propertyEncodings`:
+  - `name`:
+    [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
+    with minimum 0
+  - `flag`:
+    [`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed)
+
+The encoding results in:
+
+```
++------+------------+------------+------+------+------+------+------+------+
+| 0x05 | 0b10100001 | 0b00000001 | 0x01 | 0x05 | 0x6a | 0x6f | 0x68 | 0x6e |
++------+------------+------------+------+------+------+------+------+------+
+         ^^^^^^^^^^   ^^^^^^^^^^   true          j      o      h      n
+         10 = foo     01 = qux
+         10 = extra
+         00 = baz
+         01 = bar
+```
