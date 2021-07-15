@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ANY_TYPE_PREFIX = void 0;
+exports.ANY_PACKED_TYPE_TAG_BYTE_PREFIX = void 0;
 var assert_1 = require("assert");
 var limits_1 = require("../../utils/limits");
 var types_1 = require("./types");
@@ -30,7 +30,7 @@ var findHighest2Exponent = function (value, start, limit) {
     }
     return exponent;
 };
-var ANY_TYPE_PREFIX = function (buffer, offset, value, _options, context) {
+var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, value, _options, context) {
     if (Array.isArray(value)) {
         var size = value.length;
         if (size > limits_1.UINT5_MAX - 1) {
@@ -41,7 +41,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, value, _options, context) {
                 prefixEncodings: [],
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             }, context);
@@ -54,7 +54,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, value, _options, context) {
             prefixEncodings: [],
             encoding: {
                 type: encoding_type_1.EncodingType.Any,
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }, context);
@@ -73,7 +73,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, value, _options, context) {
                 },
                 encoding: {
                     type: encoding_type_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             }, context);
@@ -90,7 +90,7 @@ var ANY_TYPE_PREFIX = function (buffer, offset, value, _options, context) {
             },
             encoding: {
                 type: encoding_type_1.EncodingType.Any,
-                encoding: 'ANY_TYPE_PREFIX',
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                 options: {}
             }
         }, context);
@@ -186,4 +186,4 @@ var ANY_TYPE_PREFIX = function (buffer, offset, value, _options, context) {
     var valueBytes = encode_3.DOUBLE_VARINT_TUPLE(buffer, offset + tagBytes, value, {}, context);
     return tagBytes + valueBytes;
 };
-exports.ANY_TYPE_PREFIX = ANY_TYPE_PREFIX;
+exports.ANY_PACKED_TYPE_TAG_BYTE_PREFIX = ANY_PACKED_TYPE_TAG_BYTE_PREFIX;

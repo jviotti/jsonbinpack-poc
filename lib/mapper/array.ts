@@ -169,7 +169,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
             prefixEncodings,
             encoding: {
               type: EncodingType.Any,
-              encoding: 'ANY_TYPE_PREFIX',
+              encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
               options: {}
             }
           }
@@ -185,7 +185,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
           prefixEncodings,
           encoding: {
             type: EncodingType.Any,
-            encoding: 'ANY_TYPE_PREFIX',
+            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
             options: {}
           }
         }
@@ -202,7 +202,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
             prefixEncodings,
             encoding: {
               type: EncodingType.Any,
-              encoding: 'ANY_TYPE_PREFIX',
+              encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
               options: {}
             }
           }
@@ -217,7 +217,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
           prefixEncodings,
           encoding: {
             type: EncodingType.Any,
-            encoding: 'ANY_TYPE_PREFIX',
+            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
             options: {}
           }
         }
@@ -232,7 +232,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
           prefixEncodings,
           encoding: {
             type: EncodingType.Any,
-            encoding: 'ANY_TYPE_PREFIX',
+            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
             options: {}
           }
         }
@@ -247,7 +247,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
         prefixEncodings,
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       }

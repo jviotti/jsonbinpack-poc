@@ -41,7 +41,7 @@ tap.test('should compile a boolean schema true', async (test) => {
 
   test.strictSame(encoding, {
     type: 'any',
-    encoding: 'ANY_TYPE_PREFIX',
+    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
     options: {}
   })
 
@@ -105,7 +105,7 @@ tap.test('should compile a simple oneOf schema', async (test) => {
           },
           encoding: {
             type: 'any',
-            encoding: 'ANY_TYPE_PREFIX',
+            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
             options: {}
           }
         }

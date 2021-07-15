@@ -398,7 +398,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
           }),
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         },
         propertyEncodings: packedPropertyEncodings,

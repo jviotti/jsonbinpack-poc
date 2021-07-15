@@ -55,7 +55,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode untyped {foo:"bar",baz:1}',
     }, 1),
     encoding: {
       type: EncodingType.Any,
-      encoding: 'ANY_TYPE_PREFIX',
+      encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
       options: {}
     }
   }, context)
@@ -94,7 +94,7 @@ tap.test('ARBITRARY_TYPED_KEYS_OBJECT: should encode typed {foo:"bar",baz:1}', (
     }, 1),
     encoding: {
       type: EncodingType.Any,
-      encoding: 'ANY_TYPE_PREFIX',
+      encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
       options: {}
     }
   }, context)
@@ -493,7 +493,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
     }, 1),
     encoding: {
       type: EncodingType.Any,
-      encoding: 'ANY_TYPE_PREFIX',
+      encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
       options: {}
     }
   }, context)
@@ -534,7 +534,7 @@ tap.test('REQUIRED_UNBOUNDED_TYPED_OBJECT: should encode typed {foo:"bar"}', (te
     }, 1),
     encoding: {
       type: EncodingType.Any,
-      encoding: 'ANY_TYPE_PREFIX',
+      encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
       options: {}
     }
   }, context)
@@ -569,7 +569,7 @@ tap.test('OPTIONAL_UNBOUNDED_TYPED_OBJECT: should encode semityped {foo:"bar",ba
     }, 1),
     encoding: {
       type: EncodingType.Any,
-      encoding: 'ANY_TYPE_PREFIX',
+      encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
       options: {}
     }
   }, context)
@@ -611,7 +611,7 @@ tap.test('MIXED_UNBOUNDED_TYPED_OBJECT: should encode mixed {foo:"bar",baz:1,qux
     }, 1),
     encoding: {
       type: EncodingType.Any,
-      encoding: 'ANY_TYPE_PREFIX',
+      encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
       options: {}
     },
     propertyEncodings: {
@@ -673,7 +673,7 @@ tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
     },
     encoding: {
       type: EncodingType.Any,
-      encoding: 'ANY_TYPE_PREFIX',
+      encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
       options: {}
     },
     propertyEncodings: {

@@ -105,7 +105,7 @@ const findHighest2Exponent = (
   return exponent
 }
 
-export const ANY_TYPE_PREFIX = (
+export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
   buffer: ResizableBuffer, offset: number, value: JSONValue, _options: NoOptions, context: EncodingContext
 ): number => {
   // Encode an array value
@@ -121,7 +121,7 @@ export const ANY_TYPE_PREFIX = (
           prefixEncodings: [],
           encoding: {
             type: EncodingType.Any,
-            encoding: 'ANY_TYPE_PREFIX',
+            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
             options: {}
           }
         }, context)
@@ -137,7 +137,7 @@ export const ANY_TYPE_PREFIX = (
         prefixEncodings: [],
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       }, context)
@@ -160,7 +160,7 @@ export const ANY_TYPE_PREFIX = (
           },
           encoding: {
             type: EncodingType.Any,
-            encoding: 'ANY_TYPE_PREFIX',
+            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
             options: {}
           }
         }, context)
@@ -180,7 +180,7 @@ export const ANY_TYPE_PREFIX = (
         },
         encoding: {
           type: EncodingType.Any,
-          encoding: 'ANY_TYPE_PREFIX',
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
         }
       }, context)

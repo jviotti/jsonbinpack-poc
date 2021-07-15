@@ -84,7 +84,7 @@ var getArrayEncoding = function (schema, level) {
                         prefixEncodings: prefixEncodings,
                         encoding: {
                             type: encoder_1.EncodingType.Any,
-                            encoding: 'ANY_TYPE_PREFIX',
+                            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                             options: {}
                         }
                     }
@@ -99,7 +99,7 @@ var getArrayEncoding = function (schema, level) {
                     prefixEncodings: prefixEncodings,
                     encoding: {
                         type: encoder_1.EncodingType.Any,
-                        encoding: 'ANY_TYPE_PREFIX',
+                        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                         options: {}
                     }
                 }
@@ -117,7 +117,7 @@ var getArrayEncoding = function (schema, level) {
                         prefixEncodings: prefixEncodings,
                         encoding: {
                             type: encoder_1.EncodingType.Any,
-                            encoding: 'ANY_TYPE_PREFIX',
+                            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                             options: {}
                         }
                     }
@@ -131,7 +131,7 @@ var getArrayEncoding = function (schema, level) {
                     prefixEncodings: prefixEncodings,
                     encoding: {
                         type: encoder_1.EncodingType.Any,
-                        encoding: 'ANY_TYPE_PREFIX',
+                        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                         options: {}
                     }
                 }
@@ -147,7 +147,7 @@ var getArrayEncoding = function (schema, level) {
                     prefixEncodings: prefixEncodings,
                     encoding: {
                         type: encoder_1.EncodingType.Any,
-                        encoding: 'ANY_TYPE_PREFIX',
+                        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                         options: {}
                     }
                 }
@@ -161,7 +161,7 @@ var getArrayEncoding = function (schema, level) {
                 prefixEncodings: prefixEncodings,
                 encoding: {
                     type: encoder_1.EncodingType.Any,
-                    encoding: 'ANY_TYPE_PREFIX',
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
                     options: {}
                 }
             }

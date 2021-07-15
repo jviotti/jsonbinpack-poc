@@ -31,7 +31,7 @@ Given the following input object:
 }
 ```
 
-Where the encoding is [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix) and
+Where the encoding is [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix) and
 the key encoding is
 [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
 with a minimum of 0, the encoding results in:
@@ -74,7 +74,7 @@ Given the following input object:
 }
 ```
 
-Where the encoding is [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix) and
+Where the encoding is [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix) and
 the key encoding is
 [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
 with a minimum of 0, the encoding results in:
@@ -188,10 +188,10 @@ Where the options are defined as follows:
   - `foo`:
     [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
     with minimum 0
-  - `bar`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+  - `bar`: [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
   - `baz`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with
     minimum 0
-  - `qux`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+  - `qux`: [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
 
 The encoding results in:
 
@@ -306,7 +306,7 @@ Where the options are defined as follows:
 - `keyEncoding`:
   [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
   with minimum 0
-- `encoding`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+- `encoding`: [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
 
 The encoding results in:
 
@@ -363,7 +363,7 @@ Where the options are defined as follows:
 - `keyEncoding`:
   [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
   with minimum 0
-- `encoding`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+- `encoding`: [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
 
 The encoding results in:
 
@@ -428,7 +428,7 @@ Where the options are defined as follows:
 - `keyEncoding`:
   [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
   with minimum 0
-- `encoding`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+- `encoding`: [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
 
 The encoding results in:
 
@@ -580,7 +580,7 @@ Where the options are defined as follows:
 - `packedEncoding`:
   [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed)
   with minimum 0 and maximum 2
-- `encoding`: [`ANY_TYPE_PREFIX`](./any.markdown#any_type_prefix)
+- `encoding`: [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
 - `keyEncoding`:
   [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
   with minimum 0
