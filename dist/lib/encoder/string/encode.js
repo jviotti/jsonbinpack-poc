@@ -199,7 +199,7 @@ var STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = function (buffer, offset, value, _op
 exports.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH;
 var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context) {
     var url = new URL(value);
-    var protocolBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, url.protocol, {
+    var protocolBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, url.protocol.slice(0, url.protocol.length - 1), {
         minimum: 0
     }, context);
     var hostBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes, url.host, {

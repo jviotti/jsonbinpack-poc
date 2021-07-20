@@ -329,7 +329,7 @@ export const URL_PROTOCOL_HOST_REST = (
 ): number => {
   const url = new URL(value)
   const protocolBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(
-    buffer, offset, url.protocol, {
+    buffer, offset, url.protocol.slice(0, url.protocol.length - 1), {
       minimum: 0
     }, context)
   const hostBytes: number = FLOOR_PREFIX_LENGTH_ENUM_VARINT(

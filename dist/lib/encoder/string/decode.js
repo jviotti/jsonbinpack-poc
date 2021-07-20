@@ -197,7 +197,7 @@ var URL_PROTOCOL_HOST_REST = function (buffer, offset, _options) {
         minimum: 0
     });
     return {
-        value: protocol.value + "//" + host.value + rest.value,
+        value: protocol.value + "://" + host.value + rest.value,
         bytes: protocol.bytes + host.bytes + rest.bytes
     };
 };

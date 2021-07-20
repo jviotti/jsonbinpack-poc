@@ -324,7 +324,7 @@ export const URL_PROTOCOL_HOST_REST = (
     })
 
   return {
-    value: `${protocol.value}//${host.value}${rest.value}`,
+    value: `${protocol.value}://${host.value}${rest.value}`,
     bytes: protocol.bytes + host.bytes + rest.bytes
   }
 }

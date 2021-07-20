@@ -251,11 +251,10 @@ Given the input string `2014-10-01`, the encoding results in:
 
 The encoding represents a URL as a sequence of three
 [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](#floor_prefix_length_enum_varint) strings
-each with a `minimum` equal to 0: the protocol including the colon, the host
+each with a `minimum` equal to 0: the protocol excluding the colon, the host
 excluding the trailing slash, and the rest of the URL including the leading
 slash.
 
-<!-- TODO: Why do we even encode the trailing colon in the protocol? -->
 <!-- TODO: Why do we even encode the leading slash in the remaining? -->
 
 #### Options
@@ -271,10 +270,10 @@ None
 Given the input string `https://google.com/foo?bar=1`, the encoding results in:
 
 ```
-+------+------+------+------+------+------+------+
-| 0x07 | 0x68 | 0x74 | 0x74 | 0x70 | 0x73 | 0x3a |
-+------+------+------+------+------+------+------+
-         h      t      t      p      s      :
++------+------+------+------+------+------+
+| 0x07 | 0x68 | 0x74 | 0x74 | 0x70 | 0x73 |
++------+------+------+------+------+------+
+         h      t      t      p      s
 
 +------+------+------+------+------+------+------+------+------+------+------+
 | 0x0b | 0x67 | 0x6f | 0x6f | 0x67 | 0x6c | 0x65 | 0x2e | 0x63 | 0x6f | 0x6d |
