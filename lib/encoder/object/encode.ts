@@ -325,23 +325,18 @@ export const PACKED_BOUNDED_REQUIRED_OBJECT = (
     Reflect.deleteProperty(unpackedSubset, key)
   }
 
-  const packedLengthBytes: number = FLOOR_ENUM_VARINT(
-    buffer, offset, packedValues.length, {
-      minimum: 0
-    }, context)
-
   const packedBytes: number = integerListEncode(
-    buffer, offset + packedLengthBytes, packedValues, {
+    buffer, offset, packedValues, {
       minimum: options.packedEncoding.options.minimum,
       maximum: options.packedEncoding.options.maximum
     })
 
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
-    buffer, offset + packedLengthBytes + packedBytes, unpackedSubset, {
+    buffer, offset + packedBytes, unpackedSubset, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties,
       booleanRequiredProperties: options.booleanRequiredProperties
     }, context)
 
-  return packedLengthBytes + packedBytes + requiredBytes
+  return packedBytes + requiredBytes
 }

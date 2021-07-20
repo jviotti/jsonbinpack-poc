@@ -357,18 +357,15 @@ var PACKED_BOUNDED_REQUIRED_OBJECT = function (buffer, offset, value, options, c
         }
         finally { if (e_12) throw e_12.error; }
     }
-    var packedLengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, packedValues.length, {
-        minimum: 0
-    }, context);
-    var packedBytes = integer_list_1.integerListEncode(buffer, offset + packedLengthBytes, packedValues, {
+    var packedBytes = integer_list_1.integerListEncode(buffer, offset, packedValues, {
         minimum: options.packedEncoding.options.minimum,
         maximum: options.packedEncoding.options.maximum
     });
-    var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedLengthBytes + packedBytes, unpackedSubset, {
+    var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedBytes, unpackedSubset, {
         propertyEncodings: options.propertyEncodings,
         requiredProperties: options.requiredProperties,
         booleanRequiredProperties: options.booleanRequiredProperties
     }, context);
-    return packedLengthBytes + packedBytes + requiredBytes;
+    return packedBytes + requiredBytes;
 };
 exports.PACKED_BOUNDED_REQUIRED_OBJECT = PACKED_BOUNDED_REQUIRED_OBJECT;

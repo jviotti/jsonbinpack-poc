@@ -441,16 +441,13 @@ The encoding results in:
 
 ### `PACKED_BOUNDED_REQUIRED_OBJECT`
 
-The encoding consists of the number of packed integer required properties as a
-Base-128 64-bit Little Endian variable-length unsigned integer followed by the
-packed integer properties encoded in order followed by the rest of the input
-object encoded as defined in
+The encoding consists of the packed integer properties encoded in order
+followed by the rest of the input object encoded as defined in
 [`REQUIRED_ONLY_BOUNDED_TYPED_OBJECT`](#required_only_bounded_typed_object).
 The packed integer properties are encoded as a byte-aligned reversed Little
 Endian buffer using the least possible amount of bits for each item as
 determined by the bounds of `packedEncoding`.
 
-<!-- TODO: We don't really need to encode the packed properties length here -->
 <!-- TODO: The fact that it is so hard to explain the integer bitset means that
 we should fix the reversing and ordering abominations -->
 
@@ -505,14 +502,14 @@ Where the options are defined as follows:
 The encoding results in:
 
 ```
-+------+------------+------------+------+------+------+------+------+------+
-| 0x05 | 0b10100001 | 0b00000001 | 0x01 | 0x05 | 0x6a | 0x6f | 0x68 | 0x6e |
-+------+------------+------------+------+------+------+------+------+------+
-         ^^^^^^^^^^   ^^^^^^^^^^   true          j      o      h      n
-         10 = foo     01 = qux
-         10 = extra
-         00 = baz
-         01 = bar
++------------+------------+------+------+------+------+------+------+
+| 0b10100001 | 0b00000001 | 0x01 | 0x05 | 0x6a | 0x6f | 0x68 | 0x6e |
++------------+------------+------+------+------+------+------+------+
+  ^^^^^^^^^^   ^^^^^^^^^^   true          j      o      h      n
+  10 = foo     01 = qux
+  10 = extra
+  00 = baz
+  01 = bar
 ```
 
 ### `PACKED_UNBOUNDED_OBJECT`

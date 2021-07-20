@@ -256,10 +256,7 @@ var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, options) {
 exports.PACKED_UNBOUNDED_OBJECT = PACKED_UNBOUNDED_OBJECT;
 var PACKED_BOUNDED_REQUIRED_OBJECT = function (buffer, offset, options) {
     var e_5, _a;
-    var packedLength = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
-    });
-    var packedResult = integer_list_1.integerListDecode(buffer, offset + packedLength.bytes, packedLength.value, {
+    var packedResult = integer_list_1.integerListDecode(buffer, offset, options.packedRequiredProperties.length, {
         minimum: options.packedEncoding.options.minimum,
         maximum: options.packedEncoding.options.maximum
     });
@@ -277,14 +274,14 @@ var PACKED_BOUNDED_REQUIRED_OBJECT = function (buffer, offset, options) {
         }
         finally { if (e_5) throw e_5.error; }
     }
-    var rest = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedLength.bytes + packedResult.bytes, {
+    var rest = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedResult.bytes, {
         propertyEncodings: options.propertyEncodings,
         requiredProperties: options.requiredProperties,
         booleanRequiredProperties: options.booleanRequiredProperties
     });
     return {
         value: Object.assign(result, rest.value),
-        bytes: packedLength.bytes + packedResult.bytes + rest.bytes
+        bytes: packedResult.bytes + rest.bytes
     };
 };
 exports.PACKED_BOUNDED_REQUIRED_OBJECT = PACKED_BOUNDED_REQUIRED_OBJECT;
