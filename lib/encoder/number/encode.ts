@@ -61,7 +61,6 @@ export const DOUBLE_VARINT_TUPLE = (
 ): number => {
   const valueString: string = fromExponential(value)
   const pointIndex: number = valueString.startsWith('-')
-    // Don't take the minus sign into account
     ? valueString.indexOf('.') - 1
     : valueString.indexOf('.')
   const point: number = pointIndex > 0 ? pointIndex : 0

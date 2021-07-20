@@ -6,8 +6,6 @@ Any Encodings
 The encoding consists of a type tag followed by the input value serialized
 using a predetermined encoding. This encoding supports the following type tags:
 
-<!-- TODO: Add links -->
-
 - `0b00000000` (Shared string): If the byte-length is less than 31, the
 	byte-length plus 1 is encoded as an unsigned integer in the most-significant
 	5 bits of the type tag followed by the input value as defined in
