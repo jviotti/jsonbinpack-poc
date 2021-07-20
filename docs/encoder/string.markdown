@@ -255,6 +255,8 @@ each with a `minimum` equal to 0: the protocol excluding the colon, the host
 excluding the trailing slash, and the rest of the URL including the leading
 slash.
 
+<!-- TODO: Add various common protocols as an enum -->
+
 <!-- TODO: Why do we even encode the leading slash in the remaining? -->
 
 #### Options
