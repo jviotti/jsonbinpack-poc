@@ -155,7 +155,7 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
         buffer, offset + tagBytes, value, {
           keyEncoding: {
             type: EncodingType.String,
-            encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+            encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
             options: {}
           },
           encoding: {
@@ -175,7 +175,7 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
         size,
         keyEncoding: {
           type: EncodingType.String,
-          encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+          encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
           options: {}
         },
         encoding: {

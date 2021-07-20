@@ -105,9 +105,9 @@ export interface SHARED_STRING_POINTER_RELATIVE_OFFSET_ENCODING extends BaseEnco
   readonly options: SizeOptions;
 }
 
-export interface UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH_ENCODING extends BaseEncodingDefinition {
+export interface STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
-  readonly encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH';
+  readonly encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH';
   readonly options: NoOptions;
 }
 
@@ -121,7 +121,7 @@ export type StringEncodingNames =
   'FLOOR_PREFIX_LENGTH_ENUM_VARINT' |
   'UTF8_STRING_NO_LENGTH' |
   'SHARED_STRING_POINTER_RELATIVE_OFFSET' |
-  'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH'
+  'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH'
 export type StringEncoding =
   STRING_BROTLI_ENCODING |
   STRING_DICTIONARY_COMPRESSOR_ENCODING |
@@ -132,7 +132,7 @@ export type StringEncoding =
   FLOOR_PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   UTF8_STRING_NO_LENGTH_ENCODING |
   SHARED_STRING_POINTER_RELATIVE_OFFSET_ENCODING |
-  UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH_ENCODING
+  STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH_ENCODING
 
 export const getStringStates = (_schema: StringEncodingSchema): number | JSONValue[] => {
   return Infinity

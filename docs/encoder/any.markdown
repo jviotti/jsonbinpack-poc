@@ -30,14 +30,14 @@ using a predetermined encoding. This encoding supports the following type tags:
 	value is encoded as the type tag followed by
 	[`ARBITRARY_TYPED_KEYS_OBJECT`](./object.markdown#arbitrary_typed_keys_object)
 	where `keyEncoding` is
-	[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](./string.markdown#unbounded_object_key_prefix_length)
+	[`STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`](./string.markdown#string_unbounded_scoped_prefix_length)
 	and `encoding` is [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix).
 	Otherwise, the number of pairs plus 1 is encoded as an unsigned integer in
 	the most-significant 5 bits of the type tag followed by the input value
 	encoded as defined in
 	[`ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH`](./object.markdown#arbitrary_typed_keys_object_without_length)
 	where `keyEncoding` is
-	[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](./string.markdown#unbounded_object_key_prefix_length)
+	[`STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`](./string.markdown#string_unbounded_scoped_prefix_length)
 	and `encoding` is [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix).
 - `0b00000100` (Array): If the number of items is greater than 30, the input
 	value is encoded as the type tag followed by

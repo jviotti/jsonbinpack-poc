@@ -287,19 +287,18 @@ Given the input string `https://google.com/foo?bar=1`, the encoding results in:
          /      f      o      o      ?      b      a      r      =      1
 ```
 
-### `UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`
-
-<!-- TODO: Give this encoding another name that doesn't make reference to object keys -->
+### `STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`
 
 The encoding consists of the byte-length of the string plus 1 as a Base-128
 64-bit Little Endian variable-length unsigned integer followed by the UTF-8
 encoding of the input value.
 
 Optionally, if the input string has already been encoded to the buffer using
-the [`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
+the
+[`STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`](#string_unbounded_scoped_prefix_length)
 encoding, the encoding may consist of the byte constant `0x00` followed by the
 current offset minus the offset to the start of the
-[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
+[`STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`](#string_unbounded_scoped_prefix_length)
 encoding as a Base-128 64-bit Little Endian variable-length unsigned integer.
 It is permissible to point to another instance of the string that is a pointer
 itself.

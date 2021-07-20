@@ -288,7 +288,7 @@ export const FLOOR_PREFIX_LENGTH_ENUM_VARINT = (
   return bytesWritten + prefixBytes + lengthBytes
 }
 
-export const UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = (
+export const STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = (
   buffer: ResizableBuffer, offset: number, value: JSONString,
   _options: NoOptions, context: EncodingContext
 ): number => {

@@ -435,7 +435,7 @@ tap.test('should encode a simple unbounded object', (test) => {
     options: {
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       },
       encoding: {
@@ -463,7 +463,7 @@ tap.test('should encode a simple unbounded object with empty required', (test) =
     options: {
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       },
       encoding: {
@@ -491,7 +491,7 @@ tap.test('should encode a simple unbounded object with additionalProperties: tru
     options: {
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       },
       encoding: {
@@ -521,7 +521,7 @@ tap.test('should encode a simple unbounded object with additionalProperties: sch
     options: {
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       },
       encoding: {
@@ -668,7 +668,7 @@ tap.test('should encode a simple unbounded object with a required property', (te
       },
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       },
       encoding: {
@@ -712,7 +712,7 @@ tap.test('should encode a simple unbounded object with a required typed property
       },
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       },
       encoding: {
@@ -766,7 +766,7 @@ tap.test('should encode a simple unbounded object with two optional properties',
       },
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       },
       encoding: {
@@ -1066,7 +1066,7 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
       booleanRequiredProperties: [ 'flag' ],
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       }
     }
@@ -1139,7 +1139,7 @@ tap.test('should encode an unbounded object with bounded integers with maxProper
       booleanRequiredProperties: [ 'flag' ],
       keyEncoding: {
         type: 'string',
-        encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+        encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
         options: {}
       }
     }

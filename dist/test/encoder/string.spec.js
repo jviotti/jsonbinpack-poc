@@ -376,23 +376,23 @@ tap_1.default.test('SHARED_STRING_POINTER_RELATIVE_OFFSET: should handle a share
     test.is(result.bytes, bytesWritten2);
     test.end();
 });
-tap_1.default.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should handle "foo"', function (test) {
+tap_1.default.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should handle "foo"', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(4));
     var value = 'foo';
-    var bytesWritten = encode_1.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, 0, value, {}, context);
-    var result = decode_1.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, 0, {});
+    var bytesWritten = encode_1.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, 0, value, {}, context);
+    var result = decode_1.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, 0, {});
     test.is(result.value, value);
     test.is(result.bytes, bytesWritten);
     test.end();
 });
-tap_1.default.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should handle a shared string', function (test) {
+tap_1.default.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should handle a shared string', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var value = 'foo';
-    var bytesWritten1 = encode_1.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, 0, value, {}, context);
-    var bytesWritten2 = encode_1.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, bytesWritten1, value, {}, context);
-    var result = decode_1.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, bytesWritten1, {});
+    var bytesWritten1 = encode_1.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, 0, value, {}, context);
+    var bytesWritten2 = encode_1.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, bytesWritten1, value, {}, context);
+    var result = decode_1.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, bytesWritten1, {});
     test.is(bytesWritten1, 4);
     test.is(result.value, value);
     test.is(result.bytes, bytesWritten2);

@@ -26,7 +26,7 @@ import {
   UTF8_STRING_NO_LENGTH,
   SHARED_STRING_POINTER_RELATIVE_OFFSET,
   FLOOR_PREFIX_LENGTH_ENUM_VARINT,
-  UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH
+  STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH
 } from '../../../lib/encoder/string/encode'
 
 import {
@@ -480,28 +480,28 @@ tap.test('FLOOR_PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
   test.end()
 })
 
-tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should encode "foo"', (
+tap.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should encode "foo"', (
   test
 ) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number =
-    UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, 0, 'foo', {}, context)
+    STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, 0, 'foo', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x04, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 4)
   test.end()
 })
 
-tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should encode a shared string', (
+tap.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should encode a shared string', (
   test
 ) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
 
-  const bytesWritten1: number = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(
+  const bytesWritten1: number = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(
     buffer, 0, 'foo', {}, context)
 
-  const bytesWritten2: number = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(
+  const bytesWritten2: number = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(
     buffer, bytesWritten1, 'foo', {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -523,7 +523,7 @@ tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should encode a shared string', (
   test.end()
 })
 
-tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should not encode a shared non-key string', (
+tap.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should not encode a shared non-key string', (
   test
 ) => {
   const context: EncodingContext = getDefaultEncodingContext()
@@ -534,7 +534,7 @@ tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should not encode a shared non-key
       minimum: 3
     }, context)
 
-  const bytesWritten2: number = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(
+  const bytesWritten2: number = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(
     buffer, bytesWritten1, 'foo', {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([

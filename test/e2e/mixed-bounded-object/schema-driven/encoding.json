@@ -36,7 +36,7 @@
           },
           "keyEncoding": {
             "type": "string",
-            "encoding": "UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH",
+            "encoding": "STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH",
             "options": {}
           },
           "requiredProperties": [
