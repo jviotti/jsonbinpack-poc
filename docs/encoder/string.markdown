@@ -273,7 +273,7 @@ Given the input string `https://google.com/foo?bar=1`, the encoding results in:
 
 ```
 +------+------+------+------+------+------+
-| 0x07 | 0x68 | 0x74 | 0x74 | 0x70 | 0x73 |
+| 0x06 | 0x68 | 0x74 | 0x74 | 0x70 | 0x73 |
 +------+------+------+------+------+------+
          h      t      t      p      s
 
