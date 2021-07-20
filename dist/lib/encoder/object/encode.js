@@ -320,11 +320,14 @@ var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, value, options, context)
         }
         finally { if (e_11) throw e_11.error; }
     }
-    var packedBytes = integer_list_1.integerListEncode(buffer, offset, packedValues, {
+    var packedLengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, packedValues.length, {
+        minimum: 0
+    }, context);
+    var packedBytes = integer_list_1.integerListEncode(buffer, offset + packedLengthBytes, packedValues, {
         minimum: options.packedEncoding.options.minimum,
         maximum: options.packedEncoding.options.maximum
-    }, context);
-    return packedBytes + exports.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, offset + packedBytes, unpackedSubset, {
+    });
+    return packedLengthBytes + packedBytes + exports.MIXED_UNBOUNDED_TYPED_OBJECT(buffer, offset + packedLengthBytes + packedBytes, unpackedSubset, {
         requiredProperties: options.requiredProperties,
         booleanRequiredProperties: options.booleanRequiredProperties,
         optionalProperties: options.optionalProperties,
@@ -354,15 +357,18 @@ var PACKED_BOUNDED_REQUIRED_OBJECT = function (buffer, offset, value, options, c
         }
         finally { if (e_12) throw e_12.error; }
     }
-    var packedBytes = integer_list_1.integerListEncode(buffer, offset, packedValues, {
+    var packedLengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, packedValues.length, {
+        minimum: 0
+    }, context);
+    var packedBytes = integer_list_1.integerListEncode(buffer, offset + packedLengthBytes, packedValues, {
         minimum: options.packedEncoding.options.minimum,
         maximum: options.packedEncoding.options.maximum
-    }, context);
-    var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedBytes, unpackedSubset, {
+    });
+    var requiredBytes = exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(buffer, offset + packedLengthBytes + packedBytes, unpackedSubset, {
         propertyEncodings: options.propertyEncodings,
         requiredProperties: options.requiredProperties,
         booleanRequiredProperties: options.booleanRequiredProperties
     }, context);
-    return packedBytes + requiredBytes;
+    return packedLengthBytes + packedBytes + requiredBytes;
 };
 exports.PACKED_BOUNDED_REQUIRED_OBJECT = PACKED_BOUNDED_REQUIRED_OBJECT;

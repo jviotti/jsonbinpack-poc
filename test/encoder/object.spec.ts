@@ -654,7 +654,7 @@ tap.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: nine boolean properties', (test) =
 
 tap.test('PACKED_UNBOUNDED_OBJECT: complex object', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(20))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
   const value: JSONObject = {
     foo: 1,
     bar: 2,

@@ -273,10 +273,15 @@ export const MIXED_UNBOUNDED_TYPED_OBJECT = (
 export const PACKED_UNBOUNDED_OBJECT = (
   buffer: ResizableBuffer, offset: number, options: PackedUnboundedOptions
 ): ObjectResult => {
-  const packedResult: IntegerListResult = integerListDecode(buffer, offset, {
-    minimum: options.packedEncoding.options.minimum,
-    maximum: options.packedEncoding.options.maximum
+  const packedLength: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
+    minimum: 0
   })
+
+  const packedResult: IntegerListResult = integerListDecode(
+    buffer, offset + packedLength.bytes, packedLength.value, {
+      minimum: options.packedEncoding.options.minimum,
+      maximum: options.packedEncoding.options.maximum
+    })
 
   const result: JSONObject = {}
   for (const [ index, key ] of options.packedRequiredProperties.entries()) {
@@ -284,7 +289,7 @@ export const PACKED_UNBOUNDED_OBJECT = (
   }
 
   const rest: ObjectResult = MIXED_UNBOUNDED_TYPED_OBJECT(
-    buffer, offset + packedResult.bytes, {
+    buffer, offset + packedLength.bytes + packedResult.bytes, {
       requiredProperties: options.requiredProperties,
       booleanRequiredProperties: options.booleanRequiredProperties,
       optionalProperties: options.optionalProperties,
@@ -295,17 +300,22 @@ export const PACKED_UNBOUNDED_OBJECT = (
 
   return {
     value: Object.assign(result, rest.value),
-    bytes: packedResult.bytes + rest.bytes
+    bytes: packedLength.bytes + packedResult.bytes + rest.bytes
   }
 }
 
 export const PACKED_BOUNDED_REQUIRED_OBJECT = (
   buffer: ResizableBuffer, offset: number, options: PackedRequiredBoundedOptions
 ): ObjectResult => {
-  const packedResult: IntegerListResult = integerListDecode(buffer, offset, {
-    minimum: options.packedEncoding.options.minimum,
-    maximum: options.packedEncoding.options.maximum
+  const packedLength: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
+    minimum: 0
   })
+
+  const packedResult: IntegerListResult = integerListDecode(
+    buffer, offset + packedLength.bytes, packedLength.value, {
+      minimum: options.packedEncoding.options.minimum,
+      maximum: options.packedEncoding.options.maximum
+    })
 
   const result: JSONObject = {}
   for (const [ index, key ] of options.packedRequiredProperties.entries()) {
@@ -313,7 +323,7 @@ export const PACKED_BOUNDED_REQUIRED_OBJECT = (
   }
 
   const rest: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
-    buffer, offset + packedResult.bytes, {
+    buffer, offset + packedLength.bytes + packedResult.bytes, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties,
       booleanRequiredProperties: options.booleanRequiredProperties
@@ -321,6 +331,6 @@ export const PACKED_BOUNDED_REQUIRED_OBJECT = (
 
   return {
     value: Object.assign(result, rest.value),
-    bytes: packedResult.bytes + rest.bytes
+    bytes: packedLength.bytes + packedResult.bytes + rest.bytes
   }
 }

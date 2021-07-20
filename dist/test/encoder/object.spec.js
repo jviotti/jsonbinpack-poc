@@ -513,7 +513,7 @@ tap_1.default.test('REQUIRED_ONLY_BOUNDED_TYPED_OBJECT: nine boolean properties'
 });
 tap_1.default.test('PACKED_UNBOUNDED_OBJECT: complex object', function (test) {
     var context = encoder_1.getDefaultEncodingContext();
-    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(20));
+    var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(10));
     var value = {
         foo: 1,
         bar: 2,
