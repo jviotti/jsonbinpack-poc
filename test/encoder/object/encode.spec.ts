@@ -740,7 +740,7 @@ tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
 
 tap.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex object', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(9))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(8))
   const bytesWritten: number = PACKED_BOUNDED_REQUIRED_OBJECT(buffer, 0, {
     foo: 1,
     bar: 2,
@@ -772,9 +772,6 @@ tap.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex object', (test
   }, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
-    // Amount of packed integers
-    0x05,
-
     // REVERSE(10 (bar) 00 (baz) 01 (extra) 01 (foo))
     0b10100001,
 
@@ -791,6 +788,6 @@ tap.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex object', (test
     0x6a, 0x6f, 0x68, 0x6e
   ]))
 
-  test.is(bytesWritten, 9)
+  test.is(bytesWritten, 8)
   test.end()
 })

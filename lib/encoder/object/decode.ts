@@ -307,12 +307,8 @@ export const PACKED_UNBOUNDED_OBJECT = (
 export const PACKED_BOUNDED_REQUIRED_OBJECT = (
   buffer: ResizableBuffer, offset: number, options: PackedRequiredBoundedOptions
 ): ObjectResult => {
-  const packedLength: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: 0
-  })
-
   const packedResult: IntegerListResult = integerListDecode(
-    buffer, offset + packedLength.bytes, packedLength.value, {
+    buffer, offset, options.packedRequiredProperties.length, {
       minimum: options.packedEncoding.options.minimum,
       maximum: options.packedEncoding.options.maximum
     })
@@ -323,7 +319,7 @@ export const PACKED_BOUNDED_REQUIRED_OBJECT = (
   }
 
   const rest: ObjectResult = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
-    buffer, offset + packedLength.bytes + packedResult.bytes, {
+    buffer, offset + packedResult.bytes, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties,
       booleanRequiredProperties: options.booleanRequiredProperties
@@ -331,6 +327,6 @@ export const PACKED_BOUNDED_REQUIRED_OBJECT = (
 
   return {
     value: Object.assign(result, rest.value),
-    bytes: packedLength.bytes + packedResult.bytes + rest.bytes
+    bytes: packedResult.bytes + rest.bytes
   }
 }
