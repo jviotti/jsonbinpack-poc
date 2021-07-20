@@ -253,11 +253,11 @@ The encoding represents a URL as a sequence of three
 [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](#floor_prefix_length_enum_varint) strings
 each with a `minimum` equal to 0: the protocol excluding the colon, the host
 excluding the trailing slash, and the rest of the URL including the leading
-slash.
+slash. The leading slash of the rest of the URL is necessary to distinguish
+between URLs without a path component and URLs with a path component a
+standalone slash.
 
 <!-- TODO: Add various common protocols as an enum -->
-
-<!-- TODO: Why do we even encode the leading slash in the remaining? -->
 
 #### Options
 
