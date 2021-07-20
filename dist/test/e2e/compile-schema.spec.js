@@ -98,7 +98,7 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                     type: 'oneOf',
                     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
                     options: {
-                        schemas: [
+                        choices: [
                             {
                                 schema: {
                                     type: 'integer'

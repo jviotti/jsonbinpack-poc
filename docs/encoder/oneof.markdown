@@ -11,16 +11,14 @@ encoded as indicated by the `encoding` property of the matching branch.
 
 | Option    | Type                    | Description                                          |
 |-----------|-------------------------|------------------------------------------------------|
-| `schemas` | `(schema + encoding)[]` | A `schema` and a matching `encoding` for each branch |
-
-<!-- TODO: Rename the `schemas` option to `branches` or `choices` -->
+| `choices` | `(schema + encoding)[]` | A `schema` and a matching `encoding` for each branch |
 
 #### Conditions
 
 | Condition                    | Description                                     |
 |------------------------------|-------------------------------------------------|
-| `len(schemas) > 0`           | There must be more than one possible branch     |
-| `one(schemas) matches value` | One and only one branch matches the input value |
+| `len(choices) > 0`           | There must be more than one possible branch     |
+| `one(choices) matches value` | One and only one branch matches the input value |
 
 #### Examples
 

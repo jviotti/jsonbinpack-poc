@@ -70,7 +70,7 @@
                                                 "type": "oneOf",
                                                 "encoding": "ONEOF_CHOICE_INDEX_PREFIX",
                                                 "options": {
-                                                    "schemas": [
+                                                    "choices": [
                                                         {
                                                             "schema": {
                                                                 "type": "object",

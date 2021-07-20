@@ -51,7 +51,7 @@ export const ONEOF_CHOICE_INDEX_PREFIX = (
 
   const result: DecodeResult = decode(
     buffer, offset + index.bytes,
-    options.schemas[index.value].encoding)
+    options.choices[index.value].encoding)
 
   return {
     value: result.value,
