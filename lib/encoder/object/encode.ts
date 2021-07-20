@@ -289,19 +289,26 @@ export const PACKED_UNBOUNDED_OBJECT = (
     Reflect.deleteProperty(unpackedSubset, key)
   }
 
-  const packedBytes: number = integerListEncode(buffer, offset, packedValues, {
-    minimum: options.packedEncoding.options.minimum,
-    maximum: options.packedEncoding.options.maximum
-  }, context)
+  const packedLengthBytes: number = FLOOR_ENUM_VARINT(
+    buffer, offset, packedValues.length, {
+      minimum: 0
+    }, context)
 
-  return packedBytes + MIXED_UNBOUNDED_TYPED_OBJECT(buffer, offset + packedBytes, unpackedSubset, {
-    requiredProperties: options.requiredProperties,
-    booleanRequiredProperties: options.booleanRequiredProperties,
-    optionalProperties: options.optionalProperties,
-    keyEncoding: options.keyEncoding,
-    encoding: options.encoding,
-    propertyEncodings: options.propertyEncodings
-  }, context)
+  const packedBytes: number = integerListEncode(
+    buffer, offset + packedLengthBytes, packedValues, {
+      minimum: options.packedEncoding.options.minimum,
+      maximum: options.packedEncoding.options.maximum
+    })
+
+  return packedLengthBytes + packedBytes + MIXED_UNBOUNDED_TYPED_OBJECT(
+    buffer, offset + packedLengthBytes + packedBytes, unpackedSubset, {
+      requiredProperties: options.requiredProperties,
+      booleanRequiredProperties: options.booleanRequiredProperties,
+      optionalProperties: options.optionalProperties,
+      keyEncoding: options.keyEncoding,
+      encoding: options.encoding,
+      propertyEncodings: options.propertyEncodings
+    }, context)
 }
 
 export const PACKED_BOUNDED_REQUIRED_OBJECT = (
@@ -318,17 +325,23 @@ export const PACKED_BOUNDED_REQUIRED_OBJECT = (
     Reflect.deleteProperty(unpackedSubset, key)
   }
 
-  const packedBytes: number = integerListEncode(buffer, offset, packedValues, {
-    minimum: options.packedEncoding.options.minimum,
-    maximum: options.packedEncoding.options.maximum
-  }, context)
+  const packedLengthBytes: number = FLOOR_ENUM_VARINT(
+    buffer, offset, packedValues.length, {
+      minimum: 0
+    }, context)
+
+  const packedBytes: number = integerListEncode(
+    buffer, offset + packedLengthBytes, packedValues, {
+      minimum: options.packedEncoding.options.minimum,
+      maximum: options.packedEncoding.options.maximum
+    })
 
   const requiredBytes: number = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT(
-    buffer, offset + packedBytes, unpackedSubset, {
+    buffer, offset + packedLengthBytes + packedBytes, unpackedSubset, {
       propertyEncodings: options.propertyEncodings,
       requiredProperties: options.requiredProperties,
       booleanRequiredProperties: options.booleanRequiredProperties
     }, context)
 
-  return packedBytes + requiredBytes
+  return packedLengthBytes + packedBytes + requiredBytes
 }
