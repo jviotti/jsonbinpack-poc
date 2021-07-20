@@ -170,7 +170,8 @@ unsigned integer, followed by the current offset minus the offset to the start
 of the UTF-8 string value in the buffer encoded as a Base-128 64-bit Little
 Endian variable-length unsigned integer.
 
-<!-- TODO: Do not encode the string length if `minimum` and `maximum` are equal -->
+The byte-length of the string is encoded even if `maximum` equals `minimum` in
+order to disambiguate between shared and non-shared fixed strings.
 
 #### Options
 
