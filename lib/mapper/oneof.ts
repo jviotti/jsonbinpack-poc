@@ -76,7 +76,7 @@ export const getOneOfEncoding = (schema: OneOfEncodingSchema, level: number): On
     type: EncodingType.OneOf,
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
     options: {
-      schemas: schema.oneOf.map((item: EncodingSchema) => {
+      choices: schema.oneOf.map((item: EncodingSchema) => {
         return {
           schema: item,
           encoding: getEncoding(item, level + 1)

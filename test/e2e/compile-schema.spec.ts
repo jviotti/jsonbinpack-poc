@@ -64,7 +64,7 @@ tap.test('should compile a simple oneOf schema', async (test) => {
     type: 'oneOf',
     encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
     options: {
-      schemas: [
+      choices: [
         {
           schema: {
             type: 'integer'

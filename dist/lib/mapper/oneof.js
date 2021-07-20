@@ -23,7 +23,7 @@ var getOneOfEncoding = function (schema, level) {
         type: encoder_1.EncodingType.OneOf,
         encoding: 'ONEOF_CHOICE_INDEX_PREFIX',
         options: {
-            schemas: schema.oneOf.map(function (item) {
+            choices: schema.oneOf.map(function (item) {
                 return {
                     schema: item,
                     encoding: index_1.getEncoding(item, level + 1)
