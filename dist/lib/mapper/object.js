@@ -192,7 +192,7 @@ var getObjectEncoding = function (schema, level) {
     var keyEncoding = typeof schema.propertyNames === 'undefined'
         ? {
             type: encoder_1.EncodingType.String,
-            encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+            encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
             options: {}
         }
         : string_1.getStringEncoding(schema.propertyNames, level + 1);

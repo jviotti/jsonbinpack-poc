@@ -295,7 +295,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
   const keyEncoding: StringEncoding = typeof schema.propertyNames === 'undefined'
     ? {
       type: EncodingType.String,
-      encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+      encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
       options: {}
     }
     : getStringEncoding(schema.propertyNames, level + 1)

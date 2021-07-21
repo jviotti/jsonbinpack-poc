@@ -26,7 +26,7 @@ import {
   UTF8_STRING_NO_LENGTH,
   SHARED_STRING_POINTER_RELATIVE_OFFSET,
   FLOOR_PREFIX_LENGTH_ENUM_VARINT,
-  UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH
+  STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH
 } from '../../../lib/encoder/string/encode'
 
 import {
@@ -161,15 +161,15 @@ tap.test('STRING_BROTLI: should encode "foo bar baz"', (test) => {
 
 tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(18))
   const bytesWritten: number =
     URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
     // Protocol length
-    0x07,
+    0x06,
 
-    // 'https:'
-    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+    // 'https'
+    0x68, 0x74, 0x74, 0x70, 0x73,
 
     // Host length
     0x0b,
@@ -180,21 +180,21 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com"', (test) =>
     // Rest length
     0x01
   ]))
-  test.is(bytesWritten, 19)
+  test.is(bytesWritten, 18)
   test.end()
 })
 
 tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(19))
   const bytesWritten: number =
     URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
     // Protocol length
-    0x07,
+    0x06,
 
-    // 'https:'
-    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+    // 'https'
+    0x68, 0x74, 0x74, 0x70, 0x73,
 
     // Host length
     0x0b,
@@ -206,21 +206,21 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/"', (test) =
     0x02,
     0x2f
   ]))
-  test.is(bytesWritten, 20)
+  test.is(bytesWritten, 19)
   test.end()
 })
 
 tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(22))
   const bytesWritten: number =
     URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/foo', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
     // Protocol length
-    0x07,
+    0x06,
 
-    // 'https:'
-    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+    // 'https'
+    0x68, 0x74, 0x74, 0x70, 0x73,
 
     // Host length
     0x0b,
@@ -232,21 +232,21 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo"', (test
     0x05,
     0x2f, 0x66, 0x6f, 0x6f
   ]))
-  test.is(bytesWritten, 23)
+  test.is(bytesWritten, 22)
   test.end()
 })
 
 tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo?bar=1"', (test) => {
   const context: EncodingContext = getDefaultEncodingContext()
-  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(29))
+  const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(28))
   const bytesWritten: number =
     URL_PROTOCOL_HOST_REST(buffer, 0, 'https://google.com/foo?bar=1', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([
     // Protocol length
-    0x07,
+    0x06,
 
-    // 'https:'
-    0x68, 0x74, 0x74, 0x70, 0x73, 0x3a,
+    // 'https'
+    0x68, 0x74, 0x74, 0x70, 0x73,
 
     // Host length
     0x0b,
@@ -261,7 +261,7 @@ tap.test('URL_PROTOCOL_HOST_REST: should encode "https://google.com/foo?bar=1"',
     // Query string
     0x3f, 0x62, 0x61, 0x72, 0x3d, 0x31
   ]))
-  test.is(bytesWritten, 29)
+  test.is(bytesWritten, 28)
   test.end()
 })
 
@@ -480,28 +480,28 @@ tap.test('FLOOR_PREFIX_LENGTH_ENUM_VARINT: should encode a shared string', (
   test.end()
 })
 
-tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should encode "foo"', (
+tap.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should encode "foo"', (
   test
 ) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(4))
   const bytesWritten: number =
-    UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, 0, 'foo', {}, context)
+    STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, 0, 'foo', {}, context)
   test.strictSame(buffer.getBuffer(), Buffer.from([ 0x04, 0x66, 0x6f, 0x6f ]))
   test.is(bytesWritten, 4)
   test.end()
 })
 
-tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should encode a shared string', (
+tap.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should encode a shared string', (
   test
 ) => {
   const context: EncodingContext = getDefaultEncodingContext()
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(10))
 
-  const bytesWritten1: number = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(
+  const bytesWritten1: number = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(
     buffer, 0, 'foo', {}, context)
 
-  const bytesWritten2: number = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(
+  const bytesWritten2: number = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(
     buffer, bytesWritten1, 'foo', {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([
@@ -523,7 +523,7 @@ tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should encode a shared string', (
   test.end()
 })
 
-tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should not encode a shared non-key string', (
+tap.test('STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH: should not encode a shared non-key string', (
   test
 ) => {
   const context: EncodingContext = getDefaultEncodingContext()
@@ -534,7 +534,7 @@ tap.test('UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH: should not encode a shared non-key
       minimum: 3
     }, context)
 
-  const bytesWritten2: number = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(
+  const bytesWritten2: number = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(
     buffer, bytesWritten1, 'foo', {}, context)
 
   test.strictSame(buffer.getBuffer(), Buffer.from([

@@ -258,7 +258,7 @@ export const FLOOR_PREFIX_LENGTH_ENUM_VARINT = (
   }
 }
 
-export const UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = (
+export const STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = (
   buffer: ResizableBuffer, offset: number, options: NoOptions
 ): StringResult => {
   const prefix: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
@@ -280,7 +280,7 @@ export const UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = (
     // TODO: We should try to do the same for non-keys for locality
     // purposes too?
     if (length.value === 0) {
-      const result: StringResult = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, cursor, options)
+      const result: StringResult = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, cursor, options)
       return {
         value: result.value,
         bytes: prefix.bytes + pointer.bytes
@@ -324,7 +324,7 @@ export const URL_PROTOCOL_HOST_REST = (
     })
 
   return {
-    value: `${protocol.value}//${host.value}${rest.value}`,
+    value: `${protocol.value}://${host.value}${rest.value}`,
     bytes: protocol.bytes + host.bytes + rest.bytes
   }
 }

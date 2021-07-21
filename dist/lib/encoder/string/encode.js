@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function(o) {
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = exports.UTF8_STRING_NO_LENGTH = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = void 0;
+exports.URL_PROTOCOL_HOST_REST = exports.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = exports.UTF8_STRING_NO_LENGTH = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var encode_1 = require("../integer/encode");
@@ -172,7 +172,7 @@ var FLOOR_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, 
     return bytesWritten + prefixBytes + lengthBytes;
 };
 exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = FLOOR_PREFIX_LENGTH_ENUM_VARINT;
-var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, value, _options, context) {
+var STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = function (buffer, offset, value, _options, context) {
     if (context.keys.has(value)) {
         var prefixBytes = encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, 0, {
             minimum: 0,
@@ -196,10 +196,10 @@ var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, value, _optio
         size: length
     }, context);
 };
-exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH;
+exports.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH;
 var URL_PROTOCOL_HOST_REST = function (buffer, offset, value, _options, context) {
     var url = new URL(value);
-    var protocolBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, url.protocol, {
+    var protocolBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, url.protocol.slice(0, url.protocol.length - 1), {
         minimum: 0
     }, context);
     var hostBytes = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset + protocolBytes, url.host, {

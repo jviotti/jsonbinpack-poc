@@ -170,7 +170,8 @@ unsigned integer, followed by the current offset minus the offset to the start
 of the UTF-8 string value in the buffer encoded as a Base-128 64-bit Little
 Endian variable-length unsigned integer.
 
-<!-- TODO: Do not encode the string length if `minimum` and `maximum` are equal -->
+The byte-length of the string is encoded even if `maximum` equals `minimum` in
+order to disambiguate between shared and non-shared fixed strings.
 
 #### Options
 
@@ -250,12 +251,13 @@ Given the input string `2014-10-01`, the encoding results in:
 
 The encoding represents a URL as a sequence of three
 [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](#floor_prefix_length_enum_varint) strings
-each with a `minimum` equal to 0: the protocol including the colon, the host
+each with a `minimum` equal to 0: the protocol excluding the colon, the host
 excluding the trailing slash, and the rest of the URL including the leading
-slash.
+slash. The leading slash of the rest of the URL is necessary to distinguish
+between URLs without a path component and URLs with a path component a
+standalone slash.
 
-<!-- TODO: Why do we even encode the trailing colon in the protocol? -->
-<!-- TODO: Why do we even encode the leading slash in the remaining? -->
+<!-- TODO: Add various common protocols as an enum -->
 
 #### Options
 
@@ -270,10 +272,10 @@ None
 Given the input string `https://google.com/foo?bar=1`, the encoding results in:
 
 ```
-+------+------+------+------+------+------+------+
-| 0x07 | 0x68 | 0x74 | 0x74 | 0x70 | 0x73 | 0x3a |
-+------+------+------+------+------+------+------+
-         h      t      t      p      s      :
++------+------+------+------+------+------+
+| 0x06 | 0x68 | 0x74 | 0x74 | 0x70 | 0x73 |
++------+------+------+------+------+------+
+         h      t      t      p      s
 
 +------+------+------+------+------+------+------+------+------+------+------+
 | 0x0b | 0x67 | 0x6f | 0x6f | 0x67 | 0x6c | 0x65 | 0x2e | 0x63 | 0x6f | 0x6d |
@@ -286,19 +288,18 @@ Given the input string `https://google.com/foo?bar=1`, the encoding results in:
          /      f      o      o      ?      b      a      r      =      1
 ```
 
-### `UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`
-
-<!-- TODO: Give this encoding another name that doesn't make reference to object keys -->
+### `STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`
 
 The encoding consists of the byte-length of the string plus 1 as a Base-128
 64-bit Little Endian variable-length unsigned integer followed by the UTF-8
 encoding of the input value.
 
 Optionally, if the input string has already been encoded to the buffer using
-the [`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
+the
+[`STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`](#string_unbounded_scoped_prefix_length)
 encoding, the encoding may consist of the byte constant `0x00` followed by the
 current offset minus the offset to the start of the
-[`UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH`](#unbounded_object_key_prefix_length)
+[`STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH`](#string_unbounded_scoped_prefix_length)
 encoding as a Base-128 64-bit Little Endian variable-length unsigned integer.
 It is permissible to point to another instance of the string that is a pointer
 itself.

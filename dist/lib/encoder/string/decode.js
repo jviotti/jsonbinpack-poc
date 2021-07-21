@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.URL_PROTOCOL_HOST_REST = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
+exports.URL_PROTOCOL_HOST_REST = exports.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = exports.UTF8_STRING_NO_LENGTH = exports.ROOF_PREFIX_LENGTH_ENUM_VARINT = exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = exports.RFC3339_DATE_INTEGER_TRIPLET = exports.STRING_DICTIONARY_COMPRESSOR = exports.STRING_BROTLI = void 0;
 var assert_1 = require("assert");
 var zlib_1 = require("zlib");
 var decode_1 = require("../integer/decode");
@@ -150,7 +150,7 @@ var FLOOR_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     };
 };
 exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = FLOOR_PREFIX_LENGTH_ENUM_VARINT;
-var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, options) {
+var STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = function (buffer, offset, options) {
     var prefix = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
         minimum: 0
     });
@@ -163,7 +163,7 @@ var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, options) {
             minimum: 0
         });
         if (length_4.value === 0) {
-            var result_1 = exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH(buffer, cursor, options);
+            var result_1 = exports.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, cursor, options);
             return {
                 value: result_1.value,
                 bytes: prefix.bytes + pointer.bytes
@@ -185,7 +185,7 @@ var UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = function (buffer, offset, options) {
         bytes: result.bytes + prefix.bytes
     };
 };
-exports.UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH = UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH;
+exports.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH;
 var URL_PROTOCOL_HOST_REST = function (buffer, offset, _options) {
     var protocol = exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT(buffer, offset, {
         minimum: 0
@@ -197,7 +197,7 @@ var URL_PROTOCOL_HOST_REST = function (buffer, offset, _options) {
         minimum: 0
     });
     return {
-        value: protocol.value + "//" + host.value + rest.value,
+        value: protocol.value + "://" + host.value + rest.value,
         bytes: protocol.bytes + host.bytes + rest.bytes
     };
 };

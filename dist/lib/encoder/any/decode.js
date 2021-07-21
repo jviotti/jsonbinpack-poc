@@ -46,7 +46,7 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
             ? decode_4.ARBITRARY_TYPED_KEYS_OBJECT(buffer, offset + tag.bytes, {
                 keyEncoding: {
                     type: encoding_type_1.EncodingType.String,
-                    encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+                    encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
                     options: {}
                 },
                 encoding: {
@@ -59,7 +59,7 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
                 size: size - 1,
                 keyEncoding: {
                     type: encoding_type_1.EncodingType.String,
-                    encoding: 'UNBOUNDED_OBJECT_KEY_PREFIX_LENGTH',
+                    encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH',
                     options: {}
                 },
                 encoding: {

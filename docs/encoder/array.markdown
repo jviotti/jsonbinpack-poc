@@ -198,5 +198,3 @@ minimum 0 and maximum 255, the encoding results in:
 +------+------+------+------+
   size   true   false  5
 ```
-
-<!-- TODO: Show an example that highlights that the size is a var int -->
