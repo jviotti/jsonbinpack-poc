@@ -137,7 +137,12 @@ var canonicalizeSchema = function (schema) {
         case 'integer': return lodash_1.pick(schema, SCHEMA_INTEGER_KEYS);
         case 'null': return lodash_1.pick(schema, SCHEMA_NULL_KEYS);
         case 'number': return lodash_1.pick(schema, SCHEMA_NUMBER_KEYS);
-        case 'string': return lodash_1.pick(schema, SCHEMA_STRING_KEYS);
+        case 'string':
+            if (typeof schema.format === 'string' &&
+                ['iri', 'time'].includes(schema.format)) {
+                Reflect.deleteProperty(schema, 'format');
+            }
+            return lodash_1.pick(schema, SCHEMA_STRING_KEYS);
         case 'array':
             return lodash_1.pick(schema, SCHEMA_ARRAY_KEYS);
         case 'object': return lodash_1.pick(schema, SCHEMA_OBJECT_KEYS);

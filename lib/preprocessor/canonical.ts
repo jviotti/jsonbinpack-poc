@@ -202,7 +202,14 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     case 'integer': return pick(schema, SCHEMA_INTEGER_KEYS)
     case 'null': return pick(schema, SCHEMA_NULL_KEYS)
     case 'number': return pick(schema, SCHEMA_NUMBER_KEYS)
-    case 'string': return pick(schema, SCHEMA_STRING_KEYS)
+    case 'string':
+      // Formats that are unsupported for now
+      if (typeof schema.format === 'string' &&
+        [ 'iri', 'time' ].includes(schema.format)) {
+        Reflect.deleteProperty(schema, 'format')
+      }
+
+      return pick(schema, SCHEMA_STRING_KEYS)
     case 'array':
       return pick(schema, SCHEMA_ARRAY_KEYS)
     case 'object': return pick(schema, SCHEMA_OBJECT_KEYS)
