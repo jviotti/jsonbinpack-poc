@@ -167,9 +167,9 @@ var percentage = function (total, local) {
 };
 var JSONStatsSizeQualifier;
 (function (JSONStatsSizeQualifier) {
-    JSONStatsSizeQualifier["tiny"] = "minified < 100 bytes";
-    JSONStatsSizeQualifier["small"] = "minified >= 100 < 1000 bytes";
-    JSONStatsSizeQualifier["large"] = "minified >= 1000 bytes";
+    JSONStatsSizeQualifier["tiny"] = "tier 1 minified < 100 bytes";
+    JSONStatsSizeQualifier["small"] = "tier 2 minified >= 100 < 1000 bytes";
+    JSONStatsSizeQualifier["large"] = "tier 3 minified >= 1000 bytes";
 })(JSONStatsSizeQualifier = exports.JSONStatsSizeQualifier || (exports.JSONStatsSizeQualifier = {}));
 var getSizeQualifier = function (byteSize) {
     if (byteSize < 100) {
