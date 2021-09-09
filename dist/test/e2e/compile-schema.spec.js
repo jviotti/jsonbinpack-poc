@@ -113,7 +113,7 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                 schema: {
                                     anyOf: [
                                         {
-                                            enum: [false, true]
+                                            type: 'boolean'
                                         },
                                         {
                                             type: 'integer',
