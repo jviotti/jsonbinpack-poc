@@ -77,8 +77,9 @@ exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT;
 var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, options, context) {
     var e_3, _a, e_4, _b;
     assert_1.strict(Object.keys(value).length <= options.optionalProperties.length);
-    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, options.optionalProperties.length, {
-        minimum: 0
+    var lengthBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, options.optionalProperties.length, {
+        minimum: 0,
+        multiplier: 1
     }, context);
     var keys = [];
     var bitset = [];
@@ -187,8 +188,9 @@ var ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH = function (buffer, offset, value
 exports.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH = ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH;
 var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, value, options, context) {
     var size = Object.keys(value).length;
-    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, size, {
-        minimum: 0
+    var lengthBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, size, {
+        minimum: 0,
+        multiplier: 1
     }, context);
     return lengthBytes + exports.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + lengthBytes, value, {
         encoding: options.encoding,
@@ -319,8 +321,9 @@ var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, value, options, context)
         }
         finally { if (e_11) throw e_11.error; }
     }
-    var packedLengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, packedValues.length, {
-        minimum: 0
+    var packedLengthBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, packedValues.length, {
+        minimum: 0,
+        multiplier: 1
     }, context);
     var packedBytes = integer_list_1.integerListEncode(buffer, offset + packedLengthBytes, packedValues, {
         minimum: options.packedEncoding.options.minimum,

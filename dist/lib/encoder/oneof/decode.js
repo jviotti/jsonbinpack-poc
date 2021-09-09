@@ -4,8 +4,9 @@ exports.ONEOF_CHOICE_INDEX_PREFIX = void 0;
 var decode_1 = require("../integer/decode");
 var index_1 = require("../index");
 var ONEOF_CHOICE_INDEX_PREFIX = function (buffer, offset, options) {
-    var index = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var index = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     var result = index_1.decode(buffer, offset + index.bytes, options.choices[index.value].encoding);
     return {

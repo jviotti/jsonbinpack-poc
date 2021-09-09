@@ -814,8 +814,10 @@ tap.test('should encode a complex unbounded object', (test) => {
       propertyEncodings: {
         foo: {
           type: 'integer',
-          encoding: 'ARBITRARY_ZIGZAG_VARINT',
-          options: {}
+          encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+          options: {
+            multiplier: 1
+          }
         },
         bar: {
           type: 'string',
@@ -842,8 +844,10 @@ tap.test('should encode a complex unbounded object', (test) => {
       },
       encoding: {
         type: 'integer',
-        encoding: 'ARBITRARY_ZIGZAG_VARINT',
-        options: {}
+        encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+        options: {
+          multiplier: 1
+        }
       }
     }
   })
@@ -1029,10 +1033,11 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
       packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
       packedEncoding: {
         type: 'integer',
-        encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+        encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
         options: {
           minimum: 0,
-          maximum: 2
+          maximum: 2,
+          multiplier: 1
         }
       },
       encoding: {
@@ -1050,9 +1055,10 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
         },
         age: {
           type: 'integer',
-          encoding: 'FLOOR_ENUM_VARINT',
+          encoding: 'FLOOR_MULTIPLE_ENUM_VARINT',
           options: {
-            minimum: 0
+            minimum: 0,
+            multiplier: 1
           }
         },
         flag: {
@@ -1111,10 +1117,11 @@ tap.test('should encode an unbounded object with bounded integers with maxProper
       packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
       packedEncoding: {
         type: 'integer',
-        encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+        encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
         options: {
           minimum: 0,
-          maximum: 2
+          maximum: 2,
+          multiplier: 1
         }
       },
       encoding: {
@@ -1186,10 +1193,11 @@ tap.test('should encode an unbounded object with bounded integers with maxProper
       packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
       packedEncoding: {
         type: 'integer',
-        encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+        encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
         options: {
           minimum: 0,
-          maximum: 2
+          maximum: 2,
+          multiplier: 1
         }
       },
       propertyEncodings: {

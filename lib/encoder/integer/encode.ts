@@ -29,13 +29,9 @@ import {
 } from '../../utils/limits'
 
 import {
-  NoOptions,
-  FloorOptions,
   FloorMultiplierOptions,
-  RoofOptions,
   RoofMultiplierOptions,
   MultiplierOptions,
-  BoundedOptions,
   BoundedMultiplierOptions
 } from './options'
 
@@ -51,29 +47,13 @@ import {
   varintEncode
 } from './varint'
 
-// Applicable if the difference between maximum and
-// minimum fits in an unsigned 8-bit integer
-export const BOUNDED_8BITS_ENUM_FIXED = (
-  buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: BoundedOptions, _context: EncodingContext
-): number => {
-  assert(options.maximum >= options.minimum)
-  assert(options.maximum - options.minimum <= UINT8_MAX)
-  assert(value >= options.minimum)
-  assert(value <= options.maximum)
-
-  return buffer.writeUInt8(value - options.minimum, offset) - offset
-}
-
 export const BOUNDED_MULTIPLE_8BITS_ENUM_FIXED = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: BoundedMultiplierOptions, context: EncodingContext
+  options: BoundedMultiplierOptions, _context: EncodingContext
 ): number => {
   assert(options.maximum >= options.minimum)
   assert(value >= options.minimum)
   assert(value <= options.maximum)
-  assert(options.multiplier >= options.minimum)
-  assert(options.multiplier <= options.maximum)
   assert(value % options.multiplier === 0)
 
   const absoluteMultiplier: number = Math.abs(options.multiplier)
@@ -81,69 +61,36 @@ export const BOUNDED_MULTIPLE_8BITS_ENUM_FIXED = (
   const enumMaximum: number = Math.floor(options.maximum / absoluteMultiplier)
   assert(enumMaximum - enumMinimum <= UINT8_MAX)
 
-  return BOUNDED_8BITS_ENUM_FIXED(buffer, offset,
-    value / absoluteMultiplier, {
-      minimum: enumMinimum,
-      maximum: enumMaximum
-    }, context)
-}
-
-export const FLOOR_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: FloorOptions, _context: EncodingContext
-): number => {
-  assert(value >= options.minimum)
-  return varintEncode(buffer, offset, BigInt(value - options.minimum))
+  return buffer.writeUInt8((value / absoluteMultiplier) - enumMinimum, offset) - offset
 }
 
 export const FLOOR_MULTIPLE_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: FloorMultiplierOptions, context: EncodingContext
+  options: FloorMultiplierOptions, _context: EncodingContext
 ): number => {
   assert(value >= options.minimum)
   assert(value % options.multiplier === 0)
-  assert(options.multiplier >= options.minimum)
-
   const absoluteMultiplier: number = Math.abs(options.multiplier)
-  return FLOOR_ENUM_VARINT(buffer, offset, value / absoluteMultiplier, {
-    minimum: Math.ceil(options.minimum / absoluteMultiplier)
-  }, context)
-}
-
-export const ROOF_MIRROR_ENUM_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: RoofOptions, _context: EncodingContext
-): number => {
-  assert(value <= options.maximum)
-  return varintEncode(buffer, offset, BigInt(options.maximum - value))
+  return varintEncode(buffer, offset, BigInt(
+    (value / absoluteMultiplier) - Math.ceil(options.minimum / absoluteMultiplier)))
 }
 
 export const ROOF_MULTIPLE_MIRROR_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: RoofMultiplierOptions, context: EncodingContext
+  options: RoofMultiplierOptions, _context: EncodingContext
 ): number => {
   assert(value <= options.maximum)
   assert(value % options.multiplier === 0)
-  assert(options.maximum >= options.multiplier)
-
   const absoluteMultiplier: number = Math.abs(options.multiplier)
-  return ROOF_MIRROR_ENUM_VARINT(buffer, offset,
-    value / absoluteMultiplier, {
-      maximum: Math.floor(options.maximum / absoluteMultiplier)
-    }, context)
-}
-
-export const ARBITRARY_ZIGZAG_VARINT = (
-  buffer: ResizableBuffer, offset: number, value: JSONNumber, _options: NoOptions, _context: EncodingContext
-): number => {
-  return varintEncode(buffer, offset, zigzagEncode(BigInt(value)))
+  return varintEncode(buffer, offset, BigInt(
+    Math.floor(options.maximum / absoluteMultiplier) - (value / absoluteMultiplier)))
 }
 
 export const ARBITRARY_MULTIPLE_ZIGZAG_VARINT = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
-  options: MultiplierOptions, context: EncodingContext
+  options: MultiplierOptions, _context: EncodingContext
 ): number => {
   assert(value % options.multiplier === 0)
-  return ARBITRARY_ZIGZAG_VARINT(
-    buffer, offset, value / Math.abs(options.multiplier), {}, context)
+  return varintEncode(buffer, offset,
+    zigzagEncode(BigInt(value / Math.abs(options.multiplier))))
 }

@@ -9,8 +9,9 @@ var types_1 = require("../any/types");
 var STRING_ENCODING = 'utf8';
 var readSharedString = function (buffer, offset, prefix, length, delta) {
     var pointerOffset = offset + prefix.bytes + length.bytes;
-    var pointer = decode_1.FLOOR_ENUM_VARINT(buffer, pointerOffset, {
-        minimum: 0
+    var pointer = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, pointerOffset, {
+        minimum: 0,
+        multiplier: 1
     });
     var stringOffset = pointerOffset - pointer.value;
     return {
@@ -19,8 +20,9 @@ var readSharedString = function (buffer, offset, prefix, length, delta) {
     };
 };
 var STRING_BROTLI = function (buffer, offset, _options) {
-    var length = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var length = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     var slice = buffer.slice(offset + length.bytes, offset + length.bytes + length.value);
     return {
@@ -30,14 +32,15 @@ var STRING_BROTLI = function (buffer, offset, _options) {
 };
 exports.STRING_BROTLI = STRING_BROTLI;
 var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, options) {
-    var length = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var length = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     var cursor = offset + length.bytes;
     var result = '';
     while (Buffer.byteLength(result, STRING_ENCODING) < length.value) {
         var prefix = result.length === 0 ? '' : ' ';
-        var markerResult = decode_1.ARBITRARY_ZIGZAG_VARINT(buffer, cursor, {});
+        var markerResult = decode_1.ARBITRARY_MULTIPLE_ZIGZAG_VARINT(buffer, cursor, { multiplier: 1 });
         cursor += markerResult.bytes;
         if (markerResult.value > 0) {
             var fragment = options.index[markerResult.value - 1];
@@ -52,8 +55,9 @@ var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, options) {
             cursor += fragmentLength;
         }
         else {
-            var lengthMarker = decode_1.FLOOR_ENUM_VARINT(buffer, cursor, {
-                minimum: 0
+            var lengthMarker = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, cursor, {
+                minimum: 0,
+                multiplier: 1
             });
             var fragment = readSharedString(buffer, cursor - markerResult.bytes, markerResult, lengthMarker, 0);
             result += prefix + fragment.value;
@@ -86,14 +90,16 @@ var BOUNDED_PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(options.maximum >= options.minimum);
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
-    var prefix = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+    var prefix = decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
         minimum: options.minimum,
-        maximum: options.maximum + 1
+        maximum: options.maximum + 1,
+        multiplier: 1
     });
     if (prefix.value === types_1.Type.SharedString) {
-        var length_1 = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset + prefix.bytes, {
+        var length_1 = decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + prefix.bytes, {
             minimum: options.minimum,
-            maximum: options.maximum + 1
+            maximum: options.maximum + 1,
+            multiplier: 1
         });
         return readSharedString(buffer, offset, prefix, length_1, -1);
     }
@@ -105,9 +111,15 @@ var BOUNDED_PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, options) {
 exports.BOUNDED_PREFIX_LENGTH_8BIT_FIXED = BOUNDED_PREFIX_LENGTH_8BIT_FIXED;
 var ROOF_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
-    var prefix = decode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset, options);
+    var prefix = decode_1.ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset, {
+        maximum: options.maximum,
+        multiplier: 1
+    });
     if (prefix.value === options.maximum) {
-        var length_2 = decode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset + prefix.bytes, options);
+        var length_2 = decode_1.ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset + prefix.bytes, {
+            maximum: options.maximum,
+            multiplier: 1
+        });
         return readSharedString(buffer, offset, prefix, length_2, 1);
     }
     return {
@@ -136,9 +148,15 @@ var SHARED_STRING_POINTER_RELATIVE_OFFSET = function (buffer, offset, options) {
 exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = SHARED_STRING_POINTER_RELATIVE_OFFSET;
 var FLOOR_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
-    var prefix = decode_1.FLOOR_ENUM_VARINT(buffer, offset, options);
+    var prefix = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: options.minimum,
+        multiplier: 1
+    });
     if (prefix.value === options.minimum) {
-        var length_3 = decode_1.FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, options);
+        var length_3 = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + prefix.bytes, {
+            minimum: options.minimum,
+            multiplier: 1
+        });
         return readSharedString(buffer, offset, prefix, length_3, -1);
     }
     var result = exports.UTF8_STRING_NO_LENGTH(buffer, offset + prefix.bytes, {
@@ -151,16 +169,19 @@ var FLOOR_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, options) {
 };
 exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = FLOOR_PREFIX_LENGTH_ENUM_VARINT;
 var STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = function (buffer, offset, options) {
-    var prefix = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var prefix = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     if (prefix.value === 0) {
-        var pointer = decode_1.FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, {
-            minimum: 0
+        var pointer = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + prefix.bytes, {
+            minimum: 0,
+            multiplier: 1
         });
         var cursor = offset + prefix.bytes - pointer.value;
-        var length_4 = decode_1.FLOOR_ENUM_VARINT(buffer, cursor, {
-            minimum: 0
+        var length_4 = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, cursor, {
+            minimum: 0,
+            multiplier: 1
         });
         if (length_4.value === 0) {
             var result_1 = exports.STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH(buffer, cursor, options);

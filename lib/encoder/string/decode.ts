@@ -30,10 +30,10 @@ import {
 
 import {
   IntegerResult,
-  BOUNDED_8BITS_ENUM_FIXED,
-  FLOOR_ENUM_VARINT,
-  ARBITRARY_ZIGZAG_VARINT,
-  ROOF_MIRROR_ENUM_VARINT
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  FLOOR_MULTIPLE_ENUM_VARINT,
+  ARBITRARY_MULTIPLE_ZIGZAG_VARINT,
+  ROOF_MULTIPLE_MIRROR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -68,8 +68,9 @@ const readSharedString = (
   buffer: ResizableBuffer, offset: number, prefix: IntegerResult, length: IntegerResult, delta: number
 ): StringResult => {
   const pointerOffset: number = offset + prefix.bytes + length.bytes
-  const pointer: IntegerResult = FLOOR_ENUM_VARINT(buffer, pointerOffset, {
-    minimum: 0
+  const pointer: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, pointerOffset, {
+    minimum: 0,
+    multiplier: 1
   })
 
   const stringOffset: number = pointerOffset - pointer.value
@@ -83,8 +84,9 @@ const readSharedString = (
 export const STRING_BROTLI = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): StringResult => {
-  const length: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: 0
+  const length: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+    minimum: 0,
+    multiplier: 1
   })
 
   const slice: Buffer = buffer.slice(
@@ -98,8 +100,9 @@ export const STRING_BROTLI = (
 export const STRING_DICTIONARY_COMPRESSOR = (
   buffer: ResizableBuffer, offset: number, options: DictionaryOptions
 ): StringResult => {
-  const length: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: 0
+  const length: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+    minimum: 0,
+    multiplier: 1
   })
 
   let cursor: number = offset + length.bytes
@@ -108,7 +111,7 @@ export const STRING_DICTIONARY_COMPRESSOR = (
   while (Buffer.byteLength(result, STRING_ENCODING) < length.value) {
     const prefix: string = result.length === 0 ? '' : ' '
     const markerResult: IntegerResult =
-      ARBITRARY_ZIGZAG_VARINT(buffer, cursor, {})
+      ARBITRARY_MULTIPLE_ZIGZAG_VARINT(buffer, cursor, { multiplier: 1 })
     cursor += markerResult.bytes
 
     // Read a fragment from the dictionary
@@ -129,8 +132,9 @@ export const STRING_DICTIONARY_COMPRESSOR = (
     // Read a shared string
     } else {
       const lengthMarker: IntegerResult =
-        FLOOR_ENUM_VARINT(buffer, cursor, {
-          minimum: 0
+        FLOOR_MULTIPLE_ENUM_VARINT(buffer, cursor, {
+          minimum: 0,
+          multiplier: 1
         })
       const fragment: StringResult = readSharedString(
         buffer, cursor - markerResult.bytes, markerResult, lengthMarker, 0)
@@ -172,16 +176,18 @@ export const BOUNDED_PREFIX_LENGTH_8BIT_FIXED = (
   assert(options.minimum >= 0)
   assert(options.maximum >= options.minimum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
-  const prefix: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+  const prefix: IntegerResult = BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
     minimum: options.minimum,
-    maximum: options.maximum + 1
+    maximum: options.maximum + 1,
+    multiplier: 1
   })
 
   if (prefix.value === Type.SharedString) {
-    const length: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(
+    const length: IntegerResult = BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(
       buffer, offset + prefix.bytes, {
         minimum: options.minimum,
-        maximum: options.maximum + 1
+        maximum: options.maximum + 1,
+        multiplier: 1
       })
 
     return readSharedString(buffer, offset, prefix, length, -1)
@@ -198,11 +204,17 @@ export const ROOF_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: RoofOptions
 ): StringResult => {
   assert(options.maximum >= 0)
-  const prefix: IntegerResult = ROOF_MIRROR_ENUM_VARINT(buffer, offset, options)
+  const prefix: IntegerResult = ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset, {
+    maximum: options.maximum,
+    multiplier: 1
+  })
 
   if (prefix.value === options.maximum) {
-    const length: IntegerResult = ROOF_MIRROR_ENUM_VARINT(
-      buffer, offset + prefix.bytes, options)
+    const length: IntegerResult = ROOF_MULTIPLE_MIRROR_ENUM_VARINT(
+      buffer, offset + prefix.bytes, {
+        maximum: options.maximum,
+        multiplier: 1
+      })
     return readSharedString(buffer, offset, prefix, length, 1)
   }
 
@@ -240,11 +252,17 @@ export const FLOOR_PREFIX_LENGTH_ENUM_VARINT = (
   buffer: ResizableBuffer, offset: number, options: FloorOptions
 ): StringResult => {
   assert(options.minimum >= 0)
-  const prefix: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, options)
+  const prefix: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum,
+    multiplier: 1
+  })
 
   if (prefix.value === options.minimum) {
-    const length: IntegerResult = FLOOR_ENUM_VARINT(
-      buffer, offset + prefix.bytes, options)
+    const length: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(
+      buffer, offset + prefix.bytes, {
+        minimum: options.minimum,
+        multiplier: 1
+      })
     return readSharedString(buffer, offset, prefix, length, -1)
   }
 
@@ -261,19 +279,22 @@ export const FLOOR_PREFIX_LENGTH_ENUM_VARINT = (
 export const STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = (
   buffer: ResizableBuffer, offset: number, options: NoOptions
 ): StringResult => {
-  const prefix: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: 0
+  const prefix: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+    minimum: 0,
+    multiplier: 1
   })
 
   if (prefix.value === 0) {
-    const pointer: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset + prefix.bytes, {
-      minimum: 0
+    const pointer: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + prefix.bytes, {
+      minimum: 0,
+      multiplier: 1
     })
 
     const cursor: number = offset + prefix.bytes - pointer.value
 
-    const length: IntegerResult = FLOOR_ENUM_VARINT(buffer, cursor, {
-      minimum: 0
+    const length: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, cursor, {
+      minimum: 0,
+      multiplier: 1
     })
 
     // Recurse to the nested pointer in this case to keep pointers low

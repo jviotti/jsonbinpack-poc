@@ -234,7 +234,7 @@ var getObjectEncoding = function (schema, level) {
     if (additionalProperties !== null &&
         requiredProperties.length > 0 &&
         additionalProperties.type === encoder_1.EncodingType.Integer &&
-        additionalProperties.encoding === 'BOUNDED_8BITS_ENUM_FIXED') {
+        additionalProperties.encoding === 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED') {
         var propertiesDefinition = (_h = schema.properties) !== null && _h !== void 0 ? _h : {};
         var packedRequiredProperties_1 = [];
         var unpackedRequiredProperties = [];

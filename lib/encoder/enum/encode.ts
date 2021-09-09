@@ -31,8 +31,8 @@ import {
 } from './options'
 
 import {
-  BOUNDED_8BITS_ENUM_FIXED,
-  FLOOR_ENUM_VARINT
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  FLOOR_MULTIPLE_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -72,9 +72,10 @@ export const TOP_LEVEL_8BIT_CHOICE_INDEX = (
     return 0
   }
 
-  return BOUNDED_8BITS_ENUM_FIXED(buffer, offset, cursor, {
+  return BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, cursor, {
     minimum: 1,
-    maximum: options.choices.length
+    maximum: options.choices.length,
+    multiplier: 1
   }, context)
 }
 
@@ -95,9 +96,10 @@ export const BOUNDED_CHOICE_INDEX = (
   assert(cursor !== -1)
   assert(cursor >= 0 && cursor < options.choices.length)
 
-  return BOUNDED_8BITS_ENUM_FIXED(buffer, offset, cursor, {
+  return BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, cursor, {
     minimum: 0,
-    maximum: options.choices.length
+    maximum: options.choices.length,
+    multiplier: 1
   }, context)
 }
 
@@ -117,7 +119,8 @@ export const LARGE_BOUNDED_CHOICE_INDEX = (
   assert(cursor !== -1)
   assert(cursor >= 0 && cursor < options.choices.length)
 
-  return FLOOR_ENUM_VARINT(buffer, offset, cursor, {
-    minimum: 0
+  return FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, cursor, {
+    minimum: 0,
+    multiplier: 1
   }, context)
 }

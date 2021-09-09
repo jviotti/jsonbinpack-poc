@@ -55,7 +55,7 @@ import {
 } from './options'
 
 import {
-  FLOOR_ENUM_VARINT
+  FLOOR_MULTIPLE_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -93,9 +93,10 @@ export const NON_REQUIRED_BOUNDED_TYPED_OBJECT = (
 ): number => {
   assert(Object.keys(value).length <= options.optionalProperties.length)
 
-  const lengthBytes: number = FLOOR_ENUM_VARINT(
+  const lengthBytes: number = FLOOR_MULTIPLE_ENUM_VARINT(
     buffer, offset, options.optionalProperties.length, {
-      minimum: 0
+      minimum: 0,
+      multiplier: 1
     }, context)
 
   const keys: string[] = []
@@ -168,8 +169,9 @@ export const ARBITRARY_TYPED_KEYS_OBJECT = (
   buffer: ResizableBuffer, offset: number, value: JSONObject, options: TypedKeysOptions, context: EncodingContext
 ): number => {
   const size: number = Object.keys(value).length
-  const lengthBytes: number = FLOOR_ENUM_VARINT(buffer, offset, size, {
-    minimum: 0
+  const lengthBytes: number = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, size, {
+    minimum: 0,
+    multiplier: 1
   }, context)
 
   return lengthBytes + ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(
@@ -287,9 +289,10 @@ export const PACKED_UNBOUNDED_OBJECT = (
     Reflect.deleteProperty(unpackedSubset, key)
   }
 
-  const packedLengthBytes: number = FLOOR_ENUM_VARINT(
+  const packedLengthBytes: number = FLOOR_MULTIPLE_ENUM_VARINT(
     buffer, offset, packedValues.length, {
-      minimum: 0
+      minimum: 0,
+      multiplier: 1
     }, context)
 
   const packedBytes: number = integerListEncode(

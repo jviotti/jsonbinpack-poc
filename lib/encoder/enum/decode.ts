@@ -26,8 +26,8 @@ import {
 
 import {
   IntegerResult,
-  BOUNDED_8BITS_ENUM_FIXED,
-  FLOOR_ENUM_VARINT
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  FLOOR_MULTIPLE_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -55,9 +55,10 @@ export const TOP_LEVEL_8BIT_CHOICE_INDEX = (
     }
   }
 
-  const result: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+  const result: IntegerResult = BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
     minimum: 1,
-    maximum: options.choices.length
+    maximum: options.choices.length,
+    multiplier: 1
   })
 
   return {
@@ -69,9 +70,10 @@ export const TOP_LEVEL_8BIT_CHOICE_INDEX = (
 export const BOUNDED_CHOICE_INDEX = (
   buffer: ResizableBuffer, offset: number, options: ChoiceOptions
 ): EnumResult => {
-  const result: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+  const result: IntegerResult = BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
     minimum: 0,
-    maximum: options.choices.length
+    maximum: options.choices.length,
+    multiplier: 1
   })
 
   return {
@@ -83,8 +85,9 @@ export const BOUNDED_CHOICE_INDEX = (
 export const LARGE_BOUNDED_CHOICE_INDEX = (
   buffer: ResizableBuffer, offset: number, options: ChoiceOptions
 ): EnumResult => {
-  const result: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: 0
+  const result: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+    minimum: 0,
+    multiplier: 1
   })
 
   return {

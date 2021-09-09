@@ -15,14 +15,22 @@
  */
 
 import {
-  BoundedOptions,
-  FloorOptions,
-  RoofOptions
-} from '../integer/options'
-
-import {
   Encoding
 } from '../../mapper'
+
+import {
+  NoOptions
+} from '../null/options'
+
+interface FloorOptions extends NoOptions {
+  readonly minimum: number;
+}
+
+interface RoofOptions extends NoOptions {
+  readonly maximum: number;
+}
+
+interface BoundedOptions extends FloorOptions, RoofOptions {}
 
 interface SemiTypedOptions {
   readonly prefixEncodings: Encoding[];

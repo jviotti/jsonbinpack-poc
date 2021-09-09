@@ -665,10 +665,11 @@ tap.test('PACKED_UNBOUNDED_OBJECT: should encode a complex object', (test) => {
     packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
     packedEncoding: {
       type: EncodingType.Integer,
-      encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+      encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
       options: {
         minimum: 0,
-        maximum: 2
+        maximum: 2,
+        multiplier: 1
       }
     },
     encoding: {
@@ -753,10 +754,11 @@ tap.test('PACKED_BOUNDED_REQUIRED_OBJECT: should encode a complex object', (test
     packedRequiredProperties: [ 'bar', 'baz', 'extra', 'foo', 'qux' ],
     packedEncoding: {
       type: EncodingType.Integer,
-      encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+      encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
       options: {
         minimum: 0,
-        maximum: 2
+        maximum: 2,
+        multiplier: 1
       }
     },
     propertyEncodings: {

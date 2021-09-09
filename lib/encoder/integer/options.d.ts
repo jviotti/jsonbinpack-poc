@@ -18,19 +18,15 @@ import {
   NoOptions
 } from '../null/options'
 
-export {
-  NoOptions
-} from '../null/options'
-
-export interface FloorOptions extends NoOptions {
+interface FloorOptions extends NoOptions {
   readonly minimum: number;
 }
 
-export interface RoofOptions extends NoOptions {
+interface RoofOptions extends NoOptions {
   readonly maximum: number;
 }
 
-export interface MultiplierOptions extends NoOptions {
+interface MultiplierOptions extends NoOptions {
   readonly multiplier: number;
 }
 
@@ -46,11 +42,7 @@ export interface RoofMultiplierOptions
   extends RoofOptions, MultiplierOptions {}
 
 export type IntegerOptions =
-  NoOptions |
-  FloorOptions |
-  RoofOptions |
   MultiplierOptions |
-  BoundedOptions |
   BoundedMultiplierOptions |
   FloorMultiplierOptions |
   RoofMultiplierOptions

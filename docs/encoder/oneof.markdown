@@ -23,8 +23,9 @@ encoded as indicated by the `encoding` property of the matching branch.
 #### Examples
 
 Given an input value 4 and that matches a second branch defined as
-[`ROOF_MIRROR_ENUM_VARINT`](./integer.markdown#roof_mirror_enum_varint) with a
-maximum of 5, the encoding results in the branch index 1 followed by 1 = 5 - 4:
+[`ROOF_MULTIPLE_MIRROR_ENUM_VARINT`](./integer.markdown#roof_multiple_mirror_enum_varint)
+with a maximum of 5, the encoding results in the branch index 1 followed by 1 =
+5 - 4:
 
 ```
 +------+------+

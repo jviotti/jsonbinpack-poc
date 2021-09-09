@@ -53,42 +53,42 @@ using a predetermined encoding. This encoding supports the following type tags:
 	plus 1 is encoded as an unsigned integer in the most-significant 5 bits of
 	the type tag. Otherwise, the type tag is followed by the input value as
 	defined in
-	[`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed)
+	[`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](./integer.markdown#bounded_multiple_8bits_enum_fixed)
 	where `minimum` is 0 and `maximum` is 255.
 - `0b00000110` (Negative integer byte): If the absolute value minus 1 is less
 	than 31, the absolute value plus 1 is encoded as an unsigned integer in the
 	most-significant 5 bits of the type tag. Otherwise, the type tag is followed
 	by the absolute input value minus 1 as defined in
-	[`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed)
+	[`BOUNDED_MULTIPLE_8BITS_ENUM_FIXED`](./integer.markdown#bounded_multiple_8bits_enum_fixed)
 	where `minimum` is 0 and `maximum` is 255.
 - `0b00000111` (False): The `false` constant.
 - `0b00001111` (True): The `true` constant.
 - `0b00010111` (Null): The `null` constant.
 - `0b00011111` (Positive integer): The type tag is followed by the input value
-	as defined in [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint).
+	as defined in [`FLOOR_MULTIPLE_ENUM_VARINT`](./integer.markdown#floor_multiple_enum_varint).
 - `0b00100111` (Negative integer): The type tag is followed by the absolute
 	input value minus 1 as defined in
-	[`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint).
+	[`FLOOR_MULTIPLE_ENUM_VARINT`](./integer.markdown#floor_multiple_enum_varint).
 - `0b00101111` (Number): The type tag is followed by the input value as defined
 	in [`DOUBLE_VARINT_TUPLE`](./number.markdown#double_varint_tuple).
 - `0b00111111` (Long string with base exponent 7): The type tag is followed by
 	the byte-length of the string as defined in
-	[`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) where `minimum`
+	[`FLOOR_MULTIPLE_ENUM_VARINT`](./integer.markdown#floor_multiple_enum_varint) where `minimum`
 	is `2 ** 7` followed by the input value encoded as defined in
 	[`UTF8_STRING_NO_LENGTH`](./string.markdown#utf8_string_no_length).
 - `0b01000111` (Long string with base exponent 8): The type tag is followed by
 	the byte-length of the string as defined in
-	[`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) where `minimum`
+	[`FLOOR_MULTIPLE_ENUM_VARINT`](./integer.markdown#floor_multiple_enum_varint) where `minimum`
 	is `2 ** 8` followed by the input value encoded as defined in
 	[`UTF8_STRING_NO_LENGTH`](./string.markdown#utf8_string_no_length).
 - `0b01001111` (Long string with base exponent 9): The type tag is followed by
 	the byte-length of the string as defined in
-	[`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) where `minimum`
+	[`FLOOR_MULTIPLE_ENUM_VARINT`](./integer.markdown#floor_multiple_enum_varint) where `minimum`
 	is `2 ** 9` followed by the input value encoded as defined in
 	[`UTF8_STRING_NO_LENGTH`](./string.markdown#utf8_string_no_length).
 - `0b01010111` (Long string with base exponent 10): The type tag is followed by
 	the byte-length of the string as defined in
-	[`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) where `minimum`
+	[`FLOOR_MULTIPLE_ENUM_VARINT`](./integer.markdown#floor_multiple_enum_varint) where `minimum`
 	is `2 ** 10` followed by the input value encoded as defined in
 	[`UTF8_STRING_NO_LENGTH`](./string.markdown#utf8_string_no_length).
 

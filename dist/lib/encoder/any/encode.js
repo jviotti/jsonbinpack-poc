@@ -12,9 +12,10 @@ var encode_4 = require("../object/encode");
 var encode_5 = require("../array/encode");
 var STRING_ENCODING = 'utf8';
 var encodeTypeTag = function (buffer, offset, tag, context) {
-    return encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, tag, {
+    return encode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, tag, {
         minimum: limits_1.UINT8_MIN,
-        maximum: limits_1.UINT8_MAX
+        maximum: limits_1.UINT8_MAX,
+        multiplier: 1
     }, context);
 };
 var findHighest2Exponent = function (value, start, limit) {
@@ -136,8 +137,9 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, value, _options,
             assert_1.strict(typeof exponent === 'number' && Math.pow(2, exponent) <= length_1);
             var typeTag_10 = types_1.getTypeTag(types_1.Type.Other, exponent);
             var tagBytes_8 = encodeTypeTag(buffer, offset, typeTag_10, context);
-            var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset + tagBytes_8, length_1, {
-                minimum: Math.pow(2, exponent)
+            var lengthBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tagBytes_8, length_1, {
+                minimum: Math.pow(2, exponent),
+                multiplier: 1
             }, context);
             return tagBytes_8 + lengthBytes + encode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tagBytes_8 + lengthBytes, value, {
                 size: length_1
@@ -164,9 +166,10 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, value, _options,
             }
             var typeTag_13 = types_1.getTypeTag(type_1, 0);
             var tagBytes_10 = encodeTypeTag(buffer, offset, typeTag_13, context);
-            var valueBytes_6 = encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset + tagBytes_10, absoluteValue, {
+            var valueBytes_6 = encode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + tagBytes_10, absoluteValue, {
                 minimum: limits_1.UINT8_MIN,
-                maximum: limits_1.UINT8_MAX
+                maximum: limits_1.UINT8_MAX,
+                multiplier: 1
             }, context);
             return tagBytes_10 + valueBytes_6;
         }
@@ -176,8 +179,9 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, value, _options,
         assert_1.strict(subtype === types_1.Subtype.PositiveInteger || -(absoluteValue + 1) === value);
         var typeTag_14 = types_1.getTypeTag(type, subtype);
         var tagBytes_11 = encodeTypeTag(buffer, offset, typeTag_14, context);
-        var valueBytes_7 = encode_1.FLOOR_ENUM_VARINT(buffer, offset + tagBytes_11, absoluteValue, {
-            minimum: 0
+        var valueBytes_7 = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tagBytes_11, absoluteValue, {
+            minimum: 0,
+            multiplier: 1
         }, context);
         return tagBytes_11 + valueBytes_7;
     }

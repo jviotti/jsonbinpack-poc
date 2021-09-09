@@ -36,8 +36,9 @@ var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, options) {
             bytes: 0,
             value: options.maximum
         }
-        : decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-            minimum: options.minimum
+        : decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+            minimum: options.minimum,
+            multiplier: 1
         });
     return decodeArray(buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings, options.encoding);
 };
@@ -52,25 +53,28 @@ var BOUNDED_8BITS_TYPED_LENGTH_PREFIX = function (buffer, offset, options) {
             bytes: 0,
             value: options.maximum
         }
-        : decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+        : decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
             minimum: options.minimum,
-            maximum: options.maximum
+            maximum: options.maximum,
+            multiplier: 1
         });
     return decodeArray(buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings, options.encoding);
 };
 exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = BOUNDED_8BITS_TYPED_LENGTH_PREFIX;
 var ROOF_TYPED_LENGTH_PREFIX = function (buffer, offset, options) {
     assert_1.strict(options.maximum >= 0);
-    var lengthResult = decode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset, {
-        maximum: options.maximum
+    var lengthResult = decode_1.ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset, {
+        maximum: options.maximum,
+        multiplier: 1
     });
     return decodeArray(buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings, options.encoding);
 };
 exports.ROOF_TYPED_LENGTH_PREFIX = ROOF_TYPED_LENGTH_PREFIX;
 var FLOOR_TYPED_LENGTH_PREFIX = function (buffer, offset, options) {
     assert_1.strict(options.minimum >= 0);
-    var lengthResult = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: options.minimum
+    var lengthResult = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: options.minimum,
+        multiplier: 1
     });
     return decodeArray(buffer, offset, lengthResult.bytes, lengthResult.value, options.prefixEncodings, options.encoding);
 };

@@ -26,9 +26,9 @@ import {
 
 import {
   IntegerResult,
-  BOUNDED_8BITS_ENUM_FIXED,
-  FLOOR_ENUM_VARINT,
-  ROOF_MIRROR_ENUM_VARINT
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  FLOOR_MULTIPLE_ENUM_VARINT,
+  ROOF_MULTIPLE_MIRROR_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -102,8 +102,9 @@ export const BOUNDED_TYPED_LENGTH_PREFIX = (
       bytes: 0,
       value: options.maximum
     }
-    : FLOOR_ENUM_VARINT(buffer, offset, {
-      minimum: options.minimum
+    : FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+      minimum: options.minimum,
+      multiplier: 1
     })
 
   return decodeArray(
@@ -124,9 +125,10 @@ export const BOUNDED_8BITS_TYPED_LENGTH_PREFIX = (
       bytes: 0,
       value: options.maximum
     }
-    : BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+    : BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
       minimum: options.minimum,
-      maximum: options.maximum
+      maximum: options.maximum,
+      multiplier: 1
     })
 
   return decodeArray(
@@ -139,8 +141,9 @@ export const ROOF_TYPED_LENGTH_PREFIX = (
 ): ArrayResult => {
   assert(options.maximum >= 0)
 
-  const lengthResult: IntegerResult = ROOF_MIRROR_ENUM_VARINT(buffer, offset, {
-    maximum: options.maximum
+  const lengthResult: IntegerResult = ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset, {
+    maximum: options.maximum,
+    multiplier: 1
   })
 
   return decodeArray(
@@ -153,8 +156,9 @@ export const FLOOR_TYPED_LENGTH_PREFIX = (
 ): ArrayResult => {
   assert(options.minimum >= 0)
 
-  const lengthResult: IntegerResult = FLOOR_ENUM_VARINT(buffer, offset, {
-    minimum: options.minimum
+  const lengthResult: IntegerResult = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+    minimum: options.minimum,
+    multiplier: 1
   })
 
   return decodeArray(

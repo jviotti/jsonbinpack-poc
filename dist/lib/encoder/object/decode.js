@@ -77,8 +77,9 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
 exports.REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = REQUIRED_ONLY_BOUNDED_TYPED_OBJECT;
 var NON_REQUIRED_BOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
     var e_3, _a;
-    var bitsetLength = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var bitsetLength = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     assert_1.strict(bitsetLength.value >= 0);
     var bitsetResult = bitset_1.bitsetDecode(buffer, offset + bitsetLength.bytes, bitsetLength.value);
@@ -152,8 +153,9 @@ var ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH = function (buffer, offset, optio
 };
 exports.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH = ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH;
 var ARBITRARY_TYPED_KEYS_OBJECT = function (buffer, offset, options) {
-    var sizeResult = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var sizeResult = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     var result = exports.ARBITRARY_TYPED_KEYS_OBJECT_WITHOUT_LENGTH(buffer, offset + sizeResult.bytes, {
         encoding: options.encoding,
@@ -219,8 +221,9 @@ var MIXED_UNBOUNDED_TYPED_OBJECT = function (buffer, offset, options) {
 exports.MIXED_UNBOUNDED_TYPED_OBJECT = MIXED_UNBOUNDED_TYPED_OBJECT;
 var PACKED_UNBOUNDED_OBJECT = function (buffer, offset, options) {
     var e_4, _a;
-    var packedLength = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var packedLength = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     var packedResult = integer_list_1.integerListDecode(buffer, offset + packedLength.bytes, packedLength.value, {
         minimum: options.packedEncoding.options.minimum,
