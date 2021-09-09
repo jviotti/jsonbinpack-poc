@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStates = exports.getEncoding = void 0;
 var assert_1 = require("assert");
-var boolean_1 = require("./boolean");
 var null_1 = require("./null");
 var number_1 = require("./number");
 var integer_1 = require("./integer");
@@ -28,7 +27,9 @@ var getEncoding = function (schema, level) {
         return any_1.getAnyEncoding(schema, level);
     }
     else if (schema.type === 'boolean') {
-        return boolean_1.getBooleanEncoding(schema, level);
+        return enum_1.getEnumEncoding({
+            enum: [false, true]
+        }, level);
     }
     else if (schema.type === 'integer') {
         return integer_1.getIntegerEncoding(schema, level);
@@ -62,7 +63,9 @@ var getStates = function (schema) {
         return any_1.getAnyStates(schema);
     }
     else if (schema.type === 'boolean') {
-        return boolean_1.getBooleanStates(schema);
+        return enum_1.getEnumStates({
+            enum: [false, true]
+        });
     }
     else if (schema.type === 'integer') {
         return integer_1.getIntegerStates(schema);

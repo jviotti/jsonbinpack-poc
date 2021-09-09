@@ -28,8 +28,8 @@ Given the array `[ 1, 2, true ]` where the `prefixEncodings` corresponds to
 [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed) and
 [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed) and
 `encoding` corresponds to
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) with
-minimum 0 and maximum 255, the encoding results in:
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]`, the encoding results in:
 
 ```
 +------+------+------+
@@ -61,9 +61,10 @@ None
 
 Given the array `[ true, false, 5 ]` where the minimum is 2, the
 `prefixEncodings` corresponds to
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-`encoding` corresponds to
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and `encoding` corresponds to
 [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed) with
 minimum 0 and maximum 255, the encoding results in:
 
@@ -99,9 +100,10 @@ elements of the array encoded in order. The encoding of the element at index
 
 Given the array `[ true, false, 5 ]` where the maximum is 3, the
 `prefixEncodings` corresponds to
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-`encoding` corresponds to
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and `encoding` corresponds to
 [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed) with
 minimum 0 and maximum 255, the encoding results in:
 
@@ -143,9 +145,10 @@ encoding of the element at index `i` is either `prefixEncodings[i]` if set, or
 
 Given the array `[ true, false, 5 ]` where the minimum is 1 and the maximum is
 3, the `prefixEncodings` corresponds to
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-`encoding` corresponds to
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and `encoding` corresponds to
 [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed) with
 minimum 0 and maximum 255, the encoding results in:
 
@@ -186,9 +189,10 @@ in order. In both cases, the encoding of the element at index `i` is either
 
 Given the array `[ true, false, 5 ]` where the minimum is 1 and the maximum is
 3, the `prefixEncodings` corresponds to
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-[`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed) and
-`encoding` corresponds to
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and
+[`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with choices `[
+false, true ]` and `encoding` corresponds to
 [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed) with
 minimum 0 and maximum 255, the encoding results in:
 

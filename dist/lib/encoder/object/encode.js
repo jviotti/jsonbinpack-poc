@@ -44,7 +44,6 @@ var REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = function (buffer, offset, value, option
             var bit = value[key];
             assert_1.strict(typeof bit === 'boolean');
             assert_1.strict(typeof options.propertyEncodings[key] !== 'undefined');
-            assert_1.strict(options.propertyEncodings[key].type === index_1.EncodingType.Boolean);
             booleanBits.push(bit);
         }
     }

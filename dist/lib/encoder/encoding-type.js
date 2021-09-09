@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EncodingType = void 0;
 var EncodingType;
 (function (EncodingType) {
-    EncodingType["Boolean"] = "boolean";
     EncodingType["Integer"] = "integer";
     EncodingType["Null"] = "null";
     EncodingType["Number"] = "number";

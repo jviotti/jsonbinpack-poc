@@ -145,7 +145,9 @@ var getObjectEncoding = function (schema, level) {
         for (var _k = __values((_e = schema.required) !== null && _e !== void 0 ? _e : []), _l = _k.next(); !_l.done; _l = _k.next()) {
             var key = _l.value;
             var encoding = (_g = (_f = propertyEncodings[key]) !== null && _f !== void 0 ? _f : additionalProperties) !== null && _g !== void 0 ? _g : null;
-            if (encoding !== null && encoding.type === encoder_1.EncodingType.Boolean) {
+            if (encoding !== null &&
+                encoding.type === encoder_1.EncodingType.Enum &&
+                util_1.isDeepStrictEqual(encoding.options.choices, [false, true])) {
                 unsortedRequiredBooleanProperties.push(key);
             }
             else {

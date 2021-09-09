@@ -4,9 +4,14 @@
     "options": {
         "propertyEncodings": {
             "cjs": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "mainFields": {
                 "type": "array",
@@ -35,19 +40,34 @@
                 }
             },
             "force": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "cache": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "sourceMap": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             }
         },
         "requiredProperties": [

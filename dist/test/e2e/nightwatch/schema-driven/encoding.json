@@ -29,14 +29,24 @@
                 "options": {
                     "propertyEncodings": {
                         "abortOnAssertionFailure": {
-                            "type": "boolean",
-                            "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "enum",
+                            "encoding": "BOUNDED_CHOICE_INDEX",
+                            "options": {
+                                "choices": [
+                                    false,
+                                    true
+                                ]
+                            }
                         },
                         "abortOnElementLocateError": {
-                            "type": "boolean",
-                            "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "enum",
+                            "encoding": "BOUNDED_CHOICE_INDEX",
+                            "options": {
+                                "choices": [
+                                    false,
+                                    true
+                                ]
+                            }
                         },
                         "waitForConditionPollInterval": {
                             "type": "integer",
@@ -53,14 +63,24 @@
                             }
                         },
                         "throwOnMultipleElementsReturned": {
-                            "type": "boolean",
-                            "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "enum",
+                            "encoding": "BOUNDED_CHOICE_INDEX",
+                            "options": {
+                                "choices": [
+                                    false,
+                                    true
+                                ]
+                            }
                         },
                         "suppressWarningsOnMultipleElementsReturned": {
-                            "type": "boolean",
-                            "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "enum",
+                            "encoding": "BOUNDED_CHOICE_INDEX",
+                            "options": {
+                                "choices": [
+                                    false,
+                                    true
+                                ]
+                            }
                         },
                         "asyncHookTimeout": {
                             "type": "integer",
@@ -117,9 +137,14 @@
                 }
             },
             "persist_globals": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "output_folder": {
                 "type": "string",
@@ -134,14 +159,24 @@
                 "options": {}
             },
             "live_output": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "disable_colors": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "parallel_process_delay": {
                 "type": "integer",
@@ -156,9 +191,14 @@
                 "options": {
                     "propertyEncodings": {
                         "start_process": {
-                            "type": "boolean",
-                            "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "enum",
+                            "encoding": "BOUNDED_CHOICE_INDEX",
+                            "options": {
+                                "choices": [
+                                    false,
+                                    true
+                                ]
+                            }
                         },
                         "cli_args": {
                             "type": "object",
@@ -217,19 +257,34 @@
                 }
             },
             "start_session": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "end_session_on_fail": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "test_workers": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "test_runner": {
                 "type": "string",
@@ -244,9 +299,14 @@
                 "options": {
                     "propertyEncodings": {
                         "start_process": {
-                            "type": "boolean",
-                            "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "enum",
+                            "encoding": "BOUNDED_CHOICE_INDEX",
+                            "options": {
+                                "choices": [
+                                    false,
+                                    true
+                                ]
+                            }
                         },
                         "cli_args": {
                             "type": "object",
@@ -339,39 +399,74 @@
                 }
             },
             "silent": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "output": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "detailed_output": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "output_timestamp": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "disable_error_log": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "screenshots": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "log_screenshot_data": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "desiredCapabilities": {
                 "type": "object",
@@ -410,9 +505,14 @@
                 }
             },
             "sync_test_names": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "skiptags": {
                 "type": "string",
@@ -422,14 +522,24 @@
                 }
             },
             "use_xpath": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "parallel_mode": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "report_prefix": {
                 "type": "string",
@@ -439,9 +549,14 @@
                 }
             },
             "unit_tests_mode": {
-                "type": "boolean",
-                "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "enum",
+                "encoding": "BOUNDED_CHOICE_INDEX",
+                "options": {
+                    "choices": [
+                        false,
+                        true
+                    ]
+                }
             },
             "default_reporter": {
                 "type": "string",

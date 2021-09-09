@@ -92,9 +92,14 @@
                                                     }
                                                 },
                                                 "staff": {
-                                                    "type": "boolean",
-                                                    "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                                                    "options": {}
+                                                    "type": "enum",
+                                                    "encoding": "BOUNDED_CHOICE_INDEX",
+                                                    "options": {
+                                                        "choices": [
+                                                            false,
+                                                            true
+                                                        ]
+                                                    }
                                                 }
                                             },
                                             "requiredProperties": [
@@ -147,9 +152,14 @@
                                                     "options": {}
                                                 },
                                                 "staff": {
-                                                    "type": "boolean",
-                                                    "encoding": "BOOLEAN_8BITS_ENUM_FIXED",
-                                                    "options": {}
+                                                    "type": "enum",
+                                                    "encoding": "BOUNDED_CHOICE_INDEX",
+                                                    "options": {
+                                                        "choices": [
+                                                            false,
+                                                            true
+                                                        ]
+                                                    }
                                                 },
                                                 "extra": {
                                                     "type": "object",

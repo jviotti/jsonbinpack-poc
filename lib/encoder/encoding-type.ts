@@ -15,7 +15,6 @@
  */
 
 export enum EncodingType {
-  Boolean = 'boolean',
   Integer = 'integer',
   Null = 'null',
   Number = 'number',
