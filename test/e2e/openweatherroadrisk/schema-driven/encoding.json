@@ -10,9 +10,10 @@
         "propertyEncodings": {
           "dt": {
             "type": "integer",
-            "encoding": "FLOOR_ENUM_VARINT",
+            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
             "options": {
-              "minimum": 0
+              "minimum": 0,
+              "multiplier": 1
             }
           },
           "coord": {
@@ -46,9 +47,10 @@
                 },
                 "wind_deg": {
                   "type": "integer",
-                  "encoding": "FLOOR_ENUM_VARINT",
+                  "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                   "options": {
-                    "minimum": 0
+                    "minimum": 0,
+                    "multiplier": 1
                   }
                 },
                 "precipitation_intensity": {
@@ -100,9 +102,10 @@
                     },
                     "event_level": {
                       "type": "integer",
-                      "encoding": "FLOOR_ENUM_VARINT",
+                      "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                       "options": {
-                        "minimum": 0
+                        "minimum": 0,
+                        "multiplier": 1
                       }
                     }
                   },

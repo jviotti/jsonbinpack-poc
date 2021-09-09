@@ -39,8 +39,13 @@ import {
   RULES as RULES_SYNTAX_SUGAR
 } from './syntax-sugar'
 
+import {
+  RULES as RULES_IMPLICITS
+} from './implicits'
+
 // The concatenation of all rules
-const SIMPLIFICATION_RULES: SimplificationRule[] = RULES_SYNTAX_SUGAR
+const SIMPLIFICATION_RULES: SimplificationRule[] =
+  [ ...RULES_SYNTAX_SUGAR, ...RULES_IMPLICITS ]
 
 // Runtime validation to ensure that rules do not contain
 // duplicated identifiers.

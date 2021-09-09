@@ -17,9 +17,10 @@
                                 "prefixEncodings": [
                                     {
                                         "type": "integer",
-                                        "encoding": "FLOOR_ENUM_VARINT",
+                                        "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                                         "options": {
-                                            "minimum": 0
+                                            "minimum": 0,
+                                            "multiplier": 1
                                         }
                                     },
                                     {
@@ -64,9 +65,10 @@
                                 "prefixEncodings": [
                                     {
                                         "type": "integer",
-                                        "encoding": "FLOOR_ENUM_VARINT",
+                                        "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                                         "options": {
-                                            "minimum": 0
+                                            "minimum": 0,
+                                            "multiplier": 1
                                         }
                                     },
                                     {
