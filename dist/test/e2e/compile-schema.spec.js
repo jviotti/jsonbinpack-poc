@@ -101,12 +101,15 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                         choices: [
                             {
                                 schema: {
-                                    type: 'integer'
+                                    type: 'integer',
+                                    multipleOf: 1
                                 },
                                 encoding: {
                                     type: 'integer',
-                                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
-                                    options: {}
+                                    encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+                                    options: {
+                                        multiplier: 1
+                                    }
                                 }
                             },
                             {
@@ -117,7 +120,8 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                         },
                                         {
                                             type: 'integer',
-                                            minimum: 2
+                                            minimum: 2,
+                                            multipleOf: 1
                                         },
                                         {
                                             type: 'null'

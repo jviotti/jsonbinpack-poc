@@ -1,15 +1,4 @@
 "use strict";
-var __values = (this && this.__values) || function(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
 var __read = (this && this.__read) || function (o, n) {
     var m = typeof Symbol === "function" && o[Symbol.iterator];
     if (!m) return o;
@@ -26,13 +15,30 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
+var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
 var e_1, _a, e_2, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.simplifySchema = void 0;
 var assert_1 = require("assert");
 var lodash_1 = require("lodash");
 var syntax_sugar_1 = require("./syntax-sugar");
-var SIMPLIFICATION_RULES = syntax_sugar_1.RULES;
+var implicits_1 = require("./implicits");
+var SIMPLIFICATION_RULES = __spreadArray(__spreadArray([], __read(syntax_sugar_1.RULES)), __read(implicits_1.RULES));
 try {
     for (var _c = __values(SIMPLIFICATION_RULES.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
         var _e = __read(_d.value, 2), index = _e[0], rule = _e[1];

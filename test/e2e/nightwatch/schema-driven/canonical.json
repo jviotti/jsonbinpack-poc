@@ -78,11 +78,13 @@
         },
         "waitForConditionPollInterval": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "waitForConditionTimeout": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "throwOnMultipleElementsReturned": {
           "type": "boolean"
@@ -92,19 +94,23 @@
         },
         "asyncHookTimeout": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "unitTestsTimeout": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "customReporterCallbackTimeout": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "retryAssertionTimeout": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         }
       }
     },
@@ -159,15 +165,18 @@
         },
         "check_process_delay": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "max_status_poll_tries": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "status_poll_interval": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         }
       }
     },
@@ -213,19 +222,23 @@
         },
         "check_process_delay": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "max_status_poll_tries": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "status_poll_interval": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "process_create_timeout": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "multipleOf": 1
         },
         "timeout_options": {
           "type": "object",

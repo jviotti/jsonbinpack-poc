@@ -20,8 +20,10 @@
             },
             "tz": {
                 "type": "integer",
-                "encoding": "ARBITRARY_ZIGZAG_VARINT",
-                "options": {}
+                "encoding": "ARBITRARY_MULTIPLE_ZIGZAG_VARINT",
+                "options": {
+                    "multiplier": 1
+                }
             },
             "days": {
                 "type": "array",
@@ -30,10 +32,11 @@
                     "minimum": 0,
                     "encoding": {
                         "type": "integer",
-                        "encoding": "BOUNDED_8BITS_ENUM_FIXED",
+                        "encoding": "BOUNDED_MULTIPLE_8BITS_ENUM_FIXED",
                         "options": {
                             "minimum": 0,
-                            "maximum": 6
+                            "maximum": 6,
+                            "multiplier": 1
                         }
                     },
                     "prefixEncodings": []

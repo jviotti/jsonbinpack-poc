@@ -50,16 +50,18 @@
                         },
                         "waitForConditionPollInterval": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "waitForConditionTimeout": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "throwOnMultipleElementsReturned": {
@@ -84,30 +86,34 @@
                         },
                         "asyncHookTimeout": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "unitTestsTimeout": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "customReporterCallbackTimeout": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "retryAssertionTimeout": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         }
                     },
@@ -180,9 +186,10 @@
             },
             "parallel_process_delay": {
                 "type": "integer",
-                "encoding": "FLOOR_ENUM_VARINT",
+                "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                 "options": {
-                    "minimum": 0
+                    "minimum": 0,
+                    "multiplier": 1
                 }
             },
             "selenium": {
@@ -223,23 +230,26 @@
                         },
                         "check_process_delay": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "max_status_poll_tries": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "status_poll_interval": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         }
                     },
@@ -331,30 +341,34 @@
                         },
                         "check_process_delay": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "max_status_poll_tries": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "status_poll_interval": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "process_create_timeout": {
                             "type": "integer",
-                            "encoding": "FLOOR_ENUM_VARINT",
+                            "encoding": "FLOOR_MULTIPLE_ENUM_VARINT",
                             "options": {
-                                "minimum": 0
+                                "minimum": 0,
+                                "multiplier": 1
                             }
                         },
                         "timeout_options": {
