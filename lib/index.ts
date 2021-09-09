@@ -37,6 +37,10 @@ import {
   preprocessSchema
 } from './preprocessor'
 
+import {
+  simplifySchema
+} from './simplifier'
+
 export {
   JSONValue
 } from './json'
@@ -50,7 +54,9 @@ export {
 } from './preprocessor'
 
 export const compileSchema = async (schema: JSONSchema | boolean): Promise<Encoding> => {
-  return getEncoding(await preprocessSchema(schema), 0)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return getEncoding(simplifySchema(await preprocessSchema(schema)), 0)
 }
 
 export const encode = (encoding: Encoding, value: JSONValue): Buffer => {

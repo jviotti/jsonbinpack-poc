@@ -165,10 +165,12 @@ rules:
   '@typescript-eslint/no-unused-expressions':
     - error
   '@typescript-eslint/no-use-before-define':
-    - error
+    - off
 
   # Possible Errors
 
+  no-use-before-define:
+    - off
   no-console:
     - off
   no-empty:
@@ -393,9 +395,6 @@ rules:
   no-underscore-dangle:
     - error
     - allowAfterThis: false
-  object-curly-newline:
-    - error
-    - minProperties: 1
   object-curly-spacing:
     - error
     - always

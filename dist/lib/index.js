@@ -40,14 +40,16 @@ exports.decode = exports.encode = exports.compileSchema = void 0;
 var mapper_1 = require("./mapper");
 var encoder_1 = require("./encoder");
 var preprocessor_1 = require("./preprocessor");
+var simplifier_1 = require("./simplifier");
 var compileSchema = function (schema) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
                 _a = mapper_1.getEncoding;
+                _b = simplifier_1.simplifySchema;
                 return [4, preprocessor_1.preprocessSchema(schema)];
-            case 1: return [2, _a.apply(void 0, [_b.sent(), 0])];
+            case 1: return [2, _a.apply(void 0, [_b.apply(void 0, [_c.sent()]), 0])];
         }
     });
 }); };
