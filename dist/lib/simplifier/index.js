@@ -116,7 +116,7 @@ var applyRules = function (schema, hits) {
         finally { if (e_5) throw e_5.error; }
     }
     try {
-        for (var _l = __values(['patternProperties', 'dependentSchemas']), _m = _l.next(); !_m.done; _m = _l.next()) {
+        for (var _l = __values(['properties', 'patternProperties', 'dependentSchemas']), _m = _l.next(); !_m.done; _m = _l.next()) {
             var keyword = _m.value;
             if (typeof schema[keyword] !== 'undefined') {
                 try {

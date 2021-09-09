@@ -27,17 +27,30 @@ import {
 } from './rule'
 
 export const RULES: SimplificationRule[] = [
-
   {
-    id: 'boolean-type-to-enum',
+    id: 'exclusive-minimum-to-minimum',
     condition: (schema: ObjectSchema): JSONBoolean => {
-      return schema.type === 'boolean'
+      return typeof schema.exclusiveMinimum !== 'undefined'
     },
-    transform: (_schema: ObjectSchema): ObjectSchema => {
-      return {
-        enum: [ false, true ]
-      }
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      const minimum: number = Math.max(
+        (schema.exclusiveMinimum ?? -Infinity) + 1,
+        schema.minimum ?? -Infinity)
+      Reflect.deleteProperty(schema, 'exclusiveMinimum')
+      return Object.assign(schema, { minimum })
+    }
+  },
+  {
+    id: 'exclusive-maximum-to-maximum',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return typeof schema.exclusiveMaximum !== 'undefined'
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      const maximum: number = Math.max(
+        (schema.exclusiveMaximum ?? Infinity) - 1,
+        schema.maximum ?? Infinity)
+      Reflect.deleteProperty(schema, 'exclusiveMaximum')
+      return Object.assign(schema, { maximum })
     }
   }
-
 ]

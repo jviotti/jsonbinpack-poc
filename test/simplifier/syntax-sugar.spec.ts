@@ -24,24 +24,52 @@ import {
   simplifySchema
 } from '../../lib/simplifier'
 
-tap.test('should convert a boolean schema to an enum', (test) => {
+tap.test('should convert exclusiveMinimum to minimum', (test) => {
   const schema: Schema = {
-    type: 'boolean'
+    exclusiveMinimum: 5
   }
 
   const result: Schema = {
-    enum: [ false, true ]
+    minimum: 6
   }
 
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
 
-tap.test('should convert a boolean schema inside prefixItems to an enum', (test) => {
+tap.test('should convert exclusiveMinimum to minimum with existing greater minimum', (test) => {
+  const schema: Schema = {
+    exclusiveMinimum: 5,
+    minimum: 6
+  }
+
+  const result: Schema = {
+    minimum: 6
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
+tap.test('should convert exclusiveMinimum to minimum with existing lower minimum', (test) => {
+  const schema: Schema = {
+    exclusiveMinimum: 5,
+    minimum: 4
+  }
+
+  const result: Schema = {
+    minimum: 6
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
+tap.test('should convert exclusiveMinimum to minimum inside prefixItems', (test) => {
   const schema: Schema = {
     prefixItems: [
       {
-        type: 'boolean'
+        exclusiveMinimum: 5
       }
     ]
   }
@@ -49,47 +77,9 @@ tap.test('should convert a boolean schema inside prefixItems to an enum', (test)
   const result: Schema = {
     prefixItems: [
       {
-        enum: [ false, true ]
+        minimum: 6
       }
     ]
-  }
-
-  test.strictSame(simplifySchema(schema), result)
-  test.end()
-})
-
-tap.test('should convert a boolean schema inside items to an enum', (test) => {
-  const schema: Schema = {
-    items: {
-      type: 'boolean'
-    }
-  }
-
-  const result: Schema = {
-    items: {
-      enum: [ false, true ]
-    }
-  }
-
-  test.strictSame(simplifySchema(schema), result)
-  test.end()
-})
-
-tap.test('should convert a boolean schema inside patternProperties to an enum', (test) => {
-  const schema: Schema = {
-    patternProperties: {
-      '^foo$': {
-        type: 'boolean'
-      }
-    }
-  }
-
-  const result: Schema = {
-    patternProperties: {
-      '^foo$': {
-        enum: [ false, true ]
-      }
-    }
   }
 
   test.strictSame(simplifySchema(schema), result)

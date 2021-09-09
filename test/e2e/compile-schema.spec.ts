@@ -79,7 +79,7 @@ tap.test('should compile a simple oneOf schema', async (test) => {
           schema: {
             anyOf: [
               {
-                enum: [ false, true ]
+                type: 'boolean'
               },
               {
                 type: 'integer',

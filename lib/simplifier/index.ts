@@ -95,10 +95,9 @@ const applyRules = (schema: ObjectSchema, hits: Set<string>): ObjectSchema => {
 
   // TODO: We cannot handle additionalProperties yet as the rest of the codebase
   // assumes that additionalProperties is a boolean schema
-  // TODO: We cannot handle properties yet without affecting sizes
 
   // Keywords of type "string => schema"
-  for (const keyword of [ 'patternProperties', 'dependentSchemas' ]) {
+  for (const keyword of [ 'properties', 'patternProperties', 'dependentSchemas' ]) {
     if (typeof schema[keyword] !== 'undefined') {
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       for (const [ key, value ] of Object.entries(schema[keyword] as Record<JSONString, Schema>)) {
