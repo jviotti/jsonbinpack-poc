@@ -23,13 +23,6 @@ import {
 } from '../json'
 
 import {
-  BooleanEncodingNames,
-  BooleanEncoding,
-  getBooleanStates,
-  getBooleanEncoding
-} from './boolean'
-
-import {
   NullEncodingNames,
   NullEncoding,
   getNullStates,
@@ -104,10 +97,6 @@ import {
 } from '../schema'
 
 export {
-  BooleanEncoding
-} from './boolean'
-
-export {
   NullEncoding
 } from './null'
 
@@ -148,7 +137,6 @@ export {
 } from './const'
 
 export type EncodingNames =
-  BooleanEncodingNames |
   NullEncodingNames |
   NumberEncodingNames |
   IntegerEncodingNames |
@@ -162,7 +150,6 @@ export type EncodingNames =
 
 // The union of all possible encodings
 export type Encoding =
-  BooleanEncoding |
   NullEncoding |
   NumberEncoding |
   IntegerEncoding |
@@ -187,7 +174,9 @@ export const getEncoding = (schema: EncodingSchema, level: number): Encoding => 
   } else if (!('type' in schema)) {
     return getAnyEncoding(schema, level)
   } else if (schema.type === 'boolean') {
-    return getBooleanEncoding(schema, level)
+    return getEnumEncoding({
+      enum: [ false, true ]
+    }, level)
   } else if (schema.type === 'integer') {
     return getIntegerEncoding(schema, level)
   } else if (schema.type === 'null') {
@@ -212,7 +201,9 @@ export const getStates = (schema: EncodingSchema): number | JSONValue[] => {
   } else if (!('type' in schema)) {
     return getAnyStates(schema)
   } else if (schema.type === 'boolean') {
-    return getBooleanStates(schema)
+    return getEnumStates({
+      enum: [ false, true ]
+    })
   } else if (schema.type === 'integer') {
     return getIntegerStates(schema)
   } else if (schema.type === 'null') {

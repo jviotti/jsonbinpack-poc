@@ -133,10 +133,10 @@ Where the options are defined as follows:
     with minimum 0
   - `bar`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with
     minimum 0
-  - `baz`:
-    [`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed)
-  - `qux`:
-    [`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed)
+  - `baz`: [`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with
+    choices `[ false, true ]`
+  - `qux`: [`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with
+    choices `[ false, true ]`
 
 The encoding results in:
 
@@ -496,8 +496,8 @@ Where the options are defined as follows:
   - `name`:
     [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
     with minimum 0
-  - `flag`:
-    [`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed)
+  - `flat`: [`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with
+    choices `[ false, true ]`
 
 The encoding results in:
 
@@ -577,7 +577,8 @@ Where the options are defined as follows:
 - `packedEncoding`:
   [`BOUNDED_8BITS_ENUM_FIXED`](./integer.markdown#bounded_8bits_enum_fixed)
   with minimum 0 and maximum 2
-- `encoding`: [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
+- `encoding`:
+  [`ANY_PACKED_TYPE_TAG_BYTE_PREFIX`](./any.markdown#any_packed_type_tag_byte_prefix)
 - `keyEncoding`:
   [`FLOOR_PREFIX_LENGTH_ENUM_VARINT`](./string.markdown#floor_prefix_length_enum_varint)
   with minimum 0
@@ -587,8 +588,8 @@ Where the options are defined as follows:
     with minimum 0
   - `age`: [`FLOOR_ENUM_VARINT`](./integer.markdown#floor_enum_varint) with
     minimum 0
-  - `flag`:
-    [`BOOLEAN_8BITS_ENUM_FIXED`](./boolean.markdown#boolean_8bits_enum_fixed)
+  - `flag`: [`BOUNDED_CHOICE_INDEX`](./enum.markdown#bounded_choice_index) with
+    choices `[ false, true ]`
 
 The encoding results in:
 

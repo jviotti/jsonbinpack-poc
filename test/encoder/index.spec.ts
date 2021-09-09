@@ -39,9 +39,11 @@ tap.test('should dynamically encode a boolean value', (test) => {
   const buffer: ResizableBuffer = new ResizableBuffer(Buffer.allocUnsafe(1))
   const offset: number = 0
   const encoding: Encoding = {
-    type: EncodingType.Boolean,
-    encoding: 'BOOLEAN_8BITS_ENUM_FIXED',
-    options: {}
+    type: EncodingType.Enum,
+    encoding: 'BOUNDED_CHOICE_INDEX',
+    options: {
+      choices: [ false, true ]
+    }
   }
 
   const value: JSONValue = true

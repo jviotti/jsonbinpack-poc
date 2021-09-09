@@ -1056,9 +1056,11 @@ tap.test('should encode an unbounded object with bounded integers', (test) => {
           }
         },
         flag: {
-          type: 'boolean',
-          encoding: 'BOOLEAN_8BITS_ENUM_FIXED',
-          options: {}
+          type: 'enum',
+          encoding: 'BOUNDED_CHOICE_INDEX',
+          options: {
+            choices: [ false, true ]
+          }
         }
       },
       optionalProperties: [ 'age' ],
@@ -1129,9 +1131,11 @@ tap.test('should encode an unbounded object with bounded integers with maxProper
           }
         },
         flag: {
-          type: 'boolean',
-          encoding: 'BOOLEAN_8BITS_ENUM_FIXED',
-          options: {}
+          type: 'enum',
+          encoding: 'BOUNDED_CHOICE_INDEX',
+          options: {
+            choices: [ false, true ]
+          }
         }
       },
       optionalProperties: [],
@@ -1197,9 +1201,11 @@ tap.test('should encode an unbounded object with bounded integers with maxProper
           }
         },
         flag: {
-          type: 'boolean',
-          encoding: 'BOOLEAN_8BITS_ENUM_FIXED',
-          options: {}
+          type: 'enum',
+          encoding: 'BOUNDED_CHOICE_INDEX',
+          options: {
+            choices: [ false, true ]
+          }
         }
       },
       requiredProperties: [ 'name' ],

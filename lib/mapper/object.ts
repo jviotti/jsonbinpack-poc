@@ -259,7 +259,9 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
 
   for (const key of schema.required ?? []) {
     const encoding: Encoding | null = propertyEncodings[key] ?? additionalProperties ?? null
-    if (encoding !== null && encoding.type === EncodingType.Boolean) {
+    if (encoding !== null &&
+      encoding.type === EncodingType.Enum &&
+      isDeepStrictEqual(encoding.options.choices, [ false, true ])) {
       unsortedRequiredBooleanProperties.push(key)
     } else {
       nonBooleanRequiredProperties.push(key)

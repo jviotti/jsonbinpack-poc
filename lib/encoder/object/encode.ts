@@ -34,8 +34,7 @@ import {
 } from '../../json'
 
 import {
-  encode,
-  EncodingType
+  encode
 } from '../index'
 
 import {
@@ -75,7 +74,6 @@ export const REQUIRED_ONLY_BOUNDED_TYPED_OBJECT = (
     const bit: JSONValue = value[key]
     assert(typeof bit === 'boolean')
     assert(typeof options.propertyEncodings[key] !== 'undefined')
-    assert(options.propertyEncodings[key].type === EncodingType.Boolean)
     booleanBits.push(bit)
   }
   const booleanBytes: number = bitsetEncode(buffer, offset, booleanBits)

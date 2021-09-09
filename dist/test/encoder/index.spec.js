@@ -10,9 +10,11 @@ tap_1.default.test('should dynamically encode a boolean value', function (test) 
     var buffer = new encoder_1.ResizableBuffer(Buffer.allocUnsafe(1));
     var offset = 0;
     var encoding = {
-        type: encoder_1.EncodingType.Boolean,
-        encoding: 'BOOLEAN_8BITS_ENUM_FIXED',
-        options: {}
+        type: encoder_1.EncodingType.Enum,
+        encoding: 'BOUNDED_CHOICE_INDEX',
+        options: {
+            choices: [false, true]
+        }
     };
     var value = true;
     var bytesWritten = encoder_1.encode(buffer, offset, encoding, value, context);

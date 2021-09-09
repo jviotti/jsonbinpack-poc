@@ -40,7 +40,6 @@ import {
 
 import ResizableBuffer from './resizable-buffer'
 
-import * as ENCODE_BOOLEAN from './boolean/encode'
 import * as ENCODE_INTEGER from './integer/encode'
 import * as ENCODE_NULL from './null/encode'
 import * as ENCODE_NUMBER from './number/encode'
@@ -52,7 +51,6 @@ import * as ENCODE_ENUM from './enum/encode'
 import * as ENCODE_ONEOF from './oneof/encode'
 import * as ENCODE_CONST from './const/encode'
 
-import * as DECODE_BOOLEAN from './boolean/decode'
 import * as DECODE_INTEGER from './integer/decode'
 import * as DECODE_NULL from './null/decode'
 import * as DECODE_NUMBER from './number/decode'
@@ -86,7 +84,6 @@ const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 // eslint-disable-next-line @typescript-eslint/ban-types
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 
-ENCODE_TYPE_INDEX.set(EncodingType.Boolean, ENCODE_BOOLEAN)
 ENCODE_TYPE_INDEX.set(EncodingType.Integer, ENCODE_INTEGER)
 ENCODE_TYPE_INDEX.set(EncodingType.Null, ENCODE_NULL)
 ENCODE_TYPE_INDEX.set(EncodingType.Number, ENCODE_NUMBER)
@@ -98,7 +95,6 @@ ENCODE_TYPE_INDEX.set(EncodingType.Enum, ENCODE_ENUM)
 ENCODE_TYPE_INDEX.set(EncodingType.OneOf, ENCODE_ONEOF)
 ENCODE_TYPE_INDEX.set(EncodingType.Const, ENCODE_CONST)
 
-DECODE_TYPE_INDEX.set(EncodingType.Boolean, DECODE_BOOLEAN)
 DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
 DECODE_TYPE_INDEX.set(EncodingType.Null, DECODE_NULL)
 DECODE_TYPE_INDEX.set(EncodingType.Number, DECODE_NUMBER)
