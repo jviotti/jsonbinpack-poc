@@ -30,10 +30,10 @@ import {
 } from '../../json'
 
 import {
-  BOUNDED_8BITS_ENUM_FIXED,
-  FLOOR_ENUM_VARINT,
-  ROOF_MIRROR_ENUM_VARINT,
-  ARBITRARY_ZIGZAG_VARINT
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  FLOOR_MULTIPLE_ENUM_VARINT,
+  ROOF_MULTIPLE_MIRROR_ENUM_VARINT,
+  ARBITRARY_MULTIPLE_ZIGZAG_VARINT
 } from '../integer/encode'
 
 import {
@@ -65,9 +65,10 @@ const maybeWriteSharedPrefix = (
   value: JSONString, context: EncodingContext
 ): number => {
   return context.strings.has(value)
-    ? BOUNDED_8BITS_ENUM_FIXED(buffer, offset, Type.SharedString, {
+    ? BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, Type.SharedString, {
       minimum: Type.SharedString,
-      maximum: Type.SharedString
+      maximum: Type.SharedString,
+      multiplier: 1
     }, context)
     : 0
 }
@@ -78,8 +79,9 @@ export const SHARED_STRING_POINTER_RELATIVE_OFFSET = (
 ): number => {
   const stringOffset: number | undefined = context.strings.get(value)
   assert(typeof stringOffset !== 'undefined')
-  return FLOOR_ENUM_VARINT(buffer, offset, offset - stringOffset, {
-    minimum: 0
+  return FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, offset - stringOffset, {
+    minimum: 0,
+    multiplier: 1
   }, context)
 }
 
@@ -123,13 +125,14 @@ const writeRawString = (
   const lengthBytes: number = prefixBytes > 0
 
     // The string is shared
-    ? FLOOR_ENUM_VARINT(buffer, offset + prefixBytes, length, {
-      minimum: 0
+    ? FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + prefixBytes, length, {
+      minimum: 0,
+      multiplier: 1
     }, context)
 
     // The string is not shared
-    : ARBITRARY_ZIGZAG_VARINT(buffer, offset + prefixBytes,
-      -length - 1, {}, context)
+    : ARBITRARY_MULTIPLE_ZIGZAG_VARINT(buffer, offset + prefixBytes,
+      -length - 1, { multiplier: 1 }, context)
 
   // Write the string
   const stringBytes: number = writeMaybeSharedString(
@@ -143,8 +146,9 @@ export const STRING_BROTLI = (
   _options: NoOptions, context: EncodingContext
 ): number => {
   const compressed = brotliCompressSync(Buffer.from(value))
-  const bytes = FLOOR_ENUM_VARINT(buffer, offset, compressed.length, {
-    minimum: 0
+  const bytes = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, compressed.length, {
+    minimum: 0,
+    multiplier: 1
   }, context)
   return bytes + buffer.writeBuffer(offset + bytes, compressed)
 }
@@ -158,8 +162,9 @@ export const STRING_DICTIONARY_COMPRESSOR = (
 
   // Write the length of whole string
   const length: number = Buffer.byteLength(value, STRING_ENCODING)
-  let bytes = FLOOR_ENUM_VARINT(buffer, offset, length, {
-    minimum: 0
+  let bytes = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, length, {
+    minimum: 0,
+    multiplier: 1
   }, context)
 
   if (length === 0) {
@@ -185,8 +190,8 @@ export const STRING_DICTIONARY_COMPRESSOR = (
 
     // Write the dictionary entry index + 1
     assert(entry >= 0)
-    bytes += ARBITRARY_ZIGZAG_VARINT(
-      buffer, offset + bytes, entry + 1, {}, context)
+    bytes += ARBITRARY_MULTIPLE_ZIGZAG_VARINT(
+      buffer, offset + bytes, entry + 1, { multiplier: 1 }, context)
   }
 
   // Flush unmatched section
@@ -234,9 +239,10 @@ export const BOUNDED_PREFIX_LENGTH_8BIT_FIXED = (
   const prefixBytes: number =
     maybeWriteSharedPrefix(buffer, offset, value, context)
   const bytesWritten: number =
-    BOUNDED_8BITS_ENUM_FIXED(buffer, offset + prefixBytes, length + 1, {
+    BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + prefixBytes, length + 1, {
       minimum: options.minimum,
-      maximum: options.maximum + 1
+      maximum: options.maximum + 1,
+      multiplier: 1
     }, context)
   const result: number = writeMaybeSharedString(
     buffer, offset + prefixBytes + bytesWritten, value, length, context)
@@ -252,8 +258,11 @@ export const ROOF_PREFIX_LENGTH_ENUM_VARINT = (
   assert(length <= options.maximum)
   const prefixBytes: number =
     maybeWriteSharedPrefix(buffer, offset, value, context)
-  const bytesWritten: number = ROOF_MIRROR_ENUM_VARINT(
-    buffer, offset + prefixBytes, length - 1, options, context)
+  const bytesWritten: number = ROOF_MULTIPLE_MIRROR_ENUM_VARINT(
+    buffer, offset + prefixBytes, length - 1, {
+      maximum: options.maximum,
+      multiplier: 1
+    }, context)
   const result: number = writeMaybeSharedString(
     buffer, offset + prefixBytes + bytesWritten, value, length, context)
   return result + prefixBytes + bytesWritten
@@ -276,8 +285,11 @@ export const FLOOR_PREFIX_LENGTH_ENUM_VARINT = (
   /*
    * (2) Write length of the string + 1
    */
-  const lengthBytes: number = FLOOR_ENUM_VARINT(
-    buffer, offset + prefixBytes, length + 1, options, context)
+  const lengthBytes: number = FLOOR_MULTIPLE_ENUM_VARINT(
+    buffer, offset + prefixBytes, length + 1, {
+      minimum: options.minimum,
+      multiplier: 1
+    }, context)
 
   /*
    * (3) Write offset if shared, else write plain string
@@ -293,23 +305,26 @@ export const STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = (
   _options: NoOptions, context: EncodingContext
 ): number => {
   if (context.keys.has(value)) {
-    const prefixBytes: number = BOUNDED_8BITS_ENUM_FIXED(buffer, offset, 0, {
+    const prefixBytes: number = BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, 0, {
       minimum: 0,
-      maximum: 0
+      maximum: 0,
+      multiplier: 1
     }, context)
     const cursor: number = offset + prefixBytes
     const pointer: number | undefined = context.keys.get(value)
     assert(typeof pointer === 'number')
     context.keys.set(value, offset)
-    return prefixBytes + FLOOR_ENUM_VARINT(buffer, cursor, cursor - pointer, {
-      minimum: 0
+    return prefixBytes + FLOOR_MULTIPLE_ENUM_VARINT(buffer, cursor, cursor - pointer, {
+      minimum: 0,
+      multiplier: 1
     }, context)
   }
 
   const length: JSONNumber = Buffer.byteLength(value, STRING_ENCODING)
   const lengthBytes: number =
-    FLOOR_ENUM_VARINT(buffer, offset, length + 1, {
-      minimum: 0
+    FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, length + 1, {
+      minimum: 0,
+      multiplier: 1
     }, context)
 
   context.keys.set(value, offset)

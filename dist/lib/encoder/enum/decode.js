@@ -11,9 +11,10 @@ var TOP_LEVEL_8BIT_CHOICE_INDEX = function (buffer, offset, options) {
             bytes: 0
         };
     }
-    var result = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+    var result = decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
         minimum: 1,
-        maximum: options.choices.length
+        maximum: options.choices.length,
+        multiplier: 1
     });
     return {
         value: options.choices[result.value],
@@ -22,9 +23,10 @@ var TOP_LEVEL_8BIT_CHOICE_INDEX = function (buffer, offset, options) {
 };
 exports.TOP_LEVEL_8BIT_CHOICE_INDEX = TOP_LEVEL_8BIT_CHOICE_INDEX;
 var BOUNDED_CHOICE_INDEX = function (buffer, offset, options) {
-    var result = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+    var result = decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
         minimum: 0,
-        maximum: options.choices.length
+        maximum: options.choices.length,
+        multiplier: 1
     });
     return {
         value: options.choices[result.value],
@@ -33,8 +35,9 @@ var BOUNDED_CHOICE_INDEX = function (buffer, offset, options) {
 };
 exports.BOUNDED_CHOICE_INDEX = BOUNDED_CHOICE_INDEX;
 var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, options) {
-    var result = decode_1.FLOOR_ENUM_VARINT(buffer, offset, {
-        minimum: 0
+    var result = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, {
+        minimum: 0,
+        multiplier: 1
     });
     return {
         value: options.choices[result.value],

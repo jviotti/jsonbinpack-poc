@@ -15,18 +15,22 @@
  */
 
 import {
-  NoOptions,
-  BoundedOptions,
-  RoofOptions,
-  FloorOptions
-} from '../integer/options'
+  NoOptions
+} from '../null/options'
 
 export {
-  NoOptions,
-  BoundedOptions,
-  RoofOptions,
-  FloorOptions
-} from '../integer/options'
+  NoOptions
+} from '../null/options'
+
+export interface FloorOptions extends NoOptions {
+  readonly minimum: number;
+}
+
+export interface RoofOptions extends NoOptions {
+  readonly maximum: number;
+}
+
+export interface BoundedOptions extends FloorOptions, RoofOptions {}
 
 export interface DictionaryOptions {
   readonly dictionary: Record<string, number>;

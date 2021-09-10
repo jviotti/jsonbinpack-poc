@@ -66,8 +66,9 @@ var BOUNDED_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, cont
     assert_1.strict(value.length <= options.maximum);
     var lengthBytes = options.maximum === options.minimum
         ? 0
-        : encode_1.FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-            minimum: options.minimum
+        : encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, value.length, {
+            minimum: options.minimum,
+            multiplier: 1
         }, context);
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding);
 };
@@ -81,9 +82,10 @@ var BOUNDED_8BITS_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options
     assert_1.strict(options.maximum - options.minimum <= limits_1.UINT8_MAX);
     var lengthBytes = options.maximum === options.minimum
         ? 0
-        : encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, value.length, {
+        : encode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, value.length, {
             minimum: options.minimum,
-            maximum: options.maximum
+            maximum: options.maximum,
+            multiplier: 1
         }, context);
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding);
 };
@@ -91,8 +93,9 @@ exports.BOUNDED_8BITS_TYPED_LENGTH_PREFIX = BOUNDED_8BITS_TYPED_LENGTH_PREFIX;
 var ROOF_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(value.length <= options.maximum);
-    var lengthBytes = encode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset, value.length, {
-        maximum: options.maximum
+    var lengthBytes = encode_1.ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset, value.length, {
+        maximum: options.maximum,
+        multiplier: 1
     }, context);
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding);
 };
@@ -100,8 +103,9 @@ exports.ROOF_TYPED_LENGTH_PREFIX = ROOF_TYPED_LENGTH_PREFIX;
 var FLOOR_TYPED_LENGTH_PREFIX = function (buffer, offset, value, options, context) {
     assert_1.strict(options.minimum >= 0);
     assert_1.strict(value.length >= options.minimum);
-    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-        minimum: options.minimum
+    var lengthBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, value.length, {
+        minimum: options.minimum,
+        multiplier: 1
     }, context);
     return lengthBytes + encodeArray(buffer, offset + lengthBytes, value, options.prefixEncodings, context, options.encoding);
 };

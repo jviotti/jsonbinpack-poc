@@ -339,7 +339,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
   if (additionalProperties !== null &&
     requiredProperties.length > 0 &&
     additionalProperties.type === EncodingType.Integer &&
-    additionalProperties.encoding === 'BOUNDED_8BITS_ENUM_FIXED') {
+    additionalProperties.encoding === 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED') {
     const propertiesDefinition: Record<string, EncodingSchema> =
       schema.properties ?? {}
     const packedRequiredProperties: string[] = []

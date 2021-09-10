@@ -40,8 +40,8 @@ import {
 
 import {
   IntegerResult,
-  BOUNDED_8BITS_ENUM_FIXED,
-  FLOOR_ENUM_VARINT
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  FLOOR_MULTIPLE_ENUM_VARINT
 } from '../integer/decode'
 
 import {
@@ -89,9 +89,10 @@ export interface AnyResult extends DecodeResult {
 export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
   buffer: ResizableBuffer, offset: number, _options: NoOptions
 ): AnyResult => {
-  const tag: IntegerResult = BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+  const tag: IntegerResult = BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
     minimum: UINT8_MIN,
-    maximum: UINT8_MAX
+    maximum: UINT8_MAX,
+    multiplier: 1
   })
 
   if (isType(Type.Array, tag.value)) {
@@ -231,8 +232,9 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
     getMetadata(tag.value) === Subtype.LongStringBaseExponent10
   )) {
     const size: IntegerResult =
-      FLOOR_ENUM_VARINT(buffer, offset + tag.bytes, {
-        minimum: Math.pow(2, getMetadata(tag.value))
+      FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tag.bytes, {
+        minimum: Math.pow(2, getMetadata(tag.value)),
+        multiplier: 1
       })
 
     const result: StringResult = UTF8_STRING_NO_LENGTH(
@@ -246,8 +248,9 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
     }
   } else if (isPositiveInteger(tag.value)) {
     const result: IntegerResult =
-      FLOOR_ENUM_VARINT(buffer, offset + tag.bytes, {
-        minimum: 0
+      FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tag.bytes, {
+        minimum: 0,
+        multiplier: 1
       })
     return {
       value: result.value,
@@ -255,8 +258,9 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
     }
   } else if (isNegativeInteger(tag.value)) {
     const result: IntegerResult =
-      FLOOR_ENUM_VARINT(buffer, offset + tag.bytes, {
-        minimum: 0
+      FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tag.bytes, {
+        minimum: 0,
+        multiplier: 1
       })
     return {
       value: (result.value + 1) * -1,
@@ -272,9 +276,10 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
     }
 
     const result: IntegerResult =
-      BOUNDED_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
+      BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
         minimum: UINT8_MIN,
-        maximum: UINT8_MAX
+        maximum: UINT8_MAX,
+        multiplier: 1
       })
     return {
       value: result.value,
@@ -290,9 +295,10 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
     }
 
     const result: IntegerResult =
-      BOUNDED_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
+      BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
         minimum: UINT8_MIN,
-        maximum: UINT8_MAX
+        maximum: UINT8_MAX,
+        multiplier: 1
       })
     return {
       value: (result.value + 1) * -1,

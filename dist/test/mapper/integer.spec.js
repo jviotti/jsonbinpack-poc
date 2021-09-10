@@ -53,8 +53,10 @@ tap_1.default.test('should encode an arbitrary integer', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
-        encoding: 'ARBITRARY_ZIGZAG_VARINT',
-        options: {}
+        encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+        options: {
+            multiplier: 1
+        }
     });
     test.end();
 });
@@ -83,9 +85,10 @@ tap_1.default.test('should encode an integer with minimum', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
-        encoding: 'FLOOR_ENUM_VARINT',
+        encoding: 'FLOOR_MULTIPLE_ENUM_VARINT',
         options: {
-            minimum: 0
+            minimum: 0,
+            multiplier: 1
         }
     });
     test.end();
@@ -117,9 +120,10 @@ tap_1.default.test('should encode an integer with maximum', function (test) {
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
         type: 'integer',
-        encoding: 'ROOF_MIRROR_ENUM_VARINT',
+        encoding: 'ROOF_MULTIPLE_MIRROR_ENUM_VARINT',
         options: {
-            maximum: 100
+            maximum: 100,
+            multiplier: 1
         }
     });
     test.end();
@@ -152,10 +156,11 @@ tap_1.default.test('should encode an 8-bit integer with minimum and maximum', fu
     test.strictSame(mapper_1.getStates(schema), lodash_1.range(-100, 101));
     test.strictSame(result, {
         type: 'integer',
-        encoding: 'BOUNDED_8BITS_ENUM_FIXED',
+        encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
         options: {
             minimum: -100,
-            maximum: 100
+            maximum: 100,
+            multiplier: 1
         }
     });
     test.end();
@@ -170,9 +175,10 @@ tap_1.default.test('should encode an >8-bit integer with minimum and maximum', f
     test.is(mapper_1.getStates(schema), 100101);
     test.strictSame(result, {
         type: 'integer',
-        encoding: 'FLOOR_ENUM_VARINT',
+        encoding: 'FLOOR_MULTIPLE_ENUM_VARINT',
         options: {
-            minimum: -100
+            minimum: -100,
+            multiplier: 1
         }
     });
     test.end();

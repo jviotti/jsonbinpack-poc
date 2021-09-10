@@ -44,9 +44,9 @@ import {
 } from './options'
 
 import {
-  FLOOR_ENUM_VARINT,
-  BOUNDED_8BITS_ENUM_FIXED,
-  ROOF_MIRROR_ENUM_VARINT
+  FLOOR_MULTIPLE_ENUM_VARINT,
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  ROOF_MULTIPLE_MIRROR_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -87,8 +87,9 @@ export const BOUNDED_TYPED_LENGTH_PREFIX = (
 
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
-    : FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum
+    : FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum,
+      multiplier: 1
     }, context)
 
   return lengthBytes + encodeArray(
@@ -107,9 +108,10 @@ export const BOUNDED_8BITS_TYPED_LENGTH_PREFIX = (
 
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
-    : BOUNDED_8BITS_ENUM_FIXED(buffer, offset, value.length, {
+    : BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, value.length, {
       minimum: options.minimum,
-      maximum: options.maximum
+      maximum: options.maximum,
+      multiplier: 1
     }, context)
 
   return lengthBytes + encodeArray(
@@ -123,8 +125,9 @@ export const ROOF_TYPED_LENGTH_PREFIX = (
   assert(value.length <= options.maximum)
 
   const lengthBytes: number =
-    ROOF_MIRROR_ENUM_VARINT(buffer, offset, value.length, {
-      maximum: options.maximum
+    ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset, value.length, {
+      maximum: options.maximum,
+      multiplier: 1
     }, context)
 
   return lengthBytes + encodeArray(
@@ -138,8 +141,9 @@ export const FLOOR_TYPED_LENGTH_PREFIX = (
   assert(value.length >= options.minimum)
 
   const lengthBytes: number =
-    FLOOR_ENUM_VARINT(buffer, offset, value.length, {
-      minimum: options.minimum
+    FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, value.length, {
+      minimum: options.minimum,
+      multiplier: 1
     }, context)
 
   return lengthBytes + encodeArray(

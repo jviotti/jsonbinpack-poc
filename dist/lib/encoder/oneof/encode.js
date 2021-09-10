@@ -53,8 +53,9 @@ var ONEOF_CHOICE_INDEX_PREFIX = function (buffer, offset, value, options, contex
         finally { if (e_1) throw e_1.error; }
     }
     assert_1.strict(choiceIndex >= 0);
-    var indexBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, choiceIndex, {
-        minimum: 0
+    var indexBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, choiceIndex, {
+        minimum: 0,
+        multiplier: 1
     }, context);
     var bytesWritten = index_1.encode(buffer, offset + indexBytes, options.choices[choiceIndex].encoding, value, context);
     return indexBytes + bytesWritten;

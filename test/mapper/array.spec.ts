@@ -230,8 +230,10 @@ tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
       prefixEncodings: [
         {
           type: 'integer',
-          encoding: 'ARBITRARY_ZIGZAG_VARINT',
-          options: {}
+          encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+          options: {
+            multiplier: 1
+          }
         },
         {
           type: 'string',
@@ -278,8 +280,10 @@ tap.test('should encode a semi-typed array with minItems', (test) => {
       prefixEncodings: [
         {
           type: 'integer',
-          encoding: 'ARBITRARY_ZIGZAG_VARINT',
-          options: {}
+          encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+          options: {
+            multiplier: 1
+          }
         },
         {
           type: 'string',
@@ -342,8 +346,10 @@ tap.test('should encode a semi + fully typed array with minItems', (test) => {
       prefixEncodings: [
         {
           type: 'integer',
-          encoding: 'ARBITRARY_ZIGZAG_VARINT',
-          options: {}
+          encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+          options: {
+            multiplier: 1
+          }
         },
         {
           type: 'string',

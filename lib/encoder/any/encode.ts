@@ -47,8 +47,8 @@ import {
 } from '../encoding-type'
 
 import {
-  BOUNDED_8BITS_ENUM_FIXED,
-  FLOOR_ENUM_VARINT
+  BOUNDED_MULTIPLE_8BITS_ENUM_FIXED,
+  FLOOR_MULTIPLE_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -81,9 +81,10 @@ const encodeTypeTag = (
   buffer: ResizableBuffer, offset: number,
   tag: number, context: EncodingContext
 ): number => {
-  return BOUNDED_8BITS_ENUM_FIXED(buffer, offset, tag, {
+  return BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, tag, {
     minimum: UINT8_MIN,
-    maximum: UINT8_MAX
+    maximum: UINT8_MAX,
+    multiplier: 1
   }, context)
 }
 
@@ -229,8 +230,9 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
       assert(typeof exponent === 'number' && Math.pow(2, exponent) <= length)
       const typeTag: number = getTypeTag(Type.Other, exponent)
       const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
-      const lengthBytes: number = FLOOR_ENUM_VARINT(buffer, offset + tagBytes, length, {
-        minimum: Math.pow(2, exponent)
+      const lengthBytes: number = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tagBytes, length, {
+        minimum: Math.pow(2, exponent),
+        multiplier: 1
       }, context)
       return tagBytes + lengthBytes + UTF8_STRING_NO_LENGTH(
         buffer, offset + tagBytes + lengthBytes, value, {
@@ -267,9 +269,10 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
       const typeTag: number = getTypeTag(type, 0)
       const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
       const valueBytes: number =
-        BOUNDED_8BITS_ENUM_FIXED(buffer, offset + tagBytes, absoluteValue, {
+        BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + tagBytes, absoluteValue, {
           minimum: UINT8_MIN,
-          maximum: UINT8_MAX
+          maximum: UINT8_MAX,
+          multiplier: 1
         }, context)
       return tagBytes + valueBytes
     }
@@ -286,8 +289,9 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
     const typeTag: number = getTypeTag(type, subtype)
     const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
     const valueBytes: number =
-      FLOOR_ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
-        minimum: 0
+      FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tagBytes, absoluteValue, {
+        minimum: 0,
+        multiplier: 1
       }, context)
     return tagBytes + valueBytes
   }

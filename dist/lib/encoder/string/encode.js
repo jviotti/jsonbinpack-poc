@@ -20,17 +20,19 @@ var types_1 = require("../any/types");
 var STRING_ENCODING = 'utf8';
 var maybeWriteSharedPrefix = function (buffer, offset, value, context) {
     return context.strings.has(value)
-        ? encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, types_1.Type.SharedString, {
+        ? encode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, types_1.Type.SharedString, {
             minimum: types_1.Type.SharedString,
-            maximum: types_1.Type.SharedString
+            maximum: types_1.Type.SharedString,
+            multiplier: 1
         }, context)
         : 0;
 };
 var SHARED_STRING_POINTER_RELATIVE_OFFSET = function (buffer, offset, value, _options, context) {
     var stringOffset = context.strings.get(value);
     assert_1.strict(typeof stringOffset !== 'undefined');
-    return encode_1.FLOOR_ENUM_VARINT(buffer, offset, offset - stringOffset, {
-        minimum: 0
+    return encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, offset - stringOffset, {
+        minimum: 0,
+        multiplier: 1
     }, context);
 };
 exports.SHARED_STRING_POINTER_RELATIVE_OFFSET = SHARED_STRING_POINTER_RELATIVE_OFFSET;
@@ -55,17 +57,19 @@ var writeRawString = function (buffer, offset, value, context) {
     var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
     var length = Buffer.byteLength(value, STRING_ENCODING);
     var lengthBytes = prefixBytes > 0
-        ? encode_1.FLOOR_ENUM_VARINT(buffer, offset + prefixBytes, length, {
-            minimum: 0
+        ? encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + prefixBytes, length, {
+            minimum: 0,
+            multiplier: 1
         }, context)
-        : encode_1.ARBITRARY_ZIGZAG_VARINT(buffer, offset + prefixBytes, -length - 1, {}, context);
+        : encode_1.ARBITRARY_MULTIPLE_ZIGZAG_VARINT(buffer, offset + prefixBytes, -length - 1, { multiplier: 1 }, context);
     var stringBytes = writeMaybeSharedString(buffer, offset + prefixBytes + lengthBytes, value, length, context);
     return prefixBytes + lengthBytes + stringBytes;
 };
 var STRING_BROTLI = function (buffer, offset, value, _options, context) {
     var compressed = zlib_1.brotliCompressSync(Buffer.from(value));
-    var bytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, compressed.length, {
-        minimum: 0
+    var bytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, compressed.length, {
+        minimum: 0,
+        multiplier: 1
     }, context);
     return bytes + buffer.writeBuffer(offset + bytes, compressed);
 };
@@ -75,8 +79,9 @@ var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, value, options, con
     var WORD_DELIMITER = ' ';
     var unmatched = [];
     var length = Buffer.byteLength(value, STRING_ENCODING);
-    var bytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, length, {
-        minimum: 0
+    var bytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, length, {
+        minimum: 0,
+        multiplier: 1
     }, context);
     if (length === 0) {
         return bytes;
@@ -95,7 +100,7 @@ var STRING_DICTIONARY_COMPRESSOR = function (buffer, offset, value, options, con
                 unmatched = [];
             }
             assert_1.strict(entry >= 0);
-            bytes += encode_1.ARBITRARY_ZIGZAG_VARINT(buffer, offset + bytes, entry + 1, {}, context);
+            bytes += encode_1.ARBITRARY_MULTIPLE_ZIGZAG_VARINT(buffer, offset + bytes, entry + 1, { multiplier: 1 }, context);
         }
     }
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -144,9 +149,10 @@ var BOUNDED_PREFIX_LENGTH_8BIT_FIXED = function (buffer, offset, value, options,
     var length = Buffer.byteLength(value, STRING_ENCODING);
     assert_1.strict(length <= options.maximum);
     var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
-    var bytesWritten = encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset + prefixBytes, length + 1, {
+    var bytesWritten = encode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + prefixBytes, length + 1, {
         minimum: options.minimum,
-        maximum: options.maximum + 1
+        maximum: options.maximum + 1,
+        multiplier: 1
     }, context);
     var result = writeMaybeSharedString(buffer, offset + prefixBytes + bytesWritten, value, length, context);
     return result + prefixBytes + bytesWritten;
@@ -157,7 +163,10 @@ var ROOF_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, c
     assert_1.strict(options.maximum >= 0);
     assert_1.strict(length <= options.maximum);
     var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
-    var bytesWritten = encode_1.ROOF_MIRROR_ENUM_VARINT(buffer, offset + prefixBytes, length - 1, options, context);
+    var bytesWritten = encode_1.ROOF_MULTIPLE_MIRROR_ENUM_VARINT(buffer, offset + prefixBytes, length - 1, {
+        maximum: options.maximum,
+        multiplier: 1
+    }, context);
     var result = writeMaybeSharedString(buffer, offset + prefixBytes + bytesWritten, value, length, context);
     return result + prefixBytes + bytesWritten;
 };
@@ -167,28 +176,34 @@ var FLOOR_PREFIX_LENGTH_ENUM_VARINT = function (buffer, offset, value, options, 
     var length = Buffer.byteLength(value, STRING_ENCODING);
     assert_1.strict(length >= options.minimum);
     var prefixBytes = maybeWriteSharedPrefix(buffer, offset, value, context);
-    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, options, context);
+    var lengthBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + prefixBytes, length + 1, {
+        minimum: options.minimum,
+        multiplier: 1
+    }, context);
     var bytesWritten = writeMaybeSharedString(buffer, offset + prefixBytes + lengthBytes, value, length, context);
     return bytesWritten + prefixBytes + lengthBytes;
 };
 exports.FLOOR_PREFIX_LENGTH_ENUM_VARINT = FLOOR_PREFIX_LENGTH_ENUM_VARINT;
 var STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH = function (buffer, offset, value, _options, context) {
     if (context.keys.has(value)) {
-        var prefixBytes = encode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, 0, {
+        var prefixBytes = encode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, 0, {
             minimum: 0,
-            maximum: 0
+            maximum: 0,
+            multiplier: 1
         }, context);
         var cursor = offset + prefixBytes;
         var pointer = context.keys.get(value);
         assert_1.strict(typeof pointer === 'number');
         context.keys.set(value, offset);
-        return prefixBytes + encode_1.FLOOR_ENUM_VARINT(buffer, cursor, cursor - pointer, {
-            minimum: 0
+        return prefixBytes + encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, cursor, cursor - pointer, {
+            minimum: 0,
+            multiplier: 1
         }, context);
     }
     var length = Buffer.byteLength(value, STRING_ENCODING);
-    var lengthBytes = encode_1.FLOOR_ENUM_VARINT(buffer, offset, length + 1, {
-        minimum: 0
+    var lengthBytes = encode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, length + 1, {
+        minimum: 0,
+        multiplier: 1
     }, context);
     context.keys.set(value, offset);
     context.strings.set(value, offset + lengthBytes);

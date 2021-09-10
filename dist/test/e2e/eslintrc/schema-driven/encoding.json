@@ -100,10 +100,11 @@
                 "options": {
                     "packedEncoding": {
                         "type": "integer",
-                        "encoding": "BOUNDED_8BITS_ENUM_FIXED",
+                        "encoding": "BOUNDED_MULTIPLE_8BITS_ENUM_FIXED",
                         "options": {
                             "minimum": 0,
-                            "maximum": 2
+                            "maximum": 2,
+                            "multiplier": 1
                         }
                     },
                     "packedRequiredProperties": [

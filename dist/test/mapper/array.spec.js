@@ -187,8 +187,10 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
             prefixEncodings: [
                 {
                     type: 'integer',
-                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
-                    options: {}
+                    encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+                    options: {
+                        multiplier: 1
+                    }
                 },
                 {
                     type: 'string',
@@ -232,8 +234,10 @@ tap_1.default.test('should encode a semi-typed array with minItems', function (t
             prefixEncodings: [
                 {
                     type: 'integer',
-                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
-                    options: {}
+                    encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+                    options: {
+                        multiplier: 1
+                    }
                 },
                 {
                     type: 'string',
@@ -293,8 +297,10 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
             prefixEncodings: [
                 {
                     type: 'integer',
-                    encoding: 'ARBITRARY_ZIGZAG_VARINT',
-                    options: {}
+                    encoding: 'ARBITRARY_MULTIPLE_ZIGZAG_VARINT',
+                    options: {
+                        multiplier: 1
+                    }
                 },
                 {
                     type: 'string',

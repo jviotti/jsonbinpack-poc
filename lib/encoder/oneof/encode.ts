@@ -37,7 +37,7 @@ import {
 } from '../../schema'
 
 import {
-  FLOOR_ENUM_VARINT
+  FLOOR_MULTIPLE_ENUM_VARINT
 } from '../integer/encode'
 
 import {
@@ -64,8 +64,9 @@ export const ONEOF_CHOICE_INDEX_PREFIX = (
   assert(choiceIndex >= 0)
 
   // Record which of the choices was used
-  const indexBytes: number = FLOOR_ENUM_VARINT(buffer, offset, choiceIndex, {
-    minimum: 0
+  const indexBytes: number = FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, choiceIndex, {
+    minimum: 0,
+    multiplier: 1
   }, context)
 
   // Proceed with encoding against the given choice

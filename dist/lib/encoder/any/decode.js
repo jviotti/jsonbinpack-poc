@@ -10,9 +10,10 @@ var decode_4 = require("../object/decode");
 var decode_5 = require("../array/decode");
 var types_1 = require("./types");
 var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
-    var tag = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset, {
+    var tag = decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, {
         minimum: limits_1.UINT8_MIN,
-        maximum: limits_1.UINT8_MAX
+        maximum: limits_1.UINT8_MAX,
+        multiplier: 1
     });
     if (types_1.isType(types_1.Type.Array, tag.value)) {
         var size = types_1.getMetadata(tag.value);
@@ -143,8 +144,9 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
         types_1.getMetadata(tag.value) === types_1.Subtype.LongStringBaseExponent8 ||
         types_1.getMetadata(tag.value) === types_1.Subtype.LongStringBaseExponent9 ||
         types_1.getMetadata(tag.value) === types_1.Subtype.LongStringBaseExponent10)) {
-        var size = decode_1.FLOOR_ENUM_VARINT(buffer, offset + tag.bytes, {
-            minimum: Math.pow(2, types_1.getMetadata(tag.value))
+        var size = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tag.bytes, {
+            minimum: Math.pow(2, types_1.getMetadata(tag.value)),
+            multiplier: 1
         });
         var result = decode_2.UTF8_STRING_NO_LENGTH(buffer, offset + tag.bytes + size.bytes, {
             size: size.value
@@ -155,8 +157,9 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
         };
     }
     else if (types_1.isPositiveInteger(tag.value)) {
-        var result = decode_1.FLOOR_ENUM_VARINT(buffer, offset + tag.bytes, {
-            minimum: 0
+        var result = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tag.bytes, {
+            minimum: 0,
+            multiplier: 1
         });
         return {
             value: result.value,
@@ -164,8 +167,9 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
         };
     }
     else if (types_1.isNegativeInteger(tag.value)) {
-        var result = decode_1.FLOOR_ENUM_VARINT(buffer, offset + tag.bytes, {
-            minimum: 0
+        var result = decode_1.FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset + tag.bytes, {
+            minimum: 0,
+            multiplier: 1
         });
         return {
             value: (result.value + 1) * -1,
@@ -180,9 +184,10 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
                 bytes: tag.bytes
             };
         }
-        var result = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
+        var result = decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
             minimum: limits_1.UINT8_MIN,
-            maximum: limits_1.UINT8_MAX
+            maximum: limits_1.UINT8_MAX,
+            multiplier: 1
         });
         return {
             value: result.value,
@@ -197,9 +202,10 @@ var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, _options) {
                 bytes: tag.bytes
             };
         }
-        var result = decode_1.BOUNDED_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
+        var result = decode_1.BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset + tag.bytes, {
             minimum: limits_1.UINT8_MIN,
-            maximum: limits_1.UINT8_MAX
+            maximum: limits_1.UINT8_MAX,
+            multiplier: 1
         });
         return {
             value: (result.value + 1) * -1,
