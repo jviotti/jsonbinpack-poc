@@ -18,9 +18,8 @@ import {
   Encoding
 } from '../../mapper'
 
-import {
-  NoOptions
-} from '../null/options'
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface NoOptions {}
 
 interface FloorOptions extends NoOptions {
   readonly minimum: number;

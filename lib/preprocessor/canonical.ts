@@ -39,7 +39,6 @@ import {
   EncodingSchema,
   BooleanEncodingSchema,
   IntegerEncodingSchema,
-  NullEncodingSchema,
   NumberEncodingSchema,
   StringEncodingSchema,
   ArrayEncodingSchema,
@@ -49,7 +48,6 @@ import {
 const SCHEMA_BOOLEAN_KEYS: (keyof BooleanEncodingSchema)[] = [ 'type' ]
 const SCHEMA_INTEGER_KEYS: (keyof IntegerEncodingSchema)[] =
   [ 'type', 'minimum', 'maximum', 'multipleOf' ]
-const SCHEMA_NULL_KEYS: (keyof NullEncodingSchema)[] = [ 'type' ]
 const SCHEMA_NUMBER_KEYS: (keyof NumberEncodingSchema)[] =
   [ 'type', 'maximum', 'minimum' ]
 const SCHEMA_STRING_KEYS: (keyof StringEncodingSchema)[] =
@@ -61,14 +59,12 @@ const SCHEMA_OBJECT_KEYS: (keyof ObjectEncodingSchema)[] =
 
 const SCHEMA_KEYS: (keyof BooleanEncodingSchema |
 keyof IntegerEncodingSchema |
-keyof NullEncodingSchema |
 keyof NumberEncodingSchema |
 keyof StringEncodingSchema |
 keyof ArrayEncodingSchema |
 keyof ObjectEncodingSchema)[] = concat(
   SCHEMA_BOOLEAN_KEYS,
   SCHEMA_INTEGER_KEYS,
-  SCHEMA_NULL_KEYS,
   SCHEMA_NUMBER_KEYS,
   SCHEMA_STRING_KEYS,
   SCHEMA_ARRAY_KEYS,
@@ -200,7 +196,7 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
   switch (schema.type) {
     case 'boolean': return pick(schema, SCHEMA_BOOLEAN_KEYS)
     case 'integer': return pick(schema, SCHEMA_INTEGER_KEYS)
-    case 'null': return pick(schema, SCHEMA_NULL_KEYS)
+    case 'null': return pick(schema, [ 'type' ])
     case 'number': return pick(schema, SCHEMA_NUMBER_KEYS)
     case 'string':
       // Formats that are unsupported for now

@@ -37,10 +37,6 @@ export interface IntegerEncodingSchema {
   readonly multipleOf?: number;
 }
 
-export interface NullEncodingSchema {
-  readonly type: 'null';
-}
-
 export interface NumberEncodingSchema {
   readonly type: 'number';
   readonly minimum?: number;
@@ -112,7 +108,6 @@ export interface ConstEncodingSchema {
 export type EncodingSchema =
   BooleanEncodingSchema |
   IntegerEncodingSchema |
-  NullEncodingSchema |
   NumberEncodingSchema |
   StringEncodingSchema |
   AnyEncodingSchema |

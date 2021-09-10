@@ -4,24 +4,32 @@
     "options": {
         "propertyEncodings": {
             "custom_commands_path": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "custom_assertions_path": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "page_objects_path": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "globals_path": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "globals": {
                 "type": "object",
@@ -160,9 +168,11 @@
                 }
             },
             "src_folders": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "live_output": {
                 "type": "enum",
@@ -217,9 +227,11 @@
                             }
                         },
                         "server_path": {
-                            "type": "null",
-                            "encoding": "NULL_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "const",
+                            "encoding": "CONST_NONE",
+                            "options": {
+                                "value": null
+                            }
                         },
                         "log_path": {
                             "type": "string",
@@ -328,9 +340,11 @@
                             }
                         },
                         "server_path": {
-                            "type": "null",
-                            "encoding": "NULL_8BITS_ENUM_FIXED",
-                            "options": {}
+                            "type": "const",
+                            "encoding": "CONST_NONE",
+                            "options": {
+                                "value": null
+                            }
                         },
                         "log_path": {
                             "type": "string",
@@ -502,14 +516,18 @@
                 }
             },
             "exclude": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "filter": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "skipgroup": {
                 "type": "string",

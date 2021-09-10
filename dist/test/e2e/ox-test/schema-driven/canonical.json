@@ -62,7 +62,7 @@
                         ],
                         "properties": {
                             "name": {
-                                "type": "null"
+                                "const": null
                             },
                             "staff": {
                                 "type": "boolean"

@@ -41,7 +41,6 @@ import {
 import ResizableBuffer from './resizable-buffer'
 
 import * as ENCODE_INTEGER from './integer/encode'
-import * as ENCODE_NULL from './null/encode'
 import * as ENCODE_NUMBER from './number/encode'
 import * as ENCODE_STRING from './string/encode'
 import * as ENCODE_ANY from './any/encode'
@@ -52,7 +51,6 @@ import * as ENCODE_ONEOF from './oneof/encode'
 import * as ENCODE_CONST from './const/encode'
 
 import * as DECODE_INTEGER from './integer/decode'
-import * as DECODE_NULL from './null/decode'
 import * as DECODE_NUMBER from './number/decode'
 import * as DECODE_STRING from './string/decode'
 import * as DECODE_ANY from './any/decode'
@@ -85,7 +83,6 @@ const ENCODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 const DECODE_TYPE_INDEX: Map<EncodingType, object> = new Map()
 
 ENCODE_TYPE_INDEX.set(EncodingType.Integer, ENCODE_INTEGER)
-ENCODE_TYPE_INDEX.set(EncodingType.Null, ENCODE_NULL)
 ENCODE_TYPE_INDEX.set(EncodingType.Number, ENCODE_NUMBER)
 ENCODE_TYPE_INDEX.set(EncodingType.String, ENCODE_STRING)
 ENCODE_TYPE_INDEX.set(EncodingType.Any, ENCODE_ANY)
@@ -96,7 +93,6 @@ ENCODE_TYPE_INDEX.set(EncodingType.OneOf, ENCODE_ONEOF)
 ENCODE_TYPE_INDEX.set(EncodingType.Const, ENCODE_CONST)
 
 DECODE_TYPE_INDEX.set(EncodingType.Integer, DECODE_INTEGER)
-DECODE_TYPE_INDEX.set(EncodingType.Null, DECODE_NULL)
 DECODE_TYPE_INDEX.set(EncodingType.Number, DECODE_NUMBER)
 DECODE_TYPE_INDEX.set(EncodingType.String, DECODE_STRING)
 DECODE_TYPE_INDEX.set(EncodingType.Any, DECODE_ANY)

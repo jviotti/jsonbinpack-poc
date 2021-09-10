@@ -3,6 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RULES = void 0;
 exports.RULES = [
     {
+        id: 'null-as-const',
+        condition: function (schema) {
+            return schema.type === 'null';
+        },
+        transform: function (_schema) {
+            return {
+                const: null
+            };
+        }
+    },
+    {
         id: 'exclusive-minimum-to-minimum',
         condition: function (schema) {
             return typeof schema.exclusiveMinimum !== 'undefined';
