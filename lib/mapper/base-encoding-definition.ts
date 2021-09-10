@@ -15,10 +15,6 @@
  */
 
 import {
-  NullOptions
-} from '../encoder/null/options'
-
-import {
   NumberOptions
 } from '../encoder/number/options'
 
@@ -62,7 +58,6 @@ export interface BaseEncodingDefinition {
   readonly type: EncodingType;
   readonly encoding: EncodingNames;
   readonly options:
-  NullOptions |
   NumberOptions |
   IntegerOptions |
   StringOptions |

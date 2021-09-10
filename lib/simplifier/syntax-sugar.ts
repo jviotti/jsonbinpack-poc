@@ -28,6 +28,17 @@ import {
 
 export const RULES: SimplificationRule[] = [
   {
+    id: 'null-as-const',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'null'
+    },
+    transform: (_schema: ObjectSchema): ObjectSchema => {
+      return {
+        const: null
+      }
+    }
+  },
+  {
     id: 'exclusive-minimum-to-minimum',
     condition: (schema: ObjectSchema): JSONBoolean => {
       return typeof schema.exclusiveMinimum !== 'undefined'

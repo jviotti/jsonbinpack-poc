@@ -90,7 +90,7 @@ tap.test('should compile a simple oneOf schema', async (test) => {
                 multipleOf: 1
               },
               {
-                type: 'null'
+                const: null
               },
               {
                 type: 'number',

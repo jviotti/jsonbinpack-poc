@@ -37,12 +37,11 @@ var assert_1 = require("assert");
 var lodash_1 = require("lodash");
 var SCHEMA_BOOLEAN_KEYS = ['type'];
 var SCHEMA_INTEGER_KEYS = ['type', 'minimum', 'maximum', 'multipleOf'];
-var SCHEMA_NULL_KEYS = ['type'];
 var SCHEMA_NUMBER_KEYS = ['type', 'maximum', 'minimum'];
 var SCHEMA_STRING_KEYS = ['type', 'maxLength', 'minLength', 'format', 'contentMediaType'];
 var SCHEMA_ARRAY_KEYS = ['type', 'maxItems', 'minItems', 'items', 'prefixItems'];
 var SCHEMA_OBJECT_KEYS = ['type', 'additionalProperties', 'required', 'propertyNames', 'properties', 'maxProperties'];
-var SCHEMA_KEYS = lodash_1.concat(SCHEMA_BOOLEAN_KEYS, SCHEMA_INTEGER_KEYS, SCHEMA_NULL_KEYS, SCHEMA_NUMBER_KEYS, SCHEMA_STRING_KEYS, SCHEMA_ARRAY_KEYS, SCHEMA_OBJECT_KEYS);
+var SCHEMA_KEYS = lodash_1.concat(SCHEMA_BOOLEAN_KEYS, SCHEMA_INTEGER_KEYS, SCHEMA_NUMBER_KEYS, SCHEMA_STRING_KEYS, SCHEMA_ARRAY_KEYS, SCHEMA_OBJECT_KEYS);
 var canonicalizeSchema = function (schema) {
     if (typeof schema === 'boolean') {
         return {};
@@ -135,7 +134,7 @@ var canonicalizeSchema = function (schema) {
     switch (schema.type) {
         case 'boolean': return lodash_1.pick(schema, SCHEMA_BOOLEAN_KEYS);
         case 'integer': return lodash_1.pick(schema, SCHEMA_INTEGER_KEYS);
-        case 'null': return lodash_1.pick(schema, SCHEMA_NULL_KEYS);
+        case 'null': return lodash_1.pick(schema, ['type']);
         case 'number': return lodash_1.pick(schema, SCHEMA_NUMBER_KEYS);
         case 'string':
             if (typeof schema.format === 'string' &&

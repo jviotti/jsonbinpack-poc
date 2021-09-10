@@ -19,12 +19,11 @@ import {
 } from '../../mapper'
 
 import {
-  NoOptions
-} from '../null/options'
-
-import {
   EncodingSchema
 } from '../../schema'
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface NoOptions {}
 
 interface SchemaDefinition {
   readonly schema: EncodingSchema;

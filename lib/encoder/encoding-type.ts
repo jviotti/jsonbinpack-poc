@@ -16,7 +16,6 @@
 
 export enum EncodingType {
   Integer = 'integer',
-  Null = 'null',
   Number = 'number',
   String = 'string',
   Array = 'array',

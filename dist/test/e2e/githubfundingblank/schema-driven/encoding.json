@@ -11,49 +11,67 @@
                 }
             },
             "patreon": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "open_collective": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "ko_fi": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "tidelift": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "community_bridge": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "liberapay": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "issuehunt": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "otechie": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             },
             "custom": {
-                "type": "null",
-                "encoding": "NULL_8BITS_ENUM_FIXED",
-                "options": {}
+                "type": "const",
+                "encoding": "CONST_NONE",
+                "options": {
+                    "value": null
+                }
             }
         },
         "requiredProperties": [

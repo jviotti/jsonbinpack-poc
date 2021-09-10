@@ -23,13 +23,6 @@ import {
 } from '../json'
 
 import {
-  NullEncodingNames,
-  NullEncoding,
-  getNullStates,
-  getNullEncoding
-} from './null'
-
-import {
   NumberEncodingNames,
   NumberEncoding,
   getNumberStates,
@@ -97,10 +90,6 @@ import {
 } from '../schema'
 
 export {
-  NullEncoding
-} from './null'
-
-export {
   NumberEncoding
 } from './number'
 
@@ -137,7 +126,6 @@ export {
 } from './const'
 
 export type EncodingNames =
-  NullEncodingNames |
   NumberEncodingNames |
   IntegerEncodingNames |
   StringEncodingNames |
@@ -150,7 +138,6 @@ export type EncodingNames =
 
 // The union of all possible encodings
 export type Encoding =
-  NullEncoding |
   NumberEncoding |
   IntegerEncoding |
   StringEncoding |
@@ -179,8 +166,6 @@ export const getEncoding = (schema: EncodingSchema, level: number): Encoding => 
     }, level)
   } else if (schema.type === 'integer') {
     return getIntegerEncoding(schema, level)
-  } else if (schema.type === 'null') {
-    return getNullEncoding(schema, level)
   } else if (schema.type === 'number') {
     return getNumberEncoding(schema, level)
   } else if (schema.type === 'string') {
@@ -206,8 +191,6 @@ export const getStates = (schema: EncodingSchema): number | JSONValue[] => {
     })
   } else if (schema.type === 'integer') {
     return getIntegerStates(schema)
-  } else if (schema.type === 'null') {
-    return getNullStates(schema)
   } else if (schema.type === 'number') {
     return getNumberStates(schema)
   } else if (schema.type === 'string') {

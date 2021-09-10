@@ -18,13 +18,8 @@ import {
   JSONValue
 } from '../../json'
 
-import {
-  NoOptions
-} from '../null/options'
-
-export {
-  NoOptions
-} from '../null/options'
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface NoOptions {}
 
 export interface ChoiceOptions {
   readonly choices: JSONValue[];

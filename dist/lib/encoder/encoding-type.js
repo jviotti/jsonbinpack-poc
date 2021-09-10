@@ -4,7 +4,6 @@ exports.EncodingType = void 0;
 var EncodingType;
 (function (EncodingType) {
     EncodingType["Integer"] = "integer";
-    EncodingType["Null"] = "null";
     EncodingType["Number"] = "number";
     EncodingType["String"] = "string";
     EncodingType["Array"] = "array";

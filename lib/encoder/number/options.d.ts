@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-import {
-  NoOptions
-} from '../null/options'
-
-export {
-  NoOptions
-} from '../null/options'
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface NoOptions {}
 
 export type NumberOptions = NoOptions

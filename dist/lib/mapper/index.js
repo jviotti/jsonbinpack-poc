@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStates = exports.getEncoding = void 0;
 var assert_1 = require("assert");
-var null_1 = require("./null");
 var number_1 = require("./number");
 var integer_1 = require("./integer");
 var string_1 = require("./string");
@@ -33,9 +32,6 @@ var getEncoding = function (schema, level) {
     }
     else if (schema.type === 'integer') {
         return integer_1.getIntegerEncoding(schema, level);
-    }
-    else if (schema.type === 'null') {
-        return null_1.getNullEncoding(schema, level);
     }
     else if (schema.type === 'number') {
         return number_1.getNumberEncoding(schema, level);
@@ -69,9 +65,6 @@ var getStates = function (schema) {
     }
     else if (schema.type === 'integer') {
         return integer_1.getIntegerStates(schema);
-    }
-    else if (schema.type === 'null') {
-        return null_1.getNullStates(schema);
     }
     else if (schema.type === 'number') {
         return number_1.getNumberStates(schema);
