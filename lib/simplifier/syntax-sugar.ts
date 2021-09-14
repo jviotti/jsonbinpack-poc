@@ -32,13 +32,13 @@ import {
 
 export const RULES: SimplificationRule[] = [
   {
-    id: 'null-as-const',
+    id: 'null-as-enum',
     condition: (schema: ObjectSchema): JSONBoolean => {
       return schema.type === 'null'
     },
     transform: (_schema: ObjectSchema): ObjectSchema => {
       return {
-        const: null
+        enum: [ null ]
       }
     }
   },

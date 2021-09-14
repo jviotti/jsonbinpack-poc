@@ -4,13 +4,13 @@ exports.RULES = void 0;
 var assert_1 = require("assert");
 exports.RULES = [
     {
-        id: 'null-as-const',
+        id: 'null-as-enum',
         condition: function (schema) {
             return schema.type === 'null';
         },
         transform: function (_schema) {
             return {
-                const: null
+                enum: [null]
             };
         }
     },
