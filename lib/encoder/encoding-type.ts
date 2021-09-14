@@ -22,6 +22,5 @@ export enum EncodingType {
   Object = 'object',
   Any = 'any',
   Enum = 'enum',
-  OneOf = 'oneOf',
-  Const = 'const'
+  OneOf = 'oneOf'
 }

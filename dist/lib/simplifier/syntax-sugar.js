@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RULES = void 0;
+var assert_1 = require("assert");
 exports.RULES = [
     {
         id: 'null-as-const',
@@ -10,6 +11,18 @@ exports.RULES = [
         transform: function (_schema) {
             return {
                 const: null
+            };
+        }
+    },
+    {
+        id: 'const-as-enum',
+        condition: function (schema) {
+            return typeof schema.const !== 'undefined';
+        },
+        transform: function (schema) {
+            assert_1.strict(typeof schema.const !== 'undefined');
+            return {
+                enum: [schema.const]
             };
         }
     },

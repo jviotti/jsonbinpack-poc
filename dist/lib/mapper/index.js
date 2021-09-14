@@ -10,14 +10,10 @@ var array_1 = require("./array");
 var object_1 = require("./object");
 var enum_1 = require("./enum");
 var oneof_1 = require("./oneof");
-var const_1 = require("./const");
 var getEncoding = function (schema, level) {
     assert_1.strict(typeof schema !== 'boolean');
     if ('enum' in schema) {
         return enum_1.getEnumEncoding(schema, level);
-    }
-    else if ('const' in schema) {
-        return const_1.getConstEncoding(schema, level);
     }
     else if ('oneOf' in schema) {
         return oneof_1.getOneOfEncoding(schema, level);
@@ -48,9 +44,6 @@ exports.getEncoding = getEncoding;
 var getStates = function (schema) {
     if ('enum' in schema) {
         return enum_1.getEnumStates(schema);
-    }
-    else if ('const' in schema) {
-        return const_1.getConstStates(schema);
     }
     else if ('oneOf' in schema) {
         return oneof_1.getOneOfStates(schema);

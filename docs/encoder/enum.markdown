@@ -103,3 +103,22 @@ encoding results in the unsigned 8 bit integer 0:
 
 Given an enumeration `[ 'foo', 'bar', 'baz' ]` and an input value 'foo', the
 value is not encoded.
+
+### `CONST_NONE`
+
+If the enumeration choices include one element, then the input value is not
+encoded.
+
+#### Options
+
+| Option  | Type  | Description        |
+|---------|-------|--------------------|
+| `value` | `any` | The constant value |
+
+#### Conditions
+
+None
+
+#### Examples
+
+The input value that matches the `value` option is not encoded.

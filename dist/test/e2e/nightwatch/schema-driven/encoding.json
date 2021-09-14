@@ -4,28 +4,28 @@
     "options": {
         "propertyEncodings": {
             "custom_commands_path": {
-                "type": "const",
+                "type": "enum",
                 "encoding": "CONST_NONE",
                 "options": {
                     "value": null
                 }
             },
             "custom_assertions_path": {
-                "type": "const",
+                "type": "enum",
                 "encoding": "CONST_NONE",
                 "options": {
                     "value": null
                 }
             },
             "page_objects_path": {
-                "type": "const",
+                "type": "enum",
                 "encoding": "CONST_NONE",
                 "options": {
                     "value": null
                 }
             },
             "globals_path": {
-                "type": "const",
+                "type": "enum",
                 "encoding": "CONST_NONE",
                 "options": {
                     "value": null
@@ -168,7 +168,7 @@
                 }
             },
             "src_folders": {
-                "type": "const",
+                "type": "enum",
                 "encoding": "CONST_NONE",
                 "options": {
                     "value": null
@@ -227,7 +227,7 @@
                             }
                         },
                         "server_path": {
-                            "type": "const",
+                            "type": "enum",
                             "encoding": "CONST_NONE",
                             "options": {
                                 "value": null
@@ -340,7 +340,7 @@
                             }
                         },
                         "server_path": {
-                            "type": "const",
+                            "type": "enum",
                             "encoding": "CONST_NONE",
                             "options": {
                                 "value": null
@@ -516,14 +516,14 @@
                 }
             },
             "exclude": {
-                "type": "const",
+                "type": "enum",
                 "encoding": "CONST_NONE",
                 "options": {
                     "value": null
                 }
             },
             "filter": {
-                "type": "const",
+                "type": "enum",
                 "encoding": "CONST_NONE",
                 "options": {
                     "value": null

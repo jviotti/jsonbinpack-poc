@@ -194,11 +194,9 @@ tap.test('should encode a bounded object with no required nor optionals', (test)
   ])
   test.strictSame(result, {
     type: 'enum',
-    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
+    encoding: 'CONST_NONE',
     options: {
-      choices: [
-        {}
-      ]
+      value: {}
     }
   })
 

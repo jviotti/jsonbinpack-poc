@@ -1,13 +1,11 @@
 {
   "type": "enum",
-  "encoding": "TOP_LEVEL_8BIT_CHOICE_INDEX",
+  "encoding": "CONST_NONE",
   "options": {
-    "choices": [
-      {
-        "general": null,
-        "stages": null,
-        "steps": null
-      }
-    ]
+    "value": {
+      "general": null,
+      "stages": null,
+      "steps": null
+    }
   }
 }

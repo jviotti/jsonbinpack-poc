@@ -34,9 +34,9 @@ tap_1.default.test('should encode an object with an enum with one value', functi
             propertyEncodings: {
                 test: {
                     type: 'enum',
-                    encoding: 'BOUNDED_CHOICE_INDEX',
+                    encoding: 'CONST_NONE',
                     options: {
-                        choices: ['foo']
+                        value: 'foo'
                     }
                 }
             }
@@ -52,9 +52,9 @@ tap_1.default.test('should encode a top-level enum with one value', function (te
     test.strictSame(mapper_1.getStates(schema), ['foo']);
     test.strictSame(result, {
         type: 'enum',
-        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
+        encoding: 'CONST_NONE',
         options: {
-            choices: ['foo']
+            value: 'foo'
         }
     });
     test.end();

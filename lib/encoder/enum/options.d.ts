@@ -18,11 +18,12 @@ import {
   JSONValue
 } from '../../json'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface NoOptions {}
-
 export interface ChoiceOptions {
   readonly choices: JSONValue[];
 }
 
-export type EnumOptions = NoOptions | ChoiceOptions
+export interface StaticOptions {
+  readonly value: JSONValue;
+}
+
+export type EnumOptions = ChoiceOptions | StaticOptions

@@ -8,6 +8,15 @@ var getEnumStates = function (schema) {
 };
 exports.getEnumStates = getEnumStates;
 var getEnumEncoding = function (schema, level) {
+    if (schema.enum.length === 1) {
+        return {
+            type: encoder_1.EncodingType.Enum,
+            encoding: 'CONST_NONE',
+            options: {
+                value: schema.enum[0]
+            }
+        };
+    }
     if (level === 0 && schema.enum.length < limits_1.UINT8_MAX) {
         return {
             type: encoder_1.EncodingType.Enum,

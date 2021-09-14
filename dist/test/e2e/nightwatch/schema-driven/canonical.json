@@ -158,7 +158,9 @@
                     "additionalProperties": false
                 },
                 "server_path": {
-                    "const": null
+                    "enum": [
+                        null
+                    ]
                 },
                 "log_path": {
                     "type": "string"
@@ -215,7 +217,9 @@
                     "additionalProperties": false
                 },
                 "server_path": {
-                    "const": null
+                    "enum": [
+                        null
+                    ]
                 },
                 "log_path": {
                     "type": "string"

@@ -125,7 +125,9 @@
                                         ],
                                         "properties": {
                                             "name": {
-                                                "const": null
+                                                "enum": [
+                                                    null
+                                                ]
                                             },
                                             "staff": {
                                                 "type": "boolean"
@@ -150,7 +152,7 @@
                                         "options": {
                                             "propertyEncodings": {
                                                 "name": {
-                                                    "type": "const",
+                                                    "type": "enum",
                                                     "encoding": "CONST_NONE",
                                                     "options": {
                                                         "value": null

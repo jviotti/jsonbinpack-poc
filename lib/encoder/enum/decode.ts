@@ -31,7 +31,8 @@ import {
 } from '../integer/decode'
 
 import {
-  ChoiceOptions
+  ChoiceOptions,
+  StaticOptions
 } from './options'
 
 import {
@@ -93,5 +94,14 @@ export const LARGE_BOUNDED_CHOICE_INDEX = (
   return {
     value: options.choices[result.value],
     bytes: result.bytes
+  }
+}
+
+export const CONST_NONE = (
+  _buffer: ResizableBuffer, _offset: number, options: StaticOptions
+): EnumResult => {
+  return {
+    value: options.value,
+    bytes: 0
   }
 }

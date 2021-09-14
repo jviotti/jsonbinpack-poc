@@ -27,7 +27,8 @@ import {
 } from '../../json'
 
 import {
-  ChoiceOptions
+  ChoiceOptions,
+  StaticOptions
 } from './options'
 
 import {
@@ -123,4 +124,11 @@ export const LARGE_BOUNDED_CHOICE_INDEX = (
     minimum: 0,
     multiplier: 1
   }, context)
+}
+
+export const CONST_NONE = (
+  _buffer: ResizableBuffer, _offset: number, _value: JSONValue,
+  _options: StaticOptions, _context: EncodingContext
+): number => {
+  return 0
 }
