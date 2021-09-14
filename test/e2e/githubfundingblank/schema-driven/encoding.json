@@ -11,63 +11,63 @@
         }
       },
       "patreon": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "open_collective": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "ko_fi": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "tidelift": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "community_bridge": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "liberapay": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "issuehunt": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "otechie": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null
         }
       },
       "custom": {
-        "type": "const",
+        "type": "enum",
         "encoding": "CONST_NONE",
         "options": {
           "value": null

@@ -79,13 +79,6 @@ import {
 } from './oneof'
 
 import {
-  ConstEncodingNames,
-  ConstEncoding,
-  getConstStates,
-  getConstEncoding
-} from './const'
-
-import {
   EncodingSchema
 } from '../schema'
 
@@ -121,10 +114,6 @@ export {
   OneOfEncoding
 } from './oneof'
 
-export {
-  ConstEncoding
-} from './const'
-
 export type EncodingNames =
   NumberEncodingNames |
   IntegerEncodingNames |
@@ -133,8 +122,7 @@ export type EncodingNames =
   ArrayEncodingNames |
   ObjectEncodingNames |
   EnumEncodingNames |
-  OneOfEncodingNames |
-  ConstEncodingNames
+  OneOfEncodingNames
 
 // The union of all possible encodings
 export type Encoding =
@@ -145,8 +133,7 @@ export type Encoding =
   ArrayEncoding |
   ObjectEncoding |
   EnumEncoding |
-  OneOfEncoding |
-  ConstEncoding
+  OneOfEncoding
 
 export const getEncoding = (schema: EncodingSchema, level: number): Encoding => {
   // This case should be handled by the canonicalizer
@@ -154,8 +141,6 @@ export const getEncoding = (schema: EncodingSchema, level: number): Encoding => 
 
   if ('enum' in schema) {
     return getEnumEncoding(schema, level)
-  } else if ('const' in schema) {
-    return getConstEncoding(schema, level)
   } else if ('oneOf' in schema) {
     return getOneOfEncoding(schema, level)
   } else if (!('type' in schema)) {
@@ -179,8 +164,6 @@ export const getEncoding = (schema: EncodingSchema, level: number): Encoding => 
 export const getStates = (schema: EncodingSchema): number | JSONValue[] => {
   if ('enum' in schema) {
     return getEnumStates(schema)
-  } else if ('const' in schema) {
-    return getConstStates(schema)
   } else if ('oneOf' in schema) {
     return getOneOfStates(schema)
   } else if (!('type' in schema)) {

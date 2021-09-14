@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LARGE_BOUNDED_CHOICE_INDEX = exports.BOUNDED_CHOICE_INDEX = exports.TOP_LEVEL_8BIT_CHOICE_INDEX = void 0;
+exports.CONST_NONE = exports.LARGE_BOUNDED_CHOICE_INDEX = exports.BOUNDED_CHOICE_INDEX = exports.TOP_LEVEL_8BIT_CHOICE_INDEX = void 0;
 var assert_1 = require("assert");
 var decode_1 = require("../integer/decode");
 var TOP_LEVEL_8BIT_CHOICE_INDEX = function (buffer, offset, options) {
@@ -45,3 +45,10 @@ var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, options) {
     };
 };
 exports.LARGE_BOUNDED_CHOICE_INDEX = LARGE_BOUNDED_CHOICE_INDEX;
+var CONST_NONE = function (_buffer, _offset, options) {
+    return {
+        value: options.value,
+        bytes: 0
+    };
+};
+exports.CONST_NONE = CONST_NONE;

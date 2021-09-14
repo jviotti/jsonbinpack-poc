@@ -11,5 +11,4 @@ var EncodingType;
     EncodingType["Any"] = "any";
     EncodingType["Enum"] = "enum";
     EncodingType["OneOf"] = "oneOf";
-    EncodingType["Const"] = "const";
 })(EncodingType = exports.EncodingType || (exports.EncodingType = {}));

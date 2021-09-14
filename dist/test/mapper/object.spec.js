@@ -160,11 +160,9 @@ tap_1.default.test('should encode a bounded object with no required nor optional
     ]);
     test.strictSame(result, {
         type: 'enum',
-        encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
+        encoding: 'CONST_NONE',
         options: {
-            choices: [
-                {}
-            ]
+            value: {}
         }
     });
     test.end();

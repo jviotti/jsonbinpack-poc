@@ -56,9 +56,9 @@ tap.test('should encode an object with an enum with one value', (test) => {
       propertyEncodings: {
         test: {
           type: 'enum',
-          encoding: 'BOUNDED_CHOICE_INDEX',
+          encoding: 'CONST_NONE',
           options: {
-            choices: [ 'foo' ]
+            value: 'foo'
           }
         }
       }
@@ -77,9 +77,9 @@ tap.test('should encode a top-level enum with one value', (test) => {
   test.strictSame(getStates(schema), [ 'foo' ])
   test.strictSame(result, {
     type: 'enum',
-    encoding: 'TOP_LEVEL_8BIT_CHOICE_INDEX',
+    encoding: 'CONST_NONE',
     options: {
-      choices: [ 'foo' ]
+      value: 'foo'
     }
   })
 

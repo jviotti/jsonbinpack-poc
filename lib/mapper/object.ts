@@ -261,6 +261,7 @@ export const getObjectEncoding = (schema: ObjectEncodingSchema, level: number): 
     const encoding: Encoding | null = propertyEncodings[key] ?? additionalProperties ?? null
     if (encoding !== null &&
       encoding.type === EncodingType.Enum &&
+      encoding.encoding !== 'CONST_NONE' &&
       isDeepStrictEqual(encoding.options.choices, [ false, true ])) {
       unsortedRequiredBooleanProperties.push(key)
     } else {

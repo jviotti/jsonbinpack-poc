@@ -124,7 +124,7 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                             multipleOf: 1
                                         },
                                         {
-                                            const: null
+                                            enum: [null]
                                         },
                                         {
                                             type: 'number',

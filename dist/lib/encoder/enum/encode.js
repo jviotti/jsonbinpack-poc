@@ -27,7 +27,7 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LARGE_BOUNDED_CHOICE_INDEX = exports.BOUNDED_CHOICE_INDEX = exports.TOP_LEVEL_8BIT_CHOICE_INDEX = void 0;
+exports.CONST_NONE = exports.LARGE_BOUNDED_CHOICE_INDEX = exports.BOUNDED_CHOICE_INDEX = exports.TOP_LEVEL_8BIT_CHOICE_INDEX = void 0;
 var assert_1 = require("assert");
 var util_1 = require("util");
 var encode_1 = require("../integer/encode");
@@ -125,3 +125,7 @@ var LARGE_BOUNDED_CHOICE_INDEX = function (buffer, offset, value, options, conte
     }, context);
 };
 exports.LARGE_BOUNDED_CHOICE_INDEX = LARGE_BOUNDED_CHOICE_INDEX;
+var CONST_NONE = function (_buffer, _offset, _value, _options, _context) {
+    return 0;
+};
+exports.CONST_NONE = CONST_NONE;

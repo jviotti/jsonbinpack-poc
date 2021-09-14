@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   JSONBoolean
 } from '../json'
 
@@ -35,6 +39,18 @@ export const RULES: SimplificationRule[] = [
     transform: (_schema: ObjectSchema): ObjectSchema => {
       return {
         const: null
+      }
+    }
+  },
+  {
+    id: 'const-as-enum',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return typeof schema.const !== 'undefined'
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      assert(typeof schema.const !== 'undefined')
+      return {
+        enum: [ schema.const ]
       }
     }
   },

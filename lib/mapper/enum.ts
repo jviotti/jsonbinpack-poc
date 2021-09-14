@@ -27,7 +27,8 @@ import {
 } from '../encoder'
 
 import {
-  ChoiceOptions
+  ChoiceOptions,
+  StaticOptions
 } from '../encoder/enum/options'
 
 import {
@@ -56,19 +57,38 @@ export interface LARGE_BOUNDED_CHOICE_INDEX_ENCODING extends BaseEncodingDefinit
   readonly options: ChoiceOptions;
 }
 
+export interface CONST_NONE_ENCODING extends BaseEncodingDefinition {
+  readonly type: EncodingType.Enum;
+  readonly encoding: 'CONST_NONE';
+  readonly options: StaticOptions;
+}
+
 export type EnumEncodingNames =
   'TOP_LEVEL_8BIT_CHOICE_INDEX' |
   'BOUNDED_CHOICE_INDEX' |
-  'LARGE_BOUNDED_CHOICE_INDEX'
-export type EnumEncoding = TOP_LEVEL_8BIT_CHOICE_INDEX_ENCODING |
-BOUNDED_CHOICE_INDEX_ENCODING |
-LARGE_BOUNDED_CHOICE_INDEX_ENCODING
+  'LARGE_BOUNDED_CHOICE_INDEX' |
+  'CONST_NONE'
+export type EnumEncoding =
+  TOP_LEVEL_8BIT_CHOICE_INDEX_ENCODING |
+  BOUNDED_CHOICE_INDEX_ENCODING |
+  LARGE_BOUNDED_CHOICE_INDEX_ENCODING |
+  CONST_NONE_ENCODING
 
 export const getEnumStates = (schema: EnumEncodingSchema): number | JSONValue[] => {
   return schema.enum
 }
 
 export const getEnumEncoding = (schema: EnumEncodingSchema, level: number): EnumEncoding => {
+  if (schema.enum.length === 1) {
+    return {
+      type: EncodingType.Enum,
+      encoding: 'CONST_NONE',
+      options: {
+        value: schema.enum[0]
+      }
+    }
+  }
+
   if (level === 0 && schema.enum.length < UINT8_MAX) {
     return {
       type: EncodingType.Enum,
