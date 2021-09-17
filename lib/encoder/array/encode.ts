@@ -85,6 +85,8 @@ export const BOUNDED_TYPED_LENGTH_PREFIX = (
   assert(value.length >= options.minimum)
   assert(value.length <= options.maximum)
 
+  // TODO: Map cases where maximum == minimum to FIXED_TYPED_ARRAY in the mapper
+  // instead of handling it here
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
     : FLOOR_MULTIPLE_ENUM_VARINT(buffer, offset, value.length, {
@@ -106,6 +108,8 @@ export const BOUNDED_8BITS_TYPED_LENGTH_PREFIX = (
   assert(value.length <= options.maximum)
   assert(options.maximum - options.minimum <= UINT8_MAX)
 
+  // TODO: Map cases where maximum == minimum to FIXED_TYPED_ARRAY in the mapper
+  // instead of handling it here
   const lengthBytes: number = options.maximum === options.minimum
     ? 0
     : BOUNDED_MULTIPLE_8BITS_ENUM_FIXED(buffer, offset, value.length, {
