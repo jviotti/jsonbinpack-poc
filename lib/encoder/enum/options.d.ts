@@ -23,6 +23,8 @@ export interface ChoiceOptions {
 }
 
 export interface StaticOptions {
+
+  // TODO: Rename this property to "choice"
   readonly value: JSONValue;
 }
 

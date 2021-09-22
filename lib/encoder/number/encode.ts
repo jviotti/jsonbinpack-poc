@@ -55,6 +55,13 @@ const stringPrefixCount = (value: string, prefix: string): number => {
   return count
 }
 
+// TODO: More efficient way to get the integral
+// const toIntegral = (value, multiplier = 1) => {
+//   const result = value * multiplier
+//   if (Number.isInteger(result)) return result
+//   return toIntegral(value, multiplier * 10)
+// }
+
 export const DOUBLE_VARINT_TUPLE = (
   buffer: ResizableBuffer, offset: number, value: JSONNumber,
   _options: NoOptions, _context: EncodingContext
