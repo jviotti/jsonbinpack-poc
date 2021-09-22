@@ -99,12 +99,6 @@ export interface UTF8_STRING_NO_LENGTH_ENCODING extends BaseEncodingDefinition {
   readonly options: SizeOptions;
 }
 
-export interface SHARED_STRING_POINTER_RELATIVE_OFFSET_ENCODING extends BaseEncodingDefinition {
-  readonly type: EncodingType.String;
-  readonly encoding: 'SHARED_STRING_POINTER_RELATIVE_OFFSET';
-  readonly options: SizeOptions;
-}
-
 export interface STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH_ENCODING extends BaseEncodingDefinition {
   readonly type: EncodingType.String;
   readonly encoding: 'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH';
@@ -120,7 +114,6 @@ export type StringEncodingNames =
   'ROOF_PREFIX_LENGTH_ENUM_VARINT' |
   'FLOOR_PREFIX_LENGTH_ENUM_VARINT' |
   'UTF8_STRING_NO_LENGTH' |
-  'SHARED_STRING_POINTER_RELATIVE_OFFSET' |
   'STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH'
 export type StringEncoding =
   STRING_BROTLI_ENCODING |
@@ -131,7 +124,6 @@ export type StringEncoding =
   ROOF_PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   FLOOR_PREFIX_LENGTH_ENUM_VARINT_ENCODING |
   UTF8_STRING_NO_LENGTH_ENCODING |
-  SHARED_STRING_POINTER_RELATIVE_OFFSET_ENCODING |
   STRING_UNBOUNDED_SCOPED_PREFIX_LENGTH_ENCODING
 
 export const getStringStates = (_schema: StringEncodingSchema): number | JSONValue[] => {
