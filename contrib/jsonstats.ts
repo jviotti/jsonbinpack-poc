@@ -38,7 +38,7 @@ interface ValuesStats {
 
 export interface JSONStats {
   byteSize: number;
-  maxNestingDepth: number;
+  height: number;
   largestLevel: number;
   keys: CountSizeStats;
   values: ValuesStats;
@@ -48,8 +48,8 @@ export interface JSONStats {
 
 const DEFAULT_ACCUMULATOR: JSONStats = {
   byteSize: 0,
-  maxNestingDepth: 0,
-  largestLevel: 0,
+  height: 0,
+  largestLevel: 1,
   duplicatedKeys: 0,
   duplicatedValues: 0,
   keys: {
@@ -94,8 +94,8 @@ export const analyze = (
     Math.max(accumulator.byteSize, getJSONSize(document))
   levels[level] = levels[level] ?? 0
 
-  accumulator.maxNestingDepth =
-    Math.max(accumulator.maxNestingDepth, level)
+  accumulator.height =
+    Math.max(accumulator.height, level)
   const category: JSONTypeCategory =
     getJSONTypeCategory(getJSONType(document))
   accumulator.values[category].count += 1
@@ -126,7 +126,7 @@ export const analyze = (
     levels[level] += documentSize
   }
 
-  accumulator.largestLevel = levels.lastIndexOf(Math.max(...levels))
+  accumulator.largestLevel = levels.lastIndexOf(Math.max(...levels)) + 1
   accumulator.duplicatedKeys = accumulator.keys.count - keys.size
 
   // Only calculate duplicated values for the top-level run
@@ -198,7 +198,7 @@ export const summarize = (stats: JSONStats): JSONStatsSummary => {
     size: getSizeQualifier(stats.byteSize),
     keysRedundancy: percentage(stats.keys.count, stats.duplicatedKeys),
     valuesRedundancy: percentage(valuesCount, stats.duplicatedValues),
-    nestingWeight: stats.maxNestingDepth * stats.largestLevel,
+    nestingWeight: stats.height * (stats.largestLevel - 1),
 
     numericWeight: percentage(10000,
       percentage(valuesCount, stats.values.numeric.count) *

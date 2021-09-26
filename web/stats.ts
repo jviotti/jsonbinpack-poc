@@ -113,8 +113,8 @@ const ANALYZE_KEYS_BYTESIZE: HTMLElement | null =
 
 const ANALYZE_LARGEST_LEVEL: HTMLElement | null =
   document.getElementById('analyze-largest-level')
-const ANALYZE_MAX_NESTING_DEPTH: HTMLElement | null =
-  document.getElementById('analyze-max-nesting-depth')
+const ANALYZE_HEIGHT: HTMLElement | null =
+  document.getElementById('analyze-height')
 
 const ANALYZE_DUPLICATED_KEYS: HTMLElement | null =
   document.getElementById('analyze-duplicated-keys')
@@ -135,7 +135,7 @@ if (ANALYZE_VALUES_STRUCTURAL_COUNT === null ||
   ANALYZE_KEYS_COUNT === null ||
   ANALYZE_KEYS_BYTESIZE === null ||
   ANALYZE_LARGEST_LEVEL === null ||
-  ANALYZE_MAX_NESTING_DEPTH === null ||
+  ANALYZE_HEIGHT === null ||
   ANALYZE_DUPLICATED_KEYS === null ||
   ANALYZE_DUPLICATED_VALUES === null ||
   ANALYZE_BYTESIZE === null) {
@@ -189,8 +189,8 @@ const populate = (contents: string): void => {
     String(stats.duplicatedKeys)
   ANALYZE_DUPLICATED_VALUES.innerHTML =
     String(stats.duplicatedValues)
-  ANALYZE_MAX_NESTING_DEPTH.innerHTML =
-    String(stats.maxNestingDepth)
+  ANALYZE_HEIGHT.innerHTML =
+    String(stats.height)
   ANALYZE_LARGEST_LEVEL.innerHTML =
     String(stats.largestLevel)
   ANALYZE_KEYS_COUNT.innerHTML =
