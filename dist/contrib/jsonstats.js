@@ -56,8 +56,8 @@ var _ = __importStar(require("lodash"));
 var json_1 = require("../lib/json");
 var DEFAULT_ACCUMULATOR = {
     byteSize: 0,
-    maxNestingDepth: 0,
-    largestLevel: 0,
+    height: 0,
+    largestLevel: 1,
     duplicatedKeys: 0,
     duplicatedValues: 0,
     keys: {
@@ -98,8 +98,8 @@ var analyze = function (document, level, accumulator, keys, values, levels) {
     accumulator.byteSize =
         Math.max(accumulator.byteSize, json_1.getJSONSize(document));
     levels[level] = (_c = levels[level]) !== null && _c !== void 0 ? _c : 0;
-    accumulator.maxNestingDepth =
-        Math.max(accumulator.maxNestingDepth, level);
+    accumulator.height =
+        Math.max(accumulator.height, level);
     var category = json_1.getJSONTypeCategory(json_1.getJSONType(document));
     accumulator.values[category].count += 1;
     if (typeof document === 'object' &&
@@ -146,7 +146,7 @@ var analyze = function (document, level, accumulator, keys, values, levels) {
         accumulator.values[category].byteSize += documentSize;
         levels[level] += documentSize;
     }
-    accumulator.largestLevel = levels.lastIndexOf(Math.max.apply(Math, __spreadArray([], __read(levels))));
+    accumulator.largestLevel = levels.lastIndexOf(Math.max.apply(Math, __spreadArray([], __read(levels)))) + 1;
     accumulator.duplicatedKeys = accumulator.keys.count - keys.size;
     if (level === 0) {
         accumulator.duplicatedValues =
@@ -193,7 +193,7 @@ var summarize = function (stats) {
         size: getSizeQualifier(stats.byteSize),
         keysRedundancy: percentage(stats.keys.count, stats.duplicatedKeys),
         valuesRedundancy: percentage(valuesCount, stats.duplicatedValues),
-        nestingWeight: stats.maxNestingDepth * stats.largestLevel,
+        nestingWeight: stats.height * (stats.largestLevel - 1),
         numericWeight: percentage(10000, percentage(valuesCount, stats.values.numeric.count) *
             percentage(stats.byteSize, stats.values.numeric.byteSize)),
         textualWeight: percentage(10000, percentage(valuesCount, stats.values.textual.count) *

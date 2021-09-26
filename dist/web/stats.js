@@ -68,7 +68,7 @@ var ANALYZE_VALUES_TEXTUAL_BYTESIZE = document.getElementById('analyze-values-te
 var ANALYZE_KEYS_COUNT = document.getElementById('analyze-keys-count');
 var ANALYZE_KEYS_BYTESIZE = document.getElementById('analyze-keys-bytesize');
 var ANALYZE_LARGEST_LEVEL = document.getElementById('analyze-largest-level');
-var ANALYZE_MAX_NESTING_DEPTH = document.getElementById('analyze-max-nesting-depth');
+var ANALYZE_HEIGHT = document.getElementById('analyze-height');
 var ANALYZE_DUPLICATED_KEYS = document.getElementById('analyze-duplicated-keys');
 var ANALYZE_DUPLICATED_VALUES = document.getElementById('analyze-duplicated-values');
 var ANALYZE_BYTESIZE = document.getElementById('analyze-bytesize');
@@ -83,7 +83,7 @@ if (ANALYZE_VALUES_STRUCTURAL_COUNT === null ||
     ANALYZE_KEYS_COUNT === null ||
     ANALYZE_KEYS_BYTESIZE === null ||
     ANALYZE_LARGEST_LEVEL === null ||
-    ANALYZE_MAX_NESTING_DEPTH === null ||
+    ANALYZE_HEIGHT === null ||
     ANALYZE_DUPLICATED_KEYS === null ||
     ANALYZE_DUPLICATED_VALUES === null ||
     ANALYZE_BYTESIZE === null) {
@@ -122,8 +122,8 @@ var populate = function (contents) {
         String(stats.duplicatedKeys);
     ANALYZE_DUPLICATED_VALUES.innerHTML =
         String(stats.duplicatedValues);
-    ANALYZE_MAX_NESTING_DEPTH.innerHTML =
-        String(stats.maxNestingDepth);
+    ANALYZE_HEIGHT.innerHTML =
+        String(stats.height);
     ANALYZE_LARGEST_LEVEL.innerHTML =
         String(stats.largestLevel);
     ANALYZE_KEYS_COUNT.innerHTML =

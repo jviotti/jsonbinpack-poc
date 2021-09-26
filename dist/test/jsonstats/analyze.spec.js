@@ -32,8 +32,8 @@ tap_1.default.test('should analyze the survey test object', function (test) {
     };
     var result = {
         byteSize: 184,
-        maxNestingDepth: 4,
-        largestLevel: 3,
+        height: 4,
+        largestLevel: 4,
         duplicatedKeys: 4,
         duplicatedValues: 5,
         keys: {
