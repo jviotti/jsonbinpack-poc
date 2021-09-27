@@ -339,8 +339,8 @@ The encoding serializes an string value compressing words given an input
 dictionary. The encoding starts with the byte-length of the string as a
 Base-128 64-bit Little Endian variable-length unsigned integer. If a word
 delimited by the ASCII space character is present in the dictionary, the
-corresponding dictionary entry is encoded as a ZigZag-encoded Base-128 64-bit
-Little Endian variable-length unsigned integer.
+corresponding dictionary entry + 1 is encoded as a ZigZag-encoded Base-128
+64-bit Little Endian variable-length unsigned integer.
 
 The portions of text in between dictionary matches are encoded as the negative
 string byte-length minus 1 as a ZigZag-encoded Base-128 64-bit Little Endian
