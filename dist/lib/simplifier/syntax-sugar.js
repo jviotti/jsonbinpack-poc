@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RULES = void 0;
 var assert_1 = require("assert");
+var lodash_1 = require("lodash");
 exports.RULES = [
     {
         id: 'type-union-anyof',
@@ -24,10 +25,10 @@ exports.RULES = [
         condition: function (schema) {
             return schema.type === 'null';
         },
-        transform: function (_schema) {
-            return {
+        transform: function (schema) {
+            return Object.assign({}, lodash_1.omit(schema, ['type']), {
                 const: null
-            };
+            });
         }
     },
     {
@@ -37,9 +38,9 @@ exports.RULES = [
         },
         transform: function (schema) {
             assert_1.strict(typeof schema.const !== 'undefined');
-            return {
+            return Object.assign({}, lodash_1.omit(schema, ['const']), {
                 enum: [schema.const]
-            };
+            });
         }
     },
     {
