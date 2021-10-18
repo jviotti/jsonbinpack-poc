@@ -114,6 +114,7 @@ tap.test('should convert exclusiveMinimum to minimum inside prefixItems', (test)
 
   const result: Schema = {
     type: 'array',
+    minItems: 0,
     prefixItems: [
       {
         type: 'integer',

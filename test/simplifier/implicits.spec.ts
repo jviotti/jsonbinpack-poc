@@ -45,6 +45,7 @@ tap.test('should convert a schema without type into a type union', (test) => {
       },
       {
         type: 'array',
+        minItems: 0,
         minimum: 5
       },
       {

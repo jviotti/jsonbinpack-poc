@@ -29,10 +29,7 @@
             }
           },
           "lossy": {
-            "enum": [
-              false,
-              true
-            ]
+            "type": "boolean"
           }
         }
       }

@@ -59,7 +59,8 @@
                                                                     "type": "integer",
                                                                     "minimum": 0,
                                                                     "multipleOf": 1
-                                                                }
+                                                                },
+                                                                "minItems": 0
                                                             }
                                                         }
                                                     }
@@ -68,7 +69,8 @@
                                         }
                                     }
                                 }
-                            }
+                            },
+                            "minItems": 0
                         }
                     }
                 }

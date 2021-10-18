@@ -28,5 +28,14 @@ exports.RULES = [
         transform: function (schema) {
             return Object.assign(schema, { multipleOf: 1 });
         }
+    },
+    {
+        id: 'implicit-array-lower-bound',
+        condition: function (schema) {
+            return schema.type === 'array' && !('minItems' in schema);
+        },
+        transform: function (schema) {
+            return Object.assign(schema, { minItems: 0 });
+        }
     }
 ];

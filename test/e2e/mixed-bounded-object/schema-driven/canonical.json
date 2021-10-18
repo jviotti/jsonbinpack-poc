@@ -15,7 +15,8 @@
       ],
       "properties": {
         "qux": {
-          "type": "array"
+          "type": "array",
+          "minItems": 0
         }
       }
     }

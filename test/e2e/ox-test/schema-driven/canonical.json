@@ -48,10 +48,7 @@
                 "type": "string"
               },
               "staff": {
-                "enum": [
-                  false,
-                  true
-                ]
+                "type": "boolean"
               }
             }
           },
@@ -65,15 +62,10 @@
             ],
             "properties": {
               "name": {
-                "enum": [
-                  null
-                ]
+                "type": "null"
               },
               "staff": {
-                "enum": [
-                  false,
-                  true
-                ]
+                "type": "boolean"
               },
               "extra": {
                 "type": "object",

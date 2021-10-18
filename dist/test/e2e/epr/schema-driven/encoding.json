@@ -70,7 +70,8 @@
                                                         "xhr",
                                                         "other"
                                                     ]
-                                                }
+                                                },
+                                                "minItems": 0
                                             },
                                             "allowData": {
                                                 "enum": [
@@ -160,7 +161,8 @@
                                                         "xhr",
                                                         "other"
                                                     ]
-                                                }
+                                                },
+                                                "minItems": 0
                                             },
                                             "allowData": {
                                                 "enum": [
