@@ -20,13 +20,13 @@ exports.RULES = [
         }
     },
     {
-        id: 'null-as-enum',
+        id: 'null-as-const',
         condition: function (schema) {
             return schema.type === 'null';
         },
         transform: function (_schema) {
             return {
-                enum: [null]
+                const: null
             };
         }
     },
