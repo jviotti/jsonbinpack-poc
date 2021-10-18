@@ -75,7 +75,8 @@
                     ],
                     "properties": {
                       "name": {
-                        "type": "string"
+                        "type": "string",
+                        "minLength": 0
                       },
                       "staff": {
                         "enum": [
@@ -146,7 +147,8 @@
                         ],
                         "properties": {
                           "info": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 0
                           }
                         }
                       }

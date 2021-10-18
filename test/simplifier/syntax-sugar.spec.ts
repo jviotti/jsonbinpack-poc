@@ -36,6 +36,7 @@ tap.test('should convert a type union to an anyOf', (test) => {
       {
         type: 'string',
         minimum: 5,
+        minLength: 0,
         maxLength: 1
       },
       {

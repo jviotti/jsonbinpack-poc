@@ -32,7 +32,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 0
                             },
                             "minItems": 0
                         }
@@ -57,7 +58,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 0
                             },
                             "minItems": 0
                         }

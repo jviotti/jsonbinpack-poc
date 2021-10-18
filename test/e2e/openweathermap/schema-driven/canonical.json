@@ -166,7 +166,8 @@
           "type": "number"
         },
         "country": {
-          "type": "string"
+          "type": "string",
+          "minLength": 0
         },
         "sunrise": {
           "type": "integer",

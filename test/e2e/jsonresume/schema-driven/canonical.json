@@ -30,28 +30,35 @@
       ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "minLength": 0
         },
         "label": {
-          "type": "string"
+          "type": "string",
+          "minLength": 0
         },
         "picture": {
-          "type": "string"
+          "type": "string",
+          "minLength": 0
         },
         "email": {
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "minLength": 0
         },
         "phone": {
-          "type": "string"
+          "type": "string",
+          "minLength": 0
         },
         "website": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "minLength": 0
         },
         "summary": {
           "type": "string",
-          "contentMediaType": "text/plain"
+          "contentMediaType": "text/plain",
+          "minLength": 0
         },
         "location": {
           "type": "object",
@@ -65,19 +72,24 @@
           ],
           "properties": {
             "address": {
-              "type": "string"
+              "type": "string",
+              "minLength": 0
             },
             "postalCode": {
-              "type": "string"
+              "type": "string",
+              "minLength": 0
             },
             "city": {
-              "type": "string"
+              "type": "string",
+              "minLength": 0
             },
             "countryCode": {
-              "type": "string"
+              "type": "string",
+              "minLength": 0
             },
             "region": {
-              "type": "string"
+              "type": "string",
+              "minLength": 0
             }
           }
         },
@@ -93,13 +105,16 @@
             ],
             "properties": {
               "network": {
-                "type": "string"
+                "type": "string",
+                "minLength": 0
               },
               "username": {
-                "type": "string"
+                "type": "string",
+                "minLength": 0
               },
               "url": {
-                "type": "string"
+                "type": "string",
+                "minLength": 0
               }
             }
           },

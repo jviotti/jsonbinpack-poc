@@ -40,11 +40,13 @@
             ],
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "url": {
                     "type": "string",
-                    "format": "uri"
+                    "format": "uri",
+                    "minLength": 0
                 }
             }
         },
@@ -61,11 +63,13 @@
             ],
             "properties": {
                 "type": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "url": {
                     "type": "string",
-                    "format": "uri"
+                    "format": "uri",
+                    "minLength": 0
                 }
             }
         },
@@ -78,7 +82,8 @@
             "properties": {
                 "url": {
                     "type": "string",
-                    "format": "uri"
+                    "format": "uri",
+                    "minLength": 0
                 }
             }
         },
@@ -113,7 +118,8 @@
             ],
             "properties": {
                 "test": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 }
             }
         },
@@ -125,7 +131,8 @@
             ],
             "properties": {
                 "node": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 }
             }
         },
@@ -162,64 +169,84 @@
             ],
             "properties": {
                 "async": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "coffee-script": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "colors": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "dateformat": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "eventemitter2": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "findup-sync": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "glob": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "hooker": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "iconv-lite": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "minimatch": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "nopt": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "rimraf": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "lodash": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "underscore.string": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "which": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "js-yaml": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "exit": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "getobject": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "grunt-legacy-util": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "grunt-legacy-log": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 }
             }
         },
@@ -237,25 +264,32 @@
             ],
             "properties": {
                 "temporary": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "grunt-contrib-jshint": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "grunt-contrib-nodeunit": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "grunt-contrib-watch": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "difflet": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "semver": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "shelljs": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 }
             }
         },

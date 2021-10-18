@@ -39,19 +39,24 @@
             ],
             "properties": {
                 "Microsoft.Bcl.Immutable": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "Microsoft.AspNet.ConfigurationModel": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "Microsoft.AspNet.DependencyInjection": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "Microsoft.AspNet.Logging": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "System.Data.Common": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 }
             }
         },
@@ -82,10 +87,12 @@
                             ],
                             "properties": {
                                 "System.Runtime": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Collections": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 }
                             }
                         }
@@ -122,55 +129,72 @@
                             ],
                             "properties": {
                                 "System.Collections": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Collections.Concurrent": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.ComponentModel": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Console": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Diagnostics.Contracts": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Diagnostics.Debug": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Globalization": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Linq": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Linq.Expressions": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Linq.Queryable": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Reflection": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Reflection.Extensions": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Resources.ResourceManager": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Runtime": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Runtime.Extensions": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Threading": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 },
                                 "System.Threading.Tasks": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                 }
                             }
                         }

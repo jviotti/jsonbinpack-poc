@@ -97,7 +97,8 @@ tap.test('should compile a simple oneOf schema', async (test) => {
                 minimum: 2
               },
               {
-                type: 'string'
+                type: 'string',
+                minLength: 0
               },
               {
                 type: 'array',

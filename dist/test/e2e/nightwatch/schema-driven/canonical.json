@@ -178,7 +178,8 @@
                     ]
                 },
                 "log_path": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "check_process_delay": {
                     "type": "integer",
@@ -240,7 +241,8 @@
                     ]
                 },
                 "log_path": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 },
                 "check_process_delay": {
                     "type": "integer",
@@ -304,7 +306,8 @@
             ],
             "properties": {
                 "browserName": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 0
                 }
             }
         },

@@ -16,6 +16,7 @@ tap_1.default.test('should convert a type union to an anyOf', function (test) {
             {
                 type: 'string',
                 minimum: 5,
+                minLength: 0,
                 maxLength: 1
             },
             {

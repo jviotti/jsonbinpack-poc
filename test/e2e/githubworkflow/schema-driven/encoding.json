@@ -80,7 +80,8 @@
                                 ],
                                 "properties": {
                                   "uses": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   }
                                 }
                               },
@@ -114,7 +115,8 @@
                                 ],
                                 "properties": {
                                   "uses": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "with": {
                                     "type": "object",
@@ -124,7 +126,8 @@
                                     ],
                                     "properties": {
                                       "node-version": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "minLength": 0
                                       }
                                     }
                                   }
@@ -180,10 +183,12 @@
                                 ],
                                 "properties": {
                                   "name": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "run": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   }
                                 }
                               },
@@ -226,13 +231,16 @@
                                 ],
                                 "properties": {
                                   "name": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "run": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "working-directory": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   }
                                 }
                               },

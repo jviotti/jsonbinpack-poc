@@ -57,7 +57,8 @@
                                         "properties": {
                                             "path": {
                                                 "type": "string",
-                                                "format": "json-pointer"
+                                                "format": "json-pointer",
+                                                "minLength": 0
                                             },
                                             "types": {
                                                 "type": "array",
@@ -148,7 +149,8 @@
                                         "properties": {
                                             "regex": {
                                                 "type": "string",
-                                                "format": "regex"
+                                                "format": "regex",
+                                                "minLength": 0
                                             },
                                             "types": {
                                                 "type": "array",
