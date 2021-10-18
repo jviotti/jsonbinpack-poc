@@ -15,6 +15,10 @@
  */
 
 import {
+  intersection
+} from 'lodash'
+
+import {
   JSONBoolean
 } from '../json'
 
@@ -27,6 +31,25 @@ import {
 } from './rule'
 
 export const RULES: SimplificationRule[] = [
+  {
+    id: 'implicit-type-union',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return intersection(Object.keys(schema), [
+        'type', 'const', 'enum',
+
+        // Generic applicators
+        'anyOf', 'oneOf', 'allOf', 'not', 'if', 'then', 'else',
+
+        // Reference keywords
+        '$ref', '$dynamicRef'
+      ]).length === 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, {
+        type: [ 'null', 'boolean', 'object', 'array', 'string', 'number', 'integer' ]
+      })
+    }
+  },
   {
     id: 'implicit-unit-multiple-of',
 

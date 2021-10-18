@@ -1,7 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RULES = void 0;
+var lodash_1 = require("lodash");
 exports.RULES = [
+    {
+        id: 'implicit-type-union',
+        condition: function (schema) {
+            return lodash_1.intersection(Object.keys(schema), [
+                'type', 'const', 'enum',
+                'anyOf', 'oneOf', 'allOf', 'not', 'if', 'then', 'else',
+                '$ref', '$dynamicRef'
+            ]).length === 0;
+        },
+        transform: function (schema) {
+            return Object.assign(schema, {
+                type: ['null', 'boolean', 'object', 'array', 'string', 'number', 'integer']
+            });
+        }
+    },
     {
         id: 'implicit-unit-multiple-of',
         condition: function (schema) {

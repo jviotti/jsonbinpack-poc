@@ -53,10 +53,13 @@ tap.test('should convert a type union to an anyOf', (test) => {
 
 tap.test('should convert exclusiveMinimum to minimum', (test) => {
   const schema: Schema = {
+    type: 'integer',
     exclusiveMinimum: 5
   }
 
   const result: Schema = {
+    type: 'integer',
+    multipleOf: 1,
     minimum: 6
   }
 
@@ -66,11 +69,14 @@ tap.test('should convert exclusiveMinimum to minimum', (test) => {
 
 tap.test('should convert exclusiveMinimum to minimum with existing greater minimum', (test) => {
   const schema: Schema = {
+    type: 'integer',
     exclusiveMinimum: 5,
     minimum: 6
   }
 
   const result: Schema = {
+    type: 'integer',
+    multipleOf: 1,
     minimum: 6
   }
 
@@ -80,11 +86,14 @@ tap.test('should convert exclusiveMinimum to minimum with existing greater minim
 
 tap.test('should convert exclusiveMinimum to minimum with existing lower minimum', (test) => {
   const schema: Schema = {
+    type: 'integer',
     exclusiveMinimum: 5,
     minimum: 4
   }
 
   const result: Schema = {
+    type: 'integer',
+    multipleOf: 1,
     minimum: 6
   }
 
@@ -94,16 +103,21 @@ tap.test('should convert exclusiveMinimum to minimum with existing lower minimum
 
 tap.test('should convert exclusiveMinimum to minimum inside prefixItems', (test) => {
   const schema: Schema = {
+    type: 'array',
     prefixItems: [
       {
+        type: 'integer',
         exclusiveMinimum: 5
       }
     ]
   }
 
   const result: Schema = {
+    type: 'array',
     prefixItems: [
       {
+        type: 'integer',
+        multipleOf: 1,
         minimum: 6
       }
     ]
