@@ -20,7 +20,10 @@
       ],
       "properties": {
         "warningsAsErrors": {
-          "type": "boolean"
+          "enum": [
+            false,
+            true
+          ]
         }
       }
     },

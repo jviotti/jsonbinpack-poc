@@ -59,7 +59,10 @@
                 }
               },
               "allowData": {
-                "type": "boolean"
+                "enum": [
+                  false,
+                  true
+                ]
               }
             }
           },
@@ -90,7 +93,10 @@
                 }
               },
               "allowData": {
-                "type": "boolean"
+                "enum": [
+                  false,
+                  true
+                ]
               }
             }
           }

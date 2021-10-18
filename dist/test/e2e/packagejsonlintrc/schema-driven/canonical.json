@@ -278,7 +278,10 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "boolean"
+                                "enum": [
+                                    false,
+                                    true
+                                ]
                             }
                         }
                     ]

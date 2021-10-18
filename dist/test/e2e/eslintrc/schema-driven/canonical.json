@@ -24,7 +24,10 @@
             ],
             "properties": {
                 "jsx": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 }
             }
         },
@@ -44,13 +47,22 @@
             ],
             "properties": {
                 "browser": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "node": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "es6": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 }
             }
         },
@@ -122,7 +134,10 @@
                             ],
                             "properties": {
                                 "requireReturn": {
-                                    "type": "boolean"
+                                    "enum": [
+                                        false,
+                                        true
+                                    ]
                                 }
                             }
                         }

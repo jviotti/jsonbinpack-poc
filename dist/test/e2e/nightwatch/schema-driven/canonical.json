@@ -71,10 +71,16 @@
             ],
             "properties": {
                 "abortOnAssertionFailure": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "abortOnElementLocateError": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "waitForConditionPollInterval": {
                     "type": "integer",
@@ -87,10 +93,16 @@
                     "multipleOf": 1
                 },
                 "throwOnMultipleElementsReturned": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "suppressWarningsOnMultipleElementsReturned": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "asyncHookTimeout": {
                     "type": "integer",
@@ -151,7 +163,10 @@
             ],
             "properties": {
                 "start_process": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "cli_args": {
                     "type": "object",
@@ -210,7 +225,10 @@
             ],
             "properties": {
                 "start_process": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "cli_args": {
                     "type": "object",

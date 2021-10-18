@@ -78,7 +78,10 @@
                                                 "type": "string"
                                             },
                                             "staff": {
-                                                "type": "boolean"
+                                                "enum": [
+                                                    false,
+                                                    true
+                                                ]
                                             }
                                         }
                                     },
@@ -130,7 +133,10 @@
                                                 ]
                                             },
                                             "staff": {
-                                                "type": "boolean"
+                                                "enum": [
+                                                    false,
+                                                    true
+                                                ]
                                             },
                                             "extra": {
                                                 "type": "object",

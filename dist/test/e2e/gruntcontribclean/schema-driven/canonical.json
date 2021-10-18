@@ -43,10 +43,16 @@
             ],
             "properties": {
                 "force": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 },
                 "no-write": {
-                    "type": "boolean"
+                    "enum": [
+                        false,
+                        true
+                    ]
                 }
             }
         }

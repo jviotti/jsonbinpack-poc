@@ -21,6 +21,17 @@ exports.RULES = [
         }
     },
     {
+        id: 'boolean-as-enum',
+        condition: function (schema) {
+            return schema.type === 'boolean';
+        },
+        transform: function (schema) {
+            return Object.assign({}, lodash_1.omit(schema, ['type']), {
+                enum: [false, true]
+            });
+        }
+    },
+    {
         id: 'null-as-const',
         condition: function (schema) {
             return schema.type === 'null';

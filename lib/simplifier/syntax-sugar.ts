@@ -52,6 +52,17 @@ export const RULES: SimplificationRule[] = [
     }
   },
   {
+    id: 'boolean-as-enum',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'boolean'
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign({}, omit(schema, [ 'type' ]), {
+        enum: [ false, true ]
+      })
+    }
+  },
+  {
     id: 'null-as-const',
     condition: (schema: ObjectSchema): JSONBoolean => {
       return schema.type === 'null'

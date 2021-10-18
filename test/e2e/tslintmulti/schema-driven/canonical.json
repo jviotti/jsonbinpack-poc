@@ -19,7 +19,10 @@
           "maxItems": 1,
           "minItems": 1,
           "items": {
-            "type": "boolean"
+            "enum": [
+              false,
+              true
+            ]
           }
         },
         "radix": {
@@ -27,7 +30,10 @@
           "maxItems": 1,
           "minItems": 1,
           "items": {
-            "type": "boolean"
+            "enum": [
+              false,
+              true
+            ]
           }
         },
         "ordered-imports": {
@@ -45,7 +51,10 @@
               ],
               "properties": {
                 "grouped-imports": {
-                  "type": "boolean"
+                  "enum": [
+                    false,
+                    true
+                  ]
                 }
               }
             }
