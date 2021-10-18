@@ -24,6 +24,33 @@ import {
   simplifySchema
 } from '../../lib/simplifier'
 
+tap.test('should convert a type union to an anyOf', (test) => {
+  const schema: Schema = {
+    type: [ 'string', 'integer' ],
+    minimum: 5,
+    maxLength: 1
+  }
+
+  const result: Schema = {
+    anyOf: [
+      {
+        type: 'string',
+        minimum: 5,
+        maxLength: 1
+      },
+      {
+        type: 'integer',
+        minimum: 5,
+        multipleOf: 1,
+        maxLength: 1
+      }
+    ]
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
 tap.test('should convert exclusiveMinimum to minimum', (test) => {
   const schema: Schema = {
     exclusiveMinimum: 5

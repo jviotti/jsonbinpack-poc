@@ -57,7 +57,7 @@ export interface ObjectSchema {
   readonly unevaluatedProperties?: Schema;
 
   // https://json-schema.org/draft/2020-12/vocab/validation
-  readonly type?: string;
+  readonly type?: string | string[];
   readonly const?: JSONValue;
   readonly enum?: JSONValue[];
   readonly minimum?: JSONNumber;

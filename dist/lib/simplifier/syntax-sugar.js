@@ -4,6 +4,22 @@ exports.RULES = void 0;
 var assert_1 = require("assert");
 exports.RULES = [
     {
+        id: 'type-union-anyof',
+        condition: function (schema) {
+            return Array.isArray(schema.type);
+        },
+        transform: function (schema) {
+            assert_1.strict(Array.isArray(schema.type));
+            return {
+                anyOf: schema.type.map(function (type) {
+                    return Object.assign({}, schema, {
+                        type: type
+                    });
+                })
+            };
+        }
+    },
+    {
         id: 'null-as-enum',
         condition: function (schema) {
             return schema.type === 'null';

@@ -32,6 +32,22 @@ import {
 
 export const RULES: SimplificationRule[] = [
   {
+    id: 'type-union-anyof',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return Array.isArray(schema.type)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      assert(Array.isArray(schema.type))
+      return {
+        anyOf: schema.type.map((type) => {
+          return Object.assign({}, schema, {
+            type
+          })
+        })
+      }
+    }
+  },
+  {
     id: 'null-as-enum',
     condition: (schema: ObjectSchema): JSONBoolean => {
       return schema.type === 'null'
