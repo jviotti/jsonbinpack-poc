@@ -30,35 +30,28 @@
             ],
             "properties": {
                 "name": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                 },
                 "label": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                 },
                 "picture": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                 },
                 "email": {
                     "type": "string",
-                    "format": "email",
-                    "minLength": 0
+                    "format": "email"
                 },
                 "phone": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                 },
                 "website": {
                     "type": "string",
-                    "format": "uri",
-                    "minLength": 0
+                    "format": "uri"
                 },
                 "summary": {
                     "type": "string",
-                    "contentMediaType": "text/plain",
-                    "minLength": 0
+                    "contentMediaType": "text/plain"
                 },
                 "location": {
                     "type": "object",
@@ -72,24 +65,19 @@
                     ],
                     "properties": {
                         "address": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         },
                         "postalCode": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         },
                         "city": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         },
                         "countryCode": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         },
                         "region": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 },
@@ -105,20 +93,16 @@
                         ],
                         "properties": {
                             "network": {
-                                "type": "string",
-                                "minLength": 0
+                                "type": "string"
                             },
                             "username": {
-                                "type": "string",
-                                "minLength": 0
+                                "type": "string"
                             },
                             "url": {
-                                "type": "string",
-                                "minLength": 0
+                                "type": "string"
                             }
                         }
-                    },
-                    "minItems": 0
+                    }
                 }
             }
         },

@@ -71,58 +71,40 @@
             ],
             "properties": {
                 "abortOnAssertionFailure": {
-                    "enum": [
-                        false,
-                        true
-                    ]
+                    "type": "boolean"
                 },
                 "abortOnElementLocateError": {
-                    "enum": [
-                        false,
-                        true
-                    ]
+                    "type": "boolean"
                 },
                 "waitForConditionPollInterval": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "waitForConditionTimeout": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "throwOnMultipleElementsReturned": {
-                    "enum": [
-                        false,
-                        true
-                    ]
+                    "type": "boolean"
                 },
                 "suppressWarningsOnMultipleElementsReturned": {
-                    "enum": [
-                        false,
-                        true
-                    ]
+                    "type": "boolean"
                 },
                 "asyncHookTimeout": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "unitTestsTimeout": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "customReporterCallbackTimeout": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "retryAssertionTimeout": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 }
             }
         },
@@ -163,38 +145,29 @@
             ],
             "properties": {
                 "start_process": {
-                    "enum": [
-                        false,
-                        true
-                    ]
+                    "type": "boolean"
                 },
                 "cli_args": {
                     "type": "object",
                     "additionalProperties": false
                 },
                 "server_path": {
-                    "enum": [
-                        null
-                    ]
+                    "type": "null"
                 },
                 "log_path": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                 },
                 "check_process_delay": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "max_status_poll_tries": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "status_poll_interval": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 }
             }
         },
@@ -226,43 +199,33 @@
             ],
             "properties": {
                 "start_process": {
-                    "enum": [
-                        false,
-                        true
-                    ]
+                    "type": "boolean"
                 },
                 "cli_args": {
                     "type": "object",
                     "additionalProperties": false
                 },
                 "server_path": {
-                    "enum": [
-                        null
-                    ]
+                    "type": "null"
                 },
                 "log_path": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                 },
                 "check_process_delay": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "max_status_poll_tries": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "status_poll_interval": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "process_create_timeout": {
                     "type": "integer",
-                    "minimum": 0,
-                    "multipleOf": 1
+                    "minimum": 0
                 },
                 "timeout_options": {
                     "type": "object",
@@ -306,8 +269,7 @@
             ],
             "properties": {
                 "browserName": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                 }
             }
         },

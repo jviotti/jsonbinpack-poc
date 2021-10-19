@@ -258,10 +258,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "string",
-                                "minLength": 0
-                            },
-                            "minItems": 0
+                                "type": "string"
+                            }
                         }
                     ]
                 },
@@ -280,12 +278,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "enum": [
-                                    false,
-                                    true
-                                ]
-                            },
-                            "minItems": 0
+                                "type": "boolean"
+                            }
                         }
                     ]
                 },
@@ -304,10 +298,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "string",
-                                "minLength": 0
-                            },
-                            "minItems": 0
+                                "type": "string"
+                            }
                         }
                     ]
                 },
@@ -326,10 +318,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "string",
-                                "minLength": 0
-                            },
-                            "minItems": 0
+                                "type": "string"
+                            }
                         }
                     ]
                 },
@@ -348,10 +338,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "string",
-                                "minLength": 0
-                            },
-                            "minItems": 0
+                                "type": "string"
+                            }
                         }
                     ]
                 },
@@ -370,10 +358,8 @@
                         {
                             "type": "array",
                             "items": {
-                                "type": "string",
-                                "minLength": 0
-                            },
-                            "minItems": 0
+                                "type": "string"
+                            }
                         }
                     ]
                 },

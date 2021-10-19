@@ -80,7 +80,8 @@
                                                     true
                                                 ]
                                             }
-                                        }
+                                        },
+                                        "minProperties": 0
                                     },
                                     "encoding": {
                                         "type": "object",
@@ -172,7 +173,8 @@
                                                     true
                                                 ]
                                             }
-                                        }
+                                        },
+                                        "minProperties": 0
                                     },
                                     "encoding": {
                                         "type": "object",

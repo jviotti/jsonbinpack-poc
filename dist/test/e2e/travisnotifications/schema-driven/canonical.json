@@ -26,8 +26,7 @@
                     ],
                     "properties": {
                         "secure": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 },
@@ -39,8 +38,7 @@
                     ],
                     "properties": {
                         "secure": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 },
@@ -52,8 +50,7 @@
                     ],
                     "properties": {
                         "secure": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 },
@@ -65,8 +62,7 @@
                     ],
                     "properties": {
                         "secure": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 },
@@ -78,8 +74,7 @@
                     ],
                     "properties": {
                         "secure": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 },
@@ -91,8 +86,7 @@
                     ],
                     "properties": {
                         "secure": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 },
@@ -104,8 +98,7 @@
                     ],
                     "properties": {
                         "secure": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                         }
                     }
                 }
