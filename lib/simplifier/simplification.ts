@@ -45,12 +45,39 @@ export const RULES: SimplificationRule[] = [
   {
     id: 'empty-string',
     condition: (schema: ObjectSchema): JSONBoolean => {
-      return schema.type === 'string' && 'maxLength' in schema && schema.maxLength === 0
+      return schema.type === 'string' &&
+        'maxLength' in schema && schema.maxLength === 0
     },
     transform: (schema: ObjectSchema): ObjectSchema => {
       Reflect.deleteProperty(schema, 'maxLength')
       return Object.assign(schema, {
         const: ''
+      })
+    }
+  },
+  {
+    id: 'empty-array',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'array' &&
+        'maxItems' in schema && schema.maxItems === 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'maxItems')
+      return Object.assign(schema, {
+        const: []
+      })
+    }
+  },
+  {
+    id: 'empty-object',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'object' &&
+        'maxProperties' in schema && schema.maxProperties === 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'maxProperties')
+      return Object.assign(schema, {
+        const: {}
       })
     }
   }
