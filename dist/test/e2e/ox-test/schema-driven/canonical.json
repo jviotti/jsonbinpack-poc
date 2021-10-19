@@ -62,9 +62,7 @@
                         ],
                         "properties": {
                             "name": {
-                                "enum": [
-                                    null
-                                ]
+                                "type": "null"
                             },
                             "staff": {
                                 "type": "boolean"

@@ -78,13 +78,11 @@
         },
         "waitForConditionPollInterval": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "waitForConditionTimeout": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "throwOnMultipleElementsReturned": {
           "type": "boolean"
@@ -94,23 +92,19 @@
         },
         "asyncHookTimeout": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "unitTestsTimeout": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "customReporterCallbackTimeout": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "retryAssertionTimeout": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         }
       }
     },
@@ -158,27 +152,22 @@
           "additionalProperties": false
         },
         "server_path": {
-          "enum": [
-            null
-          ]
+          "type": "null"
         },
         "log_path": {
           "type": "string"
         },
         "check_process_delay": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "max_status_poll_tries": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "status_poll_interval": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         }
       }
     },
@@ -217,32 +206,26 @@
           "additionalProperties": false
         },
         "server_path": {
-          "enum": [
-            null
-          ]
+          "type": "null"
         },
         "log_path": {
           "type": "string"
         },
         "check_process_delay": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "max_status_poll_tries": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "status_poll_interval": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "process_create_timeout": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "timeout_options": {
           "type": "object",

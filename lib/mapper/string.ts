@@ -161,7 +161,7 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
     typeof schema.maxLength === 'undefined' ||
     schema.maxLength >= schema.minLength)
 
-  if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
+  if ((typeof schema.minLength !== 'undefined' && schema.minLength > 0) && typeof schema.maxLength !== 'undefined') {
     if (schema.maxLength - schema.minLength <= UINT8_MAX - 1) {
       return {
         type: EncodingType.String,
@@ -180,7 +180,7 @@ export const getStringEncoding = (schema: StringEncodingSchema, _level: number):
         minimum: schema.minLength
       }
     }
-  } else if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength === 'undefined') {
+  } else if ((typeof schema.minLength !== 'undefined' && schema.minLength > 0) && typeof schema.maxLength === 'undefined') {
     return {
       type: EncodingType.String,
       encoding: 'FLOOR_PREFIX_LENGTH_ENUM_VARINT',

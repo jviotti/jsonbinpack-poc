@@ -82,7 +82,7 @@ tap.test('should compile a simple oneOf schema', async (test) => {
           schema: {
             anyOf: [
               {
-                type: 'boolean'
+                enum: [ false, true ]
               },
               {
                 type: 'integer',
@@ -97,13 +97,16 @@ tap.test('should compile a simple oneOf schema', async (test) => {
                 minimum: 2
               },
               {
-                type: 'string'
+                type: 'string',
+                minLength: 0
               },
               {
-                type: 'array'
+                type: 'array',
+                minItems: 0
               },
               {
-                type: 'object'
+                type: 'object',
+                minProperties: 0
               }
             ]
           },

@@ -24,12 +24,43 @@ import {
   simplifySchema
 } from '../../lib/simplifier'
 
+tap.test('should convert a type union to an anyOf', (test) => {
+  const schema: Schema = {
+    type: [ 'string', 'integer' ],
+    minimum: 5,
+    maxLength: 1
+  }
+
+  const result: Schema = {
+    anyOf: [
+      {
+        type: 'string',
+        minimum: 5,
+        minLength: 0,
+        maxLength: 1
+      },
+      {
+        type: 'integer',
+        minimum: 5,
+        multipleOf: 1,
+        maxLength: 1
+      }
+    ]
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
 tap.test('should convert exclusiveMinimum to minimum', (test) => {
   const schema: Schema = {
+    type: 'integer',
     exclusiveMinimum: 5
   }
 
   const result: Schema = {
+    type: 'integer',
+    multipleOf: 1,
     minimum: 6
   }
 
@@ -39,11 +70,14 @@ tap.test('should convert exclusiveMinimum to minimum', (test) => {
 
 tap.test('should convert exclusiveMinimum to minimum with existing greater minimum', (test) => {
   const schema: Schema = {
+    type: 'integer',
     exclusiveMinimum: 5,
     minimum: 6
   }
 
   const result: Schema = {
+    type: 'integer',
+    multipleOf: 1,
     minimum: 6
   }
 
@@ -53,11 +87,14 @@ tap.test('should convert exclusiveMinimum to minimum with existing greater minim
 
 tap.test('should convert exclusiveMinimum to minimum with existing lower minimum', (test) => {
   const schema: Schema = {
+    type: 'integer',
     exclusiveMinimum: 5,
     minimum: 4
   }
 
   const result: Schema = {
+    type: 'integer',
+    multipleOf: 1,
     minimum: 6
   }
 
@@ -67,16 +104,22 @@ tap.test('should convert exclusiveMinimum to minimum with existing lower minimum
 
 tap.test('should convert exclusiveMinimum to minimum inside prefixItems', (test) => {
   const schema: Schema = {
+    type: 'array',
     prefixItems: [
       {
+        type: 'integer',
         exclusiveMinimum: 5
       }
     ]
   }
 
   const result: Schema = {
+    type: 'array',
+    minItems: 0,
     prefixItems: [
       {
+        type: 'integer',
+        multipleOf: 1,
         minimum: 6
       }
     ]

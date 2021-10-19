@@ -12,8 +12,7 @@
     "properties": {
       "dt": {
         "type": "integer",
-        "minimum": 0,
-        "multipleOf": 1
+        "minimum": 0
       },
       "coord": {
         "type": "array",
@@ -41,8 +40,7 @@
           },
           "wind_deg": {
             "type": "integer",
-            "minimum": 0,
-            "multipleOf": 1
+            "minimum": 0
           },
           "precipitation_intensity": {
             "type": "number"
@@ -71,8 +69,7 @@
             },
             "event_level": {
               "type": "integer",
-              "minimum": 0,
-              "multipleOf": 1
+              "minimum": 0
             }
           }
         }

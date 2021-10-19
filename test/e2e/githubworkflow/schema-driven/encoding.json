@@ -80,9 +80,11 @@
                                 ],
                                 "properties": {
                                   "uses": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   }
-                                }
+                                },
+                                "minProperties": 0
                               },
                               "encoding": {
                                 "type": "object",
@@ -114,7 +116,8 @@
                                 ],
                                 "properties": {
                                   "uses": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "with": {
                                     "type": "object",
@@ -124,11 +127,14 @@
                                     ],
                                     "properties": {
                                       "node-version": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "minLength": 0
                                       }
-                                    }
+                                    },
+                                    "minProperties": 0
                                   }
-                                }
+                                },
+                                "minProperties": 0
                               },
                               "encoding": {
                                 "type": "object",
@@ -180,12 +186,15 @@
                                 ],
                                 "properties": {
                                   "name": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "run": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   }
-                                }
+                                },
+                                "minProperties": 0
                               },
                               "encoding": {
                                 "type": "object",
@@ -226,15 +235,19 @@
                                 ],
                                 "properties": {
                                   "name": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "run": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   },
                                   "working-directory": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "minLength": 0
                                   }
-                                }
+                                },
+                                "minProperties": 0
                               },
                               "encoding": {
                                 "type": "object",

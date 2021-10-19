@@ -36,7 +36,7 @@ var getStringEncoding = function (schema, _level) {
     assert_1.strict(typeof schema.minLength === 'undefined' ||
         typeof schema.maxLength === 'undefined' ||
         schema.maxLength >= schema.minLength);
-    if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength !== 'undefined') {
+    if ((typeof schema.minLength !== 'undefined' && schema.minLength > 0) && typeof schema.maxLength !== 'undefined') {
         if (schema.maxLength - schema.minLength <= limits_1.UINT8_MAX - 1) {
             return {
                 type: encoder_1.EncodingType.String,
@@ -55,7 +55,7 @@ var getStringEncoding = function (schema, _level) {
             }
         };
     }
-    else if (typeof schema.minLength !== 'undefined' && typeof schema.maxLength === 'undefined') {
+    else if ((typeof schema.minLength !== 'undefined' && schema.minLength > 0) && typeof schema.maxLength === 'undefined') {
         return {
             type: encoder_1.EncodingType.String,
             encoding: 'FLOOR_PREFIX_LENGTH_ENUM_VARINT',

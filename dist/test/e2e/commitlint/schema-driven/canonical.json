@@ -20,8 +20,7 @@
                     "prefixItems": [
                         {
                             "type": "integer",
-                            "minimum": 0,
-                            "multipleOf": 1
+                            "minimum": 0
                         },
                         {
                             "enum": [
@@ -44,8 +43,7 @@
                     "prefixItems": [
                         {
                             "type": "integer",
-                            "minimum": 0,
-                            "multipleOf": 1
+                            "minimum": 0
                         },
                         {
                             "enum": [

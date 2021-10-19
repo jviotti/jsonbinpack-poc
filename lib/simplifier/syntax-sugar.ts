@@ -19,6 +19,10 @@ import {
 } from 'assert'
 
 import {
+  omit
+} from 'lodash'
+
+import {
   JSONBoolean
 } from '../json'
 
@@ -32,14 +36,41 @@ import {
 
 export const RULES: SimplificationRule[] = [
   {
-    id: 'null-as-enum',
+    id: 'type-union-anyof',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return Array.isArray(schema.type)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      assert(Array.isArray(schema.type))
+      return {
+        anyOf: schema.type.map((type) => {
+          return Object.assign({}, schema, {
+            type
+          })
+        })
+      }
+    }
+  },
+  {
+    id: 'boolean-as-enum',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'boolean'
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign({}, omit(schema, [ 'type' ]), {
+        enum: [ false, true ]
+      })
+    }
+  },
+  {
+    id: 'null-as-const',
     condition: (schema: ObjectSchema): JSONBoolean => {
       return schema.type === 'null'
     },
-    transform: (_schema: ObjectSchema): ObjectSchema => {
-      return {
-        enum: [ null ]
-      }
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign({}, omit(schema, [ 'type' ]), {
+        const: null
+      })
     }
   },
   {
@@ -49,9 +80,9 @@ export const RULES: SimplificationRule[] = [
     },
     transform: (schema: ObjectSchema): ObjectSchema => {
       assert(typeof schema.const !== 'undefined')
-      return {
+      return Object.assign({}, omit(schema, [ 'const' ]), {
         enum: [ schema.const ]
-      }
+      })
     }
   },
   {

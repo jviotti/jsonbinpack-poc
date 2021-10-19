@@ -15,6 +15,10 @@
  */
 
 import {
+  intersection
+} from 'lodash'
+
+import {
   JSONBoolean
 } from '../json'
 
@@ -28,6 +32,25 @@ import {
 
 export const RULES: SimplificationRule[] = [
   {
+    id: 'implicit-type-union',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return intersection(Object.keys(schema), [
+        'type', 'const', 'enum',
+
+        // Generic applicators
+        'anyOf', 'oneOf', 'allOf', 'not', 'if', 'then', 'else',
+
+        // Reference keywords
+        '$ref', '$dynamicRef'
+      ]).length === 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, {
+        type: [ 'null', 'boolean', 'object', 'array', 'string', 'number', 'integer' ]
+      })
+    }
+  },
+  {
     id: 'implicit-unit-multiple-of',
 
     // Notice we don't consider the number type, as 1 is not
@@ -40,6 +63,33 @@ export const RULES: SimplificationRule[] = [
     },
     transform: (schema: ObjectSchema): ObjectSchema => {
       return Object.assign(schema, { multipleOf: 1 })
+    }
+  },
+  {
+    id: 'implicit-array-lower-bound',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'array' && !('minItems' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, { minItems: 0 })
+    }
+  },
+  {
+    id: 'implicit-string-lower-bound',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'string' && !('minLength' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, { minLength: 0 })
+    }
+  },
+  {
+    id: 'implicit-object-lower-bound',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'object' && !('minProperties' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, { minProperties: 0 })
     }
   }
 ]

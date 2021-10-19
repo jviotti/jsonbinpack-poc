@@ -29,6 +29,3 @@ jobs:
 
     - name: Build project
       run: make
-
-    - name: Check that there are no uncommitted changes
-      run: rm -rf dist && make && ./scripts/no-staged-uncommitted-files.sh

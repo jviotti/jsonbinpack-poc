@@ -47,8 +47,7 @@
         "properties": {
           "id": {
             "type": "integer",
-            "minimum": 0,
-            "multipleOf": 1
+            "minimum": 0
           },
           "main": {
             "type": "string"
@@ -91,13 +90,11 @@
         },
         "pressure": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "humidity": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         }
       }
     },
@@ -118,8 +115,7 @@
         },
         "deg": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         }
       }
     },
@@ -132,8 +128,7 @@
       "properties": {
         "all": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         }
       }
     },
@@ -155,13 +150,11 @@
       "properties": {
         "type": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "id": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "message": {
           "type": "number"
@@ -171,13 +164,11 @@
         },
         "sunrise": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         },
         "sunset": {
           "type": "integer",
-          "minimum": 0,
-          "multipleOf": 1
+          "minimum": 0
         }
       }
     },

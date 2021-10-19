@@ -116,7 +116,7 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                 schema: {
                                     anyOf: [
                                         {
-                                            type: 'boolean'
+                                            enum: [false, true]
                                         },
                                         {
                                             type: 'integer',
@@ -131,13 +131,16 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                             minimum: 2
                                         },
                                         {
-                                            type: 'string'
+                                            type: 'string',
+                                            minLength: 0
                                         },
                                         {
-                                            type: 'array'
+                                            type: 'array',
+                                            minItems: 0
                                         },
                                         {
-                                            type: 'object'
+                                            type: 'object',
+                                            minProperties: 0
                                         }
                                     ]
                                 },
