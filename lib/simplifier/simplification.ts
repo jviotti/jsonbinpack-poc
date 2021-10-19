@@ -41,5 +41,17 @@ export const RULES: SimplificationRule[] = [
         const: value
       })
     }
+  },
+  {
+    id: 'empty-string',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'string' && 'maxLength' in schema && schema.maxLength === 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'maxLength')
+      return Object.assign(schema, {
+        const: ''
+      })
+    }
   }
 ]

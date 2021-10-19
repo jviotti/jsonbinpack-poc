@@ -16,5 +16,17 @@ exports.RULES = [
                 const: value
             });
         }
+    },
+    {
+        id: 'empty-string',
+        condition: function (schema) {
+            return schema.type === 'string' && 'maxLength' in schema && schema.maxLength === 0;
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'maxLength');
+            return Object.assign(schema, {
+                const: ''
+            });
+        }
     }
 ];

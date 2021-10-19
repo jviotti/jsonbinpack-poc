@@ -56,3 +56,19 @@ tap.test('should convert a number with equal bounds to enum', (test) => {
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
+
+tap.test('should convert empty string to enum', (test) => {
+  const schema: Schema = {
+    type: 'string',
+    maxLength: 0
+  }
+
+  const result: Schema = {
+    type: 'string',
+    minLength: 0,
+    enum: [ '' ]
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
