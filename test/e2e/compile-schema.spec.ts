@@ -105,7 +105,8 @@ tap.test('should compile a simple oneOf schema', async (test) => {
                 minItems: 0
               },
               {
-                type: 'object'
+                type: 'object',
+                minProperties: 0
               }
             ]
           },

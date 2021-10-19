@@ -41,18 +41,15 @@
       ],
       "properties": {
         "name": {
-          "type": "string",
-          "minLength": 0
+          "type": "string"
         },
         "url": {
           "type": "string",
-          "format": "uri",
-          "minLength": 0
+          "format": "uri"
         },
         "avatar": {
           "type": "string",
-          "format": "uri",
-          "minLength": 0
+          "format": "uri"
         }
       }
     },

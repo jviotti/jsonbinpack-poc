@@ -33,8 +33,7 @@
           ],
           "properties": {
             "runs-on": {
-              "type": "string",
-              "minLength": 0
+              "type": "string"
             },
             "env": {
               "type": "object",
@@ -44,8 +43,7 @@
               ],
               "properties": {
                 "build-suite-dir": {
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 }
               }
             },
@@ -61,8 +59,7 @@
                     ],
                     "properties": {
                       "uses": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       }
                     }
                   },
@@ -75,8 +72,7 @@
                     ],
                     "properties": {
                       "uses": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       },
                       "with": {
                         "type": "object",
@@ -86,8 +82,7 @@
                         ],
                         "properties": {
                           "node-version": {
-                            "type": "string",
-                            "minLength": 0
+                            "type": "string"
                           }
                         }
                       }
@@ -102,12 +97,10 @@
                     ],
                     "properties": {
                       "name": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       },
                       "run": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       }
                     }
                   },
@@ -121,22 +114,18 @@
                     ],
                     "properties": {
                       "name": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       },
                       "run": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       },
                       "working-directory": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       }
                     }
                   }
                 ]
-              },
-              "minItems": 0
+              }
             }
           }
         }

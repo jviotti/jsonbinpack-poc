@@ -46,5 +46,14 @@ exports.RULES = [
         transform: function (schema) {
             return Object.assign(schema, { minLength: 0 });
         }
+    },
+    {
+        id: 'implicit-object-lower-bound',
+        condition: function (schema) {
+            return schema.type === 'object' && !('minProperties' in schema);
+        },
+        transform: function (schema) {
+            return Object.assign(schema, { minProperties: 0 });
+        }
     }
 ];

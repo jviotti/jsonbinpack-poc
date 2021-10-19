@@ -24,10 +24,7 @@
       ],
       "properties": {
         "jsx": {
-          "enum": [
-            false,
-            true
-          ]
+          "type": "boolean"
         }
       }
     },
@@ -47,22 +44,13 @@
       ],
       "properties": {
         "browser": {
-          "enum": [
-            false,
-            true
-          ]
+          "type": "boolean"
         },
         "node": {
-          "enum": [
-            false,
-            true
-          ]
+          "type": "boolean"
         },
         "es6": {
-          "enum": [
-            false,
-            true
-          ]
+          "type": "boolean"
         }
       }
     },
@@ -123,8 +111,7 @@
             {
               "type": "integer",
               "minimum": 0,
-              "maximum": 2,
-              "multipleOf": 1
+              "maximum": 2
             },
             {
               "type": "object",
@@ -134,10 +121,7 @@
               ],
               "properties": {
                 "requireReturn": {
-                  "enum": [
-                    false,
-                    true
-                  ]
+                  "type": "boolean"
                 }
               }
             }

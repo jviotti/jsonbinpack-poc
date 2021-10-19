@@ -82,5 +82,14 @@ export const RULES: SimplificationRule[] = [
     transform: (schema: ObjectSchema): ObjectSchema => {
       return Object.assign(schema, { minLength: 0 })
     }
+  },
+  {
+    id: 'implicit-object-lower-bound',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'object' && !('minProperties' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, { minProperties: 0 })
+    }
   }
 ]

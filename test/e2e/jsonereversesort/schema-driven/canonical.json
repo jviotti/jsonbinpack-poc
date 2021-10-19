@@ -19,8 +19,7 @@
             "type": "integer",
             "minimum": 0,
             "multipleOf": 10
-          },
-          "minItems": 0
+          }
         }
       }
     },
@@ -47,14 +46,12 @@
               ],
               "properties": {
                 "$eval": {
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 }
               }
             },
             "by(x)": {
-              "type": "string",
-              "minLength": 0
+              "type": "string"
             }
           }
         }

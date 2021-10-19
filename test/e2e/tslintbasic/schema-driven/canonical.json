@@ -27,10 +27,7 @@
               ],
               "properties": {
                 "grouped-imports": {
-                  "enum": [
-                    false,
-                    true
-                  ]
+                  "type": "boolean"
                 }
               }
             }

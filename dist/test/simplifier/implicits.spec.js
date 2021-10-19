@@ -21,6 +21,7 @@ tap_1.default.test('should convert a schema without type into a type union', fun
             },
             {
                 type: 'object',
+                minProperties: 0,
                 minimum: 5
             },
             {

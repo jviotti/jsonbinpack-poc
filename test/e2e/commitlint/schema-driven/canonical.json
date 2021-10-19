@@ -20,8 +20,7 @@
           "prefixItems": [
             {
               "type": "integer",
-              "minimum": 0,
-              "multipleOf": 1
+              "minimum": 0
             },
             {
               "enum": [
@@ -32,10 +31,8 @@
             {
               "type": "array",
               "items": {
-                "type": "string",
-                "minLength": 0
-              },
-              "minItems": 0
+                "type": "string"
+              }
             }
           ]
         },
@@ -46,8 +43,7 @@
           "prefixItems": [
             {
               "type": "integer",
-              "minimum": 0,
-              "multipleOf": 1
+              "minimum": 0
             },
             {
               "enum": [
@@ -58,10 +54,8 @@
             {
               "type": "array",
               "items": {
-                "type": "string",
-                "minLength": 0
-              },
-              "minItems": 0
+                "type": "string"
+              }
             }
           ]
         }

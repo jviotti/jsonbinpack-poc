@@ -84,7 +84,8 @@
                           true
                         ]
                       }
-                    }
+                    },
+                    "minProperties": 0
                   },
                   "encoding": {
                     "type": "object",
@@ -150,9 +151,11 @@
                             "type": "string",
                             "minLength": 0
                           }
-                        }
+                        },
+                        "minProperties": 0
                       }
-                    }
+                    },
+                    "minProperties": 0
                   },
                   "encoding": {
                     "type": "object",
@@ -209,7 +212,8 @@
                 {
                   "schema": {
                     "type": "object",
-                    "additionalProperties": false
+                    "additionalProperties": false,
+                    "minProperties": 0
                   },
                   "encoding": {
                     "type": "object",
