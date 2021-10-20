@@ -174,3 +174,38 @@ tap.test('should remove items if prefixItems covers maxItems', (test) => {
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
+
+tap.test('should remove if when the then and else keywords are missing', (test) => {
+  const schema: Schema = {
+    type: 'number',
+    if: {
+      type: 'integer'
+    }
+  }
+
+  const result: Schema = {
+    type: 'number'
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
+tap.test('should remove then and else when no if', (test) => {
+  const schema: Schema = {
+    type: 'number',
+    then: {
+      type: 'integer'
+    },
+    else: {
+      type: 'array'
+    }
+  }
+
+  const result: Schema = {
+    type: 'number'
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})

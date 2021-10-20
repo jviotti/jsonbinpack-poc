@@ -77,5 +77,26 @@ exports.RULES = [
                 minProperties: schema.required.length
             });
         }
+    },
+    {
+        id: 'if-without-then-and-else',
+        condition: function (schema) {
+            return 'if' in schema && !('then' in schema) && !('else' in schema);
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'if');
+            return schema;
+        }
+    },
+    {
+        id: 'then-else-without-if',
+        condition: function (schema) {
+            return !('if' in schema) && ('then' in schema || 'else' in schema);
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'then');
+            Reflect.deleteProperty(schema, 'else');
+            return schema;
+        }
     }
 ];

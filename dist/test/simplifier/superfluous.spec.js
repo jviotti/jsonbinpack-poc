@@ -135,3 +135,32 @@ tap_1.default.test('should remove items if prefixItems covers maxItems', functio
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();
 });
+tap_1.default.test('should remove if when the then and else keywords are missing', function (test) {
+    var schema = {
+        type: 'number',
+        if: {
+            type: 'integer'
+        }
+    };
+    var result = {
+        type: 'number'
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});
+tap_1.default.test('should remove then and else when no if', function (test) {
+    var schema = {
+        type: 'number',
+        then: {
+            type: 'integer'
+        },
+        else: {
+            type: 'array'
+        }
+    };
+    var result = {
+        type: 'number'
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});

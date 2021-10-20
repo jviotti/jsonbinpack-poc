@@ -111,5 +111,26 @@ export const RULES: SimplificationRule[] = [
         minProperties: schema.required.length
       })
     }
+  },
+  {
+    id: 'if-without-then-and-else',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return 'if' in schema && !('then' in schema) && !('else' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'if')
+      return schema
+    }
+  },
+  {
+    id: 'then-else-without-if',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return !('if' in schema) && ('then' in schema || 'else' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'then')
+      Reflect.deleteProperty(schema, 'else')
+      return schema
+    }
   }
 ]
