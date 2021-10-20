@@ -19,3 +19,27 @@ tap_1.default.test('should remove contentSchema if no contentMediaType', functio
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();
 });
+tap_1.default.test('should remove minContains if no contains', function (test) {
+    var schema = {
+        type: 'array',
+        minContains: 4
+    };
+    var result = {
+        type: 'array',
+        minItems: 0
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});
+tap_1.default.test('should remove maxContains if no contains', function (test) {
+    var schema = {
+        type: 'array',
+        maxContains: 4
+    };
+    var result = {
+        type: 'array',
+        minItems: 0
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});

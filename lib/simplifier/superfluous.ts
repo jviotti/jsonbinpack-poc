@@ -36,5 +36,17 @@ export const RULES: SimplificationRule[] = [
       Reflect.deleteProperty(schema, 'contentSchema')
       return schema
     }
+  },
+  {
+    id: 'max-min-contains-without-contains',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return !('contains' in schema) &&
+        ('minContains' in schema || 'maxContains' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'minContains')
+      Reflect.deleteProperty(schema, 'maxContains')
+      return schema
+    }
   }
 ]

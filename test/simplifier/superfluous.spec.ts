@@ -40,3 +40,33 @@ tap.test('should remove contentSchema if no contentMediaType', (test) => {
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
+
+tap.test('should remove minContains if no contains', (test) => {
+  const schema: Schema = {
+    type: 'array',
+    minContains: 4
+  }
+
+  const result: Schema = {
+    type: 'array',
+    minItems: 0
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
+tap.test('should remove maxContains if no contains', (test) => {
+  const schema: Schema = {
+    type: 'array',
+    maxContains: 4
+  }
+
+  const result: Schema = {
+    type: 'array',
+    minItems: 0
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})

@@ -11,5 +11,17 @@ exports.RULES = [
             Reflect.deleteProperty(schema, 'contentSchema');
             return schema;
         }
+    },
+    {
+        id: 'max-min-contains-without-contains',
+        condition: function (schema) {
+            return !('contains' in schema) &&
+                ('minContains' in schema || 'maxContains' in schema);
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'minContains');
+            Reflect.deleteProperty(schema, 'maxContains');
+            return schema;
+        }
     }
 ];
