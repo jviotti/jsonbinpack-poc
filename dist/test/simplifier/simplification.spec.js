@@ -45,3 +45,20 @@ tap_1.default.test('should convert empty string to enum', function (test) {
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();
 });
+tap_1.default.test('should inline true dependent required keys', function (test) {
+    var schema = {
+        type: 'object',
+        required: ['foo', 'bar'],
+        dependentRequired: {
+            bar: ['baz']
+        }
+    };
+    var result = {
+        type: 'object',
+        required: ['foo', 'bar', 'baz'],
+        dependentRequired: {},
+        minProperties: 0
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});
