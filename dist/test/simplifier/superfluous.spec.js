@@ -164,3 +164,39 @@ tap_1.default.test('should remove then and else when no if', function (test) {
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();
 });
+tap_1.default.test('should remove an empty required', function (test) {
+    var schema = {
+        type: 'object',
+        required: []
+    };
+    var result = {
+        type: 'object',
+        minProperties: 0
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});
+tap_1.default.test('should remove an empty properties', function (test) {
+    var schema = {
+        type: 'object',
+        properties: {}
+    };
+    var result = {
+        type: 'object',
+        minProperties: 0
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});
+tap_1.default.test('should remove an empty patternProperties', function (test) {
+    var schema = {
+        type: 'object',
+        patternProperties: {}
+    };
+    var result = {
+        type: 'object',
+        minProperties: 0
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});

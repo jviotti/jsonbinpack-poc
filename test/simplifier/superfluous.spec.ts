@@ -209,3 +209,48 @@ tap.test('should remove then and else when no if', (test) => {
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
+
+tap.test('should remove an empty required', (test) => {
+  const schema: Schema = {
+    type: 'object',
+    required: []
+  }
+
+  const result: Schema = {
+    type: 'object',
+    minProperties: 0
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
+tap.test('should remove an empty properties', (test) => {
+  const schema: Schema = {
+    type: 'object',
+    properties: {}
+  }
+
+  const result: Schema = {
+    type: 'object',
+    minProperties: 0
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
+tap.test('should remove an empty patternProperties', (test) => {
+  const schema: Schema = {
+    type: 'object',
+    patternProperties: {}
+  }
+
+  const result: Schema = {
+    type: 'object',
+    minProperties: 0
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})

@@ -98,5 +98,41 @@ exports.RULES = [
             Reflect.deleteProperty(schema, 'else');
             return schema;
         }
+    },
+    {
+        id: 'empty-required',
+        condition: function (schema) {
+            return Array.isArray(schema.required) && schema.required.length === 0;
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'required');
+            return schema;
+        }
+    },
+    {
+        id: 'empty-properties',
+        condition: function (schema) {
+            return typeof schema.properties === 'object' &&
+                !Array.isArray(schema.properties) &&
+                schema.properties !== null &&
+                Object.keys(schema.properties).length === 0;
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'properties');
+            return schema;
+        }
+    },
+    {
+        id: 'empty-pattern-properties',
+        condition: function (schema) {
+            return typeof schema.patternProperties === 'object' &&
+                !Array.isArray(schema.patternProperties) &&
+                schema.patternProperties !== null &&
+                Object.keys(schema.patternProperties).length === 0;
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'patternProperties');
+            return schema;
+        }
     }
 ];
