@@ -47,9 +47,17 @@ import {
   RULES as RULES_SIMPLIFICATION
 } from './simplification'
 
+import {
+  RULES as RULES_SUPERFLUOUS
+} from './superfluous'
+
 // The concatenation of all rules
-const SIMPLIFICATION_RULES: SimplificationRule[] =
-  [ ...RULES_SYNTAX_SUGAR, ...RULES_IMPLICITS, ...RULES_SIMPLIFICATION ]
+const SIMPLIFICATION_RULES: SimplificationRule[] = [
+  ...RULES_SYNTAX_SUGAR,
+  ...RULES_IMPLICITS,
+  ...RULES_SIMPLIFICATION,
+  ...RULES_SUPERFLUOUS
+]
 
 // Runtime validation to ensure that rules do not contain
 // duplicated identifiers.

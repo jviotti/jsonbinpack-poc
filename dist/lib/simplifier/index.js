@@ -39,7 +39,8 @@ var lodash_1 = require("lodash");
 var syntax_sugar_1 = require("./syntax-sugar");
 var implicits_1 = require("./implicits");
 var simplification_1 = require("./simplification");
-var SIMPLIFICATION_RULES = __spreadArray(__spreadArray(__spreadArray([], __read(syntax_sugar_1.RULES)), __read(implicits_1.RULES)), __read(simplification_1.RULES));
+var superfluous_1 = require("./superfluous");
+var SIMPLIFICATION_RULES = __spreadArray(__spreadArray(__spreadArray(__spreadArray([], __read(syntax_sugar_1.RULES)), __read(implicits_1.RULES)), __read(simplification_1.RULES)), __read(superfluous_1.RULES));
 try {
     for (var _c = __values(SIMPLIFICATION_RULES.entries()), _d = _c.next(); !_d.done; _d = _c.next()) {
         var _e = __read(_d.value, 2), index = _e[0], rule = _e[1];
