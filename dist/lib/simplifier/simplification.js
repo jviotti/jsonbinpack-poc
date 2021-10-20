@@ -86,20 +86,18 @@ exports.RULES = [
             try {
                 for (var _c = __values(lodash_1.intersection(Object.keys(schema.dependentRequired), schema.required)), _d = _c.next(); !_d.done; _d = _c.next()) {
                     var name_1 = _d.value;
-                    var keys = schema.dependentRequired[name_1];
                     try {
-                        for (var keys_1 = (e_2 = void 0, __values(keys)), keys_1_1 = keys_1.next(); !keys_1_1.done; keys_1_1 = keys_1.next()) {
-                            var key = keys_1_1.value;
-                            if (schema.required.includes(key)) {
-                                continue;
+                        for (var _e = (e_2 = void 0, __values(schema.dependentRequired[name_1])), _f = _e.next(); !_f.done; _f = _e.next()) {
+                            var key = _f.value;
+                            if (!schema.required.includes(key)) {
+                                schema.required.push(key);
                             }
-                            schema.required.push(key);
                         }
                     }
                     catch (e_2_1) { e_2 = { error: e_2_1 }; }
                     finally {
                         try {
-                            if (keys_1_1 && !keys_1_1.done && (_b = keys_1.return)) _b.call(keys_1);
+                            if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
                         }
                         finally { if (e_2) throw e_2.error; }
                     }

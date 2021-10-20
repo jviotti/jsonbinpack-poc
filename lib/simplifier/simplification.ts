@@ -104,13 +104,10 @@ export const RULES: SimplificationRule[] = [
         schema.dependentRequired !== null)
 
       for (const name of intersection(Object.keys(schema.dependentRequired), schema.required)) {
-        const keys: string[] = schema.dependentRequired[name]
-        for (const key of keys) {
-          if (schema.required.includes(key)) {
-            continue
+        for (const key of schema.dependentRequired[name]) {
+          if (!schema.required.includes(key)) {
+            schema.required.push(key)
           }
-
-          schema.required.push(key)
         }
 
         Reflect.deleteProperty(schema.dependentRequired, name)
