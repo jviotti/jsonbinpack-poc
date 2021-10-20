@@ -1,6 +1,19 @@
 "use strict";
+var __values = (this && this.__values) || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RULES = void 0;
+var assert_1 = require("assert");
+var lodash_1 = require("lodash");
 exports.RULES = [
     {
         id: 'equal-numeric-bounds-as-const',
@@ -54,6 +67,53 @@ exports.RULES = [
             return Object.assign(schema, {
                 const: {}
             });
+        }
+    },
+    {
+        id: 'dependent-required-tautology',
+        condition: function (schema) {
+            return typeof schema.dependentRequired === 'object' &&
+                !Array.isArray(schema.dependentRequired) &&
+                schema.dependentRequired !== null && Array.isArray(schema.required) &&
+                lodash_1.intersection(Object.keys(schema.dependentRequired), schema.required).length > 0;
+        },
+        transform: function (schema) {
+            var e_1, _a, e_2, _b;
+            assert_1.strict(Array.isArray(schema.required));
+            assert_1.strict(typeof schema.dependentRequired === 'object' &&
+                !Array.isArray(schema.dependentRequired) &&
+                schema.dependentRequired !== null);
+            try {
+                for (var _c = __values(lodash_1.intersection(Object.keys(schema.dependentRequired), schema.required)), _d = _c.next(); !_d.done; _d = _c.next()) {
+                    var name_1 = _d.value;
+                    var keys = schema.dependentRequired[name_1];
+                    try {
+                        for (var keys_1 = (e_2 = void 0, __values(keys)), keys_1_1 = keys_1.next(); !keys_1_1.done; keys_1_1 = keys_1.next()) {
+                            var key = keys_1_1.value;
+                            if (schema.required.includes(key)) {
+                                continue;
+                            }
+                            schema.required.push(key);
+                        }
+                    }
+                    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                    finally {
+                        try {
+                            if (keys_1_1 && !keys_1_1.done && (_b = keys_1.return)) _b.call(keys_1);
+                        }
+                        finally { if (e_2) throw e_2.error; }
+                    }
+                    Reflect.deleteProperty(schema.dependentRequired, name_1);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+            return schema;
         }
     }
 ];

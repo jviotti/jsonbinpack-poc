@@ -72,3 +72,23 @@ tap.test('should convert empty string to enum', (test) => {
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
+
+tap.test('should inline true dependent required keys', (test) => {
+  const schema: Schema = {
+    type: 'object',
+    required: [ 'foo', 'bar' ],
+    dependentRequired: {
+      bar: [ 'baz' ]
+    }
+  }
+
+  const result: Schema = {
+    type: 'object',
+    required: [ 'foo', 'bar', 'baz' ],
+    dependentRequired: {},
+    minProperties: 0
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})

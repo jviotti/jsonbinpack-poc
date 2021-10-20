@@ -15,6 +15,14 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
+  intersection
+} from 'lodash'
+
+import {
   JSONBoolean
 } from '../json'
 
@@ -79,6 +87,36 @@ export const RULES: SimplificationRule[] = [
       return Object.assign(schema, {
         const: {}
       })
+    }
+  },
+  {
+    id: 'dependent-required-tautology',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return typeof schema.dependentRequired === 'object' &&
+        !Array.isArray(schema.dependentRequired) &&
+        schema.dependentRequired !== null && Array.isArray(schema.required) &&
+        intersection(Object.keys(schema.dependentRequired), schema.required).length > 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      assert(Array.isArray(schema.required))
+      assert(typeof schema.dependentRequired === 'object' &&
+        !Array.isArray(schema.dependentRequired) &&
+        schema.dependentRequired !== null)
+
+      for (const name of intersection(Object.keys(schema.dependentRequired), schema.required)) {
+        const keys: string[] = schema.dependentRequired[name]
+        for (const key of keys) {
+          if (schema.required.includes(key)) {
+            continue
+          }
+
+          schema.required.push(key)
+        }
+
+        Reflect.deleteProperty(schema.dependentRequired, name)
+      }
+
+      return schema
     }
   }
 ]
