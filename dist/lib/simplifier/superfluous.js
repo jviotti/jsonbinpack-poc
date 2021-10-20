@@ -23,5 +23,17 @@ exports.RULES = [
             Reflect.deleteProperty(schema, 'maxContains');
             return schema;
         }
+    },
+    {
+        id: 'unsatisfiable-max-contains',
+        condition: function (schema) {
+            return typeof schema.maxContains === 'number' &&
+                typeof schema.maxItems === 'number' &&
+                schema.maxContains >= schema.maxItems;
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'maxContains');
+            return schema;
+        }
     }
 ];

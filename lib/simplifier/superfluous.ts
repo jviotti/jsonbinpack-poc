@@ -48,5 +48,17 @@ export const RULES: SimplificationRule[] = [
       Reflect.deleteProperty(schema, 'maxContains')
       return schema
     }
+  },
+  {
+    id: 'unsatisfiable-max-contains',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return typeof schema.maxContains === 'number' &&
+        typeof schema.maxItems === 'number' &&
+        schema.maxContains >= schema.maxItems
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'maxContains')
+      return schema
+    }
   }
 ]
