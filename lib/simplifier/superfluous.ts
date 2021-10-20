@@ -80,5 +80,18 @@ export const RULES: SimplificationRule[] = [
       Reflect.deleteProperty(schema, 'uniqueItems')
       return schema
     }
+  },
+  {
+    id: 'total-prefix-items',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return Array.isArray(schema.prefixItems) &&
+        typeof schema.maxItems === 'number' &&
+        'items' in schema &&
+        schema.maxItems <= schema.prefixItems.length
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'items')
+      return schema
+    }
   }
 ]

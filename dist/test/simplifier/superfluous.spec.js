@@ -71,3 +71,67 @@ tap_1.default.test('a array with one element is unique by definition', function 
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();
 });
+tap_1.default.test('should remove items if prefixItems covers maxItems exactly', function (test) {
+    var schema = {
+        type: 'array',
+        prefixItems: [
+            {
+                type: 'number'
+            },
+            {
+                type: 'number'
+            }
+        ],
+        items: {
+            type: 'object'
+        },
+        maxItems: 2
+    };
+    var result = {
+        type: 'array',
+        minItems: 0,
+        prefixItems: [
+            {
+                type: 'number'
+            },
+            {
+                type: 'number'
+            }
+        ],
+        maxItems: 2
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});
+tap_1.default.test('should remove items if prefixItems covers maxItems', function (test) {
+    var schema = {
+        type: 'array',
+        prefixItems: [
+            {
+                type: 'number'
+            },
+            {
+                type: 'number'
+            }
+        ],
+        items: {
+            type: 'object'
+        },
+        maxItems: 1
+    };
+    var result = {
+        type: 'array',
+        minItems: 0,
+        prefixItems: [
+            {
+                type: 'number'
+            },
+            {
+                type: 'number'
+            }
+        ],
+        maxItems: 1
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});

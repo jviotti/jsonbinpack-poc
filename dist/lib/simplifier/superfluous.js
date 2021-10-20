@@ -49,5 +49,18 @@ exports.RULES = [
             Reflect.deleteProperty(schema, 'uniqueItems');
             return schema;
         }
+    },
+    {
+        id: 'total-prefix-items',
+        condition: function (schema) {
+            return Array.isArray(schema.prefixItems) &&
+                typeof schema.maxItems === 'number' &&
+                'items' in schema &&
+                schema.maxItems <= schema.prefixItems.length;
+        },
+        transform: function (schema) {
+            Reflect.deleteProperty(schema, 'items');
+            return schema;
+        }
     }
 ];
