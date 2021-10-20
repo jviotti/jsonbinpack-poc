@@ -70,3 +70,37 @@ tap.test('should remove maxContains if no contains', (test) => {
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
+
+tap.test('an empty array is unique by definition', (test) => {
+  const schema: Schema = {
+    type: 'array',
+    uniqueItems: true,
+    maxItems: 0
+  }
+
+  const result: Schema = {
+    type: 'array',
+    minItems: 0,
+    enum: [ [] ]
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
+
+tap.test('a array with one element is unique by definition', (test) => {
+  const schema: Schema = {
+    type: 'array',
+    uniqueItems: true,
+    maxItems: 1
+  }
+
+  const result: Schema = {
+    type: 'array',
+    minItems: 0,
+    maxItems: 1
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})

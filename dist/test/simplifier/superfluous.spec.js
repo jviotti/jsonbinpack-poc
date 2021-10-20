@@ -43,3 +43,31 @@ tap_1.default.test('should remove maxContains if no contains', function (test) {
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();
 });
+tap_1.default.test('an empty array is unique by definition', function (test) {
+    var schema = {
+        type: 'array',
+        uniqueItems: true,
+        maxItems: 0
+    };
+    var result = {
+        type: 'array',
+        minItems: 0,
+        enum: [[]]
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});
+tap_1.default.test('a array with one element is unique by definition', function (test) {
+    var schema = {
+        type: 'array',
+        uniqueItems: true,
+        maxItems: 1
+    };
+    var result = {
+        type: 'array',
+        minItems: 0,
+        maxItems: 1
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});

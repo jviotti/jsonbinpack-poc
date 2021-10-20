@@ -60,5 +60,25 @@ export const RULES: SimplificationRule[] = [
       Reflect.deleteProperty(schema, 'maxContains')
       return schema
     }
+  },
+  {
+    id: 'implied-array-uniqueness',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      const hasUniqueItems: boolean =
+        typeof schema.uniqueItems === 'boolean' && schema.uniqueItems
+
+      // The below branches are in case the rule that removes maxItems = 0
+      // in an array runs before this rule.
+      return hasUniqueItems && (
+        (typeof schema.maxItems === 'number' && schema.maxItems <= 1) ||
+        (Array.isArray(schema.const) && schema.const.length <= 1) ||
+        (Array.isArray(schema.enum) && schema.enum.length === 1 &&
+          Array.isArray(schema.enum[0]) && schema.enum[0].length <= 1)
+      )
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      Reflect.deleteProperty(schema, 'uniqueItems')
+      return schema
+    }
   }
 ]
