@@ -85,7 +85,7 @@
                                                 ]
                                             }
                                         },
-                                        "minProperties": 0
+                                        "minProperties": 2
                                     },
                                     "encoding": {
                                         "type": "object",
@@ -152,10 +152,10 @@
                                                         "minLength": 0
                                                     }
                                                 },
-                                                "minProperties": 0
+                                                "minProperties": 1
                                             }
                                         },
-                                        "minProperties": 0
+                                        "minProperties": 3
                                     },
                                     "encoding": {
                                         "type": "object",
