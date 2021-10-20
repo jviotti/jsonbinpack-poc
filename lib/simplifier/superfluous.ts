@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   JSONBoolean
 } from '../json'
 
@@ -92,6 +96,20 @@ export const RULES: SimplificationRule[] = [
     transform: (schema: ObjectSchema): ObjectSchema => {
       Reflect.deleteProperty(schema, 'items')
       return schema
+    }
+  },
+  {
+    id: 'min-properties-tautology',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return typeof schema.minProperties === 'number' &&
+        Array.isArray(schema.required) &&
+        schema.required.length > schema.minProperties
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      assert(Array.isArray(schema.required))
+      return Object.assign(schema, {
+        minProperties: schema.required.length
+      })
     }
   }
 ]

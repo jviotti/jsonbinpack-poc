@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RULES = void 0;
+var assert_1 = require("assert");
 exports.RULES = [
     {
         id: 'content-schema-without-content-media-type',
@@ -61,6 +62,20 @@ exports.RULES = [
         transform: function (schema) {
             Reflect.deleteProperty(schema, 'items');
             return schema;
+        }
+    },
+    {
+        id: 'min-properties-tautology',
+        condition: function (schema) {
+            return typeof schema.minProperties === 'number' &&
+                Array.isArray(schema.required) &&
+                schema.required.length > schema.minProperties;
+        },
+        transform: function (schema) {
+            assert_1.strict(Array.isArray(schema.required));
+            return Object.assign(schema, {
+                minProperties: schema.required.length
+            });
         }
     }
 ];

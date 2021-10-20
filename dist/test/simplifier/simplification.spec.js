@@ -57,7 +57,7 @@ tap_1.default.test('should inline true dependent required keys', function (test)
         type: 'object',
         required: ['foo', 'bar', 'baz'],
         dependentRequired: {},
-        minProperties: 0
+        minProperties: 3
     };
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();

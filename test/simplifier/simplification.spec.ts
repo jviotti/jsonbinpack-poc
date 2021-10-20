@@ -86,7 +86,7 @@ tap.test('should inline true dependent required keys', (test) => {
     type: 'object',
     required: [ 'foo', 'bar', 'baz' ],
     dependentRequired: {},
-    minProperties: 0
+    minProperties: 3
   }
 
   test.strictSame(simplifySchema(schema), result)
