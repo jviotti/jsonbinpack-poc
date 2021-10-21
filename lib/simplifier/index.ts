@@ -51,12 +51,17 @@ import {
   RULES as RULES_SUPERFLUOUS
 } from './superfluous'
 
+import {
+  RULES as RULES_HETEROGENEOUS
+} from './heterogeneous'
+
 // The concatenation of all rules
 const SIMPLIFICATION_RULES: SimplificationRule[] = [
   ...RULES_SYNTAX_SUGAR,
   ...RULES_IMPLICITS,
   ...RULES_SIMPLIFICATION,
-  ...RULES_SUPERFLUOUS
+  ...RULES_SUPERFLUOUS,
+  ...RULES_HETEROGENEOUS
 ]
 
 // Runtime validation to ensure that rules do not contain
