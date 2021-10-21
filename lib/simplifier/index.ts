@@ -55,13 +55,18 @@ import {
   RULES as RULES_HETEROGENEOUS
 } from './heterogeneous'
 
+import {
+  RULES as RULES_UNRECOGNIZED
+} from './unrecognized'
+
 // The concatenation of all rules
 const SIMPLIFICATION_RULES: SimplificationRule[] = [
   ...RULES_SYNTAX_SUGAR,
   ...RULES_IMPLICITS,
   ...RULES_SIMPLIFICATION,
   ...RULES_SUPERFLUOUS,
-  ...RULES_HETEROGENEOUS
+  ...RULES_HETEROGENEOUS,
+  ...RULES_UNRECOGNIZED
 ]
 
 // Runtime validation to ensure that rules do not contain
