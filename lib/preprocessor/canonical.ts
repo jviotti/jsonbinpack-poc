@@ -15,13 +15,8 @@
  */
 
 import {
-  strict as assert
-} from 'assert'
-
-import {
   pick,
   omit,
-  mapValues,
   merge,
   uniqWith,
   isEqual,
@@ -88,66 +83,6 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
     return {
       enum: schema.enum
     }
-  }
-
-  if (typeof schema.items !== 'undefined') {
-    assert(typeof schema.items === 'boolean' || (
-      typeof schema.items === 'object' &&
-      !Array.isArray(schema.items) &&
-      schema.items !== null
-    ))
-    Reflect.set(schema, 'items', canonicalizeSchema(schema.items))
-  }
-
-  if (typeof schema.additionalProperties !== 'undefined') {
-    assert(typeof schema.additionalProperties === 'boolean' || (
-      typeof schema.additionalProperties === 'object' &&
-      !Array.isArray(schema.additionalProperties) &&
-      schema.additionalProperties !== null
-    ))
-
-    if (schema.additionalProperties !== false) {
-      Reflect.set(schema, 'additionalProperties',
-        canonicalizeSchema(schema.additionalProperties))
-    }
-  }
-
-  if (typeof schema.properties !== 'undefined') {
-    assert(typeof schema.properties === 'object' &&
-      !Array.isArray(schema.properties) &&
-      schema.properties !== null)
-
-    Reflect.set(schema, 'properties',
-      mapValues(schema.properties, (subschema) => {
-        assert(typeof subschema === 'boolean' ||
-          (typeof subschema === 'object' &&
-          !Array.isArray(subschema) &&
-          subschema !== null))
-        return canonicalizeSchema(subschema)
-      }))
-  }
-
-  if (typeof schema.propertyNames !== 'undefined') {
-    assert(typeof schema.propertyNames === 'boolean' || (
-      typeof schema.propertyNames === 'object' &&
-      !Array.isArray(schema.propertyNames) &&
-      schema.propertyNames !== null
-    ))
-    Reflect.set(schema, 'propertyNames',
-      canonicalizeSchema(schema.propertyNames))
-  }
-
-  if (typeof schema.prefixItems !== 'undefined') {
-    assert(Array.isArray(schema.prefixItems))
-    Reflect.set(schema, 'prefixItems', schema.prefixItems.map((subschema) => {
-      assert(typeof subschema === 'boolean' || (
-        typeof subschema === 'object' &&
-        !Array.isArray(subschema) &&
-        subschema !== null
-      ))
-
-      return canonicalizeSchema(subschema)
-    }))
   }
 
   if (Array.isArray(schema.allOf)) {

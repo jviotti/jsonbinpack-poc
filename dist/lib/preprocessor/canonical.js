@@ -33,7 +33,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.canonicalizeSchema = void 0;
-var assert_1 = require("assert");
 var lodash_1 = require("lodash");
 var SCHEMA_BOOLEAN_KEYS = ['type'];
 var SCHEMA_INTEGER_KEYS = ['type', 'minimum', 'maximum', 'multipleOf'];
@@ -55,47 +54,6 @@ var canonicalizeSchema = function (schema) {
         return {
             enum: schema.enum
         };
-    }
-    if (typeof schema.items !== 'undefined') {
-        assert_1.strict(typeof schema.items === 'boolean' || (typeof schema.items === 'object' &&
-            !Array.isArray(schema.items) &&
-            schema.items !== null));
-        Reflect.set(schema, 'items', exports.canonicalizeSchema(schema.items));
-    }
-    if (typeof schema.additionalProperties !== 'undefined') {
-        assert_1.strict(typeof schema.additionalProperties === 'boolean' || (typeof schema.additionalProperties === 'object' &&
-            !Array.isArray(schema.additionalProperties) &&
-            schema.additionalProperties !== null));
-        if (schema.additionalProperties !== false) {
-            Reflect.set(schema, 'additionalProperties', exports.canonicalizeSchema(schema.additionalProperties));
-        }
-    }
-    if (typeof schema.properties !== 'undefined') {
-        assert_1.strict(typeof schema.properties === 'object' &&
-            !Array.isArray(schema.properties) &&
-            schema.properties !== null);
-        Reflect.set(schema, 'properties', lodash_1.mapValues(schema.properties, function (subschema) {
-            assert_1.strict(typeof subschema === 'boolean' ||
-                (typeof subschema === 'object' &&
-                    !Array.isArray(subschema) &&
-                    subschema !== null));
-            return exports.canonicalizeSchema(subschema);
-        }));
-    }
-    if (typeof schema.propertyNames !== 'undefined') {
-        assert_1.strict(typeof schema.propertyNames === 'boolean' || (typeof schema.propertyNames === 'object' &&
-            !Array.isArray(schema.propertyNames) &&
-            schema.propertyNames !== null));
-        Reflect.set(schema, 'propertyNames', exports.canonicalizeSchema(schema.propertyNames));
-    }
-    if (typeof schema.prefixItems !== 'undefined') {
-        assert_1.strict(Array.isArray(schema.prefixItems));
-        Reflect.set(schema, 'prefixItems', schema.prefixItems.map(function (subschema) {
-            assert_1.strict(typeof subschema === 'boolean' || (typeof subschema === 'object' &&
-                !Array.isArray(subschema) &&
-                subschema !== null));
-            return exports.canonicalizeSchema(subschema);
-        }));
     }
     if (Array.isArray(schema.allOf)) {
         return exports.canonicalizeSchema(lodash_1.merge.apply(void 0, __spreadArray([{}], __read(schema.allOf))));
