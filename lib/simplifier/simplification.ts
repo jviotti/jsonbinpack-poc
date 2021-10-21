@@ -19,7 +19,9 @@ import {
 } from 'assert'
 
 import {
-  intersection
+  intersection,
+  uniqWith,
+  isEqual
 } from 'lodash'
 
 import {
@@ -114,6 +116,34 @@ export const RULES: SimplificationRule[] = [
       }
 
       return schema
+    }
+  },
+  {
+    id: 'duplicate-allof-branches',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return Array.isArray(schema.allOf) &&
+        uniqWith(schema.allOf, isEqual).length !== schema.allOf.length
+      return schema.type === 'object' &&
+        'maxProperties' in schema && schema.maxProperties === 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, {
+        allOf: uniqWith(schema.allOf, isEqual)
+      })
+    }
+  },
+  {
+    id: 'duplicate-anyof-branches',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return Array.isArray(schema.anyOf) &&
+        uniqWith(schema.anyOf, isEqual).length !== schema.anyOf.length
+      return schema.type === 'object' &&
+        'maxProperties' in schema && schema.maxProperties === 0
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, {
+        anyOf: uniqWith(schema.anyOf, isEqual)
+      })
     }
   }
 ]

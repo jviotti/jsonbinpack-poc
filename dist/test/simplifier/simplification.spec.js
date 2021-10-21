@@ -62,3 +62,31 @@ tap_1.default.test('should inline true dependent required keys', function (test)
     test.strictSame(simplifier_1.simplifySchema(schema), result);
     test.end();
 });
+tap_1.default.test('should collapse duplicate allOf branches', function (test) {
+    var schema = {
+        allOf: [
+            {
+                type: 'number'
+            },
+            {
+                type: 'string'
+            },
+            {
+                type: 'number'
+            }
+        ]
+    };
+    var result = {
+        allOf: [
+            {
+                type: 'number'
+            },
+            {
+                type: 'string',
+                minLength: 0
+            }
+        ]
+    };
+    test.strictSame(simplifier_1.simplifySchema(schema), result);
+    test.end();
+});

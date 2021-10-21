@@ -113,5 +113,47 @@ exports.RULES = [
             }
             return schema;
         }
+    },
+    {
+        id: 'duplicate-allof-branches',
+        condition: function (schema) {
+            return Array.isArray(schema.allOf) &&
+                lodash_1.uniqWith(schema.allOf, lodash_1.isEqual).length !== schema.allOf.length;
+            return schema.type === 'object' &&
+                'maxProperties' in schema && schema.maxProperties === 0;
+        },
+        transform: function (schema) {
+            return Object.assign(schema, {
+                allOf: lodash_1.uniqWith(schema.allOf, lodash_1.isEqual)
+            });
+        }
+    },
+    {
+        id: 'duplicate-oneof-branches',
+        condition: function (schema) {
+            return Array.isArray(schema.oneOf) &&
+                lodash_1.uniqWith(schema.oneOf, lodash_1.isEqual).length !== schema.oneOf.length;
+            return schema.type === 'object' &&
+                'maxProperties' in schema && schema.maxProperties === 0;
+        },
+        transform: function (schema) {
+            return Object.assign(schema, {
+                oneOf: lodash_1.uniqWith(schema.oneOf, lodash_1.isEqual)
+            });
+        }
+    },
+    {
+        id: 'duplicate-anyof-branches',
+        condition: function (schema) {
+            return Array.isArray(schema.anyOf) &&
+                lodash_1.uniqWith(schema.anyOf, lodash_1.isEqual).length !== schema.anyOf.length;
+            return schema.type === 'object' &&
+                'maxProperties' in schema && schema.maxProperties === 0;
+        },
+        transform: function (schema) {
+            return Object.assign(schema, {
+                anyOf: lodash_1.uniqWith(schema.anyOf, lodash_1.isEqual)
+            });
+        }
     }
 ];

@@ -92,3 +92,34 @@ tap.test('should inline true dependent required keys', (test) => {
   test.strictSame(simplifySchema(schema), result)
   test.end()
 })
+
+tap.test('should collapse duplicate allOf branches', (test) => {
+  const schema: Schema = {
+    allOf: [
+      {
+        type: 'number'
+      },
+      {
+        type: 'string'
+      },
+      {
+        type: 'number'
+      }
+    ]
+  }
+
+  const result: Schema = {
+    allOf: [
+      {
+        type: 'number'
+      },
+      {
+        type: 'string',
+        minLength: 0
+      }
+    ]
+  }
+
+  test.strictSame(simplifySchema(schema), result)
+  test.end()
+})
