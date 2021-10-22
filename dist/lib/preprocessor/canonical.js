@@ -58,24 +58,7 @@ var canonicalizeSchema = function (schema) {
     if (Array.isArray(schema.allOf)) {
         return exports.canonicalizeSchema(lodash_1.merge.apply(void 0, __spreadArray([{}], __read(schema.allOf))));
     }
-    else if (Array.isArray(schema.oneOf)) {
-        var branches = schema.oneOf.map(function (choice) {
-            return exports.canonicalizeSchema(lodash_1.merge(lodash_1.cloneDeep(choice), lodash_1.omit(schema, ['oneOf'])));
-        });
-        var uniqueBranches = lodash_1.uniqWith(branches, lodash_1.isEqual);
-        if (uniqueBranches.length === 1) {
-            return uniqueBranches[0];
-        }
-        return schema;
-    }
-    else if (Array.isArray(schema.anyOf)) {
-        var branches = schema.anyOf.map(function (choice) {
-            return exports.canonicalizeSchema(lodash_1.merge(lodash_1.cloneDeep(choice), lodash_1.omit(schema, ['anyOf'])));
-        });
-        var uniqueBranches = lodash_1.uniqWith(branches, lodash_1.isEqual);
-        if (uniqueBranches.length === 1) {
-            return uniqueBranches[0];
-        }
+    else if (Array.isArray(schema.oneOf) || Array.isArray(schema.anyOf)) {
         return schema;
     }
     if (Array.isArray(schema.type)) {

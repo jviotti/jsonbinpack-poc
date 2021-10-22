@@ -16,12 +16,8 @@
 
 import {
   pick,
-  omit,
   merge,
-  uniqWith,
-  isEqual,
-  concat,
-  cloneDeep
+  concat
 } from 'lodash'
 
 import {
@@ -66,8 +62,6 @@ keyof ObjectEncodingSchema)[] = concat(
   SCHEMA_OBJECT_KEYS
 )
 
-// TODO: Turn this into its own standalone C++ library
-
 export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSchema => {
   // We can assume this is a truthy schema as otherwise nothing
   // will match, and therefore nothing could have been encoded
@@ -87,29 +81,7 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
 
   if (Array.isArray(schema.allOf)) {
     return canonicalizeSchema(merge({}, ...schema.allOf))
-  } else if (Array.isArray(schema.oneOf)) {
-    const branches: EncodingSchema[] = schema.oneOf.map((choice: JSONValue) => {
-      return canonicalizeSchema(merge(cloneDeep(choice), omit(schema, [ 'oneOf' ])))
-    })
-
-    // Attempt to collapse the oneOf as much as possible
-    const uniqueBranches: EncodingSchema[] = uniqWith(branches, isEqual)
-    if (uniqueBranches.length === 1) {
-      return uniqueBranches[0]
-    }
-
-    return schema
-  } else if (Array.isArray(schema.anyOf)) {
-    const branches: EncodingSchema[] = schema.anyOf.map((choice: JSONValue) => {
-      return canonicalizeSchema(merge(cloneDeep(choice), omit(schema, [ 'anyOf' ])))
-    })
-
-    // Attempt to collapse the anyOf as much as possible
-    const uniqueBranches: EncodingSchema[] = uniqWith(branches, isEqual)
-    if (uniqueBranches.length === 1) {
-      return uniqueBranches[0]
-    }
-
+  } else if (Array.isArray(schema.oneOf) || Array.isArray(schema.anyOf)) {
     return schema
   }
 
