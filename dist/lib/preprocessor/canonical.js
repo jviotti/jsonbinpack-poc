@@ -66,9 +66,7 @@ var canonicalizeSchema = function (schema) {
         if (uniqueBranches.length === 1) {
             return uniqueBranches[0];
         }
-        return {
-            oneOf: uniqueBranches
-        };
+        return schema;
     }
     else if (Array.isArray(schema.anyOf)) {
         var branches = schema.anyOf.map(function (choice) {
@@ -78,9 +76,7 @@ var canonicalizeSchema = function (schema) {
         if (uniqueBranches.length === 1) {
             return uniqueBranches[0];
         }
-        return {
-            anyOf: uniqueBranches
-        };
+        return schema;
     }
     if (Array.isArray(schema.type)) {
         return {

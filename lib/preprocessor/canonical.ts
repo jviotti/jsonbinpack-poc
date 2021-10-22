@@ -98,9 +98,7 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
       return uniqueBranches[0]
     }
 
-    return {
-      oneOf: uniqueBranches
-    }
+    return schema
   } else if (Array.isArray(schema.anyOf)) {
     const branches: EncodingSchema[] = schema.anyOf.map((choice: JSONValue) => {
       return canonicalizeSchema(merge(cloneDeep(choice), omit(schema, [ 'anyOf' ])))
@@ -112,9 +110,7 @@ export const canonicalizeSchema = (schema: JSONObject | JSONBoolean): EncodingSc
       return uniqueBranches[0]
     }
 
-    return {
-      anyOf: uniqueBranches
-    }
+    return schema
   }
 
   if (Array.isArray(schema.type)) {

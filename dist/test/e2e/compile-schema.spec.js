@@ -116,31 +116,33 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                 schema: {
                                     anyOf: [
                                         {
-                                            enum: [false, true]
-                                        },
-                                        {
-                                            type: 'integer',
                                             minimum: 2,
-                                            multipleOf: 1
-                                        },
-                                        {
                                             enum: [null]
                                         },
                                         {
-                                            type: 'number',
-                                            minimum: 2
+                                            minimum: 2,
+                                            enum: [false, true]
                                         },
                                         {
-                                            type: 'string',
-                                            minLength: 0
+                                            type: 'object',
+                                            minProperties: 0
                                         },
                                         {
                                             type: 'array',
                                             minItems: 0
                                         },
                                         {
-                                            type: 'object',
-                                            minProperties: 0
+                                            type: 'string',
+                                            minLength: 0
+                                        },
+                                        {
+                                            type: 'number',
+                                            minimum: 2
+                                        },
+                                        {
+                                            type: 'integer',
+                                            minimum: 2,
+                                            multipleOf: 1
                                         }
                                     ]
                                 },
