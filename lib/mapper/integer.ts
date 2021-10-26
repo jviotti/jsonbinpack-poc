@@ -110,12 +110,11 @@ export const getIntegerEncoding = (schema: IntegerEncodingSchema, _level: number
     typeof schema.maximum === 'undefined' ||
     schema.maximum >= schema.minimum)
 
-  if (typeof schema.minimum !== 'undefined' && typeof schema.maximum !== 'undefined') {
-    const absoluteMultiplier: number = Math.abs(schema.multipleOf ?? 1)
-    const enumMinimum: number = Math.ceil(schema.minimum / absoluteMultiplier)
-    const enumMaximum: number = Math.floor(schema.maximum / absoluteMultiplier)
+  const states: number | JSONValue[] = getIntegerStates(schema)
+  const statesLength = typeof states === 'number' ? states : states.length
 
-    if (enumMaximum - enumMinimum <= UINT8_MAX) {
+  if (typeof schema.minimum !== 'undefined' && typeof schema.maximum !== 'undefined') {
+    if (statesLength <= UINT8_MAX) {
       return {
         type: EncodingType.Integer,
         encoding: 'BOUNDED_MULTIPLE_8BITS_ENUM_FIXED',
