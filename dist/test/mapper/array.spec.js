@@ -4,11 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var tap_1 = __importDefault(require("tap"));
+var simplifier_1 = require("../../lib/simplifier");
 var mapper_1 = require("../../lib/mapper");
 tap_1.default.test('should encode an arbitrary array', function (test) {
-    var schema = {
+    var schema = simplifier_1.simplifySchema({
         type: 'array'
-    };
+    });
     var result = mapper_1.getEncoding(schema, 0);
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
@@ -49,10 +50,10 @@ tap_1.default.test('should encode an arbitrary array with minItems', function (t
     test.end();
 });
 tap_1.default.test('should encode an arbitrary array with maxItems = 256', function (test) {
-    var schema = {
+    var schema = simplifier_1.simplifySchema({
         type: 'array',
         maxItems: 256
-    };
+    });
     var result = mapper_1.getEncoding(schema, 0);
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
@@ -71,10 +72,10 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 256', funct
     test.end();
 });
 tap_1.default.test('should encode an arbitrary array with maxItems = 255', function (test) {
-    var schema = {
+    var schema = simplifier_1.simplifySchema({
         type: 'array',
         maxItems: 255
-    };
+    });
     var result = mapper_1.getEncoding(schema, 0);
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
@@ -94,10 +95,10 @@ tap_1.default.test('should encode an arbitrary array with maxItems = 255', funct
     test.end();
 });
 tap_1.default.test('should encode an arbitrary array with maxItems < 255', function (test) {
-    var schema = {
+    var schema = simplifier_1.simplifySchema({
         type: 'array',
         maxItems: 10
-    };
+    });
     var result = mapper_1.getEncoding(schema, 0);
     test.is(mapper_1.getStates(schema), Infinity);
     test.strictSame(result, {
@@ -167,6 +168,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems > 
 tap_1.default.test('should encode a semi-typed scalar heterogeneous array', function (test) {
     var schema = {
         type: 'array',
+        minItems: 0,
         prefixItems: [
             {
                 type: 'integer'
@@ -262,7 +264,8 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
         type: 'array',
         minItems: 5,
         items: {
-            type: 'array'
+            type: 'array',
+            minItems: 0
         },
         prefixItems: [
             {

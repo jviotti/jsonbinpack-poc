@@ -15,6 +15,10 @@
  */
 
 import {
+  strict as assert
+} from 'assert'
+
+import {
   range
 } from 'lodash'
 
@@ -150,100 +154,44 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     }, level)
   }
 
-  const encodingSchema: EncodingSchema | undefined = schema.items
   const prefixEncodings: Encoding[] =
     (schema.prefixItems ?? []).map((subschema: EncodingSchema) => {
       return getEncoding(subschema, level + 1)
     })
 
-  if (typeof encodingSchema === 'undefined') {
-    if (typeof schema.minItems !== 'undefined' &&
-      typeof schema.maxItems !== 'undefined') {
-      if (schema.maxItems - schema.minItems <= UINT8_MAX) {
-        return {
-          type: EncodingType.Array,
-          encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-          options: {
-            minimum: schema.minItems,
-            maximum: schema.maxItems,
-            prefixEncodings,
-            encoding: {
-              type: EncodingType.Any,
-              encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-              options: {}
-            }
-          }
-        }
-      }
+  // Canonicalizations rules ensure this
+  assert(typeof schema.minItems === 'number')
+  assert(schema.minItems >= 0)
 
-      return {
-        type: EncodingType.Array,
-        encoding: 'BOUNDED_TYPED_LENGTH_PREFIX',
-        options: {
-          minimum: schema.minItems,
-          maximum: schema.maxItems,
-          prefixEncodings,
-          encoding: {
-            type: EncodingType.Any,
-            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-            options: {}
-          }
-        }
-      }
-    } else if (typeof schema.minItems === 'undefined' &&
-      typeof schema.maxItems !== 'undefined') {
-      if (schema.maxItems <= UINT8_MAX) {
-        return {
-          type: EncodingType.Array,
-          encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-          options: {
-            minimum: 0,
-            maximum: schema.maxItems,
-            prefixEncodings,
-            encoding: {
-              type: EncodingType.Any,
-              encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-              options: {}
-            }
-          }
-        }
-      }
-
-      return {
-        type: EncodingType.Array,
-        encoding: 'ROOF_TYPED_LENGTH_PREFIX',
-        options: {
-          maximum: schema.maxItems,
-          prefixEncodings,
-          encoding: {
-            type: EncodingType.Any,
-            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-            options: {}
-          }
-        }
-      }
-    } else if (typeof schema.minItems !== 'undefined' &&
-      typeof schema.maxItems === 'undefined') {
-      return {
-        type: EncodingType.Array,
-        encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
-        options: {
-          minimum: schema.minItems,
-          prefixEncodings,
-          encoding: {
-            type: EncodingType.Any,
-            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-            options: {}
-          }
-        }
-      }
-    }
-
+  if (schema.minItems > 0 && typeof schema.maxItems !== 'undefined') {
     return {
       type: EncodingType.Array,
-      encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
+      encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
+        ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX'
+        : 'BOUNDED_TYPED_LENGTH_PREFIX',
+      options: {
+        minimum: schema.minItems,
+        maximum: schema.maxItems,
+        prefixEncodings,
+        encoding: typeof schema.items === 'undefined' ? {
+          type: EncodingType.Any,
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
+          options: {}
+        } : getEncoding(schema.items, level + 1)
+      }
+    }
+  }
+
+  if (typeof schema.items === 'undefined' &&
+    schema.minItems === 0 &&
+    typeof schema.maxItems !== 'undefined' &&
+    schema.maxItems <= UINT8_MAX) {
+    return {
+      type: EncodingType.Array,
+      encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
       options: {
         minimum: 0,
+        maximum: schema.maxItems,
         prefixEncodings,
         encoding: {
           type: EncodingType.Any,
@@ -254,52 +202,21 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     }
   }
 
-  if (typeof schema.minItems !== 'undefined' &&
-    typeof schema.maxItems !== 'undefined') {
-    return {
-      type: EncodingType.Array,
-      encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
-        ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' : 'BOUNDED_TYPED_LENGTH_PREFIX',
-      options: {
-        minimum: schema.minItems,
-        maximum: schema.maxItems,
-        encoding: getEncoding(encodingSchema, level + 1),
-        prefixEncodings
-      }
-    }
-  } else if (typeof schema.minItems === 'undefined' &&
-    typeof schema.maxItems !== 'undefined') {
-    if (schema.maxItems <= UINT8_MAX) {
-      return {
-        type: EncodingType.Array,
-        encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-        options: {
-          minimum: 0,
-          maximum: schema.maxItems,
-          encoding: getEncoding(encodingSchema, level + 1),
-          prefixEncodings
-        }
-      }
-    }
-
+  if (typeof schema.items === 'undefined' &&
+    schema.minItems === 0 &&
+    typeof schema.maxItems !== 'undefined' &&
+    schema.maxItems > UINT8_MAX) {
     return {
       type: EncodingType.Array,
       encoding: 'ROOF_TYPED_LENGTH_PREFIX',
       options: {
         maximum: schema.maxItems,
-        encoding: getEncoding(encodingSchema, level + 1),
-        prefixEncodings
-      }
-    }
-  } else if (typeof schema.minItems !== 'undefined' &&
-    typeof schema.maxItems === 'undefined') {
-    return {
-      type: EncodingType.Array,
-      encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
-      options: {
-        minimum: schema.minItems,
-        encoding: getEncoding(encodingSchema, level + 1),
-        prefixEncodings
+        prefixEncodings,
+        encoding: {
+          type: EncodingType.Any,
+          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
+          options: {}
+        }
       }
     }
   }
@@ -308,9 +225,13 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     type: EncodingType.Array,
     encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
     options: {
-      minimum: 0,
-      encoding: getEncoding(encodingSchema, level + 1),
-      prefixEncodings
+      minimum: schema.minItems,
+      prefixEncodings,
+      encoding: typeof schema.items === 'undefined' ? {
+        type: EncodingType.Any,
+        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
+        options: {}
+      } : getEncoding(schema.items, level + 1)
     }
   }
 }

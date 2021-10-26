@@ -22,6 +22,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getArrayEncoding = exports.getArrayStates = void 0;
+var assert_1 = require("assert");
 var lodash_1 = require("lodash");
 var encoder_1 = require("../encoder");
 var index_1 = require("./index");
@@ -67,97 +68,39 @@ var getArrayEncoding = function (schema, level) {
             enum: states
         }, level);
     }
-    var encodingSchema = schema.items;
     var prefixEncodings = ((_a = schema.prefixItems) !== null && _a !== void 0 ? _a : []).map(function (subschema) {
         return index_1.getEncoding(subschema, level + 1);
     });
-    if (typeof encodingSchema === 'undefined') {
-        if (typeof schema.minItems !== 'undefined' &&
-            typeof schema.maxItems !== 'undefined') {
-            if (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX) {
-                return {
-                    type: encoder_1.EncodingType.Array,
-                    encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-                    options: {
-                        minimum: schema.minItems,
-                        maximum: schema.maxItems,
-                        prefixEncodings: prefixEncodings,
-                        encoding: {
-                            type: encoder_1.EncodingType.Any,
-                            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                            options: {}
-                        }
-                    }
-                };
-            }
-            return {
-                type: encoder_1.EncodingType.Array,
-                encoding: 'BOUNDED_TYPED_LENGTH_PREFIX',
-                options: {
-                    minimum: schema.minItems,
-                    maximum: schema.maxItems,
-                    prefixEncodings: prefixEncodings,
-                    encoding: {
-                        type: encoder_1.EncodingType.Any,
-                        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                        options: {}
-                    }
-                }
-            };
-        }
-        else if (typeof schema.minItems === 'undefined' &&
-            typeof schema.maxItems !== 'undefined') {
-            if (schema.maxItems <= limits_1.UINT8_MAX) {
-                return {
-                    type: encoder_1.EncodingType.Array,
-                    encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-                    options: {
-                        minimum: 0,
-                        maximum: schema.maxItems,
-                        prefixEncodings: prefixEncodings,
-                        encoding: {
-                            type: encoder_1.EncodingType.Any,
-                            encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                            options: {}
-                        }
-                    }
-                };
-            }
-            return {
-                type: encoder_1.EncodingType.Array,
-                encoding: 'ROOF_TYPED_LENGTH_PREFIX',
-                options: {
-                    maximum: schema.maxItems,
-                    prefixEncodings: prefixEncodings,
-                    encoding: {
-                        type: encoder_1.EncodingType.Any,
-                        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                        options: {}
-                    }
-                }
-            };
-        }
-        else if (typeof schema.minItems !== 'undefined' &&
-            typeof schema.maxItems === 'undefined') {
-            return {
-                type: encoder_1.EncodingType.Array,
-                encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
-                options: {
-                    minimum: schema.minItems,
-                    prefixEncodings: prefixEncodings,
-                    encoding: {
-                        type: encoder_1.EncodingType.Any,
-                        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                        options: {}
-                    }
-                }
-            };
-        }
+    assert_1.strict(typeof schema.minItems === 'number');
+    assert_1.strict(schema.minItems >= 0);
+    if (schema.minItems > 0 && typeof schema.maxItems !== 'undefined') {
         return {
             type: encoder_1.EncodingType.Array,
-            encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
+            encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
+                ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX'
+                : 'BOUNDED_TYPED_LENGTH_PREFIX',
+            options: {
+                minimum: schema.minItems,
+                maximum: schema.maxItems,
+                prefixEncodings: prefixEncodings,
+                encoding: typeof schema.items === 'undefined' ? {
+                    type: encoder_1.EncodingType.Any,
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
+                    options: {}
+                } : index_1.getEncoding(schema.items, level + 1)
+            }
+        };
+    }
+    if (typeof schema.items === 'undefined' &&
+        schema.minItems === 0 &&
+        typeof schema.maxItems !== 'undefined' &&
+        schema.maxItems <= limits_1.UINT8_MAX) {
+        return {
+            type: encoder_1.EncodingType.Array,
+            encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
             options: {
                 minimum: 0,
+                maximum: schema.maxItems,
                 prefixEncodings: prefixEncodings,
                 encoding: {
                     type: encoder_1.EncodingType.Any,
@@ -167,53 +110,21 @@ var getArrayEncoding = function (schema, level) {
             }
         };
     }
-    if (typeof schema.minItems !== 'undefined' &&
-        typeof schema.maxItems !== 'undefined') {
-        return {
-            type: encoder_1.EncodingType.Array,
-            encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
-                ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX' : 'BOUNDED_TYPED_LENGTH_PREFIX',
-            options: {
-                minimum: schema.minItems,
-                maximum: schema.maxItems,
-                encoding: index_1.getEncoding(encodingSchema, level + 1),
-                prefixEncodings: prefixEncodings
-            }
-        };
-    }
-    else if (typeof schema.minItems === 'undefined' &&
-        typeof schema.maxItems !== 'undefined') {
-        if (schema.maxItems <= limits_1.UINT8_MAX) {
-            return {
-                type: encoder_1.EncodingType.Array,
-                encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-                options: {
-                    minimum: 0,
-                    maximum: schema.maxItems,
-                    encoding: index_1.getEncoding(encodingSchema, level + 1),
-                    prefixEncodings: prefixEncodings
-                }
-            };
-        }
+    if (typeof schema.items === 'undefined' &&
+        schema.minItems === 0 &&
+        typeof schema.maxItems !== 'undefined' &&
+        schema.maxItems > limits_1.UINT8_MAX) {
         return {
             type: encoder_1.EncodingType.Array,
             encoding: 'ROOF_TYPED_LENGTH_PREFIX',
             options: {
                 maximum: schema.maxItems,
-                encoding: index_1.getEncoding(encodingSchema, level + 1),
-                prefixEncodings: prefixEncodings
-            }
-        };
-    }
-    else if (typeof schema.minItems !== 'undefined' &&
-        typeof schema.maxItems === 'undefined') {
-        return {
-            type: encoder_1.EncodingType.Array,
-            encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
-            options: {
-                minimum: schema.minItems,
-                encoding: index_1.getEncoding(encodingSchema, level + 1),
-                prefixEncodings: prefixEncodings
+                prefixEncodings: prefixEncodings,
+                encoding: {
+                    type: encoder_1.EncodingType.Any,
+                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
+                    options: {}
+                }
             }
         };
     }
@@ -221,9 +132,13 @@ var getArrayEncoding = function (schema, level) {
         type: encoder_1.EncodingType.Array,
         encoding: 'FLOOR_TYPED_LENGTH_PREFIX',
         options: {
-            minimum: 0,
-            encoding: index_1.getEncoding(encodingSchema, level + 1),
-            prefixEncodings: prefixEncodings
+            minimum: schema.minItems,
+            prefixEncodings: prefixEncodings,
+            encoding: typeof schema.items === 'undefined' ? {
+                type: encoder_1.EncodingType.Any,
+                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
+                options: {}
+            } : index_1.getEncoding(schema.items, level + 1)
         }
     };
 };

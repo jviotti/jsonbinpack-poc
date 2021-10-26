@@ -62,6 +62,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', (test) => {
       },
       {
         type: 'array',
+        minItems: 0,
         items: {
           type: 'string'
         }
@@ -98,6 +99,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: 2/3 number encoding', (test) => {
       },
       {
         type: 'array',
+        minItems: 0,
         items: {
           type: 'string'
         }
@@ -134,6 +136,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: 3/3 array encoding', (test) => {
       },
       {
         type: 'array',
+        minItems: 0,
         items: {
           type: 'string'
         }
