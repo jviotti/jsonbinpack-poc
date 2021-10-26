@@ -57,6 +57,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 1 of 
       },
       {
         type: 'array',
+        minItems: 0,
         items: {
           type: 'string'
         }
@@ -98,6 +99,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 2 of 
       },
       {
         type: 'array',
+        minItems: 0,
         items: {
           type: 'string'
         }
@@ -136,6 +138,7 @@ tap.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching choice 3 of 
       },
       {
         type: 'array',
+        minItems: 0,
         items: {
           type: 'string'
         }

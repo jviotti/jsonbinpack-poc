@@ -17,6 +17,7 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
             },
             {
                 type: 'array',
+                minItems: 0,
                 items: {
                     type: 'string'
                 }
@@ -51,12 +52,14 @@ tap_1.default.test('should encode a oneOf schema with multiple choices', functio
                 {
                     schema: {
                         type: 'array',
+                        minItems: 0,
                         items: {
                             type: 'string'
                         }
                     },
                     encoding: mapper_1.getEncoding({
                         type: 'array',
+                        minItems: 0,
                         items: {
                             type: 'string'
                         }

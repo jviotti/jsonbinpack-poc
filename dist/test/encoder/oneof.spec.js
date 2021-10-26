@@ -22,6 +22,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 1/3 string encoding', function (t
             },
             {
                 type: 'array',
+                minItems: 0,
                 items: {
                     type: 'string'
                 }
@@ -52,6 +53,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 2/3 number encoding', function (t
             },
             {
                 type: 'array',
+                minItems: 0,
                 items: {
                     type: 'string'
                 }
@@ -82,6 +84,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: 3/3 array encoding', function (te
             },
             {
                 type: 'array',
+                minItems: 0,
                 items: {
                     type: 'string'
                 }

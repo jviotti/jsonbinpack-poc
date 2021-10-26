@@ -21,15 +21,19 @@ import {
 } from '../../lib/schema'
 
 import {
+  simplifySchema
+} from '../../lib/simplifier'
+
+import {
   Encoding,
   getStates,
   getEncoding
 } from '../../lib/mapper'
 
 tap.test('should encode an arbitrary array', (test) => {
-  const schema: EncodingSchema = {
+  const schema: EncodingSchema = simplifySchema({
     type: 'array'
-  }
+  })
 
   const result: Encoding = getEncoding(schema, 0)
   test.is(getStates(schema), Infinity)
@@ -76,10 +80,10 @@ tap.test('should encode an arbitrary array with minItems', (test) => {
 })
 
 tap.test('should encode an arbitrary array with maxItems = 256', (test) => {
-  const schema: EncodingSchema = {
+  const schema: EncodingSchema = simplifySchema({
     type: 'array',
     maxItems: 256
-  }
+  })
 
   const result: Encoding = getEncoding(schema, 0)
   test.is(getStates(schema), Infinity)
@@ -101,10 +105,10 @@ tap.test('should encode an arbitrary array with maxItems = 256', (test) => {
 })
 
 tap.test('should encode an arbitrary array with maxItems = 255', (test) => {
-  const schema: EncodingSchema = {
+  const schema: EncodingSchema = simplifySchema({
     type: 'array',
     maxItems: 255
-  }
+  })
 
   const result: Encoding = getEncoding(schema, 0)
   test.is(getStates(schema), Infinity)
@@ -127,10 +131,10 @@ tap.test('should encode an arbitrary array with maxItems = 255', (test) => {
 })
 
 tap.test('should encode an arbitrary array with maxItems < 255', (test) => {
-  const schema: EncodingSchema = {
+  const schema: EncodingSchema = simplifySchema({
     type: 'array',
     maxItems: 10
-  }
+  })
 
   const result: Encoding = getEncoding(schema, 0)
   test.is(getStates(schema), Infinity)
@@ -209,6 +213,7 @@ tap.test('should encode an arbitrary array with maxItems - minItems > 255', (tes
 tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
+    minItems: 0,
     prefixItems: [
       {
         type: 'integer'
@@ -310,7 +315,8 @@ tap.test('should encode a semi + fully typed array with minItems', (test) => {
     type: 'array',
     minItems: 5,
     items: {
-      type: 'array'
+      type: 'array',
+      minItems: 0
     },
     prefixItems: [
       {

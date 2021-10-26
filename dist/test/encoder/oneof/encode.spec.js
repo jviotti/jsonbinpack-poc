@@ -21,6 +21,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching ch
             },
             {
                 type: 'array',
+                minItems: 0,
                 items: {
                     type: 'string'
                 }
@@ -53,6 +54,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching ch
             },
             {
                 type: 'array',
+                minItems: 0,
                 items: {
                     type: 'string'
                 }
@@ -84,6 +86,7 @@ tap_1.default.test('ONEOF_CHOICE_INDEX_PREFIX: should encode a value matching ch
             },
             {
                 type: 'array',
+                minItems: 0,
                 items: {
                     type: 'string'
                 }

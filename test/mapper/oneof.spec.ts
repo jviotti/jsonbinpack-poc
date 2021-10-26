@@ -38,6 +38,7 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
       },
       {
         type: 'array',
+        minItems: 0,
         items: {
           type: 'string'
         }
@@ -73,12 +74,14 @@ tap.test('should encode a oneOf schema with multiple choices', (test) => {
         {
           schema: {
             type: 'array',
+            minItems: 0,
             items: {
               type: 'string'
             }
           },
           encoding: getEncoding({
             type: 'array',
+            minItems: 0,
             items: {
               type: 'string'
             }
