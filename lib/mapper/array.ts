@@ -166,6 +166,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
   // Canonicalizations rules ensure this
   assert(typeof schema.minItems === 'number')
   assert(schema.minItems >= 0)
+  assert(typeof schema.items !== 'undefined')
 
   if (schema.minItems > 0 && typeof schema.maxItems !== 'undefined') {
     return {

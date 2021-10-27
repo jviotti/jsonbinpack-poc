@@ -74,6 +74,7 @@ var getArrayEncoding = function (schema, level) {
     });
     assert_1.strict(typeof schema.minItems === 'number');
     assert_1.strict(schema.minItems >= 0);
+    assert_1.strict(typeof schema.items !== 'undefined');
     if (schema.minItems > 0 && typeof schema.maxItems !== 'undefined') {
         return {
             type: encoder_1.EncodingType.Array,

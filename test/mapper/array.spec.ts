@@ -57,6 +57,7 @@ tap.test('should encode an arbitrary array', (test) => {
 tap.test('should encode an arbitrary array with minItems', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
+    items: {},
     minItems: 10
   }
 
@@ -159,6 +160,7 @@ tap.test('should encode an arbitrary array with maxItems < 255', (test) => {
 tap.test('should encode an arbitrary array with maxItems - minItems < 255', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
+    items: {},
     maxItems: 10,
     minItems: 3
   }
@@ -186,6 +188,7 @@ tap.test('should encode an arbitrary array with maxItems - minItems < 255', (tes
 tap.test('should encode an arbitrary array with maxItems - minItems > 255', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
+    items: {},
     maxItems: 450,
     minItems: 30
   }
@@ -213,6 +216,7 @@ tap.test('should encode an arbitrary array with maxItems - minItems > 255', (tes
 tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
+    items: {},
     minItems: 0,
     prefixItems: [
       {
@@ -263,6 +267,7 @@ tap.test('should encode a semi-typed scalar heterogeneous array', (test) => {
 tap.test('should encode a semi-typed array with minItems', (test) => {
   const schema: EncodingSchema = {
     type: 'array',
+    items: {},
     minItems: 5,
     prefixItems: [
       {
@@ -316,6 +321,7 @@ tap.test('should encode a semi + fully typed array with minItems', (test) => {
     minItems: 5,
     items: {
       type: 'array',
+      items: {},
       minItems: 0
     },
     prefixItems: [

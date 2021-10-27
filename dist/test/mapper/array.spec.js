@@ -30,6 +30,7 @@ tap_1.default.test('should encode an arbitrary array', function (test) {
 tap_1.default.test('should encode an arbitrary array with minItems', function (test) {
     var schema = {
         type: 'array',
+        items: {},
         minItems: 10
     };
     var result = mapper_1.getEncoding(schema, 0);
@@ -120,6 +121,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems < 255', funct
 tap_1.default.test('should encode an arbitrary array with maxItems - minItems < 255', function (test) {
     var schema = {
         type: 'array',
+        items: {},
         maxItems: 10,
         minItems: 3
     };
@@ -144,6 +146,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems < 
 tap_1.default.test('should encode an arbitrary array with maxItems - minItems > 255', function (test) {
     var schema = {
         type: 'array',
+        items: {},
         maxItems: 450,
         minItems: 30
     };
@@ -168,6 +171,7 @@ tap_1.default.test('should encode an arbitrary array with maxItems - minItems > 
 tap_1.default.test('should encode a semi-typed scalar heterogeneous array', function (test) {
     var schema = {
         type: 'array',
+        items: {},
         minItems: 0,
         prefixItems: [
             {
@@ -215,6 +219,7 @@ tap_1.default.test('should encode a semi-typed scalar heterogeneous array', func
 tap_1.default.test('should encode a semi-typed array with minItems', function (test) {
     var schema = {
         type: 'array',
+        items: {},
         minItems: 5,
         prefixItems: [
             {
@@ -265,6 +270,7 @@ tap_1.default.test('should encode a semi + fully typed array with minItems', fun
         minItems: 5,
         items: {
             type: 'array',
+            items: {},
             minItems: 0
         },
         prefixItems: [
