@@ -23,10 +23,6 @@ import {
 } from 'lodash'
 
 import {
-  isDeepStrictEqual
-} from 'util'
-
-import {
   JSONValue
 } from '../json'
 
@@ -178,17 +174,12 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
         minimum: schema.minItems,
         maximum: schema.maxItems,
         prefixEncodings,
-        encoding: isDeepStrictEqual(schema.items, {}) ? {
-          type: EncodingType.Any,
-          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-          options: {}
-        } : getEncoding(schema.items ?? {}, level + 1)
+        encoding: getEncoding(schema.items, level + 1)
       }
     }
   }
 
-  if (isDeepStrictEqual(schema.items, {}) &&
-    schema.minItems === 0 &&
+  if (schema.minItems === 0 &&
     typeof schema.maxItems !== 'undefined' &&
     schema.maxItems <= UINT8_MAX) {
     return {
@@ -198,17 +189,12 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
         minimum: 0,
         maximum: schema.maxItems,
         prefixEncodings,
-        encoding: {
-          type: EncodingType.Any,
-          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-          options: {}
-        }
+        encoding: getEncoding(schema.items, level + 1)
       }
     }
   }
 
-  if (isDeepStrictEqual(schema.items, {}) &&
-    schema.minItems === 0 &&
+  if (schema.minItems === 0 &&
     typeof schema.maxItems !== 'undefined' &&
     schema.maxItems > UINT8_MAX) {
     return {
@@ -217,11 +203,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       options: {
         maximum: schema.maxItems,
         prefixEncodings,
-        encoding: {
-          type: EncodingType.Any,
-          encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-          options: {}
-        }
+        encoding: getEncoding(schema.items, level + 1)
       }
     }
   }
@@ -232,11 +214,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     options: {
       minimum: schema.minItems,
       prefixEncodings,
-      encoding: isDeepStrictEqual(schema.items, {}) ? {
-        type: EncodingType.Any,
-        encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-        options: {}
-      } : getEncoding(schema.items ?? {}, level + 1)
+      encoding: getEncoding(schema.items, level + 1)
     }
   }
 }

@@ -24,7 +24,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getArrayEncoding = exports.getArrayStates = void 0;
 var assert_1 = require("assert");
 var lodash_1 = require("lodash");
-var util_1 = require("util");
 var encoder_1 = require("../encoder");
 var index_1 = require("./index");
 var limits_1 = require("../utils/limits");
@@ -62,7 +61,7 @@ var getArrayStates = function (schema) {
 };
 exports.getArrayStates = getArrayStates;
 var getArrayEncoding = function (schema, level) {
-    var _a, _b, _c;
+    var _a;
     var states = exports.getArrayStates(schema);
     if (Array.isArray(states) && states.length < limits_1.UINT8_MAX) {
         return enum_1.getEnumEncoding({
@@ -85,16 +84,11 @@ var getArrayEncoding = function (schema, level) {
                 minimum: schema.minItems,
                 maximum: schema.maxItems,
                 prefixEncodings: prefixEncodings,
-                encoding: util_1.isDeepStrictEqual(schema.items, {}) ? {
-                    type: encoder_1.EncodingType.Any,
-                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                    options: {}
-                } : index_1.getEncoding((_b = schema.items) !== null && _b !== void 0 ? _b : {}, level + 1)
+                encoding: index_1.getEncoding(schema.items, level + 1)
             }
         };
     }
-    if (util_1.isDeepStrictEqual(schema.items, {}) &&
-        schema.minItems === 0 &&
+    if (schema.minItems === 0 &&
         typeof schema.maxItems !== 'undefined' &&
         schema.maxItems <= limits_1.UINT8_MAX) {
         return {
@@ -104,16 +98,11 @@ var getArrayEncoding = function (schema, level) {
                 minimum: 0,
                 maximum: schema.maxItems,
                 prefixEncodings: prefixEncodings,
-                encoding: {
-                    type: encoder_1.EncodingType.Any,
-                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                    options: {}
-                }
+                encoding: index_1.getEncoding(schema.items, level + 1)
             }
         };
     }
-    if (util_1.isDeepStrictEqual(schema.items, {}) &&
-        schema.minItems === 0 &&
+    if (schema.minItems === 0 &&
         typeof schema.maxItems !== 'undefined' &&
         schema.maxItems > limits_1.UINT8_MAX) {
         return {
@@ -122,11 +111,7 @@ var getArrayEncoding = function (schema, level) {
             options: {
                 maximum: schema.maxItems,
                 prefixEncodings: prefixEncodings,
-                encoding: {
-                    type: encoder_1.EncodingType.Any,
-                    encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                    options: {}
-                }
+                encoding: index_1.getEncoding(schema.items, level + 1)
             }
         };
     }
@@ -136,11 +121,7 @@ var getArrayEncoding = function (schema, level) {
         options: {
             minimum: schema.minItems,
             prefixEncodings: prefixEncodings,
-            encoding: util_1.isDeepStrictEqual(schema.items, {}) ? {
-                type: encoder_1.EncodingType.Any,
-                encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
-                options: {}
-            } : index_1.getEncoding((_c = schema.items) !== null && _c !== void 0 ? _c : {}, level + 1)
+            encoding: index_1.getEncoding(schema.items, level + 1)
         }
     };
 };
