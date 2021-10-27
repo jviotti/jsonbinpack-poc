@@ -25,6 +25,7 @@ tap_1.default.test('should convert a schema without type into a type union', fun
             },
             {
                 type: 'array',
+                items: {},
                 minItems: 0
             },
             {

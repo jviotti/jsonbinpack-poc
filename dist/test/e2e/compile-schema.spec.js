@@ -129,6 +129,7 @@ tap_1.default.test('should compile a simple oneOf schema', function (test) { ret
                                         },
                                         {
                                             type: 'array',
+                                            items: {},
                                             minItems: 0
                                         },
                                         {

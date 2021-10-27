@@ -23,6 +23,10 @@ import {
 } from 'lodash'
 
 import {
+  isDeepStrictEqual
+} from 'util'
+
+import {
   JSONValue
 } from '../json'
 
@@ -173,16 +177,16 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
         minimum: schema.minItems,
         maximum: schema.maxItems,
         prefixEncodings,
-        encoding: typeof schema.items === 'undefined' ? {
+        encoding: isDeepStrictEqual(schema.items, {}) ? {
           type: EncodingType.Any,
           encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
           options: {}
-        } : getEncoding(schema.items, level + 1)
+        } : getEncoding(schema.items ?? {}, level + 1)
       }
     }
   }
 
-  if (typeof schema.items === 'undefined' &&
+  if (isDeepStrictEqual(schema.items, {}) &&
     schema.minItems === 0 &&
     typeof schema.maxItems !== 'undefined' &&
     schema.maxItems <= UINT8_MAX) {
@@ -202,7 +206,7 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     }
   }
 
-  if (typeof schema.items === 'undefined' &&
+  if (isDeepStrictEqual(schema.items, {}) &&
     schema.minItems === 0 &&
     typeof schema.maxItems !== 'undefined' &&
     schema.maxItems > UINT8_MAX) {
@@ -227,11 +231,11 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     options: {
       minimum: schema.minItems,
       prefixEncodings,
-      encoding: typeof schema.items === 'undefined' ? {
+      encoding: isDeepStrictEqual(schema.items, {}) ? {
         type: EncodingType.Any,
         encoding: 'ANY_PACKED_TYPE_TAG_BYTE_PREFIX',
         options: {}
-      } : getEncoding(schema.items, level + 1)
+      } : getEncoding(schema.items ?? {}, level + 1)
     }
   }
 }

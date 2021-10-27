@@ -55,5 +55,14 @@ exports.RULES = [
         transform: function (schema) {
             return Object.assign(schema, { minProperties: 0 });
         }
+    },
+    {
+        id: 'implicit-array-items',
+        condition: function (schema) {
+            return schema.type === 'array' && !('items' in schema);
+        },
+        transform: function (schema) {
+            return Object.assign(schema, { items: true });
+        }
     }
 ];

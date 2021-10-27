@@ -52,19 +52,6 @@ exports.RULES = [
         }
     },
     {
-        id: 'total-prefix-items',
-        condition: function (schema) {
-            return Array.isArray(schema.prefixItems) &&
-                typeof schema.maxItems === 'number' &&
-                'items' in schema &&
-                schema.maxItems <= schema.prefixItems.length;
-        },
-        transform: function (schema) {
-            Reflect.deleteProperty(schema, 'items');
-            return schema;
-        }
-    },
-    {
         id: 'min-properties-tautology',
         condition: function (schema) {
             return typeof schema.minProperties === 'number' &&

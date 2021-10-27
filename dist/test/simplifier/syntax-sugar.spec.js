@@ -81,6 +81,7 @@ tap_1.default.test('should convert exclusiveMinimum to minimum inside prefixItem
     };
     var result = {
         type: 'array',
+        items: {},
         minItems: 0,
         prefixItems: [
             {

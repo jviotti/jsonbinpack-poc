@@ -49,6 +49,7 @@ tap.test('should remove minContains if no contains', (test) => {
 
   const result: Schema = {
     type: 'array',
+    items: {},
     minItems: 0
   }
 
@@ -64,6 +65,7 @@ tap.test('should remove maxContains if no contains', (test) => {
 
   const result: Schema = {
     type: 'array',
+    items: {},
     minItems: 0
   }
 
@@ -80,6 +82,7 @@ tap.test('an empty array is unique by definition', (test) => {
 
   const result: Schema = {
     type: 'array',
+    items: {},
     minItems: 0,
     enum: [ [] ]
   }
@@ -97,77 +100,8 @@ tap.test('a array with one element is unique by definition', (test) => {
 
   const result: Schema = {
     type: 'array',
+    items: {},
     minItems: 0,
-    maxItems: 1
-  }
-
-  test.strictSame(simplifySchema(schema), result)
-  test.end()
-})
-
-tap.test('should remove items if prefixItems covers maxItems exactly', (test) => {
-  const schema: Schema = {
-    type: 'array',
-    prefixItems: [
-      {
-        type: 'number'
-      },
-      {
-        type: 'number'
-      }
-    ],
-    items: {
-      type: 'object'
-    },
-    maxItems: 2
-  }
-
-  const result: Schema = {
-    type: 'array',
-    minItems: 0,
-    prefixItems: [
-      {
-        type: 'number'
-      },
-      {
-        type: 'number'
-      }
-    ],
-    maxItems: 2
-  }
-
-  test.strictSame(simplifySchema(schema), result)
-  test.end()
-})
-
-tap.test('should remove items if prefixItems covers maxItems', (test) => {
-  const schema: Schema = {
-    type: 'array',
-    prefixItems: [
-      {
-        type: 'number'
-      },
-      {
-        type: 'number'
-      }
-    ],
-    items: {
-      type: 'object'
-    },
-    maxItems: 1
-  }
-
-  const result: Schema = {
-    type: 'array',
-    minItems: 0,
-    prefixItems: [
-      {
-        type: 'number'
-      },
-      {
-        type: 'number'
-      }
-    ],
     maxItems: 1
   }
 

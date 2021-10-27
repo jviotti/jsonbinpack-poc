@@ -91,5 +91,14 @@ export const RULES: SimplificationRule[] = [
     transform: (schema: ObjectSchema): ObjectSchema => {
       return Object.assign(schema, { minProperties: 0 })
     }
+  },
+  {
+    id: 'implicit-array-items',
+    condition: (schema: ObjectSchema): JSONBoolean => {
+      return schema.type === 'array' && !('items' in schema)
+    },
+    transform: (schema: ObjectSchema): ObjectSchema => {
+      return Object.assign(schema, { items: true })
+    }
   }
 ]
