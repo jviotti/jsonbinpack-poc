@@ -148,7 +148,7 @@ export const getArrayStates = (schema: ArrayEncodingSchema): number | JSONValue[
 
 export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): ArrayEncoding => {
   const states: number | JSONValue[] = getArrayStates(schema)
-  if (Array.isArray(states) && states.length < UINT8_MAX) {
+  if (Array.isArray(states)) {
     return getEnumEncoding({
       enum: states
     }, level)

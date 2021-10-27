@@ -63,7 +63,7 @@ exports.getArrayStates = getArrayStates;
 var getArrayEncoding = function (schema, level) {
     var _a;
     var states = exports.getArrayStates(schema);
-    if (Array.isArray(states) && states.length < limits_1.UINT8_MAX) {
+    if (Array.isArray(states)) {
         return enum_1.getEnumEncoding({
             enum: states
         }, level);
