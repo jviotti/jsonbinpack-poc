@@ -164,36 +164,6 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
   assert(schema.minItems >= 0)
   assert(typeof schema.items !== 'undefined')
 
-  if (schema.minItems > 0 && typeof schema.maxItems !== 'undefined') {
-    return {
-      type: EncodingType.Array,
-      encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
-        ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX'
-        : 'BOUNDED_TYPED_LENGTH_PREFIX',
-      options: {
-        minimum: schema.minItems,
-        maximum: schema.maxItems,
-        prefixEncodings,
-        encoding: getEncoding(schema.items, level + 1)
-      }
-    }
-  }
-
-  if (schema.minItems === 0 &&
-    typeof schema.maxItems !== 'undefined' &&
-    schema.maxItems <= UINT8_MAX) {
-    return {
-      type: EncodingType.Array,
-      encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-      options: {
-        minimum: 0,
-        maximum: schema.maxItems,
-        prefixEncodings,
-        encoding: getEncoding(schema.items, level + 1)
-      }
-    }
-  }
-
   if (schema.minItems === 0 &&
     typeof schema.maxItems !== 'undefined' &&
     schema.maxItems > UINT8_MAX) {
@@ -201,6 +171,21 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
       type: EncodingType.Array,
       encoding: 'ROOF_TYPED_LENGTH_PREFIX',
       options: {
+        maximum: schema.maxItems,
+        prefixEncodings,
+        encoding: getEncoding(schema.items, level + 1)
+      }
+    }
+  }
+
+  if (typeof schema.maxItems !== 'undefined') {
+    return {
+      type: EncodingType.Array,
+      encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
+        ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX'
+        : 'BOUNDED_TYPED_LENGTH_PREFIX',
+      options: {
+        minimum: schema.minItems,
         maximum: schema.maxItems,
         prefixEncodings,
         encoding: getEncoding(schema.items, level + 1)

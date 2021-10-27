@@ -74,34 +74,6 @@ var getArrayEncoding = function (schema, level) {
     assert_1.strict(typeof schema.minItems === 'number');
     assert_1.strict(schema.minItems >= 0);
     assert_1.strict(typeof schema.items !== 'undefined');
-    if (schema.minItems > 0 && typeof schema.maxItems !== 'undefined') {
-        return {
-            type: encoder_1.EncodingType.Array,
-            encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
-                ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX'
-                : 'BOUNDED_TYPED_LENGTH_PREFIX',
-            options: {
-                minimum: schema.minItems,
-                maximum: schema.maxItems,
-                prefixEncodings: prefixEncodings,
-                encoding: index_1.getEncoding(schema.items, level + 1)
-            }
-        };
-    }
-    if (schema.minItems === 0 &&
-        typeof schema.maxItems !== 'undefined' &&
-        schema.maxItems <= limits_1.UINT8_MAX) {
-        return {
-            type: encoder_1.EncodingType.Array,
-            encoding: 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX',
-            options: {
-                minimum: 0,
-                maximum: schema.maxItems,
-                prefixEncodings: prefixEncodings,
-                encoding: index_1.getEncoding(schema.items, level + 1)
-            }
-        };
-    }
     if (schema.minItems === 0 &&
         typeof schema.maxItems !== 'undefined' &&
         schema.maxItems > limits_1.UINT8_MAX) {
@@ -109,6 +81,20 @@ var getArrayEncoding = function (schema, level) {
             type: encoder_1.EncodingType.Array,
             encoding: 'ROOF_TYPED_LENGTH_PREFIX',
             options: {
+                maximum: schema.maxItems,
+                prefixEncodings: prefixEncodings,
+                encoding: index_1.getEncoding(schema.items, level + 1)
+            }
+        };
+    }
+    if (typeof schema.maxItems !== 'undefined') {
+        return {
+            type: encoder_1.EncodingType.Array,
+            encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)
+                ? 'BOUNDED_8BITS_TYPED_LENGTH_PREFIX'
+                : 'BOUNDED_TYPED_LENGTH_PREFIX',
+            options: {
+                minimum: schema.minItems,
                 maximum: schema.maxItems,
                 prefixEncodings: prefixEncodings,
                 encoding: index_1.getEncoding(schema.items, level + 1)
