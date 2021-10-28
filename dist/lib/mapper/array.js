@@ -74,9 +74,8 @@ var getArrayEncoding = function (schema, level) {
     assert_1.strict(typeof schema.minItems === 'number');
     assert_1.strict(schema.minItems >= 0);
     assert_1.strict(typeof schema.items !== 'undefined');
-    if (schema.minItems === 0 &&
-        typeof schema.maxItems !== 'undefined' &&
-        schema.maxItems > limits_1.UINT8_MAX) {
+    if (typeof schema.maxItems !== 'undefined' &&
+        schema.minItems === 0 && schema.maxItems > limits_1.UINT8_MAX) {
         return {
             type: encoder_1.EncodingType.Array,
             encoding: 'ROOF_TYPED_LENGTH_PREFIX',
@@ -87,7 +86,8 @@ var getArrayEncoding = function (schema, level) {
             }
         };
     }
-    if (typeof schema.maxItems !== 'undefined') {
+    if (typeof schema.maxItems !== 'undefined' &&
+        (schema.minItems !== 0 || schema.maxItems <= limits_1.UINT8_MAX)) {
         return {
             type: encoder_1.EncodingType.Array,
             encoding: (schema.maxItems - schema.minItems <= limits_1.UINT8_MAX)

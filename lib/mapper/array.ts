@@ -164,9 +164,8 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
   assert(schema.minItems >= 0)
   assert(typeof schema.items !== 'undefined')
 
-  if (schema.minItems === 0 &&
-    typeof schema.maxItems !== 'undefined' &&
-    schema.maxItems > UINT8_MAX) {
+  if (typeof schema.maxItems !== 'undefined' &&
+    schema.minItems === 0 && schema.maxItems > UINT8_MAX) {
     return {
       type: EncodingType.Array,
       encoding: 'ROOF_TYPED_LENGTH_PREFIX',
@@ -178,7 +177,8 @@ export const getArrayEncoding = (schema: ArrayEncodingSchema, level: number): Ar
     }
   }
 
-  if (typeof schema.maxItems !== 'undefined') {
+  if (typeof schema.maxItems !== 'undefined' &&
+    (schema.minItems !== 0 || schema.maxItems <= UINT8_MAX)) {
     return {
       type: EncodingType.Array,
       encoding: (schema.maxItems - schema.minItems <= UINT8_MAX)
