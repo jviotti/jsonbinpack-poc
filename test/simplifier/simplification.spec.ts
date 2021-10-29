@@ -84,6 +84,8 @@ tap.test('should inline true dependent required keys', (test) => {
 
   const result: Schema = {
     type: 'object',
+    additionalProperties: {},
+    properties: {},
     required: [ 'foo', 'bar', 'baz' ],
     dependentRequired: {},
     minProperties: 3

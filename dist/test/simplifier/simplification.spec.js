@@ -55,6 +55,8 @@ tap_1.default.test('should inline true dependent required keys', function (test)
     };
     var result = {
         type: 'object',
+        additionalProperties: {},
+        properties: {},
         required: ['foo', 'bar', 'baz'],
         dependentRequired: {},
         minProperties: 3

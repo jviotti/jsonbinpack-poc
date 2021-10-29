@@ -64,5 +64,32 @@ exports.RULES = [
         transform: function (schema) {
             return Object.assign(schema, { items: true });
         }
+    },
+    {
+        id: 'implicit-required',
+        condition: function (schema) {
+            return schema.type === 'object' && !('required' in schema);
+        },
+        transform: function (schema) {
+            return Object.assign(schema, { required: [] });
+        }
+    },
+    {
+        id: 'implicit-properties',
+        condition: function (schema) {
+            return schema.type === 'object' && !('properties' in schema);
+        },
+        transform: function (schema) {
+            return Object.assign(schema, { properties: {} });
+        }
+    },
+    {
+        id: 'implicit-additional-properties',
+        condition: function (schema) {
+            return schema.type === 'object' && !('additionalProperties' in schema);
+        },
+        transform: function (schema) {
+            return Object.assign(schema, { additionalProperties: {} });
+        }
     }
 ];
