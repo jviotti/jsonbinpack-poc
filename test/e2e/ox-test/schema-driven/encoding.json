@@ -8,14 +8,14 @@
         "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
         "options": {
           "minimum": 0,
+          "prefixEncodings": [],
           "encoding": {
             "type": "string",
             "encoding": "FLOOR_PREFIX_LENGTH_ENUM_VARINT",
             "options": {
               "minimum": 0
             }
-          },
-          "prefixEncodings": []
+          }
         }
       },
       "tz": {
@@ -30,6 +30,7 @@
         "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
         "options": {
           "minimum": 0,
+          "prefixEncodings": [],
           "encoding": {
             "type": "integer",
             "encoding": "BOUNDED_MULTIPLE_8BITS_ENUM_FIXED",
@@ -38,8 +39,7 @@
               "maximum": 6,
               "multiplier": 1
             }
-          },
-          "prefixEncodings": []
+          }
         }
       },
       "coord": {
@@ -47,12 +47,12 @@
         "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
         "options": {
           "minimum": 0,
+          "prefixEncodings": [],
           "encoding": {
             "type": "number",
             "encoding": "DOUBLE_VARINT_TUPLE",
             "options": {}
-          },
-          "prefixEncodings": []
+          }
         }
       },
       "data": {
@@ -60,6 +60,7 @@
         "encoding": "FLOOR_TYPED_LENGTH_PREFIX",
         "options": {
           "minimum": 0,
+          "prefixEncodings": [],
           "encoding": {
             "type": "oneOf",
             "encoding": "ONEOF_CHOICE_INDEX_PREFIX",
@@ -68,11 +69,11 @@
                 {
                   "schema": {
                     "type": "object",
-                    "additionalProperties": false,
                     "required": [
                       "name",
                       "staff"
                     ],
+                    "additionalProperties": false,
                     "properties": {
                       "name": {
                         "type": "string",
@@ -122,12 +123,12 @@
                 {
                   "schema": {
                     "type": "object",
-                    "additionalProperties": false,
                     "required": [
                       "name",
                       "staff",
                       "extra"
                     ],
+                    "additionalProperties": false,
                     "properties": {
                       "name": {
                         "enum": [
@@ -142,10 +143,10 @@
                       },
                       "extra": {
                         "type": "object",
-                        "additionalProperties": false,
                         "required": [
                           "info"
                         ],
+                        "additionalProperties": false,
                         "properties": {
                           "info": {
                             "type": "string",
@@ -213,7 +214,9 @@
                   "schema": {
                     "type": "object",
                     "additionalProperties": false,
-                    "minProperties": 0
+                    "minProperties": 0,
+                    "required": [],
+                    "properties": {}
                   },
                   "encoding": {
                     "type": "object",
@@ -227,8 +230,7 @@
                 }
               ]
             }
-          },
-          "prefixEncodings": []
+          }
         }
       }
     },
