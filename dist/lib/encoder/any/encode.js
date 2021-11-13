@@ -34,7 +34,7 @@ var findHighest2Exponent = function (value, start, limit) {
 var ANY_PACKED_TYPE_TAG_BYTE_PREFIX = function (buffer, offset, value, _options, context) {
     if (Array.isArray(value)) {
         var size = value.length;
-        if (size > limits_1.UINT5_MAX - 1) {
+        if (size >= limits_1.UINT5_MAX) {
             var typeTag_1 = types_1.getTypeTag(types_1.Type.Array, 0);
             var tagBytes_1 = encodeTypeTag(buffer, offset, typeTag_1, context);
             var valueBytes_1 = encode_5.FLOOR_TYPED_LENGTH_PREFIX(buffer, offset + tagBytes_1, value, {

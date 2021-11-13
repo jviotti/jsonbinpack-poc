@@ -113,7 +113,7 @@ export const ANY_PACKED_TYPE_TAG_BYTE_PREFIX = (
   if (Array.isArray(value)) {
     const size: number = value.length
 
-    if (size > UINT5_MAX - 1) {
+    if (size >= UINT5_MAX) {
       const typeTag: number = getTypeTag(Type.Array, 0)
       const tagBytes: number = encodeTypeTag(buffer, offset, typeTag, context)
       const valueBytes: number = FLOOR_TYPED_LENGTH_PREFIX(
