@@ -103,8 +103,8 @@ try {
                                 return [4, lib_1.compileSchema(schema)];
                             case 2:
                                 encoding = _a.sent();
-                                buffer = lib_1.encode(encoding, testCase.data);
-                                result = lib_1.decode(encoding, buffer);
+                                buffer = lib_1.serialize(encoding, testCase.data);
+                                result = lib_1.deserialize(encoding, buffer);
                                 test.strictSame(testCase.data, result);
                                 test.end();
                                 return [2];

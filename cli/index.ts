@@ -25,23 +25,23 @@ import * as packageJSON from '../package.json'
 import {
   JSONValue,
   JSONSchema,
-  encode,
-  decode,
+  serialize,
+  deserialize,
   compileSchema,
   Encoding
 } from '../lib'
 
 const COMMAND: string | undefined = process.argv[2]
-if (COMMAND !== 'compile' && COMMAND !== 'encode' && COMMAND !== 'decode') {
-  console.error(`Usage: ${packageJSON.name} <compile | encode | decode> <arguments...>`)
+if (COMMAND !== 'compile' && COMMAND !== 'serialize' && COMMAND !== 'deserialize') {
+  console.error(`Usage: ${packageJSON.name} <compile | serialize | deserialize> <arguments...>`)
   console.error('\nCommands:\n')
   console.error('    compile <schema.json>')
-  console.error('    encode <encoding.json> <document.json>')
-  console.error('    decode <encoding.json> <binary.bin>')
+  console.error('    serialize <encoding.json> <document.json>')
+  console.error('    deserialize <encoding.json> <binary.bin>')
   console.error('\nExamples:\n')
   console.error(`    $ ${packageJSON.name} compile my/schema.json > encoding.json`)
-  console.error(`    $ ${packageJSON.name} encode encoding.json my/document.json > output.bin`)
-  console.error(`    $ ${packageJSON.name} decode encoding.json output.bin > document.json`)
+  console.error(`    $ ${packageJSON.name} serialize encoding.json my/document.json > output.bin`)
+  console.error(`    $ ${packageJSON.name} deserialize encoding.json output.bin > document.json`)
   process.exit(1)
 }
 
@@ -59,7 +59,7 @@ if (COMMAND === 'compile') {
   }).catch((error) => {
     throw error
   })
-} else if (COMMAND === 'encode') {
+} else if (COMMAND === 'serialize') {
   const encodingPath: string | undefined = process.argv[3]
   if (typeof encodingPath !== 'string') {
     console.error('Missing input encoding document')
@@ -74,7 +74,7 @@ if (COMMAND === 'compile') {
 
   const encoding: Encoding = JSON.parse(readFileSync(encodingPath, 'utf8'))
   const document: JSONValue = JSON.parse(readFileSync(documentPath, 'utf8'))
-  const buffer: Buffer = encode(encoding, document)
+  const buffer: Buffer = serialize(encoding, document)
   process.stdout.write(buffer, () => {
     process.exit(0)
   })
@@ -93,7 +93,7 @@ if (COMMAND === 'compile') {
 
   const encoding: Encoding = JSON.parse(readFileSync(encodingPath, 'utf8'))
   const binary: Buffer = readFileSync(binaryPath)
-  const result: JSONValue = decode(encoding, binary)
+  const result: JSONValue = deserialize(encoding, binary)
   console.log(JSON.stringify(result, null, 2))
   process.exit(0)
 }

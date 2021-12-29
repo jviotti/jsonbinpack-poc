@@ -31,8 +31,8 @@ import {
   JSONSchema,
   JSONValue,
   compileSchema,
-  encode,
-  decode,
+  serialize,
+  deserialize,
   Encoding
 } from '../../lib'
 
@@ -108,8 +108,8 @@ for (const suitePath of recursiveReadDirectory(JSON_SCHEMA_TESTS_PATH)) {
         test.true(validateSchema(schema, testCase.data))
 
         const encoding: Encoding = await compileSchema(schema)
-        const buffer: Buffer = encode(encoding, testCase.data)
-        const result: JSONValue = decode(encoding, buffer)
+        const buffer: Buffer = serialize(encoding, testCase.data)
+        const result: JSONValue = deserialize(encoding, buffer)
         test.strictSame(testCase.data, result)
 
         test.end()
