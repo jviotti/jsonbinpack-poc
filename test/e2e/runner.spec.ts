@@ -35,8 +35,8 @@ import {
   JSONValue,
   JSONSchema,
   compileSchema,
-  encode,
-  decode,
+  serialize,
+  deserialize,
   Encoding
 } from '../../lib'
 
@@ -104,8 +104,8 @@ for (const testCase of readdirSync(TEST_DIRECTORY)) {
       writeResult(testCase, type, 'encoding.json', encoding)
       writeResult(testCase, type, 'canonical.json', encodingSchema)
 
-      const buffer: Buffer = encode(encoding, value)
-      const result: JSONValue = decode(encoding, buffer)
+      const buffer: Buffer = serialize(encoding, value)
+      const result: JSONValue = deserialize(encoding, buffer)
 
       // Record the buffer for debugging purposes too
       writeFileSync(resolve(SRC_TEST_DIRECTORY, testCase, type, 'output.bin'), buffer)

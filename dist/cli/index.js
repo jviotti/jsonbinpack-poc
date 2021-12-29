@@ -24,16 +24,16 @@ var fs_1 = require("fs");
 var packageJSON = __importStar(require("../package.json"));
 var lib_1 = require("../lib");
 var COMMAND = process.argv[2];
-if (COMMAND !== 'compile' && COMMAND !== 'encode' && COMMAND !== 'decode') {
-    console.error("Usage: " + packageJSON.name + " <compile | encode | decode> <arguments...>");
+if (COMMAND !== 'compile' && COMMAND !== 'serialize' && COMMAND !== 'deserialize') {
+    console.error("Usage: " + packageJSON.name + " <compile | serialize | deserialize> <arguments...>");
     console.error('\nCommands:\n');
     console.error('    compile <schema.json>');
-    console.error('    encode <encoding.json> <document.json>');
-    console.error('    decode <encoding.json> <binary.bin>');
+    console.error('    serialize <encoding.json> <document.json>');
+    console.error('    deserialize <encoding.json> <binary.bin>');
     console.error('\nExamples:\n');
     console.error("    $ " + packageJSON.name + " compile my/schema.json > encoding.json");
-    console.error("    $ " + packageJSON.name + " encode encoding.json my/document.json > output.bin");
-    console.error("    $ " + packageJSON.name + " decode encoding.json output.bin > document.json");
+    console.error("    $ " + packageJSON.name + " serialize encoding.json my/document.json > output.bin");
+    console.error("    $ " + packageJSON.name + " deserialize encoding.json output.bin > document.json");
     process.exit(1);
 }
 if (COMMAND === 'compile') {
@@ -50,7 +50,7 @@ if (COMMAND === 'compile') {
         throw error;
     });
 }
-else if (COMMAND === 'encode') {
+else if (COMMAND === 'serialize') {
     var encodingPath = process.argv[3];
     if (typeof encodingPath !== 'string') {
         console.error('Missing input encoding document');
@@ -63,7 +63,7 @@ else if (COMMAND === 'encode') {
     }
     var encoding = JSON.parse(fs_1.readFileSync(encodingPath, 'utf8'));
     var document_1 = JSON.parse(fs_1.readFileSync(documentPath, 'utf8'));
-    var buffer = lib_1.encode(encoding, document_1);
+    var buffer = lib_1.serialize(encoding, document_1);
     process.stdout.write(buffer, function () {
         process.exit(0);
     });
@@ -81,7 +81,7 @@ else {
     }
     var encoding = JSON.parse(fs_1.readFileSync(encodingPath, 'utf8'));
     var binary = fs_1.readFileSync(binaryPath);
-    var result = lib_1.decode(encoding, binary);
+    var result = lib_1.deserialize(encoding, binary);
     console.log(JSON.stringify(result, null, 2));
     process.exit(0);
 }

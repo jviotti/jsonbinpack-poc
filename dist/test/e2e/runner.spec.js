@@ -107,8 +107,8 @@ var _loop_1 = function (testCase) {
                         encoding = _a.sent();
                         writeResult(testCase, type, 'encoding.json', encoding);
                         writeResult(testCase, type, 'canonical.json', encodingSchema);
-                        buffer = lib_1.encode(encoding, value);
-                        result = lib_1.decode(encoding, buffer);
+                        buffer = lib_1.serialize(encoding, value);
+                        result = lib_1.deserialize(encoding, buffer);
                         fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, type, 'output.bin'), buffer);
                         size = String(buffer.length);
                         fs_1.writeFileSync(path_1.resolve(SRC_TEST_DIRECTORY, testCase, type, 'size'), size + "\n", 'utf8');
