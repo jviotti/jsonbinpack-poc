@@ -85,10 +85,3 @@ License
 
 This project is released under the terms specified in the
 [license](https://github.com/jviotti/jsonbinpack/blob/main/LICENSE).
-
-JSON BinPack has been designed and developed as a research project at
-University of Oxford.  The intellectual property is therefore split between its
-primary author, [Juan Cruz Viotti](https://www.jviotti.com), and the University
-of Oxford.
-
-![University of Oxford logo](./resources/oxford-university.png)
