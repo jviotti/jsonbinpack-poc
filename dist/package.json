@@ -1,6 +1,6 @@
 {
     "name": "jsonbinpack",
-    "version": "1.0.0",
+    "version": "1.1.1",
     "description": "A space-efficient schema-driven binary JSON serialization format based on JSON Schema",
     "main": "dist/lib/index.js",
     "bin": {
@@ -8,7 +8,6 @@
     },
     "scripts": {
         "tsc": "tsc",
-        "postinstall": "npm run tsc",
         "lint": "eslint lib test web contrib cli",
         "test": "tap --reporter=classic --no-coverage --no-timeout 'dist/test/**/*.spec.js'"
     },
