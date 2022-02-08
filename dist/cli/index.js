@@ -24,19 +24,23 @@ var fs_1 = require("fs");
 var packageJSON = __importStar(require("../package.json"));
 var lib_1 = require("../lib");
 var COMMAND = process.argv[2];
-if (COMMAND !== 'compile' && COMMAND !== 'serialize' && COMMAND !== 'deserialize') {
+if (COMMAND !== 'compile' && COMMAND !== 'serialize' && COMMAND !== 'deserialize' && COMMAND !== 'version') {
     console.error("Usage: " + packageJSON.name + " <compile | serialize | deserialize> <arguments...>");
     console.error('\nCommands:\n');
     console.error('    compile <schema.json>');
     console.error('    serialize <encoding.json> <document.json>');
     console.error('    deserialize <encoding.json> <binary.bin>');
+    console.error('    version');
     console.error('\nExamples:\n');
     console.error("    $ " + packageJSON.name + " compile my/schema.json > encoding.json");
     console.error("    $ " + packageJSON.name + " serialize encoding.json my/document.json > output.bin");
     console.error("    $ " + packageJSON.name + " deserialize encoding.json output.bin > document.json");
     process.exit(1);
 }
-if (COMMAND === 'compile') {
+if (COMMAND === 'version') {
+    console.log(packageJSON.version);
+}
+else if (COMMAND === 'compile') {
     var schemaPath = process.argv[3];
     if (typeof schemaPath !== 'string') {
         console.error('Missing input JSON Schema file');
