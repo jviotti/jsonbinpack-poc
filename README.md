@@ -13,9 +13,55 @@ schema-driven and schema-less mode to encode any JSON document given a matching
 Documentation
 -------------
 
-The complete documentation is available at the official website:
+### Installation
 
-https://www.jsonbinpack.org
+```sh
+npm install --save jsonbinpack
+```
+
+### Example
+
+```javascript
+const jsonbinpack = require('jsonbinpack')
+
+// Declare a JSON Schema definition
+const schema = {
+  $schema: 'https://json-schema.org/draft/2020-12/schema',
+  type: 'object',
+  properties: {
+    foo: { type: 'string' }
+  }
+}
+
+// (1) Compile the JSON Schema definition into an Encoding schema
+const encodingSchema = await jsonbinpack.compileSchema(schema)
+
+// (2) Serialize a matching JSON document using the Encoding schema
+const buffer = jsonbinpack.serialize(encodingSchema, {
+  foo: 'bar'
+})
+
+// (3) Deserialize the buffer into the original JSON document
+const result = jsonbinpack.deserialize(encodingSchema, buffer)
+
+console.log(result)
+> { foo: 'bar' }
+```
+
+### Reference
+
+#### `jsonbinpack.compileSchema(JSON Schema): Promise<Encoding>`
+
+Convert a JSON Schema definition into an Encoding schema for use with the
+`.serialize()` and `.deserialize()` functions.
+
+#### `jsonbinpack.serialize(Encoding, JSON): Buffer`
+
+Serialize a JSON value according to an Encoding schema.
+
+#### `jsonbinpack.deserialize(Encoding, Buffer): JSON`
+
+Deserialize a buffer according to an Encoding schema.
 
 Building from source
 --------------------
@@ -36,17 +82,9 @@ Compiling the project:
 
 ```sh
 make
-```
-
-Running tests:
-
-```sh
+# Run tests
 make test
-```
-
-Running the linter:
-
-```sh
+# Run linter
 make lint
 ```
 
