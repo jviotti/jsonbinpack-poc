@@ -8,7 +8,6 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "postinstall": "npm run tsc",
     "lint": "eslint lib test web contrib cli",
     "test": "tap --reporter=classic --no-coverage --no-timeout 'dist/test/**/*.spec.js'"
   },
