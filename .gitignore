@@ -110,5 +110,4 @@ _site
 
 # Other
 .tmp
-vendor/jsontoolkit/node_modules
 .DS_Store
