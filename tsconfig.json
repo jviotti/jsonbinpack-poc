@@ -27,9 +27,7 @@
     "outDir": "./dist"
   },
   "include": [
-    "./web/**/*.ts",
     "./cli/**/*.ts",
-    "./contrib/**/*.ts",
     "./lib/**/*.ts",
     "./test/**/*.ts",
     "./test/**/*.json"
