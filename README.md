@@ -10,6 +10,14 @@ serialization format with a strong focus on space efficiency. It can run in
 schema-driven and schema-less mode to encode any JSON document given a matching
 [JSON Schema 2020-12](http://json-schema.org) definition.
 
+***
+
+**NOTE! This is a prototype pre-production JavaScript-based implementation to prove the 
+feasability of the approach. We are currently working on a production-ready C++ implementation.
+You can star/watch the project to stay up to date!**
+
+***
+
 Documentation
 -------------
 
