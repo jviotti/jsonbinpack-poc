@@ -12,9 +12,9 @@ schema-driven and schema-less mode to encode any JSON document given a matching
 
 ***
 
-**NOTE! This is a prototype pre-production JavaScript-based implementation to prove the 
-feasability of the approach. We are currently working on a production-ready C++ implementation.
-You can star/watch the project to stay up to date!**
+**NOTE! This is a prototype pre-production JavaScript-based implementation to prove the
+feasability of the approach. See https://github.com/sourcemeta/jsonbinpack for the work-in-progress C++
+implementation.**
 
 ***
 
@@ -95,36 +95,6 @@ make test
 # Run linter
 make lint
 ```
-
-Contributing
-------------
-
-Thanks for your interest in contributing to the project. We welcome
-contributions in any of the following areas:
-
-- Add more JSON + JSON Schema test cases in the
-  [`test/e2e`](https://github.com/jviotti/jsonbinpack/tree/main/test/e2e)
-  directory
-- Improve the documentation at
-  [`docs`](https://github.com/jviotti/jsonbinpack/tree/main/docs)
-- Suggesting new encodings to make JSON BinPack more space-efficient
-- Performance improvements, primarily in the encoder
-- General bug fixes
-
-Additionally, we are tracking the following major changes:
-
-- [ ] Re-write the encoders in C++ and compile to WebAssembly
-- [ ] Generate serialization and deserialization C++ code that does not
-  dynamically traverses the encoding schema for runtime performance reasons
-- [ ] Support recursive JSON Schema documents
-- [ ] Implement support for the `if`, `then`, and `else` JSON Schema keywords
-- [ ] Implement support for the `anyOf` JSON keyword
-- [ ] Implement support for inline binary blobs defined with the
-  `contentEncoding` JSON Schema keyword
-
-Don't hesitate in getting in touch [by creating a
-ticket](https://github.com/jviotti/jsonbinpack/issues/new/choose) if you
-require any guidance on contributing to the project.
 
 License
 -------
